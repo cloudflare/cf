@@ -1,21 +1,14 @@
-import operation from "../../../_operations/radar/dns/top/locations.js";
 /**
  * locations command
  * @generated from apis/overlays/radar.ts
  */
-import type { ArgClassification } from "#lib/telemetry/index.js";
-import { apiCommand } from "#lib/api-command.js";
-import { createCommandClient } from "#lib/auth.js";
-import { formatDryRun } from "#lib/dry-run.js";
-import { formatOutput } from "#lib/output.js";
-import { withProgress } from "#lib/progress.js";
-import { runWithTelemetry } from "#lib/telemetry/index.js";
+import {
+	apiCommand,
+	type ApiInputs,
+	type ApiParameters,
+} from "#lib/api-command.js";
 
-const command = apiCommand({
-	command: "locations",
-	describe: "Get top locations by DNS queries",
-	usage:
-		"$0 radar dns top locations\n\nRetrieves the top locations by DNS queries made to 1.1.1.1 DNS resolver.",
+const parameters = {
 	flags: {
 		limit: {
 			kind: "parsed",
@@ -335,60 +328,15 @@ const command = apiCommand({
 		},
 	},
 	operands: [],
-	handler: async (argv): Promise<void> =>
-		runWithTelemetry(
-			{
-				command: "radar dns top locations",
-				classification: {
-					safeFlags: ["format", "dry-run"],
-				} satisfies ArgClassification<typeof argv>,
-			},
-			argv as Record<string, unknown>,
-			async () => {
-				const queryParams: Record<string, unknown> = {
-					limit: argv["limit"],
-					name: argv["name"],
-					dateRange: argv["date-range"],
-					dateStart: argv["date-start"],
-					dateEnd: argv["date-end"],
-					asn: argv["asn"],
-					location: argv["location"],
-					continent: argv["continent"],
-					domain: argv["domain"],
-					cacheHit: argv["cache-hit"],
-					nodata: argv["nodata"],
-					protocol: argv["protocol"],
-					queryType: argv["query-type"],
-					responseCode: argv["response-code"],
-					responseTtl: argv["response-ttl"],
-					dnssec: argv["dnssec"],
-					dnssecAware: argv["dnssec-aware"],
-					dnssecE2e: argv["dnssec-e2e"],
-					asCategory: argv["as-category"],
-					ipVersion: argv["ip-version"],
-					matchingAnswer: argv["matching-answer"],
-					tld: argv["tld"],
-					format: argv["format"],
-				};
-				if (argv.dryRun) {
-					formatDryRun({
-						command: "cf radar dns top locations",
-						method: "GET",
-						url: `https://api.cloudflare.com/client/v4/radar/dns/top/locations`,
-						pathParams: {},
-						query: queryParams,
-						bodyKind: "none",
-					});
-					return;
-				}
-				const client = await createCommandClient(argv);
-
-				const result = await withProgress(`Loading`, async () =>
-					client.send(operation, queryParams)
-				);
-				formatOutput(result, { successLabel: `Loaded` });
-			}
-		),
+} as const satisfies ApiParameters;
+export type Args = ApiInputs<typeof parameters>;
+const command = apiCommand({
+	command: "locations",
+	describe: "Get top locations by DNS queries",
+	usage:
+		"$0 radar dns top locations\n\nRetrieves the top locations by DNS queries made to 1.1.1.1 DNS resolver.",
+	...parameters,
+	loader: () => import("./locations.handler.js"),
 });
 
 export default command;

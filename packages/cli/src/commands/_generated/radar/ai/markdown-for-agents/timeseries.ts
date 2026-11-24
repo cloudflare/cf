@@ -1,21 +1,14 @@
-import operation from "../../../_operations/radar/ai/markdown-for-agents/timeseries.js";
 /**
  * timeseries command
  * @generated from apis/overlays/radar.ts
  */
-import type { ArgClassification } from "#lib/telemetry/index.js";
-import { apiCommand } from "#lib/api-command.js";
-import { createCommandClient } from "#lib/auth.js";
-import { formatDryRun } from "#lib/dry-run.js";
-import { formatOutput } from "#lib/output.js";
-import { withProgress } from "#lib/progress.js";
-import { runWithTelemetry } from "#lib/telemetry/index.js";
+import {
+	apiCommand,
+	type ApiInputs,
+	type ApiParameters,
+} from "#lib/api-command.js";
 
-const command = apiCommand({
-	command: "timeseries",
-	describe: "Get AI markdown for agents reduction ratio time series",
-	usage:
-		"$0 radar ai markdown-for-agents timeseries\n\nRetrieves the median HTML-to-markdown reduction ratio over time for AI agent requests.",
+const parameters = {
 	flags: {
 		"agg-interval": {
 			kind: "enum",
@@ -68,43 +61,15 @@ const command = apiCommand({
 		},
 	},
 	operands: [],
-	handler: async (argv): Promise<void> =>
-		runWithTelemetry(
-			{
-				command: "radar ai markdown-for-agents timeseries",
-				classification: {
-					safeFlags: ["agg-interval", "format", "dry-run"],
-				} satisfies ArgClassification<typeof argv>,
-			},
-			argv as Record<string, unknown>,
-			async () => {
-				const queryParams: Record<string, unknown> = {
-					aggInterval: argv["agg-interval"],
-					name: argv["name"],
-					dateRange: argv["date-range"],
-					dateStart: argv["date-start"],
-					dateEnd: argv["date-end"],
-					format: argv["format"],
-				};
-				if (argv.dryRun) {
-					formatDryRun({
-						command: "cf radar ai markdown-for-agents timeseries",
-						method: "GET",
-						url: `https://api.cloudflare.com/client/v4/radar/ai/markdown_for_agents/timeseries`,
-						pathParams: {},
-						query: queryParams,
-						bodyKind: "none",
-					});
-					return;
-				}
-				const client = await createCommandClient(argv);
-
-				const result = await withProgress(`Loading`, async () =>
-					client.send(operation, queryParams)
-				);
-				formatOutput(result, { successLabel: `Loaded` });
-			}
-		),
+} as const satisfies ApiParameters;
+export type Args = ApiInputs<typeof parameters>;
+const command = apiCommand({
+	command: "timeseries",
+	describe: "Get AI markdown for agents reduction ratio time series",
+	usage:
+		"$0 radar ai markdown-for-agents timeseries\n\nRetrieves the median HTML-to-markdown reduction ratio over time for AI agent requests.",
+	...parameters,
+	loader: () => import("./timeseries.handler.js"),
 });
 
 export default command;

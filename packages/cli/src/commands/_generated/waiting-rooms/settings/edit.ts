@@ -1,22 +1,14 @@
-import operation from "../../_operations/waiting-rooms/settings/edit.js";
 /**
  * edit command
  * @generated from apis/overlays/waiting-rooms.ts
  */
-import type { ArgClassification } from "#lib/telemetry/index.js";
-import { apiCommand } from "#lib/api-command.js";
-import { createCommandClient, getZoneId } from "#lib/auth.js";
-import { compactBody, parseBody } from "#lib/body-parser.js";
-import { formatDryRun } from "#lib/dry-run.js";
-import { formatOutput } from "#lib/output.js";
-import { withProgress } from "#lib/progress.js";
-import { runWithTelemetry } from "#lib/telemetry/index.js";
+import {
+	apiCommand,
+	type ApiInputs,
+	type ApiParameters,
+} from "#lib/api-command.js";
 
-const command = apiCommand({
-	command: "edit",
-	describe: "Patch zone-level Waiting Room settings",
-	usage:
-		"$0 waiting-rooms settings edit\n\nPatch zone-level Waiting Room settings.",
+const parameters = {
 	flags: {
 		"search-engine-crawler-bypass": {
 			kind: "boolean",
@@ -37,62 +29,15 @@ const command = apiCommand({
 		},
 	},
 	operands: [],
-	handler: async (argv): Promise<void> =>
-		runWithTelemetry(
-			{
-				command: "waiting-rooms settings edit",
-				classification: {
-					safeFlags: ["search-engine-crawler-bypass", "dry-run"],
-				} satisfies ArgClassification<typeof argv>,
-			},
-			argv as Record<string, unknown>,
-			async () => {
-				if (argv.dryRun) {
-					formatDryRun({
-						command: "cf waiting-rooms settings edit",
-						method: "PATCH",
-						url: `https://api.cloudflare.com/client/v4/zones/${argv.zone ?? argv.zoneId ?? "<zone>"}/waiting_rooms/settings`,
-						pathParams: {
-							"zone-id": String(argv.zone ?? argv["zone-id"] ?? ""),
-						},
-						bodyKind: "json",
-						body:
-							argv.body !== undefined
-								? parseBody(argv.body)
-								: compactBody({
-										search_engine_crawler_bypass:
-											argv["search-engine-crawler-bypass"],
-									}),
-					});
-					return;
-				}
-				const parsedBody =
-					argv.body !== undefined ? parseBody(argv.body) : undefined;
-				const client = await createCommandClient(argv);
-				const zoneId = await getZoneId({ zone: argv.zone }, client, {
-					quiet: argv.quiet,
-				});
-				argv.zoneId = zoneId;
-
-				if (argv.body !== undefined) {
-					const bodyData = parsedBody;
-					const result = await withProgress(`Updating`, async () =>
-						client.send(operation, { body: bodyData, zone_id: zoneId })
-					);
-					formatOutput(result, { successLabel: `Updated` });
-					return;
-				}
-
-				// Assemble request body from individual flags
-				const bodyData = compactBody({
-					search_engine_crawler_bypass: argv["search-engine-crawler-bypass"],
-				});
-				const result = await withProgress(`Updating`, async () =>
-					client.send(operation, { body: bodyData, zone_id: zoneId })
-				);
-				formatOutput(result, { successLabel: `Updated` });
-			}
-		),
+} as const satisfies ApiParameters;
+export type Args = ApiInputs<typeof parameters>;
+const command = apiCommand({
+	command: "edit",
+	describe: "Patch zone-level Waiting Room settings",
+	usage:
+		"$0 waiting-rooms settings edit\n\nPatch zone-level Waiting Room settings.",
+	...parameters,
+	loader: () => import("./edit.handler.js"),
 });
 
 export default command;

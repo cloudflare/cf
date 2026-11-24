@@ -1,27 +1,14 @@
-import operation from "../../_operations/accounts/members/delete.js";
 /**
  * delete command
  * @generated from apis/overlays/accounts.ts
  */
-import type { ArgClassification } from "#lib/telemetry/index.js";
-import { apiCommand } from "#lib/api-command.js";
 import {
-	createCommandClient,
-	getAccountId,
-	resolveAccountIdSilent,
-} from "#lib/auth.js";
-import { formatDryRun } from "#lib/dry-run.js";
-import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
-import { formatOutput } from "#lib/output.js";
-import { withProgress } from "#lib/progress.js";
-import { confirmDelete } from "#lib/prompt.js";
-import { runWithTelemetry } from "#lib/telemetry/index.js";
+	apiCommand,
+	type ApiInputs,
+	type ApiParameters,
+} from "#lib/api-command.js";
 
-const command = apiCommand({
-	command: "delete <member-id>",
-	describe: "Remove Member",
-	usage:
-		"$0 accounts members delete <member-id>\n\nRemove a member from an account.",
+const parameters = {
 	flags: {
 		"dry-run": {
 			kind: "boolean",
@@ -42,50 +29,15 @@ const command = apiCommand({
 			parse: String,
 		},
 	],
-	handler: async (argv): Promise<void> =>
-		runWithTelemetry(
-			{
-				command: "accounts members delete",
-				classification: {
-					safeFlags: ["dry-run", "force"],
-					shortFlagAliases: { f: { canonical: "force", type: "boolean" } },
-				} satisfies ArgClassification<typeof argv>,
-			},
-			argv as Record<string, unknown>,
-			async () => {
-				if (argv.dryRun) {
-					const __cfDryRunAccountId = await resolveAccountIdSilent();
-					formatDryRun({
-						command: "cf accounts members delete",
-						method: "DELETE",
-						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/members/${argv["member-id"] == null ? "<member-id>" : encodeURIComponent(String(argv["member-id"]))}`,
-						pathParams: { "member-id": String(argv["member-id"] ?? "") },
-						bodyKind: "none",
-					});
-					return;
-				}
-				const client = await createCommandClient(argv);
-				const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
-				argv.accountId = accountId;
-
-				if (
-					!(await confirmDelete({
-						force: Boolean(argv.force),
-						message: `Are you sure you want to remove this user from the account?`,
-					}))
-				) {
-					return;
-				}
-
-				const result = await withProgress(`Deleting`, async () =>
-					client.send(operation, {
-						account_id: accountId,
-						member_id: argv["member-id"],
-					})
-				);
-				formatOutput(result, { successLabel: `Deleted` });
-			}
-		),
+} as const satisfies ApiParameters;
+export type Args = ApiInputs<typeof parameters>;
+const command = apiCommand({
+	command: "delete <member-id>",
+	describe: "Remove Member",
+	usage:
+		"$0 accounts members delete <member-id>\n\nRemove a member from an account.",
+	...parameters,
+	loader: () => import("./delete.handler.js"),
 });
 
 export default command;

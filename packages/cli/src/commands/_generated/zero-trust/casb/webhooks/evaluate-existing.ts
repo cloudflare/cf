@@ -1,26 +1,14 @@
-import operation from "../../../_operations/zero-trust/casb/webhooks/evaluate-existing.js";
 /**
  * evaluate-existing command
  * @generated from apis/overlays/zero-trust.ts
  */
-import type { ArgClassification } from "#lib/telemetry/index.js";
-import { apiCommand } from "#lib/api-command.js";
 import {
-	createCommandClient,
-	getAccountId,
-	resolveAccountIdSilent,
-} from "#lib/auth.js";
-import { formatDryRun } from "#lib/dry-run.js";
-import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
-import { formatOutput } from "#lib/output.js";
-import { withProgress } from "#lib/progress.js";
-import { runWithTelemetry } from "#lib/telemetry/index.js";
+	apiCommand,
+	type ApiInputs,
+	type ApiParameters,
+} from "#lib/api-command.js";
 
-const command = apiCommand({
-	command: "evaluate-existing <webhook-id>",
-	describe: "Test an existing webhook configuration",
-	usage:
-		'$0 zero-trust casb webhooks evaluate-existing <webhook-id>\n\nSends a test webhook event using an existing webhook configuration. This allows customers to verify their webhook endpoint is still reachable and properly configured after creating the webhook resource. The test payload includes: - event_type: "webhook.test" - timestamp: Current UTC timestamp - message: Test message indicating this is from Cloudflare CASB - data: Object with test: true',
+const parameters = {
 	flags: {
 		"dry-run": {
 			kind: "boolean",
@@ -35,40 +23,15 @@ const command = apiCommand({
 			parse: String,
 		},
 	],
-	handler: async (argv): Promise<void> =>
-		runWithTelemetry(
-			{
-				command: "zero-trust casb webhooks evaluate-existing",
-				classification: { safeFlags: ["dry-run"] } satisfies ArgClassification<
-					typeof argv
-				>,
-			},
-			argv as Record<string, unknown>,
-			async () => {
-				if (argv.dryRun) {
-					const __cfDryRunAccountId = await resolveAccountIdSilent();
-					formatDryRun({
-						command: "cf zero-trust casb webhooks evaluate-existing",
-						method: "POST",
-						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/data-security/posture/webhooks/${argv["webhook-id"] == null ? "<webhook-id>" : encodeURIComponent(String(argv["webhook-id"]))}/evaluate`,
-						pathParams: { "webhook-id": String(argv["webhook-id"] ?? "") },
-						bodyKind: "none",
-					});
-					return;
-				}
-				const client = await createCommandClient(argv);
-				const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
-				argv.accountId = accountId;
-
-				const result = await withProgress(`Creating`, async () =>
-					client.send(operation, {
-						account_id: accountId,
-						webhook_id: argv["webhook-id"],
-					})
-				);
-				formatOutput(result, { successLabel: `Created` });
-			}
-		),
+} as const satisfies ApiParameters;
+export type Args = ApiInputs<typeof parameters>;
+const command = apiCommand({
+	command: "evaluate-existing <webhook-id>",
+	describe: "Test an existing webhook configuration",
+	usage:
+		'$0 zero-trust casb webhooks evaluate-existing <webhook-id>\n\nSends a test webhook event using an existing webhook configuration. This allows customers to verify their webhook endpoint is still reachable and properly configured after creating the webhook resource. The test payload includes: - event_type: "webhook.test" - timestamp: Current UTC timestamp - message: Test message indicating this is from Cloudflare CASB - data: Object with test: true',
+	...parameters,
+	loader: () => import("./evaluate-existing.handler.js"),
 });
 
 export default command;

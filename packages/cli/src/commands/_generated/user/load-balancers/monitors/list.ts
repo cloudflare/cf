@@ -1,21 +1,14 @@
-import operation from "../../../_operations/user/load-balancers/monitors/list.js";
 /**
  * list command
  * @generated from apis/overlays/user.ts
  */
-import type { ArgClassification } from "#lib/telemetry/index.js";
-import { apiCommand } from "#lib/api-command.js";
-import { createCommandClient } from "#lib/auth.js";
-import { formatDryRun } from "#lib/dry-run.js";
-import { formatOutput } from "#lib/output.js";
-import { withProgress } from "#lib/progress.js";
-import { runWithTelemetry } from "#lib/telemetry/index.js";
+import {
+	apiCommand,
+	type ApiInputs,
+	type ApiParameters,
+} from "#lib/api-command.js";
 
-const command = apiCommand({
-	command: "list",
-	describe: "List Monitors",
-	usage:
-		"$0 user load-balancers monitors list\n\nList configured monitors for a user.",
+const parameters = {
 	flags: {
 		"dry-run": {
 			kind: "boolean",
@@ -24,34 +17,15 @@ const command = apiCommand({
 		},
 	},
 	operands: [],
-	handler: async (argv): Promise<void> =>
-		runWithTelemetry(
-			{
-				command: "user load-balancers monitors list",
-				classification: { safeFlags: ["dry-run"] } satisfies ArgClassification<
-					typeof argv
-				>,
-			},
-			argv as Record<string, unknown>,
-			async () => {
-				if (argv.dryRun) {
-					formatDryRun({
-						command: "cf user load-balancers monitors list",
-						method: "GET",
-						url: `https://api.cloudflare.com/client/v4/user/load_balancers/monitors`,
-						pathParams: {},
-						bodyKind: "none",
-					});
-					return;
-				}
-				const client = await createCommandClient(argv);
-
-				const result = await withProgress(`Loading`, async () =>
-					client.send(operation)
-				);
-				formatOutput(result, { successLabel: `Loaded` });
-			}
-		),
+} as const satisfies ApiParameters;
+export type Args = ApiInputs<typeof parameters>;
+const command = apiCommand({
+	command: "list",
+	describe: "List Monitors",
+	usage:
+		"$0 user load-balancers monitors list\n\nList configured monitors for a user.",
+	...parameters,
+	loader: () => import("./list.handler.js"),
 });
 
 export default command;

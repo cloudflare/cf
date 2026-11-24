@@ -2,20 +2,13 @@
  * export command
  * @generated from apis/overlays/dns.ts
  */
-import type { ArgClassification } from "#lib/telemetry/index.js";
-import { apiCommand } from "#lib/api-command.js";
-import { createCommandClient, getZoneId } from "#lib/auth.js";
-import { formatDryRun } from "#lib/dry-run.js";
-import { formatOutput } from "#lib/output.js";
-import { withProgress } from "#lib/progress.js";
-import { fetchRawBytes, writeRawOutput } from "#lib/raw-fetch.js";
-import { runWithTelemetry } from "#lib/telemetry/index.js";
+import {
+	apiCommand,
+	type ApiInputs,
+	type ApiParameters,
+} from "#lib/api-command.js";
 
-const command = apiCommand({
-	command: "export",
-	describe: "Export DNS Records",
-	usage:
-		'$0 dns records export\n\nExport your [BIND config](https://en.wikipedia.org/wiki/Zone_file "Zone file") through this endpoint. Use the same record filters as the List DNS Records endpoint to export only matching stored records. By default, the SOA record (stored or generated) and assigned apex NS records, where applicable, are included regardless of filters. Secondary zones must have a stored SOA record to export in this mode. Set `include_generated_records=false` to export only matching stored records, without adding the SOA/nameserver section or requiring secondary zones to have an SOA record. Matching stored SOA and NS records are still exported. This may produce a partial zone rather than a complete zone. Workers-managed records are never exported. The export returns at most 5,000,000 matching stored records, in addition to any automatically included SOA and assigned apex NS records. It is not paginated and does not support `page`, `per_page`, `order`, `direction`, `cursor`, or `prev_cursor`. `include_shadow_metadata=true` is required when using `shadowed_by_name`; it does not add shadow metadata to the BIND output. See [the documentation](https://developers.cloudflare.com/dns/manage-dns-records/how-to/import-and-export/ "Import and export records") for more information.',
+const parameters = {
 	flags: {
 		"include-generated-records": {
 			kind: "boolean",
@@ -273,97 +266,15 @@ const command = apiCommand({
 		},
 	},
 	operands: [],
-	handler: async (argv): Promise<void> =>
-		runWithTelemetry(
-			{
-				command: "dns records export",
-				classification: {
-					safeFlags: [
-						"include-generated-records",
-						"type",
-						"proxied",
-						"match",
-						"tag-match",
-						"include-shadow-metadata",
-						"dry-run",
-					],
-				} satisfies ArgClassification<typeof argv>,
-			},
-			argv as Record<string, unknown>,
-			async () => {
-				const queryParams: Record<string, unknown> = {
-					include_generated_records: argv["include-generated-records"],
-					name: argv["name"],
-					"name.exact": argv["name-exact"],
-					"name.contains": argv["name-contains"],
-					"name.startswith": argv["name-startswith"],
-					"name.endswith": argv["name-endswith"],
-					type: argv["type"],
-					content: argv["content"],
-					"content.exact": argv["content-exact"],
-					"content.contains": argv["content-contains"],
-					"content.startswith": argv["content-startswith"],
-					"content.endswith": argv["content-endswith"],
-					proxied: argv["proxied"],
-					match: argv["match"],
-					comment: argv["comment"],
-					"comment.present": argv["comment-present"],
-					"comment.absent": argv["comment-absent"],
-					"comment.exact": argv["comment-exact"],
-					"comment.contains": argv["comment-contains"],
-					"comment.startswith": argv["comment-startswith"],
-					"comment.endswith": argv["comment-endswith"],
-					tag: argv["tag"],
-					"tag.present": argv["tag-present"],
-					"tag.absent": argv["tag-absent"],
-					"tag.exact": argv["tag-exact"],
-					"tag.contains": argv["tag-contains"],
-					"tag.startswith": argv["tag-startswith"],
-					"tag.endswith": argv["tag-endswith"],
-					search: argv["search"],
-					tag_match: argv["tag-match"],
-					include_shadow_metadata: argv["include-shadow-metadata"],
-					shadowed_by_name: argv["shadowed-by-name"],
-					shadowing_name: argv["shadowing-name"],
-				};
-				if (argv.dryRun) {
-					formatDryRun({
-						command: "cf dns records export",
-						method: "GET",
-						url: `https://api.cloudflare.com/client/v4/zones/${argv.zone ?? argv.zoneId ?? "<zone>"}/dns_records/export`,
-						pathParams: {
-							"zone-id": String(argv.zone ?? argv["zone-id"] ?? ""),
-						},
-						query: queryParams,
-						bodyKind: "none",
-					});
-					return;
-				}
-				const client = await createCommandClient(argv);
-				const zoneId = await getZoneId({ zone: argv.zone }, client, {
-					quiet: argv.quiet,
-				});
-				argv.zoneId = zoneId;
-
-				const qs = new URLSearchParams(
-					Object.entries(queryParams)
-						.filter(([, v]) => v !== undefined)
-						.map(([k, v]) => [k, String(v)])
-				).toString();
-				const __cfRawBytes = await withProgress(`Loading`, async () =>
-					fetchRawBytes(
-						`/zones/${argv.zoneId}/dns_records/export${qs ? "?" + qs : ""}`,
-						{
-							method: "GET",
-							local: argv.local === true,
-							persistTo: argv.persistTo as string | undefined,
-						}
-					)
-				);
-				writeRawOutput(__cfRawBytes.toString("utf-8"));
-				return;
-			}
-		),
+} as const satisfies ApiParameters;
+export type Args = ApiInputs<typeof parameters>;
+const command = apiCommand({
+	command: "export",
+	describe: "Export DNS Records",
+	usage:
+		'$0 dns records export\n\nExport your [BIND config](https://en.wikipedia.org/wiki/Zone_file "Zone file") through this endpoint. Use the same record filters as the List DNS Records endpoint to export only matching stored records. By default, the SOA record (stored or generated) and assigned apex NS records, where applicable, are included regardless of filters. Secondary zones must have a stored SOA record to export in this mode. Set `include_generated_records=false` to export only matching stored records, without adding the SOA/nameserver section or requiring secondary zones to have an SOA record. Matching stored SOA and NS records are still exported. This may produce a partial zone rather than a complete zone. Workers-managed records are never exported. The export returns at most 5,000,000 matching stored records, in addition to any automatically included SOA and assigned apex NS records. It is not paginated and does not support `page`, `per_page`, `order`, `direction`, `cursor`, or `prev_cursor`. `include_shadow_metadata=true` is required when using `shadowed_by_name`; it does not add shadow metadata to the BIND output. See [the documentation](https://developers.cloudflare.com/dns/manage-dns-records/how-to/import-and-export/ "Import and export records") for more information.',
+	...parameters,
+	loader: () => import("./export.handler.js"),
 });
 
 export default command;

@@ -9,7 +9,7 @@ import {
 	context as emitContext,
 	type Ctx,
 } from "../../../generator/plugin/emit/index.js";
-import { generateFiles } from "./forge-cli.js";
+import { generateFiles as generateModules } from "./forge-cli.js";
 import type { Arg, ArgType, Origin } from "../../../generator/plugin/args.js";
 import type { Method } from "../../../generator/plugin/commands.js";
 import type {
@@ -20,7 +20,32 @@ import type {
 	Wire,
 } from "../../../generator/plugin/operation.js";
 
-export { generateFiles };
+export function generateFiles(...args: Parameters<typeof generateModules>) {
+	const files = generateModules(...args);
+	for (const [path, source] of files) {
+		if (!path.endsWith(".handler.ts")) {
+			continue;
+		}
+		const key = path.replace(/\.handler\.ts$/, ".ts");
+		const definition = files.get(key);
+		if (!definition) {
+			throw new Error(`Missing command definition for ${path}`);
+		}
+		const handler = source
+			.replace(/^import type \{ Args \}[^\n]+\n/, "")
+			.replace("export default async function handle", "async function handle");
+		files.set(
+			key,
+			handler +
+				"\n" +
+				definition.replace(
+					/loader: \(\) => import\('[^']+\.handler.js'\)/,
+					"handler: handle"
+				)
+		);
+	}
+	return files;
+}
 
 /** A method named `name` for the operation `operationId`. */
 export function method(

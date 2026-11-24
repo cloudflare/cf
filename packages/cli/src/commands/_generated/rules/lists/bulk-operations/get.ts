@@ -1,26 +1,14 @@
-import operation from "../../../_operations/rules/lists/bulk-operations/get.js";
 /**
  * get command
  * @generated from apis/overlays/rules.ts
  */
-import type { ArgClassification } from "#lib/telemetry/index.js";
-import { apiCommand } from "#lib/api-command.js";
 import {
-	createCommandClient,
-	getAccountId,
-	resolveAccountIdSilent,
-} from "#lib/auth.js";
-import { formatDryRun } from "#lib/dry-run.js";
-import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
-import { formatOutput } from "#lib/output.js";
-import { withProgress } from "#lib/progress.js";
-import { runWithTelemetry } from "#lib/telemetry/index.js";
+	apiCommand,
+	type ApiInputs,
+	type ApiParameters,
+} from "#lib/api-command.js";
 
-const command = apiCommand({
-	command: "get <operation-id>",
-	describe: "Get bulk operation status",
-	usage:
-		"$0 rules lists bulk-operations get <operation-id>\n\nGets the current status of an asynchronous operation on a list. The `status` property can have one of the following values: `pending`, `running`, `completed`, or `failed`. If the status is `failed`, the `error` property will contain a message describing the error.",
+const parameters = {
 	flags: {
 		"dry-run": {
 			kind: "boolean",
@@ -35,40 +23,15 @@ const command = apiCommand({
 			parse: String,
 		},
 	],
-	handler: async (argv): Promise<void> =>
-		runWithTelemetry(
-			{
-				command: "rules lists bulk-operations get",
-				classification: { safeFlags: ["dry-run"] } satisfies ArgClassification<
-					typeof argv
-				>,
-			},
-			argv as Record<string, unknown>,
-			async () => {
-				if (argv.dryRun) {
-					const __cfDryRunAccountId = await resolveAccountIdSilent();
-					formatDryRun({
-						command: "cf rules lists bulk-operations get",
-						method: "GET",
-						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/rules/lists/bulk_operations/${argv["operation-id"] == null ? "<operation-id>" : encodeURIComponent(String(argv["operation-id"]))}`,
-						pathParams: { "operation-id": String(argv["operation-id"] ?? "") },
-						bodyKind: "none",
-					});
-					return;
-				}
-				const client = await createCommandClient(argv);
-				const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
-				argv.accountId = accountId;
-
-				const result = await withProgress(`Loading`, async () =>
-					client.send(operation, {
-						account_id: accountId,
-						operation_id: argv["operation-id"],
-					})
-				);
-				formatOutput(result, { successLabel: `Loaded` });
-			}
-		),
+} as const satisfies ApiParameters;
+export type Args = ApiInputs<typeof parameters>;
+const command = apiCommand({
+	command: "get <operation-id>",
+	describe: "Get bulk operation status",
+	usage:
+		"$0 rules lists bulk-operations get <operation-id>\n\nGets the current status of an asynchronous operation on a list. The `status` property can have one of the following values: `pending`, `running`, `completed`, or `failed`. If the status is `failed`, the `error` property will contain a message describing the error.",
+	...parameters,
+	loader: () => import("./get.handler.js"),
 });
 
 export default command;

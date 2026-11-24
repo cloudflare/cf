@@ -1,21 +1,14 @@
-import operation from "../../_operations/radar/dns/summary.js";
 /**
  * summary command
  * @generated from apis/overlays/radar.ts
  */
-import type { ArgClassification } from "#lib/telemetry/index.js";
-import { apiCommand } from "#lib/api-command.js";
-import { createCommandClient } from "#lib/auth.js";
-import { formatDryRun } from "#lib/dry-run.js";
-import { formatOutput } from "#lib/output.js";
-import { withProgress } from "#lib/progress.js";
-import { runWithTelemetry } from "#lib/telemetry/index.js";
+import {
+	apiCommand,
+	type ApiInputs,
+	type ApiParameters,
+} from "#lib/api-command.js";
 
-const command = apiCommand({
-	command: "summary <dimension>",
-	describe: "Get DNS summary by dimension",
-	usage:
-		"$0 radar dns summary <dimension>\n\nRetrieves the distribution of DNS queries by the specified dimension.",
+const parameters = {
 	flags: {
 		name: {
 			kind: "parsed",
@@ -335,62 +328,15 @@ const command = apiCommand({
 			parse: String,
 		},
 	],
-	handler: async (argv): Promise<void> =>
-		runWithTelemetry(
-			{
-				command: "radar dns summary",
-				classification: {
-					safeFlags: ["format", "dry-run"],
-				} satisfies ArgClassification<typeof argv>,
-			},
-			argv as Record<string, unknown>,
-			async () => {
-				const queryParams: Record<string, unknown> = {
-					name: argv["name"],
-					dateRange: argv["date-range"],
-					dateStart: argv["date-start"],
-					dateEnd: argv["date-end"],
-					asn: argv["asn"],
-					location: argv["location"],
-					continent: argv["continent"],
-					cacheHit: argv["cache-hit"],
-					nodata: argv["nodata"],
-					protocol: argv["protocol"],
-					queryType: argv["query-type"],
-					responseCode: argv["response-code"],
-					responseTtl: argv["response-ttl"],
-					dnssec: argv["dnssec"],
-					dnssecAware: argv["dnssec-aware"],
-					dnssecE2e: argv["dnssec-e2e"],
-					asCategory: argv["as-category"],
-					ipVersion: argv["ip-version"],
-					limitPerGroup: argv["limit-per-group"],
-					matchingAnswer: argv["matching-answer"],
-					tld: argv["tld"],
-					format: argv["format"],
-				};
-				if (argv.dryRun) {
-					formatDryRun({
-						command: "cf radar dns summary",
-						method: "GET",
-						url: `https://api.cloudflare.com/client/v4/radar/dns/summary/${argv["dimension"] == null ? "<dimension>" : encodeURIComponent(String(argv["dimension"]))}`,
-						pathParams: { dimension: String(argv["dimension"] ?? "") },
-						query: queryParams,
-						bodyKind: "none",
-					});
-					return;
-				}
-				const client = await createCommandClient(argv);
-
-				const result = await withProgress(`Loading`, async () =>
-					client.send(operation, {
-						dimension: argv["dimension"],
-						...queryParams,
-					})
-				);
-				formatOutput(result, { successLabel: `Loaded` });
-			}
-		),
+} as const satisfies ApiParameters;
+export type Args = ApiInputs<typeof parameters>;
+const command = apiCommand({
+	command: "summary <dimension>",
+	describe: "Get DNS summary by dimension",
+	usage:
+		"$0 radar dns summary <dimension>\n\nRetrieves the distribution of DNS queries by the specified dimension.",
+	...parameters,
+	loader: () => import("./summary.handler.js"),
 });
 
 export default command;

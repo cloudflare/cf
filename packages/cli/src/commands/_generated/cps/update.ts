@@ -1,23 +1,15 @@
-import operation from "../_operations/cps/update.js";
 /**
  * update command
  * @generated from apis/overlays/cps.ts
  */
-import type { ArgClassification } from "#lib/telemetry/index.js";
-import { apiCommand } from "#lib/api-command.js";
-import { createCommandClient } from "#lib/auth.js";
-import { compactBody, parseBody, parseJsonMap } from "#lib/body-parser.js";
-import { formatDryRun } from "#lib/dry-run.js";
+import {
+	apiCommand,
+	type ApiInputs,
+	type ApiParameters,
+} from "#lib/api-command.js";
 import { resolveFileToken } from "#lib/input-validation.js";
-import { formatOutput } from "#lib/output.js";
-import { withProgress } from "#lib/progress.js";
-import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-const command = apiCommand({
-	command: "update",
-	describe: "Update communication preferences",
-	usage:
-		"$0 cps update\n\nSet one or more communication preferences for the authenticated user. Supply a map of preference keys to subscription states, and an optional language locale. This endpoint does not modify email verification settings. Callers authenticate with standard Cloudflare API tokens or keys.",
+const parameters = {
 	flags: {
 		"language-locale": {
 			kind: "parsed",
@@ -61,66 +53,15 @@ const command = apiCommand({
 		},
 	},
 	operands: [],
-	handler: async (argv): Promise<void> =>
-		runWithTelemetry(
-			{
-				command: "cps update",
-				classification: {
-					safeFlags: ["language-locale", "dry-run"],
-				} satisfies ArgClassification<typeof argv>,
-			},
-			argv as Record<string, unknown>,
-			async () => {
-				if (argv.dryRun) {
-					formatDryRun({
-						command: "cf cps update",
-						method: "PUT",
-						url: `https://api.cloudflare.com/client/v4/user/communication_preferences`,
-						pathParams: {},
-						bodyKind: "json",
-						body:
-							argv.body !== undefined
-								? parseBody(argv.body)
-								: compactBody(
-										{
-											"language-locale": argv["language-locale"],
-											preferences: parseJsonMap(
-												argv["preferences"],
-												"preferences"
-											),
-										},
-										[["preferences"]]
-									),
-					});
-					return;
-				}
-				const parsedBody =
-					argv.body !== undefined ? parseBody(argv.body) : undefined;
-				const client = await createCommandClient(argv);
-
-				if (argv.body !== undefined) {
-					const bodyData = parsedBody;
-					const result = await withProgress(`Updating`, async () =>
-						client.send(operation, { body: bodyData })
-					);
-					formatOutput(result, { successLabel: `Updated` });
-					return;
-				}
-
-				// Assemble request body from individual flags
-				const bodyData = compactBody(
-					{
-						"language-locale": argv["language-locale"],
-						preferences: parseJsonMap(argv["preferences"], "preferences"),
-					},
-					[["preferences"]]
-				);
-				const result = await withProgress(`Updating`, async () =>
-					client.send(operation, { body: bodyData })
-				);
-				formatOutput(result, { successLabel: `Updated` });
-			}
-		),
+} as const satisfies ApiParameters;
+export type Args = ApiInputs<typeof parameters>;
+const command = apiCommand({
+	command: "update",
+	describe: "Update communication preferences",
+	usage:
+		"$0 cps update\n\nSet one or more communication preferences for the authenticated user. Supply a map of preference keys to subscription states, and an optional language locale. This endpoint does not modify email verification settings. Callers authenticate with standard Cloudflare API tokens or keys.",
+	...parameters,
+	loader: () => import("./update.handler.js"),
 });
 
 export default command;

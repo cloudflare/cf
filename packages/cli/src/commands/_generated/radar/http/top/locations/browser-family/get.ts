@@ -1,21 +1,14 @@
-import operation from "../../../../../_operations/radar/http/top/locations/browser-family/get.js";
 /**
  * get command
  * @generated from apis/overlays/radar.ts
  */
-import type { ArgClassification } from "#lib/telemetry/index.js";
-import { apiCommand } from "#lib/api-command.js";
-import { createCommandClient } from "#lib/auth.js";
-import { formatDryRun } from "#lib/dry-run.js";
-import { formatOutput } from "#lib/output.js";
-import { withProgress } from "#lib/progress.js";
-import { runWithTelemetry } from "#lib/telemetry/index.js";
+import {
+	apiCommand,
+	type ApiInputs,
+	type ApiParameters,
+} from "#lib/api-command.js";
 
-const command = apiCommand({
-	command: "get <browser-family>",
-	describe: "Get top locations by HTTP requests for a browser family",
-	usage:
-		"$0 radar http top locations browser-family get <browser-family>\n\nRetrieves the top locations, by HTTP requests, of the requested browser family.",
+const parameters = {
 	flags: {
 		limit: {
 			kind: "parsed",
@@ -188,60 +181,15 @@ const command = apiCommand({
 	operands: [
 		{ placeholder: "browser-family", brief: "Browser family.", parse: String },
 	],
-	handler: async (argv): Promise<void> =>
-		runWithTelemetry(
-			{
-				command: "radar http top locations browser-family get",
-				classification: {
-					safeFlags: ["format", "dry-run"],
-				} satisfies ArgClassification<typeof argv>,
-			},
-			argv as Record<string, unknown>,
-			async () => {
-				const queryParams: Record<string, unknown> = {
-					limit: argv["limit"],
-					name: argv["name"],
-					dateRange: argv["date-range"],
-					dateStart: argv["date-start"],
-					dateEnd: argv["date-end"],
-					asn: argv["asn"],
-					location: argv["location"],
-					continent: argv["continent"],
-					geoId: argv["geo-id"],
-					asCategory: argv["as-category"],
-					botClass: argv["bot-class"],
-					deviceType: argv["device-type"],
-					httpProtocol: argv["http-protocol"],
-					httpVersion: argv["http-version"],
-					ipVersion: argv["ip-version"],
-					os: argv["os"],
-					tlsVersion: argv["tls-version"],
-					format: argv["format"],
-				};
-				if (argv.dryRun) {
-					formatDryRun({
-						command: "cf radar http top locations browser-family get",
-						method: "GET",
-						url: `https://api.cloudflare.com/client/v4/radar/http/top/locations/browser_family/${argv["browser-family"] == null ? "<browser-family>" : encodeURIComponent(String(argv["browser-family"]))}`,
-						pathParams: {
-							"browser-family": String(argv["browser-family"] ?? ""),
-						},
-						query: queryParams,
-						bodyKind: "none",
-					});
-					return;
-				}
-				const client = await createCommandClient(argv);
-
-				const result = await withProgress(`Loading`, async () =>
-					client.send(operation, {
-						browser_family: argv["browser-family"],
-						...queryParams,
-					})
-				);
-				formatOutput(result, { successLabel: `Loaded` });
-			}
-		),
+} as const satisfies ApiParameters;
+export type Args = ApiInputs<typeof parameters>;
+const command = apiCommand({
+	command: "get <browser-family>",
+	describe: "Get top locations by HTTP requests for a browser family",
+	usage:
+		"$0 radar http top locations browser-family get <browser-family>\n\nRetrieves the top locations, by HTTP requests, of the requested browser family.",
+	...parameters,
+	loader: () => import("./get.handler.js"),
 });
 
 export default command;

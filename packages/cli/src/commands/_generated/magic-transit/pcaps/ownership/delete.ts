@@ -1,27 +1,14 @@
-import operation from "../../../_operations/magic-transit/pcaps/ownership/delete.js";
 /**
  * delete command
  * @generated from apis/overlays/magic-transit.ts
  */
-import type { ArgClassification } from "#lib/telemetry/index.js";
-import { apiCommand } from "#lib/api-command.js";
 import {
-	createCommandClient,
-	getAccountId,
-	resolveAccountIdSilent,
-} from "#lib/auth.js";
-import { formatDryRun } from "#lib/dry-run.js";
-import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
-import { formatOutput } from "#lib/output.js";
-import { withProgress } from "#lib/progress.js";
-import { confirmDelete } from "#lib/prompt.js";
-import { runWithTelemetry } from "#lib/telemetry/index.js";
+	apiCommand,
+	type ApiInputs,
+	type ApiParameters,
+} from "#lib/api-command.js";
 
-const command = apiCommand({
-	command: "delete <ownership-id>",
-	describe: "Delete buckets for full packet captures",
-	usage:
-		"$0 magic-transit pcaps ownership delete <ownership-id>\n\nDeletes buckets added to the packet captures API.",
+const parameters = {
 	flags: {
 		"dry-run": {
 			kind: "boolean",
@@ -38,45 +25,15 @@ const command = apiCommand({
 	operands: [
 		{ placeholder: "ownership-id", brief: "Identifier.", parse: String },
 	],
-	handler: async (argv): Promise<void> =>
-		runWithTelemetry(
-			{
-				command: "magic-transit pcaps ownership delete",
-				classification: {
-					safeFlags: ["dry-run", "force"],
-					shortFlagAliases: { f: { canonical: "force", type: "boolean" } },
-				} satisfies ArgClassification<typeof argv>,
-			},
-			argv as Record<string, unknown>,
-			async () => {
-				if (argv.dryRun) {
-					const __cfDryRunAccountId = await resolveAccountIdSilent();
-					formatDryRun({
-						command: "cf magic-transit pcaps ownership delete",
-						method: "DELETE",
-						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/pcaps/ownership/${argv["ownership-id"] == null ? "<ownership-id>" : encodeURIComponent(String(argv["ownership-id"]))}`,
-						pathParams: { "ownership-id": String(argv["ownership-id"] ?? "") },
-						bodyKind: "none",
-					});
-					return;
-				}
-				const client = await createCommandClient(argv);
-				const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
-				argv.accountId = accountId;
-
-				if (!(await confirmDelete({ force: Boolean(argv.force) }))) {
-					return;
-				}
-
-				const result = await withProgress(`Deleting`, async () =>
-					client.send(operation, {
-						account_id: accountId,
-						ownership_id: argv["ownership-id"],
-					})
-				);
-				formatOutput(result, { successLabel: `Deleted` });
-			}
-		),
+} as const satisfies ApiParameters;
+export type Args = ApiInputs<typeof parameters>;
+const command = apiCommand({
+	command: "delete <ownership-id>",
+	describe: "Delete buckets for full packet captures",
+	usage:
+		"$0 magic-transit pcaps ownership delete <ownership-id>\n\nDeletes buckets added to the packet captures API.",
+	...parameters,
+	loader: () => import("./delete.handler.js"),
 });
 
 export default command;

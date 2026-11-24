@@ -1,26 +1,14 @@
-import operation from "../../../_operations/zero-trust/casb/findings/reset-severity.js";
 /**
  * reset-severity command
  * @generated from apis/overlays/zero-trust.ts
  */
-import type { ArgClassification } from "#lib/telemetry/index.js";
-import { apiCommand } from "#lib/api-command.js";
 import {
-	createCommandClient,
-	getAccountId,
-	resolveAccountIdSilent,
-} from "#lib/auth.js";
-import { formatDryRun } from "#lib/dry-run.js";
-import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
-import { formatOutput } from "#lib/output.js";
-import { withProgress } from "#lib/progress.js";
-import { runWithTelemetry } from "#lib/telemetry/index.js";
+	apiCommand,
+	type ApiInputs,
+	type ApiParameters,
+} from "#lib/api-command.js";
 
-const command = apiCommand({
-	command: "reset-severity <finding-id>",
-	describe: "Reset severity for a finding back to the default",
-	usage:
-		"$0 zero-trust casb findings reset-severity <finding-id>\n\nIf a Finding's severity has been changed, reset it back to default value. Does nothing if no override exists.",
+const parameters = {
 	flags: {
 		"dry-run": {
 			kind: "boolean",
@@ -36,40 +24,15 @@ const command = apiCommand({
 			parse: String,
 		},
 	],
-	handler: async (argv): Promise<void> =>
-		runWithTelemetry(
-			{
-				command: "zero-trust casb findings reset-severity",
-				classification: { safeFlags: ["dry-run"] } satisfies ArgClassification<
-					typeof argv
-				>,
-			},
-			argv as Record<string, unknown>,
-			async () => {
-				if (argv.dryRun) {
-					const __cfDryRunAccountId = await resolveAccountIdSilent();
-					formatDryRun({
-						command: "cf zero-trust casb findings reset-severity",
-						method: "POST",
-						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/data-security/posture/findings/${argv["finding-id"] == null ? "<finding-id>" : encodeURIComponent(String(argv["finding-id"]))}/reset_finding_severity`,
-						pathParams: { "finding-id": String(argv["finding-id"] ?? "") },
-						bodyKind: "none",
-					});
-					return;
-				}
-				const client = await createCommandClient(argv);
-				const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
-				argv.accountId = accountId;
-
-				const result = await withProgress(`Creating`, async () =>
-					client.send(operation, {
-						account_id: accountId,
-						finding_id: argv["finding-id"],
-					})
-				);
-				formatOutput(result, { successLabel: `Created` });
-			}
-		),
+} as const satisfies ApiParameters;
+export type Args = ApiInputs<typeof parameters>;
+const command = apiCommand({
+	command: "reset-severity <finding-id>",
+	describe: "Reset severity for a finding back to the default",
+	usage:
+		"$0 zero-trust casb findings reset-severity <finding-id>\n\nIf a Finding's severity has been changed, reset it back to default value. Does nothing if no override exists.",
+	...parameters,
+	loader: () => import("./reset-severity.handler.js"),
 });
 
 export default command;

@@ -1,21 +1,14 @@
-import operation from "../../_operations/radar/as112/timeseries.js";
 /**
  * timeseries command
  * @generated from apis/overlays/radar.ts
  */
-import type { ArgClassification } from "#lib/telemetry/index.js";
-import { apiCommand } from "#lib/api-command.js";
-import { createCommandClient } from "#lib/auth.js";
-import { formatDryRun } from "#lib/dry-run.js";
-import { formatOutput } from "#lib/output.js";
-import { withProgress } from "#lib/progress.js";
-import { runWithTelemetry } from "#lib/telemetry/index.js";
+import {
+	apiCommand,
+	type ApiInputs,
+	type ApiParameters,
+} from "#lib/api-command.js";
 
-const command = apiCommand({
-	command: "timeseries",
-	describe: "Get AS112 DNS queries time series",
-	usage:
-		"$0 radar as112 timeseries\n\nRetrieves the AS112 DNS queries over time.",
+const parameters = {
 	flags: {
 		"agg-interval": {
 			kind: "enum",
@@ -220,48 +213,15 @@ const command = apiCommand({
 		},
 	},
 	operands: [],
-	handler: async (argv): Promise<void> =>
-		runWithTelemetry(
-			{
-				command: "radar as112 timeseries",
-				classification: {
-					safeFlags: ["agg-interval", "format", "dry-run"],
-				} satisfies ArgClassification<typeof argv>,
-			},
-			argv as Record<string, unknown>,
-			async () => {
-				const queryParams: Record<string, unknown> = {
-					aggInterval: argv["agg-interval"],
-					name: argv["name"],
-					dateRange: argv["date-range"],
-					dateStart: argv["date-start"],
-					dateEnd: argv["date-end"],
-					location: argv["location"],
-					continent: argv["continent"],
-					queryType: argv["query-type"],
-					protocol: argv["protocol"],
-					responseCode: argv["response-code"],
-					format: argv["format"],
-				};
-				if (argv.dryRun) {
-					formatDryRun({
-						command: "cf radar as112 timeseries",
-						method: "GET",
-						url: `https://api.cloudflare.com/client/v4/radar/as112/timeseries`,
-						pathParams: {},
-						query: queryParams,
-						bodyKind: "none",
-					});
-					return;
-				}
-				const client = await createCommandClient(argv);
-
-				const result = await withProgress(`Loading`, async () =>
-					client.send(operation, queryParams)
-				);
-				formatOutput(result, { successLabel: `Loaded` });
-			}
-		),
+} as const satisfies ApiParameters;
+export type Args = ApiInputs<typeof parameters>;
+const command = apiCommand({
+	command: "timeseries",
+	describe: "Get AS112 DNS queries time series",
+	usage:
+		"$0 radar as112 timeseries\n\nRetrieves the AS112 DNS queries over time.",
+	...parameters,
+	loader: () => import("./timeseries.handler.js"),
 });
 
 export default command;

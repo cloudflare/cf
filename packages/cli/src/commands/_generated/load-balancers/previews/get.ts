@@ -1,26 +1,14 @@
-import operation from "../../_operations/load-balancers/previews/get.js";
 /**
  * get command
  * @generated from apis/overlays/load-balancers.ts
  */
-import type { ArgClassification } from "#lib/telemetry/index.js";
-import { apiCommand } from "#lib/api-command.js";
 import {
-	createCommandClient,
-	getAccountId,
-	resolveAccountIdSilent,
-} from "#lib/auth.js";
-import { formatDryRun } from "#lib/dry-run.js";
-import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
-import { formatOutput } from "#lib/output.js";
-import { withProgress } from "#lib/progress.js";
-import { runWithTelemetry } from "#lib/telemetry/index.js";
+	apiCommand,
+	type ApiInputs,
+	type ApiParameters,
+} from "#lib/api-command.js";
 
-const command = apiCommand({
-	command: "get <preview-id>",
-	describe: "Preview Result",
-	usage:
-		"$0 load-balancers previews get <preview-id>\n\nGet the result of a previous preview operation using the provided preview_id.",
+const parameters = {
 	flags: {
 		"dry-run": {
 			kind: "boolean",
@@ -29,40 +17,15 @@ const command = apiCommand({
 		},
 	},
 	operands: [{ placeholder: "preview-id", brief: "Preview ID", parse: String }],
-	handler: async (argv): Promise<void> =>
-		runWithTelemetry(
-			{
-				command: "load-balancers previews get",
-				classification: { safeFlags: ["dry-run"] } satisfies ArgClassification<
-					typeof argv
-				>,
-			},
-			argv as Record<string, unknown>,
-			async () => {
-				if (argv.dryRun) {
-					const __cfDryRunAccountId = await resolveAccountIdSilent();
-					formatDryRun({
-						command: "cf load-balancers previews get",
-						method: "GET",
-						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/load_balancers/preview/${argv["preview-id"] == null ? "<preview-id>" : encodeURIComponent(String(argv["preview-id"]))}`,
-						pathParams: { "preview-id": String(argv["preview-id"] ?? "") },
-						bodyKind: "none",
-					});
-					return;
-				}
-				const client = await createCommandClient(argv);
-				const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
-				argv.accountId = accountId;
-
-				const result = await withProgress(`Loading`, async () =>
-					client.send(operation, {
-						account_id: accountId,
-						preview_id: argv["preview-id"],
-					})
-				);
-				formatOutput(result, { successLabel: `Loaded` });
-			}
-		),
+} as const satisfies ApiParameters;
+export type Args = ApiInputs<typeof parameters>;
+const command = apiCommand({
+	command: "get <preview-id>",
+	describe: "Preview Result",
+	usage:
+		"$0 load-balancers previews get <preview-id>\n\nGet the result of a previous preview operation using the provided preview_id.",
+	...parameters,
+	loader: () => import("./get.handler.js"),
 });
 
 export default command;

@@ -1,21 +1,14 @@
-import operation from "../../../_operations/radar/netflows/top/locations.js";
 /**
  * locations command
  * @generated from apis/overlays/radar.ts
  */
-import type { ArgClassification } from "#lib/telemetry/index.js";
-import { apiCommand } from "#lib/api-command.js";
-import { createCommandClient } from "#lib/auth.js";
-import { formatDryRun } from "#lib/dry-run.js";
-import { formatOutput } from "#lib/output.js";
-import { withProgress } from "#lib/progress.js";
-import { runWithTelemetry } from "#lib/telemetry/index.js";
+import {
+	apiCommand,
+	type ApiInputs,
+	type ApiParameters,
+} from "#lib/api-command.js";
 
-const command = apiCommand({
-	command: "locations",
-	describe: "Get top locations by network traffic",
-	usage:
-		"$0 radar netflows top locations\n\nRetrieves the top locations by network traffic (NetFlows).",
+const parameters = {
 	flags: {
 		limit: {
 			kind: "parsed",
@@ -114,48 +107,15 @@ const command = apiCommand({
 		},
 	},
 	operands: [],
-	handler: async (argv): Promise<void> =>
-		runWithTelemetry(
-			{
-				command: "radar netflows top locations",
-				classification: {
-					safeFlags: ["format", "dry-run"],
-				} satisfies ArgClassification<typeof argv>,
-			},
-			argv as Record<string, unknown>,
-			async () => {
-				const queryParams: Record<string, unknown> = {
-					limit: argv["limit"],
-					name: argv["name"],
-					dateRange: argv["date-range"],
-					dateStart: argv["date-start"],
-					dateEnd: argv["date-end"],
-					asn: argv["asn"],
-					location: argv["location"],
-					continent: argv["continent"],
-					geoId: argv["geo-id"],
-					asCategory: argv["as-category"],
-					format: argv["format"],
-				};
-				if (argv.dryRun) {
-					formatDryRun({
-						command: "cf radar netflows top locations",
-						method: "GET",
-						url: `https://api.cloudflare.com/client/v4/radar/netflows/top/locations`,
-						pathParams: {},
-						query: queryParams,
-						bodyKind: "none",
-					});
-					return;
-				}
-				const client = await createCommandClient(argv);
-
-				const result = await withProgress(`Loading`, async () =>
-					client.send(operation, queryParams)
-				);
-				formatOutput(result, { successLabel: `Loaded` });
-			}
-		),
+} as const satisfies ApiParameters;
+export type Args = ApiInputs<typeof parameters>;
+const command = apiCommand({
+	command: "locations",
+	describe: "Get top locations by network traffic",
+	usage:
+		"$0 radar netflows top locations\n\nRetrieves the top locations by network traffic (NetFlows).",
+	...parameters,
+	loader: () => import("./locations.handler.js"),
 });
 
 export default command;

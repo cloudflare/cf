@@ -1,20 +1,14 @@
-import operation from "../_operations/page-rules/list.js";
 /**
  * list command
  * @generated from apis/overlays/page-rules.ts
  */
-import type { ArgClassification } from "#lib/telemetry/index.js";
-import { apiCommand } from "#lib/api-command.js";
-import { createCommandClient, getZoneId } from "#lib/auth.js";
-import { formatDryRun } from "#lib/dry-run.js";
-import { formatOutput } from "#lib/output.js";
-import { withProgress } from "#lib/progress.js";
-import { runWithTelemetry } from "#lib/telemetry/index.js";
+import {
+	apiCommand,
+	type ApiInputs,
+	type ApiParameters,
+} from "#lib/api-command.js";
 
-const command = apiCommand({
-	command: "list",
-	describe: "List Page Rules",
-	usage: "$0 page-rules list\n\nFetches Page Rules in a zone.",
+const parameters = {
 	flags: {
 		order: {
 			kind: "enum",
@@ -48,47 +42,14 @@ const command = apiCommand({
 		},
 	},
 	operands: [],
-	handler: async (argv): Promise<void> =>
-		runWithTelemetry(
-			{
-				command: "page-rules list",
-				classification: {
-					safeFlags: ["order", "direction", "match", "status", "dry-run"],
-				} satisfies ArgClassification<typeof argv>,
-			},
-			argv as Record<string, unknown>,
-			async () => {
-				const queryParams: Record<string, unknown> = {
-					order: argv["order"],
-					direction: argv["direction"],
-					match: argv["match"],
-					status: argv["status"],
-				};
-				if (argv.dryRun) {
-					formatDryRun({
-						command: "cf page-rules list",
-						method: "GET",
-						url: `https://api.cloudflare.com/client/v4/zones/${argv.zone ?? argv.zoneId ?? "<zone>"}/pagerules`,
-						pathParams: {
-							"zone-id": String(argv.zone ?? argv["zone-id"] ?? ""),
-						},
-						query: queryParams,
-						bodyKind: "none",
-					});
-					return;
-				}
-				const client = await createCommandClient(argv);
-				const zoneId = await getZoneId({ zone: argv.zone }, client, {
-					quiet: argv.quiet,
-				});
-				argv.zoneId = zoneId;
-
-				const result = await withProgress(`Loading`, async () =>
-					client.send(operation, { zone_id: zoneId, ...queryParams })
-				);
-				formatOutput(result, { successLabel: `Loaded` });
-			}
-		),
+} as const satisfies ApiParameters;
+export type Args = ApiInputs<typeof parameters>;
+const command = apiCommand({
+	command: "list",
+	describe: "List Page Rules",
+	usage: "$0 page-rules list\n\nFetches Page Rules in a zone.",
+	...parameters,
+	loader: () => import("./list.handler.js"),
 });
 
 export default command;

@@ -1,21 +1,14 @@
-import operation from "../../_operations/dns/zone-transfers/force-axfr.js";
 /**
  * force-axfr command
  * @generated from apis/overlays/dns.ts
  */
-import type { ArgClassification } from "#lib/telemetry/index.js";
-import { apiCommand } from "#lib/api-command.js";
-import { createCommandClient, getZoneId } from "#lib/auth.js";
-import { formatDryRun } from "#lib/dry-run.js";
-import { formatOutput } from "#lib/output.js";
-import { withProgress } from "#lib/progress.js";
-import { runWithTelemetry } from "#lib/telemetry/index.js";
+import {
+	apiCommand,
+	type ApiInputs,
+	type ApiParameters,
+} from "#lib/api-command.js";
 
-const command = apiCommand({
-	command: "force-axfr",
-	describe: "Force AXFR",
-	usage:
-		"$0 dns zone-transfers force-axfr\n\nSends AXFR zone transfer request to primary nameserver(s).",
+const parameters = {
 	flags: {
 		"dry-run": {
 			kind: "boolean",
@@ -24,40 +17,15 @@ const command = apiCommand({
 		},
 	},
 	operands: [],
-	handler: async (argv): Promise<void> =>
-		runWithTelemetry(
-			{
-				command: "dns zone-transfers force-axfr",
-				classification: { safeFlags: ["dry-run"] } satisfies ArgClassification<
-					typeof argv
-				>,
-			},
-			argv as Record<string, unknown>,
-			async () => {
-				if (argv.dryRun) {
-					formatDryRun({
-						command: "cf dns zone-transfers force-axfr",
-						method: "POST",
-						url: `https://api.cloudflare.com/client/v4/zones/${argv.zone ?? argv.zoneId ?? "<zone>"}/secondary_dns/force_axfr`,
-						pathParams: {
-							"zone-id": String(argv.zone ?? argv["zone-id"] ?? ""),
-						},
-						bodyKind: "none",
-					});
-					return;
-				}
-				const client = await createCommandClient(argv);
-				const zoneId = await getZoneId({ zone: argv.zone }, client, {
-					quiet: argv.quiet,
-				});
-				argv.zoneId = zoneId;
-
-				const result = await withProgress(`Creating`, async () =>
-					client.send(operation, { zone_id: zoneId })
-				);
-				formatOutput(result, { successLabel: `Created` });
-			}
-		),
+} as const satisfies ApiParameters;
+export type Args = ApiInputs<typeof parameters>;
+const command = apiCommand({
+	command: "force-axfr",
+	describe: "Force AXFR",
+	usage:
+		"$0 dns zone-transfers force-axfr\n\nSends AXFR zone transfer request to primary nameserver(s).",
+	...parameters,
+	loader: () => import("./force-axfr.handler.js"),
 });
 
 export default command;

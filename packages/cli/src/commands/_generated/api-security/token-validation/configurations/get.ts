@@ -1,21 +1,14 @@
-import operation from "../../../_operations/api-security/token-validation/configurations/get.js";
 /**
  * get command
  * @generated from apis/overlays/api-security.ts
  */
-import type { ArgClassification } from "#lib/telemetry/index.js";
-import { apiCommand } from "#lib/api-command.js";
-import { createCommandClient, getZoneId } from "#lib/auth.js";
-import { formatDryRun } from "#lib/dry-run.js";
-import { formatOutput } from "#lib/output.js";
-import { withProgress } from "#lib/progress.js";
-import { runWithTelemetry } from "#lib/telemetry/index.js";
+import {
+	apiCommand,
+	type ApiInputs,
+	type ApiParameters,
+} from "#lib/api-command.js";
 
-const command = apiCommand({
-	command: "get <config-id>",
-	describe: "Get a token validation configuration",
-	usage:
-		"$0 api-security token-validation configurations get <config-id>\n\nReturns a JWT validation configuration by ID.",
+const parameters = {
 	flags: {
 		"dry-run": {
 			kind: "boolean",
@@ -30,44 +23,15 @@ const command = apiCommand({
 			parse: String,
 		},
 	],
-	handler: async (argv): Promise<void> =>
-		runWithTelemetry(
-			{
-				command: "api-security token-validation configurations get",
-				classification: { safeFlags: ["dry-run"] } satisfies ArgClassification<
-					typeof argv
-				>,
-			},
-			argv as Record<string, unknown>,
-			async () => {
-				if (argv.dryRun) {
-					formatDryRun({
-						command: "cf api-security token-validation configurations get",
-						method: "GET",
-						url: `https://api.cloudflare.com/client/v4/zones/${argv.zone ?? argv.zoneId ?? "<zone>"}/token_validation/config/${argv["config-id"] == null ? "<config-id>" : encodeURIComponent(String(argv["config-id"]))}`,
-						pathParams: {
-							"zone-id": String(argv.zone ?? argv["zone-id"] ?? ""),
-							"config-id": String(argv["config-id"] ?? ""),
-						},
-						bodyKind: "none",
-					});
-					return;
-				}
-				const client = await createCommandClient(argv);
-				const zoneId = await getZoneId({ zone: argv.zone }, client, {
-					quiet: argv.quiet,
-				});
-				argv.zoneId = zoneId;
-
-				const result = await withProgress(`Loading`, async () =>
-					client.send(operation, {
-						zone_id: zoneId,
-						config_id: argv["config-id"],
-					})
-				);
-				formatOutput(result, { successLabel: `Loaded` });
-			}
-		),
+} as const satisfies ApiParameters;
+export type Args = ApiInputs<typeof parameters>;
+const command = apiCommand({
+	command: "get <config-id>",
+	describe: "Get a token validation configuration",
+	usage:
+		"$0 api-security token-validation configurations get <config-id>\n\nReturns a JWT validation configuration by ID.",
+	...parameters,
+	loader: () => import("./get.handler.js"),
 });
 
 export default command;

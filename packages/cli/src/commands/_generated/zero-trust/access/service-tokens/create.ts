@@ -1,30 +1,14 @@
-import operation from "../../../_operations/zero-trust/access/service-tokens/create.js";
 /**
  * create command
  * @generated from apis/overlays/zero-trust.ts
  */
-import type { ArgClassification } from "#lib/telemetry/index.js";
-import { apiCommand } from "#lib/api-command.js";
 import {
-	createCommandClient,
-	getAccountId,
-	getZoneId,
-	resolveAccountIdSilent,
-} from "#lib/auth.js";
-import { compactBody, parseBody, parseJsonMap } from "#lib/body-parser.js";
-import { formatDryRun } from "#lib/dry-run.js";
-import { resolveFileToken } from "#lib/input-validation.js";
-import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
-import { formatOutput } from "#lib/output.js";
-import { withProgress } from "#lib/progress.js";
-import { promptForRequiredField } from "#lib/prompt.js";
-import { runWithTelemetry } from "#lib/telemetry/index.js";
+	apiCommand,
+	type ApiInputs,
+	type ApiParameters,
+} from "#lib/api-command.js";
 
-const command = apiCommand({
-	command: "create",
-	describe: "Create a service token",
-	usage:
-		"$0 zero-trust access service-tokens create\n\nGenerates a new service token. **Note:** This is the only time you can get the Client Secret. If you lose the Client Secret, you will have to rotate the Client Secret or create a new service token.\n\nRuns against your account. Pass --zone to run against a zone instead. CLOUDFLARE_ZONE_ID is ignored.",
+const parameters = {
 	flags: {
 		"client-secret-version": {
 			kind: "parsed",
@@ -79,141 +63,15 @@ const command = apiCommand({
 		},
 	},
 	operands: [],
-	handler: async (argv): Promise<void> =>
-		runWithTelemetry(
-			{
-				command: "zero-trust access service-tokens create",
-				classification: {
-					safeFlags: ["enabled", "dry-run"],
-				} satisfies ArgClassification<typeof argv>,
-			},
-			argv as Record<string, unknown>,
-			async () => {
-				const resolveRequiredFields = async (): Promise<void> => {
-					if (argv["name"] === undefined) {
-						argv["name"] = await promptForRequiredField(
-							"name",
-							"The name of the service token."
-						);
-					}
-				};
-				if (argv.dryRun) {
-					if (argv.body === undefined) {
-						await resolveRequiredFields();
-					}
-					const __cfDryRunAccountId =
-						argv.zone === undefined
-							? await resolveAccountIdSilent()
-							: undefined;
-					const accountOrZone = argv.zone === undefined ? "accounts" : "zones";
-					const accountOrZoneId =
-						argv.zone ?? __cfDryRunAccountId ?? "<account-id>";
-					formatDryRun({
-						command: "cf zero-trust access service-tokens create",
-						method: "POST",
-						url: `https://api.cloudflare.com/client/v4/${accountOrZone}/${accountOrZoneId}/access/service_tokens`,
-						pathParams: {
-							"account-or-zone": String(accountOrZone),
-							"account-or-zone-id": String(accountOrZoneId),
-						},
-						bodyKind: "json",
-						body:
-							argv.body !== undefined
-								? parseBody(argv.body)
-								: compactBody(
-										{
-											client_secret_version: argv["client-secret-version"],
-											duration: resolveFileToken(
-												argv["duration"] as string | undefined,
-												"duration",
-												"text"
-											),
-											enabled: argv["enabled"],
-											name: resolveFileToken(
-												argv["name"] as string | undefined,
-												"name",
-												"text"
-											),
-											previous_client_secret_expires_at: resolveFileToken(
-												argv["previous-client-secret-expires-at"] as
-													| string
-													| undefined,
-												"previous-client-secret-expires-at",
-												"text"
-											),
-											tags: parseJsonMap(argv["tags"], "tags"),
-										},
-										[["tags"]]
-									),
-					});
-					return;
-				}
-				const parsedBody =
-					argv.body !== undefined ? parseBody(argv.body) : undefined;
-				const client = await createCommandClient(argv);
-				const accountOrZone = argv.zone === undefined ? "accounts" : "zones";
-				const accountOrZoneId =
-					accountOrZone === "zones"
-						? await getZoneId({ zone: argv.zone }, client, {
-								quiet: argv.quiet,
-							})
-						: argv.local
-							? LOCAL_ACCOUNT_ID
-							: await getAccountId();
-				if (accountOrZone === "zones") {
-					argv.zoneId = accountOrZoneId;
-				} else {
-					argv.accountId = accountOrZoneId;
-				}
-
-				if (argv.body !== undefined) {
-					const bodyData = parsedBody;
-					const result = await withProgress(`Creating`, async () =>
-						client.send(operation, {
-							body: bodyData,
-							account_or_zone: accountOrZone,
-							account_or_zone_id: accountOrZoneId,
-						})
-					);
-					formatOutput(result, { successLabel: `Created` });
-					return;
-				}
-				await resolveRequiredFields();
-
-				// Assemble request body from individual flags
-				const bodyData = compactBody(
-					{
-						client_secret_version: argv["client-secret-version"],
-						duration: resolveFileToken(
-							argv["duration"] as string | undefined,
-							"duration",
-							"text"
-						),
-						enabled: argv["enabled"],
-						name: resolveFileToken(
-							argv["name"] as string | undefined,
-							"name",
-							"text"
-						),
-						previous_client_secret_expires_at: resolveFileToken(
-							argv["previous-client-secret-expires-at"] as string | undefined,
-							"previous-client-secret-expires-at",
-							"text"
-						),
-						tags: parseJsonMap(argv["tags"], "tags"),
-					},
-					[["tags"]]
-				);
-				const result = await withProgress(`Creating`, async () =>
-					client.send(operation, {
-						body: bodyData,
-						account_or_zone: accountOrZone,
-						account_or_zone_id: accountOrZoneId,
-					})
-				);
-				formatOutput(result, { successLabel: `Created` });
-			}
-		),
+} as const satisfies ApiParameters;
+export type Args = ApiInputs<typeof parameters>;
+const command = apiCommand({
+	command: "create",
+	describe: "Create a service token",
+	usage:
+		"$0 zero-trust access service-tokens create\n\nGenerates a new service token. **Note:** This is the only time you can get the Client Secret. If you lose the Client Secret, you will have to rotate the Client Secret or create a new service token.\n\nRuns against your account. Pass --zone to run against a zone instead. CLOUDFLARE_ZONE_ID is ignored.",
+	...parameters,
+	loader: () => import("./create.handler.js"),
 });
 
 export default command;

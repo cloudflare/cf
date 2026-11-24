@@ -1,22 +1,14 @@
-import operation from "../../_operations/speed/schedule/delete.js";
 /**
  * delete command
  * @generated from apis/overlays/speed.ts
  */
-import type { ArgClassification } from "#lib/telemetry/index.js";
-import { apiCommand } from "#lib/api-command.js";
-import { createCommandClient, getZoneId } from "#lib/auth.js";
-import { formatDryRun } from "#lib/dry-run.js";
-import { formatOutput } from "#lib/output.js";
-import { withProgress } from "#lib/progress.js";
-import { confirmDelete } from "#lib/prompt.js";
-import { runWithTelemetry } from "#lib/telemetry/index.js";
+import {
+	apiCommand,
+	type ApiInputs,
+	type ApiParameters,
+} from "#lib/api-command.js";
 
-const command = apiCommand({
-	command: "delete <url>",
-	describe: "Delete scheduled page test",
-	usage:
-		"$0 speed schedule delete <url>\n\nDeletes a scheduled test for a page.",
+const parameters = {
 	flags: {
 		region: {
 			kind: "enum",
@@ -59,54 +51,15 @@ const command = apiCommand({
 		},
 	},
 	operands: [{ placeholder: "url", brief: "A URL.", parse: String }],
-	handler: async (argv): Promise<void> =>
-		runWithTelemetry(
-			{
-				command: "speed schedule delete",
-				classification: {
-					safeFlags: ["region", "dry-run", "force"],
-					shortFlagAliases: { f: { canonical: "force", type: "boolean" } },
-				} satisfies ArgClassification<typeof argv>,
-			},
-			argv as Record<string, unknown>,
-			async () => {
-				const queryParams: Record<string, unknown> = {
-					region: argv["region"],
-				};
-				if (argv.dryRun) {
-					formatDryRun({
-						command: "cf speed schedule delete",
-						method: "DELETE",
-						url: `https://api.cloudflare.com/client/v4/zones/${argv.zone ?? argv.zoneId ?? "<zone>"}/speed_api/schedule/${argv["url"] == null ? "<url>" : encodeURIComponent(String(argv["url"]))}`,
-						pathParams: {
-							"zone-id": String(argv.zone ?? argv["zone-id"] ?? ""),
-							url: String(argv["url"] ?? ""),
-						},
-						query: queryParams,
-						bodyKind: "none",
-					});
-					return;
-				}
-				const client = await createCommandClient(argv);
-				const zoneId = await getZoneId({ zone: argv.zone }, client, {
-					quiet: argv.quiet,
-				});
-				argv.zoneId = zoneId;
-
-				if (!(await confirmDelete({ force: Boolean(argv.force) }))) {
-					return;
-				}
-
-				const result = await withProgress(`Deleting`, async () =>
-					client.send(operation, {
-						zone_id: zoneId,
-						url: argv["url"],
-						...queryParams,
-					})
-				);
-				formatOutput(result, { successLabel: `Deleted` });
-			}
-		),
+} as const satisfies ApiParameters;
+export type Args = ApiInputs<typeof parameters>;
+const command = apiCommand({
+	command: "delete <url>",
+	describe: "Delete scheduled page test",
+	usage:
+		"$0 speed schedule delete <url>\n\nDeletes a scheduled test for a page.",
+	...parameters,
+	loader: () => import("./delete.handler.js"),
 });
 
 export default command;

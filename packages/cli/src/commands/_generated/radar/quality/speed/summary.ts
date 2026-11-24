@@ -1,21 +1,14 @@
-import operation from "../../../_operations/radar/quality/speed/summary.js";
 /**
  * summary command
  * @generated from apis/overlays/radar.ts
  */
-import type { ArgClassification } from "#lib/telemetry/index.js";
-import { apiCommand } from "#lib/api-command.js";
-import { createCommandClient } from "#lib/auth.js";
-import { formatDryRun } from "#lib/dry-run.js";
-import { formatOutput } from "#lib/output.js";
-import { withProgress } from "#lib/progress.js";
-import { runWithTelemetry } from "#lib/telemetry/index.js";
+import {
+	apiCommand,
+	type ApiInputs,
+	type ApiParameters,
+} from "#lib/api-command.js";
 
-const command = apiCommand({
-	command: "summary",
-	describe: "Get speed tests summary",
-	usage:
-		"$0 radar quality speed summary\n\nRetrieves a summary of bandwidth, latency, jitter, and packet loss, from the previous 90 days of Cloudflare Speed Test data.",
+const parameters = {
 	flags: {
 		name: {
 			kind: "parsed",
@@ -69,43 +62,15 @@ const command = apiCommand({
 		},
 	},
 	operands: [],
-	handler: async (argv): Promise<void> =>
-		runWithTelemetry(
-			{
-				command: "radar quality speed summary",
-				classification: {
-					safeFlags: ["format", "dry-run"],
-				} satisfies ArgClassification<typeof argv>,
-			},
-			argv as Record<string, unknown>,
-			async () => {
-				const queryParams: Record<string, unknown> = {
-					name: argv["name"],
-					dateEnd: argv["date-end"],
-					asn: argv["asn"],
-					location: argv["location"],
-					continent: argv["continent"],
-					format: argv["format"],
-				};
-				if (argv.dryRun) {
-					formatDryRun({
-						command: "cf radar quality speed summary",
-						method: "GET",
-						url: `https://api.cloudflare.com/client/v4/radar/quality/speed/summary`,
-						pathParams: {},
-						query: queryParams,
-						bodyKind: "none",
-					});
-					return;
-				}
-				const client = await createCommandClient(argv);
-
-				const result = await withProgress(`Loading`, async () =>
-					client.send(operation, queryParams)
-				);
-				formatOutput(result, { successLabel: `Loaded` });
-			}
-		),
+} as const satisfies ApiParameters;
+export type Args = ApiInputs<typeof parameters>;
+const command = apiCommand({
+	command: "summary",
+	describe: "Get speed tests summary",
+	usage:
+		"$0 radar quality speed summary\n\nRetrieves a summary of bandwidth, latency, jitter, and packet loss, from the previous 90 days of Cloudflare Speed Test data.",
+	...parameters,
+	loader: () => import("./summary.handler.js"),
 });
 
 export default command;

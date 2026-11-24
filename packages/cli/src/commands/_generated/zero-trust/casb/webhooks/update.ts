@@ -1,32 +1,15 @@
-import operation from "../../../_operations/zero-trust/casb/webhooks/update.js";
 /**
  * update command
  * @generated from apis/overlays/zero-trust.ts
  */
-import type { ArgClassification } from "#lib/telemetry/index.js";
-import { apiCommand } from "#lib/api-command.js";
 import {
-	createCommandClient,
-	getAccountId,
-	resolveAccountIdSilent,
-} from "#lib/auth.js";
-import { compactBody, parseBody, parseObjectArray } from "#lib/body-parser.js";
-import { formatDryRun } from "#lib/dry-run.js";
+	apiCommand,
+	type ApiInputs,
+	type ApiParameters,
+} from "#lib/api-command.js";
 import { resolveFileToken } from "#lib/input-validation.js";
-import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
-import { formatOutput } from "#lib/output.js";
-import { withProgress } from "#lib/progress.js";
-import {
-	promptForRequiredEnumField,
-	promptForRequiredField,
-} from "#lib/prompt.js";
-import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-const command = apiCommand({
-	command: "update <webhook-id>",
-	describe: "Update an existing webhook configuration",
-	usage:
-		"$0 zero-trust casb webhooks update <webhook-id>\n\nUpdates an existing webhook configuration with new settings.",
+const parameters = {
 	flags: {
 		"authentication-type": {
 			kind: "parsed",
@@ -97,139 +80,15 @@ const command = apiCommand({
 			parse: String,
 		},
 	],
-	handler: async (argv): Promise<void> =>
-		runWithTelemetry(
-			{
-				command: "zero-trust casb webhooks update",
-				classification: {
-					safeFlags: ["authentication-type", "status", "dry-run"],
-				} satisfies ArgClassification<typeof argv>,
-			},
-			argv as Record<string, unknown>,
-			async () => {
-				const resolveRequiredFields = async (): Promise<void> => {
-					if (argv["authentication-type"] === undefined) {
-						argv["authentication-type"] = await promptForRequiredEnumField(
-							"authentication-type",
-							"Type of authentication used for the webhook.",
-							[
-								"Basic Auth",
-								"None",
-								"Bearer Auth",
-								"Static Headers",
-								"HMAC-Signing",
-							] as const
-						);
-					}
-					if (argv["destination-url"] === undefined) {
-						argv["destination-url"] = await promptForRequiredField(
-							"destination-url",
-							"Target URL for the webhook configuration. Where resulting data will be sent."
-						);
-					}
-					if (argv["label"] === undefined) {
-						argv["label"] = await promptForRequiredField(
-							"label",
-							"Account-specified display label for the webhook configuration."
-						);
-					}
-					if (argv["status"] === undefined) {
-						argv["status"] = await promptForRequiredEnumField(
-							"status",
-							"Status of the webhook configuration.",
-							["enabled", "disabled"] as const
-						);
-					}
-				};
-				if (argv.dryRun) {
-					if (argv.body === undefined) {
-						await resolveRequiredFields();
-					}
-					const __cfDryRunAccountId = await resolveAccountIdSilent();
-					formatDryRun({
-						command: "cf zero-trust casb webhooks update",
-						method: "PUT",
-						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/data-security/posture/webhooks/${argv["webhook-id"] == null ? "<webhook-id>" : encodeURIComponent(String(argv["webhook-id"]))}`,
-						pathParams: { "webhook-id": String(argv["webhook-id"] ?? "") },
-						bodyKind: "json",
-						body:
-							argv.body !== undefined
-								? parseBody(argv.body)
-								: compactBody({
-										authentication_type: argv["authentication-type"],
-										destination_url: resolveFileToken(
-											argv["destination-url"] as string | undefined,
-											"destination-url",
-											"text"
-										),
-										headers: parseObjectArray(argv["headers"], "headers"),
-										label: resolveFileToken(
-											argv["label"] as string | undefined,
-											"label",
-											"text"
-										),
-										signing_secret: resolveFileToken(
-											argv["signing-secret"] as string | undefined,
-											"signing-secret",
-											"text"
-										),
-										status: argv["status"],
-									}),
-						sensitiveBodyPaths: [["signing_secret"]],
-					});
-					return;
-				}
-				const parsedBody =
-					argv.body !== undefined ? parseBody(argv.body) : undefined;
-				const client = await createCommandClient(argv);
-				const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
-				argv.accountId = accountId;
-
-				if (argv.body !== undefined) {
-					const bodyData = parsedBody;
-					const result = await withProgress(`Updating`, async () =>
-						client.send(operation, {
-							body: bodyData,
-							account_id: accountId,
-							webhook_id: argv["webhook-id"],
-						})
-					);
-					formatOutput(result, { successLabel: `Updated` });
-					return;
-				}
-				await resolveRequiredFields();
-
-				// Assemble request body from individual flags
-				const bodyData = compactBody({
-					authentication_type: argv["authentication-type"],
-					destination_url: resolveFileToken(
-						argv["destination-url"] as string | undefined,
-						"destination-url",
-						"text"
-					),
-					headers: parseObjectArray(argv["headers"], "headers"),
-					label: resolveFileToken(
-						argv["label"] as string | undefined,
-						"label",
-						"text"
-					),
-					signing_secret: resolveFileToken(
-						argv["signing-secret"] as string | undefined,
-						"signing-secret",
-						"text"
-					),
-					status: argv["status"],
-				});
-				const result = await withProgress(`Updating`, async () =>
-					client.send(operation, {
-						body: bodyData,
-						account_id: accountId,
-						webhook_id: argv["webhook-id"],
-					})
-				);
-				formatOutput(result, { successLabel: `Updated` });
-			}
-		),
+} as const satisfies ApiParameters;
+export type Args = ApiInputs<typeof parameters>;
+const command = apiCommand({
+	command: "update <webhook-id>",
+	describe: "Update an existing webhook configuration",
+	usage:
+		"$0 zero-trust casb webhooks update <webhook-id>\n\nUpdates an existing webhook configuration with new settings.",
+	...parameters,
+	loader: () => import("./update.handler.js"),
 });
 
 export default command;

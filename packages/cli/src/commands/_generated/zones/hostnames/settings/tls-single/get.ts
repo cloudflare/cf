@@ -1,21 +1,14 @@
-import operation from "../../../../_operations/zones/hostnames/settings/tls-single/get.js";
 /**
  * get command
  * @generated from apis/overlays/zones.ts
  */
-import type { ArgClassification } from "#lib/telemetry/index.js";
-import { apiCommand } from "#lib/api-command.js";
-import { createCommandClient, getZoneId } from "#lib/auth.js";
-import { formatDryRun } from "#lib/dry-run.js";
-import { formatOutput } from "#lib/output.js";
-import { withProgress } from "#lib/progress.js";
-import { runWithTelemetry } from "#lib/telemetry/index.js";
+import {
+	apiCommand,
+	type ApiInputs,
+	type ApiParameters,
+} from "#lib/api-command.js";
 
-const command = apiCommand({
-	command: "get <hostname>",
-	describe: "Get TLS setting for hostname",
-	usage:
-		"$0 zones hostnames settings tls-single get <hostname>\n\nGet the requested TLS setting for the hostname.",
+const parameters = {
 	flags: {
 		"setting-id": {
 			kind: "parsed",
@@ -36,46 +29,15 @@ const command = apiCommand({
 			parse: String,
 		},
 	],
-	handler: async (argv): Promise<void> =>
-		runWithTelemetry(
-			{
-				command: "zones hostnames settings tls-single get",
-				classification: { safeFlags: ["dry-run"] } satisfies ArgClassification<
-					typeof argv
-				>,
-			},
-			argv as Record<string, unknown>,
-			async () => {
-				if (argv.dryRun) {
-					formatDryRun({
-						command: "cf zones hostnames settings tls-single get",
-						method: "GET",
-						url: `https://api.cloudflare.com/client/v4/zones/${argv.zone ?? argv.zoneId ?? "<zone>"}/hostnames/settings/${argv["setting-id"] == null ? "<setting-id>" : encodeURIComponent(String(argv["setting-id"]))}/${argv["hostname"] == null ? "<hostname>" : encodeURIComponent(String(argv["hostname"]))}`,
-						pathParams: {
-							"zone-id": String(argv.zone ?? argv["zone-id"] ?? ""),
-							"setting-id": String(argv["setting-id"] ?? ""),
-							hostname: String(argv["hostname"] ?? ""),
-						},
-						bodyKind: "none",
-					});
-					return;
-				}
-				const client = await createCommandClient(argv);
-				const zoneId = await getZoneId({ zone: argv.zone }, client, {
-					quiet: argv.quiet,
-				});
-				argv.zoneId = zoneId;
-
-				const result = await withProgress(`Loading`, async () =>
-					client.send(operation, {
-						zone_id: zoneId,
-						setting_id: argv["setting-id"],
-						hostname: argv["hostname"],
-					})
-				);
-				formatOutput(result, { successLabel: `Loaded` });
-			}
-		),
+} as const satisfies ApiParameters;
+export type Args = ApiInputs<typeof parameters>;
+const command = apiCommand({
+	command: "get <hostname>",
+	describe: "Get TLS setting for hostname",
+	usage:
+		"$0 zones hostnames settings tls-single get <hostname>\n\nGet the requested TLS setting for the hostname.",
+	...parameters,
+	loader: () => import("./get.handler.js"),
 });
 
 export default command;

@@ -32,10 +32,11 @@ function generate(httpMethod: string, requireConfirmation?: string) {
 	};
 	const meta = metadata.commands.find((c) => c.command === "cf things update");
 	const code = files.get("things/update.ts");
-	if (meta === undefined || code === undefined) {
+	const handler = files.get("things/update.handler.ts");
+	if (meta === undefined || code === undefined || handler === undefined) {
 		throw new Error("Missing generated things update command");
 	}
-	return { meta, code };
+	return { meta, code, handler };
 }
 
 describe("command metadata force option", () => {
@@ -47,7 +48,7 @@ describe("command metadata force option", () => {
 	])(
 		"matches the runtime option for %s with confirmation %s",
 		(verb, message) => {
-			const { meta, code } = generate(verb, message);
+			const { meta, code, handler } = generate(verb, message);
 			expect(meta.options.filter((option) => option.name === "force")).toEqual([
 				{
 					name: "force",
@@ -61,30 +62,30 @@ describe("command metadata force option", () => {
 			expect(code).toContain(
 				'"force": {"kind":"boolean","brief":"Skip confirmation (useful in scripts and CI)","alias":"f","default":false}'
 			);
-			expect(code).toContain("confirmDelete({ force: Boolean(argv.force)");
-			expect(code).toContain("shortFlagAliases: { f:");
-			expect(code).toContain("safeFlags: ['dry-run', 'force']");
+			expect(handler).toContain("confirmDelete({ force: Boolean(argv.force)");
+			expect(handler).toContain("shortFlagAliases: { f:");
+			expect(handler).toContain("safeFlags: ['dry-run', 'force']");
 		}
 	);
 
 	it.each(["get", "post", "put", "patch"])(
 		"omits force from metadata and runtime for an ordinary %s operation",
 		(verb) => {
-			const { meta, code } = generate(verb);
+			const { meta, code, handler } = generate(verb);
 			expect(meta.options.some((option) => option.name === "force")).toBe(
 				false
 			);
 			expect(code).not.toContain('"force": {');
-			expect(code).not.toContain("confirmDelete");
-			expect(code).not.toContain("shortFlagAliases");
+			expect(handler).not.toContain("confirmDelete");
+			expect(handler).not.toContain("shortFlagAliases");
 		}
 	);
 
 	it("ignores an empty confirmation annotation consistently", () => {
-		const { meta, code } = generate("put", "");
+		const { meta, code, handler } = generate("put", "");
 		expect(meta.options.some((option) => option.name === "force")).toBe(false);
 		expect(code).not.toContain('"force": {');
-		expect(code).not.toContain("confirmDelete");
-		expect(code).not.toContain("shortFlagAliases");
+		expect(handler).not.toContain("confirmDelete");
+		expect(handler).not.toContain("shortFlagAliases");
 	});
 });

@@ -1,27 +1,14 @@
-import operation from "../../_operations/iam/sso/update.js";
 /**
  * update command
  * @generated from apis/overlays/iam.ts
  */
-import type { ArgClassification } from "#lib/telemetry/index.js";
-import { apiCommand } from "#lib/api-command.js";
 import {
-	createCommandClient,
-	getAccountId,
-	resolveAccountIdSilent,
-} from "#lib/auth.js";
-import { compactBody, parseBody } from "#lib/body-parser.js";
-import { formatDryRun } from "#lib/dry-run.js";
-import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
-import { formatOutput } from "#lib/output.js";
-import { withProgress } from "#lib/progress.js";
-import { runWithTelemetry } from "#lib/telemetry/index.js";
+	apiCommand,
+	type ApiInputs,
+	type ApiParameters,
+} from "#lib/api-command.js";
 
-const command = apiCommand({
-	command: "update <sso-connector-id>",
-	describe: "Update SSO connector state",
-	usage:
-		"$0 iam sso update <sso-connector-id>\n\nUpdates the state or configuration of an SSO connector.",
+const parameters = {
 	flags: {
 		enabled: {
 			kind: "boolean",
@@ -53,70 +40,15 @@ const command = apiCommand({
 			parse: String,
 		},
 	],
-	handler: async (argv): Promise<void> =>
-		runWithTelemetry(
-			{
-				command: "iam sso update",
-				classification: {
-					safeFlags: ["enabled", "use-fedramp-language", "dry-run"],
-				} satisfies ArgClassification<typeof argv>,
-			},
-			argv as Record<string, unknown>,
-			async () => {
-				if (argv.dryRun) {
-					const __cfDryRunAccountId = await resolveAccountIdSilent();
-					formatDryRun({
-						command: "cf iam sso update",
-						method: "PATCH",
-						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/sso_connectors/${argv["sso-connector-id"] == null ? "<sso-connector-id>" : encodeURIComponent(String(argv["sso-connector-id"]))}`,
-						pathParams: {
-							"sso-connector-id": String(argv["sso-connector-id"] ?? ""),
-						},
-						bodyKind: "json",
-						body:
-							argv.body !== undefined
-								? parseBody(argv.body)
-								: compactBody({
-										enabled: argv["enabled"],
-										use_fedramp_language: argv["use-fedramp-language"],
-									}),
-					});
-					return;
-				}
-				const parsedBody =
-					argv.body !== undefined ? parseBody(argv.body) : undefined;
-				const client = await createCommandClient(argv);
-				const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
-				argv.accountId = accountId;
-
-				if (argv.body !== undefined) {
-					const bodyData = parsedBody;
-					const result = await withProgress(`Updating`, async () =>
-						client.send(operation, {
-							body: bodyData,
-							account_id: accountId,
-							sso_connector_id: argv["sso-connector-id"],
-						})
-					);
-					formatOutput(result, { successLabel: `Updated` });
-					return;
-				}
-
-				// Assemble request body from individual flags
-				const bodyData = compactBody({
-					enabled: argv["enabled"],
-					use_fedramp_language: argv["use-fedramp-language"],
-				});
-				const result = await withProgress(`Updating`, async () =>
-					client.send(operation, {
-						body: bodyData,
-						account_id: accountId,
-						sso_connector_id: argv["sso-connector-id"],
-					})
-				);
-				formatOutput(result, { successLabel: `Updated` });
-			}
-		),
+} as const satisfies ApiParameters;
+export type Args = ApiInputs<typeof parameters>;
+const command = apiCommand({
+	command: "update <sso-connector-id>",
+	describe: "Update SSO connector state",
+	usage:
+		"$0 iam sso update <sso-connector-id>\n\nUpdates the state or configuration of an SSO connector.",
+	...parameters,
+	loader: () => import("./update.handler.js"),
 });
 
 export default command;

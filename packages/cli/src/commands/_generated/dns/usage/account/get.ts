@@ -1,27 +1,14 @@
-import operation from "../../../_operations/dns/usage/account/get.js";
 /**
  * get command
  * @generated from apis/overlays/dns.ts
  */
-import type { ArgClassification } from "#lib/telemetry/index.js";
-import { apiCommand } from "#lib/api-command.js";
 import {
-	createCommandClient,
-	getAccountId,
-	getZoneId,
-	resolveAccountIdSilent,
-} from "#lib/auth.js";
-import { formatDryRun } from "#lib/dry-run.js";
-import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
-import { formatOutput } from "#lib/output.js";
-import { withProgress } from "#lib/progress.js";
-import { runWithTelemetry } from "#lib/telemetry/index.js";
+	apiCommand,
+	type ApiInputs,
+	type ApiParameters,
+} from "#lib/api-command.js";
 
-const command = apiCommand({
-	command: "get",
-	describe: "Get DNS Record Usage for account or zone",
-	usage:
-		"$0 dns usage account get\n\nGet the current DNS record usage and quota for an account or zone. May include internal DNS usage and quota.\n\nRuns against your account. Pass --zone to run against a zone instead. CLOUDFLARE_ZONE_ID is ignored.",
+const parameters = {
 	flags: {
 		"dry-run": {
 			kind: "boolean",
@@ -30,61 +17,15 @@ const command = apiCommand({
 		},
 	},
 	operands: [],
-	handler: async (argv): Promise<void> =>
-		runWithTelemetry(
-			{
-				command: "dns usage account get",
-				classification: { safeFlags: ["dry-run"] } satisfies ArgClassification<
-					typeof argv
-				>,
-			},
-			argv as Record<string, unknown>,
-			async () => {
-				if (argv.dryRun) {
-					const __cfDryRunAccountId =
-						argv.zone === undefined
-							? await resolveAccountIdSilent()
-							: undefined;
-					const accountOrZone = argv.zone === undefined ? "accounts" : "zones";
-					const accountOrZoneId =
-						argv.zone ?? __cfDryRunAccountId ?? "<account-id>";
-					formatDryRun({
-						command: "cf dns usage account get",
-						method: "GET",
-						url: `https://api.cloudflare.com/client/v4/${accountOrZone}/${accountOrZoneId}/dns_records/usage`,
-						pathParams: {
-							"account-or-zone": String(accountOrZone),
-							"account-or-zone-id": String(accountOrZoneId),
-						},
-						bodyKind: "none",
-					});
-					return;
-				}
-				const client = await createCommandClient(argv);
-				const accountOrZone = argv.zone === undefined ? "accounts" : "zones";
-				const accountOrZoneId =
-					accountOrZone === "zones"
-						? await getZoneId({ zone: argv.zone }, client, {
-								quiet: argv.quiet,
-							})
-						: argv.local
-							? LOCAL_ACCOUNT_ID
-							: await getAccountId();
-				if (accountOrZone === "zones") {
-					argv.zoneId = accountOrZoneId;
-				} else {
-					argv.accountId = accountOrZoneId;
-				}
-
-				const result = await withProgress(`Loading`, async () =>
-					client.send(operation, {
-						account_or_zone: accountOrZone,
-						account_or_zone_id: accountOrZoneId,
-					})
-				);
-				formatOutput(result, { successLabel: `Loaded` });
-			}
-		),
+} as const satisfies ApiParameters;
+export type Args = ApiInputs<typeof parameters>;
+const command = apiCommand({
+	command: "get",
+	describe: "Get DNS Record Usage for account or zone",
+	usage:
+		"$0 dns usage account get\n\nGet the current DNS record usage and quota for an account or zone. May include internal DNS usage and quota.\n\nRuns against your account. Pass --zone to run against a zone instead. CLOUDFLARE_ZONE_ID is ignored.",
+	...parameters,
+	loader: () => import("./get.handler.js"),
 });
 
 export default command;

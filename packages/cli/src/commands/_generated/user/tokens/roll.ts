@@ -1,21 +1,14 @@
-import operation from "../../_operations/user/tokens/roll.js";
 /**
  * roll command
  * @generated from apis/overlays/user.ts
  */
-import type { ArgClassification } from "#lib/telemetry/index.js";
-import { apiCommand } from "#lib/api-command.js";
-import { createCommandClient } from "#lib/auth.js";
-import { formatDryRun } from "#lib/dry-run.js";
-import { formatOutput } from "#lib/output.js";
-import { withProgress } from "#lib/progress.js";
-import { confirmDelete } from "#lib/prompt.js";
-import { runWithTelemetry } from "#lib/telemetry/index.js";
+import {
+	apiCommand,
+	type ApiInputs,
+	type ApiParameters,
+} from "#lib/api-command.js";
 
-const command = apiCommand({
-	command: "roll <token-id>",
-	describe: "Roll Token",
-	usage: "$0 user tokens roll <token-id>\n\nRoll the token secret.",
+const parameters = {
 	flags: {
 		"dry-run": {
 			kind: "boolean",
@@ -32,44 +25,14 @@ const command = apiCommand({
 	operands: [
 		{ placeholder: "token-id", brief: "Token identifier tag.", parse: String },
 	],
-	handler: async (argv): Promise<void> =>
-		runWithTelemetry(
-			{
-				command: "user tokens roll",
-				classification: {
-					safeFlags: ["dry-run", "force"],
-					shortFlagAliases: { f: { canonical: "force", type: "boolean" } },
-				} satisfies ArgClassification<typeof argv>,
-			},
-			argv as Record<string, unknown>,
-			async () => {
-				if (argv.dryRun) {
-					formatDryRun({
-						command: "cf user tokens roll",
-						method: "PUT",
-						url: `https://api.cloudflare.com/client/v4/user/tokens/${argv["token-id"] == null ? "<token-id>" : encodeURIComponent(String(argv["token-id"]))}/value`,
-						pathParams: { "token-id": String(argv["token-id"] ?? "") },
-						bodyKind: "none",
-					});
-					return;
-				}
-				const client = await createCommandClient(argv);
-
-				if (
-					!(await confirmDelete({
-						force: Boolean(argv.force),
-						message: `Rolling this token will invalidate the current secret and generate a new one. Any integrations using the current secret will stop working.`,
-					}))
-				) {
-					return;
-				}
-
-				const result = await withProgress(`Updating`, async () =>
-					client.send(operation, { token_id: argv["token-id"] })
-				);
-				formatOutput(result, { successLabel: `Updated` });
-			}
-		),
+} as const satisfies ApiParameters;
+export type Args = ApiInputs<typeof parameters>;
+const command = apiCommand({
+	command: "roll <token-id>",
+	describe: "Roll Token",
+	usage: "$0 user tokens roll <token-id>\n\nRoll the token secret.",
+	...parameters,
+	loader: () => import("./roll.handler.js"),
 });
 
 export default command;

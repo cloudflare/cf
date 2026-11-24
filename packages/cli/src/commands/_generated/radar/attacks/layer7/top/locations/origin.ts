@@ -1,21 +1,14 @@
-import operation from "../../../../../_operations/radar/attacks/layer7/top/locations/origin.js";
 /**
  * origin command
  * @generated from apis/overlays/radar.ts
  */
-import type { ArgClassification } from "#lib/telemetry/index.js";
-import { apiCommand } from "#lib/api-command.js";
-import { createCommandClient } from "#lib/auth.js";
-import { formatDryRun } from "#lib/dry-run.js";
-import { formatOutput } from "#lib/output.js";
-import { withProgress } from "#lib/progress.js";
-import { runWithTelemetry } from "#lib/telemetry/index.js";
+import {
+	apiCommand,
+	type ApiInputs,
+	type ApiParameters,
+} from "#lib/api-command.js";
 
-const command = apiCommand({
-	command: "origin",
-	describe: "Get top origin locations of layer 7 attacks",
-	usage:
-		"$0 radar attacks layer7 top locations origin\n\nRetrieves the top origin locations of layer 7 attacks. Values are percentages of the total layer 7 attacks, with the origin location determined by the client IP address.",
+const parameters = {
 	flags: {
 		limit: {
 			kind: "parsed",
@@ -189,50 +182,15 @@ const command = apiCommand({
 		},
 	},
 	operands: [],
-	handler: async (argv): Promise<void> =>
-		runWithTelemetry(
-			{
-				command: "radar attacks layer7 top locations origin",
-				classification: {
-					safeFlags: ["format", "dry-run"],
-				} satisfies ArgClassification<typeof argv>,
-			},
-			argv as Record<string, unknown>,
-			async () => {
-				const queryParams: Record<string, unknown> = {
-					limit: argv["limit"],
-					name: argv["name"],
-					dateRange: argv["date-range"],
-					dateStart: argv["date-start"],
-					dateEnd: argv["date-end"],
-					asn: argv["asn"],
-					continent: argv["continent"],
-					ipVersion: argv["ip-version"],
-					httpVersion: argv["http-version"],
-					httpMethod: argv["http-method"],
-					mitigationProduct: argv["mitigation-product"],
-					asCategory: argv["as-category"],
-					format: argv["format"],
-				};
-				if (argv.dryRun) {
-					formatDryRun({
-						command: "cf radar attacks layer7 top locations origin",
-						method: "GET",
-						url: `https://api.cloudflare.com/client/v4/radar/attacks/layer7/top/locations/origin`,
-						pathParams: {},
-						query: queryParams,
-						bodyKind: "none",
-					});
-					return;
-				}
-				const client = await createCommandClient(argv);
-
-				const result = await withProgress(`Loading`, async () =>
-					client.send(operation, queryParams)
-				);
-				formatOutput(result, { successLabel: `Loaded` });
-			}
-		),
+} as const satisfies ApiParameters;
+export type Args = ApiInputs<typeof parameters>;
+const command = apiCommand({
+	command: "origin",
+	describe: "Get top origin locations of layer 7 attacks",
+	usage:
+		"$0 radar attacks layer7 top locations origin\n\nRetrieves the top origin locations of layer 7 attacks. Values are percentages of the total layer 7 attacks, with the origin location determined by the client IP address.",
+	...parameters,
+	loader: () => import("./origin.handler.js"),
 });
 
 export default command;

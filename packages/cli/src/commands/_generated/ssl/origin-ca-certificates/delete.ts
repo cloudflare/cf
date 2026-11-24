@@ -1,22 +1,14 @@
-import operation from "../../_operations/ssl/origin-ca-certificates/delete.js";
 /**
  * delete command
  * @generated from apis/overlays/ssl.ts
  */
-import type { ArgClassification } from "#lib/telemetry/index.js";
-import { apiCommand } from "#lib/api-command.js";
-import { createCommandClient } from "#lib/auth.js";
-import { formatDryRun } from "#lib/dry-run.js";
-import { formatOutput } from "#lib/output.js";
-import { withProgress } from "#lib/progress.js";
-import { confirmDelete } from "#lib/prompt.js";
-import { runWithTelemetry } from "#lib/telemetry/index.js";
+import {
+	apiCommand,
+	type ApiInputs,
+	type ApiParameters,
+} from "#lib/api-command.js";
 
-const command = apiCommand({
-	command: "delete <certificate-id>",
-	describe: "Revoke Certificate",
-	usage:
-		"$0 ssl origin-ca-certificates delete <certificate-id>\n\nRevoke an existing Origin CA certificate by its serial number. You can use an Origin CA Key as your User Service Key or an API token when calling this endpoint ([see above](#requests)).",
+const parameters = {
 	flags: {
 		"dry-run": {
 			kind: "boolean",
@@ -37,41 +29,15 @@ const command = apiCommand({
 			parse: String,
 		},
 	],
-	handler: async (argv): Promise<void> =>
-		runWithTelemetry(
-			{
-				command: "ssl origin-ca-certificates delete",
-				classification: {
-					safeFlags: ["dry-run", "force"],
-					shortFlagAliases: { f: { canonical: "force", type: "boolean" } },
-				} satisfies ArgClassification<typeof argv>,
-			},
-			argv as Record<string, unknown>,
-			async () => {
-				if (argv.dryRun) {
-					formatDryRun({
-						command: "cf ssl origin-ca-certificates delete",
-						method: "DELETE",
-						url: `https://api.cloudflare.com/client/v4/certificates/${argv["certificate-id"] == null ? "<certificate-id>" : encodeURIComponent(String(argv["certificate-id"]))}`,
-						pathParams: {
-							"certificate-id": String(argv["certificate-id"] ?? ""),
-						},
-						bodyKind: "none",
-					});
-					return;
-				}
-				const client = await createCommandClient(argv);
-
-				if (!(await confirmDelete({ force: Boolean(argv.force) }))) {
-					return;
-				}
-
-				const result = await withProgress(`Deleting`, async () =>
-					client.send(operation, { certificate_id: argv["certificate-id"] })
-				);
-				formatOutput(result, { successLabel: `Deleted` });
-			}
-		),
+} as const satisfies ApiParameters;
+export type Args = ApiInputs<typeof parameters>;
+const command = apiCommand({
+	command: "delete <certificate-id>",
+	describe: "Revoke Certificate",
+	usage:
+		"$0 ssl origin-ca-certificates delete <certificate-id>\n\nRevoke an existing Origin CA certificate by its serial number. You can use an Origin CA Key as your User Service Key or an API token when calling this endpoint ([see above](#requests)).",
+	...parameters,
+	loader: () => import("./delete.handler.js"),
 });
 
 export default command;

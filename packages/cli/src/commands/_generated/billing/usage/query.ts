@@ -1,28 +1,15 @@
-import operation from "../../_operations/billing/usage/query.js";
 /**
  * query command
  * @generated from apis/overlays/billing.ts
  */
-import type { ArgClassification } from "#lib/telemetry/index.js";
-import { apiCommand } from "#lib/api-command.js";
 import {
-	createCommandClient,
-	getAccountId,
-	resolveAccountIdSilent,
-} from "#lib/auth.js";
-import { compactBody, parseBody, parseObjectArray } from "#lib/body-parser.js";
-import { formatDryRun } from "#lib/dry-run.js";
+	apiCommand,
+	type ApiInputs,
+	type ApiParameters,
+} from "#lib/api-command.js";
 import { resolveFileToken } from "#lib/input-validation.js";
-import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
-import { formatOutput } from "#lib/output.js";
-import { withProgress } from "#lib/progress.js";
-import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-const command = apiCommand({
-	command: "query",
-	describe: "Query Account Usage (Version 2, Alpha, Restricted)",
-	usage:
-		"$0 billing usage query\n\nReturns cost and usage data for a single Cloudflare account, aligned with the [FinOps FOCUS v1.3](https://focus.finops.org/focus-specification/v1-3/) Cost and Usage dataset specification. This is the filterable counterpart to `GET` on the same path. It is a read-only operation and requires only the `#billing:read` permission; `POST` is used so that filter criteria can be supplied in a request body rather than in the query string. Each record represents one billable metric for one account on one day. This includes all metered usage, including usage that falls within free-tier allowances and may result in zero cost. **Note:** Cost and pricing fields are populated only when `Metric` is `cost`; otherwise they are absent from responses. The request body is optional. When it is omitted, or when `TimePeriod` is omitted, the range defaults to the start of the current month through today. The maximum date range is 31 days. Filters of different kinds are combined with AND. Values within one tag filter are combined with OR. Filter values that do not match usage produce an empty result set. Results can be grouped by up to two groups, in any combination of dimension keys and resource-tag keys. Tag groups are returned in the `Tags` field. Usage without a requested tag remains in an untagged group, with that key omitted from `Tags`. Requests that use tag filtering or tag grouping return HTTP 400 when the underlying usage data source does not support tags. Requests that use dimension grouping return HTTP 400 when the underlying usage data source does not support dimensions. `Granularity` is optional. When it is omitted, the response is as described above. With `DAILY`, each record covers one day. With `PERIOD`, each record covers the whole time period: `ChargePeriodStart` is the first day of the period and `ChargePeriodEnd` is the day after its last day. For `usage`, `ConsumedQuantity` is the sum of the daily quantities in the bucket. When `Granularity` is set and `Metric` is `cost`, each record is one billable metric for one bucket. `PricingQuantity` and `BilledCost` are summed across pricing tiers, so unit prices and the list and contracted costs derived from them are absent. Only cost held in US dollars is summed, so a total can be lower than the sum of the `cost` records returned without `Granularity` for the same range when that range also holds cost in another credit type. Requests for `usage` that use `PERIOD` granularity return HTTP 400 when the underlying usage data source does not support it.",
+const parameters = {
 	flags: {
 		"filter-by-billable-metric-ids": {
 			kind: "parsed",
@@ -99,99 +86,15 @@ const command = apiCommand({
 		},
 	},
 	operands: [],
-	handler: async (argv): Promise<void> =>
-		runWithTelemetry(
-			{
-				command: "billing usage query",
-				classification: {
-					safeFlags: ["granularity", "metric", "dry-run"],
-				} satisfies ArgClassification<typeof argv>,
-			},
-			argv as Record<string, unknown>,
-			async () => {
-				if (argv.dryRun) {
-					const __cfDryRunAccountId = await resolveAccountIdSilent();
-					formatDryRun({
-						command: "cf billing usage query",
-						method: "POST",
-						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/billable/usage`,
-						pathParams: {},
-						bodyKind: "json",
-						body:
-							argv.body !== undefined
-								? parseBody(argv.body)
-								: compactBody({
-										FilterBy: {
-											BillableMetricIds: argv["filter-by-billable-metric-ids"],
-											ProductFamilyIds: argv["filter-by-product-family-ids"],
-											Tags: parseObjectArray(
-												argv["filter-by-tags"],
-												"filter-by-tags"
-											),
-										},
-										Granularity: argv["granularity"],
-										GroupBy: parseObjectArray(argv["group-by"], "group-by"),
-										Metric: argv["metric"],
-										TimePeriod: {
-											From: resolveFileToken(
-												argv["time-period-from"] as string | undefined,
-												"time-period-from",
-												"text"
-											),
-											To: resolveFileToken(
-												argv["time-period-to"] as string | undefined,
-												"time-period-to",
-												"text"
-											),
-										},
-									}),
-					});
-					return;
-				}
-				const parsedBody =
-					argv.body !== undefined ? parseBody(argv.body) : undefined;
-				const client = await createCommandClient(argv);
-				const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
-				argv.accountId = accountId;
-
-				if (argv.body !== undefined) {
-					const bodyData = parsedBody;
-					const result = await withProgress(`Loading`, async () =>
-						client.send(operation, { body: bodyData, account_id: accountId })
-					);
-					formatOutput(result, { successLabel: `Loaded` });
-					return;
-				}
-
-				// Assemble request body from individual flags
-				const bodyData = compactBody({
-					FilterBy: {
-						BillableMetricIds: argv["filter-by-billable-metric-ids"],
-						ProductFamilyIds: argv["filter-by-product-family-ids"],
-						Tags: parseObjectArray(argv["filter-by-tags"], "filter-by-tags"),
-					},
-					Granularity: argv["granularity"],
-					GroupBy: parseObjectArray(argv["group-by"], "group-by"),
-					Metric: argv["metric"],
-					TimePeriod: {
-						From: resolveFileToken(
-							argv["time-period-from"] as string | undefined,
-							"time-period-from",
-							"text"
-						),
-						To: resolveFileToken(
-							argv["time-period-to"] as string | undefined,
-							"time-period-to",
-							"text"
-						),
-					},
-				});
-				const result = await withProgress(`Loading`, async () =>
-					client.send(operation, { body: bodyData, account_id: accountId })
-				);
-				formatOutput(result, { successLabel: `Loaded` });
-			}
-		),
+} as const satisfies ApiParameters;
+export type Args = ApiInputs<typeof parameters>;
+const command = apiCommand({
+	command: "query",
+	describe: "Query Account Usage (Version 2, Alpha, Restricted)",
+	usage:
+		"$0 billing usage query\n\nReturns cost and usage data for a single Cloudflare account, aligned with the [FinOps FOCUS v1.3](https://focus.finops.org/focus-specification/v1-3/) Cost and Usage dataset specification. This is the filterable counterpart to `GET` on the same path. It is a read-only operation and requires only the `#billing:read` permission; `POST` is used so that filter criteria can be supplied in a request body rather than in the query string. Each record represents one billable metric for one account on one day. This includes all metered usage, including usage that falls within free-tier allowances and may result in zero cost. **Note:** Cost and pricing fields are populated only when `Metric` is `cost`; otherwise they are absent from responses. The request body is optional. When it is omitted, or when `TimePeriod` is omitted, the range defaults to the start of the current month through today. The maximum date range is 31 days. Filters of different kinds are combined with AND. Values within one tag filter are combined with OR. Filter values that do not match usage produce an empty result set. Results can be grouped by up to two groups, in any combination of dimension keys and resource-tag keys. Tag groups are returned in the `Tags` field. Usage without a requested tag remains in an untagged group, with that key omitted from `Tags`. Requests that use tag filtering or tag grouping return HTTP 400 when the underlying usage data source does not support tags. Requests that use dimension grouping return HTTP 400 when the underlying usage data source does not support dimensions. `Granularity` is optional. When it is omitted, the response is as described above. With `DAILY`, each record covers one day. With `PERIOD`, each record covers the whole time period: `ChargePeriodStart` is the first day of the period and `ChargePeriodEnd` is the day after its last day. For `usage`, `ConsumedQuantity` is the sum of the daily quantities in the bucket. When `Granularity` is set and `Metric` is `cost`, each record is one billable metric for one bucket. `PricingQuantity` and `BilledCost` are summed across pricing tiers, so unit prices and the list and contracted costs derived from them are absent. Only cost held in US dollars is summed, so a total can be lower than the sum of the `cost` records returned without `Granularity` for the same range when that range also holds cost in another credit type. Requests for `usage` that use `PERIOD` granularity return HTTP 400 when the underlying usage data source does not support it.",
+	...parameters,
+	loader: () => import("./query.handler.js"),
 });
 
 export default command;

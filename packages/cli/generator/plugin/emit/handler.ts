@@ -1162,7 +1162,6 @@ export function imports(ctx: Ctx): Imports {
 	const d = ctx.derived;
 	const i = new Imports();
 	const lib = "#lib";
-	i.from(`${lib}/api-command.js`, ["apiCommand"]);
 	const authNames = ["createCommandClient"];
 	if (ctx.needsAccountId) {
 		authNames.push("getAccountId", "resolveAccountIdSilent");
@@ -1193,7 +1192,9 @@ export function imports(ctx: Ctx): Imports {
 	}
 	const bodyFlags = bodyOptions(d);
 	const bodyArgs = [...bodyFlags, ...bodyFieldArgs(ctx).map(([arg]) => arg)];
-	const flagsNeedToken = bodyArgs.some((a) => a.fromFile !== undefined);
+	const flagsNeedToken = bodyArgs.some(
+		(a) => a.fromFile !== undefined && !hasChoices(a)
+	);
 	const nonJsonBody = d.hasBody && !acceptsJson(ctx);
 	const needsToken =
 		flagsNeedToken ||

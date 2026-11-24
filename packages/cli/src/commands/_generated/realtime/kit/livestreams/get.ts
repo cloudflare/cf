@@ -1,26 +1,14 @@
-import operation from "../../../_operations/realtime/kit/livestreams/get.js";
 /**
  * get command
  * @generated from apis/overlays/realtime.ts
  */
-import type { ArgClassification } from "#lib/telemetry/index.js";
-import { apiCommand } from "#lib/api-command.js";
 import {
-	createCommandClient,
-	getAccountId,
-	resolveAccountIdSilent,
-} from "#lib/auth.js";
-import { formatDryRun } from "#lib/dry-run.js";
-import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
-import { formatOutput } from "#lib/output.js";
-import { withProgress } from "#lib/progress.js";
-import { runWithTelemetry } from "#lib/telemetry/index.js";
+	apiCommand,
+	type ApiInputs,
+	type ApiParameters,
+} from "#lib/api-command.js";
 
-const command = apiCommand({
-	command: "get <livestream-id>",
-	describe: "Fetch livestream details using livestream ID",
-	usage:
-		"$0 realtime kit livestreams get <livestream-id>\n\nReturns details of a livestream with sessions for the given livestream ID. Retreive the livestream ID using the `Start livestreaming a meeting` API.",
+const parameters = {
 	flags: {
 		"app-id": {
 			kind: "parsed",
@@ -49,50 +37,15 @@ const command = apiCommand({
 	operands: [
 		{ placeholder: "livestream-id", brief: "Livestream ID", parse: String },
 	],
-	handler: async (argv): Promise<void> =>
-		runWithTelemetry(
-			{
-				command: "realtime kit livestreams get",
-				classification: { safeFlags: ["dry-run"] } satisfies ArgClassification<
-					typeof argv
-				>,
-			},
-			argv as Record<string, unknown>,
-			async () => {
-				const queryParams: Record<string, unknown> = {
-					page_no: argv["page-no"],
-					per_page: argv["per-page"],
-				};
-				if (argv.dryRun) {
-					const __cfDryRunAccountId = await resolveAccountIdSilent();
-					formatDryRun({
-						command: "cf realtime kit livestreams get",
-						method: "GET",
-						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/realtime/kit/${argv["app-id"] == null ? "<app-id>" : encodeURIComponent(String(argv["app-id"]))}/livestreams/${argv["livestream-id"] == null ? "<livestream-id>" : encodeURIComponent(String(argv["livestream-id"]))}`,
-						pathParams: {
-							"app-id": String(argv["app-id"] ?? ""),
-							"livestream-id": String(argv["livestream-id"] ?? ""),
-						},
-						query: queryParams,
-						bodyKind: "none",
-					});
-					return;
-				}
-				const client = await createCommandClient(argv);
-				const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
-				argv.accountId = accountId;
-
-				const result = await withProgress(`Loading`, async () =>
-					client.send(operation, {
-						account_id: accountId,
-						app_id: argv["app-id"],
-						livestream_id: argv["livestream-id"],
-						...queryParams,
-					})
-				);
-				formatOutput(result, { successLabel: `Loaded` });
-			}
-		),
+} as const satisfies ApiParameters;
+export type Args = ApiInputs<typeof parameters>;
+const command = apiCommand({
+	command: "get <livestream-id>",
+	describe: "Fetch livestream details using livestream ID",
+	usage:
+		"$0 realtime kit livestreams get <livestream-id>\n\nReturns details of a livestream with sessions for the given livestream ID. Retreive the livestream ID using the `Start livestreaming a meeting` API.",
+	...parameters,
+	loader: () => import("./get.handler.js"),
 });
 
 export default command;

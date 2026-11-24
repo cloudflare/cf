@@ -1,21 +1,14 @@
-import operation from "../../_operations/client-side-security/scripts/list.js";
 /**
  * list command
  * @generated from apis/overlays/client-side-security.ts
  */
-import type { ArgClassification } from "#lib/telemetry/index.js";
-import { apiCommand } from "#lib/api-command.js";
-import { createCommandClient, getZoneId } from "#lib/auth.js";
-import { formatDryRun } from "#lib/dry-run.js";
-import { formatOutput } from "#lib/output.js";
-import { withProgress } from "#lib/progress.js";
-import { runWithTelemetry } from "#lib/telemetry/index.js";
+import {
+	apiCommand,
+	type ApiInputs,
+	type ApiParameters,
+} from "#lib/api-command.js";
 
-const command = apiCommand({
-	command: "list",
-	describe: "List detected scripts",
-	usage:
-		"$0 client-side-security scripts list\n\nLists scripts detected on webpages in the zone, with filtering and pagination.",
+const parameters = {
 	flags: {
 		"exclude-urls": {
 			kind: "parsed",
@@ -108,64 +101,15 @@ const command = apiCommand({
 		},
 	},
 	operands: [],
-	handler: async (argv): Promise<void> =>
-		runWithTelemetry(
-			{
-				command: "client-side-security scripts list",
-				classification: {
-					safeFlags: [
-						"order-by",
-						"direction",
-						"prioritize-malicious",
-						"exclude-cdn-cgi",
-						"exclude-duplicates",
-						"export",
-						"dry-run",
-					],
-				} satisfies ArgClassification<typeof argv>,
-			},
-			argv as Record<string, unknown>,
-			async () => {
-				const queryParams: Record<string, unknown> = {
-					exclude_urls: argv["exclude-urls"],
-					urls: argv["urls"],
-					hosts: argv["hosts"],
-					page: argv["page"],
-					per_page: argv["per-page"],
-					order_by: argv["order-by"],
-					direction: argv["direction"],
-					prioritize_malicious: argv["prioritize-malicious"],
-					exclude_cdn_cgi: argv["exclude-cdn-cgi"],
-					exclude_duplicates: argv["exclude-duplicates"],
-					status: argv["status"],
-					page_url: argv["page-url"],
-					export: argv["export"],
-				};
-				if (argv.dryRun) {
-					formatDryRun({
-						command: "cf client-side-security scripts list",
-						method: "GET",
-						url: `https://api.cloudflare.com/client/v4/zones/${argv.zone ?? argv.zoneId ?? "<zone>"}/page_shield/scripts`,
-						pathParams: {
-							"zone-id": String(argv.zone ?? argv["zone-id"] ?? ""),
-						},
-						query: queryParams,
-						bodyKind: "none",
-					});
-					return;
-				}
-				const client = await createCommandClient(argv);
-				const zoneId = await getZoneId({ zone: argv.zone }, client, {
-					quiet: argv.quiet,
-				});
-				argv.zoneId = zoneId;
-
-				const result = await withProgress(`Loading`, async () =>
-					client.send(operation, { zone_id: zoneId, ...queryParams })
-				);
-				formatOutput(result, { successLabel: `Loaded` });
-			}
-		),
+} as const satisfies ApiParameters;
+export type Args = ApiInputs<typeof parameters>;
+const command = apiCommand({
+	command: "list",
+	describe: "List detected scripts",
+	usage:
+		"$0 client-side-security scripts list\n\nLists scripts detected on webpages in the zone, with filtering and pagination.",
+	...parameters,
+	loader: () => import("./list.handler.js"),
 });
 
 export default command;

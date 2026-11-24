@@ -1,24 +1,14 @@
-import operation from "../../_operations/addressing/regional-hostnames/edit.js";
 /**
  * edit command
  * @generated from apis/overlays/addressing.ts
  */
-import type { ArgClassification } from "#lib/telemetry/index.js";
-import { apiCommand } from "#lib/api-command.js";
-import { createCommandClient, getZoneId } from "#lib/auth.js";
-import { compactBody, parseBody } from "#lib/body-parser.js";
-import { formatDryRun } from "#lib/dry-run.js";
-import { resolveFileToken } from "#lib/input-validation.js";
-import { formatOutput } from "#lib/output.js";
-import { withProgress } from "#lib/progress.js";
-import { promptForRequiredField } from "#lib/prompt.js";
-import { runWithTelemetry } from "#lib/telemetry/index.js";
+import {
+	apiCommand,
+	type ApiInputs,
+	type ApiParameters,
+} from "#lib/api-command.js";
 
-const command = apiCommand({
-	command: "edit <hostname>",
-	describe: "Update Regional Hostname",
-	usage:
-		"$0 addressing regional-hostnames edit <hostname>\n\nUpdate the configuration for a specific Regional Hostname. Only the region_key of a hostname is mutable.",
+const parameters = {
 	flags: {
 		"region-key": {
 			kind: "parsed",
@@ -46,90 +36,15 @@ const command = apiCommand({
 			parse: String,
 		},
 	],
-	handler: async (argv): Promise<void> =>
-		runWithTelemetry(
-			{
-				command: "addressing regional-hostnames edit",
-				classification: { safeFlags: ["dry-run"] } satisfies ArgClassification<
-					typeof argv
-				>,
-			},
-			argv as Record<string, unknown>,
-			async () => {
-				const resolveRequiredFields = async (): Promise<void> => {
-					if (argv["region-key"] === undefined) {
-						argv["region-key"] = await promptForRequiredField(
-							"region-key",
-							"Identifying key for the region"
-						);
-					}
-				};
-				if (argv.dryRun) {
-					if (argv.body === undefined) {
-						await resolveRequiredFields();
-					}
-					formatDryRun({
-						command: "cf addressing regional-hostnames edit",
-						method: "PATCH",
-						url: `https://api.cloudflare.com/client/v4/zones/${argv.zone ?? argv.zoneId ?? "<zone>"}/addressing/regional_hostnames/${argv["hostname"] == null ? "<hostname>" : encodeURIComponent(String(argv["hostname"]))}`,
-						pathParams: {
-							"zone-id": String(argv.zone ?? argv["zone-id"] ?? ""),
-							hostname: String(argv["hostname"] ?? ""),
-						},
-						bodyKind: "json",
-						body:
-							argv.body !== undefined
-								? parseBody(argv.body)
-								: compactBody({
-										region_key: resolveFileToken(
-											argv["region-key"] as string | undefined,
-											"region-key",
-											"text"
-										),
-									}),
-					});
-					return;
-				}
-				const parsedBody =
-					argv.body !== undefined ? parseBody(argv.body) : undefined;
-				const client = await createCommandClient(argv);
-				const zoneId = await getZoneId({ zone: argv.zone }, client, {
-					quiet: argv.quiet,
-				});
-				argv.zoneId = zoneId;
-
-				if (argv.body !== undefined) {
-					const bodyData = parsedBody;
-					const result = await withProgress(`Updating`, async () =>
-						client.send(operation, {
-							body: bodyData,
-							zone_id: zoneId,
-							hostname: argv["hostname"],
-						})
-					);
-					formatOutput(result, { successLabel: `Updated` });
-					return;
-				}
-				await resolveRequiredFields();
-
-				// Assemble request body from individual flags
-				const bodyData = compactBody({
-					region_key: resolveFileToken(
-						argv["region-key"] as string | undefined,
-						"region-key",
-						"text"
-					),
-				});
-				const result = await withProgress(`Updating`, async () =>
-					client.send(operation, {
-						body: bodyData,
-						zone_id: zoneId,
-						hostname: argv["hostname"],
-					})
-				);
-				formatOutput(result, { successLabel: `Updated` });
-			}
-		),
+} as const satisfies ApiParameters;
+export type Args = ApiInputs<typeof parameters>;
+const command = apiCommand({
+	command: "edit <hostname>",
+	describe: "Update Regional Hostname",
+	usage:
+		"$0 addressing regional-hostnames edit <hostname>\n\nUpdate the configuration for a specific Regional Hostname. Only the region_key of a hostname is mutable.",
+	...parameters,
+	loader: () => import("./edit.handler.js"),
 });
 
 export default command;

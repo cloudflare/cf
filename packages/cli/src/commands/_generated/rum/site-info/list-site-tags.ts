@@ -1,26 +1,14 @@
-import operation from "../../_operations/rum/site-info/list-site-tags.js";
 /**
  * list-site-tags command
  * @generated from apis/overlays/rum.ts
  */
-import type { ArgClassification } from "#lib/telemetry/index.js";
-import { apiCommand } from "#lib/api-command.js";
 import {
-	createCommandClient,
-	getAccountId,
-	resolveAccountIdSilent,
-} from "#lib/auth.js";
-import { formatDryRun } from "#lib/dry-run.js";
-import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
-import { formatOutput } from "#lib/output.js";
-import { withProgress } from "#lib/progress.js";
-import { runWithTelemetry } from "#lib/telemetry/index.js";
+	apiCommand,
+	type ApiInputs,
+	type ApiParameters,
+} from "#lib/api-command.js";
 
-const command = apiCommand({
-	command: "list-site-tags",
-	describe: "List Web Analytics site tags",
-	usage:
-		"$0 rum site-info list-site-tags\n\nReturns all site tags for an account as an array of site tag strings. This endpoint returns all results without pagination.",
+const parameters = {
 	flags: {
 		all: {
 			kind: "boolean",
@@ -34,41 +22,15 @@ const command = apiCommand({
 		},
 	},
 	operands: [],
-	handler: async (argv): Promise<void> =>
-		runWithTelemetry(
-			{
-				command: "rum site-info list-site-tags",
-				classification: {
-					safeFlags: ["all", "dry-run"],
-				} satisfies ArgClassification<typeof argv>,
-			},
-			argv as Record<string, unknown>,
-			async () => {
-				const queryParams: Record<string, unknown> = {
-					all: argv["all"],
-				};
-				if (argv.dryRun) {
-					const __cfDryRunAccountId = await resolveAccountIdSilent();
-					formatDryRun({
-						command: "cf rum site-info list-site-tags",
-						method: "GET",
-						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/rum/site_info/site_tag/list`,
-						pathParams: {},
-						query: queryParams,
-						bodyKind: "none",
-					});
-					return;
-				}
-				const client = await createCommandClient(argv);
-				const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
-				argv.accountId = accountId;
-
-				const result = await withProgress(`Loading`, async () =>
-					client.send(operation, { account_id: accountId, ...queryParams })
-				);
-				formatOutput(result, { successLabel: `Loaded` });
-			}
-		),
+} as const satisfies ApiParameters;
+export type Args = ApiInputs<typeof parameters>;
+const command = apiCommand({
+	command: "list-site-tags",
+	describe: "List Web Analytics site tags",
+	usage:
+		"$0 rum site-info list-site-tags\n\nReturns all site tags for an account as an array of site tag strings. This endpoint returns all results without pagination.",
+	...parameters,
+	loader: () => import("./list-site-tags.handler.js"),
 });
 
 export default command;

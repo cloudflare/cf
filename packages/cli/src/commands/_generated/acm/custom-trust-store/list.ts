@@ -1,21 +1,14 @@
-import operation from "../../_operations/acm/custom-trust-store/list.js";
 /**
  * list command
  * @generated from apis/overlays/acm.ts
  */
-import type { ArgClassification } from "#lib/telemetry/index.js";
-import { apiCommand } from "#lib/api-command.js";
-import { createCommandClient, getZoneId } from "#lib/auth.js";
-import { formatDryRun } from "#lib/dry-run.js";
-import { formatOutput } from "#lib/output.js";
-import { withProgress } from "#lib/progress.js";
-import { runWithTelemetry } from "#lib/telemetry/index.js";
+import {
+	apiCommand,
+	type ApiInputs,
+	type ApiParameters,
+} from "#lib/api-command.js";
 
-const command = apiCommand({
-	command: "list",
-	describe: "List Custom Origin Trust Store Details",
-	usage:
-		"$0 acm custom-trust-store list\n\nGet Custom Origin Trust Store for a Zone.",
+const parameters = {
 	flags: {
 		page: {
 			kind: "parsed",
@@ -48,47 +41,15 @@ const command = apiCommand({
 		},
 	},
 	operands: [],
-	handler: async (argv): Promise<void> =>
-		runWithTelemetry(
-			{
-				command: "acm custom-trust-store list",
-				classification: { safeFlags: ["dry-run"] } satisfies ArgClassification<
-					typeof argv
-				>,
-			},
-			argv as Record<string, unknown>,
-			async () => {
-				const queryParams: Record<string, unknown> = {
-					page: argv["page"],
-					per_page: argv["per-page"],
-					limit: argv["limit"],
-					offset: argv["offset"],
-				};
-				if (argv.dryRun) {
-					formatDryRun({
-						command: "cf acm custom-trust-store list",
-						method: "GET",
-						url: `https://api.cloudflare.com/client/v4/zones/${argv.zone ?? argv.zoneId ?? "<zone>"}/acm/custom_trust_store`,
-						pathParams: {
-							"zone-id": String(argv.zone ?? argv["zone-id"] ?? ""),
-						},
-						query: queryParams,
-						bodyKind: "none",
-					});
-					return;
-				}
-				const client = await createCommandClient(argv);
-				const zoneId = await getZoneId({ zone: argv.zone }, client, {
-					quiet: argv.quiet,
-				});
-				argv.zoneId = zoneId;
-
-				const result = await withProgress(`Loading`, async () =>
-					client.send(operation, { zone_id: zoneId, ...queryParams })
-				);
-				formatOutput(result, { successLabel: `Loaded` });
-			}
-		),
+} as const satisfies ApiParameters;
+export type Args = ApiInputs<typeof parameters>;
+const command = apiCommand({
+	command: "list",
+	describe: "List Custom Origin Trust Store Details",
+	usage:
+		"$0 acm custom-trust-store list\n\nGet Custom Origin Trust Store for a Zone.",
+	...parameters,
+	loader: () => import("./list.handler.js"),
 });
 
 export default command;

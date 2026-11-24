@@ -2,26 +2,14 @@
  * update command
  * @generated from apis/overlays/precursor.ts
  */
-import type { ArgClassification } from "#lib/telemetry/index.js";
-import { apiCommand } from "#lib/api-command.js";
-import { createCommandClient, getZoneId, requestApi } from "#lib/auth.js";
 import {
-	compactBody,
-	parseBody,
-	parseObjectArray,
-	setNestedValue,
-} from "#lib/body-parser.js";
-import { formatDryRun } from "#lib/dry-run.js";
+	apiCommand,
+	type ApiInputs,
+	type ApiParameters,
+} from "#lib/api-command.js";
 import { resolveFileToken } from "#lib/input-validation.js";
-import { formatOutput } from "#lib/output.js";
-import { withProgress } from "#lib/progress.js";
-import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-const command = apiCommand({
-	command: "update",
-	describe: "Update Zone Precursor Config",
-	usage:
-		"$0 precursor update\n\nUpdates the Precursor configuration for a zone. `mode` controls whether Precursor detection is off, monitoring, or armed. `show_interstitial` controls the zone-level response when armed. `rules` is the ordered list of overrides for matching requests. This is a partial update: only the fields present in the request body are changed. - Sending an empty array (`[]`) clears all rules. - At least one of `mode`, `show_interstitial`, or `rules` must be present; an empty body (`{}`) is rejected with `400`. - Rule `id` is read-only (assigned by Cloudflare) and ignored on input. - Rule `show_interstitial` is required and controls the response for requests that match that rule. - Rule `expression` is limited to 4000 characters. The limit applies to each rule individually, not to the combined size of all rules.",
+const parameters = {
 	flags: {
 		"cloudflare-version": {
 			kind: "parsed",
@@ -64,94 +52,15 @@ const command = apiCommand({
 		},
 	},
 	operands: [],
-	handler: async (argv): Promise<void> =>
-		runWithTelemetry(
-			{
-				command: "precursor update",
-				classification: {
-					safeFlags: ["detection-mode", "show-interstitial", "dry-run"],
-				} satisfies ArgClassification<typeof argv>,
-			},
-			argv as Record<string, unknown>,
-			async () => {
-				const headers: Record<string, string> = {};
-				if (argv["cloudflare-version"] !== undefined)
-					headers["Cloudflare-Version"] = String(argv["cloudflare-version"]);
-				if (argv.dryRun) {
-					formatDryRun({
-						command: "cf precursor update",
-						method: "PUT",
-						url: `https://api.cloudflare.com/client/v4/zones/${argv.zone ?? argv.zoneId ?? "<zone>"}/precursor`,
-						pathParams: {
-							"zone-id": String(argv.zone ?? argv["zone-id"] ?? ""),
-						},
-						bodyKind: "json",
-						body:
-							argv.body !== undefined
-								? parseBody(argv.body)
-								: compactBody({
-										mode: argv["detection-mode"],
-										rules: parseObjectArray(argv["rules"], "rules"),
-										show_interstitial: argv["show-interstitial"],
-									}),
-					});
-					return;
-				}
-				const parsedBody =
-					argv.body !== undefined ? parseBody(argv.body) : undefined;
-				const client = await createCommandClient(argv);
-				const zoneId = await getZoneId({ zone: argv.zone }, client, {
-					quiet: argv.quiet,
-				});
-				argv.zoneId = zoneId;
-
-				if (argv.body !== undefined) {
-					const bodyData = parsedBody;
-					const result = await withProgress(`Updating`, async () =>
-						requestApi<unknown>(
-							client,
-							"PUT",
-							`/zones/${argv.zoneId}/precursor`,
-							{
-								body: bodyData,
-								headers: Object.keys(headers).length > 0 ? headers : undefined,
-							}
-						)
-					);
-					formatOutput(result, { successLabel: `Updated` });
-					return;
-				}
-
-				// Assemble request body from individual flags
-				const bodyData: Record<string, unknown> = {};
-				if (argv["detection-mode"] !== undefined)
-					setNestedValue(bodyData, ["mode"], argv["detection-mode"]);
-				if (argv["rules"] !== undefined)
-					setNestedValue(
-						bodyData,
-						["rules"],
-						parseObjectArray(argv["rules"], "rules")
-					);
-				if (argv["show-interstitial"] !== undefined)
-					setNestedValue(
-						bodyData,
-						["show_interstitial"],
-						argv["show-interstitial"]
-					);
-				const result = await withProgress(`Updating`, async () =>
-					requestApi<unknown>(
-						client,
-						"PUT",
-						`/zones/${argv.zoneId}/precursor`,
-						{
-							body: bodyData,
-							headers: Object.keys(headers).length > 0 ? headers : undefined,
-						}
-					)
-				);
-				formatOutput(result, { successLabel: `Updated` });
-			}
-		),
+} as const satisfies ApiParameters;
+export type Args = ApiInputs<typeof parameters>;
+const command = apiCommand({
+	command: "update",
+	describe: "Update Zone Precursor Config",
+	usage:
+		"$0 precursor update\n\nUpdates the Precursor configuration for a zone. `mode` controls whether Precursor detection is off, monitoring, or armed. `show_interstitial` controls the zone-level response when armed. `rules` is the ordered list of overrides for matching requests. This is a partial update: only the fields present in the request body are changed. - Sending an empty array (`[]`) clears all rules. - At least one of `mode`, `show_interstitial`, or `rules` must be present; an empty body (`{}`) is rejected with `400`. - Rule `id` is read-only (assigned by Cloudflare) and ignored on input. - Rule `show_interstitial` is required and controls the response for requests that match that rule. - Rule `expression` is limited to 4000 characters. The limit applies to each rule individually, not to the combined size of all rules.",
+	...parameters,
+	loader: () => import("./update.handler.js"),
 });
 
 export default command;

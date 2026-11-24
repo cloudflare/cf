@@ -1,21 +1,14 @@
-import operation from "../../_operations/logs/rayid/get.js";
 /**
  * get command
  * @generated from apis/overlays/logs.ts
  */
-import type { ArgClassification } from "#lib/telemetry/index.js";
-import { apiCommand } from "#lib/api-command.js";
-import { createCommandClient, getZoneId } from "#lib/auth.js";
-import { formatDryRun } from "#lib/dry-run.js";
-import { formatOutput } from "#lib/output.js";
-import { withProgress } from "#lib/progress.js";
-import { runWithTelemetry } from "#lib/telemetry/index.js";
+import {
+	apiCommand,
+	type ApiInputs,
+	type ApiParameters,
+} from "#lib/api-command.js";
 
-const command = apiCommand({
-	command: "get <ray-id>",
-	describe: "Get logs RayIDs",
-	usage:
-		"$0 logs rayid get <ray-id>\n\nThe `/rayids` api route allows lookups by specific rayid. The rayids route will return zero, one, or more records (ray ids are not unique).",
+const parameters = {
 	flags: {
 		fields: {
 			kind: "parsed",
@@ -40,50 +33,15 @@ const command = apiCommand({
 	operands: [
 		{ placeholder: "ray-id", brief: "Ray identifier.", parse: String },
 	],
-	handler: async (argv): Promise<void> =>
-		runWithTelemetry(
-			{
-				command: "logs rayid get",
-				classification: {
-					safeFlags: ["timestamps", "dry-run"],
-				} satisfies ArgClassification<typeof argv>,
-			},
-			argv as Record<string, unknown>,
-			async () => {
-				const queryParams: Record<string, unknown> = {
-					fields: argv["fields"],
-					timestamps: argv["timestamps"],
-				};
-				if (argv.dryRun) {
-					formatDryRun({
-						command: "cf logs rayid get",
-						method: "GET",
-						url: `https://api.cloudflare.com/client/v4/zones/${argv.zone ?? argv.zoneId ?? "<zone>"}/logs/rayids/${argv["ray-id"] == null ? "<ray-id>" : encodeURIComponent(String(argv["ray-id"]))}`,
-						pathParams: {
-							"zone-id": String(argv.zone ?? argv["zone-id"] ?? ""),
-							"ray-id": String(argv["ray-id"] ?? ""),
-						},
-						query: queryParams,
-						bodyKind: "none",
-					});
-					return;
-				}
-				const client = await createCommandClient(argv);
-				const zoneId = await getZoneId({ zone: argv.zone }, client, {
-					quiet: argv.quiet,
-				});
-				argv.zoneId = zoneId;
-
-				const result = await withProgress(`Loading`, async () =>
-					client.send(operation, {
-						zone_id: zoneId,
-						ray_id: argv["ray-id"],
-						...queryParams,
-					})
-				);
-				formatOutput(result, { successLabel: `Loaded` });
-			}
-		),
+} as const satisfies ApiParameters;
+export type Args = ApiInputs<typeof parameters>;
+const command = apiCommand({
+	command: "get <ray-id>",
+	describe: "Get logs RayIDs",
+	usage:
+		"$0 logs rayid get <ray-id>\n\nThe `/rayids` api route allows lookups by specific rayid. The rayids route will return zero, one, or more records (ray ids are not unique).",
+	...parameters,
+	loader: () => import("./get.handler.js"),
 });
 
 export default command;

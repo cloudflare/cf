@@ -1,23 +1,15 @@
-import operation from "../../_operations/ssl/custom-certificates/edit.js";
 /**
  * edit command
  * @generated from apis/overlays/ssl.ts
  */
-import type { ArgClassification } from "#lib/telemetry/index.js";
-import { apiCommand } from "#lib/api-command.js";
-import { createCommandClient, getZoneId } from "#lib/auth.js";
-import { compactBody, parseBody } from "#lib/body-parser.js";
-import { formatDryRun } from "#lib/dry-run.js";
+import {
+	apiCommand,
+	type ApiInputs,
+	type ApiParameters,
+} from "#lib/api-command.js";
 import { resolveFileToken } from "#lib/input-validation.js";
-import { formatOutput } from "#lib/output.js";
-import { withProgress } from "#lib/progress.js";
-import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-const command = apiCommand({
-	command: "edit <custom-certificate-id>",
-	describe: "Edit SSL Configuration",
-	usage:
-		"$0 ssl custom-certificates edit <custom-certificate-id>\n\nUpload a new private key and/or PEM/CRT for the SSL certificate. Note: PATCHing a configuration for sni_custom certificates will result in a new resource id being returned, and the previous one being deleted.",
+const parameters = {
 	flags: {
 		"bundle-method": {
 			kind: "parsed",
@@ -93,126 +85,15 @@ const command = apiCommand({
 			parse: String,
 		},
 	],
-	handler: async (argv): Promise<void> =>
-		runWithTelemetry(
-			{
-				command: "ssl custom-certificates edit",
-				classification: {
-					safeFlags: [
-						"bundle-method",
-						"deploy",
-						"geo-restrictions-label",
-						"dry-run",
-					],
-				} satisfies ArgClassification<typeof argv>,
-			},
-			argv as Record<string, unknown>,
-			async () => {
-				if (argv.dryRun) {
-					formatDryRun({
-						command: "cf ssl custom-certificates edit",
-						method: "PATCH",
-						url: `https://api.cloudflare.com/client/v4/zones/${argv.zone ?? argv.zoneId ?? "<zone>"}/custom_certificates/${argv["custom-certificate-id"] == null ? "<custom-certificate-id>" : encodeURIComponent(String(argv["custom-certificate-id"]))}`,
-						pathParams: {
-							"zone-id": String(argv.zone ?? argv["zone-id"] ?? ""),
-							"custom-certificate-id": String(
-								argv["custom-certificate-id"] ?? ""
-							),
-						},
-						bodyKind: "json",
-						body:
-							argv.body !== undefined
-								? parseBody(argv.body)
-								: compactBody({
-										bundle_method: argv["bundle-method"],
-										certificate: resolveFileToken(
-											argv["certificate"] as string | undefined,
-											"certificate",
-											"text"
-										),
-										custom_csr_id: resolveFileToken(
-											argv["custom-csr-id"] as string | undefined,
-											"custom-csr-id",
-											"text"
-										),
-										deploy: argv["deploy"],
-										geo_restrictions: {
-											label: argv["geo-restrictions-label"],
-										},
-										policy: resolveFileToken(
-											argv["policy"] as string | undefined,
-											"policy",
-											"text"
-										),
-										private_key: resolveFileToken(
-											argv["private-key"] as string | undefined,
-											"private-key",
-											"text"
-										),
-									}),
-						sensitiveBodyPaths: [["private_key"]],
-					});
-					return;
-				}
-				const parsedBody =
-					argv.body !== undefined ? parseBody(argv.body) : undefined;
-				const client = await createCommandClient(argv);
-				const zoneId = await getZoneId({ zone: argv.zone }, client, {
-					quiet: argv.quiet,
-				});
-				argv.zoneId = zoneId;
-
-				if (argv.body !== undefined) {
-					const bodyData = parsedBody;
-					const result = await withProgress(`Updating`, async () =>
-						client.send(operation, {
-							body: bodyData,
-							zone_id: zoneId,
-							custom_certificate_id: argv["custom-certificate-id"],
-						})
-					);
-					formatOutput(result, { successLabel: `Updated` });
-					return;
-				}
-
-				// Assemble request body from individual flags
-				const bodyData = compactBody({
-					bundle_method: argv["bundle-method"],
-					certificate: resolveFileToken(
-						argv["certificate"] as string | undefined,
-						"certificate",
-						"text"
-					),
-					custom_csr_id: resolveFileToken(
-						argv["custom-csr-id"] as string | undefined,
-						"custom-csr-id",
-						"text"
-					),
-					deploy: argv["deploy"],
-					geo_restrictions: {
-						label: argv["geo-restrictions-label"],
-					},
-					policy: resolveFileToken(
-						argv["policy"] as string | undefined,
-						"policy",
-						"text"
-					),
-					private_key: resolveFileToken(
-						argv["private-key"] as string | undefined,
-						"private-key",
-						"text"
-					),
-				});
-				const result = await withProgress(`Updating`, async () =>
-					client.send(operation, {
-						body: bodyData,
-						zone_id: zoneId,
-						custom_certificate_id: argv["custom-certificate-id"],
-					})
-				);
-				formatOutput(result, { successLabel: `Updated` });
-			}
-		),
+} as const satisfies ApiParameters;
+export type Args = ApiInputs<typeof parameters>;
+const command = apiCommand({
+	command: "edit <custom-certificate-id>",
+	describe: "Edit SSL Configuration",
+	usage:
+		"$0 ssl custom-certificates edit <custom-certificate-id>\n\nUpload a new private key and/or PEM/CRT for the SSL certificate. Note: PATCHing a configuration for sni_custom certificates will result in a new resource id being returned, and the previous one being deleted.",
+	...parameters,
+	loader: () => import("./edit.handler.js"),
 });
 
 export default command;

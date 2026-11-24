@@ -1,26 +1,14 @@
-import operation from "../../_operations/botnet-feed/asn/full-report.js";
 /**
  * full-report command
  * @generated from apis/overlays/botnet-feed.ts
  */
-import type { ArgClassification } from "#lib/telemetry/index.js";
-import { apiCommand } from "#lib/api-command.js";
 import {
-	createCommandClient,
-	getAccountId,
-	resolveAccountIdSilent,
-} from "#lib/auth.js";
-import { formatDryRun } from "#lib/dry-run.js";
-import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
-import { formatOutput } from "#lib/output.js";
-import { withProgress } from "#lib/progress.js";
-import { runWithTelemetry } from "#lib/telemetry/index.js";
+	apiCommand,
+	type ApiInputs,
+	type ApiParameters,
+} from "#lib/api-command.js";
 
-const command = apiCommand({
-	command: "full-report <asn-id>",
-	describe: "Get full report",
-	usage:
-		"$0 botnet-feed asn full-report <asn-id>\n\nGets all the data the botnet threat feed tracking database has for a given ASN registered to user account.",
+const parameters = {
 	flags: {
 		"dry-run": {
 			kind: "boolean",
@@ -29,40 +17,15 @@ const command = apiCommand({
 		},
 	},
 	operands: [{ placeholder: "asn-id", brief: "Asn ID", parse: String }],
-	handler: async (argv): Promise<void> =>
-		runWithTelemetry(
-			{
-				command: "botnet-feed asn full-report",
-				classification: { safeFlags: ["dry-run"] } satisfies ArgClassification<
-					typeof argv
-				>,
-			},
-			argv as Record<string, unknown>,
-			async () => {
-				if (argv.dryRun) {
-					const __cfDryRunAccountId = await resolveAccountIdSilent();
-					formatDryRun({
-						command: "cf botnet-feed asn full-report",
-						method: "GET",
-						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/botnet_feed/asn/${argv["asn-id"] == null ? "<asn-id>" : encodeURIComponent(String(argv["asn-id"]))}/full_report`,
-						pathParams: { "asn-id": String(argv["asn-id"] ?? "") },
-						bodyKind: "none",
-					});
-					return;
-				}
-				const client = await createCommandClient(argv);
-				const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
-				argv.accountId = accountId;
-
-				const result = await withProgress(`Loading`, async () =>
-					client.send(operation, {
-						account_id: accountId,
-						asn_id: argv["asn-id"],
-					})
-				);
-				formatOutput(result, { successLabel: `Loaded` });
-			}
-		),
+} as const satisfies ApiParameters;
+export type Args = ApiInputs<typeof parameters>;
+const command = apiCommand({
+	command: "full-report <asn-id>",
+	describe: "Get full report",
+	usage:
+		"$0 botnet-feed asn full-report <asn-id>\n\nGets all the data the botnet threat feed tracking database has for a given ASN registered to user account.",
+	...parameters,
+	loader: () => import("./full-report.handler.js"),
 });
 
 export default command;

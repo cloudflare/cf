@@ -1,26 +1,14 @@
-import operation from "../_operations/abuse-reports/list-submitted.js";
 /**
  * list-submitted command
  * @generated from apis/overlays/abuse-reports.ts
  */
-import type { ArgClassification } from "#lib/telemetry/index.js";
-import { apiCommand } from "#lib/api-command.js";
 import {
-	createCommandClient,
-	getAccountId,
-	resolveAccountIdSilent,
-} from "#lib/auth.js";
-import { formatDryRun } from "#lib/dry-run.js";
-import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
-import { formatOutput } from "#lib/output.js";
-import { withProgress } from "#lib/progress.js";
-import { runWithTelemetry } from "#lib/telemetry/index.js";
+	apiCommand,
+	type ApiInputs,
+	type ApiParameters,
+} from "#lib/api-command.js";
 
-const command = apiCommand({
-	command: "list-submitted",
-	describe: "List submitted abuse reports",
-	usage:
-		"$0 abuse-reports list-submitted\n\nList abuse reports submitted by the account.",
+const parameters = {
 	flags: {
 		page: {
 			kind: "parsed",
@@ -104,49 +92,15 @@ const command = apiCommand({
 		},
 	},
 	operands: [],
-	handler: async (argv): Promise<void> =>
-		runWithTelemetry(
-			{
-				command: "abuse-reports list-submitted",
-				classification: { safeFlags: ["dry-run"] } satisfies ArgClassification<
-					typeof argv
-				>,
-			},
-			argv as Record<string, unknown>,
-			async () => {
-				const queryParams: Record<string, unknown> = {
-					page: argv["page"],
-					per_page: argv["per-page"],
-					sort: argv["sort"],
-					id: argv["id"],
-					domain: argv["domain"],
-					created_before: argv["created-before"],
-					created_after: argv["created-after"],
-					status: argv["status"],
-					type: argv["type"],
-				};
-				if (argv.dryRun) {
-					const __cfDryRunAccountId = await resolveAccountIdSilent();
-					formatDryRun({
-						command: "cf abuse-reports list-submitted",
-						method: "GET",
-						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/abuse-reports/submitted`,
-						pathParams: {},
-						query: queryParams,
-						bodyKind: "none",
-					});
-					return;
-				}
-				const client = await createCommandClient(argv);
-				const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
-				argv.accountId = accountId;
-
-				const result = await withProgress(`Loading`, async () =>
-					client.send(operation, { account_id: accountId, ...queryParams })
-				);
-				formatOutput(result, { successLabel: `Loaded` });
-			}
-		),
+} as const satisfies ApiParameters;
+export type Args = ApiInputs<typeof parameters>;
+const command = apiCommand({
+	command: "list-submitted",
+	describe: "List submitted abuse reports",
+	usage:
+		"$0 abuse-reports list-submitted\n\nList abuse reports submitted by the account.",
+	...parameters,
+	loader: () => import("./list-submitted.handler.js"),
 });
 
 export default command;

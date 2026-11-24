@@ -1,21 +1,14 @@
-import operation from "../../../../_operations/radar/bgp/rpki/aspa/snapshot.js";
 /**
  * snapshot command
  * @generated from apis/overlays/radar.ts
  */
-import type { ArgClassification } from "#lib/telemetry/index.js";
-import { apiCommand } from "#lib/api-command.js";
-import { createCommandClient } from "#lib/auth.js";
-import { formatDryRun } from "#lib/dry-run.js";
-import { formatOutput } from "#lib/output.js";
-import { withProgress } from "#lib/progress.js";
-import { runWithTelemetry } from "#lib/telemetry/index.js";
+import {
+	apiCommand,
+	type ApiInputs,
+	type ApiParameters,
+} from "#lib/api-command.js";
 
-const command = apiCommand({
-	command: "snapshot",
-	describe: "Get ASPA objects snapshot",
-	usage:
-		"$0 radar bgp rpki aspa snapshot\n\nRetrieves current or historical ASPA (Autonomous System Provider Authorization) objects. ASPA objects define which ASNs are authorized upstream providers for a customer ASN.",
+const parameters = {
 	flags: {
 		"customer-asn": {
 			kind: "parsed",
@@ -54,42 +47,15 @@ const command = apiCommand({
 		},
 	},
 	operands: [],
-	handler: async (argv): Promise<void> =>
-		runWithTelemetry(
-			{
-				command: "radar bgp rpki aspa snapshot",
-				classification: {
-					safeFlags: ["include-asn-info", "format", "dry-run"],
-				} satisfies ArgClassification<typeof argv>,
-			},
-			argv as Record<string, unknown>,
-			async () => {
-				const queryParams: Record<string, unknown> = {
-					customerAsn: argv["customer-asn"],
-					providerAsn: argv["provider-asn"],
-					date: argv["date"],
-					includeAsnInfo: argv["include-asn-info"],
-					format: argv["format"],
-				};
-				if (argv.dryRun) {
-					formatDryRun({
-						command: "cf radar bgp rpki aspa snapshot",
-						method: "GET",
-						url: `https://api.cloudflare.com/client/v4/radar/bgp/rpki/aspa/snapshot`,
-						pathParams: {},
-						query: queryParams,
-						bodyKind: "none",
-					});
-					return;
-				}
-				const client = await createCommandClient(argv);
-
-				const result = await withProgress(`Loading`, async () =>
-					client.send(operation, queryParams)
-				);
-				formatOutput(result, { successLabel: `Loaded` });
-			}
-		),
+} as const satisfies ApiParameters;
+export type Args = ApiInputs<typeof parameters>;
+const command = apiCommand({
+	command: "snapshot",
+	describe: "Get ASPA objects snapshot",
+	usage:
+		"$0 radar bgp rpki aspa snapshot\n\nRetrieves current or historical ASPA (Autonomous System Provider Authorization) objects. ASPA objects define which ASNs are authorized upstream providers for a customer ASN.",
+	...parameters,
+	loader: () => import("./snapshot.handler.js"),
 });
 
 export default command;

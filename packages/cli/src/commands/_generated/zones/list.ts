@@ -1,21 +1,14 @@
-import operation from "../_operations/zones/list.js";
 /**
  * list command
  * @generated from apis/overlays/zones.ts
  */
-import type { ArgClassification } from "#lib/telemetry/index.js";
-import { apiCommand } from "#lib/api-command.js";
-import { createCommandClient } from "#lib/auth.js";
-import { formatDryRun } from "#lib/dry-run.js";
-import { formatOutput } from "#lib/output.js";
-import { withProgress } from "#lib/progress.js";
-import { runWithTelemetry } from "#lib/telemetry/index.js";
+import {
+	apiCommand,
+	type ApiInputs,
+	type ApiParameters,
+} from "#lib/api-command.js";
 
-const command = apiCommand({
-	command: "list",
-	describe: "List Zones",
-	usage:
-		"$0 zones list\n\nLists, searches, sorts, and filters your zones. Listing zones across more than 500 accounts is currently not allowed.",
+const parameters = {
 	flags: {
 		name: {
 			kind: "parsed",
@@ -90,47 +83,15 @@ const command = apiCommand({
 		},
 	},
 	operands: [],
-	handler: async (argv): Promise<void> =>
-		runWithTelemetry(
-			{
-				command: "zones list",
-				classification: {
-					safeFlags: ["status", "order", "direction", "match", "dry-run"],
-				} satisfies ArgClassification<typeof argv>,
-			},
-			argv as Record<string, unknown>,
-			async () => {
-				const queryParams: Record<string, unknown> = {
-					name: argv["name"],
-					status: argv["status"],
-					type: argv["type"],
-					"account.id": argv["account-id"],
-					"account.name": argv["account-name"],
-					page: argv["page"],
-					per_page: argv["per-page"],
-					order: argv["order"],
-					direction: argv["direction"],
-					match: argv["match"],
-				};
-				if (argv.dryRun) {
-					formatDryRun({
-						command: "cf zones list",
-						method: "GET",
-						url: `https://api.cloudflare.com/client/v4/zones`,
-						pathParams: {},
-						query: queryParams,
-						bodyKind: "none",
-					});
-					return;
-				}
-				const client = await createCommandClient(argv);
-
-				const result = await withProgress(`Loading`, async () =>
-					client.send(operation, queryParams)
-				);
-				formatOutput(result, { successLabel: `Loaded` });
-			}
-		),
+} as const satisfies ApiParameters;
+export type Args = ApiInputs<typeof parameters>;
+const command = apiCommand({
+	command: "list",
+	describe: "List Zones",
+	usage:
+		"$0 zones list\n\nLists, searches, sorts, and filters your zones. Listing zones across more than 500 accounts is currently not allowed.",
+	...parameters,
+	loader: () => import("./list.handler.js"),
 });
 
 export default command;

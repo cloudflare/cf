@@ -1,21 +1,14 @@
-import operation from "../../../_operations/radar/bgp/ips/timeseries.js";
 /**
  * timeseries command
  * @generated from apis/overlays/radar.ts
  */
-import type { ArgClassification } from "#lib/telemetry/index.js";
-import { apiCommand } from "#lib/api-command.js";
-import { createCommandClient } from "#lib/auth.js";
-import { formatDryRun } from "#lib/dry-run.js";
-import { formatOutput } from "#lib/output.js";
-import { withProgress } from "#lib/progress.js";
-import { runWithTelemetry } from "#lib/telemetry/index.js";
+import {
+	apiCommand,
+	type ApiInputs,
+	type ApiParameters,
+} from "#lib/api-command.js";
 
-const command = apiCommand({
-	command: "timeseries",
-	describe: "Get announced IP address space time series",
-	usage:
-		"$0 radar bgp ips timeseries\n\nRetrieves time series data for the announced IP space count, represented as the number of IPv4 /24s and IPv6 /48s, for a given ASN.",
+const parameters = {
 	flags: {
 		name: {
 			kind: "parsed",
@@ -91,46 +84,15 @@ const command = apiCommand({
 		},
 	},
 	operands: [],
-	handler: async (argv): Promise<void> =>
-		runWithTelemetry(
-			{
-				command: "radar bgp ips timeseries",
-				classification: {
-					safeFlags: ["include-delay", "format", "dry-run"],
-				} satisfies ArgClassification<typeof argv>,
-			},
-			argv as Record<string, unknown>,
-			async () => {
-				const queryParams: Record<string, unknown> = {
-					name: argv["name"],
-					dateRange: argv["date-range"],
-					dateStart: argv["date-start"],
-					dateEnd: argv["date-end"],
-					asn: argv["asn"],
-					location: argv["location"],
-					ipVersion: argv["ip-version"],
-					includeDelay: argv["include-delay"],
-					format: argv["format"],
-				};
-				if (argv.dryRun) {
-					formatDryRun({
-						command: "cf radar bgp ips timeseries",
-						method: "GET",
-						url: `https://api.cloudflare.com/client/v4/radar/bgp/ips/timeseries`,
-						pathParams: {},
-						query: queryParams,
-						bodyKind: "none",
-					});
-					return;
-				}
-				const client = await createCommandClient(argv);
-
-				const result = await withProgress(`Loading`, async () =>
-					client.send(operation, queryParams)
-				);
-				formatOutput(result, { successLabel: `Loaded` });
-			}
-		),
+} as const satisfies ApiParameters;
+export type Args = ApiInputs<typeof parameters>;
+const command = apiCommand({
+	command: "timeseries",
+	describe: "Get announced IP address space time series",
+	usage:
+		"$0 radar bgp ips timeseries\n\nRetrieves time series data for the announced IP space count, represented as the number of IPv4 /24s and IPv6 /48s, for a given ASN.",
+	...parameters,
+	loader: () => import("./timeseries.handler.js"),
 });
 
 export default command;

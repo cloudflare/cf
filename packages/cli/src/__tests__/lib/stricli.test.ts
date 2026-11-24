@@ -65,6 +65,34 @@ describe("Stricli command boundary", () => {
 			})
 		);
 	});
+	it("loads the generated handler only for execution", async () => {
+		const execute = vi.fn(async () => {});
+		const loader = vi.fn(async () => ({ default: execute }));
+		const command = apiCommand({
+			command: "list",
+			describe: "List items",
+			usage: "",
+			flags: {
+				order: {
+					kind: "enum",
+					brief: "Order",
+					values: ["asc", "desc"],
+					optional: true,
+				},
+			},
+			operands: [],
+			loader,
+		});
+		const parser = commandParser(["list"], command);
+		await parser.getHelp();
+		expect(await parser.complete(["list", "--order", "d"])).toContainEqual(
+			expect.objectContaining({ completion: "desc" })
+		);
+		expect(loader).not.toHaveBeenCalled();
+		await parser.parse();
+		expect(loader).toHaveBeenCalledTimes(1);
+		expect(execute).toHaveBeenCalledTimes(1);
+	});
 	const handler = vi.fn();
 	const command: CommandModule = {
 		command: "remove <id>",

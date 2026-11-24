@@ -1,21 +1,14 @@
-import operation from "../../../_operations/radar/robots-txt/top/domain-categories.js";
 /**
  * domain-categories command
  * @generated from apis/overlays/radar.ts
  */
-import type { ArgClassification } from "#lib/telemetry/index.js";
-import { apiCommand } from "#lib/api-command.js";
-import { createCommandClient } from "#lib/auth.js";
-import { formatDryRun } from "#lib/dry-run.js";
-import { formatOutput } from "#lib/output.js";
-import { withProgress } from "#lib/progress.js";
-import { runWithTelemetry } from "#lib/telemetry/index.js";
+import {
+	apiCommand,
+	type ApiInputs,
+	type ApiParameters,
+} from "#lib/api-command.js";
 
-const command = apiCommand({
-	command: "domain-categories",
-	describe: "Get top domain categories by robots.txt files parsed",
-	usage:
-		"$0 radar robots-txt top domain-categories\n\nRetrieves the top domain categories by the number of robots.txt files parsed.",
+const parameters = {
 	flags: {
 		limit: {
 			kind: "parsed",
@@ -56,42 +49,15 @@ const command = apiCommand({
 		},
 	},
 	operands: [],
-	handler: async (argv): Promise<void> =>
-		runWithTelemetry(
-			{
-				command: "radar robots-txt top domain-categories",
-				classification: {
-					safeFlags: ["user-agent-category", "format", "dry-run"],
-				} satisfies ArgClassification<typeof argv>,
-			},
-			argv as Record<string, unknown>,
-			async () => {
-				const queryParams: Record<string, unknown> = {
-					limit: argv["limit"],
-					name: argv["name"],
-					userAgentCategory: argv["user-agent-category"],
-					date: argv["date"],
-					format: argv["format"],
-				};
-				if (argv.dryRun) {
-					formatDryRun({
-						command: "cf radar robots-txt top domain-categories",
-						method: "GET",
-						url: `https://api.cloudflare.com/client/v4/radar/robots_txt/top/domain_categories`,
-						pathParams: {},
-						query: queryParams,
-						bodyKind: "none",
-					});
-					return;
-				}
-				const client = await createCommandClient(argv);
-
-				const result = await withProgress(`Loading`, async () =>
-					client.send(operation, queryParams)
-				);
-				formatOutput(result, { successLabel: `Loaded` });
-			}
-		),
+} as const satisfies ApiParameters;
+export type Args = ApiInputs<typeof parameters>;
+const command = apiCommand({
+	command: "domain-categories",
+	describe: "Get top domain categories by robots.txt files parsed",
+	usage:
+		"$0 radar robots-txt top domain-categories\n\nRetrieves the top domain categories by the number of robots.txt files parsed.",
+	...parameters,
+	loader: () => import("./domain-categories.handler.js"),
 });
 
 export default command;

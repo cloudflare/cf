@@ -1,26 +1,14 @@
-import operation from "../_operations/brand-protection/url-info.js";
 /**
  * url-info command
  * @generated from apis/overlays/brand-protection.ts
  */
-import type { ArgClassification } from "#lib/telemetry/index.js";
-import { apiCommand } from "#lib/api-command.js";
 import {
-	createCommandClient,
-	getAccountId,
-	resolveAccountIdSilent,
-} from "#lib/auth.js";
-import { formatDryRun } from "#lib/dry-run.js";
-import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
-import { formatOutput } from "#lib/output.js";
-import { withProgress } from "#lib/progress.js";
-import { runWithTelemetry } from "#lib/telemetry/index.js";
+	apiCommand,
+	type ApiInputs,
+	type ApiParameters,
+} from "#lib/api-command.js";
 
-const command = apiCommand({
-	command: "url-info",
-	describe: "Get total query count",
-	usage:
-		"$0 brand-protection url-info\n\nReturns the number of saved domain and logo queries in the account. This is the count checked against the account's Brand Protection query limit.",
+const parameters = {
 	flags: {
 		"dry-run": {
 			kind: "boolean",
@@ -29,37 +17,15 @@ const command = apiCommand({
 		},
 	},
 	operands: [],
-	handler: async (argv): Promise<void> =>
-		runWithTelemetry(
-			{
-				command: "brand-protection url-info",
-				classification: { safeFlags: ["dry-run"] } satisfies ArgClassification<
-					typeof argv
-				>,
-			},
-			argv as Record<string, unknown>,
-			async () => {
-				if (argv.dryRun) {
-					const __cfDryRunAccountId = await resolveAccountIdSilent();
-					formatDryRun({
-						command: "cf brand-protection url-info",
-						method: "GET",
-						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/cloudforce-one/v2/brand-protection/total-queries`,
-						pathParams: {},
-						bodyKind: "none",
-					});
-					return;
-				}
-				const client = await createCommandClient(argv);
-				const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
-				argv.accountId = accountId;
-
-				const result = await withProgress(`Loading`, async () =>
-					client.send(operation, { account_id: accountId })
-				);
-				formatOutput(result, { successLabel: `Loaded` });
-			}
-		),
+} as const satisfies ApiParameters;
+export type Args = ApiInputs<typeof parameters>;
+const command = apiCommand({
+	command: "url-info",
+	describe: "Get total query count",
+	usage:
+		"$0 brand-protection url-info\n\nReturns the number of saved domain and logo queries in the account. This is the count checked against the account's Brand Protection query limit.",
+	...parameters,
+	loader: () => import("./url-info.handler.js"),
 });
 
 export default command;

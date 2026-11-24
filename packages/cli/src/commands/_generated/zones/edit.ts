@@ -1,23 +1,15 @@
-import operation from "../_operations/zones/edit.js";
 /**
  * edit command
  * @generated from apis/overlays/zones.ts
  */
-import type { ArgClassification } from "#lib/telemetry/index.js";
-import { apiCommand } from "#lib/api-command.js";
-import { createCommandClient, getZoneId } from "#lib/auth.js";
-import { compactBody, parseBody } from "#lib/body-parser.js";
-import { formatDryRun } from "#lib/dry-run.js";
+import {
+	apiCommand,
+	type ApiInputs,
+	type ApiParameters,
+} from "#lib/api-command.js";
 import { resolveFileToken } from "#lib/input-validation.js";
-import { formatOutput } from "#lib/output.js";
-import { withProgress } from "#lib/progress.js";
-import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-const command = apiCommand({
-	command: "edit",
-	describe: "Edit Zone",
-	usage:
-		"$0 zones edit\n\nEdits a zone. Only one zone property can be changed at a time.",
+const parameters = {
 	flags: {
 		paused: {
 			kind: "boolean",
@@ -61,79 +53,15 @@ const command = apiCommand({
 		},
 	},
 	operands: [],
-	handler: async (argv): Promise<void> =>
-		runWithTelemetry(
-			{
-				command: "zones edit",
-				classification: {
-					safeFlags: ["paused", "type", "dry-run"],
-				} satisfies ArgClassification<typeof argv>,
-			},
-			argv as Record<string, unknown>,
-			async () => {
-				if (argv.dryRun) {
-					formatDryRun({
-						command: "cf zones edit",
-						method: "PATCH",
-						url: `https://api.cloudflare.com/client/v4/zones/${argv.zone ?? argv.zoneId ?? "<zone>"}`,
-						pathParams: {
-							"zone-id": String(argv.zone ?? argv["zone-id"] ?? ""),
-						},
-						bodyKind: "json",
-						body:
-							argv.body !== undefined
-								? parseBody(argv.body)
-								: compactBody({
-										paused: argv["paused"],
-										plan: {
-											id: resolveFileToken(
-												argv["plan-id"] as string | undefined,
-												"plan-id",
-												"text"
-											),
-										},
-										type: argv["type"],
-										vanity_name_servers: argv["vanity-name-servers"],
-									}),
-					});
-					return;
-				}
-				const parsedBody =
-					argv.body !== undefined ? parseBody(argv.body) : undefined;
-				const client = await createCommandClient(argv);
-				const zoneId = await getZoneId({ zone: argv.zone }, client, {
-					quiet: argv.quiet,
-				});
-				argv.zoneId = zoneId;
-
-				if (argv.body !== undefined) {
-					const bodyData = parsedBody;
-					const result = await withProgress(`Updating`, async () =>
-						client.send(operation, { body: bodyData, zone_id: zoneId })
-					);
-					formatOutput(result, { successLabel: `Updated` });
-					return;
-				}
-
-				// Assemble request body from individual flags
-				const bodyData = compactBody({
-					paused: argv["paused"],
-					plan: {
-						id: resolveFileToken(
-							argv["plan-id"] as string | undefined,
-							"plan-id",
-							"text"
-						),
-					},
-					type: argv["type"],
-					vanity_name_servers: argv["vanity-name-servers"],
-				});
-				const result = await withProgress(`Updating`, async () =>
-					client.send(operation, { body: bodyData, zone_id: zoneId })
-				);
-				formatOutput(result, { successLabel: `Updated` });
-			}
-		),
+} as const satisfies ApiParameters;
+export type Args = ApiInputs<typeof parameters>;
+const command = apiCommand({
+	command: "edit",
+	describe: "Edit Zone",
+	usage:
+		"$0 zones edit\n\nEdits a zone. Only one zone property can be changed at a time.",
+	...parameters,
+	loader: () => import("./edit.handler.js"),
 });
 
 export default command;

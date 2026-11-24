@@ -1,26 +1,14 @@
-import operation from "../../../_operations/ai-gateway/gateways/providers/get.js";
 /**
  * get command
  * @generated from apis/overlays/ai-gateway.ts
  */
-import type { ArgClassification } from "#lib/telemetry/index.js";
-import { apiCommand } from "#lib/api-command.js";
 import {
-	createCommandClient,
-	getAccountId,
-	resolveAccountIdSilent,
-} from "#lib/auth.js";
-import { formatDryRun } from "#lib/dry-run.js";
-import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
-import { formatOutput } from "#lib/output.js";
-import { withProgress } from "#lib/progress.js";
-import { runWithTelemetry } from "#lib/telemetry/index.js";
+	apiCommand,
+	type ApiInputs,
+	type ApiParameters,
+} from "#lib/api-command.js";
 
-const command = apiCommand({
-	command: "get <id>",
-	describe: "Get a provider key",
-	usage:
-		"$0 ai-gateway gateways providers get <id>\n\nRetrieves a provider key configuration for an AI Gateway. The response shows a masked preview of the key, never the key itself.",
+const parameters = {
 	flags: {
 		"gateway-id": {
 			kind: "parsed",
@@ -34,44 +22,15 @@ const command = apiCommand({
 		},
 	},
 	operands: [{ placeholder: "id", brief: "ID", parse: String }],
-	handler: async (argv): Promise<void> =>
-		runWithTelemetry(
-			{
-				command: "ai-gateway gateways providers get",
-				classification: { safeFlags: ["dry-run"] } satisfies ArgClassification<
-					typeof argv
-				>,
-			},
-			argv as Record<string, unknown>,
-			async () => {
-				if (argv.dryRun) {
-					const __cfDryRunAccountId = await resolveAccountIdSilent();
-					formatDryRun({
-						command: "cf ai-gateway gateways providers get",
-						method: "GET",
-						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/ai-gateway/gateways/${argv["gateway-id"] == null ? "<gateway-id>" : encodeURIComponent(String(argv["gateway-id"]))}/provider_configs/${argv["id"] == null ? "<id>" : encodeURIComponent(String(argv["id"]))}`,
-						pathParams: {
-							"gateway-id": String(argv["gateway-id"] ?? ""),
-							id: String(argv["id"] ?? ""),
-						},
-						bodyKind: "none",
-					});
-					return;
-				}
-				const client = await createCommandClient(argv);
-				const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
-				argv.accountId = accountId;
-
-				const result = await withProgress(`Loading`, async () =>
-					client.send(operation, {
-						account_id: accountId,
-						gateway_id: argv["gateway-id"],
-						id: argv["id"],
-					})
-				);
-				formatOutput(result, { successLabel: `Loaded` });
-			}
-		),
+} as const satisfies ApiParameters;
+export type Args = ApiInputs<typeof parameters>;
+const command = apiCommand({
+	command: "get <id>",
+	describe: "Get a provider key",
+	usage:
+		"$0 ai-gateway gateways providers get <id>\n\nRetrieves a provider key configuration for an AI Gateway. The response shows a masked preview of the key, never the key itself.",
+	...parameters,
+	loader: () => import("./get.handler.js"),
 });
 
 export default command;

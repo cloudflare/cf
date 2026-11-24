@@ -2,26 +2,13 @@
  * edit command
  * @generated from apis/overlays/scim.ts
  */
-import type { ArgClassification } from "#lib/telemetry/index.js";
-import { apiCommand } from "#lib/api-command.js";
 import {
-	createCommandClient,
-	getAccountId,
-	requestApi,
-	resolveAccountIdSilent,
-} from "#lib/auth.js";
-import { formatDryRun } from "#lib/dry-run.js";
-import { readFileForFlag, resolveFileToken } from "#lib/input-validation.js";
-import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
-import { formatOutput } from "#lib/output.js";
-import { withProgress } from "#lib/progress.js";
-import { runWithTelemetry } from "#lib/telemetry/index.js";
+	apiCommand,
+	type ApiInputs,
+	type ApiParameters,
+} from "#lib/api-command.js";
 
-const command = apiCommand({
-	command: "edit <group-id>",
-	describe: "Patch SCIM Group",
-	usage:
-		"$0 scim groups edit <group-id>\n\nPartially updates a SCIM Group via PATCH operations (RFC 7644 Section 3.5.2). Supports add, remove, and replace operations on `members`, `displayName`, and `externalId`. For system groups (prefixed `cloudflare-v1-`), only member management operations are supported.",
+const parameters = {
 	flags: {
 		"dry-run": {
 			kind: "boolean",
@@ -49,76 +36,15 @@ const command = apiCommand({
 			parse: String,
 		},
 	],
-	handler: async (argv): Promise<void> =>
-		runWithTelemetry(
-			{
-				command: "scim groups edit",
-				classification: { safeFlags: ["dry-run"] } satisfies ArgClassification<
-					typeof argv
-				>,
-			},
-			argv as Record<string, unknown>,
-			async () => {
-				if (argv.body === undefined && argv.file === undefined) {
-					throw new Error(
-						"--body or --file is required for this command. Pass --body '<value>' or --file path/to/file."
-					);
-				}
-				if (argv.dryRun) {
-					const __cfDryRunAccountId = await resolveAccountIdSilent();
-					formatDryRun({
-						command: "cf scim groups edit",
-						method: "PATCH",
-						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/scim/v2/Groups/${argv["group-id"] == null ? "<group-id>" : encodeURIComponent(String(argv["group-id"]))}`,
-						pathParams: { "group-id": String(argv["group-id"] ?? "") },
-						bodyKind: "octet-stream",
-						body: argv.file !== undefined ? { file: argv.file } : argv.body,
-					});
-					return;
-				}
-				const parsedBody =
-					argv.file !== undefined
-						? undefined
-						: resolveFileToken(argv.body, "body", "binary");
-				const client = await createCommandClient(argv);
-				const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
-				argv.accountId = accountId;
-
-				if (argv.file !== undefined) {
-					const fileContent = readFileForFlag(argv.file);
-					const result = await withProgress(`Updating`, async () =>
-						requestApi<unknown>(
-							client,
-							"PATCH",
-							`/accounts/${accountId}/scim/v2/Groups/${encodeURIComponent(String(argv["group-id"]))}`,
-							{
-								body: fileContent,
-								headers: { "Content-Type": "application/scim+json" },
-							}
-						)
-					);
-					formatOutput(result, { successLabel: `Updated` });
-					return;
-				}
-
-				if (argv.body !== undefined) {
-					const bodyData = parsedBody;
-					const result = await withProgress(`Updating`, async () =>
-						requestApi<unknown>(
-							client,
-							"PATCH",
-							`/accounts/${accountId}/scim/v2/Groups/${encodeURIComponent(String(argv["group-id"]))}`,
-							{
-								body: bodyData,
-								headers: { "Content-Type": "application/scim+json" },
-							}
-						)
-					);
-					formatOutput(result, { successLabel: `Updated` });
-					return;
-				}
-			}
-		),
+} as const satisfies ApiParameters;
+export type Args = ApiInputs<typeof parameters>;
+const command = apiCommand({
+	command: "edit <group-id>",
+	describe: "Patch SCIM Group",
+	usage:
+		"$0 scim groups edit <group-id>\n\nPartially updates a SCIM Group via PATCH operations (RFC 7644 Section 3.5.2). Supports add, remove, and replace operations on `members`, `displayName`, and `externalId`. For system groups (prefixed `cloudflare-v1-`), only member management operations are supported.",
+	...parameters,
+	loader: () => import("./edit.handler.js"),
 });
 
 export default command;

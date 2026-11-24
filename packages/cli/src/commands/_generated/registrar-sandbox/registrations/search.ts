@@ -1,26 +1,14 @@
-import operation from "../../_operations/registrar-sandbox/registrations/search.js";
 /**
  * search command
  * @generated from apis/overlays/registrar-sandbox.ts
  */
-import type { ArgClassification } from "#lib/telemetry/index.js";
-import { apiCommand } from "#lib/api-command.js";
 import {
-	createCommandClient,
-	getAccountId,
-	resolveAccountIdSilent,
-} from "#lib/auth.js";
-import { formatDryRun } from "#lib/dry-run.js";
-import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
-import { formatOutput } from "#lib/output.js";
-import { withProgress } from "#lib/progress.js";
-import { runWithTelemetry } from "#lib/telemetry/index.js";
+	apiCommand,
+	type ApiInputs,
+	type ApiParameters,
+} from "#lib/api-command.js";
 
-const command = apiCommand({
-	command: "search",
-	describe: "Search for available domains",
-	usage:
-		'$0 registrar-sandbox registrations search\n\nSearches for domain name suggestions based on a keyword, phrase, or partial domain name. Returns a list of potentially available domains with pricing information. **Important:** Results are non-authoritative and based on cached data. Always use the `/domain-check` endpoint to verify real-time availability before attempting registration. Suggestions are scoped to extensions supported for programmatic registration via this API (`POST /registrations`). Domains on unsupported extensions will not appear in results, even if they are available at the registry level. ### Use cases - Brand name discovery (e.g., "acme corp" → acmecorp.com, acmecorp.dev) - Keyword-based suggestions (e.g., "coffee shop" → coffeeshop.com, mycoffeeshop.net) - Alternative extension discovery (e.g., "example.com" → example.com, example.app, example.xyz) ### Workflow 1. Call this endpoint with a keyword or domain name. 2. Present suggestions to the user. 3. Call `/domain-check` with the user\'s chosen domains to confirm real-time availability and pricing. 4. Proceed to `POST /registrations` only for supported non-premium domains where the Check response returns `registrable: true`. **Note:** Searching with just a domain extension (e.g., "com" or ".app") is not supported. Provide a keyword or domain name.',
+const parameters = {
 	flags: {
 		query: {
 			kind: "parsed",
@@ -50,43 +38,15 @@ const command = apiCommand({
 		},
 	},
 	operands: [],
-	handler: async (argv): Promise<void> =>
-		runWithTelemetry(
-			{
-				command: "registrar-sandbox registrations search",
-				classification: { safeFlags: ["dry-run"] } satisfies ArgClassification<
-					typeof argv
-				>,
-			},
-			argv as Record<string, unknown>,
-			async () => {
-				const queryParams: Record<string, unknown> = {
-					q: argv["query"],
-					extensions: argv["extensions"],
-					limit: argv["limit"],
-				};
-				if (argv.dryRun) {
-					const __cfDryRunAccountId = await resolveAccountIdSilent();
-					formatDryRun({
-						command: "cf registrar-sandbox registrations search",
-						method: "GET",
-						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/registrar-sandbox/domain-search`,
-						pathParams: {},
-						query: queryParams,
-						bodyKind: "none",
-					});
-					return;
-				}
-				const client = await createCommandClient(argv);
-				const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
-				argv.accountId = accountId;
-
-				const result = await withProgress(`Loading`, async () =>
-					client.send(operation, { account_id: accountId, ...queryParams })
-				);
-				formatOutput(result, { successLabel: `Loaded` });
-			}
-		),
+} as const satisfies ApiParameters;
+export type Args = ApiInputs<typeof parameters>;
+const command = apiCommand({
+	command: "search",
+	describe: "Search for available domains",
+	usage:
+		'$0 registrar-sandbox registrations search\n\nSearches for domain name suggestions based on a keyword, phrase, or partial domain name. Returns a list of potentially available domains with pricing information. **Important:** Results are non-authoritative and based on cached data. Always use the `/domain-check` endpoint to verify real-time availability before attempting registration. Suggestions are scoped to extensions supported for programmatic registration via this API (`POST /registrations`). Domains on unsupported extensions will not appear in results, even if they are available at the registry level. ### Use cases - Brand name discovery (e.g., "acme corp" → acmecorp.com, acmecorp.dev) - Keyword-based suggestions (e.g., "coffee shop" → coffeeshop.com, mycoffeeshop.net) - Alternative extension discovery (e.g., "example.com" → example.com, example.app, example.xyz) ### Workflow 1. Call this endpoint with a keyword or domain name. 2. Present suggestions to the user. 3. Call `/domain-check` with the user\'s chosen domains to confirm real-time availability and pricing. 4. Proceed to `POST /registrations` only for supported non-premium domains where the Check response returns `registrable: true`. **Note:** Searching with just a domain extension (e.g., "com" or ".app") is not supported. Provide a keyword or domain name.',
+	...parameters,
+	loader: () => import("./search.handler.js"),
 });
 
 export default command;

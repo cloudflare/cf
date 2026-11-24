@@ -1,28 +1,14 @@
-import operation from "../_operations/d1/raw.js";
 /**
  * raw command
  * @generated from apis/overlays/d1.ts
  */
-import type { ArgClassification } from "#lib/telemetry/index.js";
-import { apiCommand } from "#lib/api-command.js";
 import {
-	createCommandClient,
-	getAccountId,
-	resolveAccountIdSilent,
-} from "#lib/auth.js";
-import { compactBody, parseBody, parseObjectArray } from "#lib/body-parser.js";
-import { formatDryRun } from "#lib/dry-run.js";
-import { resolveFileToken } from "#lib/input-validation.js";
-import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
-import { formatOutput } from "#lib/output.js";
-import { withProgress } from "#lib/progress.js";
-import { runWithTelemetry } from "#lib/telemetry/index.js";
+	apiCommand,
+	type ApiInputs,
+	type ApiParameters,
+} from "#lib/api-command.js";
 
-const command = apiCommand({
-	command: "raw <database-id>",
-	describe: "Raw D1 Database query",
-	usage:
-		"$0 d1 raw <database-id>\n\nExecute a SQL query against a D1 database and return result rows as arrays rather than objects. This is a performance-optimized version of the /query endpoint.",
+const parameters = {
 	flags: {
 		params: {
 			kind: "parsed",
@@ -70,78 +56,15 @@ const command = apiCommand({
 		rules.conflicts("sql", ["batch"]);
 		rules.conflicts("batch", ["params", "sql"]);
 	},
-	handler: async (argv): Promise<void> =>
-		runWithTelemetry(
-			{
-				command: "d1 raw",
-				classification: { safeFlags: ["dry-run"] } satisfies ArgClassification<
-					typeof argv
-				>,
-			},
-			argv as Record<string, unknown>,
-			async () => {
-				if (argv.dryRun) {
-					const __cfDryRunAccountId = await resolveAccountIdSilent();
-					formatDryRun({
-						command: "cf d1 raw",
-						method: "POST",
-						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/d1/database/${argv["database-id"] == null ? "<database-id>" : encodeURIComponent(String(argv["database-id"]))}/raw`,
-						pathParams: { "database-id": String(argv["database-id"] ?? "") },
-						bodyKind: "json",
-						body:
-							argv.body !== undefined
-								? parseBody(argv.body)
-								: compactBody({
-										params: argv["params"],
-										sql: resolveFileToken(
-											argv["sql"] as string | undefined,
-											"sql",
-											"text"
-										),
-										batch: parseObjectArray(argv["batch"], "batch"),
-									}),
-					});
-					return;
-				}
-				const parsedBody =
-					argv.body !== undefined ? parseBody(argv.body) : undefined;
-				const client = await createCommandClient(argv);
-				const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
-				argv.accountId = accountId;
-
-				if (argv.body !== undefined) {
-					const bodyData = parsedBody;
-					const result = await withProgress(`Loading`, async () =>
-						client.send(operation, {
-							body: bodyData,
-							account_id: accountId,
-							database_id: argv["database-id"],
-						})
-					);
-					formatOutput(result, { successLabel: `Loaded` });
-					return;
-				}
-
-				// Assemble request body from individual flags
-				const bodyData = compactBody({
-					params: argv["params"],
-					sql: resolveFileToken(
-						argv["sql"] as string | undefined,
-						"sql",
-						"text"
-					),
-					batch: parseObjectArray(argv["batch"], "batch"),
-				});
-				const result = await withProgress(`Loading`, async () =>
-					client.send(operation, {
-						body: bodyData,
-						account_id: accountId,
-						database_id: argv["database-id"],
-					})
-				);
-				formatOutput(result, { successLabel: `Loaded` });
-			}
-		),
+} as const satisfies ApiParameters;
+export type Args = ApiInputs<typeof parameters>;
+const command = apiCommand({
+	command: "raw <database-id>",
+	describe: "Raw D1 Database query",
+	usage:
+		"$0 d1 raw <database-id>\n\nExecute a SQL query against a D1 database and return result rows as arrays rather than objects. This is a performance-optimized version of the /query endpoint.",
+	...parameters,
+	loader: () => import("./raw.handler.js"),
 });
 
 export default command;

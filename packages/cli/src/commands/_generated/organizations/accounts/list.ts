@@ -2,19 +2,13 @@
  * list command
  * @generated from apis/overlays/organizations.ts
  */
-import type { ArgClassification } from "#lib/telemetry/index.js";
-import { apiCommand } from "#lib/api-command.js";
-import { createCommandClient, requestApi } from "#lib/auth.js";
-import { formatDryRun } from "#lib/dry-run.js";
-import { formatOutput } from "#lib/output.js";
-import { withProgress } from "#lib/progress.js";
-import { runWithTelemetry } from "#lib/telemetry/index.js";
+import {
+	apiCommand,
+	type ApiInputs,
+	type ApiParameters,
+} from "#lib/api-command.js";
 
-const command = apiCommand({
-	command: "list",
-	describe: "List organization accounts",
-	usage:
-		"$0 organizations accounts list\n\nRetrieve the accounts immediately attached to a specific organization. Accounts attached to sub-organizations are not included. Use `page_token` and `page_size` for cursor pagination. The default response uses Account fields; `Accept: application/json; legacy=true` requests the LegacyAccount representation.",
+const parameters = {
 	flags: {
 		"organization-id": {
 			kind: "parsed",
@@ -136,73 +130,15 @@ const command = apiCommand({
 		},
 	},
 	operands: [],
-	handler: async (argv): Promise<void> =>
-		runWithTelemetry(
-			{
-				command: "organizations accounts list",
-				classification: {
-					safeFlags: [
-						"status",
-						"order-by",
-						"direction",
-						"include-tags",
-						"include-total",
-						"dry-run",
-					],
-				} satisfies ArgClassification<typeof argv>,
-			},
-			argv as Record<string, unknown>,
-			async () => {
-				const queryParams: Record<string, unknown> = {
-					account_pubname: argv["account-pubname"],
-					"account_pubname.startsWith": argv["account-pubname-starts-with"],
-					"account_pubname.endsWith": argv["account-pubname-ends-with"],
-					"account_pubname.contains": argv["account-pubname-contains"],
-					name: argv["name"],
-					"name.startsWith": argv["name-starts-with"],
-					"name.endsWith": argv["name-ends-with"],
-					"name.contains": argv["name-contains"],
-					status: argv["status"],
-					order_by: argv["order-by"],
-					direction: argv["direction"],
-					include_tags: argv["include-tags"],
-					include_total: argv["include-total"],
-					page_token: argv["page-token"],
-					page_size: argv["page-size"],
-				};
-
-				const headers: Record<string, string> = {};
-				if (argv["accept"] !== undefined)
-					headers["Accept"] = String(argv["accept"]);
-				if (argv.dryRun) {
-					formatDryRun({
-						command: "cf organizations accounts list",
-						method: "GET",
-						url: `https://api.cloudflare.com/client/v4/organizations/${argv["organization-id"] == null ? "<organization-id>" : encodeURIComponent(String(argv["organization-id"]))}/accounts`,
-						pathParams: {
-							"organization-id": String(argv["organization-id"] ?? ""),
-						},
-						query: queryParams,
-						bodyKind: "none",
-					});
-					return;
-				}
-				const client = await createCommandClient(argv);
-
-				const result = await withProgress(`Loading`, async () =>
-					requestApi<unknown>(
-						client,
-						"GET",
-						`/organizations/${encodeURIComponent(String(argv["organization-id"]))}/accounts`,
-						{
-							query: queryParams,
-							headers: Object.keys(headers).length > 0 ? headers : undefined,
-						}
-					)
-				);
-				formatOutput(result, { successLabel: `Loaded` });
-			}
-		),
+} as const satisfies ApiParameters;
+export type Args = ApiInputs<typeof parameters>;
+const command = apiCommand({
+	command: "list",
+	describe: "List organization accounts",
+	usage:
+		"$0 organizations accounts list\n\nRetrieve the accounts immediately attached to a specific organization. Accounts attached to sub-organizations are not included. Use `page_token` and `page_size` for cursor pagination. The default response uses Account fields; `Accept: application/json; legacy=true` requests the LegacyAccount representation.",
+	...parameters,
+	loader: () => import("./list.handler.js"),
 });
 
 export default command;

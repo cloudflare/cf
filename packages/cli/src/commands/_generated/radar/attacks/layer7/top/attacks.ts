@@ -1,21 +1,14 @@
-import operation from "../../../../_operations/radar/attacks/layer7/top/attacks.js";
 /**
  * attacks command
  * @generated from apis/overlays/radar.ts
  */
-import type { ArgClassification } from "#lib/telemetry/index.js";
-import { apiCommand } from "#lib/api-command.js";
-import { createCommandClient } from "#lib/auth.js";
-import { formatDryRun } from "#lib/dry-run.js";
-import { formatOutput } from "#lib/output.js";
-import { withProgress } from "#lib/progress.js";
-import { runWithTelemetry } from "#lib/telemetry/index.js";
+import {
+	apiCommand,
+	type ApiInputs,
+	type ApiParameters,
+} from "#lib/api-command.js";
 
-const command = apiCommand({
-	command: "attacks",
-	describe: "Get top layer 7 attack pairs (origin and target locations)",
-	usage:
-		"$0 radar attacks layer7 top attacks\n\nRetrieves the top attacks from origin to target location. Values are percentages of the total layer 7 attacks (with billing country). The attack magnitude can be defined by the number of mitigated requests or by the number of zones affected. You can optionally limit the number of attacks by origin/target location (useful if all the top attacks are from or to the same location).",
+const parameters = {
 	flags: {
 		limit: {
 			kind: "parsed",
@@ -129,50 +122,15 @@ const command = apiCommand({
 		},
 	},
 	operands: [],
-	handler: async (argv): Promise<void> =>
-		runWithTelemetry(
-			{
-				command: "radar attacks layer7 top attacks",
-				classification: {
-					safeFlags: ["limit-direction", "normalization", "format", "dry-run"],
-				} satisfies ArgClassification<typeof argv>,
-			},
-			argv as Record<string, unknown>,
-			async () => {
-				const queryParams: Record<string, unknown> = {
-					limit: argv["limit"],
-					name: argv["name"],
-					dateRange: argv["date-range"],
-					dateStart: argv["date-start"],
-					dateEnd: argv["date-end"],
-					asn: argv["asn"],
-					location: argv["location"],
-					continent: argv["continent"],
-					mitigationProduct: argv["mitigation-product"],
-					limitDirection: argv["limit-direction"],
-					limitPerLocation: argv["limit-per-location"],
-					normalization: argv["normalization"],
-					format: argv["format"],
-				};
-				if (argv.dryRun) {
-					formatDryRun({
-						command: "cf radar attacks layer7 top attacks",
-						method: "GET",
-						url: `https://api.cloudflare.com/client/v4/radar/attacks/layer7/top/attacks`,
-						pathParams: {},
-						query: queryParams,
-						bodyKind: "none",
-					});
-					return;
-				}
-				const client = await createCommandClient(argv);
-
-				const result = await withProgress(`Loading`, async () =>
-					client.send(operation, queryParams)
-				);
-				formatOutput(result, { successLabel: `Loaded` });
-			}
-		),
+} as const satisfies ApiParameters;
+export type Args = ApiInputs<typeof parameters>;
+const command = apiCommand({
+	command: "attacks",
+	describe: "Get top layer 7 attack pairs (origin and target locations)",
+	usage:
+		"$0 radar attacks layer7 top attacks\n\nRetrieves the top attacks from origin to target location. Values are percentages of the total layer 7 attacks (with billing country). The attack magnitude can be defined by the number of mitigated requests or by the number of zones affected. You can optionally limit the number of attacks by origin/target location (useful if all the top attacks are from or to the same location).",
+	...parameters,
+	loader: () => import("./attacks.handler.js"),
 });
 
 export default command;

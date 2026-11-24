@@ -9,6 +9,7 @@ import {
 	type Arg,
 	derive,
 	downgradeOptionalParents,
+	hasChoices,
 	isBody,
 	isZonePathParam,
 	multipartFileFlagDescription,
@@ -500,20 +501,17 @@ class Walk {
 		const aliases = ctx.isDelete
 			? ", shortFlagAliases: { f: { canonical: 'force', type: 'boolean' } }"
 			: "";
-		return `/**
- * ${method.name} command
- * @generated from apis/overlays/${resource}.ts
- */
+		const basename = trimEndMatches(
+			emitPath.slice(emitPath.lastIndexOf("/") + 1),
+			".ts"
+		);
+		this.files.push({
+			path: emitPath.replace(/\.ts$/, ".handler.ts"),
+			content: `import type { Args } from './${basename}.js';
 ${importSet.render().join("\n")}
-
 ${declarations}
-const command = apiCommand({
-  command: '${command}',
-  describe: '${escapeSingle(summary(method))}',
-  usage: ${quote(usage)},
-  ${parameters.join("\n")}
-  handler: async (argv): Promise<void> =>
-    runWithTelemetry(
+export default async function handle(argv: Args): Promise<void> {
+    return runWithTelemetry(
       {
         command: '${escapeSingle(telemetryPath)}',
         classification: { safeFlags: ${safe}${aliases} } satisfies ArgClassification<typeof argv>,
@@ -522,7 +520,27 @@ const command = apiCommand({
       async () => {
 ${handlerLines.join("\n")}
       },
-    ),
+    );
+}
+`,
+		});
+		return `/**
+ * ${method.name} command
+ * @generated from apis/overlays/${resource}.ts
+ */
+import { apiCommand, type ApiInputs, type ApiParameters } from '#lib/api-command.js';
+${optionArgs(ctx.derived).some((arg) => arg.fromFile !== undefined && hasChoices(arg)) ? "import { resolveFileToken } from '#lib/input-validation.js';" : ""}
+
+const parameters = {
+  ${parameters.join("\n")}
+} as const satisfies ApiParameters;
+export type Args = ApiInputs<typeof parameters>;
+const command = apiCommand({
+  command: '${command}',
+  describe: '${escapeSingle(summary(method))}',
+  usage: ${quote(usage)},
+  ...parameters,
+  loader: () => import('./${basename}.handler.js'),
 });
 
 export default command;

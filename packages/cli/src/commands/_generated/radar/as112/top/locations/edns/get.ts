@@ -1,21 +1,14 @@
-import operation from "../../../../../_operations/radar/as112/top/locations/edns/get.js";
 /**
  * get command
  * @generated from apis/overlays/radar.ts
  */
-import type { ArgClassification } from "#lib/telemetry/index.js";
-import { apiCommand } from "#lib/api-command.js";
-import { createCommandClient } from "#lib/auth.js";
-import { formatDryRun } from "#lib/dry-run.js";
-import { formatOutput } from "#lib/output.js";
-import { withProgress } from "#lib/progress.js";
-import { runWithTelemetry } from "#lib/telemetry/index.js";
+import {
+	apiCommand,
+	type ApiInputs,
+	type ApiParameters,
+} from "#lib/api-command.js";
 
-const command = apiCommand({
-	command: "get <edns>",
-	describe: "Get top locations by AS112 DNS queries with EDNS support",
-	usage:
-		"$0 radar as112 top locations edns get <edns>\n\nRetrieves the top locations of DNS queries to AS112 with EDNS (Extension Mechanisms for DNS) support.",
+const parameters = {
 	flags: {
 		limit: {
 			kind: "parsed",
@@ -89,45 +82,15 @@ const command = apiCommand({
 			parse: String,
 		},
 	],
-	handler: async (argv): Promise<void> =>
-		runWithTelemetry(
-			{
-				command: "radar as112 top locations edns get",
-				classification: {
-					safeFlags: ["format", "dry-run"],
-				} satisfies ArgClassification<typeof argv>,
-			},
-			argv as Record<string, unknown>,
-			async () => {
-				const queryParams: Record<string, unknown> = {
-					limit: argv["limit"],
-					name: argv["name"],
-					dateRange: argv["date-range"],
-					dateStart: argv["date-start"],
-					dateEnd: argv["date-end"],
-					location: argv["location"],
-					continent: argv["continent"],
-					format: argv["format"],
-				};
-				if (argv.dryRun) {
-					formatDryRun({
-						command: "cf radar as112 top locations edns get",
-						method: "GET",
-						url: `https://api.cloudflare.com/client/v4/radar/as112/top/locations/edns/${argv["edns"] == null ? "<edns>" : encodeURIComponent(String(argv["edns"]))}`,
-						pathParams: { edns: String(argv["edns"] ?? "") },
-						query: queryParams,
-						bodyKind: "none",
-					});
-					return;
-				}
-				const client = await createCommandClient(argv);
-
-				const result = await withProgress(`Loading`, async () =>
-					client.send(operation, { edns: argv["edns"], ...queryParams })
-				);
-				formatOutput(result, { successLabel: `Loaded` });
-			}
-		),
+} as const satisfies ApiParameters;
+export type Args = ApiInputs<typeof parameters>;
+const command = apiCommand({
+	command: "get <edns>",
+	describe: "Get top locations by AS112 DNS queries with EDNS support",
+	usage:
+		"$0 radar as112 top locations edns get <edns>\n\nRetrieves the top locations of DNS queries to AS112 with EDNS (Extension Mechanisms for DNS) support.",
+	...parameters,
+	loader: () => import("./get.handler.js"),
 });
 
 export default command;

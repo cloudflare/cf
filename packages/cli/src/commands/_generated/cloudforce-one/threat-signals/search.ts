@@ -1,26 +1,14 @@
-import operation from "../../_operations/cloudforce-one/threat-signals/search.js";
 /**
  * search command
  * @generated from apis/overlays/cloudforce-one.ts
  */
-import type { ArgClassification } from "#lib/telemetry/index.js";
-import { apiCommand } from "#lib/api-command.js";
 import {
-	createCommandClient,
-	getAccountId,
-	resolveAccountIdSilent,
-} from "#lib/auth.js";
-import { formatDryRun } from "#lib/dry-run.js";
-import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
-import { formatOutput } from "#lib/output.js";
-import { withProgress } from "#lib/progress.js";
-import { runWithTelemetry } from "#lib/telemetry/index.js";
+	apiCommand,
+	type ApiInputs,
+	type ApiParameters,
+} from "#lib/api-command.js";
 
-const command = apiCommand({
-	command: "search",
-	describe: "Search Threat Signals articles using AI Search",
-	usage:
-		"$0 cloudforce-one threat-signals search\n\nSearches the account's Threat Signals articles using keyword and semantic retrieval.",
+const parameters = {
 	flags: {
 		query: {
 			kind: "parsed",
@@ -49,43 +37,15 @@ const command = apiCommand({
 		},
 	},
 	operands: [],
-	handler: async (argv): Promise<void> =>
-		runWithTelemetry(
-			{
-				command: "cloudforce-one threat-signals search",
-				classification: { safeFlags: ["dry-run"] } satisfies ArgClassification<
-					typeof argv
-				>,
-			},
-			argv as Record<string, unknown>,
-			async () => {
-				const queryParams: Record<string, unknown> = {
-					query: argv["query"],
-					max_results: argv["max-results"],
-					feed_id: argv["feed-id"],
-				};
-				if (argv.dryRun) {
-					const __cfDryRunAccountId = await resolveAccountIdSilent();
-					formatDryRun({
-						command: "cf cloudforce-one threat-signals search",
-						method: "GET",
-						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/cloudforce-one/v2/threat-signals/search`,
-						pathParams: {},
-						query: queryParams,
-						bodyKind: "none",
-					});
-					return;
-				}
-				const client = await createCommandClient(argv);
-				const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
-				argv.accountId = accountId;
-
-				const result = await withProgress(`Loading`, async () =>
-					client.send(operation, { account_id: accountId, ...queryParams })
-				);
-				formatOutput(result, { successLabel: `Loaded` });
-			}
-		),
+} as const satisfies ApiParameters;
+export type Args = ApiInputs<typeof parameters>;
+const command = apiCommand({
+	command: "search",
+	describe: "Search Threat Signals articles using AI Search",
+	usage:
+		"$0 cloudforce-one threat-signals search\n\nSearches the account's Threat Signals articles using keyword and semantic retrieval.",
+	...parameters,
+	loader: () => import("./search.handler.js"),
 });
 
 export default command;

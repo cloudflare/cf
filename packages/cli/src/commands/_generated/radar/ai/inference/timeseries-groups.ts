@@ -1,22 +1,14 @@
-import operation from "../../../_operations/radar/ai/inference/timeseries-groups.js";
 /**
  * timeseries-groups command
  * @generated from apis/overlays/radar.ts
  */
-import type { ArgClassification } from "#lib/telemetry/index.js";
-import { apiCommand } from "#lib/api-command.js";
-import { createCommandClient } from "#lib/auth.js";
-import { formatDryRun } from "#lib/dry-run.js";
-import { formatOutput } from "#lib/output.js";
-import { withProgress } from "#lib/progress.js";
-import { runWithTelemetry } from "#lib/telemetry/index.js";
+import {
+	apiCommand,
+	type ApiInputs,
+	type ApiParameters,
+} from "#lib/api-command.js";
 
-const command = apiCommand({
-	command: "timeseries-groups <dimension>",
-	describe:
-		"Get time series distribution of Workers AI inference by dimension.",
-	usage:
-		"$0 radar ai inference timeseries-groups <dimension>\n\nRetrieves the distribution of the number of inferences run on Workers AI, grouped by the specified dimension over time.",
+const parameters = {
 	flags: {
 		"agg-interval": {
 			kind: "enum",
@@ -113,51 +105,16 @@ const command = apiCommand({
 			parse: String,
 		},
 	],
-	handler: async (argv): Promise<void> =>
-		runWithTelemetry(
-			{
-				command: "radar ai inference timeseries-groups",
-				classification: {
-					safeFlags: ["agg-interval", "normalization", "format", "dry-run"],
-				} satisfies ArgClassification<typeof argv>,
-			},
-			argv as Record<string, unknown>,
-			async () => {
-				const queryParams: Record<string, unknown> = {
-					aggInterval: argv["agg-interval"],
-					name: argv["name"],
-					dateRange: argv["date-range"],
-					dateStart: argv["date-start"],
-					dateEnd: argv["date-end"],
-					asn: argv["asn"],
-					location: argv["location"],
-					continent: argv["continent"],
-					limitPerGroup: argv["limit-per-group"],
-					normalization: argv["normalization"],
-					format: argv["format"],
-				};
-				if (argv.dryRun) {
-					formatDryRun({
-						command: "cf radar ai inference timeseries-groups",
-						method: "GET",
-						url: `https://api.cloudflare.com/client/v4/radar/ai/inference/timeseries_groups/${argv["dimension"] == null ? "<dimension>" : encodeURIComponent(String(argv["dimension"]))}`,
-						pathParams: { dimension: String(argv["dimension"] ?? "") },
-						query: queryParams,
-						bodyKind: "none",
-					});
-					return;
-				}
-				const client = await createCommandClient(argv);
-
-				const result = await withProgress(`Loading`, async () =>
-					client.send(operation, {
-						dimension: argv["dimension"],
-						...queryParams,
-					})
-				);
-				formatOutput(result, { successLabel: `Loaded` });
-			}
-		),
+} as const satisfies ApiParameters;
+export type Args = ApiInputs<typeof parameters>;
+const command = apiCommand({
+	command: "timeseries-groups <dimension>",
+	describe:
+		"Get time series distribution of Workers AI inference by dimension.",
+	usage:
+		"$0 radar ai inference timeseries-groups <dimension>\n\nRetrieves the distribution of the number of inferences run on Workers AI, grouped by the specified dimension over time.",
+	...parameters,
+	loader: () => import("./timeseries-groups.handler.js"),
 });
 
 export default command;

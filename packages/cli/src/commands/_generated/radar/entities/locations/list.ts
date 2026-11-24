@@ -1,20 +1,14 @@
-import operation from "../../../_operations/radar/entities/locations/list.js";
 /**
  * list command
  * @generated from apis/overlays/radar.ts
  */
-import type { ArgClassification } from "#lib/telemetry/index.js";
-import { apiCommand } from "#lib/api-command.js";
-import { createCommandClient } from "#lib/auth.js";
-import { formatDryRun } from "#lib/dry-run.js";
-import { formatOutput } from "#lib/output.js";
-import { withProgress } from "#lib/progress.js";
-import { runWithTelemetry } from "#lib/telemetry/index.js";
+import {
+	apiCommand,
+	type ApiInputs,
+	type ApiParameters,
+} from "#lib/api-command.js";
 
-const command = apiCommand({
-	command: "list",
-	describe: "List locations",
-	usage: "$0 radar entities locations list\n\nRetrieves a list of locations.",
+const parameters = {
 	flags: {
 		limit: {
 			kind: "parsed",
@@ -67,44 +61,14 @@ const command = apiCommand({
 		},
 	},
 	operands: [],
-	handler: async (argv): Promise<void> =>
-		runWithTelemetry(
-			{
-				command: "radar entities locations list",
-				classification: {
-					safeFlags: ["continent", "format", "dry-run"],
-				} satisfies ArgClassification<typeof argv>,
-			},
-			argv as Record<string, unknown>,
-			async () => {
-				const queryParams: Record<string, unknown> = {
-					limit: argv["limit"],
-					offset: argv["offset"],
-					location: argv["location"],
-					region: argv["region"],
-					subregion: argv["subregion"],
-					continent: argv["continent"],
-					format: argv["format"],
-				};
-				if (argv.dryRun) {
-					formatDryRun({
-						command: "cf radar entities locations list",
-						method: "GET",
-						url: `https://api.cloudflare.com/client/v4/radar/entities/locations`,
-						pathParams: {},
-						query: queryParams,
-						bodyKind: "none",
-					});
-					return;
-				}
-				const client = await createCommandClient(argv);
-
-				const result = await withProgress(`Loading`, async () =>
-					client.send(operation, queryParams)
-				);
-				formatOutput(result, { successLabel: `Loaded` });
-			}
-		),
+} as const satisfies ApiParameters;
+export type Args = ApiInputs<typeof parameters>;
+const command = apiCommand({
+	command: "list",
+	describe: "List locations",
+	usage: "$0 radar entities locations list\n\nRetrieves a list of locations.",
+	...parameters,
+	loader: () => import("./list.handler.js"),
 });
 
 export default command;

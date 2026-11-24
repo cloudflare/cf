@@ -1,26 +1,14 @@
-import operation from "../../_operations/basin-catalog/namespaces/list.js";
 /**
  * list command
  * @generated from apis/overlays/basin-catalog.ts
  */
-import type { ArgClassification } from "#lib/telemetry/index.js";
-import { apiCommand } from "#lib/api-command.js";
 import {
-	createCommandClient,
-	getAccountId,
-	resolveAccountIdSilent,
-} from "#lib/auth.js";
-import { formatDryRun } from "#lib/dry-run.js";
-import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
-import { formatOutput } from "#lib/output.js";
-import { withProgress } from "#lib/progress.js";
-import { runWithTelemetry } from "#lib/telemetry/index.js";
+	apiCommand,
+	type ApiInputs,
+	type ApiParameters,
+} from "#lib/api-command.js";
 
-const command = apiCommand({
-	command: "list",
-	describe: "List namespaces in catalog",
-	usage:
-		"$0 basin-catalog namespaces list\n\nReturns a list of namespaces in the specified Basin Catalog. Supports hierarchical filtering and pagination for efficient traversal of large namespace hierarchies.",
+const parameters = {
 	flags: {
 		"bucket-name": {
 			kind: "parsed",
@@ -67,49 +55,15 @@ const command = apiCommand({
 		},
 	},
 	operands: [],
-	handler: async (argv): Promise<void> =>
-		runWithTelemetry(
-			{
-				command: "basin-catalog namespaces list",
-				classification: {
-					safeFlags: ["return-uuids", "return-details", "dry-run"],
-				} satisfies ArgClassification<typeof argv>,
-			},
-			argv as Record<string, unknown>,
-			async () => {
-				const queryParams: Record<string, unknown> = {
-					page_token: argv["page-token"],
-					page_size: argv["page-size"],
-					parent: argv["parent"],
-					return_uuids: argv["return-uuids"],
-					return_details: argv["return-details"],
-				};
-				if (argv.dryRun) {
-					const __cfDryRunAccountId = await resolveAccountIdSilent();
-					formatDryRun({
-						command: "cf basin-catalog namespaces list",
-						method: "GET",
-						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/basin-catalog/${argv["bucket-name"] == null ? "<bucket-name>" : encodeURIComponent(String(argv["bucket-name"]))}/namespaces`,
-						pathParams: { "bucket-name": String(argv["bucket-name"] ?? "") },
-						query: queryParams,
-						bodyKind: "none",
-					});
-					return;
-				}
-				const client = await createCommandClient(argv);
-				const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
-				argv.accountId = accountId;
-
-				const result = await withProgress(`Loading`, async () =>
-					client.send(operation, {
-						account_id: accountId,
-						bucket_name: argv["bucket-name"],
-						...queryParams,
-					})
-				);
-				formatOutput(result, { successLabel: `Loaded` });
-			}
-		),
+} as const satisfies ApiParameters;
+export type Args = ApiInputs<typeof parameters>;
+const command = apiCommand({
+	command: "list",
+	describe: "List namespaces in catalog",
+	usage:
+		"$0 basin-catalog namespaces list\n\nReturns a list of namespaces in the specified Basin Catalog. Supports hierarchical filtering and pagination for efficient traversal of large namespace hierarchies.",
+	...parameters,
+	loader: () => import("./list.handler.js"),
 });
 
 export default command;

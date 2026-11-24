@@ -1,21 +1,14 @@
-import operation from "../../../../_operations/radar/bgp/routes/upstreams/timeseries.js";
 /**
  * timeseries command
  * @generated from apis/overlays/radar.ts
  */
-import type { ArgClassification } from "#lib/telemetry/index.js";
-import { apiCommand } from "#lib/api-command.js";
-import { createCommandClient } from "#lib/auth.js";
-import { formatDryRun } from "#lib/dry-run.js";
-import { formatOutput } from "#lib/output.js";
-import { withProgress } from "#lib/progress.js";
-import { runWithTelemetry } from "#lib/telemetry/index.js";
+import {
+	apiCommand,
+	type ApiInputs,
+	type ApiParameters,
+} from "#lib/api-command.js";
 
-const command = apiCommand({
-	command: "timeseries <asn>",
-	describe: "Get upstream composition time series for an AS",
-	usage:
-		'$0 radar bgp routes upstreams timeseries <asn>\n\nRetrieves the share of an AS’s observed paths carried by each direct upstream over time, derived from RouteViews RIB snapshots across all collectors (the combined product). Each upstream ASN is returned as its own series of shares (0–1); the least-significant upstreams beyond the requested limit are grouped into an "OTHER" series. Series share a common set of timestamps.',
+const parameters = {
 	flags: {
 		"ip-version": {
 			kind: "enum",
@@ -63,42 +56,15 @@ const command = apiCommand({
 			parse: String,
 		},
 	],
-	handler: async (argv): Promise<void> =>
-		runWithTelemetry(
-			{
-				command: "radar bgp routes upstreams timeseries",
-				classification: {
-					safeFlags: ["ip-version", "format", "dry-run"],
-				} satisfies ArgClassification<typeof argv>,
-			},
-			argv as Record<string, unknown>,
-			async () => {
-				const queryParams: Record<string, unknown> = {
-					ipVersion: argv["ip-version"],
-					dateStart: argv["date-start"],
-					dateEnd: argv["date-end"],
-					limit: argv["limit"],
-					format: argv["format"],
-				};
-				if (argv.dryRun) {
-					formatDryRun({
-						command: "cf radar bgp routes upstreams timeseries",
-						method: "GET",
-						url: `https://api.cloudflare.com/client/v4/radar/bgp/routes/upstreams/${argv["asn"] == null ? "<asn>" : encodeURIComponent(String(argv["asn"]))}/timeseries`,
-						pathParams: { asn: String(argv["asn"] ?? "") },
-						query: queryParams,
-						bodyKind: "none",
-					});
-					return;
-				}
-				const client = await createCommandClient(argv);
-
-				const result = await withProgress(`Loading`, async () =>
-					client.send(operation, { asn: argv["asn"], ...queryParams })
-				);
-				formatOutput(result, { successLabel: `Loaded` });
-			}
-		),
+} as const satisfies ApiParameters;
+export type Args = ApiInputs<typeof parameters>;
+const command = apiCommand({
+	command: "timeseries <asn>",
+	describe: "Get upstream composition time series for an AS",
+	usage:
+		'$0 radar bgp routes upstreams timeseries <asn>\n\nRetrieves the share of an AS’s observed paths carried by each direct upstream over time, derived from RouteViews RIB snapshots across all collectors (the combined product). Each upstream ASN is returned as its own series of shares (0–1); the least-significant upstreams beyond the requested limit are grouped into an "OTHER" series. Series share a common set of timestamps.',
+	...parameters,
+	loader: () => import("./timeseries.handler.js"),
 });
 
 export default command;

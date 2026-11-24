@@ -1,21 +1,14 @@
-import operation from "../../../_operations/radar/entities/asns/botnet-threat-feed.js";
 /**
  * botnet-threat-feed command
  * @generated from apis/overlays/radar.ts
  */
-import type { ArgClassification } from "#lib/telemetry/index.js";
-import { apiCommand } from "#lib/api-command.js";
-import { createCommandClient } from "#lib/auth.js";
-import { formatDryRun } from "#lib/dry-run.js";
-import { formatOutput } from "#lib/output.js";
-import { withProgress } from "#lib/progress.js";
-import { runWithTelemetry } from "#lib/telemetry/index.js";
+import {
+	apiCommand,
+	type ApiInputs,
+	type ApiParameters,
+} from "#lib/api-command.js";
 
-const command = apiCommand({
-	command: "botnet-threat-feed",
-	describe: "Get AS rankings by botnet threat feed activity",
-	usage:
-		"$0 radar entities asns botnet-threat-feed\n\nRetrieves a ranked list of Autonomous Systems based on their presence in the Cloudflare Botnet Threat Feed. Rankings can be sorted by offense count or number of bad IPs. Optionally compare to a previous date to see rank changes.",
+const parameters = {
 	flags: {
 		limit: {
 			kind: "parsed",
@@ -83,46 +76,15 @@ const command = apiCommand({
 		},
 	},
 	operands: [],
-	handler: async (argv): Promise<void> =>
-		runWithTelemetry(
-			{
-				command: "radar entities asns botnet-threat-feed",
-				classification: {
-					safeFlags: ["metric", "sort-order", "format", "dry-run"],
-				} satisfies ArgClassification<typeof argv>,
-			},
-			argv as Record<string, unknown>,
-			async () => {
-				const queryParams: Record<string, unknown> = {
-					limit: argv["limit"],
-					offset: argv["offset"],
-					metric: argv["metric"],
-					date: argv["date"],
-					compareDateRange: argv["compare-date-range"],
-					location: argv["location"],
-					asn: argv["asn"],
-					sortOrder: argv["sort-order"],
-					format: argv["format"],
-				};
-				if (argv.dryRun) {
-					formatDryRun({
-						command: "cf radar entities asns botnet-threat-feed",
-						method: "GET",
-						url: `https://api.cloudflare.com/client/v4/radar/entities/asns/botnet_threat_feed`,
-						pathParams: {},
-						query: queryParams,
-						bodyKind: "none",
-					});
-					return;
-				}
-				const client = await createCommandClient(argv);
-
-				const result = await withProgress(`Loading`, async () =>
-					client.send(operation, queryParams)
-				);
-				formatOutput(result, { successLabel: `Loaded` });
-			}
-		),
+} as const satisfies ApiParameters;
+export type Args = ApiInputs<typeof parameters>;
+const command = apiCommand({
+	command: "botnet-threat-feed",
+	describe: "Get AS rankings by botnet threat feed activity",
+	usage:
+		"$0 radar entities asns botnet-threat-feed\n\nRetrieves a ranked list of Autonomous Systems based on their presence in the Cloudflare Botnet Threat Feed. Rankings can be sorted by offense count or number of bad IPs. Optionally compare to a previous date to see rank changes.",
+	...parameters,
+	loader: () => import("./botnet-threat-feed.handler.js"),
 });
 
 export default command;

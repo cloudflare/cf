@@ -1,23 +1,15 @@
-import operation from "../_operations/page-rules/update.js";
 /**
  * update command
  * @generated from apis/overlays/page-rules.ts
  */
-import type { ArgClassification } from "#lib/telemetry/index.js";
-import { apiCommand } from "#lib/api-command.js";
-import { createCommandClient, getZoneId } from "#lib/auth.js";
-import { compactBody, parseBody, parseObjectArray } from "#lib/body-parser.js";
-import { formatDryRun } from "#lib/dry-run.js";
+import {
+	apiCommand,
+	type ApiInputs,
+	type ApiParameters,
+} from "#lib/api-command.js";
 import { resolveFileToken } from "#lib/input-validation.js";
-import { formatOutput } from "#lib/output.js";
-import { withProgress } from "#lib/progress.js";
-import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-const command = apiCommand({
-	command: "update <pagerule-id>",
-	describe: "Update a Page Rule",
-	usage:
-		"$0 page-rules update <pagerule-id>\n\nReplaces the configuration of an existing Page Rule. The configuration of the updated Page Rule will exactly match the data passed in the API request.",
+const parameters = {
 	flags: {
 		actions: {
 			kind: "parsed",
@@ -63,92 +55,15 @@ const command = apiCommand({
 	operands: [
 		{ placeholder: "pagerule-id", brief: "Identifier.", parse: String },
 	],
-	handler: async (argv): Promise<void> =>
-		runWithTelemetry(
-			{
-				command: "page-rules update",
-				classification: {
-					safeFlags: ["status", "dry-run"],
-				} satisfies ArgClassification<typeof argv>,
-			},
-			argv as Record<string, unknown>,
-			async () => {
-				const resolveRequiredFields = async (): Promise<void> => {
-					if (argv["actions"] === undefined) {
-						throw new Error(
-							"--actions is required (or pass --body with this field set)."
-						);
-					}
-					if (argv["targets"] === undefined) {
-						throw new Error(
-							"--targets is required (or pass --body with this field set)."
-						);
-					}
-				};
-				if (argv.dryRun) {
-					if (argv.body === undefined) {
-						await resolveRequiredFields();
-					}
-					formatDryRun({
-						command: "cf page-rules update",
-						method: "PUT",
-						url: `https://api.cloudflare.com/client/v4/zones/${argv.zone ?? argv.zoneId ?? "<zone>"}/pagerules/${argv["pagerule-id"] == null ? "<pagerule-id>" : encodeURIComponent(String(argv["pagerule-id"]))}`,
-						pathParams: {
-							"zone-id": String(argv.zone ?? argv["zone-id"] ?? ""),
-							"pagerule-id": String(argv["pagerule-id"] ?? ""),
-						},
-						bodyKind: "json",
-						body:
-							argv.body !== undefined
-								? parseBody(argv.body)
-								: compactBody({
-										actions: parseObjectArray(argv["actions"], "actions"),
-										priority: argv["priority"],
-										status: argv["status"],
-										targets: parseObjectArray(argv["targets"], "targets"),
-									}),
-					});
-					return;
-				}
-				const parsedBody =
-					argv.body !== undefined ? parseBody(argv.body) : undefined;
-				const client = await createCommandClient(argv);
-				const zoneId = await getZoneId({ zone: argv.zone }, client, {
-					quiet: argv.quiet,
-				});
-				argv.zoneId = zoneId;
-
-				if (argv.body !== undefined) {
-					const bodyData = parsedBody;
-					const result = await withProgress(`Updating`, async () =>
-						client.send(operation, {
-							body: bodyData,
-							zone_id: zoneId,
-							pagerule_id: argv["pagerule-id"],
-						})
-					);
-					formatOutput(result, { successLabel: `Updated` });
-					return;
-				}
-				await resolveRequiredFields();
-
-				// Assemble request body from individual flags
-				const bodyData = compactBody({
-					actions: parseObjectArray(argv["actions"], "actions"),
-					priority: argv["priority"],
-					status: argv["status"],
-					targets: parseObjectArray(argv["targets"], "targets"),
-				});
-				const result = await withProgress(`Updating`, async () =>
-					client.send(operation, {
-						body: bodyData,
-						zone_id: zoneId,
-						pagerule_id: argv["pagerule-id"],
-					})
-				);
-				formatOutput(result, { successLabel: `Updated` });
-			}
-		),
+} as const satisfies ApiParameters;
+export type Args = ApiInputs<typeof parameters>;
+const command = apiCommand({
+	command: "update <pagerule-id>",
+	describe: "Update a Page Rule",
+	usage:
+		"$0 page-rules update <pagerule-id>\n\nReplaces the configuration of an existing Page Rule. The configuration of the updated Page Rule will exactly match the data passed in the API request.",
+	...parameters,
+	loader: () => import("./update.handler.js"),
 });
 
 export default command;

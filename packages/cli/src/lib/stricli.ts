@@ -1,6 +1,8 @@
 import {
 	buildApplication,
 	buildCommand,
+	buildRouteMap,
+	proposeCompletions,
 	run,
 	text_en,
 	UnexpectedFlagError,
@@ -17,6 +19,7 @@ import type { CommandResolutionFailure } from "./telemetry/types.js";
 import type {
 	Command,
 	CommandContext,
+	RouteMap,
 	TypedCommandParameters,
 } from "@stricli/core";
 import type { ArgumentsCamelCase, Argv, CommandModule, Options } from "yargs";
@@ -44,13 +47,16 @@ class Definition {
 	flags = new Map<string, Options>(Object.entries(GLOBAL_OPTIONS));
 	positions = new Map<string, Options>();
 	children: Module[] = [];
+	routeMap?: () => RouteMap<ApiContext>;
 	resolveRoute?: (token: string) => Module | undefined;
 	registerRoutes(
 		children: Module[],
-		resolve: (token: string) => Module | undefined
+		resolve: (token: string) => Module | undefined,
+		routeMap: () => RouteMap<ApiContext>
 	) {
 		this.children = children;
 		this.resolveRoute = resolve;
+		this.routeMap = routeMap;
 		this.requireChild = true;
 	}
 	checks: Hook[] = [];
@@ -408,6 +414,215 @@ function closest(input: string, children: Module[]) {
 	return suggestion;
 }
 
+function routeIndex(def: Definition, args: string[]) {
+	const names = aliases(def);
+	return args.findIndex((token, offset) => {
+		if (token.startsWith("-")) {
+			return false;
+		}
+		const previous = args[offset - 1];
+		if (!previous?.startsWith("-")) {
+			return true;
+		}
+		const key = names.get(previous.replace(/^--?/, ""));
+		return (
+			previous.includes("=") ||
+			previous.startsWith("--no-") ||
+			["-h", "--help"].includes(previous) ||
+			(!!key &&
+				def.flags.get(key)?.type === "boolean" &&
+				!["true", "false"].includes(token))
+		);
+	});
+}
+function matchChild(def: Definition, token: string) {
+	return def.resolveRoute
+		? def.resolveRoute(token)
+		: def.children.find((entry) =>
+				[
+					...list(entry.command).map((name) => name.split(" ")[0]),
+					...list(entry.aliases),
+				].includes(token)
+			);
+}
+async function descend(parent: Definition, child: Module) {
+	const def = new Definition(parent.showHelp);
+	for (const [name, opt] of parent.flags) {
+		if (opt.global !== false) {
+			def.flags.set(name, opt);
+		}
+	}
+	def.before.push(...parent.before);
+	def.after.push(...parent.after);
+	if (child.configure) {
+		child.configure(def);
+	} else if (typeof child.builder === "function") {
+		await child.builder(def as unknown as Argv<CommonYargsOptions>);
+	} else if (child.builder) {
+		def.options(child.builder);
+	}
+	return def;
+}
+async function complete(roots: Module[], input: string[]) {
+	let def = new Definition(() => {});
+	def.children = roots;
+	let selected: Module | undefined;
+	const args = input.slice(0, -1);
+	let partial = input.at(-1) ?? "";
+	while (def.children.length) {
+		const index = routeIndex(def, args);
+		const token = args[index];
+		if (token === undefined) {
+			break;
+		}
+		selected = matchChild(def, token);
+		if (!selected) {
+			return [];
+		}
+		args.splice(index, 1);
+		def = await descend(def, selected);
+	}
+	if (args.includes("--")) {
+		return [];
+	}
+	const equals = partial.startsWith("--") ? partial.indexOf("=") : -1;
+	if (equals >= 0) {
+		args.push(partial.slice(0, equals));
+		partial = partial.slice(equals + 1);
+	}
+	const config = {
+		name: "cf",
+		scanner: { caseStyle: "original" },
+		completion: { includeAliases: true },
+	} as const;
+	const options = new Map(def.flags);
+	if (def.autoHelp) {
+		options.set("help", { ...BUILTIN_OPTIONS.help, type: "boolean" });
+	}
+	options.set("version", { ...BUILTIN_OPTIONS.version, type: "boolean" });
+	const native = selected?.native?.();
+	const flags: NonNullable<Command<ApiContext>["parameters"]["flags"]> =
+		Object.create(null);
+	const short: Record<string, string> = Object.create(null);
+	for (const [name, opt] of options) {
+		if (opt.hidden) {
+			continue;
+		}
+		const brief = opt.description ?? opt.describe ?? "";
+		const param = opt.choices
+			? {
+					kind: "enum" as const,
+					brief,
+					values: opt.choices.map(String),
+					optional: true as const,
+				}
+			: (native?.parameters.flags?.[name] ??
+				(opt.type === "boolean"
+					? { kind: "boolean" as const, brief }
+					: {
+							kind: "parsed" as const,
+							brief,
+							parse: String,
+							optional: true as const,
+						}));
+		flags[name] = param;
+		for (const alias of list(opt.alias)) {
+			if (alias.length === 1) {
+				short[alias] = name;
+			} else {
+				flags[alias] = param;
+			}
+		}
+	}
+	const leaf = buildCommand<Record<string, unknown>, unknown[]>({
+		docs: { brief: native?.brief ?? "" },
+		func() {},
+		parameters: {
+			flags,
+			aliases: short,
+			positional: native?.parameters.positional ?? {
+				kind: "tuple",
+				parameters: [...def.positions.values()].map((opt) => ({
+					brief: opt.description ?? "",
+					parse: String,
+					proposeCompletions: () => opt.choices?.map(String) ?? [],
+				})),
+			},
+		} as TypedCommandParameters<
+			Record<string, unknown>,
+			unknown[],
+			CommandContext
+		>,
+	});
+	const suggestions = await proposeCompletions(
+		buildApplication(leaf, config, {}),
+		[...args, partial],
+		{ process }
+	);
+	const result = suggestions.filter(
+		(item) => item.kind !== "argument:flag" || partial.startsWith("-")
+	);
+	const previous = args.at(-1);
+	const key = previous && aliases(def).get(previous.replace(/^--?/, ""));
+	if (
+		def.children.length &&
+		!partial.startsWith("-") &&
+		!(previous?.startsWith("-") && key && options.get(key)?.type !== "boolean")
+	) {
+		if (def.routeMap) {
+			return [
+				...result,
+				...(await proposeCompletions(
+					buildApplication(def.routeMap(), config, {}),
+					[partial],
+					{ process, prepare: async () => ({}) }
+				)),
+			];
+		}
+		const routes: Record<string, Command<CommandContext>> = Object.create(null);
+		const routeAliases: Record<string, string> = Object.create(null);
+		for (const child of def.children) {
+			const name = words(child)[0];
+			if (!name || child.describe === false) {
+				continue;
+			}
+			routes[name] = buildCommand({
+				parameters: {},
+				docs: { brief: child.describe ?? "" },
+				func() {},
+			});
+			for (const alias of [
+				...list(child.command)
+					.slice(1)
+					.map((value) => value.split(" ", 1).join("")),
+				...list(child.aliases),
+			]) {
+				if (alias !== name) {
+					routeAliases[alias] = name;
+				}
+			}
+		}
+		if (Object.keys(routes).length) {
+			result.push(
+				...(await proposeCompletions(
+					buildApplication(
+						buildRouteMap({
+							routes,
+							aliases: routeAliases,
+							docs: { brief: "" },
+						}),
+						config,
+						{}
+					),
+					[partial],
+					{ process }
+				))
+			);
+		}
+	}
+	return result;
+}
+
 export function createParser(
 	rawArgs: string[],
 	roots: Module[],
@@ -470,25 +685,7 @@ export function createParser(
 					: undefined
 			);
 		while (def.children.length) {
-			const names = aliases(def);
-			const index = args.findIndex((token, offset) => {
-				if (token.startsWith("-")) {
-					return false;
-				}
-				const previous = args[offset - 1];
-				if (!previous?.startsWith("-")) {
-					return true;
-				}
-				const key = names.get(previous.replace(/^--?/, ""));
-				return (
-					previous.includes("=") ||
-					previous.startsWith("--no-") ||
-					["-h", "--help"].includes(previous) ||
-					(!!key &&
-						def.flags.get(key)?.type === "boolean" &&
-						!["true", "false"].includes(token))
-				);
-			});
+			const index = routeIndex(def, args);
 			if (index < 0) {
 				break;
 			}
@@ -496,14 +693,7 @@ export function createParser(
 			if (token === undefined) {
 				break;
 			}
-			const child = def.resolveRoute
-				? def.resolveRoute(token)
-				: def.children.find((entry) =>
-						[
-							...list(entry.command).map((name) => name.split(" ")[0]),
-							...list(entry.aliases),
-						].includes(token)
-					);
+			const child = matchChild(def, token);
 			if (!child) {
 				if (!def.requireChild) {
 					break;
@@ -523,22 +713,7 @@ export function createParser(
 			path.push(token);
 			args.splice(index, 1);
 			hooks.resolve(path.join(" "));
-			const parent = def;
-			def = new Definition(showHelp);
-			for (const [name, opt] of parent.flags) {
-				if (opt.global !== false) {
-					def.flags.set(name, opt);
-				}
-			}
-			def.before.push(...parent.before);
-			def.after.push(...parent.after);
-			if (child.configure) {
-				child.configure(def);
-			} else if (typeof child.builder === "function") {
-				await child.builder(def as unknown as Argv<CommonYargsOptions>);
-			} else if (child.builder) {
-				def.options(child.builder);
-			}
+			def = await descend(def, child);
 		}
 		const wantsHelp =
 			helpOnly ||
@@ -959,6 +1134,7 @@ export function createParser(
 		}
 	}
 	return {
+		complete: (input: string[]) => complete(roots, input),
 		parse: (args = rawArgs) => invoke(args, false),
 		getHelp: async () => String(await invoke(rawArgs, true)),
 	};

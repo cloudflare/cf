@@ -1,26 +1,14 @@
-import operation from "../../_operations/cloudforce-one/requests/list.js";
 /**
  * list command
  * @generated from apis/overlays/cloudforce-one.ts
  */
-import type { ArgClassification } from "#lib/telemetry/index.js";
-import { apiCommand } from "#lib/api-command.js";
 import {
-	createCommandClient,
-	getAccountId,
-	resolveAccountIdSilent,
-} from "#lib/auth.js";
-import { formatDryRun } from "#lib/dry-run.js";
-import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
-import { formatOutput } from "#lib/output.js";
-import { withProgress } from "#lib/progress.js";
-import { runWithTelemetry } from "#lib/telemetry/index.js";
+	apiCommand,
+	type ApiInputs,
+	type ApiParameters,
+} from "#lib/api-command.js";
 
-const command = apiCommand({
-	command: "list",
-	describe: "List RFIs",
-	usage:
-		"$0 cloudforce-one requests list\n\nRetrieves a paginated list of RFIs with filtering and sorting options.",
+const parameters = {
 	flags: {
 		"project-type": {
 			kind: "parsed",
@@ -109,60 +97,15 @@ const command = apiCommand({
 		},
 	},
 	operands: [],
-	handler: async (argv): Promise<void> =>
-		runWithTelemetry(
-			{
-				command: "cloudforce-one requests list",
-				classification: { safeFlags: ["dry-run"] } satisfies ArgClassification<
-					typeof argv
-				>,
-			},
-			argv as Record<string, unknown>,
-			async () => {
-				const queryParams: Record<string, unknown> = {
-					page: argv["page"],
-					pageSize: argv["page-size"],
-					status: argv["status"],
-					search: argv["search"],
-					createdBy: argv["created-by"],
-					assignee: argv["assignee"],
-					requestType: argv["request-type"],
-					priority: argv["priority"],
-					tlp: argv["tlp"],
-					id: argv["id"],
-					readableId: argv["readable-id"],
-					summary: argv["summary"],
-					accountId: argv["filter-account-id"],
-					metadata: argv["metadata"],
-					orderBy: argv["order-by"],
-					order: argv["order"],
-				};
-				if (argv.dryRun) {
-					const __cfDryRunAccountId = await resolveAccountIdSilent();
-					formatDryRun({
-						command: "cf cloudforce-one requests list",
-						method: "GET",
-						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/cloudforce-one/v2/requests/${argv["project-type"] == null ? "<project-type>" : encodeURIComponent(String(argv["project-type"]))}`,
-						pathParams: { "project-type": String(argv["project-type"] ?? "") },
-						query: queryParams,
-						bodyKind: "none",
-					});
-					return;
-				}
-				const client = await createCommandClient(argv);
-				const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
-				argv.accountId = accountId;
-
-				const result = await withProgress(`Loading`, async () =>
-					client.send(operation, {
-						account_id: accountId,
-						project_type: argv["project-type"],
-						...queryParams,
-					})
-				);
-				formatOutput(result, { successLabel: `Loaded` });
-			}
-		),
+} as const satisfies ApiParameters;
+export type Args = ApiInputs<typeof parameters>;
+const command = apiCommand({
+	command: "list",
+	describe: "List RFIs",
+	usage:
+		"$0 cloudforce-one requests list\n\nRetrieves a paginated list of RFIs with filtering and sorting options.",
+	...parameters,
+	loader: () => import("./list.handler.js"),
 });
 
 export default command;

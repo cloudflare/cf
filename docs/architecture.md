@@ -191,10 +191,7 @@ literal says where each goes, how the response is read, and which status
 errors the operation declares. Commands whose request can't be expressed
 that way send a passthrough `requestApi` call instead.
 
-Shell completions are no longer generated — `cf complete` is backed by
-`@bomb.sh/tab`, which parses the command/option tree at runtime from
-the complete generated and hand-written `_meta/commands.json` catalogue (see
-`src/commands/completions/index.ts`).
+`cf complete` uses the same route resolution and flag declarations as the parser. Stricli suggests the next command, alias, flag or enum value. `@bomb.sh/tab` supplies only the bash, zsh, fish and PowerShell scripts; their callback protocol is unchanged.
 
 `pnpm build` runs Vite+ Pack, which:
 
@@ -357,7 +354,7 @@ Practical extensions of this rule:
 
 ### Lazy command registration
 
-Each generated top-level root and each hand-written root is registered via `lazyCommand` (`src/lib/lazy-command.ts`). The outer shell exposes only the `command` + `describe` strings the router needs; selecting a root dynamically imports its root module/chunk. Within that selected generated root, index files statically import and register the full subtree. Without the outer lazy boundary, `cf --help` / `cf --version` / any command would eagerly load every generated root, the complete command catalogue, the API client, and every helper.
+Each generated top-level root and each hand-written root is registered via `lazyCommand` (`src/lib/lazy-command.ts`). The outer shell exposes only the `command` + `describe` strings the router needs; selecting a root dynamically imports its root module/chunk. Within the selected generated root, index files import the subtree’s command definitions. Each generated definition uses a Stricli loader to import its `.handler.ts` sibling only for execution; its argument type comes from the definition via a type-only import. Without the outer lazy boundary, `cf --help` / `cf --version` / any command would eagerly load every generated root, the complete command catalogue, the API client, and every helper.
 
 Vite+ Pack preserves those dynamic root imports as code-split chunks (and may factor shared dependencies into additional chunks), so do not assume a strict one-chunk-per-root correspondence. Don't reintroduce eager top-level imports of `_generated/index.ts` from anywhere besides the lazy shell registration in `src/index.ts`.
 
@@ -369,9 +366,6 @@ Vite+ Pack preserves those dynamic root imports as code-split chunks (and may fa
 Tracked in git and never safe to patch by hand. Every `pnpm generate` cleans, rewrites, and Vite+-formats `_generated/`. Make changes in Forge's OpenAPI or in the generator plugin (`packages/cli/generator/plugin/`), then regenerate and commit the resulting artifacts.
 
 GitHub collapses `_generated/` by default because it is marked `linguist-generated`, but AI reviewers must still review every changed file there.
-
-Shell-completion scripts are no longer generated — `cf complete`
-(`@bomb.sh/tab`) reads `_meta/commands.json` at runtime.
 
 ### OpenAPI compatibility overlay
 
@@ -710,7 +704,7 @@ Hand-written commands with no generated parent (`auth/`, `build/`, `cli/`,
 `schema.ts` and `tools.ts`) are `kind: "root"` entries and must not collide
 with a generated product name.
 
-Generation merges every hand-written leaf into the complete `_meta/commands.json` consumed by completions and tools. Generation additionally emits `_meta/hand-written-commands.json`, repeating only executable entries with their `root` / `leafOverride` / `leaf` / `subgroup` provenance and source directory. Presentation-only `parentOverride` entries do not represent commands and are not emitted there.
+Generation merges every hand-written leaf into the complete `_meta/commands.json` consumed by discovery tools. Generation additionally emits `_meta/hand-written-commands.json`, repeating only executable entries with their `root` / `leafOverride` / `leaf` / `subgroup` provenance and source directory. Presentation-only `parentOverride` entries do not represent commands and are not emitted there.
 
 Container SSH is a bounded hand-written leaf in `src/commands/containers/ssh`, registered in `hand-written.ts`. It adapts cf authentication to the same `@cloudflare/containers-shared` SSH options and transport used by Wrangler.
 

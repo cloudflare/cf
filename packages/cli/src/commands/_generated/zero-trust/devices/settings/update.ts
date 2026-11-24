@@ -1,28 +1,14 @@
-import operation from "../../../_operations/zero-trust/devices/settings/update.js";
 /**
  * update command
  * @generated from apis/overlays/zero-trust.ts
  */
-import type { ArgClassification } from "#lib/telemetry/index.js";
-import { apiCommand } from "#lib/api-command.js";
 import {
-	createCommandClient,
-	getAccountId,
-	resolveAccountIdSilent,
-} from "#lib/auth.js";
-import { compactBody, parseBody } from "#lib/body-parser.js";
-import { formatDryRun } from "#lib/dry-run.js";
-import { resolveFileToken } from "#lib/input-validation.js";
-import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
-import { formatOutput } from "#lib/output.js";
-import { withProgress } from "#lib/progress.js";
-import { runWithTelemetry } from "#lib/telemetry/index.js";
+	apiCommand,
+	type ApiInputs,
+	type ApiParameters,
+} from "#lib/api-command.js";
 
-const command = apiCommand({
-	command: "update",
-	describe: "Update device settings",
-	usage:
-		"$0 zero-trust devices settings update\n\nUpdates the device settings for a Zero Trust account.",
+const parameters = {
 	flags: {
 		"disable-for-time": {
 			kind: "parsed",
@@ -91,116 +77,15 @@ const command = apiCommand({
 		},
 	},
 	operands: [],
-	handler: async (argv): Promise<void> =>
-		runWithTelemetry(
-			{
-				command: "zero-trust devices settings update",
-				classification: {
-					safeFlags: [
-						"external-emergency-signal-enabled",
-						"gateway-proxy-enabled",
-						"gateway-udp-proxy-enabled",
-						"root-certificate-installation-enabled",
-						"use-zt-virtual-ip",
-						"dry-run",
-					],
-				} satisfies ArgClassification<typeof argv>,
-			},
-			argv as Record<string, unknown>,
-			async () => {
-				if (argv.dryRun) {
-					const __cfDryRunAccountId = await resolveAccountIdSilent();
-					formatDryRun({
-						command: "cf zero-trust devices settings update",
-						method: "PATCH",
-						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/devices/settings`,
-						pathParams: {},
-						bodyKind: "json",
-						body:
-							argv.body !== undefined
-								? parseBody(argv.body)
-								: compactBody({
-										disable_for_time: argv["disable-for-time"],
-										external_emergency_signal_enabled:
-											argv["external-emergency-signal-enabled"],
-										external_emergency_signal_fingerprint: resolveFileToken(
-											argv["external-emergency-signal-fingerprint"] as
-												| string
-												| undefined,
-											"external-emergency-signal-fingerprint",
-											"text"
-										),
-										external_emergency_signal_interval: resolveFileToken(
-											argv["external-emergency-signal-interval"] as
-												| string
-												| undefined,
-											"external-emergency-signal-interval",
-											"text"
-										),
-										external_emergency_signal_url: resolveFileToken(
-											argv["external-emergency-signal-url"] as
-												| string
-												| undefined,
-											"external-emergency-signal-url",
-											"text"
-										),
-										gateway_proxy_enabled: argv["gateway-proxy-enabled"],
-										gateway_udp_proxy_enabled:
-											argv["gateway-udp-proxy-enabled"],
-										root_certificate_installation_enabled:
-											argv["root-certificate-installation-enabled"],
-										use_zt_virtual_ip: argv["use-zt-virtual-ip"],
-									}),
-					});
-					return;
-				}
-				const parsedBody =
-					argv.body !== undefined ? parseBody(argv.body) : undefined;
-				const client = await createCommandClient(argv);
-				const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
-				argv.accountId = accountId;
-
-				if (argv.body !== undefined) {
-					const bodyData = parsedBody;
-					const result = await withProgress(`Updating`, async () =>
-						client.send(operation, { body: bodyData, account_id: accountId })
-					);
-					formatOutput(result, { successLabel: `Updated` });
-					return;
-				}
-
-				// Assemble request body from individual flags
-				const bodyData = compactBody({
-					disable_for_time: argv["disable-for-time"],
-					external_emergency_signal_enabled:
-						argv["external-emergency-signal-enabled"],
-					external_emergency_signal_fingerprint: resolveFileToken(
-						argv["external-emergency-signal-fingerprint"] as string | undefined,
-						"external-emergency-signal-fingerprint",
-						"text"
-					),
-					external_emergency_signal_interval: resolveFileToken(
-						argv["external-emergency-signal-interval"] as string | undefined,
-						"external-emergency-signal-interval",
-						"text"
-					),
-					external_emergency_signal_url: resolveFileToken(
-						argv["external-emergency-signal-url"] as string | undefined,
-						"external-emergency-signal-url",
-						"text"
-					),
-					gateway_proxy_enabled: argv["gateway-proxy-enabled"],
-					gateway_udp_proxy_enabled: argv["gateway-udp-proxy-enabled"],
-					root_certificate_installation_enabled:
-						argv["root-certificate-installation-enabled"],
-					use_zt_virtual_ip: argv["use-zt-virtual-ip"],
-				});
-				const result = await withProgress(`Updating`, async () =>
-					client.send(operation, { body: bodyData, account_id: accountId })
-				);
-				formatOutput(result, { successLabel: `Updated` });
-			}
-		),
+} as const satisfies ApiParameters;
+export type Args = ApiInputs<typeof parameters>;
+const command = apiCommand({
+	command: "update",
+	describe: "Update device settings",
+	usage:
+		"$0 zero-trust devices settings update\n\nUpdates the device settings for a Zero Trust account.",
+	...parameters,
+	loader: () => import("./update.handler.js"),
 });
 
 export default command;

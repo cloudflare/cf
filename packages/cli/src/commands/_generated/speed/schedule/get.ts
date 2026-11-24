@@ -1,21 +1,14 @@
-import operation from "../../_operations/speed/schedule/get.js";
 /**
  * get command
  * @generated from apis/overlays/speed.ts
  */
-import type { ArgClassification } from "#lib/telemetry/index.js";
-import { apiCommand } from "#lib/api-command.js";
-import { createCommandClient, getZoneId } from "#lib/auth.js";
-import { formatDryRun } from "#lib/dry-run.js";
-import { formatOutput } from "#lib/output.js";
-import { withProgress } from "#lib/progress.js";
-import { runWithTelemetry } from "#lib/telemetry/index.js";
+import {
+	apiCommand,
+	type ApiInputs,
+	type ApiParameters,
+} from "#lib/api-command.js";
 
-const command = apiCommand({
-	command: "get <url>",
-	describe: "Get a page test schedule",
-	usage:
-		"$0 speed schedule get <url>\n\nRetrieves the test schedule for a page in a specific region.",
+const parameters = {
 	flags: {
 		region: {
 			kind: "enum",
@@ -52,49 +45,15 @@ const command = apiCommand({
 		},
 	},
 	operands: [{ placeholder: "url", brief: "A URL.", parse: String }],
-	handler: async (argv): Promise<void> =>
-		runWithTelemetry(
-			{
-				command: "speed schedule get",
-				classification: {
-					safeFlags: ["region", "dry-run"],
-				} satisfies ArgClassification<typeof argv>,
-			},
-			argv as Record<string, unknown>,
-			async () => {
-				const queryParams: Record<string, unknown> = {
-					region: argv["region"],
-				};
-				if (argv.dryRun) {
-					formatDryRun({
-						command: "cf speed schedule get",
-						method: "GET",
-						url: `https://api.cloudflare.com/client/v4/zones/${argv.zone ?? argv.zoneId ?? "<zone>"}/speed_api/schedule/${argv["url"] == null ? "<url>" : encodeURIComponent(String(argv["url"]))}`,
-						pathParams: {
-							"zone-id": String(argv.zone ?? argv["zone-id"] ?? ""),
-							url: String(argv["url"] ?? ""),
-						},
-						query: queryParams,
-						bodyKind: "none",
-					});
-					return;
-				}
-				const client = await createCommandClient(argv);
-				const zoneId = await getZoneId({ zone: argv.zone }, client, {
-					quiet: argv.quiet,
-				});
-				argv.zoneId = zoneId;
-
-				const result = await withProgress(`Loading`, async () =>
-					client.send(operation, {
-						zone_id: zoneId,
-						url: argv["url"],
-						...queryParams,
-					})
-				);
-				formatOutput(result, { successLabel: `Loaded` });
-			}
-		),
+} as const satisfies ApiParameters;
+export type Args = ApiInputs<typeof parameters>;
+const command = apiCommand({
+	command: "get <url>",
+	describe: "Get a page test schedule",
+	usage:
+		"$0 speed schedule get <url>\n\nRetrieves the test schedule for a page in a specific region.",
+	...parameters,
+	loader: () => import("./get.handler.js"),
 });
 
 export default command;

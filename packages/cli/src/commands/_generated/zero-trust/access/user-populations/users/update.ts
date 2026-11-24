@@ -2,32 +2,13 @@
  * update command
  * @generated from apis/overlays/zero-trust.ts
  */
-import type { ArgClassification } from "#lib/telemetry/index.js";
-import { apiCommand } from "#lib/api-command.js";
 import {
-	createCommandClient,
-	getAccountId,
-	requestApi,
-	resolveAccountIdSilent,
-} from "#lib/auth.js";
-import {
-	compactBody,
-	parseBody,
-	parseObjectArray,
-	setNestedValue,
-} from "#lib/body-parser.js";
-import { formatDryRun } from "#lib/dry-run.js";
-import { readFileForFlag } from "#lib/input-validation.js";
-import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
-import { formatOutput } from "#lib/output.js";
-import { withProgress } from "#lib/progress.js";
-import { runWithTelemetry } from "#lib/telemetry/index.js";
+	apiCommand,
+	type ApiInputs,
+	type ApiParameters,
+} from "#lib/api-command.js";
 
-const command = apiCommand({
-	command: "update <user-id>",
-	describe: "Update a user population user",
-	usage:
-		"$0 zero-trust access user-populations users update <user-id>\n\nUpdates a SCIM user in a user population.",
+const parameters = {
 	flags: {
 		"user-population-id": { kind: "parsed", brief: "UUID.", parse: String },
 		operations: {
@@ -69,115 +50,15 @@ const command = apiCommand({
 			parse: String,
 		},
 	],
-	handler: async (argv): Promise<void> =>
-		runWithTelemetry(
-			{
-				command: "zero-trust access user-populations users update",
-				classification: { safeFlags: ["dry-run"] } satisfies ArgClassification<
-					typeof argv
-				>,
-			},
-			argv as Record<string, unknown>,
-			async () => {
-				const resolveRequiredFields = async (): Promise<void> => {
-					if (argv["operations"] === undefined) {
-						throw new Error(
-							"--operations is required (or pass --body with this field set)."
-						);
-					}
-				};
-				if (argv.dryRun) {
-					if (argv.body === undefined && argv.file === undefined) {
-						await resolveRequiredFields();
-					}
-					const __cfDryRunAccountId = await resolveAccountIdSilent();
-					formatDryRun({
-						command: "cf zero-trust access user-populations users update",
-						method: "PATCH",
-						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/access/user_populations/${argv["user-population-id"] == null ? "<user-population-id>" : encodeURIComponent(String(argv["user-population-id"]))}/users/${argv["user-id"] == null ? "<user-id>" : encodeURIComponent(String(argv["user-id"]))}`,
-						pathParams: {
-							"user-population-id": String(argv["user-population-id"] ?? ""),
-							"user-id": String(argv["user-id"] ?? ""),
-						},
-						bodyKind: argv.file !== undefined ? "octet-stream" : "json",
-						body:
-							argv.file !== undefined
-								? { file: argv.file }
-								: argv.body !== undefined
-									? parseBody(argv.body)
-									: compactBody({
-											Operations: parseObjectArray(
-												argv["operations"],
-												"operations"
-											),
-											schemas: argv["schemas"],
-										}),
-					});
-					return;
-				}
-				const parsedBody =
-					argv.file !== undefined
-						? undefined
-						: argv.body !== undefined
-							? parseBody(argv.body)
-							: undefined;
-				const client = await createCommandClient(argv);
-				const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
-				argv.accountId = accountId;
-
-				if (argv.file !== undefined) {
-					const fileContent = readFileForFlag(argv.file);
-					const result = await withProgress(`Updating`, async () =>
-						requestApi<unknown>(
-							client,
-							"PATCH",
-							`/accounts/${accountId}/access/user_populations/${encodeURIComponent(String(argv["user-population-id"]))}/users/${encodeURIComponent(String(argv["user-id"]))}`,
-							{
-								body: fileContent,
-								headers: { "Content-Type": "application/scim+json" },
-							}
-						)
-					);
-					formatOutput(result, { successLabel: `Updated` });
-					return;
-				}
-
-				if (argv.body !== undefined) {
-					const bodyData = parsedBody;
-					const result = await withProgress(`Updating`, async () =>
-						requestApi<unknown>(
-							client,
-							"PATCH",
-							`/accounts/${accountId}/access/user_populations/${encodeURIComponent(String(argv["user-population-id"]))}/users/${encodeURIComponent(String(argv["user-id"]))}`,
-							{ body: bodyData }
-						)
-					);
-					formatOutput(result, { successLabel: `Updated` });
-					return;
-				}
-				await resolveRequiredFields();
-
-				// Assemble request body from individual flags
-				const bodyData: Record<string, unknown> = {};
-				if (argv["operations"] !== undefined)
-					setNestedValue(
-						bodyData,
-						["Operations"],
-						parseObjectArray(argv["operations"], "operations")
-					);
-				if (argv["schemas"] !== undefined)
-					setNestedValue(bodyData, ["schemas"], argv["schemas"]);
-				const result = await withProgress(`Updating`, async () =>
-					requestApi<unknown>(
-						client,
-						"PATCH",
-						`/accounts/${accountId}/access/user_populations/${encodeURIComponent(String(argv["user-population-id"]))}/users/${encodeURIComponent(String(argv["user-id"]))}`,
-						{ body: bodyData }
-					)
-				);
-				formatOutput(result, { successLabel: `Updated` });
-			}
-		),
+} as const satisfies ApiParameters;
+export type Args = ApiInputs<typeof parameters>;
+const command = apiCommand({
+	command: "update <user-id>",
+	describe: "Update a user population user",
+	usage:
+		"$0 zero-trust access user-populations users update <user-id>\n\nUpdates a SCIM user in a user population.",
+	...parameters,
+	loader: () => import("./update.handler.js"),
 });
 
 export default command;

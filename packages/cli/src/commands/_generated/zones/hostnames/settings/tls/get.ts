@@ -1,21 +1,14 @@
-import operation from "../../../../_operations/zones/hostnames/settings/tls/get.js";
 /**
  * get command
  * @generated from apis/overlays/zones.ts
  */
-import type { ArgClassification } from "#lib/telemetry/index.js";
-import { apiCommand } from "#lib/api-command.js";
-import { createCommandClient, getZoneId } from "#lib/auth.js";
-import { formatDryRun } from "#lib/dry-run.js";
-import { formatOutput } from "#lib/output.js";
-import { withProgress } from "#lib/progress.js";
-import { runWithTelemetry } from "#lib/telemetry/index.js";
+import {
+	apiCommand,
+	type ApiInputs,
+	type ApiParameters,
+} from "#lib/api-command.js";
 
-const command = apiCommand({
-	command: "get <setting-id>",
-	describe: "List TLS setting for hostnames",
-	usage:
-		"$0 zones hostnames settings tls get <setting-id>\n\nList the requested TLS setting for the hostnames under this zone.",
+const parameters = {
 	flags: {
 		page: {
 			kind: "parsed",
@@ -59,52 +52,15 @@ const command = apiCommand({
 			parse: String,
 		},
 	],
-	handler: async (argv): Promise<void> =>
-		runWithTelemetry(
-			{
-				command: "zones hostnames settings tls get",
-				classification: { safeFlags: ["dry-run"] } satisfies ArgClassification<
-					typeof argv
-				>,
-			},
-			argv as Record<string, unknown>,
-			async () => {
-				const queryParams: Record<string, unknown> = {
-					page: argv["page"],
-					per_page: argv["per-page"],
-					limit: argv["limit"],
-					offset: argv["offset"],
-				};
-				if (argv.dryRun) {
-					formatDryRun({
-						command: "cf zones hostnames settings tls get",
-						method: "GET",
-						url: `https://api.cloudflare.com/client/v4/zones/${argv.zone ?? argv.zoneId ?? "<zone>"}/hostnames/settings/${argv["setting-id"] == null ? "<setting-id>" : encodeURIComponent(String(argv["setting-id"]))}`,
-						pathParams: {
-							"zone-id": String(argv.zone ?? argv["zone-id"] ?? ""),
-							"setting-id": String(argv["setting-id"] ?? ""),
-						},
-						query: queryParams,
-						bodyKind: "none",
-					});
-					return;
-				}
-				const client = await createCommandClient(argv);
-				const zoneId = await getZoneId({ zone: argv.zone }, client, {
-					quiet: argv.quiet,
-				});
-				argv.zoneId = zoneId;
-
-				const result = await withProgress(`Loading`, async () =>
-					client.send(operation, {
-						zone_id: zoneId,
-						setting_id: argv["setting-id"],
-						...queryParams,
-					})
-				);
-				formatOutput(result, { successLabel: `Loaded` });
-			}
-		),
+} as const satisfies ApiParameters;
+export type Args = ApiInputs<typeof parameters>;
+const command = apiCommand({
+	command: "get <setting-id>",
+	describe: "List TLS setting for hostnames",
+	usage:
+		"$0 zones hostnames settings tls get <setting-id>\n\nList the requested TLS setting for the hostnames under this zone.",
+	...parameters,
+	loader: () => import("./get.handler.js"),
 });
 
 export default command;

@@ -67,6 +67,7 @@ export function commandParser<Input, Output>(
 	});
 	return {
 		getHelp: parser.getHelp,
+		complete: parser.complete,
 		async parse() {
 			await parser.parse();
 			return parsed;

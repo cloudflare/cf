@@ -1,23 +1,15 @@
-import operation from "../../../_operations/user/load-balancers/monitors/create.js";
 /**
  * create command
  * @generated from apis/overlays/user.ts
  */
-import type { ArgClassification } from "#lib/telemetry/index.js";
-import { apiCommand } from "#lib/api-command.js";
-import { createCommandClient } from "#lib/auth.js";
-import { compactBody, parseBody, parseJsonMap } from "#lib/body-parser.js";
-import { formatDryRun } from "#lib/dry-run.js";
+import {
+	apiCommand,
+	type ApiInputs,
+	type ApiParameters,
+} from "#lib/api-command.js";
 import { resolveFileToken } from "#lib/input-validation.js";
-import { formatOutput } from "#lib/output.js";
-import { withProgress } from "#lib/progress.js";
-import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-const command = apiCommand({
-	command: "create",
-	describe: "Create Monitor",
-	usage:
-		"$0 user load-balancers monitors create\n\nCreate a configured monitor.",
+const parameters = {
 	flags: {
 		"allow-insecure": {
 			kind: "boolean",
@@ -143,139 +135,15 @@ const command = apiCommand({
 		},
 	},
 	operands: [],
-	handler: async (argv): Promise<void> =>
-		runWithTelemetry(
-			{
-				command: "user load-balancers monitors create",
-				classification: {
-					safeFlags: ["allow-insecure", "follow-redirects", "type", "dry-run"],
-				} satisfies ArgClassification<typeof argv>,
-			},
-			argv as Record<string, unknown>,
-			async () => {
-				if (argv.dryRun) {
-					formatDryRun({
-						command: "cf user load-balancers monitors create",
-						method: "POST",
-						url: `https://api.cloudflare.com/client/v4/user/load_balancers/monitors`,
-						pathParams: {},
-						bodyKind: "json",
-						body:
-							argv.body !== undefined
-								? parseBody(argv.body)
-								: compactBody(
-										{
-											allow_insecure: argv["allow-insecure"],
-											consecutive_down: argv["consecutive-down"],
-											consecutive_up: argv["consecutive-up"],
-											description: resolveFileToken(
-												argv["description"] as string | undefined,
-												"description",
-												"text"
-											),
-											expected_body: resolveFileToken(
-												argv["expected-body"] as string | undefined,
-												"expected-body",
-												"text"
-											),
-											expected_codes: resolveFileToken(
-												argv["expected-codes"] as string | undefined,
-												"expected-codes",
-												"text"
-											),
-											follow_redirects: argv["follow-redirects"],
-											header: parseJsonMap(argv["header"], "header"),
-											interval: argv["interval"],
-											method: resolveFileToken(
-												argv["method"] as string | undefined,
-												"method",
-												"text"
-											),
-											path: resolveFileToken(
-												argv["path"] as string | undefined,
-												"path",
-												"text"
-											),
-											port: argv["port"],
-											probe_zone: resolveFileToken(
-												argv["probe-zone"] as string | undefined,
-												"probe-zone",
-												"text"
-											),
-											retries: argv["retries"],
-											timeout: argv["timeout"],
-											type: argv["type"],
-										},
-										[["header"]]
-									),
-					});
-					return;
-				}
-				const parsedBody =
-					argv.body !== undefined ? parseBody(argv.body) : undefined;
-				const client = await createCommandClient(argv);
-
-				if (argv.body !== undefined) {
-					const bodyData = parsedBody;
-					const result = await withProgress(`Creating`, async () =>
-						client.send(operation, { body: bodyData })
-					);
-					formatOutput(result, { successLabel: `Created` });
-					return;
-				}
-
-				// Assemble request body from individual flags
-				const bodyData = compactBody(
-					{
-						allow_insecure: argv["allow-insecure"],
-						consecutive_down: argv["consecutive-down"],
-						consecutive_up: argv["consecutive-up"],
-						description: resolveFileToken(
-							argv["description"] as string | undefined,
-							"description",
-							"text"
-						),
-						expected_body: resolveFileToken(
-							argv["expected-body"] as string | undefined,
-							"expected-body",
-							"text"
-						),
-						expected_codes: resolveFileToken(
-							argv["expected-codes"] as string | undefined,
-							"expected-codes",
-							"text"
-						),
-						follow_redirects: argv["follow-redirects"],
-						header: parseJsonMap(argv["header"], "header"),
-						interval: argv["interval"],
-						method: resolveFileToken(
-							argv["method"] as string | undefined,
-							"method",
-							"text"
-						),
-						path: resolveFileToken(
-							argv["path"] as string | undefined,
-							"path",
-							"text"
-						),
-						port: argv["port"],
-						probe_zone: resolveFileToken(
-							argv["probe-zone"] as string | undefined,
-							"probe-zone",
-							"text"
-						),
-						retries: argv["retries"],
-						timeout: argv["timeout"],
-						type: argv["type"],
-					},
-					[["header"]]
-				);
-				const result = await withProgress(`Creating`, async () =>
-					client.send(operation, { body: bodyData })
-				);
-				formatOutput(result, { successLabel: `Created` });
-			}
-		),
+} as const satisfies ApiParameters;
+export type Args = ApiInputs<typeof parameters>;
+const command = apiCommand({
+	command: "create",
+	describe: "Create Monitor",
+	usage:
+		"$0 user load-balancers monitors create\n\nCreate a configured monitor.",
+	...parameters,
+	loader: () => import("./create.handler.js"),
 });
 
 export default command;

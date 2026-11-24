@@ -1,0 +1,174 @@
+import operation from "../../_operations/email-security/allow-policies/create.js";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import type { Args } from "./create.js";
+import {
+	createCommandClient,
+	getAccountId,
+	resolveAccountIdSilent,
+} from "#lib/auth.js";
+import { compactBody, parseBody } from "#lib/body-parser.js";
+import { formatDryRun } from "#lib/dry-run.js";
+import { resolveFileToken } from "#lib/input-validation.js";
+import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
+import { formatOutput } from "#lib/output.js";
+import { withProgress } from "#lib/progress.js";
+import {
+	promptForRequiredEnumField,
+	promptForRequiredField,
+} from "#lib/prompt.js";
+import { runWithTelemetry } from "#lib/telemetry/index.js";
+
+export default async function handle(argv: Args): Promise<void> {
+	return runWithTelemetry(
+		{
+			command: "email-security allow-policies create",
+			classification: {
+				safeFlags: [
+					"is-acceptable-sender",
+					"is-exempt-recipient",
+					"is-recipient",
+					"is-regex",
+					"is-sender",
+					"is-spoof",
+					"is-trusted-sender",
+					"pattern-type",
+					"verify-sender",
+					"dry-run",
+				],
+			} satisfies ArgClassification<typeof argv>,
+		},
+		argv as Record<string, unknown>,
+		async () => {
+			const resolveRequiredFields = async (): Promise<void> => {
+				if (argv["is-acceptable-sender"] === undefined) {
+					throw new Error(
+						"--is-acceptable-sender is required (or pass --body with this field set)."
+					);
+				}
+				if (argv["is-exempt-recipient"] === undefined) {
+					throw new Error(
+						"--is-exempt-recipient is required (or pass --body with this field set)."
+					);
+				}
+				if (argv["is-regex"] === undefined) {
+					throw new Error(
+						"--is-regex is required (or pass --body with this field set)."
+					);
+				}
+				if (argv["is-trusted-sender"] === undefined) {
+					throw new Error(
+						"--is-trusted-sender is required (or pass --body with this field set)."
+					);
+				}
+				if (argv["pattern"] === undefined) {
+					argv["pattern"] = await promptForRequiredField(
+						"pattern",
+						"The pattern value to match. The format depends on \`pattern_type\`: a valid email address for EMAIL (e.g. \`user@example.com\`), a valid domain name for DOMAIN (e.g. \`example.com\`), or a plain IPv4 or IPv6 address or CIDR block for IP (e.g. \`1.2.3.4\`, \`1.2.3.0/24\`, \`2606:4700:4700::1111\`, or \`2606:4700:4700::/48\`); the API rejects private or unique-local, loopback, link-local, unspecified, and IPv4 broadcast addresses, including their IPv4-mapped IPv6 equivalents. The API also rejects a pattern that equals a domain onboarded to the account, ignoring case."
+					);
+				}
+				if (argv["pattern-type"] === undefined) {
+					argv["pattern-type"] = await promptForRequiredEnumField(
+						"pattern-type",
+						"Type of pattern matching. - EMAIL: matches a full email address (e.g. \`user@example.com\`) - DOMAIN: matches a domain name (e.g. \`example.com\`) - IP: matches a plain IPv4 or IPv6 address (e.g. \`1.2.3.4\` or \`2606:4700:4700::1111\`) or CIDR block (e.g. \`1.2.3.0/24\` or \`2606:4700:4700::/48\`). The API rejects private or unique-local, loopback, link-local, unspecified, and IPv4 broadcast addresses, including their IPv4-mapped IPv6 equivalents. - UNKNOWN: deprecated; you cannot use this when creating or updating policies, but it may appear on existing entries. ",
+						["EMAIL", "DOMAIN", "IP", "UNKNOWN"] as const
+					);
+				}
+				if (argv["verify-sender"] === undefined) {
+					throw new Error(
+						"--verify-sender is required (or pass --body with this field set)."
+					);
+				}
+			};
+			if (argv.dryRun) {
+				if (argv.body === undefined) {
+					await resolveRequiredFields();
+				}
+				const __cfDryRunAccountId = await resolveAccountIdSilent();
+				formatDryRun({
+					command: "cf email-security allow-policies create",
+					method: "POST",
+					url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/email-security/settings/allow_policies`,
+					pathParams: {},
+					bodyKind: "json",
+					body:
+						argv.body !== undefined
+							? parseBody(argv.body)
+							: compactBody({
+									comments: resolveFileToken(
+										argv["comments"] as string | undefined,
+										"comments",
+										"text"
+									),
+									expires_at: resolveFileToken(
+										argv["expires-at"] as string | undefined,
+										"expires-at",
+										"text"
+									),
+									is_acceptable_sender: argv["is-acceptable-sender"],
+									is_exempt_recipient: argv["is-exempt-recipient"],
+									is_recipient: argv["is-recipient"],
+									is_regex: argv["is-regex"],
+									is_sender: argv["is-sender"],
+									is_spoof: argv["is-spoof"],
+									is_trusted_sender: argv["is-trusted-sender"],
+									pattern: resolveFileToken(
+										argv["pattern"] as string | undefined,
+										"pattern",
+										"text"
+									),
+									pattern_type: argv["pattern-type"],
+									verify_sender: argv["verify-sender"],
+								}),
+				});
+				return;
+			}
+			const parsedBody =
+				argv.body !== undefined ? parseBody(argv.body) : undefined;
+			const client = await createCommandClient(argv);
+			const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
+			argv.accountId = accountId;
+
+			if (argv.body !== undefined) {
+				const bodyData = parsedBody;
+				const result = await withProgress(`Creating`, async () =>
+					client.send(operation, { body: bodyData, account_id: accountId })
+				);
+				formatOutput(result, { successLabel: `Created` });
+				return;
+			}
+			await resolveRequiredFields();
+
+			// Assemble request body from individual flags
+			const bodyData = compactBody({
+				comments: resolveFileToken(
+					argv["comments"] as string | undefined,
+					"comments",
+					"text"
+				),
+				expires_at: resolveFileToken(
+					argv["expires-at"] as string | undefined,
+					"expires-at",
+					"text"
+				),
+				is_acceptable_sender: argv["is-acceptable-sender"],
+				is_exempt_recipient: argv["is-exempt-recipient"],
+				is_recipient: argv["is-recipient"],
+				is_regex: argv["is-regex"],
+				is_sender: argv["is-sender"],
+				is_spoof: argv["is-spoof"],
+				is_trusted_sender: argv["is-trusted-sender"],
+				pattern: resolveFileToken(
+					argv["pattern"] as string | undefined,
+					"pattern",
+					"text"
+				),
+				pattern_type: argv["pattern-type"],
+				verify_sender: argv["verify-sender"],
+			});
+			const result = await withProgress(`Creating`, async () =>
+				client.send(operation, { body: bodyData, account_id: accountId })
+			);
+			formatOutput(result, { successLabel: `Created` });
+		}
+	);
+}

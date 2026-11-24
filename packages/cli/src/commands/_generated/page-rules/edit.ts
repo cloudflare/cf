@@ -1,23 +1,15 @@
-import operation from "../_operations/page-rules/edit.js";
 /**
  * edit command
  * @generated from apis/overlays/page-rules.ts
  */
-import type { ArgClassification } from "#lib/telemetry/index.js";
-import { apiCommand } from "#lib/api-command.js";
-import { createCommandClient, getZoneId } from "#lib/auth.js";
-import { compactBody, parseBody, parseObjectArray } from "#lib/body-parser.js";
-import { formatDryRun } from "#lib/dry-run.js";
+import {
+	apiCommand,
+	type ApiInputs,
+	type ApiParameters,
+} from "#lib/api-command.js";
 import { resolveFileToken } from "#lib/input-validation.js";
-import { formatOutput } from "#lib/output.js";
-import { withProgress } from "#lib/progress.js";
-import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-const command = apiCommand({
-	command: "edit <pagerule-id>",
-	describe: "Edit a Page Rule",
-	usage:
-		"$0 page-rules edit <pagerule-id>\n\nUpdates one or more fields of an existing Page Rule.",
+const parameters = {
 	flags: {
 		actions: {
 			kind: "parsed",
@@ -63,76 +55,15 @@ const command = apiCommand({
 	operands: [
 		{ placeholder: "pagerule-id", brief: "Identifier.", parse: String },
 	],
-	handler: async (argv): Promise<void> =>
-		runWithTelemetry(
-			{
-				command: "page-rules edit",
-				classification: {
-					safeFlags: ["status", "dry-run"],
-				} satisfies ArgClassification<typeof argv>,
-			},
-			argv as Record<string, unknown>,
-			async () => {
-				if (argv.dryRun) {
-					formatDryRun({
-						command: "cf page-rules edit",
-						method: "PATCH",
-						url: `https://api.cloudflare.com/client/v4/zones/${argv.zone ?? argv.zoneId ?? "<zone>"}/pagerules/${argv["pagerule-id"] == null ? "<pagerule-id>" : encodeURIComponent(String(argv["pagerule-id"]))}`,
-						pathParams: {
-							"zone-id": String(argv.zone ?? argv["zone-id"] ?? ""),
-							"pagerule-id": String(argv["pagerule-id"] ?? ""),
-						},
-						bodyKind: "json",
-						body:
-							argv.body !== undefined
-								? parseBody(argv.body)
-								: compactBody({
-										actions: parseObjectArray(argv["actions"], "actions"),
-										priority: argv["priority"],
-										status: argv["status"],
-										targets: parseObjectArray(argv["targets"], "targets"),
-									}),
-					});
-					return;
-				}
-				const parsedBody =
-					argv.body !== undefined ? parseBody(argv.body) : undefined;
-				const client = await createCommandClient(argv);
-				const zoneId = await getZoneId({ zone: argv.zone }, client, {
-					quiet: argv.quiet,
-				});
-				argv.zoneId = zoneId;
-
-				if (argv.body !== undefined) {
-					const bodyData = parsedBody;
-					const result = await withProgress(`Updating`, async () =>
-						client.send(operation, {
-							body: bodyData,
-							zone_id: zoneId,
-							pagerule_id: argv["pagerule-id"],
-						})
-					);
-					formatOutput(result, { successLabel: `Updated` });
-					return;
-				}
-
-				// Assemble request body from individual flags
-				const bodyData = compactBody({
-					actions: parseObjectArray(argv["actions"], "actions"),
-					priority: argv["priority"],
-					status: argv["status"],
-					targets: parseObjectArray(argv["targets"], "targets"),
-				});
-				const result = await withProgress(`Updating`, async () =>
-					client.send(operation, {
-						body: bodyData,
-						zone_id: zoneId,
-						pagerule_id: argv["pagerule-id"],
-					})
-				);
-				formatOutput(result, { successLabel: `Updated` });
-			}
-		),
+} as const satisfies ApiParameters;
+export type Args = ApiInputs<typeof parameters>;
+const command = apiCommand({
+	command: "edit <pagerule-id>",
+	describe: "Edit a Page Rule",
+	usage:
+		"$0 page-rules edit <pagerule-id>\n\nUpdates one or more fields of an existing Page Rule.",
+	...parameters,
+	loader: () => import("./edit.handler.js"),
 });
 
 export default command;

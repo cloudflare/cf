@@ -2,20 +2,13 @@
  * update command
  * @generated from apis/overlays/snippets.ts
  */
-import type { ArgClassification } from "#lib/telemetry/index.js";
-import { apiCommand } from "#lib/api-command.js";
-import { createCommandClient, getZoneId, requestApi } from "#lib/auth.js";
-import { formatDryRun } from "#lib/dry-run.js";
-import { readFileForFlag, resolveFileToken } from "#lib/input-validation.js";
-import { formatOutput } from "#lib/output.js";
-import { withProgress } from "#lib/progress.js";
-import { runWithTelemetry } from "#lib/telemetry/index.js";
+import {
+	apiCommand,
+	type ApiInputs,
+	type ApiParameters,
+} from "#lib/api-command.js";
 
-const command = apiCommand({
-	command: "update <snippet-name>",
-	describe: "Update a zone snippet",
-	usage:
-		"$0 snippets update <snippet-name>\n\nCreates or updates a snippet belonging to the zone.",
+const parameters = {
 	flags: {
 		"dry-run": {
 			kind: "boolean",
@@ -48,107 +41,15 @@ const command = apiCommand({
 			parse: String,
 		},
 	],
-	handler: async (argv): Promise<void> =>
-		runWithTelemetry(
-			{
-				command: "snippets update",
-				classification: { safeFlags: ["dry-run"] } satisfies ArgClassification<
-					typeof argv
-				>,
-			},
-			argv as Record<string, unknown>,
-			async () => {
-				if (
-					argv.body === undefined &&
-					argv.file === undefined &&
-					argv["metadata"] === undefined
-				) {
-					throw new Error(
-						"--body or --file is required for this command. Pass --body '<value>' or --file path/to/file."
-					);
-				}
-				if (argv.dryRun) {
-					formatDryRun({
-						command: "cf snippets update",
-						method: "PUT",
-						url: `https://api.cloudflare.com/client/v4/zones/${argv.zone ?? argv.zoneId ?? "<zone>"}/snippets/${argv["snippet-name"] == null ? "<snippet-name>" : encodeURIComponent(String(argv["snippet-name"]))}`,
-						pathParams: {
-							"zone-id": String(argv.zone ?? argv["zone-id"] ?? ""),
-							"snippet-name": String(argv["snippet-name"] ?? ""),
-						},
-						bodyKind: "multipart",
-						body: {
-							body: argv["body"],
-							file: argv["file"],
-							metadata: argv["metadata"],
-						},
-					});
-					return;
-				}
-				const client = await createCommandClient(argv);
-				const zoneId = await getZoneId({ zone: argv.zone }, client, {
-					quiet: argv.quiet,
-				});
-				argv.zoneId = zoneId;
-
-				if (
-					argv.file !== undefined ||
-					argv.body !== undefined ||
-					argv["metadata"] !== undefined
-				) {
-					const formData = new FormData();
-					if (argv.file !== undefined) {
-						const fileContent = readFileForFlag(argv.file);
-						formData.append(
-							"file",
-							new Blob([fileContent]),
-							argv.file.split(/[\\/]/).filter(Boolean).pop()
-						);
-					} else if (argv.body !== undefined) {
-						formData.append("file", argv.body);
-					}
-					if (argv["metadata"] !== undefined) {
-						const v =
-							typeof argv["metadata"] === "string"
-								? resolveFileToken(argv["metadata"], "metadata", "text")
-								: argv["metadata"];
-						formData.append(
-							"metadata",
-							typeof v === "string" ? v : JSON.stringify(v)
-						);
-					}
-					const result = await withProgress(`Updating`, async () =>
-						requestApi<unknown>(
-							client,
-							"PUT",
-							`/zones/${argv.zoneId}/snippets/${encodeURIComponent(String(argv["snippet-name"]))}`,
-							{ body: formData }
-						)
-					);
-					formatOutput(result, { successLabel: `Updated` });
-					return;
-				}
-
-				if (argv.body !== undefined) {
-					// Endpoint does not accept application/json — send --body as raw bytes,
-					// resolving @file references as binary file contents.
-					const bodyData = resolveFileToken(argv.body, "body", "binary");
-					const result = await withProgress(`Updating`, async () =>
-						requestApi<unknown>(
-							client,
-							"PUT",
-							`/zones/${argv.zoneId}/snippets/${encodeURIComponent(String(argv["snippet-name"]))}`,
-							{
-								body: bodyData,
-								headers: { "Content-Type": "multipart/form-data" },
-							}
-						)
-					);
-					formatOutput(result, { successLabel: `Updated` });
-					return;
-				}
-			}
-		),
+} as const satisfies ApiParameters;
+export type Args = ApiInputs<typeof parameters>;
+const command = apiCommand({
+	command: "update <snippet-name>",
+	describe: "Update a zone snippet",
+	usage:
+		"$0 snippets update <snippet-name>\n\nCreates or updates a snippet belonging to the zone.",
+	...parameters,
+	loader: () => import("./update.handler.js"),
 });
 
 export default command;

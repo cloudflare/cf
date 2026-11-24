@@ -1,27 +1,14 @@
-import operation from "../../_operations/kv/namespaces/delete.js";
 /**
  * delete command
  * @generated from apis/overlays/kv.ts
  */
-import type { ArgClassification } from "#lib/telemetry/index.js";
-import { apiCommand } from "#lib/api-command.js";
 import {
-	createCommandClient,
-	getAccountId,
-	resolveAccountIdSilent,
-} from "#lib/auth.js";
-import { formatDryRun } from "#lib/dry-run.js";
-import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
-import { formatOutput } from "#lib/output.js";
-import { withProgress } from "#lib/progress.js";
-import { confirmDelete } from "#lib/prompt.js";
-import { runWithTelemetry } from "#lib/telemetry/index.js";
+	apiCommand,
+	type ApiInputs,
+	type ApiParameters,
+} from "#lib/api-command.js";
 
-const command = apiCommand({
-	command: "delete <namespace-id>",
-	describe: "Delete a namespace",
-	usage:
-		"$0 kv namespaces delete <namespace-id>\n\nDeletes the specified Workers KV namespace and its stored key-value pairs from the account.",
+const parameters = {
 	flags: {
 		"dry-run": {
 			kind: "boolean",
@@ -42,50 +29,15 @@ const command = apiCommand({
 			parse: String,
 		},
 	],
-	handler: async (argv): Promise<void> =>
-		runWithTelemetry(
-			{
-				command: "kv namespaces delete",
-				classification: {
-					safeFlags: ["dry-run", "force"],
-					shortFlagAliases: { f: { canonical: "force", type: "boolean" } },
-				} satisfies ArgClassification<typeof argv>,
-			},
-			argv as Record<string, unknown>,
-			async () => {
-				if (argv.dryRun) {
-					const __cfDryRunAccountId = await resolveAccountIdSilent();
-					formatDryRun({
-						command: "cf kv namespaces delete",
-						method: "DELETE",
-						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/storage/kv/namespaces/${argv["namespace-id"] == null ? "<namespace-id>" : encodeURIComponent(String(argv["namespace-id"]))}`,
-						pathParams: { "namespace-id": String(argv["namespace-id"] ?? "") },
-						bodyKind: "none",
-					});
-					return;
-				}
-				const client = await createCommandClient(argv);
-				const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
-				argv.accountId = accountId;
-
-				if (
-					!(await confirmDelete({
-						force: Boolean(argv.force),
-						message: `This operation deletes the selected Workers KV namespace and all of its key-value pairs.`,
-					}))
-				) {
-					return;
-				}
-
-				const result = await withProgress(`Deleting`, async () =>
-					client.send(operation, {
-						account_id: accountId,
-						namespace_id: argv["namespace-id"],
-					})
-				);
-				formatOutput(result, { successLabel: `Deleted` });
-			}
-		),
+} as const satisfies ApiParameters;
+export type Args = ApiInputs<typeof parameters>;
+const command = apiCommand({
+	command: "delete <namespace-id>",
+	describe: "Delete a namespace",
+	usage:
+		"$0 kv namespaces delete <namespace-id>\n\nDeletes the specified Workers KV namespace and its stored key-value pairs from the account.",
+	...parameters,
+	loader: () => import("./delete.handler.js"),
 });
 
 export default command;

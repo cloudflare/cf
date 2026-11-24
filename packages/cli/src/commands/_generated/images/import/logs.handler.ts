@@ -1,0 +1,55 @@
+import operation from "../../_operations/images/import/logs.js";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import type { Args } from "./logs.js";
+import {
+	createCommandClient,
+	getAccountId,
+	resolveAccountIdSilent,
+} from "#lib/auth.js";
+import { formatDryRun } from "#lib/dry-run.js";
+import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
+import { formatOutput } from "#lib/output.js";
+import { withProgress } from "#lib/progress.js";
+import { runWithTelemetry } from "#lib/telemetry/index.js";
+
+export default async function handle(argv: Args): Promise<void> {
+	return runWithTelemetry(
+		{
+			command: "images import logs",
+			classification: { safeFlags: ["dry-run"] } satisfies ArgClassification<
+				typeof argv
+			>,
+		},
+		argv as Record<string, unknown>,
+		async () => {
+			const queryParams: Record<string, unknown> = {
+				offset: argv["offset"],
+				limit: argv["limit"],
+			};
+			if (argv.dryRun) {
+				const __cfDryRunAccountId = await resolveAccountIdSilent();
+				formatDryRun({
+					command: "cf images import logs",
+					method: "GET",
+					url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/images/v2/sourcingkit/migrations/${argv["migration-id"] == null ? "<migration-id>" : encodeURIComponent(String(argv["migration-id"]))}/logs`,
+					pathParams: { "migration-id": String(argv["migration-id"] ?? "") },
+					query: queryParams,
+					bodyKind: "none",
+				});
+				return;
+			}
+			const client = await createCommandClient(argv);
+			const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
+			argv.accountId = accountId;
+
+			const result = await withProgress(`Loading`, async () =>
+				client.send(operation, {
+					account_id: accountId,
+					migration_id: argv["migration-id"],
+					...queryParams,
+				})
+			);
+			formatOutput(result, { successLabel: `Loaded` });
+		}
+	);
+}

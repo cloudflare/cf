@@ -11,7 +11,7 @@ forge runs (`forge generate --target wasm://...`) to write `src/commands/_genera
 The cross-cutting runtime (`src/index.ts` and generic helpers under `src/lib/`) must remain a generic shell over whatever commands the generator emits into `src/commands/_generated/`. Product-specific behavior belongs in Forge unless it is one of the deliberately bounded hand-written exceptions below or the universal zone-name resolver used by global `--zone`.
 
 - `src/index.ts` imports `generatedCommands` and registers them in a loop
-- each generated top-level command root is registered through `lazyCommand`; selecting it loads the root's statically imported group/leaf subtree
+- each generated top-level command root is registered through `lazyCommand`; selecting it loads the product’s command definitions; generated execution handlers load separately, on invocation
 - Adding a new API product is a forge change, not a cf change
 
 If a generic runtime or generator change starts branching on a product name, first look for a Forge/OpenAPI annotation. The existing Worker-name derivation is a narrowly scoped generator exception; `context.ts` / `project-settings.ts` resolve an omitted Worker from source config for that helper. The zone runtime exception is likewise contained: `context.ts` delegates non-ID global zone values to `resolve.ts`, which validates the domain and calls `client.zones.list()` for the selected account. Do not use these as permission to spread product checks through the runtime.
@@ -52,7 +52,7 @@ second consumer.
 | Help labels and flag groups | declaration-driven help in `src/lib/stricli.ts`                                                                       |
 | Generator output shape      | `generator/plugin/` (rerun `pnpm generate`)                                                                           |
 | Metadata JSON shape         | `generator/plugin/files.ts`                                                                                           |
-| Shell completions           | `src/commands/completions/index.ts` (`@bomb.sh/tab`, backed by complete `commands.json` metadata)                     |
+| Shell completions           | `src/commands/completions/index.ts` (shell scripts from `@bomb.sh/tab`, suggestions from the runtime parser)          |
 
 ## Build
 
@@ -184,7 +184,7 @@ cf resolves account parameters itself.
 - `src/commands/_generated/` — Stricli command and route-map files, `_operations/` operation
   literals, and `_meta/*.json`
 
-The output is tracked in git, owned by `pnpm generate`, and must not be hand-edited. Shell-completion scripts are no longer generated — `cf complete` (backed by `@bomb.sh/tab`) reads the complete generated and hand-written command tree from `_meta/commands.json`. `_meta/hand-written-commands.json` republishes the hand-written subset with root/leaf/subgroup/override provenance.
+The output is tracked in git, owned by `pnpm generate`, and must not be hand-edited. `cf complete` uses Stricli suggestions from the registered commands and flags; `@bomb.sh/tab` supplies the four shell integrations. `_meta/hand-written-commands.json` republishes the hand-written subset with root/leaf/subgroup/override provenance.
 
 ## Generator plugin
 

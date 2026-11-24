@@ -1,21 +1,14 @@
-import operation from "../../../_operations/radar/tlds/performance/timeseries-groups.js";
 /**
  * timeseries-groups command
  * @generated from apis/overlays/radar.ts
  */
-import type { ArgClassification } from "#lib/telemetry/index.js";
-import { apiCommand } from "#lib/api-command.js";
-import { createCommandClient } from "#lib/auth.js";
-import { formatDryRun } from "#lib/dry-run.js";
-import { formatOutput } from "#lib/output.js";
-import { withProgress } from "#lib/progress.js";
-import { runWithTelemetry } from "#lib/telemetry/index.js";
+import {
+	apiCommand,
+	type ApiInputs,
+	type ApiParameters,
+} from "#lib/api-command.js";
 
-const command = apiCommand({
-	command: "timeseries-groups <dimension>",
-	describe: "Get TLD Performance Over Time",
-	usage:
-		"$0 radar tlds performance timeseries-groups <dimension>\n\nReturns a timeseries of TLD authoritative nameserver performance grouped by the specified dimension.",
+const parameters = {
 	flags: {
 		"agg-interval": {
 			kind: "enum",
@@ -110,51 +103,15 @@ const command = apiCommand({
 			parse: String,
 		},
 	],
-	handler: async (argv): Promise<void> =>
-		runWithTelemetry(
-			{
-				command: "radar tlds performance timeseries-groups",
-				classification: {
-					safeFlags: ["agg-interval", "format", "dry-run"],
-				} satisfies ArgClassification<typeof argv>,
-			},
-			argv as Record<string, unknown>,
-			async () => {
-				const queryParams: Record<string, unknown> = {
-					aggInterval: argv["agg-interval"],
-					name: argv["name"],
-					dateRange: argv["date-range"],
-					dateStart: argv["date-start"],
-					dateEnd: argv["date-end"],
-					location: argv["location"],
-					continent: argv["continent"],
-					tld: argv["tld"],
-					nameserver: argv["nameserver"],
-					limitPerGroup: argv["limit-per-group"],
-					format: argv["format"],
-				};
-				if (argv.dryRun) {
-					formatDryRun({
-						command: "cf radar tlds performance timeseries-groups",
-						method: "GET",
-						url: `https://api.cloudflare.com/client/v4/radar/tlds/performance/timeseries_groups/${argv["dimension"] == null ? "<dimension>" : encodeURIComponent(String(argv["dimension"]))}`,
-						pathParams: { dimension: String(argv["dimension"] ?? "") },
-						query: queryParams,
-						bodyKind: "none",
-					});
-					return;
-				}
-				const client = await createCommandClient(argv);
-
-				const result = await withProgress(`Loading`, async () =>
-					client.send(operation, {
-						dimension: argv["dimension"],
-						...queryParams,
-					})
-				);
-				formatOutput(result, { successLabel: `Loaded` });
-			}
-		),
+} as const satisfies ApiParameters;
+export type Args = ApiInputs<typeof parameters>;
+const command = apiCommand({
+	command: "timeseries-groups <dimension>",
+	describe: "Get TLD Performance Over Time",
+	usage:
+		"$0 radar tlds performance timeseries-groups <dimension>\n\nReturns a timeseries of TLD authoritative nameserver performance grouped by the specified dimension.",
+	...parameters,
+	loader: () => import("./timeseries-groups.handler.js"),
 });
 
 export default command;

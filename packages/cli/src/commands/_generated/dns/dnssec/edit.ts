@@ -1,22 +1,15 @@
-import operation from "../../_operations/dns/dnssec/edit.js";
 /**
  * edit command
  * @generated from apis/overlays/dns.ts
  */
-import type { ArgClassification } from "#lib/telemetry/index.js";
-import { apiCommand } from "#lib/api-command.js";
-import { createCommandClient, getZoneId } from "#lib/auth.js";
-import { compactBody, parseBody } from "#lib/body-parser.js";
-import { formatDryRun } from "#lib/dry-run.js";
+import {
+	apiCommand,
+	type ApiInputs,
+	type ApiParameters,
+} from "#lib/api-command.js";
 import { resolveFileToken } from "#lib/input-validation.js";
-import { formatOutput } from "#lib/output.js";
-import { withProgress } from "#lib/progress.js";
-import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-const command = apiCommand({
-	command: "edit",
-	describe: "Edit DNSSEC Status",
-	usage: "$0 dns dnssec edit\n\nEnable or disable DNSSEC.",
+const parameters = {
 	flags: {
 		"dnssec-multi-signer": {
 			kind: "boolean",
@@ -58,73 +51,14 @@ const command = apiCommand({
 		},
 	},
 	operands: [],
-	handler: async (argv): Promise<void> =>
-		runWithTelemetry(
-			{
-				command: "dns dnssec edit",
-				classification: {
-					safeFlags: [
-						"dnssec-multi-signer",
-						"dnssec-presigned",
-						"dnssec-use-nsec3",
-						"status",
-						"dry-run",
-					],
-				} satisfies ArgClassification<typeof argv>,
-			},
-			argv as Record<string, unknown>,
-			async () => {
-				if (argv.dryRun) {
-					formatDryRun({
-						command: "cf dns dnssec edit",
-						method: "PATCH",
-						url: `https://api.cloudflare.com/client/v4/zones/${argv.zone ?? argv.zoneId ?? "<zone>"}/dnssec`,
-						pathParams: {
-							"zone-id": String(argv.zone ?? argv["zone-id"] ?? ""),
-						},
-						bodyKind: "json",
-						body:
-							argv.body !== undefined
-								? parseBody(argv.body)
-								: compactBody({
-										dnssec_multi_signer: argv["dnssec-multi-signer"],
-										dnssec_presigned: argv["dnssec-presigned"],
-										dnssec_use_nsec3: argv["dnssec-use-nsec3"],
-										status: argv["status"],
-									}),
-					});
-					return;
-				}
-				const parsedBody =
-					argv.body !== undefined ? parseBody(argv.body) : undefined;
-				const client = await createCommandClient(argv);
-				const zoneId = await getZoneId({ zone: argv.zone }, client, {
-					quiet: argv.quiet,
-				});
-				argv.zoneId = zoneId;
-
-				if (argv.body !== undefined) {
-					const bodyData = parsedBody;
-					const result = await withProgress(`Updating`, async () =>
-						client.send(operation, { body: bodyData, zone_id: zoneId })
-					);
-					formatOutput(result, { successLabel: `Updated` });
-					return;
-				}
-
-				// Assemble request body from individual flags
-				const bodyData = compactBody({
-					dnssec_multi_signer: argv["dnssec-multi-signer"],
-					dnssec_presigned: argv["dnssec-presigned"],
-					dnssec_use_nsec3: argv["dnssec-use-nsec3"],
-					status: argv["status"],
-				});
-				const result = await withProgress(`Updating`, async () =>
-					client.send(operation, { body: bodyData, zone_id: zoneId })
-				);
-				formatOutput(result, { successLabel: `Updated` });
-			}
-		),
+} as const satisfies ApiParameters;
+export type Args = ApiInputs<typeof parameters>;
+const command = apiCommand({
+	command: "edit",
+	describe: "Edit DNSSEC Status",
+	usage: "$0 dns dnssec edit\n\nEnable or disable DNSSEC.",
+	...parameters,
+	loader: () => import("./edit.handler.js"),
 });
 
 export default command;

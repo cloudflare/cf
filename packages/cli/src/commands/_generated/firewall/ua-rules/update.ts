@@ -1,24 +1,15 @@
-import operation from "../../_operations/firewall/ua-rules/update.js";
 /**
  * update command
  * @generated from apis/overlays/firewall.ts
  */
-import type { ArgClassification } from "#lib/telemetry/index.js";
-import { apiCommand } from "#lib/api-command.js";
-import { createCommandClient, getZoneId } from "#lib/auth.js";
-import { compactBody, parseBody } from "#lib/body-parser.js";
-import { formatDryRun } from "#lib/dry-run.js";
+import {
+	apiCommand,
+	type ApiInputs,
+	type ApiParameters,
+} from "#lib/api-command.js";
 import { resolveFileToken } from "#lib/input-validation.js";
-import { formatOutput } from "#lib/output.js";
-import { withProgress } from "#lib/progress.js";
-import { promptForRequiredEnumField } from "#lib/prompt.js";
-import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-const command = apiCommand({
-	command: "update <ua-rule-id>",
-	describe: "Update a User Agent Blocking rule",
-	usage:
-		"$0 firewall ua-rules update <ua-rule-id>\n\nUpdates an existing User Agent Blocking rule.",
+const parameters = {
 	flags: {
 		"configuration-target": {
 			kind: "parsed",
@@ -83,122 +74,15 @@ const command = apiCommand({
 			parse: String,
 		},
 	],
-	handler: async (argv): Promise<void> =>
-		runWithTelemetry(
-			{
-				command: "firewall ua-rules update",
-				classification: {
-					safeFlags: [
-						"configuration-target",
-						"access-rule-mode",
-						"paused",
-						"dry-run",
-					],
-				} satisfies ArgClassification<typeof argv>,
-			},
-			argv as Record<string, unknown>,
-			async () => {
-				const resolveRequiredFields = async (): Promise<void> => {
-					if (argv["access-rule-mode"] === undefined) {
-						argv["access-rule-mode"] = await promptForRequiredEnumField(
-							"access-rule-mode",
-							"The action to apply to a matched request.",
-							[
-								"block",
-								"challenge",
-								"whitelist",
-								"js_challenge",
-								"managed_challenge",
-							] as const
-						);
-					}
-				};
-				if (argv.dryRun) {
-					if (argv.body === undefined) {
-						await resolveRequiredFields();
-					}
-					formatDryRun({
-						command: "cf firewall ua-rules update",
-						method: "PUT",
-						url: `https://api.cloudflare.com/client/v4/zones/${argv.zone ?? argv.zoneId ?? "<zone>"}/firewall/ua_rules/${argv["ua-rule-id"] == null ? "<ua-rule-id>" : encodeURIComponent(String(argv["ua-rule-id"]))}`,
-						pathParams: {
-							"zone-id": String(argv.zone ?? argv["zone-id"] ?? ""),
-							"ua-rule-id": String(argv["ua-rule-id"] ?? ""),
-						},
-						bodyKind: "json",
-						body:
-							argv.body !== undefined
-								? parseBody(argv.body)
-								: compactBody({
-										configuration: {
-											target: argv["configuration-target"],
-											value: resolveFileToken(
-												argv["configuration-value"] as string | undefined,
-												"configuration-value",
-												"text"
-											),
-										},
-										description: resolveFileToken(
-											argv["description"] as string | undefined,
-											"description",
-											"text"
-										),
-										mode: argv["access-rule-mode"],
-										paused: argv["paused"],
-									}),
-					});
-					return;
-				}
-				const parsedBody =
-					argv.body !== undefined ? parseBody(argv.body) : undefined;
-				const client = await createCommandClient(argv);
-				const zoneId = await getZoneId({ zone: argv.zone }, client, {
-					quiet: argv.quiet,
-				});
-				argv.zoneId = zoneId;
-
-				if (argv.body !== undefined) {
-					const bodyData = parsedBody;
-					const result = await withProgress(`Updating`, async () =>
-						client.send(operation, {
-							body: bodyData,
-							zone_id: zoneId,
-							ua_rule_id: argv["ua-rule-id"],
-						})
-					);
-					formatOutput(result, { successLabel: `Updated` });
-					return;
-				}
-				await resolveRequiredFields();
-
-				// Assemble request body from individual flags
-				const bodyData = compactBody({
-					configuration: {
-						target: argv["configuration-target"],
-						value: resolveFileToken(
-							argv["configuration-value"] as string | undefined,
-							"configuration-value",
-							"text"
-						),
-					},
-					description: resolveFileToken(
-						argv["description"] as string | undefined,
-						"description",
-						"text"
-					),
-					mode: argv["access-rule-mode"],
-					paused: argv["paused"],
-				});
-				const result = await withProgress(`Updating`, async () =>
-					client.send(operation, {
-						body: bodyData,
-						zone_id: zoneId,
-						ua_rule_id: argv["ua-rule-id"],
-					})
-				);
-				formatOutput(result, { successLabel: `Updated` });
-			}
-		),
+} as const satisfies ApiParameters;
+export type Args = ApiInputs<typeof parameters>;
+const command = apiCommand({
+	command: "update <ua-rule-id>",
+	describe: "Update a User Agent Blocking rule",
+	usage:
+		"$0 firewall ua-rules update <ua-rule-id>\n\nUpdates an existing User Agent Blocking rule.",
+	...parameters,
+	loader: () => import("./update.handler.js"),
 });
 
 export default command;

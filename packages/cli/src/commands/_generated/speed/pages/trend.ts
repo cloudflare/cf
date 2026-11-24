@@ -1,21 +1,14 @@
-import operation from "../../_operations/speed/pages/trend.js";
 /**
  * trend command
  * @generated from apis/overlays/speed.ts
  */
-import type { ArgClassification } from "#lib/telemetry/index.js";
-import { apiCommand } from "#lib/api-command.js";
-import { createCommandClient, getZoneId } from "#lib/auth.js";
-import { formatDryRun } from "#lib/dry-run.js";
-import { formatOutput } from "#lib/output.js";
-import { withProgress } from "#lib/progress.js";
-import { runWithTelemetry } from "#lib/telemetry/index.js";
+import {
+	apiCommand,
+	type ApiInputs,
+	type ApiParameters,
+} from "#lib/api-command.js";
 
-const command = apiCommand({
-	command: "trend <url>",
-	describe: "List core web vital metrics trend",
-	usage:
-		"$0 speed pages trend <url>\n\nLists the core web vital metrics trend over time for a specific page.",
+const parameters = {
 	flags: {
 		region: {
 			kind: "enum",
@@ -68,54 +61,15 @@ const command = apiCommand({
 		},
 	},
 	operands: [{ placeholder: "url", brief: "A URL.", parse: String }],
-	handler: async (argv): Promise<void> =>
-		runWithTelemetry(
-			{
-				command: "speed pages trend",
-				classification: {
-					safeFlags: ["region", "device-type", "dry-run"],
-				} satisfies ArgClassification<typeof argv>,
-			},
-			argv as Record<string, unknown>,
-			async () => {
-				const queryParams: Record<string, unknown> = {
-					region: argv["region"],
-					deviceType: argv["device-type"],
-					start: argv["start"],
-					end: argv["end"],
-					tz: argv["tz"],
-					metrics: argv["metrics"],
-				};
-				if (argv.dryRun) {
-					formatDryRun({
-						command: "cf speed pages trend",
-						method: "GET",
-						url: `https://api.cloudflare.com/client/v4/zones/${argv.zone ?? argv.zoneId ?? "<zone>"}/speed_api/pages/${argv["url"] == null ? "<url>" : encodeURIComponent(String(argv["url"]))}/trend`,
-						pathParams: {
-							"zone-id": String(argv.zone ?? argv["zone-id"] ?? ""),
-							url: String(argv["url"] ?? ""),
-						},
-						query: queryParams,
-						bodyKind: "none",
-					});
-					return;
-				}
-				const client = await createCommandClient(argv);
-				const zoneId = await getZoneId({ zone: argv.zone }, client, {
-					quiet: argv.quiet,
-				});
-				argv.zoneId = zoneId;
-
-				const result = await withProgress(`Loading`, async () =>
-					client.send(operation, {
-						zone_id: zoneId,
-						url: argv["url"],
-						...queryParams,
-					})
-				);
-				formatOutput(result, { successLabel: `Loaded` });
-			}
-		),
+} as const satisfies ApiParameters;
+export type Args = ApiInputs<typeof parameters>;
+const command = apiCommand({
+	command: "trend <url>",
+	describe: "List core web vital metrics trend",
+	usage:
+		"$0 speed pages trend <url>\n\nLists the core web vital metrics trend over time for a specific page.",
+	...parameters,
+	loader: () => import("./trend.handler.js"),
 });
 
 export default command;

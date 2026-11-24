@@ -2,26 +2,13 @@
  * delete command
  * @generated from apis/overlays/ai-search.ts
  */
-import type { ArgClassification } from "#lib/telemetry/index.js";
-import { apiCommand } from "#lib/api-command.js";
 import {
-	createCommandClient,
-	getAccountId,
-	requestApi,
-	resolveAccountIdSilent,
-} from "#lib/auth.js";
-import { formatDryRun } from "#lib/dry-run.js";
-import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
-import { formatOutput } from "#lib/output.js";
-import { withProgress } from "#lib/progress.js";
-import { confirmDelete } from "#lib/prompt.js";
-import { runWithTelemetry } from "#lib/telemetry/index.js";
+	apiCommand,
+	type ApiInputs,
+	type ApiParameters,
+} from "#lib/api-command.js";
 
-const command = apiCommand({
-	command: "delete <token-id>",
-	describe: "Delete a token",
-	usage:
-		"$0 ai-search tokens delete <token-id>\n\nDeletes a stored AI Search credential permanently. Credentials in use by an instance cannot be deleted.",
+const parameters = {
 	flags: {
 		"dry-run": {
 			kind: "boolean",
@@ -42,51 +29,15 @@ const command = apiCommand({
 			parse: String,
 		},
 	],
-	handler: async (argv): Promise<void> =>
-		runWithTelemetry(
-			{
-				command: "ai-search tokens delete",
-				classification: {
-					safeFlags: ["dry-run", "force"],
-					shortFlagAliases: { f: { canonical: "force", type: "boolean" } },
-				} satisfies ArgClassification<typeof argv>,
-			},
-			argv as Record<string, unknown>,
-			async () => {
-				if (argv.dryRun) {
-					const __cfDryRunAccountId = await resolveAccountIdSilent();
-					formatDryRun({
-						command: "cf ai-search tokens delete",
-						method: "DELETE",
-						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/ai-search/tokens/${argv["token-id"] == null ? "<token-id>" : encodeURIComponent(String(argv["token-id"]))}`,
-						pathParams: { "token-id": String(argv["token-id"] ?? "") },
-						bodyKind: "none",
-					});
-					return;
-				}
-				const client = await createCommandClient(argv);
-				const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
-				argv.accountId = accountId;
-
-				if (
-					!(await confirmDelete({
-						force: Boolean(argv.force),
-						message: `This operation permanently deletes the stored credential.`,
-					}))
-				) {
-					return;
-				}
-
-				const result = await withProgress(`Deleting`, async () =>
-					requestApi<unknown>(
-						client,
-						"DELETE",
-						`/accounts/${accountId}/ai-search/tokens/${encodeURIComponent(String(argv["token-id"]))}`
-					)
-				);
-				formatOutput(result, { successLabel: `Deleted` });
-			}
-		),
+} as const satisfies ApiParameters;
+export type Args = ApiInputs<typeof parameters>;
+const command = apiCommand({
+	command: "delete <token-id>",
+	describe: "Delete a token",
+	usage:
+		"$0 ai-search tokens delete <token-id>\n\nDeletes a stored AI Search credential permanently. Credentials in use by an instance cannot be deleted.",
+	...parameters,
+	loader: () => import("./delete.handler.js"),
 });
 
 export default command;

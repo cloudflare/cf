@@ -1,21 +1,14 @@
-import operation from "../../../_operations/radar/bgp/top/prefixes.js";
 /**
  * prefixes command
  * @generated from apis/overlays/radar.ts
  */
-import type { ArgClassification } from "#lib/telemetry/index.js";
-import { apiCommand } from "#lib/api-command.js";
-import { createCommandClient } from "#lib/auth.js";
-import { formatDryRun } from "#lib/dry-run.js";
-import { formatOutput } from "#lib/output.js";
-import { withProgress } from "#lib/progress.js";
-import { runWithTelemetry } from "#lib/telemetry/index.js";
+import {
+	apiCommand,
+	type ApiInputs,
+	type ApiParameters,
+} from "#lib/api-command.js";
 
-const command = apiCommand({
-	command: "prefixes",
-	describe: "Get top prefixes by BGP updates",
-	usage:
-		"$0 radar bgp top prefixes\n\nRetrieves the top network prefixes by BGP updates.",
+const parameters = {
 	flags: {
 		limit: {
 			kind: "parsed",
@@ -84,45 +77,15 @@ const command = apiCommand({
 		},
 	},
 	operands: [],
-	handler: async (argv): Promise<void> =>
-		runWithTelemetry(
-			{
-				command: "radar bgp top prefixes",
-				classification: {
-					safeFlags: ["format", "dry-run"],
-				} satisfies ArgClassification<typeof argv>,
-			},
-			argv as Record<string, unknown>,
-			async () => {
-				const queryParams: Record<string, unknown> = {
-					limit: argv["limit"],
-					name: argv["name"],
-					dateRange: argv["date-range"],
-					dateStart: argv["date-start"],
-					dateEnd: argv["date-end"],
-					asn: argv["asn"],
-					updateType: argv["update-type"],
-					format: argv["format"],
-				};
-				if (argv.dryRun) {
-					formatDryRun({
-						command: "cf radar bgp top prefixes",
-						method: "GET",
-						url: `https://api.cloudflare.com/client/v4/radar/bgp/top/prefixes`,
-						pathParams: {},
-						query: queryParams,
-						bodyKind: "none",
-					});
-					return;
-				}
-				const client = await createCommandClient(argv);
-
-				const result = await withProgress(`Loading`, async () =>
-					client.send(operation, queryParams)
-				);
-				formatOutput(result, { successLabel: `Loaded` });
-			}
-		),
+} as const satisfies ApiParameters;
+export type Args = ApiInputs<typeof parameters>;
+const command = apiCommand({
+	command: "prefixes",
+	describe: "Get top prefixes by BGP updates",
+	usage:
+		"$0 radar bgp top prefixes\n\nRetrieves the top network prefixes by BGP updates.",
+	...parameters,
+	loader: () => import("./prefixes.handler.js"),
 });
 
 export default command;

@@ -1,0 +1,55 @@
+import operation from "../../../_operations/web-assets/discovery/operations/list.js";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import type { Args } from "./list.js";
+import { createCommandClient, getZoneId } from "#lib/auth.js";
+import { formatDryRun } from "#lib/dry-run.js";
+import { formatOutput } from "#lib/output.js";
+import { withProgress } from "#lib/progress.js";
+import { runWithTelemetry } from "#lib/telemetry/index.js";
+
+export default async function handle(argv: Args): Promise<void> {
+	return runWithTelemetry(
+		{
+			command: "web-assets discovery operations list",
+			classification: {
+				safeFlags: ["direction", "order", "diff", "origin", "state", "dry-run"],
+			} satisfies ArgClassification<typeof argv>,
+		},
+		argv as Record<string, unknown>,
+		async () => {
+			const queryParams: Record<string, unknown> = {
+				page: argv["page"],
+				per_page: argv["per-page"],
+				host: argv["host"],
+				method: argv["method"],
+				endpoint: argv["endpoint"],
+				direction: argv["direction"],
+				order: argv["order"],
+				diff: argv["diff"],
+				origin: argv["origin"],
+				state: argv["state"],
+			};
+			if (argv.dryRun) {
+				formatDryRun({
+					command: "cf web-assets discovery operations list",
+					method: "GET",
+					url: `https://api.cloudflare.com/client/v4/zones/${argv.zone ?? argv.zoneId ?? "<zone>"}/api_gateway/discovery/operations`,
+					pathParams: { "zone-id": String(argv.zone ?? argv["zone-id"] ?? "") },
+					query: queryParams,
+					bodyKind: "none",
+				});
+				return;
+			}
+			const client = await createCommandClient(argv);
+			const zoneId = await getZoneId({ zone: argv.zone }, client, {
+				quiet: argv.quiet,
+			});
+			argv.zoneId = zoneId;
+
+			const result = await withProgress(`Loading`, async () =>
+				client.send(operation, { zone_id: zoneId, ...queryParams })
+			);
+			formatOutput(result, { successLabel: `Loaded` });
+		}
+	);
+}

@@ -1,21 +1,14 @@
-import operation from "../../_operations/radar/origins/timeseries-groups.js";
 /**
  * timeseries-groups command
  * @generated from apis/overlays/radar.ts
  */
-import type { ArgClassification } from "#lib/telemetry/index.js";
-import { apiCommand } from "#lib/api-command.js";
-import { createCommandClient } from "#lib/auth.js";
-import { formatDryRun } from "#lib/dry-run.js";
-import { formatOutput } from "#lib/output.js";
-import { withProgress } from "#lib/progress.js";
-import { runWithTelemetry } from "#lib/telemetry/index.js";
+import {
+	apiCommand,
+	type ApiInputs,
+	type ApiParameters,
+} from "#lib/api-command.js";
 
-const command = apiCommand({
-	command: "timeseries-groups <dimension>",
-	describe: "Get origin metrics time series grouped by dimension",
-	usage:
-		"$0 radar origins timeseries-groups <dimension>\n\nRetrieves the distribution of origin metrics grouped by the specified dimension over time.",
+const parameters = {
 	flags: {
 		"agg-interval": {
 			kind: "enum",
@@ -120,57 +113,15 @@ const command = apiCommand({
 			parse: String,
 		},
 	],
-	handler: async (argv): Promise<void> =>
-		runWithTelemetry(
-			{
-				command: "radar origins timeseries-groups",
-				classification: {
-					safeFlags: [
-						"agg-interval",
-						"metric",
-						"normalization",
-						"format",
-						"dry-run",
-					],
-				} satisfies ArgClassification<typeof argv>,
-			},
-			argv as Record<string, unknown>,
-			async () => {
-				const queryParams: Record<string, unknown> = {
-					aggInterval: argv["agg-interval"],
-					name: argv["name"],
-					dateRange: argv["date-range"],
-					dateStart: argv["date-start"],
-					dateEnd: argv["date-end"],
-					limitPerGroup: argv["limit-per-group"],
-					origin: argv["origin"],
-					metric: argv["metric"],
-					region: argv["region"],
-					normalization: argv["normalization"],
-					format: argv["format"],
-				};
-				if (argv.dryRun) {
-					formatDryRun({
-						command: "cf radar origins timeseries-groups",
-						method: "GET",
-						url: `https://api.cloudflare.com/client/v4/radar/origins/timeseries_groups/${argv["dimension"] == null ? "<dimension>" : encodeURIComponent(String(argv["dimension"]))}`,
-						pathParams: { dimension: String(argv["dimension"] ?? "") },
-						query: queryParams,
-						bodyKind: "none",
-					});
-					return;
-				}
-				const client = await createCommandClient(argv);
-
-				const result = await withProgress(`Loading`, async () =>
-					client.send(operation, {
-						dimension: argv["dimension"],
-						...queryParams,
-					})
-				);
-				formatOutput(result, { successLabel: `Loaded` });
-			}
-		),
+} as const satisfies ApiParameters;
+export type Args = ApiInputs<typeof parameters>;
+const command = apiCommand({
+	command: "timeseries-groups <dimension>",
+	describe: "Get origin metrics time series grouped by dimension",
+	usage:
+		"$0 radar origins timeseries-groups <dimension>\n\nRetrieves the distribution of origin metrics grouped by the specified dimension over time.",
+	...parameters,
+	loader: () => import("./timeseries-groups.handler.js"),
 });
 
 export default command;

@@ -1,21 +1,14 @@
-import operation from "../../../_operations/radar/bots/crawlers/timeseries-groups.js";
 /**
  * timeseries-groups command
  * @generated from apis/overlays/radar.ts
  */
-import type { ArgClassification } from "#lib/telemetry/index.js";
-import { apiCommand } from "#lib/api-command.js";
-import { createCommandClient } from "#lib/auth.js";
-import { formatDryRun } from "#lib/dry-run.js";
-import { formatOutput } from "#lib/output.js";
-import { withProgress } from "#lib/progress.js";
-import { runWithTelemetry } from "#lib/telemetry/index.js";
+import {
+	apiCommand,
+	type ApiInputs,
+	type ApiParameters,
+} from "#lib/api-command.js";
 
-const command = apiCommand({
-	command: "timeseries-groups <dimension>",
-	describe: "Get time series of crawler HTTP request distribution by dimension",
-	usage:
-		"$0 radar bots crawlers timeseries-groups <dimension>\n\nRetrieves the distribution of HTTP requests from crawlers, grouped by the specified dimension over time.",
+const parameters = {
 	flags: {
 		"agg-interval": {
 			kind: "enum",
@@ -141,54 +134,15 @@ const command = apiCommand({
 			parse: String,
 		},
 	],
-	handler: async (argv): Promise<void> =>
-		runWithTelemetry(
-			{
-				command: "radar bots crawlers timeseries-groups",
-				classification: {
-					safeFlags: ["agg-interval", "normalization", "format", "dry-run"],
-				} satisfies ArgClassification<typeof argv>,
-			},
-			argv as Record<string, unknown>,
-			async () => {
-				const queryParams: Record<string, unknown> = {
-					aggInterval: argv["agg-interval"],
-					name: argv["name"],
-					dateRange: argv["date-range"],
-					dateStart: argv["date-start"],
-					dateEnd: argv["date-end"],
-					limitPerGroup: argv["limit-per-group"],
-					normalization: argv["normalization"],
-					botOperator: argv["bot-operator"],
-					vertical: argv["vertical"],
-					industry: argv["industry"],
-					clientType: argv["client-type"],
-					responseStatus: argv["response-status"],
-					responseStatusCategory: argv["response-status-category"],
-					format: argv["format"],
-				};
-				if (argv.dryRun) {
-					formatDryRun({
-						command: "cf radar bots crawlers timeseries-groups",
-						method: "GET",
-						url: `https://api.cloudflare.com/client/v4/radar/bots/crawlers/timeseries_groups/${argv["dimension"] == null ? "<dimension>" : encodeURIComponent(String(argv["dimension"]))}`,
-						pathParams: { dimension: String(argv["dimension"] ?? "") },
-						query: queryParams,
-						bodyKind: "none",
-					});
-					return;
-				}
-				const client = await createCommandClient(argv);
-
-				const result = await withProgress(`Loading`, async () =>
-					client.send(operation, {
-						dimension: argv["dimension"],
-						...queryParams,
-					})
-				);
-				formatOutput(result, { successLabel: `Loaded` });
-			}
-		),
+} as const satisfies ApiParameters;
+export type Args = ApiInputs<typeof parameters>;
+const command = apiCommand({
+	command: "timeseries-groups <dimension>",
+	describe: "Get time series of crawler HTTP request distribution by dimension",
+	usage:
+		"$0 radar bots crawlers timeseries-groups <dimension>\n\nRetrieves the distribution of HTTP requests from crawlers, grouped by the specified dimension over time.",
+	...parameters,
+	loader: () => import("./timeseries-groups.handler.js"),
 });
 
 export default command;

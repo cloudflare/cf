@@ -1,23 +1,15 @@
-import operation from "../_operations/fraud/update.js";
 /**
  * update command
  * @generated from apis/overlays/fraud.ts
  */
-import type { ArgClassification } from "#lib/telemetry/index.js";
-import { apiCommand } from "#lib/api-command.js";
-import { createCommandClient, getZoneId } from "#lib/auth.js";
-import { compactBody, parseBody } from "#lib/body-parser.js";
-import { formatDryRun } from "#lib/dry-run.js";
+import {
+	apiCommand,
+	type ApiInputs,
+	type ApiParameters,
+} from "#lib/api-command.js";
 import { resolveFileToken } from "#lib/input-validation.js";
-import { formatOutput } from "#lib/output.js";
-import { withProgress } from "#lib/progress.js";
-import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-const command = apiCommand({
-	command: "update",
-	describe: "Update Fraud Detection Settings",
-	usage:
-		"$0 fraud update\n\nUpdate Fraud Detection settings for a zone. Notes on `username_expressions` behavior: - If omitted or set to null, expressions are not modified. - If provided as an empty array `[]`, all expressions will be cleared.",
+const parameters = {
 	flags: {
 		"authentication-settings-failure-criteria-kind": {
 			kind: "parsed",
@@ -129,100 +121,15 @@ const command = apiCommand({
 			return true;
 		});
 	},
-	handler: async (argv): Promise<void> =>
-		runWithTelemetry(
-			{
-				command: "fraud update",
-				classification: {
-					safeFlags: [
-						"authentication-settings-failure-criteria-kind",
-						"authentication-settings-success-criteria-kind",
-						"user-profiles",
-						"dry-run",
-					],
-				} satisfies ArgClassification<typeof argv>,
-			},
-			argv as Record<string, unknown>,
-			async () => {
-				if (argv.dryRun) {
-					formatDryRun({
-						command: "cf fraud update",
-						method: "PUT",
-						url: `https://api.cloudflare.com/client/v4/zones/${argv.zone ?? argv.zoneId ?? "<zone>"}/fraud_detection/settings`,
-						pathParams: {
-							"zone-id": String(argv.zone ?? argv["zone-id"] ?? ""),
-						},
-						bodyKind: "json",
-						body:
-							argv.body !== undefined
-								? parseBody(argv.body)
-								: compactBody({
-										authentication_settings: {
-											failure_criteria: {
-												kind: argv[
-													"authentication-settings-failure-criteria-kind"
-												],
-												status_codes:
-													argv[
-														"authentication-settings-failure-criteria-status-codes"
-													],
-											},
-											success_criteria: {
-												kind: argv[
-													"authentication-settings-success-criteria-kind"
-												],
-												status_codes:
-													argv[
-														"authentication-settings-success-criteria-status-codes"
-													],
-											},
-										},
-										user_profiles: argv["user-profiles"],
-										username_expressions: argv["username-expressions"],
-									}),
-					});
-					return;
-				}
-				const parsedBody =
-					argv.body !== undefined ? parseBody(argv.body) : undefined;
-				const client = await createCommandClient(argv);
-				const zoneId = await getZoneId({ zone: argv.zone }, client, {
-					quiet: argv.quiet,
-				});
-				argv.zoneId = zoneId;
-
-				if (argv.body !== undefined) {
-					const bodyData = parsedBody;
-					const result = await withProgress(`Updating`, async () =>
-						client.send(operation, { body: bodyData, zone_id: zoneId })
-					);
-					formatOutput(result, { successLabel: `Updated` });
-					return;
-				}
-
-				// Assemble request body from individual flags
-				const bodyData = compactBody({
-					authentication_settings: {
-						failure_criteria: {
-							kind: argv["authentication-settings-failure-criteria-kind"],
-							status_codes:
-								argv["authentication-settings-failure-criteria-status-codes"],
-						},
-						success_criteria: {
-							kind: argv["authentication-settings-success-criteria-kind"],
-							status_codes:
-								argv["authentication-settings-success-criteria-status-codes"],
-						},
-					},
-					user_profiles: argv["user-profiles"],
-					username_expressions: argv["username-expressions"],
-				});
-				const result = await withProgress(`Updating`, async () =>
-					client.send(operation, { body: bodyData, zone_id: zoneId })
-				);
-				formatOutput(result, { successLabel: `Updated` });
-			}
-		),
+} as const satisfies ApiParameters;
+export type Args = ApiInputs<typeof parameters>;
+const command = apiCommand({
+	command: "update",
+	describe: "Update Fraud Detection Settings",
+	usage:
+		"$0 fraud update\n\nUpdate Fraud Detection settings for a zone. Notes on `username_expressions` behavior: - If omitted or set to null, expressions are not modified. - If provided as an empty array `[]`, all expressions will be cleared.",
+	...parameters,
+	loader: () => import("./update.handler.js"),
 });
 
 export default command;

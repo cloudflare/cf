@@ -1,0 +1,151 @@
+import operation from "../../../_operations/cloudforce-one/requests/assets/upload.js";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import type { Args } from "./upload.js";
+import {
+	createCommandClient,
+	getAccountId,
+	requestApi,
+	resolveAccountIdSilent,
+} from "#lib/auth.js";
+import { formatDryRun } from "#lib/dry-run.js";
+import { readFileForFlag, resolveFileToken } from "#lib/input-validation.js";
+import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
+import { formatOutput } from "#lib/output.js";
+import { withProgress } from "#lib/progress.js";
+import { runWithTelemetry } from "#lib/telemetry/index.js";
+
+export default async function handle(argv: Args): Promise<void> {
+	return runWithTelemetry(
+		{
+			command: "cloudforce-one requests assets upload",
+			classification: { safeFlags: ["dry-run"] } satisfies ArgClassification<
+				typeof argv
+			>,
+		},
+		argv as Record<string, unknown>,
+		async () => {
+			if (argv.dryRun) {
+				const __cfDryRunAccountId = await resolveAccountIdSilent();
+				formatDryRun({
+					command: "cf cloudforce-one requests assets upload",
+					method: "POST",
+					url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/cloudforce-one/v2/requests/${argv["project-type"] == null ? "<project-type>" : encodeURIComponent(String(argv["project-type"]))}/${argv["request-id"] == null ? "<request-id>" : encodeURIComponent(String(argv["request-id"]))}/assets/upload`,
+					pathParams: {
+						"project-type": String(argv["project-type"] ?? ""),
+						"request-id": String(argv["request-id"] ?? ""),
+					},
+					bodyKind: "multipart",
+					body: {
+						body: argv["body"],
+						file: argv["file"],
+						description: argv["description"],
+						metadata: argv["metadata"],
+						source: argv["source"],
+					},
+				});
+				return;
+			}
+			const client = await createCommandClient(argv);
+			const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
+			argv.accountId = accountId;
+
+			if (
+				argv.file !== undefined ||
+				argv.body !== undefined ||
+				argv["description"] !== undefined ||
+				argv["metadata"] !== undefined ||
+				argv["source"] !== undefined
+			) {
+				const formData = new FormData();
+				if (argv.file !== undefined) {
+					const fileContent = readFileForFlag(argv.file);
+					formData.append(
+						"file",
+						new Blob([fileContent]),
+						argv.file.split(/[\\/]/).filter(Boolean).pop()
+					);
+				} else if (argv.body !== undefined) {
+					formData.append("file", argv.body);
+				}
+				if (argv["description"] !== undefined)
+					formData.append(
+						"description",
+						String(
+							resolveFileToken(
+								argv["description"] as string | undefined,
+								"description",
+								"text"
+							) ?? ""
+						)
+					);
+				if (argv["metadata"] !== undefined)
+					formData.append(
+						"metadata",
+						String(
+							resolveFileToken(
+								argv["metadata"] as string | undefined,
+								"metadata",
+								"text"
+							) ?? ""
+						)
+					);
+				if (argv["source"] !== undefined) {
+					const value = String(argv["source"]);
+					if (value.startsWith("@")) {
+						const filePath = value.slice(1);
+						const fileContent = resolveFileToken(
+							value,
+							"source",
+							"binary"
+						) as Buffer<ArrayBuffer>;
+						formData.append(
+							"source",
+							new Blob([fileContent]),
+							filePath.split(/[\\/]/).filter(Boolean).pop()
+						);
+					} else {
+						formData.append("source", new Blob([value]), "source");
+					}
+				}
+				const result = await withProgress(`Creating`, async () =>
+					requestApi<unknown>(
+						client,
+						"POST",
+						`/accounts/${accountId}/cloudforce-one/v2/requests/${encodeURIComponent(String(argv["project-type"]))}/${encodeURIComponent(String(argv["request-id"]))}/assets/upload`,
+						{ body: formData }
+					)
+				);
+				formatOutput(result, { successLabel: `Created` });
+				return;
+			}
+
+			if (argv.body !== undefined) {
+				// Endpoint does not accept application/json — send --body as raw bytes,
+				// resolving @file references as binary file contents.
+				const bodyData = resolveFileToken(argv.body, "body", "binary");
+				const result = await withProgress(`Creating`, async () =>
+					requestApi<unknown>(
+						client,
+						"POST",
+						`/accounts/${accountId}/cloudforce-one/v2/requests/${encodeURIComponent(String(argv["project-type"]))}/${encodeURIComponent(String(argv["request-id"]))}/assets/upload`,
+						{
+							body: bodyData,
+							headers: { "Content-Type": "multipart/form-data" },
+						}
+					)
+				);
+				formatOutput(result, { successLabel: `Created` });
+				return;
+			}
+
+			const result = await withProgress(`Creating`, async () =>
+				client.send(operation, {
+					account_id: accountId,
+					project_type: argv["project-type"],
+					request_id: argv["request-id"],
+				})
+			);
+			formatOutput(result, { successLabel: `Created` });
+		}
+	);
+}

@@ -1,26 +1,14 @@
-import operation from "../../../../_operations/cloudforce-one/threat-intel/tags/actors/list.js";
 /**
  * list command
  * @generated from apis/overlays/cloudforce-one.ts
  */
-import type { ArgClassification } from "#lib/telemetry/index.js";
-import { apiCommand } from "#lib/api-command.js";
 import {
-	createCommandClient,
-	getAccountId,
-	resolveAccountIdSilent,
-} from "#lib/auth.js";
-import { formatDryRun } from "#lib/dry-run.js";
-import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
-import { formatOutput } from "#lib/output.js";
-import { withProgress } from "#lib/progress.js";
-import { runWithTelemetry } from "#lib/telemetry/index.js";
+	apiCommand,
+	type ApiInputs,
+	type ApiParameters,
+} from "#lib/api-command.js";
 
-const command = apiCommand({
-	command: "list",
-	describe: "List threat actors",
-	usage:
-		"$0 cloudforce-one threat-intel tags actors list\n\nLists threat actors from the Cloudforce One actor catalog. Use `value` to match actor names and `filters` to filter by fields such as origin country. Accounts outside Cloudforce One receive only public fields: identity, description, discovery date, TLP, confidence, custom properties, origin country, public aliases, and external references. Fields such as internal aliases, attribution, motive, and OPSEC level are omitted.",
+const parameters = {
 	flags: {
 		page: { kind: "parsed", brief: "Page", optional: true, parse: Number },
 		"page-size": {
@@ -50,44 +38,15 @@ const command = apiCommand({
 		},
 	},
 	operands: [],
-	handler: async (argv): Promise<void> =>
-		runWithTelemetry(
-			{
-				command: "cloudforce-one threat-intel tags actors list",
-				classification: { safeFlags: ["dry-run"] } satisfies ArgClassification<
-					typeof argv
-				>,
-			},
-			argv as Record<string, unknown>,
-			async () => {
-				const queryParams: Record<string, unknown> = {
-					page: argv["page"],
-					pageSize: argv["page-size"],
-					value: argv["value"],
-					filters: argv["filters"],
-				};
-				if (argv.dryRun) {
-					const __cfDryRunAccountId = await resolveAccountIdSilent();
-					formatDryRun({
-						command: "cf cloudforce-one threat-intel tags actors list",
-						method: "GET",
-						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/cloudforce-one/events/tags/categories/actors`,
-						pathParams: {},
-						query: queryParams,
-						bodyKind: "none",
-					});
-					return;
-				}
-				const client = await createCommandClient(argv);
-				const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
-				argv.accountId = accountId;
-
-				const result = await withProgress(`Loading`, async () =>
-					client.send(operation, { account_id: accountId, ...queryParams })
-				);
-				formatOutput(result, { successLabel: `Loaded` });
-			}
-		),
+} as const satisfies ApiParameters;
+export type Args = ApiInputs<typeof parameters>;
+const command = apiCommand({
+	command: "list",
+	describe: "List threat actors",
+	usage:
+		"$0 cloudforce-one threat-intel tags actors list\n\nLists threat actors from the Cloudforce One actor catalog. Use `value` to match actor names and `filters` to filter by fields such as origin country. Accounts outside Cloudforce One receive only public fields: identity, description, discovery date, TLP, confidence, custom properties, origin country, public aliases, and external references. Fields such as internal aliases, attribution, motive, and OPSEC level are omitted.",
+	...parameters,
+	loader: () => import("./list.handler.js"),
 });
 
 export default command;

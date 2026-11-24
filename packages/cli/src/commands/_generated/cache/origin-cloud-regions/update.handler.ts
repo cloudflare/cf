@@ -1,0 +1,109 @@
+import operation from "../../_operations/cache/origin-cloud-regions/update.js";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import type { Args } from "./update.js";
+import { createCommandClient, getZoneId } from "#lib/auth.js";
+import { compactBody, parseBody } from "#lib/body-parser.js";
+import { formatDryRun } from "#lib/dry-run.js";
+import { resolveFileToken } from "#lib/input-validation.js";
+import { formatOutput } from "#lib/output.js";
+import { withProgress } from "#lib/progress.js";
+import {
+	promptForRequiredEnumField,
+	promptForRequiredField,
+} from "#lib/prompt.js";
+import { runWithTelemetry } from "#lib/telemetry/index.js";
+
+export default async function handle(argv: Args): Promise<void> {
+	return runWithTelemetry(
+		{
+			command: "cache origin-cloud-regions update",
+			classification: {
+				safeFlags: ["vendor", "dry-run"],
+			} satisfies ArgClassification<typeof argv>,
+		},
+		argv as Record<string, unknown>,
+		async () => {
+			const resolveRequiredFields = async (): Promise<void> => {
+				if (argv["region"] === undefined) {
+					argv["region"] = await promptForRequiredField(
+						"region",
+						"Cloud vendor region identifier. Must be a valid region for the specified vendor as returned by the supported_regions endpoint."
+					);
+				}
+				if (argv["vendor"] === undefined) {
+					argv["vendor"] = await promptForRequiredEnumField(
+						"vendor",
+						"Cloud vendor hosting the origin. Must be one of the supported vendors.",
+						["aws", "azure", "gcp", "oci"] as const
+					);
+				}
+			};
+			if (argv.dryRun) {
+				if (argv.body === undefined) {
+					await resolveRequiredFields();
+				}
+				formatDryRun({
+					command: "cf cache origin-cloud-regions update",
+					method: "PUT",
+					url: `https://api.cloudflare.com/client/v4/zones/${argv.zone ?? argv.zoneId ?? "<zone>"}/origin/cloud_regions/${argv["origin-ip"] == null ? "<origin-ip>" : encodeURIComponent(String(argv["origin-ip"]))}`,
+					pathParams: {
+						"zone-id": String(argv.zone ?? argv["zone-id"] ?? ""),
+						"origin-ip": String(argv["origin-ip"] ?? ""),
+					},
+					bodyKind: "json",
+					body:
+						argv.body !== undefined
+							? parseBody(argv.body)
+							: compactBody({
+									region: resolveFileToken(
+										argv["region"] as string | undefined,
+										"region",
+										"text"
+									),
+									vendor: argv["vendor"],
+								}),
+				});
+				return;
+			}
+			const parsedBody =
+				argv.body !== undefined ? parseBody(argv.body) : undefined;
+			const client = await createCommandClient(argv);
+			const zoneId = await getZoneId({ zone: argv.zone }, client, {
+				quiet: argv.quiet,
+			});
+			argv.zoneId = zoneId;
+
+			if (argv.body !== undefined) {
+				const bodyData = parsedBody;
+				const result = await withProgress(`Updating`, async () =>
+					client.send(operation, {
+						body: bodyData,
+						zone_id: zoneId,
+						origin_ip: argv["origin-ip"],
+					})
+				);
+				formatOutput(result, { successLabel: `Updated` });
+				return;
+			}
+			await resolveRequiredFields();
+
+			// Assemble request body from individual flags
+			const bodyData = compactBody({
+				region: resolveFileToken(
+					argv["region"] as string | undefined,
+					"region",
+					"text"
+				),
+				vendor: argv["vendor"],
+			});
+			const result = await withProgress(`Updating`, async () =>
+				client.send(operation, {
+					body: bodyData,
+					zone_id: zoneId,
+					origin_ip: argv["origin-ip"],
+				})
+			);
+			formatOutput(result, { successLabel: `Updated` });
+		}
+	);
+}

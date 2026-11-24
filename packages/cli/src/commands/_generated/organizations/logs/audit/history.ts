@@ -1,22 +1,14 @@
-import operation from "../../../_operations/organizations/logs/audit/history.js";
 /**
  * history command
  * @generated from apis/overlays/organizations.ts
  */
-import type { ArgClassification } from "#lib/telemetry/index.js";
-import { apiCommand } from "#lib/api-command.js";
-import { createCommandClient } from "#lib/auth.js";
-import { formatDryRun } from "#lib/dry-run.js";
-import { formatOutput } from "#lib/output.js";
-import { withProgress } from "#lib/progress.js";
-import { runWithTelemetry } from "#lib/telemetry/index.js";
+import {
+	apiCommand,
+	type ApiInputs,
+	type ApiParameters,
+} from "#lib/api-command.js";
 
-const command = apiCommand({
-	command: "history <id>",
-	describe:
-		"Get resource change history from an organization audit log entry (Version 2)",
-	usage:
-		"$0 organizations logs audit history <id>\n\nReturns the chronological change history for the resource identified by the given organization-scoped audit log entry. The endpoint first locates the source audit log entry by `id` (using `action_time` to narrow the lookup window), derives identifying filters from that entry, and then returns matching audit logs within the `since`/`before` window. The `result_info.history_status` field indicates the quality of the resource identification used: - `exact`: Resource was identified by the resource URI. - `approximate`: Resource was identified without the resource URI. - `unavailable`: The source audit log entry did not contain enough information to identify the resource; an empty result is returned.",
+const parameters = {
 	flags: {
 		"organization-id": {
 			kind: "parsed",
@@ -74,50 +66,16 @@ const command = apiCommand({
 			parse: String,
 		},
 	],
-	handler: async (argv): Promise<void> =>
-		runWithTelemetry(
-			{
-				command: "organizations logs audit history",
-				classification: {
-					safeFlags: ["direction", "dry-run"],
-				} satisfies ArgClassification<typeof argv>,
-			},
-			argv as Record<string, unknown>,
-			async () => {
-				const queryParams: Record<string, unknown> = {
-					action_time: argv["action-time"],
-					since: argv["since"],
-					before: argv["before"],
-					direction: argv["direction"],
-					limit: argv["limit"],
-					cursor: argv["cursor"],
-				};
-				if (argv.dryRun) {
-					formatDryRun({
-						command: "cf organizations logs audit history",
-						method: "GET",
-						url: `https://api.cloudflare.com/client/v4/organizations/${argv["organization-id"] == null ? "<organization-id>" : encodeURIComponent(String(argv["organization-id"]))}/logs/audit/${argv["id"] == null ? "<id>" : encodeURIComponent(String(argv["id"]))}/history`,
-						pathParams: {
-							"organization-id": String(argv["organization-id"] ?? ""),
-							id: String(argv["id"] ?? ""),
-						},
-						query: queryParams,
-						bodyKind: "none",
-					});
-					return;
-				}
-				const client = await createCommandClient(argv);
-
-				const result = await withProgress(`Loading`, async () =>
-					client.send(operation, {
-						organization_id: argv["organization-id"],
-						id: argv["id"],
-						...queryParams,
-					})
-				);
-				formatOutput(result, { successLabel: `Loaded` });
-			}
-		),
+} as const satisfies ApiParameters;
+export type Args = ApiInputs<typeof parameters>;
+const command = apiCommand({
+	command: "history <id>",
+	describe:
+		"Get resource change history from an organization audit log entry (Version 2)",
+	usage:
+		"$0 organizations logs audit history <id>\n\nReturns the chronological change history for the resource identified by the given organization-scoped audit log entry. The endpoint first locates the source audit log entry by `id` (using `action_time` to narrow the lookup window), derives identifying filters from that entry, and then returns matching audit logs within the `since`/`before` window. The `result_info.history_status` field indicates the quality of the resource identification used: - `exact`: Resource was identified by the resource URI. - `approximate`: Resource was identified without the resource URI. - `unavailable`: The source audit log entry did not contain enough information to identify the resource; an empty result is returned.",
+	...parameters,
+	loader: () => import("./history.handler.js"),
 });
 
 export default command;

@@ -79,6 +79,18 @@ type Rules = {
 	conflicts(name: string, others: string[]): unknown;
 	implies(name: string, others: string[]): unknown;
 };
+export type ApiParameters = {
+	flags: Record<string, Flag>;
+	operands: readonly Operand[];
+	rules?(registry: Rules): void;
+};
+export type ApiInputs<Params extends ApiParameters> = Inputs<
+	Params["flags"],
+	Params["operands"]
+>;
+type Handler<Flags, Operands extends readonly Operand[]> = (
+	argv: Inputs<Flags, Operands>
+) => Promise<void>;
 type FlagMap = NonNullable<Command<CommandContext>["parameters"]["flags"]>;
 const globalFlags: FlagMap = Object.fromEntries(
 	Object.entries(GLOBAL_OPTIONS).map(([key, option]) => [
@@ -107,16 +119,22 @@ export interface NativeLeaf {
 export function apiCommand<
 	const Flags extends Record<string, Flag>,
 	const Operands extends readonly Operand[],
->(spec: {
-	command: string;
-	describe: string;
-	usage: string;
-	flags: Flags;
-	operands: Operands;
-	rules?(registry: Rules): void;
-	handler(argv: Inputs<Flags, Operands>): Promise<void>;
-}): NativeLeaf & CommandModule<CommonYargsOptions> {
+>(
+	spec: {
+		command: string;
+		describe: string;
+		usage: string;
+		flags: Flags;
+		operands: Operands;
+		rules?(registry: Rules): void;
+	} & (
+		| { handler: Handler<Flags, Operands> }
+		| { loader: () => Promise<{ default: Handler<Flags, Operands> }> }
+	)
+): NativeLeaf & CommandModule<CommonYargsOptions> {
 	let target: Command<ApiContext> | undefined;
+	const load = async () =>
+		"loader" in spec ? (await spec.loader()).default : spec.handler;
 	return {
 		...spec,
 		configure(registry) {
@@ -198,20 +216,23 @@ export function apiCommand<
 					ApiContext
 				>,
 				docs: { brief: spec.describe, fullDescription: spec.usage },
-				async func(
-					this: ApiContext,
-					flags: NamedFlags<Flags>,
-					...operands: unknown[]
-				) {
-					await spec.handler(
-						(await this.prepare(flags, operands)) as Inputs<Flags, Operands>
-					);
+				async loader() {
+					const handler = await load();
+					return async function (
+						this: ApiContext,
+						flags: NamedFlags<Flags>,
+						...operands: unknown[]
+					) {
+						await handler(
+							(await this.prepare(flags, operands)) as Inputs<Flags, Operands>
+						);
+					};
 				},
 			});
 			return target;
 		},
-		handler(argv) {
-			return spec.handler(argv as unknown as Inputs<Flags, Operands>);
+		async handler(argv) {
+			return (await load())(argv as unknown as Inputs<Flags, Operands>);
 		},
 	};
 }
@@ -274,13 +295,18 @@ export function apiGroup(spec: {
 			const group = registry as unknown as {
 				registerRoutes(
 					children: RouteEntry[],
-					resolve: (token: string) => RouteEntry | undefined
+					resolve: (token: string) => RouteEntry | undefined,
+					routeMap: () => RouteMap<ApiContext>
 				): void;
 			};
-			group.registerRoutes(Object.values(spec.routes), (token) => {
-				const target = routeMap().getRoutingTargetForInput(token);
-				return target && modules.get(target);
-			});
+			group.registerRoutes(
+				Object.values(spec.routes),
+				(token) => {
+					const target = routeMap().getRoutingTargetForInput(token);
+					return target && modules.get(target);
+				},
+				routeMap
+			);
 			return registry;
 		},
 		handler() {},

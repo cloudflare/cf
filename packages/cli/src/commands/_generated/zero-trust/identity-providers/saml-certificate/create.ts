@@ -1,26 +1,14 @@
-import operation from "../../../_operations/zero-trust/identity-providers/saml-certificate/create.js";
 /**
  * create command
  * @generated from apis/overlays/zero-trust.ts
  */
-import type { ArgClassification } from "#lib/telemetry/index.js";
-import { apiCommand } from "#lib/api-command.js";
 import {
-	createCommandClient,
-	getAccountId,
-	resolveAccountIdSilent,
-} from "#lib/auth.js";
-import { formatDryRun } from "#lib/dry-run.js";
-import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
-import { formatOutput } from "#lib/output.js";
-import { withProgress } from "#lib/progress.js";
-import { runWithTelemetry } from "#lib/telemetry/index.js";
+	apiCommand,
+	type ApiInputs,
+	type ApiParameters,
+} from "#lib/api-command.js";
 
-const command = apiCommand({
-	command: "create <identity-provider-id>",
-	describe: "Create SAML encryption certificate for Identity Provider",
-	usage:
-		"$0 zero-trust identity-providers saml-certificate create <identity-provider-id>\n\nCreates a new SAML encryption certificate set and assigns it to the specified SAML Identity Provider. This endpoint is idempotent - if the IdP already has a certificate set assigned, the existing certificate set is returned with a 200 status. **Workflow for enabling SAML encryption:** 1. Call this endpoint to create and assign a certificate set to the IdP 2. Update the IdP configuration (PUT `/identity_providers/{id}`) with: - `config.enable_encryption: true` - `saml_certificate_set_id: <uid from step 1>` 3. Configure the certificate's public key in your external SAML Identity Provider",
+const parameters = {
 	flags: {
 		"dry-run": {
 			kind: "boolean",
@@ -31,44 +19,15 @@ const command = apiCommand({
 	operands: [
 		{ placeholder: "identity-provider-id", brief: "UUID.", parse: String },
 	],
-	handler: async (argv): Promise<void> =>
-		runWithTelemetry(
-			{
-				command: "zero-trust identity-providers saml-certificate create",
-				classification: { safeFlags: ["dry-run"] } satisfies ArgClassification<
-					typeof argv
-				>,
-			},
-			argv as Record<string, unknown>,
-			async () => {
-				if (argv.dryRun) {
-					const __cfDryRunAccountId = await resolveAccountIdSilent();
-					formatDryRun({
-						command: "cf zero-trust identity-providers saml-certificate create",
-						method: "POST",
-						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/access/identity_providers/${argv["identity-provider-id"] == null ? "<identity-provider-id>" : encodeURIComponent(String(argv["identity-provider-id"]))}/saml_certificate`,
-						pathParams: {
-							"identity-provider-id": String(
-								argv["identity-provider-id"] ?? ""
-							),
-						},
-						bodyKind: "none",
-					});
-					return;
-				}
-				const client = await createCommandClient(argv);
-				const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
-				argv.accountId = accountId;
-
-				const result = await withProgress(`Creating`, async () =>
-					client.send(operation, {
-						account_id: accountId,
-						identity_provider_id: argv["identity-provider-id"],
-					})
-				);
-				formatOutput(result, { successLabel: `Created` });
-			}
-		),
+} as const satisfies ApiParameters;
+export type Args = ApiInputs<typeof parameters>;
+const command = apiCommand({
+	command: "create <identity-provider-id>",
+	describe: "Create SAML encryption certificate for Identity Provider",
+	usage:
+		"$0 zero-trust identity-providers saml-certificate create <identity-provider-id>\n\nCreates a new SAML encryption certificate set and assigns it to the specified SAML Identity Provider. This endpoint is idempotent - if the IdP already has a certificate set assigned, the existing certificate set is returned with a 200 status. **Workflow for enabling SAML encryption:** 1. Call this endpoint to create and assign a certificate set to the IdP 2. Update the IdP configuration (PUT `/identity_providers/{id}`) with: - `config.enable_encryption: true` - `saml_certificate_set_id: <uid from step 1>` 3. Configure the certificate's public key in your external SAML Identity Provider",
+	...parameters,
+	loader: () => import("./create.handler.js"),
 });
 
 export default command;

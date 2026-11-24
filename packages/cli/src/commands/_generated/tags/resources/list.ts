@@ -1,25 +1,14 @@
-import operation from "../../_operations/tags/resources/list.js";
 /**
  * list command
  * @generated from apis/overlays/tags.ts
  */
-import type { ArgClassification } from "#lib/telemetry/index.js";
-import { apiCommand } from "#lib/api-command.js";
 import {
-	createCommandClient,
-	getAccountId,
-	resolveAccountIdSilent,
-} from "#lib/auth.js";
-import { formatDryRun } from "#lib/dry-run.js";
-import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
-import { formatOutput } from "#lib/output.js";
-import { withProgress } from "#lib/progress.js";
-import { runWithTelemetry } from "#lib/telemetry/index.js";
+	apiCommand,
+	type ApiInputs,
+	type ApiParameters,
+} from "#lib/api-command.js";
 
-const command = apiCommand({
-	command: "list",
-	describe: "List tagged resources",
-	usage: "$0 tags resources list\n\nLists all tagged resources for an account.",
+const parameters = {
 	flags: {
 		"include-navigation": {
 			kind: "boolean",
@@ -127,47 +116,14 @@ const command = apiCommand({
 		},
 	},
 	operands: [],
-	handler: async (argv): Promise<void> =>
-		runWithTelemetry(
-			{
-				command: "tags resources list",
-				classification: {
-					safeFlags: ["include-navigation", "case-insensitive", "dry-run"],
-				} satisfies ArgClassification<typeof argv>,
-			},
-			argv as Record<string, unknown>,
-			async () => {
-				const queryParams: Record<string, unknown> = {
-					include_navigation: argv["include-navigation"],
-					type: argv["type"],
-					name: argv["name"],
-					id: argv["id"],
-					case_insensitive: argv["case-insensitive"],
-					tag: argv["tag"],
-					cursor: argv["cursor"],
-				};
-				if (argv.dryRun) {
-					const __cfDryRunAccountId = await resolveAccountIdSilent();
-					formatDryRun({
-						command: "cf tags resources list",
-						method: "GET",
-						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/tags/resources`,
-						pathParams: {},
-						query: queryParams,
-						bodyKind: "none",
-					});
-					return;
-				}
-				const client = await createCommandClient(argv);
-				const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
-				argv.accountId = accountId;
-
-				const result = await withProgress(`Loading`, async () =>
-					client.send(operation, { account_id: accountId, ...queryParams })
-				);
-				formatOutput(result, { successLabel: `Loaded` });
-			}
-		),
+} as const satisfies ApiParameters;
+export type Args = ApiInputs<typeof parameters>;
+const command = apiCommand({
+	command: "list",
+	describe: "List tagged resources",
+	usage: "$0 tags resources list\n\nLists all tagged resources for an account.",
+	...parameters,
+	loader: () => import("./list.handler.js"),
 });
 
 export default command;

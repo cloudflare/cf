@@ -1,21 +1,14 @@
-import operation from "../../../../_operations/radar/bgp/rpki/roas/timeseries.js";
 /**
  * timeseries command
  * @generated from apis/overlays/radar.ts
  */
-import type { ArgClassification } from "#lib/telemetry/index.js";
-import { apiCommand } from "#lib/api-command.js";
-import { createCommandClient } from "#lib/auth.js";
-import { formatDryRun } from "#lib/dry-run.js";
-import { formatOutput } from "#lib/output.js";
-import { withProgress } from "#lib/progress.js";
-import { runWithTelemetry } from "#lib/telemetry/index.js";
+import {
+	apiCommand,
+	type ApiInputs,
+	type ApiParameters,
+} from "#lib/api-command.js";
 
-const command = apiCommand({
-	command: "timeseries",
-	describe: "Get RPKI ROA deployment time series",
-	usage:
-		"$0 radar bgp rpki roas timeseries\n\nRetrieves RPKI ROA (Route Origin Authorization) validation ratios over time. Returns the selected metric as a time series. Supports filtering by ASN or location (country code) — multiple values of the same filter type produce one series per value. If no ASN or location is specified, returns the global aggregate.",
+const parameters = {
 	flags: {
 		"date-start": {
 			kind: "parsed",
@@ -81,44 +74,15 @@ const command = apiCommand({
 		},
 	},
 	operands: [],
-	handler: async (argv): Promise<void> =>
-		runWithTelemetry(
-			{
-				command: "radar bgp rpki roas timeseries",
-				classification: {
-					safeFlags: ["metric", "format", "dry-run"],
-				} satisfies ArgClassification<typeof argv>,
-			},
-			argv as Record<string, unknown>,
-			async () => {
-				const queryParams: Record<string, unknown> = {
-					dateStart: argv["date-start"],
-					dateEnd: argv["date-end"],
-					metric: argv["metric"],
-					asn: argv["asn"],
-					location: argv["location"],
-					name: argv["name"],
-					format: argv["format"],
-				};
-				if (argv.dryRun) {
-					formatDryRun({
-						command: "cf radar bgp rpki roas timeseries",
-						method: "GET",
-						url: `https://api.cloudflare.com/client/v4/radar/bgp/rpki/roas/timeseries`,
-						pathParams: {},
-						query: queryParams,
-						bodyKind: "none",
-					});
-					return;
-				}
-				const client = await createCommandClient(argv);
-
-				const result = await withProgress(`Loading`, async () =>
-					client.send(operation, queryParams)
-				);
-				formatOutput(result, { successLabel: `Loaded` });
-			}
-		),
+} as const satisfies ApiParameters;
+export type Args = ApiInputs<typeof parameters>;
+const command = apiCommand({
+	command: "timeseries",
+	describe: "Get RPKI ROA deployment time series",
+	usage:
+		"$0 radar bgp rpki roas timeseries\n\nRetrieves RPKI ROA (Route Origin Authorization) validation ratios over time. Returns the selected metric as a time series. Supports filtering by ASN or location (country code) — multiple values of the same filter type produce one series per value. If no ASN or location is specified, returns the global aggregate.",
+	...parameters,
+	loader: () => import("./timeseries.handler.js"),
 });
 
 export default command;

@@ -1,21 +1,14 @@
-import operation from "../../_operations/zones/holds/create.js";
 /**
  * create command
  * @generated from apis/overlays/zones.ts
  */
-import type { ArgClassification } from "#lib/telemetry/index.js";
-import { apiCommand } from "#lib/api-command.js";
-import { createCommandClient, getZoneId } from "#lib/auth.js";
-import { formatDryRun } from "#lib/dry-run.js";
-import { formatOutput } from "#lib/output.js";
-import { withProgress } from "#lib/progress.js";
-import { runWithTelemetry } from "#lib/telemetry/index.js";
+import {
+	apiCommand,
+	type ApiInputs,
+	type ApiParameters,
+} from "#lib/api-command.js";
 
-const command = apiCommand({
-	command: "create",
-	describe: "Create Zone Hold",
-	usage:
-		"$0 zones holds create\n\nEnforce a zone hold on the zone, blocking the creation and activation of zones with this zone's hostname. Zone holds cannot be enabled on CDN-only zones.",
+const parameters = {
 	flags: {
 		"include-subdomains": {
 			kind: "boolean",
@@ -30,44 +23,15 @@ const command = apiCommand({
 		},
 	},
 	operands: [],
-	handler: async (argv): Promise<void> =>
-		runWithTelemetry(
-			{
-				command: "zones holds create",
-				classification: {
-					safeFlags: ["include-subdomains", "dry-run"],
-				} satisfies ArgClassification<typeof argv>,
-			},
-			argv as Record<string, unknown>,
-			async () => {
-				const queryParams: Record<string, unknown> = {
-					include_subdomains: argv["include-subdomains"],
-				};
-				if (argv.dryRun) {
-					formatDryRun({
-						command: "cf zones holds create",
-						method: "POST",
-						url: `https://api.cloudflare.com/client/v4/zones/${argv.zone ?? argv.zoneId ?? "<zone>"}/hold`,
-						pathParams: {
-							"zone-id": String(argv.zone ?? argv["zone-id"] ?? ""),
-						},
-						query: queryParams,
-						bodyKind: "none",
-					});
-					return;
-				}
-				const client = await createCommandClient(argv);
-				const zoneId = await getZoneId({ zone: argv.zone }, client, {
-					quiet: argv.quiet,
-				});
-				argv.zoneId = zoneId;
-
-				const result = await withProgress(`Creating`, async () =>
-					client.send(operation, { zone_id: zoneId, ...queryParams })
-				);
-				formatOutput(result, { successLabel: `Created` });
-			}
-		),
+} as const satisfies ApiParameters;
+export type Args = ApiInputs<typeof parameters>;
+const command = apiCommand({
+	command: "create",
+	describe: "Create Zone Hold",
+	usage:
+		"$0 zones holds create\n\nEnforce a zone hold on the zone, blocking the creation and activation of zones with this zone's hostname. Zone holds cannot be enabled on CDN-only zones.",
+	...parameters,
+	loader: () => import("./create.handler.js"),
 });
 
 export default command;

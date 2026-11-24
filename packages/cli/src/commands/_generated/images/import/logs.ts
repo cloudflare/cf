@@ -1,26 +1,14 @@
-import operation from "../../_operations/images/import/logs.js";
 /**
  * logs command
  * @generated from apis/overlays/images.ts
  */
-import type { ArgClassification } from "#lib/telemetry/index.js";
-import { apiCommand } from "#lib/api-command.js";
 import {
-	createCommandClient,
-	getAccountId,
-	resolveAccountIdSilent,
-} from "#lib/auth.js";
-import { formatDryRun } from "#lib/dry-run.js";
-import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
-import { formatOutput } from "#lib/output.js";
-import { withProgress } from "#lib/progress.js";
-import { runWithTelemetry } from "#lib/telemetry/index.js";
+	apiCommand,
+	type ApiInputs,
+	type ApiParameters,
+} from "#lib/api-command.js";
 
-const command = apiCommand({
-	command: "logs <migration-id>",
-	describe: "List migration logs",
-	usage:
-		"$0 images import logs <migration-id>\n\nList log entries for a CF Images import.",
+const parameters = {
 	flags: {
 		offset: {
 			kind: "parsed",
@@ -47,46 +35,15 @@ const command = apiCommand({
 			parse: String,
 		},
 	],
-	handler: async (argv): Promise<void> =>
-		runWithTelemetry(
-			{
-				command: "images import logs",
-				classification: { safeFlags: ["dry-run"] } satisfies ArgClassification<
-					typeof argv
-				>,
-			},
-			argv as Record<string, unknown>,
-			async () => {
-				const queryParams: Record<string, unknown> = {
-					offset: argv["offset"],
-					limit: argv["limit"],
-				};
-				if (argv.dryRun) {
-					const __cfDryRunAccountId = await resolveAccountIdSilent();
-					formatDryRun({
-						command: "cf images import logs",
-						method: "GET",
-						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/images/v2/sourcingkit/migrations/${argv["migration-id"] == null ? "<migration-id>" : encodeURIComponent(String(argv["migration-id"]))}/logs`,
-						pathParams: { "migration-id": String(argv["migration-id"] ?? "") },
-						query: queryParams,
-						bodyKind: "none",
-					});
-					return;
-				}
-				const client = await createCommandClient(argv);
-				const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
-				argv.accountId = accountId;
-
-				const result = await withProgress(`Loading`, async () =>
-					client.send(operation, {
-						account_id: accountId,
-						migration_id: argv["migration-id"],
-						...queryParams,
-					})
-				);
-				formatOutput(result, { successLabel: `Loaded` });
-			}
-		),
+} as const satisfies ApiParameters;
+export type Args = ApiInputs<typeof parameters>;
+const command = apiCommand({
+	command: "logs <migration-id>",
+	describe: "List migration logs",
+	usage:
+		"$0 images import logs <migration-id>\n\nList log entries for a CF Images import.",
+	...parameters,
+	loader: () => import("./logs.handler.js"),
 });
 
 export default command;

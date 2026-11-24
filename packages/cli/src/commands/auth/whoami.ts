@@ -3,6 +3,7 @@ import {
 	getCloudflareAuthProfileFromEnv,
 } from "@cloudflare/workers-auth";
 import { detectAgentContext } from "../../lib/agent-context.js";
+import { apiCommand } from "../../lib/api-command.js";
 import { getAuthToken } from "../../lib/auth-token.js";
 import { isNonInteractiveOrCI } from "../../lib/interactive.js";
 import {
@@ -18,13 +19,11 @@ import { hint } from "../../lib/ui/index.js";
 import { printWhoamiSummary } from "./whoami-output.js";
 import type { CommonYargsOptions } from "../../lib/cli-types.js";
 import type { WhoamiProfile, WhoamiSnapshot } from "./whoami-output.js";
-import type { Argv, CommandModule } from "yargs";
 
-export interface WhoamiArgs extends CommonYargsOptions {
-	json?: boolean;
-}
-
-function selectedProfile(argv: WhoamiArgs, overridden: boolean): WhoamiProfile {
+function selectedProfile(
+	argv: Pick<CommonYargsOptions, "profile">,
+	overridden: boolean
+): WhoamiProfile {
 	const name = getActiveProfile();
 	const source = argv.profile
 		? "--profile"
@@ -36,20 +35,20 @@ function selectedProfile(argv: WhoamiArgs, overridden: boolean): WhoamiProfile {
 	return { name, source, overridden };
 }
 
-const whoamiCommand: CommandModule<object, WhoamiArgs> = {
+const whoamiCommand = apiCommand({
 	command: "whoami",
 	describe: "Show current user and authentication status",
-
-	builder: (yargs: Argv): Argv<WhoamiArgs> =>
-		yargs
-			.option("json", {
-				type: "boolean",
-				description:
-					"Show full JSON (default for CI, non-interactive runs and agents; use --no-json for a summary)",
-			})
-			.middleware(() => suppressActiveProfileLine(), true) as Argv<WhoamiArgs>,
-
-	handler: async (argv): Promise<void> => {
+	flags: {
+		json: {
+			kind: "boolean",
+			brief:
+				"Show full JSON (default for CI, non-interactive runs and agents; use --no-json for a summary)",
+			optional: true,
+		},
+	},
+	operands: [],
+	beforeStartup: suppressActiveProfileLine,
+	async handler(argv) {
 		if (argv["temporary-account"] || argv["event-code"] !== undefined) {
 			throw new Error(
 				"--temporary-account and --event-code are not supported by cf auth whoami."
@@ -189,6 +188,6 @@ const whoamiCommand: CommandModule<object, WhoamiArgs> = {
 			);
 		}
 	},
-};
+});
 
 export default whoamiCommand;

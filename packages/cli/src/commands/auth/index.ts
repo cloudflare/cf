@@ -1,7 +1,5 @@
-import {
-	withTelemetry,
-	type ShortFlagAliases,
-} from "../../lib/telemetry/index.js";
+import { apiGroup } from "../../lib/api-command.js";
+import { withTelemetry } from "../../lib/telemetry/index.js";
 import loginCommand, { loginTelemetryClassification } from "./login.js";
 import logoutCommand from "./logout.js";
 import {
@@ -13,48 +11,46 @@ import {
 } from "./profiles.js";
 import scopesCommand from "./scopes.js";
 import whoamiCommand from "./whoami.js";
-import type { Argv, CommandModule } from "yargs";
 
-const authCommands: CommandModule & { describe: string } = {
+export default apiGroup({
 	command: "auth",
 	describe: "Manage authentication and profiles",
-
-	builder: (yargs: Argv) => {
-		return yargs
-			.command(
-				withTelemetry(loginCommand, {
-					command: "auth login",
-					classification: loginTelemetryClassification,
-				})
-			)
-			.command(telemetryCommand(logoutCommand, "auth logout"))
-			.command(telemetryCommand(whoamiCommand, "auth whoami", ["json"]))
-			.command(telemetryCommand(scopesCommand, "auth scopes", ["all"]))
-			.command(
-				telemetryCommand(createCommand, "auth create", ["browser", "device"])
-			)
-			.command(telemetryCommand(deleteCommand, "auth delete"))
-			.command(telemetryCommand(activateCommand, "auth activate"))
-			.command(telemetryCommand(deactivateCommand, "auth deactivate"))
-			.command(telemetryCommand(listCommand, "auth list"))
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		login: withTelemetry(loginCommand, {
+			command: "auth login",
+			classification: loginTelemetryClassification,
+		}),
+		logout: withTelemetry(logoutCommand, {
+			command: "auth logout",
+			classification: { safeFlags: [] },
+		}),
+		whoami: withTelemetry(whoamiCommand, {
+			command: "auth whoami",
+			classification: { safeFlags: ["json"] },
+		}),
+		scopes: withTelemetry(scopesCommand, {
+			command: "auth scopes",
+			classification: { safeFlags: ["all"] },
+		}),
+		create: withTelemetry(createCommand, {
+			command: "auth create",
+			classification: { safeFlags: ["browser", "device"] },
+		}),
+		delete: withTelemetry(deleteCommand, {
+			command: "auth delete",
+			classification: { safeFlags: [] },
+		}),
+		activate: withTelemetry(activateCommand, {
+			command: "auth activate",
+			classification: { safeFlags: [] },
+		}),
+		deactivate: withTelemetry(deactivateCommand, {
+			command: "auth deactivate",
+			classification: { safeFlags: [] },
+		}),
+		list: withTelemetry(listCommand, {
+			command: "auth list",
+			classification: { safeFlags: [] },
+		}),
 	},
-
-	handler: () => {
-		// This is required but won't be called due to demandCommand
-	},
-};
-
-function telemetryCommand<T, U>(
-	command: CommandModule<T, U>,
-	name: string,
-	safeFlags: string[] = [],
-	shortFlagAliases?: ShortFlagAliases<U>
-) {
-	return withTelemetry(command, {
-		command: name,
-		classification: { safeFlags, shortFlagAliases },
-	});
-}
-
-export default authCommands;
+});

@@ -12,6 +12,7 @@ import {
 import cliui from "cliui";
 import stringWidth from "string-width";
 import { BUILTIN_OPTIONS, GLOBAL_OPTIONS } from "./global-options.js";
+import { savedProfiles } from "./profile-completions.js";
 import { theme } from "./ui/theme.js";
 import type { ApiContext, NativeLeaf } from "./api-command.js";
 import type { CommonYargsOptions } from "./cli-types.js";
@@ -46,6 +47,14 @@ function parseLiteral(literal: string, opt: Options) {
 class Definition {
 	flags = new Map<string, Options>(Object.entries(GLOBAL_OPTIONS));
 	positions = new Map<string, Options>();
+	nativeLeaf?: NativeLeaf;
+	registerNative(leaf: NativeLeaf) {
+		this.nativeLeaf = leaf;
+		leaf.configure(this);
+		if (leaf.beforeStartup) {
+			this.before.push(leaf.beforeStartup);
+		}
+	}
 	children: Module[] = [];
 	routeMap?: () => RouteMap<ApiContext>;
 	resolveRoute?: (token: string) => Module | undefined;
@@ -454,8 +463,8 @@ async function descend(parent: Definition, child: Module) {
 	}
 	def.before.push(...parent.before);
 	def.after.push(...parent.after);
-	if (child.configure) {
-		child.configure(def);
+	if (child.native && child.configure) {
+		def.registerNative(child as NativeLeaf);
 	} else if (typeof child.builder === "function") {
 		await child.builder(def as unknown as Argv<CommonYargsOptions>);
 	} else if (child.builder) {
@@ -500,7 +509,7 @@ async function complete(roots: Module[], input: string[]) {
 		options.set("help", { ...BUILTIN_OPTIONS.help, type: "boolean" });
 	}
 	options.set("version", { ...BUILTIN_OPTIONS.version, type: "boolean" });
-	const native = selected?.native?.();
+	const native = def.nativeLeaf?.native();
 	const flags: NonNullable<Command<ApiContext>["parameters"]["flags"]> =
 		Object.create(null);
 	const short: Record<string, string> = Object.create(null);
@@ -525,7 +534,12 @@ async function complete(roots: Module[], input: string[]) {
 							parse: String,
 							optional: true as const,
 						}));
-		flags[name] = param;
+		flags[name] =
+			name === "profile" &&
+			param.kind === "parsed" &&
+			def.nativeLeaf?.profileCompletion !== false
+				? { ...param, proposeCompletions: savedProfiles }
+				: param;
 		for (const alias of list(opt.alias)) {
 			if (alias.length === 1) {
 				short[alias] = name;
@@ -754,7 +768,7 @@ export function createParser(
 			unknown: string[] = [];
 		const switches = new Map<string, boolean>();
 		const seen = new Set<string>();
-		let native = mod?.native;
+		let native = def.nativeLeaf;
 		const coercions = new Map<Options, unknown[]>();
 		const trackCoercion = (opt: Options, value: unknown) => {
 			if (opt.coerce) {
@@ -960,8 +974,17 @@ export function createParser(
 		}
 		let result: Record<string, unknown> | undefined;
 		let capturedOperands: readonly unknown[] = [];
+		const target = native?.native();
+		if (
+			target &&
+			[...switches.keys()].some(
+				(key) => !Object.hasOwn(target.parameters.flags ?? {}, key.slice(2))
+			)
+		) {
+			native = undefined;
+		}
 		const leaf =
-			native?.() ??
+			(native && target) ??
 			buildCommand<Record<string, unknown>, string[]>({
 				parameters: {
 					flags: params,

@@ -1,15 +1,16 @@
+import { apiCommand } from "../../lib/api-command.js";
 import { getActiveProfile, logout } from "../../lib/oauth/index.js";
 import { theme } from "../../lib/ui/index.js";
 import { log } from "../../lib/ui/log.js";
 import { assertNoProfileFlag } from "./profiles.js";
-import type { CommonYargsOptions } from "../../lib/cli-types.js";
-import type { CommandModule } from "yargs";
 
-const logoutCommand: CommandModule<object, CommonYargsOptions> = {
+const logoutCommand = apiCommand({
 	command: "logout",
 	describe: "Log out and remove stored credentials",
-
-	handler: async (argv): Promise<void> => {
+	flags: {},
+	operands: [],
+	profileCompletion: false,
+	async handler(argv) {
 		assertNoProfileFlag(
 			argv,
 			"logout",
@@ -27,6 +28,6 @@ const logoutCommand: CommandModule<object, CommonYargsOptions> = {
 
 		await logout("default");
 	},
-};
+});
 
 export default logoutCommand;

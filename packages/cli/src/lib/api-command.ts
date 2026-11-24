@@ -15,6 +15,7 @@ type Operand = {
 	optional?: boolean;
 	rest?: boolean;
 	booleanLabel?: boolean;
+	proposeCompletions?: (partial: string) => Promise<readonly string[]>;
 };
 type Flag = {
 	brief: string;
@@ -90,7 +91,7 @@ export type ApiInputs<Params extends ApiParameters> = Inputs<
 >;
 type Handler<Flags, Operands extends readonly Operand[]> = (
 	argv: Inputs<Flags, Operands>
-) => Promise<void>;
+) => void | Promise<void>;
 type FlagMap = NonNullable<Command<CommandContext>["parameters"]["flags"]>;
 const globalFlags: FlagMap = Object.fromEntries(
 	Object.entries(GLOBAL_OPTIONS).map(([key, option]) => [
@@ -115,6 +116,8 @@ export interface ApiContext extends CommandContext {
 export interface NativeLeaf {
 	native(): Command<ApiContext>;
 	configure(registry: Registry & Rules): void;
+	profileCompletion?: false;
+	beforeStartup?: () => void;
 }
 export function apiCommand<
 	const Flags extends Record<string, Flag>,
@@ -123,7 +126,9 @@ export function apiCommand<
 	spec: {
 		command: string;
 		describe: string;
-		usage: string;
+		usage?: string;
+		beforeStartup?: () => void;
+		profileCompletion?: false;
 		flags: Flags;
 		operands: Operands;
 		rules?(registry: Rules): void;
@@ -131,14 +136,17 @@ export function apiCommand<
 		| { handler: Handler<Flags, Operands> }
 		| { loader: () => Promise<{ default: Handler<Flags, Operands> }> }
 	)
-): NativeLeaf & CommandModule<CommonYargsOptions> {
+): NativeLeaf & CommandModule<CommonYargsOptions, Inputs<Flags, Operands>> {
 	let target: Command<ApiContext> | undefined;
 	const load = async () =>
 		"loader" in spec ? (await spec.loader()).default : spec.handler;
-	return {
+	const command: NativeLeaf &
+		CommandModule<CommonYargsOptions, Inputs<Flags, Operands>> = {
 		...spec,
 		configure(registry) {
-			registry.usage(spec.usage);
+			if (spec.usage !== undefined) {
+				registry.usage(spec.usage);
+			}
 			for (const param of spec.operands) {
 				registry.positional(param.placeholder, {
 					type: param.booleanLabel
@@ -182,7 +190,9 @@ export function apiCommand<
 			spec.rules?.(registry);
 		},
 		native() {
-			if (target) {
+			const handlerOverride =
+				this.handler !== command.handler ? this.handler : undefined;
+			if (!handlerOverride && target) {
 				return target;
 			}
 			const rest = spec.operands.find((param) => param.rest);
@@ -209,7 +219,7 @@ export function apiCommand<
 				aliases,
 				positional,
 			} satisfies Command<ApiContext>["parameters"];
-			target = buildCommand({
+			const leaf = buildCommand<NamedFlags<Flags>, unknown[], ApiContext>({
 				parameters: parameters as unknown as TypedCommandParameters<
 					NamedFlags<Flags>,
 					unknown[],
@@ -217,24 +227,30 @@ export function apiCommand<
 				>,
 				docs: { brief: spec.describe, fullDescription: spec.usage },
 				async loader() {
-					const handler = await load();
+					const handler = handlerOverride ?? (await load());
 					return async function (
 						this: ApiContext,
 						flags: NamedFlags<Flags>,
 						...operands: unknown[]
 					) {
+						const argv = await this.prepare(flags, operands);
 						await handler(
-							(await this.prepare(flags, operands)) as Inputs<Flags, Operands>
+							argv as Parameters<typeof command.handler>[0] &
+								Inputs<Flags, Operands>
 						);
 					};
 				},
 			});
-			return target;
+			if (!handlerOverride) {
+				target = leaf;
+			}
+			return leaf;
 		},
 		async handler(argv) {
 			return (await load())(argv as unknown as Inputs<Flags, Operands>);
 		},
 	};
+	return command;
 }
 
 type RouteEntry = Pick<CommandModule, "command" | "describe" | "aliases"> &

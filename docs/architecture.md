@@ -191,7 +191,7 @@ literal says where each goes, how the response is read, and which status
 errors the operation declares. Commands whose request can't be expressed
 that way send a passthrough `requestApi` call instead.
 
-`cf complete` uses the same route resolution and flag declarations as the parser. Stricli suggests the next command, alias, flag or enum value. `@bomb.sh/tab` supplies only the bash, zsh, fish and PowerShell scripts; their callback protocol is unchanged.
+`cf complete` uses the same route resolution and flag declarations as the parser. Stricli suggests the next command, alias, flag or enum value. For `--profile` and named profile arguments to `auth activate`, `create`, and `delete`, it also suggests matching local profile names. Completion lists filenames only: it does not read credentials, contact the API, or require a working profile store. `@bomb.sh/tab` supplies the bash, zsh, fish and PowerShell scripts; their callback protocol is unchanged.
 
 `pnpm build` runs Vite+ Pack, which:
 

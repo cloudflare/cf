@@ -54,6 +54,12 @@ const probes = [
 	["o11y", "issues", "get", "parity-group", "--dry-run"],
 	["dev", "--dry-run", "--", "--port", "1234"],
 	["schema", "zones", "list"],
+	["auth", "create", "work", "--no-browser", "--scopes", "a", "b", "--dry-run"],
+	["auth", "activate", "work", ".", "--dry-run"],
+	["auth", "delete"],
+	["auth", "deactivate", "--bogus"],
+	["login", "-f", "--dry-run"],
+	["whoami", "--no-json", "--dry-run"],
 	["cli", "search", "List zones"],
 ];
 

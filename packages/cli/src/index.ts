@@ -527,6 +527,9 @@ export function buildCli(rawArgs: string[], options: BuildCliOptions = {}) {
 				throw error;
 			},
 			async startup(argv, resolvedCommand) {
+				if (resolvedCommand === "complete" && argv._.length > 1) {
+					return;
+				}
 				// Command middleware can suppress decoration before startup output.
 				maybeOpenSession(argv.quiet, updateCheck?.notice);
 				updateCheck?.start();

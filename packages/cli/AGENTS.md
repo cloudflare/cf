@@ -1,6 +1,6 @@
 # cf (`packages/cli`)
 
-Cloudflare CLI. Native Stricli declarations for generated commands, a compatibility builder for hand-written commands, TypeScript, ESM, Node ≥ 22.
+Cloudflare CLI. Generated commands and the hand-written `auth` family use native Stricli declarations; other hand-written families use the compatibility builder. TypeScript, ESM, Node ≥ 22.
 
 This package IS the CLI. It also owns the generator that produces its
 per-API command surface: the forge plugin in `generator/plugin/`, which

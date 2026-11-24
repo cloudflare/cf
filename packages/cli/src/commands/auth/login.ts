@@ -1,4 +1,5 @@
 import { getAuthFromEnv } from "@cloudflare/workers-auth";
+import { apiCommand } from "../../lib/api-command.js";
 import {
 	assertValidScopeKeys,
 	getActiveProfile,
@@ -14,64 +15,56 @@ import { enableKeyringByDefault } from "../../lib/oauth/keyring-default.js";
 import { theme } from "../../lib/ui/index.js";
 import { log } from "../../lib/ui/log.js";
 import { assertNoProfileFlag } from "./profiles.js";
-import type { CommonYargsOptions } from "../../lib/cli-types.js";
 import type { ArgClassification } from "../../lib/telemetry/index.js";
-import type { ArgumentsCamelCase, Argv, CommandModule } from "yargs";
-
-export interface LoginArgs extends CommonYargsOptions {
-	force?: boolean;
-	browser?: boolean;
-	device?: boolean;
-	scopes?: string[];
-	"use-keyring"?: boolean;
-}
 
 const MAX_INLINE_SCOPES = 5;
 
-export const loginTelemetryClassification: ArgClassification<LoginArgs> = {
+export const loginTelemetryClassification = {
 	safeFlags: ["force", "browser", "device", "use-keyring", "useKeyring"],
 	shortFlagAliases: {
-		f: { canonical: "force", type: "boolean" },
+		f: { canonical: "force" as const, type: "boolean" },
 	},
-};
+} satisfies ArgClassification;
 
-const loginCommand: CommandModule<object, LoginArgs> = {
+const loginCommand = apiCommand({
 	command: "login",
 	describe: "Authenticate with Cloudflare",
-
-	builder: (yargs: Argv): Argv<LoginArgs> => {
-		return yargs
-			.option("force", {
-				type: "boolean",
-				alias: "f",
-				description: "Force re-authentication even if already logged in",
-				default: false,
-			})
-			.option("browser", {
-				type: "boolean",
-				description:
-					"Open the authorization link in a browser (use --no-browser to print it instead)",
-				default: true,
-			})
-			.option("device", {
-				type: "boolean",
-				description:
-					"Use OAuth device authorization (use --no-device for the localhost callback flow)",
-				default: true,
-			})
-			.option("scopes", {
-				type: "string",
-				array: true,
-				description: "The set of OAuth scopes to request",
-			})
-			.option("use-keyring", {
-				type: "boolean",
-				description:
-					"Encrypt OAuth credentials using the OS keychain (default when available; persisted across invocations; use --no-use-keyring to disable)",
-			}) as Argv<LoginArgs>;
+	flags: {
+		force: {
+			kind: "boolean",
+			brief: "Force re-authentication even if already logged in",
+			alias: "f",
+			default: false,
+		},
+		browser: {
+			kind: "boolean",
+			brief:
+				"Open the authorization link in a browser (use --no-browser to print it instead)",
+			default: true,
+		},
+		device: {
+			kind: "boolean",
+			brief:
+				"Use OAuth device authorization (use --no-device for the localhost callback flow)",
+			default: true,
+		},
+		scopes: {
+			kind: "parsed",
+			parse: String,
+			brief: "The set of OAuth scopes to request",
+			optional: true,
+			variadic: true,
+		},
+		"use-keyring": {
+			kind: "boolean",
+			brief:
+				"Encrypt OAuth credentials using the OS keychain (default when available; persisted across invocations; use --no-use-keyring to disable)",
+			optional: true,
+		},
 	},
-
-	handler: async (argv: ArgumentsCamelCase<LoginArgs>): Promise<void> => {
+	operands: [],
+	profileCompletion: false,
+	async handler(argv) {
 		assertNoProfileFlag(
 			argv,
 			"login",
@@ -189,6 +182,6 @@ const loginCommand: CommandModule<object, LoginArgs> = {
 		}
 		log.info(lines.join("\n"));
 	},
-};
+});
 
 export default loginCommand;

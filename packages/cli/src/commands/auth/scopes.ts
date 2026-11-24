@@ -1,4 +1,5 @@
 import { getAuthFromEnv } from "@cloudflare/workers-auth";
+import { apiCommand } from "../../lib/api-command.js";
 import {
 	getActiveProfile,
 	readAuthCredentials,
@@ -14,9 +15,7 @@ import {
 	hasProductScopes,
 	matchesArea,
 } from "./scope-groups.js";
-import type { CommonYargsOptions } from "../../lib/cli-types.js";
 import type { ScopeCatalogue } from "./scope-catalogue.js";
-import type { ArgumentsCamelCase, Argv, CommandModule } from "yargs";
 
 // `cf auth login` only re-authenticates the default profile.
 function reloginCommand(force: boolean): string {
@@ -37,39 +36,32 @@ function describeCatalogueFailure(err: unknown): string {
 	return describeSchemaFailure(err);
 }
 
-interface ScopesArgs extends Pick<
-	CommonYargsOptions,
-	"temporary-account" | "event-code"
-> {
-	product?: string;
-	all?: boolean;
-	filter?: string;
-}
-
-const scopesCommand: CommandModule<object, ScopesArgs> = {
+const scopesCommand = apiCommand({
 	command: "scopes [product]",
 	describe: "Show the OAuth scopes granted to the current login, by product",
-
-	builder: (yargs: Argv): Argv<ScopesArgs> => {
-		return yargs
-			.positional("product", {
-				type: "string",
-				description:
-					"Show the granted permissions in product areas matching this name, such as dns or developer",
-			})
-			.option("all", {
-				type: "boolean",
-				description: "Show every granted permission, grouped by product",
-				default: false,
-			})
-			.option("filter", {
-				type: "string",
-				description:
-					"Show the granted permissions whose scope contains this term",
-			}) as Argv<ScopesArgs>;
+	flags: {
+		all: {
+			kind: "boolean",
+			brief: "Show every granted permission, grouped by product",
+			default: false,
+		},
+		filter: {
+			kind: "parsed",
+			parse: String,
+			brief: "Show the granted permissions whose scope contains this term",
+			optional: true,
+		},
 	},
-
-	handler: async (argv: ArgumentsCamelCase<ScopesArgs>): Promise<void> => {
+	operands: [
+		{
+			placeholder: "product",
+			parse: String,
+			brief:
+				"Show the granted permissions in product areas matching this name, such as dns or developer",
+			optional: true,
+		},
+	],
+	async handler(argv) {
 		if (argv["temporary-account"] || argv["event-code"] !== undefined) {
 			throw new Error(
 				"--temporary-account and --event-code are not supported by cf auth scopes."
@@ -146,6 +138,6 @@ const scopesCommand: CommandModule<object, ScopesArgs> = {
 			}) || theme.muted("No granted scopes match.")
 		);
 	},
-};
+});
 
 export default scopesCommand;

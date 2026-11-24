@@ -1,5 +1,75 @@
 # cf
 
+## 1.0.0-rc.5
+
+### Minor Changes
+
+- 4b70646: Generate commands from the Cloudflare API schemas repository
+
+  The generated command surface now comes from `openapi.json` in
+  cloudflare/api-schemas, pinned to revision
+  `3caa09607da12e7b79d55b704a20e2cf4ad8af53`. `cf stream webhooks update`
+  accepts `--notification-url`, and `cf url-scanner scans create` reflects the
+  current set of supported scan countries.
+
+- aa0a99c: Detect Google Antigravity as an AI coding agent.
+
+  Recognize commands run by Antigravity agents in both the IDE and the `agy` CLI through the `ANTIGRAVITY_AGENT` and `ANTIGRAVITY_CONVERSATION_ID` environment markers.
+  Capture the agent session ID from `ANTIGRAVITY_CONVERSATION_ID`.
+
+- 5108951: Detect GitHub Copilot CLI, Kiro, Junie, Goose, and Cline as AI coding agents.
+
+  Recognize commands run by these agents through the environment markers each one sets for its shell commands, and capture the agent session ID where the harness provides one.
+
+- b0a8d07: Treat any `AI_AGENT` value as an AI coding agent.
+
+  When `AI_AGENT` names an agent that `cf` has no detector for, `cf` now treats the run as agentic and records the agent as `unknown`, along with the name it gives. Claude Code is also recognised from its `AI_AGENT` value, and its version is recorded in telemetry.
+
+- 5c22d4c: Update the generated command surface for Cloudflare API schemas revision
+  `2b5897fc2d555d6d7da7fa6a2d99290840d9fdef`.
+- 654e83f: Update the generated command surface for Cloudflare API schemas revision
+  `2f687dad103baa5342ddd1532a2463c5f268f37d`.
+- addbeb2: Update the generated beta CWS commands for Cloudflare API schemas revision
+  `5aec9e4e3a074fa419d2fe1b7c0894e513c29a3e`.
+
+  **Breaking:** `cf zero-trust cws tenant-structures nodes batch <structure-id>`
+  is now `cf zero-trust cws tenant-structures nodes bulk-apply --structure-id <structure-id>`.
+  There is no compatibility alias; update scripts to use the new command name and flag.
+
+  **Breaking:** `cf zero-trust cws policies delete <policy-id>` no longer removes
+  policy-set memberships. Detach the policy from every policy set before deleting it.
+  Likewise, detach a policy set from every deployment before running
+  `cf zero-trust cws policy-sets delete <policy-set-id>`.
+
+- 4bb05f0: Update the generated command surface for Cloudflare API schemas revision
+  `997ede33e123e947bb3360019fe15f68ca40575a`.
+- c1bfbba: Update the generated command surface for Cloudflare API schemas revision
+  `e644d40187303e434fdf387df24db64f529db6e3`.
+
+### Patch Changes
+
+- 39dd31e: Show the actual CLI flag names when validating required fields in renamed optional objects.
+- c84ec6d: Update dependencies published from the Workers SDK repository:
+
+  - `@cloudflare/deploy-helpers`: `0.29.1` → `0.30.0`
+  - `@cloudflare/runtime-types`: `0.1.33` → `0.1.34`
+  - `@cloudflare/workers-auth`: `0.18.7` → `0.18.8`
+  - `miniflare`: `5.20261123.0-beta` → `5.20261123.1-beta`
+
+- b184b92: Update dependencies published from the Workers SDK repository:
+
+  - `@cloudflare/autoconfig`: `0.13.3` → `0.13.4`
+  - `@cloudflare/build-output-utils`: `1.0.0-rc.3` → `1.0.0-rc.4`
+  - `@cloudflare/cli-shared-helpers`: `0.3.12` → `0.3.13`
+  - `@cloudflare/codemods`: `0.9.0` → `0.9.1`
+  - `@cloudflare/config`: `1.0.0-rc.3` → `1.0.0-rc.4`
+  - `@cloudflare/containers-shared`: `0.27.1` → `0.27.2`
+  - `@cloudflare/deploy-helpers`: `0.29.0` → `0.29.1`
+  - `@cloudflare/runtime-types`: `0.1.32` → `0.1.33`
+  - `@cloudflare/workers-auth`: `0.18.6` → `0.18.7`
+  - `@cloudflare/workers-utils`: `0.56.0` → `0.57.0`
+  - `miniflare`: `5.20261119.0-beta` → `5.20261123.0-beta`
+
 ## 1.0.0-rc.4
 
 ### Minor Changes

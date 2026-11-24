@@ -216,8 +216,8 @@ importers:
         specifier: 2.0.0-rc.4
         version: 2.0.0-rc.4(@types/node@26.6.6)(@voidzero-dev/vite-plus-core@8.3.8000(@types/node@26.6.6)(esbuild@0.28.2)(tsx@4.21.0)(typescript@6.0.3)(unrun@0.2.39)(yaml@2.9.0))(workerd@1.20261123.1)
       '@cloudflare/workers-types':
-        specifier: 5.20261123.1
-        version: 5.20261123.1
+        specifier: 5.20261124.1
+        version: 5.20261124.1
       cf:
         specifier: workspace:*
         version: link:../../packages/cli
@@ -226,7 +226,7 @@ importers:
         version: '@voidzero-dev/vite-plus-core@8.3.8000(@types/node@26.6.6)(esbuild@0.28.2)(tsx@4.21.0)(typescript@6.0.3)(unrun@0.2.39)(yaml@2.9.0)'
       wrangler:
         specifier: 4.167.0
-        version: 4.167.0(@cloudflare/workers-types@5.20261123.1)(@types/node@26.6.6)(@vitest/browser-preview@5.1.0)(@vitest/ui@5.1.0)(@voidzero-dev/vite-plus-core@8.3.8000(@types/node@26.6.6)(esbuild@0.28.2)(tsx@4.21.0)(typescript@6.0.3)(unrun@0.2.39)(yaml@2.9.0))(msw@3.0.7(@types/node@26.6.6)(@voidzero-dev/vite-plus-core@8.3.8000(@types/node@26.6.6)(esbuild@0.28.2)(tsx@4.21.0)(typescript@6.0.3)(unrun@0.2.39)(yaml@2.9.0))(graphql@16.14.2)(supports-color@10.2.2)(typescript@6.0.3))(vitest@5.1.0)
+        version: 4.167.0(@cloudflare/workers-types@5.20261124.1)(@types/node@26.6.6)(@vitest/browser-preview@5.1.0)(@vitest/ui@5.1.0)(@voidzero-dev/vite-plus-core@8.3.8000(@types/node@26.6.6)(esbuild@0.28.2)(tsx@4.21.0)(typescript@6.0.3)(unrun@0.2.39)(yaml@2.9.0))(msw@3.0.7(@types/node@26.6.6)(@voidzero-dev/vite-plus-core@8.3.8000(@types/node@26.6.6)(esbuild@0.28.2)(tsx@4.21.0)(typescript@6.0.3)(unrun@0.2.39)(yaml@2.9.0))(graphql@16.14.2)(supports-color@10.2.2)(typescript@6.0.3))(vitest@5.1.0)
 
   fixtures/vite-plugin-project:
     devDependencies:
@@ -234,8 +234,8 @@ importers:
         specifier: 2.0.0-rc.4
         version: 2.0.0-rc.4(@types/node@26.6.6)(@voidzero-dev/vite-plus-core@8.3.8000(@types/node@26.6.6)(esbuild@0.28.2)(tsx@4.21.0)(typescript@6.0.3)(unrun@0.2.39)(yaml@2.9.0))(workerd@1.20261123.1)
       '@cloudflare/workers-types':
-        specifier: 5.20261123.1
-        version: 5.20261123.1
+        specifier: 5.20261124.1
+        version: 5.20261124.1
       cf:
         specifier: workspace:*
         version: link:../../packages/cli
@@ -247,7 +247,7 @@ importers:
         version: 1.7.0(@types/node@26.6.6)(@vitest/browser-preview@5.1.0)(@vitest/ui@5.1.0)(@voidzero-dev/vite-plus-core@8.3.8000(@types/node@26.6.6)(esbuild@0.28.2)(tsx@4.21.0)(typescript@6.0.3)(unrun@0.2.39)(yaml@2.9.0))(esbuild@0.28.2)(msw@3.0.7(@types/node@26.6.6)(@voidzero-dev/vite-plus-core@8.3.8000(@types/node@26.6.6)(esbuild@0.28.2)(tsx@4.21.0)(typescript@6.0.3)(unrun@0.2.39)(yaml@2.9.0))(graphql@16.14.2)(supports-color@10.2.2)(typescript@6.0.3))(tsx@4.21.0)(typescript@6.0.3)(unrun@0.2.39)(vitest@5.1.0)(yaml@2.9.0)
       wrangler:
         specifier: 4.167.0
-        version: 4.167.0(@cloudflare/workers-types@5.20261123.1)(@types/node@26.6.6)(@vitest/browser-preview@5.1.0)(@vitest/ui@5.1.0)(@voidzero-dev/vite-plus-core@8.3.8000(@types/node@26.6.6)(esbuild@0.28.2)(tsx@4.21.0)(typescript@6.0.3)(unrun@0.2.39)(yaml@2.9.0))(msw@3.0.7(@types/node@26.6.6)(@voidzero-dev/vite-plus-core@8.3.8000(@types/node@26.6.6)(esbuild@0.28.2)(tsx@4.21.0)(typescript@6.0.3)(unrun@0.2.39)(yaml@2.9.0))(graphql@16.14.2)(supports-color@10.2.2)(typescript@6.0.3))(vitest@5.1.0)
+        version: 4.167.0(@cloudflare/workers-types@5.20261124.1)(@types/node@26.6.6)(@vitest/browser-preview@5.1.0)(@vitest/ui@5.1.0)(@voidzero-dev/vite-plus-core@8.3.8000(@types/node@26.6.6)(esbuild@0.28.2)(tsx@4.21.0)(typescript@6.0.3)(unrun@0.2.39)(yaml@2.9.0))(msw@3.0.7(@types/node@26.6.6)(@voidzero-dev/vite-plus-core@8.3.8000(@types/node@26.6.6)(esbuild@0.28.2)(tsx@4.21.0)(typescript@6.0.3)(unrun@0.2.39)(yaml@2.9.0))(graphql@16.14.2)(supports-color@10.2.2)(typescript@6.0.3))(vitest@5.1.0)
 
   fixtures/wrangler-bundler-project:
     dependencies:
@@ -256,7 +256,7 @@ importers:
         version: link:../../packages/cli
       wrangler:
         specifier: 4.167.0
-        version: 4.167.0(@cloudflare/workers-types@5.20261123.1)(@types/node@26.6.6)(@vitest/browser-preview@5.1.0)(@vitest/ui@5.1.0)(@voidzero-dev/vite-plus-core@8.3.8000(@types/node@26.6.6)(esbuild@0.28.2)(tsx@4.21.0)(typescript@7.0.2)(unrun@0.2.39)(yaml@2.9.0))(msw@3.0.7(@types/node@26.6.6)(@voidzero-dev/vite-plus-core@8.3.8000(@types/node@26.6.6)(esbuild@0.28.2)(tsx@4.21.0)(typescript@7.0.2)(unrun@0.2.39)(yaml@2.9.0))(graphql@16.14.2)(supports-color@10.2.2)(typescript@7.0.2))(vitest@5.1.0)
+        version: 4.167.0(@cloudflare/workers-types@5.20261124.1)(@types/node@26.6.6)(@vitest/browser-preview@5.1.0)(@vitest/ui@5.1.0)(@voidzero-dev/vite-plus-core@8.3.8000(@types/node@26.6.6)(esbuild@0.28.2)(tsx@4.21.0)(typescript@7.0.2)(unrun@0.2.39)(yaml@2.9.0))(msw@3.0.7(@types/node@26.6.6)(@voidzero-dev/vite-plus-core@8.3.8000(@types/node@26.6.6)(esbuild@0.28.2)(tsx@4.21.0)(typescript@7.0.2)(unrun@0.2.39)(yaml@2.9.0))(graphql@16.14.2)(supports-color@10.2.2)(typescript@7.0.2))(vitest@5.1.0)
 
   packages/cli:
     dependencies:
@@ -883,8 +883,8 @@ packages:
       vitest:
         optional: true
 
-  '@cloudflare/workers-types@5.20261123.1':
-    resolution: {integrity: sha512-T5ZYVByysoCFgJytSwsGBLS0ebNhxFYLSbsERdVZ04YErfmpBGlvYErvUmKT+mjNR/xAl4fxCedpjqLgYIyWSg==}
+  '@cloudflare/workers-types@5.20261124.1':
+    resolution: {integrity: sha512-n99jv9oDm6AYg7dTkRYJVgD5GhXG14Cd8rLDtbld28ZjGJVKFtQPXJxnVoOV2IBSRuqHt0PnP/4oqoiUKw2SAA==}
 
   '@cloudflare/workers-utils@0.56.0':
     resolution: {integrity: sha512-Fw3/zR+pQp+5hKn1CHIRkCYz49fyAb2qRqCq01jBGqlKL0rRnZyXYD4j0h9cjaWPYYQUOe5y6L7BNp2ZwsHg5A==}
@@ -4784,7 +4784,7 @@ snapshots:
       - '@vitest/ui'
       - vite
 
-  '@cloudflare/workers-types@5.20261123.1': {}
+  '@cloudflare/workers-types@5.20261124.1': {}
 
   '@cloudflare/workers-utils@0.56.0(@vitest/browser-preview@5.1.0)(@vitest/ui@5.1.0)(@voidzero-dev/vite-plus-core@8.3.8000(@types/node@26.6.6)(esbuild@0.28.2)(tsx@4.21.0)(typescript@6.0.3)(unrun@0.2.39)(yaml@2.9.0))(msw@3.0.7(@types/node@26.6.6)(@voidzero-dev/vite-plus-core@8.3.8000(@types/node@26.6.6)(esbuild@0.28.2)(tsx@4.21.0)(typescript@6.0.3)(unrun@0.2.39)(yaml@2.9.0))(graphql@16.14.2)(supports-color@10.2.2)(typescript@6.0.3))(vitest@5.1.0)':
     dependencies:
@@ -7639,7 +7639,7 @@ snapshots:
       '@cloudflare/workerd-linux-arm64': 1.20261123.1
       '@cloudflare/workerd-windows-64': 1.20261123.1
 
-  wrangler@4.167.0(@cloudflare/workers-types@5.20261123.1)(@types/node@26.6.6)(@vitest/browser-preview@5.1.0)(@vitest/ui@5.1.0)(@voidzero-dev/vite-plus-core@8.3.8000(@types/node@26.6.6)(esbuild@0.28.2)(tsx@4.21.0)(typescript@6.0.3)(unrun@0.2.39)(yaml@2.9.0))(msw@3.0.7(@types/node@26.6.6)(@voidzero-dev/vite-plus-core@8.3.8000(@types/node@26.6.6)(esbuild@0.28.2)(tsx@4.21.0)(typescript@6.0.3)(unrun@0.2.39)(yaml@2.9.0))(graphql@16.14.2)(supports-color@10.2.2)(typescript@6.0.3))(vitest@5.1.0):
+  wrangler@4.167.0(@cloudflare/workers-types@5.20261124.1)(@types/node@26.6.6)(@vitest/browser-preview@5.1.0)(@vitest/ui@5.1.0)(@voidzero-dev/vite-plus-core@8.3.8000(@types/node@26.6.6)(esbuild@0.28.2)(tsx@4.21.0)(typescript@6.0.3)(unrun@0.2.39)(yaml@2.9.0))(msw@3.0.7(@types/node@26.6.6)(@voidzero-dev/vite-plus-core@8.3.8000(@types/node@26.6.6)(esbuild@0.28.2)(tsx@4.21.0)(typescript@6.0.3)(unrun@0.2.39)(yaml@2.9.0))(graphql@16.14.2)(supports-color@10.2.2)(typescript@6.0.3))(vitest@5.1.0):
     dependencies:
       '@cloudflare/kv-asset-handler': 0.5.1
       '@cloudflare/unenv-preset': 2.16.2(unenv@2.0.0-rc.24)(workerd@1.20261123.1)
@@ -7655,7 +7655,7 @@ snapshots:
       unenv: 2.0.0-rc.24
       workerd: 1.20261123.1
     optionalDependencies:
-      '@cloudflare/workers-types': 5.20261123.1
+      '@cloudflare/workers-types': 5.20261124.1
       fsevents: 2.3.3
     transitivePeerDependencies:
       - '@types/node'
@@ -7669,7 +7669,7 @@ snapshots:
       - vite
       - vitest
 
-  wrangler@4.167.0(@cloudflare/workers-types@5.20261123.1)(@types/node@26.6.6)(@vitest/browser-preview@5.1.0)(@vitest/ui@5.1.0)(@voidzero-dev/vite-plus-core@8.3.8000(@types/node@26.6.6)(esbuild@0.28.2)(tsx@4.21.0)(typescript@7.0.2)(unrun@0.2.39)(yaml@2.9.0))(msw@3.0.7(@types/node@26.6.6)(@voidzero-dev/vite-plus-core@8.3.8000(@types/node@26.6.6)(esbuild@0.28.2)(tsx@4.21.0)(typescript@7.0.2)(unrun@0.2.39)(yaml@2.9.0))(graphql@16.14.2)(supports-color@10.2.2)(typescript@7.0.2))(vitest@5.1.0):
+  wrangler@4.167.0(@cloudflare/workers-types@5.20261124.1)(@types/node@26.6.6)(@vitest/browser-preview@5.1.0)(@vitest/ui@5.1.0)(@voidzero-dev/vite-plus-core@8.3.8000(@types/node@26.6.6)(esbuild@0.28.2)(tsx@4.21.0)(typescript@7.0.2)(unrun@0.2.39)(yaml@2.9.0))(msw@3.0.7(@types/node@26.6.6)(@voidzero-dev/vite-plus-core@8.3.8000(@types/node@26.6.6)(esbuild@0.28.2)(tsx@4.21.0)(typescript@7.0.2)(unrun@0.2.39)(yaml@2.9.0))(graphql@16.14.2)(supports-color@10.2.2)(typescript@7.0.2))(vitest@5.1.0):
     dependencies:
       '@cloudflare/kv-asset-handler': 0.5.1
       '@cloudflare/unenv-preset': 2.16.2(unenv@2.0.0-rc.24)(workerd@1.20261123.1)
@@ -7685,7 +7685,7 @@ snapshots:
       unenv: 2.0.0-rc.24
       workerd: 1.20261123.1
     optionalDependencies:
-      '@cloudflare/workers-types': 5.20261123.1
+      '@cloudflare/workers-types': 5.20261124.1
       fsevents: 2.3.3
     transitivePeerDependencies:
       - '@types/node'

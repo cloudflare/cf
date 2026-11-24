@@ -30120,7 +30120,7 @@
 				{
 					"name": "feed_id",
 					"flag": "feed-id",
-					"type": "string",
+					"type": "array",
 					"required": false
 				},
 				{
@@ -30199,6 +30199,12 @@
 					"name": "feed_category",
 					"flag": "feed-category",
 					"type": "string",
+					"required": false
+				},
+				{
+					"name": "feed_category_id",
+					"flag": "feed-category-id",
+					"type": "array",
 					"required": false
 				},
 				{
@@ -30859,7 +30865,7 @@
 				{
 					"name": "feed_id",
 					"flag": "feed-id",
-					"type": "string",
+					"type": "array",
 					"required": false
 				}
 			],
@@ -33789,6 +33795,77 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
+		"d1 insights recommendations": {
+			"operationId": "d1.insights.recommendations",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/d1/insights/recommendations",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [
+				{
+					"name": "database_id",
+					"flag": "database-id",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "limit",
+					"flag": "limit",
+					"type": "number",
+					"required": false
+				},
+				{
+					"name": "cursor",
+					"flag": "cursor",
+					"type": "string",
+					"required": false
+				}
+			],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"d1 insights settings get": {
+			"operationId": "d1.insights.settings.get",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/d1/insights/settings",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"d1 insights settings update": {
+			"operationId": "d1.insights.settings.update",
+			"httpMethod": "PUT",
+			"path": "/accounts/{account_id}/d1/insights/settings",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "ai-enabled",
+					"type": "boolean",
+					"required": true,
+					"description": "Whether D1 Insights uses AI on this account's query data."
+				}
+			]
+		},
 		"d1 list": {
 			"operationId": "d1.list",
 			"httpMethod": "GET",
@@ -33817,6 +33894,12 @@
 					"name": "per_page",
 					"flag": "per-page",
 					"type": "number",
+					"required": false
+				},
+				{
+					"name": "fields",
+					"flag": "fields",
+					"type": "array",
 					"required": false
 				}
 			],
@@ -122494,65 +122577,6 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"zero-trust risk-scoring behaviours get": {
-			"operationId": "zero-trust.risk-scoring.behaviours.get",
-			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/zt_risk_scoring/behaviors",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"zero-trust risk-scoring behaviours update": {
-			"operationId": "zero-trust.risk-scoring.behaviours.update",
-			"httpMethod": "PUT",
-			"path": "/accounts/{account_id}/zt_risk_scoring/behaviors",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "behaviors",
-					"type": "string",
-					"required": true,
-					"description": "The behaviors field. Provide as a JSON object or @path/to/file.json. Shape: {\"<key>\": {...}}."
-				}
-			]
-		},
-		"zero-trust risk-scoring get": {
-			"operationId": "zero-trust.risk-scoring.get",
-			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/zt_risk_scoring/{user_id}",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "user_id",
-					"flag": "user-id",
-					"positional": true,
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
 		"zero-trust risk-scoring integrations create": {
 			"operationId": "zero-trust.risk-scoring.integrations.create",
 			"httpMethod": "POST",
@@ -122708,43 +122732,6 @@
 					"description": "The base url of the tenant, e.g. \"https://tenant.okta.com\"."
 				}
 			]
-		},
-		"zero-trust risk-scoring reset": {
-			"operationId": "zero-trust.risk-scoring.reset",
-			"httpMethod": "POST",
-			"path": "/accounts/{account_id}/zt_risk_scoring/{user_id}/reset",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "user_id",
-					"flag": "user-id",
-					"positional": true,
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"zero-trust risk-scoring summary get": {
-			"operationId": "zero-trust.risk-scoring.summary.get",
-			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/zt_risk_scoring/summary",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
 		},
 		"zero-trust users mfa authenticators delete": {
 			"operationId": "zero-trust.users.mfa.authenticators.delete",

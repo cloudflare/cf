@@ -40891,7 +40891,7 @@
 					"name": "feed-id",
 					"type": "string",
 					"required": false,
-					"description": "Feed UUID filter. Omit to include articles from every account feed."
+					"description": "Repeatable feed UUID filter. An article matches any selected feed. Omit to include articles from every account feed."
 				},
 				{
 					"name": "article-id",
@@ -40969,7 +40969,23 @@
 					"name": "feed-category",
 					"type": "string",
 					"required": false,
-					"description": "Exact feed-category filter after trimming. Omit to include every category."
+					"description": "Exact match on a feed's legacy free-form category after trimming. Omit to include every category; to filter by the categories shown on feeds, use feed_category_id."
+				},
+				{
+					"name": "feed-category-id",
+					"type": "string",
+					"required": false,
+					"description": "Repeatable feed category UUID filter, using the ids from the feed categories list. An article matches when its feed has any selected category; feeds without a category never match.",
+					"enum": [
+						"b12a0fd6-f7b9-5393-9ef3-f888d506c550",
+						"d5b70eaa-626f-5761-b55b-6d9590df49fb",
+						"3b572d2b-890d-5286-9433-f18c85079030",
+						"17f90d3b-37d3-5241-8ad4-7d6abbc2006c",
+						"c68f28e9-7e8f-5d4b-853b-f3076893a9ee",
+						"bb0e4a94-38ab-5c14-80a7-28cee9f4b139",
+						"b1ef66d9-a73c-58dc-b269-22d34dfd11f4",
+						"ab02a976-0a20-5c76-a553-7f6325afacfe"
+					]
 				},
 				{
 					"name": "source-type",
@@ -41938,7 +41954,7 @@
 					"name": "feed-id",
 					"type": "string",
 					"required": false,
-					"description": "Optional feed UUID that restricts results to articles from that feed."
+					"description": "Optional repeatable feed UUID filter, up to 40 feeds. Results come only from articles in the selected feeds."
 				},
 				{
 					"name": "dry-run",
@@ -46120,6 +46136,108 @@
 			"hideCommand": false
 		},
 		{
+			"command": "cf d1 insights recommendations",
+			"name": "recommendations",
+			"fullPath": ["d1", "insights", "recommendations"],
+			"description": "List index recommendations for the databases in your account, or for the databases in `database_id`, from highest to lowest estimated impact. D1 generates recommendations in the background from recent query usage. Each run replaces the recommendations of the databases it analyzed. Recommendations that are not refreshed expire after 7 days. Not every database has recommendations. Recommendations are only generated and returned while `ai_enabled` is true in the account's D1 Insights settings. When it is false, the response is an empty list. To check or change the setting, use `GET` or `PUT /accounts/{account_id}/d1/insights/settings`.",
+			"summary": "List D1 Index Recommendations",
+			"usage": "cf d1 insights recommendations [options]",
+			"arguments": [],
+			"options": [
+				{
+					"name": "database-id",
+					"type": "string",
+					"required": false,
+					"description": "Only return recommendations for these databases, at most 50. Pass a comma-separated list or repeat the parameter. Defaults to all databases in the account. A database that is not in the account returns no recommendations."
+				},
+				{
+					"name": "limit",
+					"type": "number",
+					"required": false,
+					"description": "Maximum number of recommendations to return in a page."
+				},
+				{
+					"name": "cursor",
+					"type": "string",
+					"required": false,
+					"description": "`result_info.next_cursor` from the previous page. Pass the same `database_id` values as that request, or the request will fail."
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "action",
+			"hasRequestBody": false,
+			"httpMethod": "GET",
+			"apiPath": "/accounts/{account_id}/d1/insights/recommendations",
+			"operationId": "d1.insights.recommendations",
+			"hideCommand": false
+		},
+		{
+			"command": "cf d1 insights settings get",
+			"name": "get",
+			"fullPath": ["d1", "insights", "settings", "get"],
+			"description": "Get whether D1 Insights uses AI on this account's query data. While `ai_enabled` is true, D1 sends the account's query statements, query usage and database schemas to Workers AI to generate index recommendations, and `GET /accounts/{account_id}/d1/insights/recommendations` returns them. Until the account changes the setting with `PUT`, the default depends on the account's plan. Requires the Account Settings Read permission.",
+			"summary": "Get D1 Insights Settings",
+			"usage": "cf d1 insights settings get",
+			"arguments": [],
+			"options": [
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "read",
+			"hasRequestBody": false,
+			"httpMethod": "GET",
+			"apiPath": "/accounts/{account_id}/d1/insights/settings",
+			"operationId": "d1.insights.settings.get",
+			"hideCommand": false
+		},
+		{
+			"command": "cf d1 insights settings update",
+			"name": "update",
+			"fullPath": ["d1", "insights", "settings", "update"],
+			"description": "Turn AI use for D1 Insights on or off for every database in this account. When you turn it off, D1 stops generating index recommendations for the account and `GET /accounts/{account_id}/d1/insights/recommendations` returns an empty list. Existing recommendations are not deleted. They expire 7 days after they were generated, so any that have not expired are returned again if you turn it back on. Requires the Account Settings Write permission.",
+			"summary": "Update D1 Insights Settings",
+			"usage": "cf d1 insights settings update [options]",
+			"arguments": [],
+			"options": [
+				{
+					"name": "ai-enabled",
+					"type": "boolean",
+					"required": true,
+					"description": "Whether D1 Insights uses AI on this account's query data."
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "body",
+					"type": "string",
+					"required": false,
+					"description": "Raw JSON request body (bypasses individual flags)"
+				}
+			],
+			"category": "update",
+			"hasRequestBody": true,
+			"httpMethod": "PUT",
+			"apiPath": "/accounts/{account_id}/d1/insights/settings",
+			"operationId": "d1.insights.settings.update",
+			"hideCommand": false
+		},
+		{
 			"command": "cf d1 list",
 			"name": "list",
 			"fullPath": ["d1", "list"],
@@ -46145,6 +46263,22 @@
 					"type": "number",
 					"required": false,
 					"description": "Number of items per page."
+				},
+				{
+					"name": "fields",
+					"type": "string",
+					"required": false,
+					"description": "Comma-separated list of fields to include for each database. When omitted, every field except `recommendation_count` is returned.",
+					"enum": [
+						"uuid",
+						"name",
+						"created_at",
+						"version",
+						"jurisdiction",
+						"num_tables",
+						"file_size",
+						"recommendation_count"
+					]
 				},
 				{
 					"name": "dry-run",
@@ -169989,98 +170123,6 @@
 			"hideCommand": false
 		},
 		{
-			"command": "cf zero-trust risk-scoring behaviours get",
-			"name": "get",
-			"fullPath": ["zero-trust", "risk-scoring", "behaviours", "get"],
-			"description": "Retrieves configured risk score behaviors that define how user actions affect their overall risk score.",
-			"summary": "Get all behaviors and associated configuration",
-			"usage": "cf zero-trust risk-scoring behaviours get",
-			"arguments": [],
-			"options": [
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				}
-			],
-			"category": "read",
-			"hasRequestBody": false,
-			"httpMethod": "GET",
-			"apiPath": "/accounts/{account_id}/zt_risk_scoring/behaviors",
-			"operationId": "zero-trust.risk-scoring.behaviours.get",
-			"hideCommand": false
-		},
-		{
-			"command": "cf zero-trust risk-scoring behaviours update",
-			"name": "update",
-			"fullPath": ["zero-trust", "risk-scoring", "behaviours", "update"],
-			"description": "Updates risk score behavior configurations, defining weights and thresholds for risk calculation.",
-			"summary": "Update configuration for risk behaviors",
-			"usage": "cf zero-trust risk-scoring behaviours update [options]",
-			"arguments": [],
-			"options": [
-				{
-					"name": "behaviors",
-					"type": "string",
-					"required": true,
-					"description": "The behaviors field. Provide as a JSON object or @path/to/file.json. Shape: {\"<key>\": {...}}."
-				},
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				},
-				{
-					"name": "body",
-					"type": "string",
-					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
-				}
-			],
-			"category": "update",
-			"hasRequestBody": true,
-			"httpMethod": "PUT",
-			"apiPath": "/accounts/{account_id}/zt_risk_scoring/behaviors",
-			"operationId": "zero-trust.risk-scoring.behaviours.update",
-			"hideCommand": false
-		},
-		{
-			"command": "cf zero-trust risk-scoring get",
-			"name": "get",
-			"fullPath": ["zero-trust", "risk-scoring", "get"],
-			"description": "Retrieves the detailed risk score breakdown for a specific user, including contributing factors.",
-			"summary": "Get risk event/score information for a specific user",
-			"usage": "cf zero-trust risk-scoring get <user-id>",
-			"arguments": [
-				{
-					"name": "user-id",
-					"position": 0,
-					"type": "string",
-					"required": true,
-					"description": "User ID"
-				}
-			],
-			"options": [
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				}
-			],
-			"category": "read",
-			"hasRequestBody": false,
-			"httpMethod": "GET",
-			"apiPath": "/accounts/{account_id}/zt_risk_scoring/{user_id}",
-			"operationId": "zero-trust.risk-scoring.get",
-			"hideCommand": false
-		},
-		{
 			"command": "cf zero-trust risk-scoring integrations create",
 			"name": "create",
 			"fullPath": ["zero-trust", "risk-scoring", "integrations", "create"],
@@ -170317,70 +170359,6 @@
 			"httpMethod": "PUT",
 			"apiPath": "/accounts/{account_id}/zt_risk_scoring/integrations/{integration_id}",
 			"operationId": "zero-trust.risk-scoring.integrations.update",
-			"hideCommand": false
-		},
-		{
-			"command": "cf zero-trust risk-scoring reset",
-			"name": "reset",
-			"fullPath": ["zero-trust", "risk-scoring", "reset"],
-			"description": "Resets risk scores for specified users, clearing their accumulated risk history.",
-			"summary": "Clear the risk score for a particular user",
-			"usage": "cf zero-trust risk-scoring reset <user-id>",
-			"arguments": [
-				{
-					"name": "user-id",
-					"position": 0,
-					"type": "string",
-					"required": true,
-					"description": "User ID"
-				}
-			],
-			"options": [
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				},
-				{
-					"name": "force",
-					"type": "boolean",
-					"alias": "f",
-					"required": false,
-					"description": "Skip confirmation (useful in scripts and CI)",
-					"default": false
-				}
-			],
-			"category": "action",
-			"hasRequestBody": false,
-			"httpMethod": "POST",
-			"apiPath": "/accounts/{account_id}/zt_risk_scoring/{user_id}/reset",
-			"operationId": "zero-trust.risk-scoring.reset",
-			"hideCommand": false
-		},
-		{
-			"command": "cf zero-trust risk-scoring summary get",
-			"name": "get",
-			"fullPath": ["zero-trust", "risk-scoring", "summary", "get"],
-			"description": "Gets an aggregate summary of risk scores across the account, including distribution and trends.",
-			"summary": "Get risk score info for all users in the account",
-			"usage": "cf zero-trust risk-scoring summary get",
-			"arguments": [],
-			"options": [
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				}
-			],
-			"category": "read",
-			"hasRequestBody": false,
-			"httpMethod": "GET",
-			"apiPath": "/accounts/{account_id}/zt_risk_scoring/summary",
-			"operationId": "zero-trust.risk-scoring.summary.get",
 			"hideCommand": false
 		},
 		{
@@ -172828,6 +172806,7 @@
 		"custom-pages account-custom-pages preview-tokens": "Preview tokens for account-level custom pages",
 		"d1": "D1 is Cloudflare's managed, serverless database with SQLite's SQL semantics, built-in disaster recovery, and Worker and HTTP API access.",
 		"d1 insights": "show usage insights for the D1 databases in your account",
+		"d1 insights settings": "turn AI-generated D1 Insights on or off for your account",
 		"d1 time-travel": "use specific point-in-time backups of your D1 database",
 		"d1 migrations": "Create, list, and apply D1 database migrations",
 		"diagnostics": "Network diagnostic tools — traceroutes from Cloudflare's edge and endpoint health checks",
@@ -173674,11 +173653,9 @@
 		"zero-trust organization trust-settings": "Operations for organization.trust-settings",
 		"zero-trust region": "Operations for region",
 		"zero-trust regions": "Operations for regions",
-		"zero-trust risk-scoring": "User Risk Scoring - retrieve and reset user risk scores",
-		"zero-trust risk-scoring behaviours": "User Risk Scoring - manage behaviors used to calculate user risk scores",
+		"zero-trust risk-scoring": "Operations for risk-scoring",
 		"zero-trust risk-scoring integrations": "User Risk Scoring - manage integrations that provide risk score signals",
 		"zero-trust risk-scoring integrations references": "User Risk Scoring - retrieve integrations by external reference",
-		"zero-trust risk-scoring summary": "User Risk Scoring - retrieve account risk score summaries",
 		"zero-trust users": "Operations for users",
 		"zero-trust users mfa": "Operations for users.mfa",
 		"zero-trust users mfa authenticators": "Operations for users.mfa.authenticators",

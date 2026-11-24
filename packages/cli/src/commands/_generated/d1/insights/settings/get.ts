@@ -1,9 +1,9 @@
-import operation from "../../../_operations/zero-trust/risk-scoring/behaviours/get.js";
+import operation from "../../../_operations/d1/insights/settings/get.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * get command
- * @generated from apis/overlays/zero-trust.ts
+ * @generated from apis/overlays/d1.ts
  */
 import type { Argv, CommandModule } from "yargs";
 import {
@@ -20,7 +20,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 zero-trust risk-scoring behaviours get\n\nRetrieves configured risk score behaviors that define how user actions affect their overall risk score."
+			"$0 d1 insights settings get\n\nGet whether D1 Insights uses AI on this account's query data. While `ai_enabled` is true, D1 sends the account's query statements, query usage and database schemas to Workers AI to generate index recommendations, and `GET /accounts/{account_id}/d1/insights/recommendations` returns them. Until the account changes the setting with `PUT`, the default depends on the account's plan. Requires the Account Settings Read permission."
 		)
 		.option("dry-run", {
 			type: "boolean",
@@ -33,12 +33,12 @@ type Args = InferArgs<typeof builder>;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get",
-	describe: "Get all behaviors and associated configuration",
+	describe: "Get D1 Insights Settings",
 	builder,
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
-				command: "zero-trust risk-scoring behaviours get",
+				command: "d1 insights settings get",
 				classification: {
 					safeFlags: ["dry-run"],
 				} satisfies ArgClassification<Args>,
@@ -48,9 +48,9 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				if (argv.dryRun) {
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
-						command: "cf zero-trust risk-scoring behaviours get",
+						command: "cf d1 insights settings get",
 						method: "GET",
-						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/zt_risk_scoring/behaviors`,
+						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/d1/insights/settings`,
 						pathParams: {},
 						bodyKind: "none",
 					});

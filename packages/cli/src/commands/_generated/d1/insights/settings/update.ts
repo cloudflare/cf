@@ -1,9 +1,9 @@
-import operation from "../../../_operations/zero-trust/risk-scoring/behaviours/update.js";
+import operation from "../../../_operations/d1/insights/settings/update.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * update command
- * @generated from apis/overlays/zero-trust.ts
+ * @generated from apis/overlays/d1.ts
  */
 import type { Argv, CommandModule } from "yargs";
 import {
@@ -11,7 +11,7 @@ import {
 	getAccountId,
 	resolveAccountIdSilent,
 } from "#lib/auth.js";
-import { compactBody, parseBody, parseJsonMap } from "#lib/body-parser.js";
+import { compactBody, parseBody } from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
 import { formatOutput } from "#lib/output.js";
@@ -21,12 +21,11 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 zero-trust risk-scoring behaviours update\n\nUpdates risk score behavior configurations, defining weights and thresholds for risk calculation."
+			"$0 d1 insights settings update\n\nTurn AI use for D1 Insights on or off for every database in this account. When you turn it off, D1 stops generating index recommendations for the account and `GET /accounts/{account_id}/d1/insights/recommendations` returns an empty list. Existing recommendations are not deleted. They expire 7 days after they were generated, so any that have not expired are returned again if you turn it back on. Requires the Account Settings Write permission."
 		)
-		.option("behaviors", {
-			type: "string",
-			description:
-				'The behaviors field. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": {...}}.',
+		.option("ai-enabled", {
+			type: "boolean",
+			description: "Whether D1 Insights uses AI on this account's query data.",
 		})
 		.option("dry-run", {
 			type: "boolean",
@@ -35,7 +34,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		})
 		.option("body", {
 			type: "string",
-			description: "Behaviors.",
+			description: "Raw JSON request body (bypasses individual flags)",
 		});
 }
 
@@ -43,22 +42,22 @@ type Args = InferArgs<typeof builder>;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "update",
-	describe: "Update configuration for risk behaviors",
+	describe: "Update D1 Insights Settings",
 	builder,
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
-				command: "zero-trust risk-scoring behaviours update",
+				command: "d1 insights settings update",
 				classification: {
-					safeFlags: ["dry-run"],
+					safeFlags: ["ai-enabled", "dry-run"],
 				} satisfies ArgClassification<Args>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
 				const resolveRequiredFields = async (): Promise<void> => {
-					if (argv["behaviors"] === undefined) {
+					if (argv["ai-enabled"] === undefined) {
 						throw new Error(
-							"--behaviors is required (or pass --body with this field set)."
+							"--ai-enabled is required (or pass --body with this field set)."
 						);
 					}
 				};
@@ -68,33 +67,22 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
-						command: "cf zero-trust risk-scoring behaviours update",
+						command: "cf d1 insights settings update",
 						method: "PUT",
-						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/zt_risk_scoring/behaviors`,
+						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/d1/insights/settings`,
 						pathParams: {},
 						bodyKind: "json",
 						body:
 							argv.body !== undefined
-								? parseBody(argv.body, [
-										{ path: ["behaviors"], flag: "behaviors" },
-									])
-								: compactBody(
-										{
-											behaviors: parseJsonMap(
-												argv["behaviors"],
-												"behaviors",
-												true
-											),
-										},
-										[["behaviors"]]
-									),
+								? parseBody(argv.body)
+								: compactBody({
+										ai_enabled: argv["ai-enabled"],
+									}),
 					});
 					return;
 				}
 				const parsedBody =
-					argv.body !== undefined
-						? parseBody(argv.body, [{ path: ["behaviors"], flag: "behaviors" }])
-						: undefined;
+					argv.body !== undefined ? parseBody(argv.body) : undefined;
 				const client = await createCommandClient(argv);
 				const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
 				argv.accountId = accountId;
@@ -110,12 +98,9 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				await resolveRequiredFields();
 
 				// Assemble request body from individual flags
-				const bodyData = compactBody(
-					{
-						behaviors: parseJsonMap(argv["behaviors"], "behaviors", true),
-					},
-					[["behaviors"]]
-				);
+				const bodyData = compactBody({
+					ai_enabled: argv["ai-enabled"],
+				});
 				const result = await withProgress(`Updating`, async () =>
 					client.send(operation, { body: bodyData, account_id: accountId })
 				);

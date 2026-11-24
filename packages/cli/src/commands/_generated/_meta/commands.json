@@ -48095,7 +48095,15 @@
 					"type": "string",
 					"required": false,
 					"description": "Field to order DNS records by.",
-					"enum": ["type", "name", "content", "ttl", "proxied"]
+					"enum": [
+						"type",
+						"name",
+						"content",
+						"ttl",
+						"proxied",
+						"created_on",
+						"modified_on"
+					]
 				},
 				{
 					"name": "direction",

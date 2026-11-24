@@ -2,5 +2,9 @@
 "cf": minor
 ---
 
-Update the generated command surface for Cloudflare API schemas revision
-`10837344ff6c5abd1d5602f1aeebe82ef353fa32`.
+Remove `cf zero-trust risk-scoring` commands no longer in the API schema
+
+Breaking change: under `cf zero-trust risk-scoring`, the `get`, `reset`,
+`behaviours get`, `behaviours update`, and `summary get` commands are no longer
+available. Update scripts that call them before upgrading. Commands under
+`cf zero-trust risk-scoring integrations` remain available.

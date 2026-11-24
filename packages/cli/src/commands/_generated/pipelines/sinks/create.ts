@@ -307,7 +307,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				);
 				if (missing.length > 0) {
 					throw new Error(
-						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when any --config-* flag is set`
+						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when one of --sink-config-account-id, --sink-config-bucket, --sink-config-credentials-access-key-id, --sink-config-credentials-secret-access-key, --sink-config-file-naming-prefix, --sink-config-file-naming-strategy, --sink-config-file-naming-suffix, --sink-config-jurisdiction, --sink-config-partitioning-time-pattern, --sink-config-path, --sink-config-rolling-policy-file-size-bytes, --sink-config-rolling-policy-inactivity-seconds, --sink-config-rolling-policy-interval-seconds, --sink-config-namespace, --sink-config-table-name, --sink-config-token is set`
 					);
 				}
 			}

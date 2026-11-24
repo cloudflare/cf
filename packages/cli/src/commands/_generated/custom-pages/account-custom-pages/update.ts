@@ -1,11 +1,10 @@
 import operation from "../../_operations/custom-pages/account-custom-pages/update.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * update command
  * @generated from apis/overlays/custom-pages.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -24,50 +23,48 @@ import {
 } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 custom-pages account-custom-pages update <identifier>\n\nUpdates the configuration for a custom page type.\n\nRuns against your account. Pass --zone to run against a zone instead. CLOUDFLARE_ZONE_ID is ignored."
-		)
-		.positional("identifier", {
-			type: "string",
-			description: "Custom page type.",
-			demandOption: true,
-		})
-		.option("state", {
-			type: "string",
-			description: "The custom page state.",
-			choices: ["default", "customized"],
-		})
-		.coerce("state", (value) => resolveFileToken(value, "state", "text"))
-		.option("url", {
-			type: "string",
-			description: "The URL associated with the custom page.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "update <identifier>",
 	describe: "Update a custom page",
-	builder,
+	usage:
+		"$0 custom-pages account-custom-pages update <identifier>\n\nUpdates the configuration for a custom page type.\n\nRuns against your account. Pass --zone to run against a zone instead. CLOUDFLARE_ZONE_ID is ignored.",
+	flags: {
+		state: {
+			kind: "parsed",
+			brief: "The custom page state.",
+			optional: true,
+			choices: ["default", "customized"],
+			parse: String,
+			coerce: (value: string) => resolveFileToken(value, "state", "text"),
+		},
+		url: {
+			kind: "parsed",
+			brief: "The URL associated with the custom page.",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [
+		{ placeholder: "identifier", brief: "Custom page type.", parse: String },
+	],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "custom-pages account-custom-pages update",
 				classification: {
 					safeFlags: ["state", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -174,6 +171,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Updated` });
 			}
 		),
-};
+});
 
 export default command;

@@ -1,11 +1,10 @@
 import operation from "../../../_operations/zero-trust/dex/warp-change-events/list.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * list command
  * @generated from apis/overlays/zero-trust.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -17,77 +16,78 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 zero-trust dex warp-change-events list\n\nList WARP configuration and enablement toggle change events by device."
-		)
-		.option("page", {
-			type: "number",
-			description: "Page number of paginated results.",
-			demandOption: true,
-		})
-		.option("per-page", {
-			type: "number",
-			description: "Number of results per page.",
-			demandOption: true,
-		})
-		.option("from", {
-			type: "string",
-			description:
-				"Start time for the query in ISO (RFC3339 - ISO 8601) format.",
-			demandOption: true,
-		})
-		.option("to", {
-			type: "string",
-			description: "End time for the query in ISO (RFC3339 - ISO 8601) format.",
-			demandOption: true,
-		})
-		.option("type", {
-			type: "string",
-			description: "Filter events by type 'config' or 'toggle'.",
-			choices: ["config", "toggle"],
-		})
-		.option("toggle", {
-			type: "string",
-			description:
-				"Filter events by type toggle value. Applicable to type='toggle' events only.",
-			choices: ["on", "off"],
-		})
-		.option("config-name", {
-			type: "string",
-			description:
-				"Filter events by WARP configuration name changed from or to. Applicable to type='config' events only.",
-		})
-		.option("account-name", {
-			type: "string",
-			description: "Filter events by account name.",
-		})
-		.option("sort-order", {
-			type: "string",
-			description: "Sort response by event timestamp.",
-			choices: ["ASC", "DESC"],
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "list",
 	describe: "List WARP change events.",
-	builder,
+	usage:
+		"$0 zero-trust dex warp-change-events list\n\nList WARP configuration and enablement toggle change events by device.",
+	flags: {
+		page: {
+			kind: "parsed",
+			brief: "Page number of paginated results.",
+			parse: Number,
+		},
+		"per-page": {
+			kind: "parsed",
+			brief: "Number of results per page.",
+			parse: Number,
+		},
+		from: {
+			kind: "parsed",
+			brief: "Start time for the query in ISO (RFC3339 - ISO 8601) format.",
+			parse: String,
+		},
+		to: {
+			kind: "parsed",
+			brief: "End time for the query in ISO (RFC3339 - ISO 8601) format.",
+			parse: String,
+		},
+		type: {
+			kind: "enum",
+			brief: "Filter events by type 'config' or 'toggle'.",
+			values: ["config", "toggle"],
+			optional: true,
+		},
+		toggle: {
+			kind: "enum",
+			brief:
+				"Filter events by type toggle value. Applicable to type='toggle' events only.",
+			values: ["on", "off"],
+			optional: true,
+		},
+		"config-name": {
+			kind: "parsed",
+			brief:
+				"Filter events by WARP configuration name changed from or to. Applicable to type='config' events only.",
+			optional: true,
+			parse: String,
+		},
+		"account-name": {
+			kind: "parsed",
+			brief: "Filter events by account name.",
+			optional: true,
+			parse: String,
+		},
+		"sort-order": {
+			kind: "enum",
+			brief: "Sort response by event timestamp.",
+			values: ["ASC", "DESC"],
+			optional: true,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "zero-trust dex warp-change-events list",
 				classification: {
 					safeFlags: ["type", "toggle", "sort-order", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -124,6 +124,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Loaded` });
 			}
 		),
-};
+});
 
 export default command;

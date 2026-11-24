@@ -1,11 +1,10 @@
 import operation from "../../_operations/registrar-sandbox/extensions/get.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * get command
  * @generated from apis/overlays/registrar-sandbox.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -17,36 +16,32 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 registrar-sandbox extensions get <extension>\n\nReturns metadata and JSON Schema documents describing the expected input structure for registration and transfer operations on a specific extension (TLD). Supports HTTP conditional GET via `ETag`. Include the `ETag` value from a previous response in an `If-None-Match` header to receive a `304 Not Modified` when the data has not changed."
-		)
-		.positional("extension", {
-			type: "string",
-			description: "The extension name (e.g., \`com\`, \`co.uk\`).",
-			demandOption: true,
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "get <extension>",
 	describe: "Get extension",
-	builder,
+	usage:
+		"$0 registrar-sandbox extensions get <extension>\n\nReturns metadata and JSON Schema documents describing the expected input structure for registration and transfer operations on a specific extension (TLD). Supports HTTP conditional GET via `ETag`. Include the `ETag` value from a previous response in an `If-None-Match` header to receive a `304 Not Modified` when the data has not changed.",
+	flags: {
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+	},
+	operands: [
+		{
+			placeholder: "extension",
+			brief: "The extension name (e.g., \`com\`, \`co.uk\`).",
+			parse: String,
+		},
+	],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "registrar-sandbox extensions get",
-				classification: {
-					safeFlags: ["dry-run"],
-				} satisfies ArgClassification<Args>,
+				classification: { safeFlags: ["dry-run"] } satisfies ArgClassification<
+					typeof argv
+				>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -74,6 +69,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Loaded` });
 			}
 		),
-};
+});
 
 export default command;

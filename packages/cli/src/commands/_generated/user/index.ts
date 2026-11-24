@@ -10,36 +10,31 @@ import $memberships from "./memberships/index.js";
 import $subscriptions from "./subscriptions/index.js";
 import $tenants from "./tenants/index.js";
 import $tokens from "./tokens/index.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * user command
  * @generated from apis/overlays/user.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "user",
 	describe:
 		"Your Cloudflare user profile, invitations, organizations, billing, and personal API tokens",
 
-	builder: (yargs) => {
-		return yargs
-			.command($edit)
-			.command($get)
-			.command($auditlogs)
-			.command($billing)
-			.command($firewall)
-			.command($invites)
-			.command($loadbalancers)
-			.command($loadbalancinganalytics)
-			.command($memberships)
-			.command($subscriptions)
-			.command($tenants)
-			.command($tokens)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		edit: $edit,
+		get: $get,
+		"audit-logs": $auditlogs,
+		billing: $billing,
+		firewall: $firewall,
+		invites: $invites,
+		"load-balancers": $loadbalancers,
+		"load-balancing-analytics": $loadbalancinganalytics,
+		memberships: $memberships,
+		subscriptions: $subscriptions,
+		tenants: $tenants,
+		tokens: $tokens,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

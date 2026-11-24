@@ -1,22 +1,17 @@
 import $currents from "./currents/index.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * aggregates command group
  * @generated from apis/overlays/spectrum.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "aggregates",
 	describe: "Operations for analytics.aggregates",
 
-	builder: (yargs) => {
-		return yargs
-			.command($currents)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		currents: $currents,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

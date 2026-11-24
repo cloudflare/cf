@@ -1,11 +1,10 @@
 import operation from "../../../../_operations/zero-trust/dex/overview/tests/list.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * list command
  * @generated from apis/overlays/zero-trust.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -17,64 +16,72 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 zero-trust dex overview tests list\n\nList DEX tests with overview metrics."
-		)
-		.option("colo", {
-			type: "string",
-			description:
-				"Optionally filter result stats to a Cloudflare colo. Cannot be used in combination with deviceId param.",
-		})
-		.option("test-name", {
-			type: "string",
-			description: "Optionally filter results by test name.",
-		})
-		.option("device-id", {
-			type: "string",
-			array: true,
-			description:
-				"Optionally filter result stats to a specific device(s). Cannot be used in combination with colo param.",
-		})
-		.option("registration-id", {
-			type: "string",
-			description:
-				"Optionally filter results to a specific device registration. Must be used in combination with a single deviceId.",
-		})
-		.option("page", {
-			type: "number",
-			description: "Page number of paginated results",
-		})
-		.option("per-page", {
-			type: "number",
-			description: "Number of items per page",
-		})
-		.option("kind", {
-			type: "string",
-			description: "Filter by test type.",
-			choices: ["http", "traceroute"],
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "list",
 	describe: "List DEX test analytics",
-	builder,
+	usage:
+		"$0 zero-trust dex overview tests list\n\nList DEX tests with overview metrics.",
+	flags: {
+		colo: {
+			kind: "parsed",
+			brief:
+				"Optionally filter result stats to a Cloudflare colo. Cannot be used in combination with deviceId param.",
+			optional: true,
+			parse: String,
+		},
+		"test-name": {
+			kind: "parsed",
+			brief: "Optionally filter results by test name.",
+			optional: true,
+			parse: String,
+		},
+		"device-id": {
+			kind: "parsed",
+			brief:
+				"Optionally filter result stats to a specific device(s). Cannot be used in combination with colo param.",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"registration-id": {
+			kind: "parsed",
+			brief:
+				"Optionally filter results to a specific device registration. Must be used in combination with a single deviceId.",
+			optional: true,
+			parse: String,
+		},
+		page: {
+			kind: "parsed",
+			brief: "Page number of paginated results",
+			optional: true,
+			parse: Number,
+		},
+		"per-page": {
+			kind: "parsed",
+			brief: "Number of items per page",
+			optional: true,
+			parse: Number,
+		},
+		kind: {
+			kind: "enum",
+			brief: "Filter by test type.",
+			values: ["http", "traceroute"],
+			optional: true,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "zero-trust dex overview tests list",
 				classification: {
 					safeFlags: ["kind", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -109,6 +116,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Loaded` });
 			}
 		),
-};
+});
 
 export default command;

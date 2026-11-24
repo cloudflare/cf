@@ -1,24 +1,19 @@
 import $get from "./get.js";
 import $submit from "./submit.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * urls command group
  * @generated from apis/overlays/brand-protection.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "urls",
 	describe: "Operations for urls",
 
-	builder: (yargs) => {
-		return yargs
-			.command($get)
-			.command($submit)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		get: $get,
+		submit: $submit,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

@@ -1,11 +1,10 @@
 import operation from "../../../_operations/zero-trust/casb/findings/unignore.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * unignore command
  * @generated from apis/overlays/zero-trust.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -18,40 +17,39 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 zero-trust casb findings unignore\n\nAbility to un-ignore a Finding if it's previously been ignored. Does nothing if the Finding is not ignored."
-		)
-		.option("checks", {
-			type: "string",
-			array: true,
-			description: "A list of finding IDs to pass along.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Request body for bulk actions on findings.",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "unignore",
 	describe: "Remove ignore marker from a finding",
-	builder,
+	usage:
+		"$0 zero-trust casb findings unignore\n\nAbility to un-ignore a Finding if it's previously been ignored. Does nothing if the Finding is not ignored.",
+	flags: {
+		checks: {
+			kind: "parsed",
+			brief: "A list of finding IDs to pass along.",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Request body for bulk actions on findings.",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "zero-trust casb findings unignore",
-				classification: {
-					safeFlags: ["dry-run"],
-				} satisfies ArgClassification<Args>,
+				classification: { safeFlags: ["dry-run"] } satisfies ArgClassification<
+					typeof argv
+				>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -108,6 +106,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Created` });
 			}
 		),
-};
+});
 
 export default command;

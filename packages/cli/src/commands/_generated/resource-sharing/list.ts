@@ -1,11 +1,10 @@
 import operation from "../_operations/resource-sharing/list.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * list command
  * @generated from apis/overlays/resource-sharing.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -17,28 +16,34 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage("$0 resource-sharing list\n\nLists all account shares.")
-		.option("status", {
-			type: "string",
-			description: "Filter shares by status.",
-			choices: ["active", "deleting", "deleted"],
-		})
-		.option("kind", {
-			type: "string",
-			description: "Filter shares by kind.",
-			choices: ["sent", "received"],
-		})
-		.option("target-type", {
-			type: "string",
-			description: "Filter shares by target_type.",
-			choices: ["account", "organization"],
-		})
-		.option("resource-types", {
-			type: "string",
-			array: true,
-			description: "Filter share resources by resource_types.",
+const command = apiCommand({
+	command: "list",
+	describe: "List account shares",
+	usage: "$0 resource-sharing list\n\nLists all account shares.",
+	flags: {
+		status: {
+			kind: "enum",
+			brief: "Filter shares by status.",
+			values: ["active", "deleting", "deleted"],
+			optional: true,
+		},
+		kind: {
+			kind: "enum",
+			brief: "Filter shares by kind.",
+			values: ["sent", "received"],
+			optional: true,
+		},
+		"target-type": {
+			kind: "enum",
+			brief: "Filter shares by target_type.",
+			values: ["account", "organization"],
+			optional: true,
+		},
+		"resource-types": {
+			kind: "parsed",
+			brief: "Filter share resources by resource_types.",
+			variadic: true,
+			optional: true,
 			choices: [
 				"custom-ruleset",
 				"gateway-policy",
@@ -48,62 +53,66 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"idp-federation-grant",
 				"trust-grant",
 			],
-		})
-		.coerce("resource-types", (values: string[]) =>
-			values.flatMap((value) => value.split(","))
-		)
-		.option("order", {
-			type: "string",
-			description: "Order shares by values in the given field.",
-			choices: ["name", "created"],
-		})
-		.option("direction", {
-			type: "string",
-			description: "Direction to sort objects.",
-			choices: ["asc", "desc"],
-		})
-		.option("page", {
-			type: "number",
-			description: "Page number. Defaults to `1` when omitted.",
-		})
-		.option("per-page", {
-			type: "number",
-			description:
+			parse: String,
+			coerce: (values: string[]) => values.flatMap((value) => value.split(",")),
+		},
+		order: {
+			kind: "enum",
+			brief: "Order shares by values in the given field.",
+			values: ["name", "created"],
+			optional: true,
+		},
+		direction: {
+			kind: "enum",
+			brief: "Direction to sort objects.",
+			values: ["asc", "desc"],
+			optional: true,
+		},
+		page: {
+			kind: "parsed",
+			brief: "Page number. Defaults to `1` when omitted.",
+			optional: true,
+			parse: Number,
+		},
+		"per-page": {
+			kind: "parsed",
+			brief:
 				"Number of objects to return per page. Defaults to `20` when omitted.",
-		})
-		.option("include-resources", {
-			type: "boolean",
-			description: "Include resources in the response.",
-		})
-		.option("include-recipient-counts", {
-			type: "boolean",
-			description: "Include recipient counts in the response.",
-		})
-		.option("include-tags-from", {
-			type: "string",
-			description:
+			optional: true,
+			parse: Number,
+		},
+		"include-resources": {
+			kind: "boolean",
+			brief: "Include resources in the response.",
+			optional: true,
+		},
+		"include-recipient-counts": {
+			kind: "boolean",
+			brief: "Include recipient counts in the response.",
+			optional: true,
+		},
+		"include-tags-from": {
+			kind: "enum",
+			brief:
 				"Include share tags in the response. `api` reads tags from the tag service; `mirror` reads a local, eventually consistent replica. If the tag lookup fails, the response omits `tags`.",
-			choices: ["api", "mirror"],
-		})
-		.option("tag", {
-			type: "string",
-			array: true,
-			description:
+			values: ["api", "mirror"],
+			optional: true,
+		},
+		tag: {
+			kind: "parsed",
+			brief:
 				"Filter shares by tag. Each value is either `key=value` (matches shares whose tags contain that key/value pair) or `key` alone (matches shares that have any value for that key). May be repeated; multiple `tag` parameters are ANDed together. Maximum 20 `tag` parameters per request.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
 			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "list",
-	describe: "List account shares",
-	builder,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
@@ -120,7 +129,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"include-tags-from",
 						"dry-run",
 					],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -160,6 +169,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Loaded` });
 			}
 		),
-};
+});
 
 export default command;

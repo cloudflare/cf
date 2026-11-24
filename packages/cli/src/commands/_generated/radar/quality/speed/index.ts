@@ -1,26 +1,21 @@
 import $histogram from "./histogram.js";
 import $summary from "./summary.js";
 import $top from "./top/index.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * speed command group
  * @generated from apis/overlays/radar.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "speed",
 	describe: "Operations for quality.speed",
 
-	builder: (yargs) => {
-		return yargs
-			.command($histogram)
-			.command($summary)
-			.command($top)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		histogram: $histogram,
+		summary: $summary,
+		top: $top,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

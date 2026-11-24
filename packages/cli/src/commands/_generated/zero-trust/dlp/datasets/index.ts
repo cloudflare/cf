@@ -5,30 +5,25 @@ import $list from "./list.js";
 import $prepareupload from "./prepare-upload.js";
 import $update from "./update.js";
 import $upload from "./upload.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * datasets command group
  * @generated from apis/overlays/zero-trust.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "datasets",
 	describe: "Data Loss Prevention - manage datasets, versions, and uploads",
 
-	builder: (yargs) => {
-		return yargs
-			.command($create)
-			.command($delete)
-			.command($get)
-			.command($list)
-			.command($prepareupload)
-			.command($update)
-			.command($upload)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		create: $create,
+		delete: $delete,
+		get: $get,
+		list: $list,
+		"prepare-upload": $prepareupload,
+		update: $update,
+		upload: $upload,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

@@ -1,22 +1,17 @@
 import $vulnerabilitydiscovery from "./vulnerability-discovery/index.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * managed-defense command
  * @generated from apis/overlays/managed-defense.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "managed-defense",
 	describe: "managed-defense",
 
-	builder: (yargs) => {
-		return yargs
-			.command($vulnerabilitydiscovery)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		"vulnerability-discovery": $vulnerabilitydiscovery,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

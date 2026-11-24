@@ -4,6 +4,7 @@
  */
 import { describe, expect, it } from "vite-plus/test";
 import { generateFiles } from "../../helpers/cli-plugin.js";
+import { generatedOptions } from "../../helpers/command-parser.js";
 
 type Json = Record<string, unknown>;
 
@@ -160,9 +161,10 @@ describe("the forge model", () => {
 			);
 			const code = files.get("uploads/create.ts") ?? "";
 			for (const field of ["files", "attachments"]) {
-				expect(code).toContain(
-					`.option('${field}', {"type":"string","array":true`
-				);
+				expect(generatedOptions(code)[field]).toMatchObject({
+					array: true,
+					type: "string",
+				});
 				expect(code).toContain(`for (const value of argv["${field}"])`);
 			}
 			expect(code).toContain(
@@ -195,10 +197,10 @@ describe("the forge model", () => {
 			)
 		);
 		const code = files.get("things/create.ts") ?? "";
-		expect(code).toContain('.option(\'id\', {"type":"string"');
-		expect(code).toContain('.option(\'parent-id\', {"type":"string"');
-		expect(code).toContain(
-			'.option(\'dataset-ids\', {"type":"string","array":true'
+		expect(code).toContain('"id": {"kind":"parsed"');
+		expect(code).toContain('"parent-id": {"kind":"parsed"');
+		expect(code).toMatch(
+			/"dataset-ids": \{[^}]*"variadic":true[^}]*parse: String/
 		);
 		expect(code).toContain("promptForRequiredField('id'");
 		expect(code).toContain('id: resolveFileToken(argv["id"]');
@@ -227,9 +229,7 @@ describe("the forge model", () => {
 		const files = generateFiles(listing(schema));
 		const schemas = JSON.parse(files.get("_meta/schemas.json") ?? "{}");
 		expect(schemas.schemas["things list"].queryParams[0].type).toBe("string");
-		expect(files.get("things/list.ts")).toContain(
-			'.option(\'status\', {"type":"string"'
-		);
+		expect(files.get("things/list.ts")).toContain('"status": {"kind":"parsed"');
 	});
 
 	it("retains required and optional scalar intersections and their enum constraints", () => {
@@ -263,7 +263,7 @@ describe("the forge model", () => {
 		);
 		const files = generateFiles(d);
 		const code = files.get("things/create.ts") ?? "";
-		expect(code).toContain(".option('vendor'");
+		expect(code).toContain('"vendor": {');
 		expect(code).toContain('"choices":["GITHUB","SLACK"]');
 		expect(code).toContain('"choices":["High","Low"]');
 		expect(code).toContain("promptForRequiredEnumField('vendor'");
@@ -324,7 +324,7 @@ describe("the forge model", () => {
 				)
 			);
 			const code = files.get("things/create.ts") ?? "";
-			expect(code).toContain(".option('fallback'");
+			expect(code).toContain('"fallback": {');
 			expect(code).toContain("parseScalarValue");
 			expect(code).toContain(
 				'fallback: parseScalarValue(argv["fallback"], "fallback")'
@@ -419,14 +419,15 @@ describe("the forge model", () => {
 			"things/create.ts"
 		);
 		expect(code).toContain(
-			`.option('display-name', {"type":"string","description":"The name."})`
+			`"display-name": {"kind":"parsed","brief":"The name."`
 		);
 		// A nullable integer is still a number.
-		expect(code).toContain(`.option('ttl-seconds', {"type":"number"`);
-		expect(code).toContain(".option('secret-token'");
+		const options = generatedOptions(code);
+		expect(options["ttl-seconds"]).toMatchObject({ type: "number" });
+		expect(code).toContain('"secret-token": {');
 		expect(code).toContain(`sensitiveBodyPaths: [["token_value"]]`);
 		expect(code).not.toContain("'id'");
-		expect(code).toContain(`"choices":["a","b"],"default":"a"`);
+		expect(options.kind).toMatchObject({ choices: ["a", "b"], default: "a" });
 		expect(code).toContain("promptForRequiredField('display-name'");
 	});
 
@@ -714,7 +715,7 @@ describe("the forge model", () => {
 			}),
 			"things/get.ts"
 		);
-		expect(code).toContain(".positional('thing'");
+		expect(code).toContain("placeholder: 'thing'");
 		expect(code).toContain(`requestApi<unknown>(client, "GET"`);
 		expect(code).not.toContain("const operation");
 	});
@@ -1028,11 +1029,11 @@ describe("the forge model", () => {
 			"tunnels/create.ts"
 		);
 		expect(code).toContain(
-			`.option('config-source', {"type":"string","description":"Where the tunnel is configured.",`
+			`"config-source": {"kind":"parsed","brief":"Where the tunnel is configured.",`
 		);
 		// A field's own description wins.
 		expect(code).toContain(
-			`.option('name', {"type":"string","description":"Its own description.",`
+			`"name": {"kind":"parsed","brief":"Its own description.",`
 		);
 	});
 
@@ -1060,7 +1061,7 @@ describe("the forge model", () => {
 			"things/list.ts"
 		);
 		expect(code).toContain(
-			`.option('jurisdiction', {"type":"string","description":"The cf-r2-jurisdiction header"})`
+			`"jurisdiction": {"kind":"parsed","brief":"The cf-r2-jurisdiction header"`
 		);
 		expect(code).toContain(
 			`headers['cf-r2-jurisdiction'] = String(argv["jurisdiction"])`
@@ -1145,14 +1146,12 @@ describe("the forge model", () => {
 			"things/list.ts"
 		);
 		expect(code).toMatch(
-			/\.option\('cf-storage-class', \{[^}]*"description":"Storage class for new objects\."/
+			/"cf-storage-class": \{[^}]*"brief":"Storage class for new objects\."/
 		);
 		expect(code).toMatch(
-			/\.option\('class', \{[^}]*"description":"Storage class for new objects\."/
+			/"class": \{[^}]*"brief":"Storage class for new objects\."/
 		);
-		expect(code).toMatch(
-			/\.option\('described', \{[^}]*"description":"Its own\."/
-		);
+		expect(code).toMatch(/"described": \{[^}]*"brief":"Its own\."/);
 	});
 
 	it("leaves the members of an anyOf to the body", () => {
@@ -1174,7 +1173,7 @@ describe("the forge model", () => {
 		expect(code).not.toContain("'tags'");
 		expect(code).not.toContain("'hosts'");
 		expect(code).not.toContain(".conflicts(");
-		expect(code).toContain(".option('body'");
+		expect(code).toContain('"body": {');
 	});
 
 	it("still sends an object body without properties", () => {
@@ -1182,7 +1181,7 @@ describe("the forge model", () => {
 			create({ type: "object", required: ["id"] }),
 			"things/create.ts"
 		);
-		expect(code).toContain(".option('body'");
+		expect(code).toContain('"body": {');
 	});
 
 	it("describes a body by its schema, never its title", () => {
@@ -1195,7 +1194,7 @@ describe("the forge model", () => {
 				}),
 				"things/create.ts"
 			)
-		).toContain("description: 'Some names.',");
+		).toContain('"brief":"Some names."');
 
 		const code = file(
 			create(
@@ -1211,7 +1210,7 @@ describe("the forge model", () => {
 			"things/create.ts"
 		);
 		expect(code).toContain(
-			"description: 'Raw JSON request body (bypasses individual flags)',"
+			'"brief":"Raw JSON request body (bypasses individual flags)"'
 		);
 		expect(code).not.toContain("Thing Input");
 	});
@@ -1237,7 +1236,7 @@ describe("the forge model", () => {
 			anyOf: [values, { type: "array", items: values }],
 		});
 		expect(file(anyOf, "things/list.ts")).toContain(
-			`"choices":["running","done"]`
+			`"values":["running","done"]`
 		);
 		expect(queryType(anyOf)).toBe("string");
 	});
@@ -1306,7 +1305,7 @@ describe("the forge model", () => {
 			}),
 			"things/create.ts"
 		);
-		expect(code).toContain(".option('filters'");
+		expect(code).toContain('"filters": {');
 	});
 
 	it("publishes an object array as one string option in command metadata", () => {

@@ -1,26 +1,21 @@
 import $getconfiguration from "./get-configuration.js";
 import $setconfiguration from "./set-configuration.js";
 import $updateconfiguration from "./update-configuration.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * operator command group
  * @generated from apis/overlays/pay-per-use.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "operator",
 	describe: "Operations for operator",
 
-	builder: (yargs) => {
-		return yargs
-			.command($getconfiguration)
-			.command($setconfiguration)
-			.command($updateconfiguration)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		"get-configuration": $getconfiguration,
+		"set-configuration": $setconfiguration,
+		"update-configuration": $updateconfiguration,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

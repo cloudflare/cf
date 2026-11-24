@@ -1,11 +1,10 @@
 import operation from "../../_operations/cache/origin-cloud-regions/update.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * update command
  * @generated from apis/overlays/cache.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import { createCommandClient, getZoneId } from "#lib/auth.js";
 import { compactBody, parseBody } from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
@@ -18,53 +17,55 @@ import {
 } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 cache origin-cloud-regions update <origin-ip>\n\nCreates a new IP-to-cloud-region mapping or replaces the existing mapping for the specified IP. PUT is idempotent — calling it repeatedly with the same body produces the same result. The IP path parameter is normalized to canonical form (RFC 5952 for IPv6) before storage. The vendor and region are validated against the list from `GET /zones/{zone_id}/origin/cloud_regions/supported_regions`. Returns 400 if the `origin_ip` in the body does not match the URL path parameter. Returns 403 (code 1164) when the zone has reached the limit of 3,500 IP mappings."
-		)
-		.positional("origin-ip", {
-			type: "string",
-			description: "Origin IP address to create or replace.",
-			demandOption: true,
-		})
-		.option("region", {
-			type: "string",
-			description:
-				"Cloud vendor region identifier. Must be a valid region for the specified vendor as returned by the supported_regions endpoint.",
-		})
-		.option("vendor", {
-			type: "string",
-			description:
-				"Cloud vendor hosting the origin. Must be one of the supported vendors.",
-			choices: ["aws", "azure", "gcp", "oci"],
-		})
-		.coerce("vendor", (value) => resolveFileToken(value, "vendor", "text"))
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description:
-				"Request body for creating or replacing an origin cloud region mapping.",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "update <origin-ip>",
 	describe: "Create or replace an origin cloud region mapping",
-	builder,
+	usage:
+		"$0 cache origin-cloud-regions update <origin-ip>\n\nCreates a new IP-to-cloud-region mapping or replaces the existing mapping for the specified IP. PUT is idempotent — calling it repeatedly with the same body produces the same result. The IP path parameter is normalized to canonical form (RFC 5952 for IPv6) before storage. The vendor and region are validated against the list from `GET /zones/{zone_id}/origin/cloud_regions/supported_regions`. Returns 400 if the `origin_ip` in the body does not match the URL path parameter. Returns 403 (code 1164) when the zone has reached the limit of 3,500 IP mappings.",
+	flags: {
+		region: {
+			kind: "parsed",
+			brief:
+				"Cloud vendor region identifier. Must be a valid region for the specified vendor as returned by the supported_regions endpoint.",
+			optional: true,
+			parse: String,
+		},
+		vendor: {
+			kind: "parsed",
+			brief:
+				"Cloud vendor hosting the origin. Must be one of the supported vendors.",
+			optional: true,
+			choices: ["aws", "azure", "gcp", "oci"],
+			parse: String,
+			coerce: (value: string) => resolveFileToken(value, "vendor", "text"),
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief:
+				"Request body for creating or replacing an origin cloud region mapping.",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [
+		{
+			placeholder: "origin-ip",
+			brief: "Origin IP address to create or replace.",
+			parse: String,
+		},
+	],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "cache origin-cloud-regions update",
 				classification: {
 					safeFlags: ["vendor", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -151,6 +152,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Updated` });
 			}
 		),
-};
+});
 
 export default command;

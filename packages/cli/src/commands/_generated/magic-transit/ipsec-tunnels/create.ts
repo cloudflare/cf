@@ -1,10 +1,9 @@
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * create command
  * @generated from apis/overlays/magic-transit.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -20,138 +19,178 @@ import { withProgress } from "#lib/progress.js";
 import { promptForRequiredField } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 magic-transit ipsec-tunnels create\n\nCreates a new IPsec tunnel associated with an account. Use `?validate_only=true` as an optional query parameter to only run validation without persisting changes."
-		)
-		.option("x-magic-new-hc-target", {
-			type: "string",
-			description:
+const command = apiCommand({
+	command: "create",
+	describe: "Create an IPsec tunnel",
+	usage:
+		"$0 magic-transit ipsec-tunnels create\n\nCreates a new IPsec tunnel associated with an account. Use `?validate_only=true` as an optional query parameter to only run validation without persisting changes.",
+	flags: {
+		"x-magic-new-hc-target": {
+			kind: "parsed",
+			brief:
 				"If true, the health check target in the request and response bodies will be presented using the new object format. Defaults to false.",
-		})
-		.option("automatic-return-routing", {
-			type: "boolean",
-			description:
+			optional: true,
+			parse: String,
+		},
+		"automatic-return-routing": {
+			kind: "boolean",
+			brief:
 				"True if automatic stateful return routing should be enabled for a tunnel, false otherwise. Requires the `coupler_integration` account flag to be enabled; requests setting this to `true` without that flag will be rejected.",
 			default: false,
-		})
-		.option("bgp-customer-asn", {
-			type: "number",
-			description: "ASN used on the customer end of the BGP session",
-		})
-		.option("bgp-export-filter-id", {
-			type: "string",
-			description:
+		},
+		"bgp-customer-asn": {
+			kind: "parsed",
+			brief: "ASN used on the customer end of the BGP session",
+			optional: true,
+			parse: Number,
+		},
+		"bgp-export-filter-id": {
+			kind: "parsed",
+			brief:
 				"ID of the BGP filter profile applied to routes advertised to the customer.",
-		})
-		.option("bgp-extra-prefixes", {
-			type: "string",
-			array: true,
-			description:
+			optional: true,
+			parse: String,
+		},
+		"bgp-extra-prefixes": {
+			kind: "parsed",
+			brief:
 				"Prefixes in this list will be advertised to the customer device, in addition to the routes in the Magic routing table.\nEach entry must be a network address in CIDR notation with no host bits set (for example `192.0.2.0/24`, not\n`192.0.2.1/24`) and must not repeat another entry. IPv6 prefixes are accepted only when the tunnel has an\n`interface_address6`.\n",
-		})
-		.option("bgp-import-filter-id", {
-			type: "string",
-			description:
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"bgp-import-filter-id": {
+			kind: "parsed",
+			brief:
 				"ID of the BGP filter profile applied to routes received from the customer.",
-		})
-		.option("bgp-md5-key", {
-			type: "string",
-			description:
+			optional: true,
+			parse: String,
+		},
+		"bgp-md5-key": {
+			kind: "parsed",
+			brief:
 				"MD5 key to use for session authentication.\n\nNote that *this is not a security measure*. MD5 is not a valid security mechanism, and the\nkey is not treated as a secret value. This is *only* supported for preventing\nmisconfiguration, not for defending against malicious attacks.\n\nThe MD5 key, if set, must be of non-zero length and consist only of the following types of\ncharacter:\n\n* ASCII alphanumerics: `[a-zA-Z0-9]`\n* Special characters in the set `'!@#$%^&*()+[]{}<>/.,;:_-~`= \\|`\n\nIn other words, MD5 keys may contain any printable ASCII character aside from newline (0x0A),\nquotation mark (`\"`), vertical tab (0x0B), carriage return (0x0D), tab (0x09), form feed\n(0x0C), and the question mark (`?`). Requests specifying an MD5 key with one or more of\nthese disallowed characters will be rejected.",
-		})
-		.option("cloudflare-endpoint", {
-			type: "string",
-			description:
+			optional: true,
+			parse: String,
+		},
+		"cloudflare-endpoint": {
+			kind: "parsed",
+			brief:
 				"The IP address assigned to the Cloudflare side of the IPsec tunnel.",
-		})
-		.option("custom-remote-identities-fqdn-id", {
-			type: "string",
-			description:
+			optional: true,
+			parse: String,
+		},
+		"custom-remote-identities-fqdn-id": {
+			kind: "parsed",
+			brief:
 				"A custom IKE ID of type FQDN that may be used to identity the IPsec tunnel. The\ngenerated IKE IDs can still be used even if this custom value is specified.\n\nMust be of the form `<custom label>.<account ID>.custom.ipsec.cloudflare.com`.\n\nThis custom ID does not need to be unique. Two IPsec tunnels may have the same custom\nfqdn_id. However, if another IPsec tunnel has the same value then the two tunnels\ncannot have the same cloudflare_endpoint.",
-		})
-		.option("customer-endpoint", {
-			type: "string",
-			description:
+			optional: true,
+			parse: String,
+		},
+		"customer-endpoint": {
+			kind: "parsed",
+			brief:
 				"The IP address assigned to the customer side of the IPsec tunnel. Not required, but must be set for proactive traceroutes to work.",
-		})
-		.option("description", {
-			type: "string",
-			description: "An optional description forthe IPsec tunnel.",
-		})
-		.option("health-check-enabled", {
-			type: "boolean",
-			description: "Determines whether to run healthchecks for a tunnel.",
-		})
-		.option("health-check-rate", {
-			type: "string",
-			description:
+			optional: true,
+			parse: String,
+		},
+		description: {
+			kind: "parsed",
+			brief: "An optional description forthe IPsec tunnel.",
+			optional: true,
+			parse: String,
+		},
+		"health-check-enabled": {
+			kind: "boolean",
+			brief: "Determines whether to run healthchecks for a tunnel.",
+			optional: true,
+		},
+		"health-check-rate": {
+			kind: "parsed",
+			brief:
 				"How frequent the health check is run. The default value is `mid`.",
+			optional: true,
 			choices: ["low", "mid", "high"],
-		})
-		.coerce("health-check-rate", (value) =>
-			resolveFileToken(value, "health-check-rate", "text")
-		)
-		.option("health-check-target-saved", {
-			type: "string",
-			description:
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "health-check-rate", "text"),
+		},
+		"health-check-target-saved": {
+			kind: "parsed",
+			brief:
 				"The saved health check target. Setting the value to the empty string indicates that the calculated default value will be used.",
-		})
-		.option("health-check-type", {
-			type: "string",
-			description:
+			optional: true,
+			parse: String,
+		},
+		"health-check-type": {
+			kind: "parsed",
+			brief:
 				"The type of healthcheck to run, reply or request. The default value is `reply`.",
+			optional: true,
 			choices: ["reply", "request"],
-		})
-		.coerce("health-check-type", (value) =>
-			resolveFileToken(value, "health-check-type", "text")
-		)
-		.option("health-check-direction", {
-			type: "string",
-			description:
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "health-check-type", "text"),
+		},
+		"health-check-direction": {
+			kind: "parsed",
+			brief:
 				"The direction of the flow of the healthcheck. Either unidirectional, where the probe comes to you via the tunnel and the result comes back to Cloudflare via the open Internet, or bidirectional where both the probe and result come and go via the tunnel.",
+			optional: true,
 			choices: ["unidirectional", "bidirectional"],
-		})
-		.coerce("health-check-direction", (value) =>
-			resolveFileToken(value, "health-check-direction", "text")
-		)
-		.option("interface-address", {
-			type: "string",
-			description:
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "health-check-direction", "text"),
+		},
+		"interface-address": {
+			kind: "parsed",
+			brief:
 				"A 31-bit prefix (/31 in CIDR notation) supporting two hosts, one for each side of the tunnel. Select the subnet from the following private IP space: 10.0.0.0–10.255.255.255, 172.16.0.0–172.31.255.255, 192.168.0.0–192.168.255.255.",
-		})
-		.option("interface-address6", {
-			type: "string",
-			description:
+			optional: true,
+			parse: String,
+		},
+		"interface-address6": {
+			kind: "parsed",
+			brief:
 				"A 127 bit IPV6 prefix from within the virtual_subnet6 prefix space with the address being the first IP of the subnet and not same as the address of virtual_subnet6. Eg if virtual_subnet6 is 2606:54c1:7:0:a9fe:12d2::/127 , interface_address6 could be 2606:54c1:7:0:a9fe:12d2:1:200/127",
-		})
-		.option("name", {
-			type: "string",
-			description:
+			optional: true,
+			parse: String,
+		},
+		name: {
+			kind: "parsed",
+			brief:
 				"The name of the IPsec tunnel. The name cannot share a name with other tunnels.",
-		})
-		.option("psk", {
-			type: "string",
-			description:
+			optional: true,
+			parse: String,
+		},
+		psk: {
+			kind: "parsed",
+			brief:
 				"A randomly generated or provided string for use in the IPsec tunnel.",
-		})
-		.option("replay-protection", {
-			type: "boolean",
-			description:
+			optional: true,
+			parse: String,
+		},
+		"replay-protection": {
+			kind: "boolean",
+			brief:
 				"If `true`, then IPsec replay protection will be supported in the Cloudflare-to-customer direction.",
 			default: false,
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
 			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		})
-		.check((argv) => {
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [],
+	rules(rules) {
+		rules.check((argv) => {
 			const groupSet = [
 				"bgp-customer-asn",
 				"bgp-export-filter-id",
@@ -171,14 +210,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			}
 			return true;
 		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "create",
-	describe: "Create an IPsec tunnel",
-	builder,
+	},
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
@@ -193,7 +225,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"replay-protection",
 						"dry-run",
 					],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -522,6 +554,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Created` });
 			}
 		),
-};
+});
 
 export default command;

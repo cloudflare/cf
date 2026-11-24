@@ -1,11 +1,10 @@
 import operation from "../../_operations/magic-transit/sites/edit.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * edit command
  * @generated from apis/overlays/magic-transit.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -19,59 +18,74 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage("$0 magic-transit sites edit <site-id>\n\nPatch a specific Site.")
-		.positional("site-id", {
-			type: "string",
-			description: "Identifier",
-			demandOption: true,
-		})
-		.option("connector-id", {
-			type: "string",
-			description: "Magic Connector identifier tag.",
-		})
-		.option("description", {
-			type: "string",
-			description: "The description field",
-		})
-		.option("ha-mode", {
-			type: "boolean",
-			description:
-				"Site high availability mode. If set to true, the site can have two connectors and runs in high availability mode.",
-		})
-		.option("location-lat", { type: "string", description: "Latitude" })
-		.option("location-lon", { type: "string", description: "Longitude" })
-		.option("name", { type: "string", description: "The name of the site." })
-		.option("secondary-connector-id", {
-			type: "string",
-			description:
-				"Magic Connector identifier tag. Used when high availability mode is on.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "edit <site-id>",
 	describe: "Patch Site",
-	builder,
+	usage: "$0 magic-transit sites edit <site-id>\n\nPatch a specific Site.",
+	flags: {
+		"connector-id": {
+			kind: "parsed",
+			brief: "Magic Connector identifier tag.",
+			optional: true,
+			parse: String,
+		},
+		description: {
+			kind: "parsed",
+			brief: "The description field",
+			optional: true,
+			parse: String,
+		},
+		"ha-mode": {
+			kind: "boolean",
+			brief:
+				"Site high availability mode. If set to true, the site can have two connectors and runs in high availability mode.",
+			optional: true,
+		},
+		"location-lat": {
+			kind: "parsed",
+			brief: "Latitude",
+			optional: true,
+			parse: String,
+		},
+		"location-lon": {
+			kind: "parsed",
+			brief: "Longitude",
+			optional: true,
+			parse: String,
+		},
+		name: {
+			kind: "parsed",
+			brief: "The name of the site.",
+			optional: true,
+			parse: String,
+		},
+		"secondary-connector-id": {
+			kind: "parsed",
+			brief:
+				"Magic Connector identifier tag. Used when high availability mode is on.",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [{ placeholder: "site-id", brief: "Identifier", parse: String }],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "magic-transit sites edit",
 				classification: {
 					safeFlags: ["ha-mode", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -189,6 +203,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Updated` });
 			}
 		),
-};
+});
 
 export default command;

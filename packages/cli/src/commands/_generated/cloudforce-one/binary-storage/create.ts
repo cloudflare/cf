@@ -1,10 +1,9 @@
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * create command
  * @generated from apis/overlays/cloudforce-one.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -18,39 +17,38 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 cloudforce-one binary-storage create\n\nUploads a binary file to Cloudforce One's binary database for malware analysis and threat intelligence correlation."
-		)
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Binary file to be uploaded to the database.",
-		})
-		.option("file", {
-			type: "string",
-			description: "Path to a file to upload as the request body",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "create",
 	describe: "Posts a file to Binary Storage",
-	builder,
+	usage:
+		"$0 cloudforce-one binary-storage create\n\nUploads a binary file to Cloudforce One's binary database for malware analysis and threat intelligence correlation.",
+	flags: {
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Binary file to be uploaded to the database.",
+			optional: true,
+			parse: String,
+		},
+		file: {
+			kind: "parsed",
+			brief: "Path to a file to upload as the request body",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "cloudforce-one binary-storage create",
-				classification: {
-					safeFlags: ["dry-run"],
-				} satisfies ArgClassification<Args>,
+				classification: { safeFlags: ["dry-run"] } satisfies ArgClassification<
+					typeof argv
+				>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -119,6 +117,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 			}
 		),
-};
+});
 
 export default command;

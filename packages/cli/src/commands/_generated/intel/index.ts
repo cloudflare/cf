@@ -10,36 +10,31 @@ import $miscategorizations from "./miscategorizations/index.js";
 import $sinkholes from "./sinkholes/index.js";
 import $urls from "./urls/index.js";
 import $whois from "./whois/index.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * intel command
  * @generated from apis/overlays/intel.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "intel",
 	describe:
 		"Threat intelligence lookups — IP reputation, domain info, ASN details, WHOIS, and indicator feeds",
 
-	builder: (yargs) => {
-		return yargs
-			.command($asn)
-			.command($attacksurfacereport)
-			.command($dns)
-			.command($domainhistory)
-			.command($domains)
-			.command($indicatorfeeds)
-			.command($iplists)
-			.command($ips)
-			.command($miscategorizations)
-			.command($sinkholes)
-			.command($urls)
-			.command($whois)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		asn: $asn,
+		"attack-surface-report": $attacksurfacereport,
+		dns: $dns,
+		"domain-history": $domainhistory,
+		domains: $domains,
+		"indicator-feeds": $indicatorfeeds,
+		"ip-lists": $iplists,
+		ips: $ips,
+		miscategorizations: $miscategorizations,
+		sinkholes: $sinkholes,
+		urls: $urls,
+		whois: $whois,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

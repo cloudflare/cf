@@ -1,11 +1,10 @@
 import operation from "../../_operations/intel/sinkholes/update.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * update command
  * @generated from apis/overlays/intel.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -20,59 +19,65 @@ import { withProgress } from "#lib/progress.js";
 import { promptForRequiredField } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 intel sinkholes update <sinkhole-id>\n\nReplaces the name or R2 configuration of the specified sinkhole. This is a full replacement. All fields, including r2_secret, must be re-supplied. Omitting r2_secret overwrites the stored value with an empty string."
-		)
-		.positional("sinkhole-id", {
-			type: "string",
-			description: "The unique identifier for the sinkhole.",
-			demandOption: true,
-		})
-		.option("name", {
-			type: "string",
-			description: "The name of the sinkhole.",
-		})
-		.option("r2-bucket", {
-			type: "string",
-			description:
-				"The name of the R2 bucket to store results. Required if you want to store large request bodies in R2.",
-		})
-		.option("r2-id", {
-			type: "string",
-			description:
-				"The id of the R2 instance. Required if you want to store large request bodies in R2.",
-		})
-		.option("r2-secret", {
-			type: "string",
-			description:
-				"The secret key for the R2 API token. Required if you want to store large request bodies in R2.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "update <sinkhole-id>",
 	describe: "Update a sinkhole",
-	builder,
+	usage:
+		"$0 intel sinkholes update <sinkhole-id>\n\nReplaces the name or R2 configuration of the specified sinkhole. This is a full replacement. All fields, including r2_secret, must be re-supplied. Omitting r2_secret overwrites the stored value with an empty string.",
+	flags: {
+		name: {
+			kind: "parsed",
+			brief: "The name of the sinkhole.",
+			optional: true,
+			parse: String,
+		},
+		"r2-bucket": {
+			kind: "parsed",
+			brief:
+				"The name of the R2 bucket to store results. Required if you want to store large request bodies in R2.",
+			optional: true,
+			parse: String,
+		},
+		"r2-id": {
+			kind: "parsed",
+			brief:
+				"The id of the R2 instance. Required if you want to store large request bodies in R2.",
+			optional: true,
+			parse: String,
+		},
+		"r2-secret": {
+			kind: "parsed",
+			brief:
+				"The secret key for the R2 API token. Required if you want to store large request bodies in R2.",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [
+		{
+			placeholder: "sinkhole-id",
+			brief: "The unique identifier for the sinkhole.",
+			parse: String,
+		},
+	],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "intel sinkholes update",
-				classification: {
-					safeFlags: ["dry-run"],
-				} satisfies ArgClassification<Args>,
+				classification: { safeFlags: ["dry-run"] } satisfies ArgClassification<
+					typeof argv
+				>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -176,6 +181,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Updated` });
 			}
 		),
-};
+});
 
 export default command;

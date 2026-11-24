@@ -1,26 +1,21 @@
 import $listoperators from "./list-operators.js";
 import $optoutoperatorprice from "./opt-out-operator-price.js";
 import $setoperatorprice from "./set-operator-price.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * pricing command group
  * @generated from apis/overlays/pay-per-use.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "pricing",
 	describe: "Operations for pricing",
 
-	builder: (yargs) => {
-		return yargs
-			.command($listoperators)
-			.command($optoutoperatorprice)
-			.command($setoperatorprice)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		"list-operators": $listoperators,
+		"opt-out-operator-price": $optoutoperatorprice,
+		"set-operator-price": $setoperatorprice,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

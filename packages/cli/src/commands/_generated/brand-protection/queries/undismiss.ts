@@ -1,11 +1,10 @@
 import operation from "../../_operations/brand-protection/queries/undismiss.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * undismiss command
  * @generated from apis/overlays/brand-protection.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -17,42 +16,38 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 brand-protection queries undismiss <domain-id>\n\nRemoves the dismissed status from a matched domain for one domain query. Undismissing a domain in one query does not affect other queries. Get `domain_id` from List domain matches with `include_domain_id=true`. Undismissing a match that is not dismissed succeeds. If the query or match does not exist, the request fails with error code 404."
-		)
-		.positional("domain-id", {
-			type: "string",
-			description:
-				"ID of the matched domain, as returned in \`domain_id\` by List domain matches with \`include_domain_id=true\`.",
-			demandOption: true,
-		})
-		.option("query-id", {
-			type: "string",
-			description: "ID of the domain query that the match belongs to.",
-			demandOption: true,
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "undismiss <domain-id>",
 	describe: "Undismiss a domain match",
-	builder,
+	usage:
+		"$0 brand-protection queries undismiss <domain-id>\n\nRemoves the dismissed status from a matched domain for one domain query. Undismissing a domain in one query does not affect other queries. Get `domain_id` from List domain matches with `include_domain_id=true`. Undismissing a match that is not dismissed succeeds. If the query or match does not exist, the request fails with error code 404.",
+	flags: {
+		"query-id": {
+			kind: "parsed",
+			brief: "ID of the domain query that the match belongs to.",
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+	},
+	operands: [
+		{
+			placeholder: "domain-id",
+			brief:
+				"ID of the matched domain, as returned in \`domain_id\` by List domain matches with \`include_domain_id=true\`.",
+			parse: String,
+		},
+	],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "brand-protection queries undismiss",
-				classification: {
-					safeFlags: ["dry-run"],
-				} satisfies ArgClassification<Args>,
+				classification: { safeFlags: ["dry-run"] } satisfies ArgClassification<
+					typeof argv
+				>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -84,6 +79,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Created` });
 			}
 		),
-};
+});
 
 export default command;

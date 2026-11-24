@@ -1,11 +1,10 @@
 import operation from "../../../_operations/zero-trust/casb/finding-types/get.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * get command
  * @generated from apis/overlays/zero-trust.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -17,36 +16,32 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 zero-trust casb finding-types get <finding-type-id>\n\nRetrieve a specific finding type by its unique identifier."
-		)
-		.positional("finding-type-id", {
-			type: "string",
-			description: "A UUID string identifying the finding type.",
-			demandOption: true,
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "get <finding-type-id>",
 	describe: "Get finding by ID",
-	builder,
+	usage:
+		"$0 zero-trust casb finding-types get <finding-type-id>\n\nRetrieve a specific finding type by its unique identifier.",
+	flags: {
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+	},
+	operands: [
+		{
+			placeholder: "finding-type-id",
+			brief: "A UUID string identifying the finding type.",
+			parse: String,
+		},
+	],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "zero-trust casb finding-types get",
-				classification: {
-					safeFlags: ["dry-run"],
-				} satisfies ArgClassification<Args>,
+				classification: { safeFlags: ["dry-run"] } satisfies ArgClassification<
+					typeof argv
+				>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -76,6 +71,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Loaded` });
 			}
 		),
-};
+});
 
 export default command;

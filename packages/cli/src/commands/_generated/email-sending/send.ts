@@ -1,11 +1,10 @@
 import operation from "../_operations/email-sending/send.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * send command
  * @generated from apis/overlays/email-sending.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -25,106 +24,138 @@ import { withProgress } from "#lib/progress.js";
 import { promptForRequiredField } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 email-sending send\n\nSend an email for the specified account using the structured builder. Provide the sender, recipients, subject, and at least one of text or html; attachments are optional."
-		)
-		.option("attachments", {
-			type: "string",
-			description:
-				'File attachments and inline images. Provide as a JSON array of objects or @path/to/file.json. Shape: [({"content": string, "content_id": string, "disposition": "inline", "filename": string, "type": string} | {"content": string, "disposition": "attachment", "filename": string, "type": string})].',
-		})
-		.option("bcc-address", {
-			type: "string",
-			description: "Email address (e.g., 'user@example.com').",
-		})
-		.option("bcc-name", {
-			type: "string",
-			description:
-				"Display name for the email address (e.g., 'John Doe'). Optional; set to null or leave it unset to send the address on its own.",
-		})
-		.option("cc-address", {
-			type: "string",
-			description: "Email address (e.g., 'user@example.com').",
-		})
-		.option("cc-name", {
-			type: "string",
-			description:
-				"Display name for the email address (e.g., 'John Doe'). Optional; set to null or leave it unset to send the address on its own.",
-		})
-		.option("from-address", {
-			type: "string",
-			description: "Email address (e.g., 'user@example.com').",
-		})
-		.option("from-name", {
-			type: "string",
-			description:
-				"Display name for the email address (e.g., 'John Doe'). Optional; set to null or leave it unset to send the address on its own.",
-		})
-		.option("headers", {
-			type: "string",
-			description:
-				'Custom email headers as key-value pairs. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": string}.',
-		})
-		.option("html", {
-			type: "string",
-			description:
-				"HTML body of the email. Provide at least one of text or html (non-empty).",
-		})
-		.option("reply-to-address", {
-			type: "string",
-			description: "Email address (e.g., 'user@example.com').",
-		})
-		.option("reply-to-name", {
-			type: "string",
-			description:
-				"Display name for the email address (e.g., 'John Doe'). Optional; set to null or leave it unset to send the address on its own.",
-		})
-		.option("subject", { type: "string", description: "Email subject line." })
-		.option("text", {
-			type: "string",
-			description:
-				"Plain text body of the email. Provide at least one of text or html (non-empty).",
-		})
-		.option("to-address", {
-			type: "string",
-			description: "Email address (e.g., 'user@example.com').",
-		})
-		.option("to-name", {
-			type: "string",
-			description:
-				"Display name for the email address (e.g., 'John Doe'). Optional; set to null or leave it unset to send the address on its own.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		})
-		.implies("bcc-name", ["bcc-address"])
-		.implies("cc-name", ["cc-address"])
-		.implies("from-name", ["from-address"])
-		.implies("reply-to-name", ["reply-to-address"])
-		.implies("to-name", ["to-address"]);
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "send",
 	describe: "Send an email",
-	builder,
+	usage:
+		"$0 email-sending send\n\nSend an email for the specified account using the structured builder. Provide the sender, recipients, subject, and at least one of text or html; attachments are optional.",
+	flags: {
+		attachments: {
+			kind: "parsed",
+			brief:
+				'File attachments and inline images. Provide as a JSON array of objects or @path/to/file.json. Shape: [({"content": string, "content_id": string, "disposition": "inline", "filename": string, "type": string} | {"content": string, "disposition": "attachment", "filename": string, "type": string})].',
+			optional: true,
+			parse: String,
+		},
+		"bcc-address": {
+			kind: "parsed",
+			brief: "Email address (e.g., 'user@example.com').",
+			optional: true,
+			parse: String,
+		},
+		"bcc-name": {
+			kind: "parsed",
+			brief:
+				"Display name for the email address (e.g., 'John Doe'). Optional; set to null or leave it unset to send the address on its own.",
+			optional: true,
+			parse: String,
+		},
+		"cc-address": {
+			kind: "parsed",
+			brief: "Email address (e.g., 'user@example.com').",
+			optional: true,
+			parse: String,
+		},
+		"cc-name": {
+			kind: "parsed",
+			brief:
+				"Display name for the email address (e.g., 'John Doe'). Optional; set to null or leave it unset to send the address on its own.",
+			optional: true,
+			parse: String,
+		},
+		"from-address": {
+			kind: "parsed",
+			brief: "Email address (e.g., 'user@example.com').",
+			optional: true,
+			parse: String,
+		},
+		"from-name": {
+			kind: "parsed",
+			brief:
+				"Display name for the email address (e.g., 'John Doe'). Optional; set to null or leave it unset to send the address on its own.",
+			optional: true,
+			parse: String,
+		},
+		headers: {
+			kind: "parsed",
+			brief:
+				'Custom email headers as key-value pairs. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": string}.',
+			optional: true,
+			parse: String,
+		},
+		html: {
+			kind: "parsed",
+			brief:
+				"HTML body of the email. Provide at least one of text or html (non-empty).",
+			optional: true,
+			parse: String,
+		},
+		"reply-to-address": {
+			kind: "parsed",
+			brief: "Email address (e.g., 'user@example.com').",
+			optional: true,
+			parse: String,
+		},
+		"reply-to-name": {
+			kind: "parsed",
+			brief:
+				"Display name for the email address (e.g., 'John Doe'). Optional; set to null or leave it unset to send the address on its own.",
+			optional: true,
+			parse: String,
+		},
+		subject: {
+			kind: "parsed",
+			brief: "Email subject line.",
+			optional: true,
+			parse: String,
+		},
+		text: {
+			kind: "parsed",
+			brief:
+				"Plain text body of the email. Provide at least one of text or html (non-empty).",
+			optional: true,
+			parse: String,
+		},
+		"to-address": {
+			kind: "parsed",
+			brief: "Email address (e.g., 'user@example.com').",
+			optional: true,
+			parse: String,
+		},
+		"to-name": {
+			kind: "parsed",
+			brief:
+				"Display name for the email address (e.g., 'John Doe'). Optional; set to null or leave it unset to send the address on its own.",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [],
+	rules(rules) {
+		rules.implies("bcc-name", ["bcc-address"]);
+		rules.implies("cc-name", ["cc-address"]);
+		rules.implies("from-name", ["from-address"]);
+		rules.implies("reply-to-name", ["reply-to-address"]);
+		rules.implies("to-name", ["to-address"]);
+	},
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "email-sending send",
-				classification: {
-					safeFlags: ["dry-run"],
-				} satisfies ArgClassification<Args>,
+				classification: { safeFlags: ["dry-run"] } satisfies ArgClassification<
+					typeof argv
+				>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -343,6 +374,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Created` });
 			}
 		),
-};
+});
 
 export default command;

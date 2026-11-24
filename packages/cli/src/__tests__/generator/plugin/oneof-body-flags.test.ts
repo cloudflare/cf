@@ -10,6 +10,7 @@ import { resolveFileToken } from "../../../lib/input-validation.js";
 import { generateFiles } from "../../helpers/cli-plugin.js";
 import { commandParser } from "../../helpers/command-parser.js";
 import type { CommandModule } from "yargs";
+import { apiCommand } from "#lib/api-command.js";
 
 const network = {
 	type: "object",
@@ -115,6 +116,7 @@ function setup(code: string, initialFlags: string[] = []) {
 	const requestBody = vi.fn();
 	const formatDryRun = vi.fn();
 	const command = new Script(source).runInNewContext({
+		apiCommand,
 		compactBody,
 		parseBody,
 		setNestedValue,

@@ -1,10 +1,9 @@
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * purge-cache command
  * @generated from apis/overlays/ai-search.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -17,41 +16,38 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 ai-search purge-cache <instance-id>\n\nPurges all cached search results for an AI Search instance. A new internal cache key is generated, immediately orphaning all prior cached entries."
-		)
-		.positional("instance-id", {
-			type: "string",
-			description: "AI Search instance ID.",
-			demandOption: true,
-		})
-		.option("namespace", {
-			type: "string",
-			description: "Namespace to use for this operation.",
-			default: "default",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "purge-cache <instance-id>",
 	describe: "Purge search cache.",
-	builder,
+	usage:
+		"$0 ai-search purge-cache <instance-id>\n\nPurges all cached search results for an AI Search instance. A new internal cache key is generated, immediately orphaning all prior cached entries.",
+	flags: {
+		namespace: {
+			kind: "parsed",
+			brief: "Namespace to use for this operation.",
+			default: "default",
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+	},
+	operands: [
+		{
+			placeholder: "instance-id",
+			brief: "AI Search instance ID.",
+			parse: String,
+		},
+	],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "ai-search purge-cache",
-				classification: {
-					safeFlags: ["dry-run"],
-				} satisfies ArgClassification<Args>,
+				classification: { safeFlags: ["dry-run"] } satisfies ArgClassification<
+					typeof argv
+				>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -83,6 +79,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Created` });
 			}
 		),
-};
+});
 
 export default command;

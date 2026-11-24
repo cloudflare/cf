@@ -1,11 +1,10 @@
 import operation from "../../../../../_operations/magic-transit/advanced-tcp-protection/configs/allowlist/prefix/update.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * update command
  * @generated from apis/overlays/magic-transit.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -19,42 +18,42 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 magic-transit advanced-tcp-protection configs allowlist prefix update <prefix-id>\n\nUpdate an allowlist prefix specified by the given UUID."
-		)
-		.positional("prefix-id", {
-			type: "string",
-			description: "The UUID of the allowlist prefix to update.",
-			demandOption: true,
-		})
-		.option("comment", {
-			type: "string",
-			description: "A comment describing the allowlist prefix. Optional.",
-		})
-		.option("enabled", {
-			type: "boolean",
-			description:
-				"Whether to enable the allowlist prefix into effect. Optional.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "The updates to apply to the allowlist prefix.",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "update <prefix-id>",
 	describe: "Update allowlist prefix.",
-	builder,
+	usage:
+		"$0 magic-transit advanced-tcp-protection configs allowlist prefix update <prefix-id>\n\nUpdate an allowlist prefix specified by the given UUID.",
+	flags: {
+		comment: {
+			kind: "parsed",
+			brief: "A comment describing the allowlist prefix. Optional.",
+			optional: true,
+			parse: String,
+		},
+		enabled: {
+			kind: "boolean",
+			brief: "Whether to enable the allowlist prefix into effect. Optional.",
+			optional: true,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "The updates to apply to the allowlist prefix.",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [
+		{
+			placeholder: "prefix-id",
+			brief: "The UUID of the allowlist prefix to update.",
+			parse: String,
+		},
+	],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
@@ -62,7 +61,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					"magic-transit advanced-tcp-protection configs allowlist prefix update",
 				classification: {
 					safeFlags: ["enabled", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -127,6 +126,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Updated` });
 			}
 		),
-};
+});
 
 export default command;

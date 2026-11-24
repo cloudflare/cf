@@ -1,11 +1,10 @@
 import operation from "../../../_operations/cloudforce-one/threat-intel/indicators/update.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * update command
  * @generated from apis/overlays/cloudforce-one.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -19,60 +18,61 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 cloudforce-one threat-intel indicators update <indicator-id>\n\nUpdates the given fields of an indicator and leaves the other fields unchanged."
-		)
-		.positional("indicator-id", {
-			type: "string",
-			description: "Indicator UUID.",
-			demandOption: true,
-		})
-		.option("dataset-id", {
-			type: "string",
-			description: "Dataset ID.",
-			demandOption: true,
-		})
-		.option("indicator-type", {
-			type: "string",
-			description: "The indicatorType field",
-		})
-		.option("related-events", {
-			type: "string",
-			description:
-				'The relatedEvents field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"datasetId": string, "eventId": string}].',
-		})
-		.option("tlp", {
-			type: "string",
-			description:
-				"Traffic Light Protocol designation. Case-insensitive on input, stored and returned as UPPERCASE. Allowed values: clear, green, amber, amber-strict, red, purple.",
-		})
-		.option("value", { type: "string", description: "The value field" })
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "update <indicator-id>",
 	describe: "Update an indicator",
-	builder,
+	usage:
+		"$0 cloudforce-one threat-intel indicators update <indicator-id>\n\nUpdates the given fields of an indicator and leaves the other fields unchanged.",
+	flags: {
+		"dataset-id": { kind: "parsed", brief: "Dataset ID.", parse: String },
+		"indicator-type": {
+			kind: "parsed",
+			brief: "The indicatorType field",
+			optional: true,
+			parse: String,
+		},
+		"related-events": {
+			kind: "parsed",
+			brief:
+				'The relatedEvents field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"datasetId": string, "eventId": string}].',
+			optional: true,
+			parse: String,
+		},
+		tlp: {
+			kind: "parsed",
+			brief:
+				"Traffic Light Protocol designation. Case-insensitive on input, stored and returned as UPPERCASE. Allowed values: clear, green, amber, amber-strict, red, purple.",
+			optional: true,
+			parse: String,
+		},
+		value: {
+			kind: "parsed",
+			brief: "The value field",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [
+		{ placeholder: "indicator-id", brief: "Indicator UUID.", parse: String },
+	],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "cloudforce-one threat-intel indicators update",
-				classification: {
-					safeFlags: ["dry-run"],
-				} satisfies ArgClassification<Args>,
+				classification: { safeFlags: ["dry-run"] } satisfies ArgClassification<
+					typeof argv
+				>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -167,6 +167,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Updated` });
 			}
 		),
-};
+});
 
 export default command;

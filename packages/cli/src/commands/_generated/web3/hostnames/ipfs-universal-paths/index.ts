@@ -1,22 +1,17 @@
 import $contentlists from "./content-lists/index.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * ipfs-universal-paths command group
  * @generated from apis/overlays/web3.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "ipfs-universal-paths",
 	describe: "Operations for hostnames.ipfs-universal-paths",
 
-	builder: (yargs) => {
-		return yargs
-			.command($contentlists)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		"content-lists": $contentlists,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

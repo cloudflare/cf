@@ -1,11 +1,10 @@
 import operation from "../../../_operations/browser-run/devtools/browser/create.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * create command
  * @generated from apis/overlays/browser-run.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -18,65 +17,72 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 browser-run devtools browser create\n\nAcquires a browser and returns its session ID and websocket URL. Optionally accepts a JSON body with session guardrails to restrict outbound HTTP/S traffic."
-		)
-		.option("keep-alive", {
-			type: "number",
-			description: "Keep-alive time in milliseconds.",
-		})
-		.option("lab", {
-			type: "boolean",
-			description: "Use experimental browser.",
-		})
-		.option("targets", {
-			type: "boolean",
-			description: "Include browser targets in response.",
-		})
-		.option("live-view-url-expires-in-ms", {
-			type: "number",
-			description:
-				"How long the live view URL remains valid, in milliseconds (max 60 minutes). Only used when targets is true.",
-		})
-		.option("recording", { type: "boolean", description: "Recording" })
-		.option("guardrails-allowed-domain-sets", {
-			type: "string",
-			array: true,
-			description:
-				"Max 4 entries: curated preset names (common-cdns) and/or https URLs of newline-separated hostname lists.",
-		})
-		.option("guardrails-allowed-domains", {
-			type: "string",
-			array: true,
-			description:
-				"Hostname patterns, max 50. Supports exact hosts (example.com) or a single * wildcard anywhere. Prefer *.example.com (subdomain wildcard) over *example.com (prefix wildcard) to avoid matching overbroad lookalikes like evilexample.com.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "create",
 	describe: "Get a browser session ID.",
-	builder,
+	usage:
+		"$0 browser-run devtools browser create\n\nAcquires a browser and returns its session ID and websocket URL. Optionally accepts a JSON body with session guardrails to restrict outbound HTTP/S traffic.",
+	flags: {
+		"keep-alive": {
+			kind: "parsed",
+			brief: "Keep-alive time in milliseconds.",
+			optional: true,
+			parse: Number,
+		},
+		lab: {
+			kind: "boolean",
+			brief: "Use experimental browser.",
+			optional: true,
+		},
+		targets: {
+			kind: "boolean",
+			brief: "Include browser targets in response.",
+			optional: true,
+		},
+		"live-view-url-expires-in-ms": {
+			kind: "parsed",
+			brief:
+				"How long the live view URL remains valid, in milliseconds (max 60 minutes). Only used when targets is true.",
+			optional: true,
+			parse: Number,
+		},
+		recording: { kind: "boolean", brief: "Recording", optional: true },
+		"guardrails-allowed-domain-sets": {
+			kind: "parsed",
+			brief:
+				"Max 4 entries: curated preset names (common-cdns) and/or https URLs of newline-separated hostname lists.",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"guardrails-allowed-domains": {
+			kind: "parsed",
+			brief:
+				"Hostname patterns, max 50. Supports exact hosts (example.com) or a single * wildcard anywhere. Prefer *.example.com (subdomain wildcard) over *example.com (prefix wildcard) to avoid matching overbroad lookalikes like evilexample.com.",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "browser-run devtools browser create",
 				classification: {
 					safeFlags: ["lab", "targets", "recording", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -154,6 +160,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Created` });
 			}
 		),
-};
+});
 
 export default command;

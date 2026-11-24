@@ -1,11 +1,10 @@
 import operation from "../../../_operations/cloudforce-one/priority-intelligence/interests/create.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * create command
  * @generated from apis/overlays/cloudforce-one.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -23,14 +22,16 @@ import {
 } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 cloudforce-one priority-intelligence interests create\n\nCreates a structured account interest used by Priority Intelligence Option 2 evaluations. Interests are evaluated independently from free-form PIR requirements."
-		)
-		.option("dimension", {
-			type: "string",
-			description: "The dimension field",
+const command = apiCommand({
+	command: "create",
+	describe: "Create an account interest for PIR Option 2",
+	usage:
+		"$0 cloudforce-one priority-intelligence interests create\n\nCreates a structured account interest used by Priority Intelligence Option 2 evaluations. Interests are evaluated independently from free-form PIR requirements.",
+	flags: {
+		dimension: {
+			kind: "parsed",
+			brief: "The dimension field",
+			optional: true,
 			choices: [
 				"actor",
 				"targetIndustry",
@@ -42,40 +43,36 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"killChain",
 				"mitreCapec",
 			],
-		})
-		.coerce("dimension", (value) =>
-			resolveFileToken(value, "dimension", "text")
-		)
-		.option("enabled", {
-			type: "boolean",
-			description: "The enabled field",
-			default: true,
-		})
-		.option("value", { type: "string", description: "The value field" })
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
+			parse: String,
+			coerce: (value: string) => resolveFileToken(value, "dimension", "text"),
+		},
+		enabled: { kind: "boolean", brief: "The enabled field", default: true },
+		value: {
+			kind: "parsed",
+			brief: "The value field",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
 			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "create",
-	describe: "Create an account interest for PIR Option 2",
-	builder,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "cloudforce-one priority-intelligence interests create",
 				classification: {
 					safeFlags: ["dimension", "enabled", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -162,6 +159,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Created` });
 			}
 		),
-};
+});
 
 export default command;

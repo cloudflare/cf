@@ -1,11 +1,10 @@
 import operation from "../../../_operations/user/firewall/access-rules/edit.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * edit command
  * @generated from apis/overlays/user.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import { createCommandClient } from "#lib/auth.js";
 import { compactBody, parseBody } from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
@@ -14,19 +13,16 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 user firewall access-rules edit <rule-id>\n\nUpdates an IP Access rule defined at the user level. You can only update the rule action (`mode` parameter) and notes."
-		)
-		.positional("rule-id", {
-			type: "string",
-			description: "Unique identifier for a rule.",
-			demandOption: true,
-		})
-		.option("access-rule-mode", {
-			type: "string",
-			description: "The action to apply to a matched request.",
+const command = apiCommand({
+	command: "edit <rule-id>",
+	describe: "Update an IP Access rule",
+	usage:
+		"$0 user firewall access-rules edit <rule-id>\n\nUpdates an IP Access rule defined at the user level. You can only update the rule action (`mode` parameter) and notes.",
+	flags: {
+		"access-rule-mode": {
+			kind: "parsed",
+			brief: "The action to apply to a matched request.",
+			optional: true,
 			choices: [
 				"block",
 				"challenge",
@@ -34,39 +30,43 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"js_challenge",
 				"managed_challenge",
 			],
-		})
-		.coerce("access-rule-mode", (value) =>
-			resolveFileToken(value, "access-rule-mode", "text")
-		)
-		.option("notes", {
-			type: "string",
-			description:
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "access-rule-mode", "text"),
+		},
+		notes: {
+			kind: "parsed",
+			brief:
 				"An informative summary of the rule, typically used as a reminder or explanation.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
 			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "edit <rule-id>",
-	describe: "Update an IP Access rule",
-	builder,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [
+		{
+			placeholder: "rule-id",
+			brief: "Unique identifier for a rule.",
+			parse: String,
+		},
+	],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "user firewall access-rules edit",
 				classification: {
 					safeFlags: ["access-rule-mode", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -119,6 +119,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Updated` });
 			}
 		),
-};
+});
 
 export default command;

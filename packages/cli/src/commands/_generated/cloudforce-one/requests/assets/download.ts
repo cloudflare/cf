@@ -1,10 +1,9 @@
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * download command
  * @generated from apis/overlays/cloudforce-one.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -17,53 +16,39 @@ import { withProgress } from "#lib/progress.js";
 import { fetchRawBytes, writeRawOutput } from "#lib/raw-fetch.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 cloudforce-one requests assets download <asset-id>\n\nDownload a file asset from R2 storage. Customer can only download from their own account."
-		)
-		.positional("asset-id", {
-			type: "string",
-			description: "Asset UUID",
-			demandOption: true,
-		})
-		.option("project-type", {
-			type: "string",
-			description:
-				"RFI project type. Valid values: threat-intelligence, incident-response, ir-emergency-response, table-top, pentest, irp, threat-hunting, cybersecurity-assessment, react-general, legal-response, soc-alerts, demo",
-			demandOption: true,
-		})
-		.option("request-id", {
-			type: "string",
-			description: "RFI UUID",
-			demandOption: true,
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("text", {
-			type: "boolean",
-			description:
-				"Decode the response body as UTF-8 text instead of writing raw bytes",
-			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "download <asset-id>",
 	describe: "Download asset (Customer)",
-	builder,
+	usage:
+		"$0 cloudforce-one requests assets download <asset-id>\n\nDownload a file asset from R2 storage. Customer can only download from their own account.",
+	flags: {
+		"project-type": {
+			kind: "parsed",
+			brief:
+				"RFI project type. Valid values: threat-intelligence, incident-response, ir-emergency-response, table-top, pentest, irp, threat-hunting, cybersecurity-assessment, react-general, legal-response, soc-alerts, demo",
+			parse: String,
+		},
+		"request-id": { kind: "parsed", brief: "RFI UUID", parse: String },
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		text: {
+			kind: "boolean",
+			brief:
+				"Decode the response body as UTF-8 text instead of writing raw bytes",
+			default: false,
+		},
+	},
+	operands: [{ placeholder: "asset-id", brief: "Asset UUID", parse: String }],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "cloudforce-one requests assets download",
 				classification: {
 					safeFlags: ["dry-run", "text"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -102,6 +87,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				return;
 			}
 		),
-};
+});
 
 export default command;

@@ -1,11 +1,10 @@
 import operation from "../_operations/ai/websearch.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * websearch command
  * @generated from apis/overlays/ai.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -20,46 +19,61 @@ import { withProgress } from "#lib/progress.js";
 import { promptForRequiredField } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 ai websearch\n\nRun a web search through a configured AI Gateway."
-		)
-		.option("byok-alias", {
-			type: "string",
-			description: "The byokAlias field",
-		})
-		.option("limit", { type: "number", description: "The limit field" })
-		.option("options-gateway-id", {
-			type: "string",
-			description: "The options.gateway.id field",
-		})
-		.option("provider", { type: "string", description: "The provider field" })
-		.option("query", { type: "string", description: "The query field" })
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "websearch",
 	describe: "Search the web through AI Gateway",
-	builder,
+	usage: "$0 ai websearch\n\nRun a web search through a configured AI Gateway.",
+	flags: {
+		"byok-alias": {
+			kind: "parsed",
+			brief: "The byokAlias field",
+			optional: true,
+			parse: String,
+		},
+		limit: {
+			kind: "parsed",
+			brief: "The limit field",
+			optional: true,
+			parse: Number,
+		},
+		"options-gateway-id": {
+			kind: "parsed",
+			brief: "The options.gateway.id field",
+			optional: true,
+			parse: String,
+		},
+		provider: {
+			kind: "parsed",
+			brief: "The provider field",
+			optional: true,
+			parse: String,
+		},
+		query: {
+			kind: "parsed",
+			brief: "The query field",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "ai websearch",
-				classification: {
-					safeFlags: ["dry-run"],
-				} satisfies ArgClassification<Args>,
+				classification: { safeFlags: ["dry-run"] } satisfies ArgClassification<
+					typeof argv
+				>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -171,6 +185,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Created` });
 			}
 		),
-};
+});
 
 export default command;

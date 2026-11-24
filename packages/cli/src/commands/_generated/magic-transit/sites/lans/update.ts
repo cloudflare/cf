@@ -1,11 +1,10 @@
 import operation from "../../../_operations/magic-transit/sites/lans/update.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * update command
  * @generated from apis/overlays/magic-transit.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -24,111 +23,152 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 magic-transit sites lans update <lan-id>\n\nUpdate a specific Site LAN."
-		)
-		.positional("lan-id", {
-			type: "string",
-			description: "Identifier",
-			demandOption: true,
-		})
-		.option("site-id", {
-			type: "string",
-			description: "Identifier",
-			demandOption: true,
-		})
-		.option("bond-id", { type: "number", description: "The bond_id field" })
-		.option("ha-link", {
-			type: "boolean",
-			description:
+const command = apiCommand({
+	command: "update <lan-id>",
+	describe: "Update Site LAN",
+	usage:
+		"$0 magic-transit sites lans update <lan-id>\n\nUpdate a specific Site LAN.",
+	flags: {
+		"site-id": { kind: "parsed", brief: "Identifier", parse: String },
+		"bond-id": {
+			kind: "parsed",
+			brief: "The bond_id field",
+			optional: true,
+			parse: Number,
+		},
+		"ha-link": {
+			kind: "boolean",
+			brief:
 				"mark true to use this LAN for HA probing. only works for site with HA turned on. only one LAN can be set as the ha_link.",
-		})
-		.option("is-breakout", {
-			type: "boolean",
-			description:
-				"mark true to use this LAN for source-based breakout traffic",
-		})
-		.option("is-prioritized", {
-			type: "boolean",
-			description:
-				"mark true to use this LAN for source-based prioritized traffic",
-		})
-		.option("name", { type: "string", description: "The name field" })
-		.option("nat-static-prefix", {
-			type: "string",
-			description: "A valid CIDR notation representing an IP range.",
-		})
-		.option("physport", { type: "number", description: "The physport field" })
-		.option("remote-subnets", {
-			type: "string",
-			description:
+			optional: true,
+		},
+		"is-breakout": {
+			kind: "boolean",
+			brief: "mark true to use this LAN for source-based breakout traffic",
+			optional: true,
+		},
+		"is-prioritized": {
+			kind: "boolean",
+			brief: "mark true to use this LAN for source-based prioritized traffic",
+			optional: true,
+		},
+		name: {
+			kind: "parsed",
+			brief: "The name field",
+			optional: true,
+			parse: String,
+		},
+		"nat-static-prefix": {
+			kind: "parsed",
+			brief: "A valid CIDR notation representing an IP range.",
+			optional: true,
+			parse: String,
+		},
+		physport: {
+			kind: "parsed",
+			brief: "The physport field",
+			optional: true,
+			parse: Number,
+		},
+		"remote-subnets": {
+			kind: "parsed",
+			brief:
 				'The remote_subnets field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"local_alias_prefix": string, "remote_prefix": string}].',
-		})
-		.option("routed-subnets", {
-			type: "string",
-			description:
+			optional: true,
+			parse: String,
+		},
+		"routed-subnets": {
+			kind: "parsed",
+			brief:
 				'The routed_subnets field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"next_hop": string, "prefix": string, "nat"?: {...}}]. ? marks optional keys.',
-		})
-		.option("static-addressing-address", {
-			type: "string",
-			description: "A valid CIDR notation representing an IP range.",
-		})
-		.option("static-addressing-dhcp-relay-server-addresses", {
-			type: "string",
-			array: true,
-			description: "List of DHCP server IPs.",
-		})
-		.option("static-addressing-dhcp-server-dhcp-options", {
-			type: "string",
-			description:
+			optional: true,
+			parse: String,
+		},
+		"static-addressing-address": {
+			kind: "parsed",
+			brief: "A valid CIDR notation representing an IP range.",
+			optional: true,
+			parse: String,
+		},
+		"static-addressing-dhcp-relay-server-addresses": {
+			kind: "parsed",
+			brief: "List of DHCP server IPs.",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"static-addressing-dhcp-server-dhcp-options": {
+			kind: "parsed",
+			brief:
 				'Optional list of custom DHCP options to include in DHCP responses. Only valid when DHCP server is enabled. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"code": number, "type": "text" | "hex" | "ip" | ...more, "value": string}].',
-		})
-		.option("static-addressing-dhcp-server-dhcp-pool-end", {
-			type: "string",
-			description: "A valid IPv4 address.",
-		})
-		.option("static-addressing-dhcp-server-dhcp-pool-start", {
-			type: "string",
-			description: "A valid IPv4 address.",
-		})
-		.option("static-addressing-dhcp-server-dns-server", {
-			type: "string",
-			description: "A valid IPv4 address.",
-		})
-		.option("static-addressing-dhcp-server-dns-servers", {
-			type: "string",
-			array: true,
-			description: "The static_addressing.dhcp_server.dns_servers field",
-		})
-		.option("static-addressing-dhcp-server-reservations", {
-			type: "string",
-			description:
+			optional: true,
+			parse: String,
+		},
+		"static-addressing-dhcp-server-dhcp-pool-end": {
+			kind: "parsed",
+			brief: "A valid IPv4 address.",
+			optional: true,
+			parse: String,
+		},
+		"static-addressing-dhcp-server-dhcp-pool-start": {
+			kind: "parsed",
+			brief: "A valid IPv4 address.",
+			optional: true,
+			parse: String,
+		},
+		"static-addressing-dhcp-server-dns-server": {
+			kind: "parsed",
+			brief: "A valid IPv4 address.",
+			optional: true,
+			parse: String,
+		},
+		"static-addressing-dhcp-server-dns-servers": {
+			kind: "parsed",
+			brief: "The static_addressing.dhcp_server.dns_servers field",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"static-addressing-dhcp-server-reservations": {
+			kind: "parsed",
+			brief:
 				'Mapping of MAC addresses to IP addresses. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": string}.',
-		})
-		.option("static-addressing-secondary-address", {
-			type: "string",
-			description: "A valid CIDR notation representing an IP range.",
-		})
-		.option("static-addressing-virtual-address", {
-			type: "string",
-			description: "A valid CIDR notation representing an IP range.",
-		})
-		.option("vlan-tag", {
-			type: "number",
-			description: "VLAN ID. Use zero for untagged.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
+			optional: true,
+			parse: String,
+		},
+		"static-addressing-secondary-address": {
+			kind: "parsed",
+			brief: "A valid CIDR notation representing an IP range.",
+			optional: true,
+			parse: String,
+		},
+		"static-addressing-virtual-address": {
+			kind: "parsed",
+			brief: "A valid CIDR notation representing an IP range.",
+			optional: true,
+			parse: String,
+		},
+		"vlan-tag": {
+			kind: "parsed",
+			brief: "VLAN ID. Use zero for untagged.",
+			optional: true,
+			parse: Number,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
 			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		})
-		.check((argv) => {
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [{ placeholder: "lan-id", brief: "Identifier", parse: String }],
+	rules(rules) {
+		rules.check((argv) => {
 			const groupSet = [
 				"static-addressing-address",
 				"static-addressing-dhcp-relay-server-addresses",
@@ -153,21 +193,14 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			}
 			return true;
 		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "update <lan-id>",
-	describe: "Update Site LAN",
-	builder,
+	},
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "magic-transit sites lans update",
 				classification: {
 					safeFlags: ["ha-link", "is-breakout", "is-prioritized", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -399,6 +432,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Updated` });
 			}
 		),
-};
+});
 
 export default command;

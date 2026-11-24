@@ -1,11 +1,10 @@
 import operation from "../../_operations/cloudforce-one/rules/validate.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * validate command
  * @generated from apis/overlays/cloudforce-one.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -20,47 +19,63 @@ import { withProgress } from "#lib/progress.js";
 import { promptForRequiredField } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 cloudforce-one rules validate\n\nValidates rule syntax, name uniqueness, namespace, and metadata."
-		)
-		.option("content", { type: "string", description: "The content field" })
-		.option("exclude-rule-id", {
-			type: "string",
-			description: "The excludeRuleId field",
-		})
-		.option("name", { type: "string", description: "The name field" })
-		.option("namespaces", {
-			type: "string",
-			array: true,
-			description: "The namespaces field",
-		})
-		.option("path", { type: "string", description: "The path field" })
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "validate",
 	describe: "Validate rule with context",
-	builder,
+	usage:
+		"$0 cloudforce-one rules validate\n\nValidates rule syntax, name uniqueness, namespace, and metadata.",
+	flags: {
+		content: {
+			kind: "parsed",
+			brief: "The content field",
+			optional: true,
+			parse: String,
+		},
+		"exclude-rule-id": {
+			kind: "parsed",
+			brief: "The excludeRuleId field",
+			optional: true,
+			parse: String,
+		},
+		name: {
+			kind: "parsed",
+			brief: "The name field",
+			optional: true,
+			parse: String,
+		},
+		namespaces: {
+			kind: "parsed",
+			brief: "The namespaces field",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		path: {
+			kind: "parsed",
+			brief: "The path field",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "cloudforce-one rules validate",
-				classification: {
-					safeFlags: ["dry-run"],
-				} satisfies ArgClassification<Args>,
+				classification: { safeFlags: ["dry-run"] } satisfies ArgClassification<
+					typeof argv
+				>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -164,6 +179,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Validated` });
 			}
 		),
-};
+});
 
 export default command;

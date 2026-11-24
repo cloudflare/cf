@@ -1,22 +1,17 @@
 import $settings from "./settings/index.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * universal command group
  * @generated from apis/overlays/ssl.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "universal",
 	describe: "Operations for universal",
 
-	builder: (yargs) => {
-		return yargs
-			.command($settings)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		settings: $settings,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

@@ -1,11 +1,10 @@
 import operation from "../../_operations/images/flows/update.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * update command
  * @generated from apis/overlays/images.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import { createCommandClient, getZoneId } from "#lib/auth.js";
 import { compactBody, parseBody, parseObjectArray } from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
@@ -14,45 +13,51 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 images flows update\n\nReplace the entire transformation flows configuration for a zone."
-		)
-		.option("etag", { type: "string", description: "The etag field" })
-		.option("flows", {
-			type: "string",
-			description:
-				'The flows field. Provide as a JSON array of objects or @path/to/file.json. Shape: [({"enabled": boolean, "provider": "fastly", "type": "provider", "version": number} | {"enabled": boolean, "name": string, "transformations": [{...}], "trigger": {...}, "type": "custom"})].',
-		})
-		.option("config-version", {
-			type: "number",
-			description: "The version field",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "update",
 	describe: "Update transformation flows",
-	builder,
+	usage:
+		"$0 images flows update\n\nReplace the entire transformation flows configuration for a zone.",
+	flags: {
+		etag: {
+			kind: "parsed",
+			brief: "The etag field",
+			optional: true,
+			parse: String,
+		},
+		flows: {
+			kind: "parsed",
+			brief:
+				'The flows field. Provide as a JSON array of objects or @path/to/file.json. Shape: [({"enabled": boolean, "provider": "fastly", "type": "provider", "version": number} | {"enabled": boolean, "name": string, "transformations": [{...}], "trigger": {...}, "type": "custom"})].',
+			optional: true,
+			parse: String,
+		},
+		"config-version": {
+			kind: "parsed",
+			brief: "The version field",
+			optional: true,
+			parse: Number,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "images flows update",
-				classification: {
-					safeFlags: ["dry-run"],
-				} satisfies ArgClassification<Args>,
+				classification: { safeFlags: ["dry-run"] } satisfies ArgClassification<
+					typeof argv
+				>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -129,6 +134,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Updated` });
 			}
 		),
-};
+});
 
 export default command;

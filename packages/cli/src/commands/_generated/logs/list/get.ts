@@ -1,10 +1,9 @@
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * get command
  * @generated from apis/overlays/logs.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -17,64 +16,59 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 logs list get\n\nLists R2 objects containing logs matching the provided query parameters."
-		)
-		.option("start", {
-			type: "string",
-			description: "Start time in RFC3339 format.",
-			demandOption: true,
-		})
-		.option("end", {
-			type: "string",
-			description: "End time in RFC3339 format.",
-			demandOption: true,
-		})
-		.option("bucket", {
-			type: "string",
-			description: "R2 bucket name.",
-			demandOption: true,
-		})
-		.option("prefix", {
-			type: "string",
-			description: "R2 bucket prefix logs are stored under.",
-		})
-		.option("limit", {
-			type: "number",
-			description: "Maximum number of results to return.",
-		})
-		.option("r2-access-key-id", {
-			type: "string",
-			description: "The R2-Access-Key-Id header",
-			demandOption: true,
-		})
-		.option("r2-secret-access-key", {
-			type: "string",
-			description: "The R2-Secret-Access-Key header",
-			demandOption: true,
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "get",
 	describe: "List log files",
-	builder,
+	usage:
+		"$0 logs list get\n\nLists R2 objects containing logs matching the provided query parameters.",
+	flags: {
+		start: {
+			kind: "parsed",
+			brief: "Start time in RFC3339 format.",
+			parse: String,
+		},
+		end: {
+			kind: "parsed",
+			brief: "End time in RFC3339 format.",
+			parse: String,
+		},
+		bucket: { kind: "parsed", brief: "R2 bucket name.", parse: String },
+		prefix: {
+			kind: "parsed",
+			brief: "R2 bucket prefix logs are stored under.",
+			optional: true,
+			parse: String,
+		},
+		limit: {
+			kind: "parsed",
+			brief: "Maximum number of results to return.",
+			optional: true,
+			parse: Number,
+		},
+		"r2-access-key-id": {
+			kind: "parsed",
+			brief: "The R2-Access-Key-Id header",
+			parse: String,
+		},
+		"r2-secret-access-key": {
+			kind: "parsed",
+			brief: "The R2-Secret-Access-Key header",
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "logs list get",
-				classification: {
-					safeFlags: ["dry-run"],
-				} satisfies ArgClassification<Args>,
+				classification: { safeFlags: ["dry-run"] } satisfies ArgClassification<
+					typeof argv
+				>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -123,6 +117,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Loaded` });
 			}
 		),
-};
+});
 
 export default command;

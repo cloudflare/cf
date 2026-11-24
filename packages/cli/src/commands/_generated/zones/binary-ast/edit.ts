@@ -1,11 +1,10 @@
 import operation from "../../_operations/zones/binary-ast/edit.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * edit command
  * @generated from apis/overlays/zones.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import { createCommandClient, getZoneId } from "#lib/auth.js";
 import { compactBody, parseBody } from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
@@ -15,42 +14,41 @@ import { withProgress } from "#lib/progress.js";
 import { promptForRequiredEnumField } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 zones binary-ast edit\n\nBinary AST is a new binary encoding for JavaScript that enables faster parsing of scripts. When enabled, Cloudflare will serve a binary-encoded version of JavaScript to compatible browsers."
-		)
-		.option("value", {
-			type: "string",
-			description:
-				'Controls Binary AST behavior:\n- "off": Feature disabled.\n- "on": Binary AST enabled.\n- "latest": Binary AST enabled using the latest version.\n',
-			choices: ["off", "on", "latest"],
-		})
-		.coerce("value", (value) => resolveFileToken(value, "value", "text"))
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "edit",
 	describe: "Change Binary AST setting",
-	builder,
+	usage:
+		"$0 zones binary-ast edit\n\nBinary AST is a new binary encoding for JavaScript that enables faster parsing of scripts. When enabled, Cloudflare will serve a binary-encoded version of JavaScript to compatible browsers.",
+	flags: {
+		value: {
+			kind: "parsed",
+			brief:
+				'Controls Binary AST behavior:\n- "off": Feature disabled.\n- "on": Binary AST enabled.\n- "latest": Binary AST enabled using the latest version.\n',
+			optional: true,
+			choices: ["off", "on", "latest"],
+			parse: String,
+			coerce: (value: string) => resolveFileToken(value, "value", "text"),
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "zones binary-ast edit",
 				classification: {
 					safeFlags: ["value", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -112,6 +110,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Updated` });
 			}
 		),
-};
+});
 
 export default command;

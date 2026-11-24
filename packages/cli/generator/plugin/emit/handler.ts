@@ -1162,8 +1162,7 @@ export function imports(ctx: Ctx): Imports {
 	const d = ctx.derived;
 	const i = new Imports();
 	const lib = "#lib";
-	i.typeFrom("yargs", ["Argv", "CommandModule"]);
-	i.typeFrom(`${lib}/cli-types.js`, ["CommonYargsOptions", "InferArgs"]);
+	i.from(`${lib}/api-command.js`, ["apiCommand"]);
 	const authNames = ["createCommandClient"];
 	if (ctx.needsAccountId) {
 		authNames.push("getAccountId", "resolveAccountIdSilent");
@@ -1183,9 +1182,6 @@ export function imports(ctx: Ctx): Imports {
 	}
 	i.from(`${lib}/output.js`, ["formatOutput"]);
 	i.from(`${lib}/dry-run.js`, ["formatDryRun"]);
-	if (positionals(d).some((arg) => arg.isWorkerName)) {
-		i.from(`${lib}/ui/theme.js`, ["theme"]);
-	}
 	if ((ctx.op.bodyUnions?.length ?? 0) > 0 && d.hasBodyParams) {
 		i.from(`${lib}/body-unions.js`, ["validateBodyUnions"]);
 	}

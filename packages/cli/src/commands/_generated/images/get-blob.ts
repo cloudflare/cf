@@ -1,10 +1,9 @@
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * get-blob command
  * @generated from apis/overlays/images.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -17,42 +16,38 @@ import { withProgress } from "#lib/progress.js";
 import { fetchRawBytes, writeRawOutput } from "#lib/raw-fetch.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 images get-blob <image-id>\n\nDownload an image from CF Images. For most images this will be the originally uploaded file. For larger images it can be a near-lossless version of the original."
-		)
-		.positional("image-id", {
-			type: "string",
-			description: "Image unique identifier.",
-			demandOption: true,
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("text", {
-			type: "boolean",
-			description:
-				"Decode the response body as UTF-8 text instead of writing raw bytes",
-			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "get-blob <image-id>",
 	describe: "Download image",
-	builder,
+	usage:
+		"$0 images get-blob <image-id>\n\nDownload an image from CF Images. For most images this will be the originally uploaded file. For larger images it can be a near-lossless version of the original.",
+	flags: {
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		text: {
+			kind: "boolean",
+			brief:
+				"Decode the response body as UTF-8 text instead of writing raw bytes",
+			default: false,
+		},
+	},
+	operands: [
+		{
+			placeholder: "image-id",
+			brief: "Image unique identifier.",
+			parse: String,
+		},
+	],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "images get-blob",
 				classification: {
 					safeFlags: ["dry-run", "text"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -87,6 +82,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				return;
 			}
 		),
-};
+});
 
 export default command;

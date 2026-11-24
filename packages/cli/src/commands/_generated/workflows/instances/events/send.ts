@@ -1,11 +1,10 @@
 import operation from "../../../_operations/workflows/instances/events/send.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * send command
  * @generated from apis/overlays/workflows.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -19,51 +18,39 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 workflows instances events send <event-type>\n\nSends an event to a running workflow instance to trigger state transitions."
-		)
-		.positional("event-type", {
-			type: "string",
-			description: "Event type",
-			demandOption: true,
-		})
-		.option("workflow-name", {
-			type: "string",
-			description: "Workflow name",
-			demandOption: true,
-		})
-		.option("instance-id", {
-			type: "string",
-			description:
-				"Instance identifier. User-created instances match `^[a-zA-Z0-9_][a-zA-Z0-9-_]*$` (max 100 characters); cron-triggered instances can use a longer, system-generated id derived from the cron expression.",
-			demandOption: true,
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "send <event-type>",
 	describe: "Send event to instance",
-	builder,
+	usage:
+		"$0 workflows instances events send <event-type>\n\nSends an event to a running workflow instance to trigger state transitions.",
+	flags: {
+		"workflow-name": { kind: "parsed", brief: "Workflow name", parse: String },
+		"instance-id": {
+			kind: "parsed",
+			brief:
+				"Instance identifier. User-created instances match `^[a-zA-Z0-9_][a-zA-Z0-9-_]*$` (max 100 characters); cron-triggered instances can use a longer, system-generated id derived from the cron expression.",
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [{ placeholder: "event-type", brief: "Event type", parse: String }],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "workflows instances events send",
-				classification: {
-					safeFlags: ["dry-run"],
-				} satisfies ArgClassification<Args>,
+				classification: { safeFlags: ["dry-run"] } satisfies ArgClassification<
+					typeof argv
+				>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -114,6 +101,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Created` });
 			}
 		),
-};
+});
 
 export default command;

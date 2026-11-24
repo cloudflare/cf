@@ -1,11 +1,10 @@
 import operation from "../../../_operations/r2/super-slurper/jobs/create.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * create command
  * @generated from apis/overlays/r2.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -20,212 +19,6 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 r2 super-slurper jobs create\n\nCreates a new R2 Super Slurper migration job to transfer objects from a source bucket (e.g. S3, GCS, R2) to R2."
-		)
-		.option("overwrite", {
-			type: "boolean",
-			description: "The overwrite field",
-			default: true,
-		})
-		.option("source-bucket", {
-			type: "string",
-			description: "The source.bucket field",
-		})
-		.option("source-endpoint", {
-			type: "string",
-			description: "Custom S3-compatible endpoint that must use https://.",
-		})
-		.option("source-keys", {
-			type: "string",
-			array: true,
-			description: "The source.keys field",
-		})
-		.option("source-path-prefix", {
-			type: "string",
-			description: "The source.pathPrefix field",
-		})
-		.option("source-region", {
-			type: "string",
-			description: "The source.region field",
-		})
-		.option("source-secret-access-key-id", {
-			type: "string",
-			description: "The source.secret.accessKeyId field",
-		})
-		.option("source-secret-secret-access-key", {
-			type: "string",
-			description: "The source.secret.secretAccessKey field",
-		})
-		.option("source-secret-client-email", {
-			type: "string",
-			description: "The source.secret.clientEmail field",
-		})
-		.option("source-secret-private-key", {
-			type: "string",
-			description: "The source.secret.privateKey field",
-		})
-		.option("source-vendor", {
-			type: "string",
-			description: "The source.vendor field",
-			choices: ["s3", "gcs", "r2"],
-		})
-		.coerce("source-vendor", (value) =>
-			resolveFileToken(value, "source-vendor", "text")
-		)
-		.option("source-jurisdiction", {
-			type: "string",
-			description: "The source.jurisdiction field",
-			choices: ["default", "eu", "us", "fedramp"],
-		})
-		.coerce("source-jurisdiction", (value) =>
-			resolveFileToken(value, "source-jurisdiction", "text")
-		)
-		.option("target-bucket", {
-			type: "string",
-			description: "The target.bucket field",
-		})
-		.option("target-jurisdiction", {
-			type: "string",
-			description: "The target.jurisdiction field",
-			choices: ["default", "eu", "us", "fedramp"],
-		})
-		.coerce("target-jurisdiction", (value) =>
-			resolveFileToken(value, "target-jurisdiction", "text")
-		)
-		.option("target-secret-access-key-id", {
-			type: "string",
-			description: "The target.secret.accessKeyId field",
-		})
-		.option("target-secret-secret-access-key", {
-			type: "string",
-			description: "The target.secret.secretAccessKey field",
-		})
-		.option("target-vendor", {
-			type: "string",
-			description: "The target.vendor field",
-			choices: ["r2"],
-		})
-		.coerce("target-vendor", (value) =>
-			resolveFileToken(value, "target-vendor", "text")
-		)
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		})
-		.conflicts("source-endpoint", [
-			"source-secret-client-email",
-			"source-secret-private-key",
-			"source-jurisdiction",
-		])
-		.implies("source-endpoint", [
-			"source-secret-access-key-id",
-			"source-secret-secret-access-key",
-		])
-		.conflicts("source-region", [
-			"source-secret-client-email",
-			"source-secret-private-key",
-			"source-jurisdiction",
-		])
-		.implies("source-region", [
-			"source-secret-access-key-id",
-			"source-secret-secret-access-key",
-		])
-		.conflicts("source-secret-access-key-id", [
-			"source-secret-client-email",
-			"source-secret-private-key",
-		])
-		.implies("source-secret-access-key-id", ["source-secret-secret-access-key"])
-		.conflicts("source-secret-secret-access-key", [
-			"source-secret-client-email",
-			"source-secret-private-key",
-		])
-		.implies("source-secret-secret-access-key", ["source-secret-access-key-id"])
-		.conflicts("source-secret-client-email", [
-			"source-endpoint",
-			"source-region",
-			"source-secret-access-key-id",
-			"source-secret-secret-access-key",
-			"source-jurisdiction",
-		])
-		.implies("source-secret-client-email", ["source-secret-private-key"])
-		.conflicts("source-secret-private-key", [
-			"source-endpoint",
-			"source-region",
-			"source-secret-access-key-id",
-			"source-secret-secret-access-key",
-			"source-jurisdiction",
-		])
-		.implies("source-secret-private-key", ["source-secret-client-email"])
-		.conflicts("source-jurisdiction", [
-			"source-endpoint",
-			"source-region",
-			"source-secret-client-email",
-			"source-secret-private-key",
-		])
-		.implies("source-jurisdiction", [
-			"source-secret-access-key-id",
-			"source-secret-secret-access-key",
-		])
-		.check((argv) => {
-			const groupSet = [
-				"source-bucket",
-				"source-endpoint",
-				"source-keys",
-				"source-path-prefix",
-				"source-region",
-				"source-secret-access-key-id",
-				"source-secret-secret-access-key",
-				"source-secret-client-email",
-				"source-secret-private-key",
-				"source-vendor",
-				"source-jurisdiction",
-			].some((k) => argv[k] !== undefined);
-			if (!argv.body && groupSet) {
-				const missing = ["source-bucket", "source-vendor"].filter(
-					(k) => argv[k] === undefined
-				);
-				if (missing.length > 0) {
-					throw new Error(
-						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when any --source-* flag is set`
-					);
-				}
-			}
-			return true;
-		})
-		.check((argv) => {
-			const groupSet = [
-				"target-bucket",
-				"target-jurisdiction",
-				"target-secret-access-key-id",
-				"target-secret-secret-access-key",
-				"target-vendor",
-			].some((k) => argv[k] !== undefined);
-			if (!argv.body && groupSet) {
-				const missing = [
-					"target-bucket",
-					"target-secret-access-key-id",
-					"target-secret-secret-access-key",
-					"target-vendor",
-				].filter((k) => argv[k] === undefined);
-				if (missing.length > 0) {
-					throw new Error(
-						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when any --target-* flag is set`
-					);
-				}
-			}
-			return true;
-		});
-}
-
-type Args = InferArgs<typeof builder>;
 const bodyUnions: Parameters<typeof validateBodyUnions>[1] = [
 	{
 		path: ["source"],
@@ -327,10 +120,244 @@ const bodyUnions: Parameters<typeof validateBodyUnions>[1] = [
 	},
 ];
 
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "create",
 	describe: "Create a job",
-	builder,
+	usage:
+		"$0 r2 super-slurper jobs create\n\nCreates a new R2 Super Slurper migration job to transfer objects from a source bucket (e.g. S3, GCS, R2) to R2.",
+	flags: {
+		overwrite: { kind: "boolean", brief: "The overwrite field", default: true },
+		"source-bucket": {
+			kind: "parsed",
+			brief: "The source.bucket field",
+			optional: true,
+			parse: String,
+		},
+		"source-endpoint": {
+			kind: "parsed",
+			brief: "Custom S3-compatible endpoint that must use https://.",
+			optional: true,
+			parse: String,
+		},
+		"source-keys": {
+			kind: "parsed",
+			brief: "The source.keys field",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"source-path-prefix": {
+			kind: "parsed",
+			brief: "The source.pathPrefix field",
+			optional: true,
+			parse: String,
+		},
+		"source-region": {
+			kind: "parsed",
+			brief: "The source.region field",
+			optional: true,
+			parse: String,
+		},
+		"source-secret-access-key-id": {
+			kind: "parsed",
+			brief: "The source.secret.accessKeyId field",
+			optional: true,
+			parse: String,
+		},
+		"source-secret-secret-access-key": {
+			kind: "parsed",
+			brief: "The source.secret.secretAccessKey field",
+			optional: true,
+			parse: String,
+		},
+		"source-secret-client-email": {
+			kind: "parsed",
+			brief: "The source.secret.clientEmail field",
+			optional: true,
+			parse: String,
+		},
+		"source-secret-private-key": {
+			kind: "parsed",
+			brief: "The source.secret.privateKey field",
+			optional: true,
+			parse: String,
+		},
+		"source-vendor": {
+			kind: "parsed",
+			brief: "The source.vendor field",
+			optional: true,
+			choices: ["s3", "gcs", "r2"],
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "source-vendor", "text"),
+		},
+		"source-jurisdiction": {
+			kind: "parsed",
+			brief: "The source.jurisdiction field",
+			optional: true,
+			choices: ["default", "eu", "us", "fedramp"],
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "source-jurisdiction", "text"),
+		},
+		"target-bucket": {
+			kind: "parsed",
+			brief: "The target.bucket field",
+			optional: true,
+			parse: String,
+		},
+		"target-jurisdiction": {
+			kind: "parsed",
+			brief: "The target.jurisdiction field",
+			optional: true,
+			choices: ["default", "eu", "us", "fedramp"],
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "target-jurisdiction", "text"),
+		},
+		"target-secret-access-key-id": {
+			kind: "parsed",
+			brief: "The target.secret.accessKeyId field",
+			optional: true,
+			parse: String,
+		},
+		"target-secret-secret-access-key": {
+			kind: "parsed",
+			brief: "The target.secret.secretAccessKey field",
+			optional: true,
+			parse: String,
+		},
+		"target-vendor": {
+			kind: "parsed",
+			brief: "The target.vendor field",
+			optional: true,
+			choices: ["r2"],
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "target-vendor", "text"),
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [],
+	rules(rules) {
+		rules.conflicts("source-endpoint", [
+			"source-secret-client-email",
+			"source-secret-private-key",
+			"source-jurisdiction",
+		]);
+		rules.implies("source-endpoint", [
+			"source-secret-access-key-id",
+			"source-secret-secret-access-key",
+		]);
+		rules.conflicts("source-region", [
+			"source-secret-client-email",
+			"source-secret-private-key",
+			"source-jurisdiction",
+		]);
+		rules.implies("source-region", [
+			"source-secret-access-key-id",
+			"source-secret-secret-access-key",
+		]);
+		rules.conflicts("source-secret-access-key-id", [
+			"source-secret-client-email",
+			"source-secret-private-key",
+		]);
+		rules.implies("source-secret-access-key-id", [
+			"source-secret-secret-access-key",
+		]);
+		rules.conflicts("source-secret-secret-access-key", [
+			"source-secret-client-email",
+			"source-secret-private-key",
+		]);
+		rules.implies("source-secret-secret-access-key", [
+			"source-secret-access-key-id",
+		]);
+		rules.conflicts("source-secret-client-email", [
+			"source-endpoint",
+			"source-region",
+			"source-secret-access-key-id",
+			"source-secret-secret-access-key",
+			"source-jurisdiction",
+		]);
+		rules.implies("source-secret-client-email", ["source-secret-private-key"]);
+		rules.conflicts("source-secret-private-key", [
+			"source-endpoint",
+			"source-region",
+			"source-secret-access-key-id",
+			"source-secret-secret-access-key",
+			"source-jurisdiction",
+		]);
+		rules.implies("source-secret-private-key", ["source-secret-client-email"]);
+		rules.conflicts("source-jurisdiction", [
+			"source-endpoint",
+			"source-region",
+			"source-secret-client-email",
+			"source-secret-private-key",
+		]);
+		rules.implies("source-jurisdiction", [
+			"source-secret-access-key-id",
+			"source-secret-secret-access-key",
+		]);
+		rules.check((argv) => {
+			const groupSet = [
+				"source-bucket",
+				"source-endpoint",
+				"source-keys",
+				"source-path-prefix",
+				"source-region",
+				"source-secret-access-key-id",
+				"source-secret-secret-access-key",
+				"source-secret-client-email",
+				"source-secret-private-key",
+				"source-vendor",
+				"source-jurisdiction",
+			].some((k) => argv[k] !== undefined);
+			if (!argv.body && groupSet) {
+				const missing = ["source-bucket", "source-vendor"].filter(
+					(k) => argv[k] === undefined
+				);
+				if (missing.length > 0) {
+					throw new Error(
+						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when any --source-* flag is set`
+					);
+				}
+			}
+			return true;
+		});
+		rules.check((argv) => {
+			const groupSet = [
+				"target-bucket",
+				"target-jurisdiction",
+				"target-secret-access-key-id",
+				"target-secret-secret-access-key",
+				"target-vendor",
+			].some((k) => argv[k] !== undefined);
+			if (!argv.body && groupSet) {
+				const missing = [
+					"target-bucket",
+					"target-secret-access-key-id",
+					"target-secret-secret-access-key",
+					"target-vendor",
+				].filter((k) => argv[k] === undefined);
+				if (missing.length > 0) {
+					throw new Error(
+						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when any --target-* flag is set`
+					);
+				}
+			}
+			return true;
+		});
+	},
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
@@ -344,7 +371,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"target-vendor",
 						"dry-run",
 					],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -547,6 +574,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Created` });
 			}
 		),
-};
+});
 
 export default command;

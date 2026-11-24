@@ -11,37 +11,32 @@ import $retry from "./retry.js";
 import $tokens from "./tokens/index.js";
 import $versions from "./versions/index.js";
 import $workers from "./workers/index.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * builds command
  * @generated from apis/overlays/builds.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "builds",
 	describe:
 		"Build and deploy Workers from connected repositories, then inspect build status and logs.",
 
-	builder: (yargs) => {
-		return yargs
-			.command($cancel)
-			.command($create)
-			.command($get)
-			.command($list)
-			.command($logs)
-			.command($retry)
-			.command($deployhooks)
-			.command($limits)
-			.command($previews)
-			.command($repos)
-			.command($tokens)
-			.command($versions)
-			.command($workers)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		cancel: $cancel,
+		create: $create,
+		get: $get,
+		list: $list,
+		logs: $logs,
+		retry: $retry,
+		"deploy-hooks": $deployhooks,
+		limits: $limits,
+		previews: $previews,
+		repos: $repos,
+		tokens: $tokens,
+		versions: $versions,
+		workers: $workers,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

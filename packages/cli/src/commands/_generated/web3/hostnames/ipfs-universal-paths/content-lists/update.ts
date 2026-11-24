@@ -1,11 +1,10 @@
 import operation from "../../../../_operations/web3/hostnames/ipfs-universal-paths/content-lists/update.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * update command
  * @generated from apis/overlays/web3.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import { createCommandClient, getZoneId } from "#lib/auth.js";
 import { compactBody, parseBody, parseObjectArray } from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
@@ -15,51 +14,53 @@ import { withProgress } from "#lib/progress.js";
 import { promptForRequiredEnumField } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 web3 hostnames ipfs-universal-paths content-lists update <identifier>\n\nUpdates the IPFS Universal Path Gateway content list for a Web3 hostname."
-		)
-		.positional("identifier", {
-			type: "string",
-			description: "Specify the identifier of the hostname.",
-			demandOption: true,
-		})
-		.option("action", {
-			type: "string",
-			description: "Behavior of the content list.",
-			choices: ["block"],
-		})
-		.coerce("action", (value) => resolveFileToken(value, "action", "text"))
-		.option("entries", {
-			type: "string",
-			description:
-				'Provides content list entries. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"content"?: string, "description"?: string, "type"?: "cid" | "content_path"}]. ? marks optional keys.',
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "update <identifier>",
 	describe: "Update IPFS Universal Path Gateway Content List",
-	builder,
+	usage:
+		"$0 web3 hostnames ipfs-universal-paths content-lists update <identifier>\n\nUpdates the IPFS Universal Path Gateway content list for a Web3 hostname.",
+	flags: {
+		action: {
+			kind: "parsed",
+			brief: "Behavior of the content list.",
+			optional: true,
+			choices: ["block"],
+			parse: String,
+			coerce: (value: string) => resolveFileToken(value, "action", "text"),
+		},
+		entries: {
+			kind: "parsed",
+			brief:
+				'Provides content list entries. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"content"?: string, "description"?: string, "type"?: "cid" | "content_path"}]. ? marks optional keys.',
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [
+		{
+			placeholder: "identifier",
+			brief: "Specify the identifier of the hostname.",
+			parse: String,
+		},
+	],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "web3 hostnames ipfs-universal-paths content-lists update",
 				classification: {
 					safeFlags: ["action", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -138,6 +139,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Updated` });
 			}
 		),
-};
+});
 
 export default command;

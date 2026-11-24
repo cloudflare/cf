@@ -6,31 +6,26 @@ import $instances from "./instances/index.js";
 import $list from "./list.js";
 import $rollouts from "./rollouts/index.js";
 import $versions from "./versions/index.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * applications command group
  * @generated from apis/overlays/containers.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "applications",
 	describe: "Manage Containers applications",
 
-	builder: (yargs) => {
-		return yargs
-			.command($create)
-			.command($delete)
-			.command($edit)
-			.command($get)
-			.command($list)
-			.command($instances)
-			.command($rollouts)
-			.command($versions)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		create: $create,
+		delete: $delete,
+		edit: $edit,
+		get: $get,
+		list: $list,
+		instances: $instances,
+		rollouts: $rollouts,
+		versions: $versions,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

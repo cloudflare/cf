@@ -1,10 +1,9 @@
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * create command
  * @generated from apis/overlays/browser-run.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -20,70 +19,75 @@ import { promptForRequiredField } from "#lib/prompt.js";
 import { fetchRawBytes, writeRawOutput } from "#lib/raw-fetch.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 browser-run script create\n\nAcquires a browser session and runs the provided code in it. The session stays open for reuse; close it with `DELETE /devtools/browser/:sessionId` or `browser.close()`, otherwise it ends at the idle timeout."
-		)
-		.option("keep-alive", {
-			type: "number",
-			description: "Keep-alive time in milliseconds",
-		})
-		.option("lab", {
-			type: "boolean",
-			description: "Use experimental browser.",
-		})
-		.option("recording", {
-			type: "boolean",
-			description:
-				"Record the browser session. Retrieve it with `GET /recording/:session_id`.",
-		})
-		.option("browser", {
-			type: "string",
-			description:
-				"Rendering backend for this script. Set to `kitesurf` to run it on Kitesurf (beta), which supports CDP only and rejects `keep_alive`, `lab` and `recording`.",
-			choices: ["kitesurf"],
-		})
-		.option("code", {
-			type: "string",
-			description:
-				"Function body executed against the selected library's runner.",
-		})
-		.option("library", {
-			type: "string",
-			description:
-				"Library the script runs with. Defaults to raw CDP when omitted.",
-			choices: ["playwright", "puppeteer"],
-		})
-		.coerce("library", (value) => resolveFileToken(value, "library", "text"))
-		.option("timeout", {
-			type: "number",
-			description: "Maximum script run time in milliseconds.",
-			default: 60000,
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		})
-		.option("text", {
-			type: "boolean",
-			description:
-				"Decode the response body as UTF-8 text instead of writing raw bytes",
-			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "create",
 	describe: "Dynamic Script - execute code and return browser session details.",
-	builder,
+	usage:
+		"$0 browser-run script create\n\nAcquires a browser session and runs the provided code in it. The session stays open for reuse; close it with `DELETE /devtools/browser/:sessionId` or `browser.close()`, otherwise it ends at the idle timeout.",
+	flags: {
+		"keep-alive": {
+			kind: "parsed",
+			brief: "Keep-alive time in milliseconds",
+			optional: true,
+			parse: Number,
+		},
+		lab: {
+			kind: "boolean",
+			brief: "Use experimental browser.",
+			optional: true,
+		},
+		recording: {
+			kind: "boolean",
+			brief:
+				"Record the browser session. Retrieve it with `GET /recording/:session_id`.",
+			optional: true,
+		},
+		browser: {
+			kind: "enum",
+			brief:
+				"Rendering backend for this script. Set to `kitesurf` to run it on Kitesurf (beta), which supports CDP only and rejects `keep_alive`, `lab` and `recording`.",
+			values: ["kitesurf"],
+			optional: true,
+		},
+		code: {
+			kind: "parsed",
+			brief: "Function body executed against the selected library's runner.",
+			optional: true,
+			parse: String,
+		},
+		library: {
+			kind: "parsed",
+			brief: "Library the script runs with. Defaults to raw CDP when omitted.",
+			optional: true,
+			choices: ["playwright", "puppeteer"],
+			parse: String,
+			coerce: (value: string) => resolveFileToken(value, "library", "text"),
+		},
+		timeout: {
+			kind: "parsed",
+			brief: "Maximum script run time in milliseconds.",
+			default: "60000",
+			parse: Number,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+		text: {
+			kind: "boolean",
+			brief:
+				"Decode the response body as UTF-8 text instead of writing raw bytes",
+			default: false,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
@@ -97,7 +101,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"dry-run",
 						"text",
 					],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -208,6 +212,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				return;
 			}
 		),
-};
+});
 
 export default command;

@@ -1,11 +1,10 @@
 import operation from "../_operations/connector-telemetry-events/list.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * list command
  * @generated from apis/overlays/connector-telemetry-events.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -17,41 +16,37 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 connector-telemetry-events list\n\nLists Magic WAN Connector Telemetry Events"
-		)
-		.option("connector-id", {
-			type: "string",
-			description: "Connector ID",
-			demandOption: true,
-		})
-		.option("from", { type: "number", description: "From", demandOption: true })
-		.option("to", { type: "number", description: "To", demandOption: true })
-		.option("limit", { type: "number", description: "Limit" })
-		.option("cursor", { type: "string", description: "Cursor" })
-		.option("kind", { type: "string", description: "Filter by event kind" })
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "list",
 	describe: "List Events",
-	builder,
+	usage:
+		"$0 connector-telemetry-events list\n\nLists Magic WAN Connector Telemetry Events",
+	flags: {
+		"connector-id": { kind: "parsed", brief: "Connector ID", parse: String },
+		from: { kind: "parsed", brief: "From", parse: Number },
+		to: { kind: "parsed", brief: "To", parse: Number },
+		limit: { kind: "parsed", brief: "Limit", optional: true, parse: Number },
+		cursor: { kind: "parsed", brief: "Cursor", optional: true, parse: String },
+		kind: {
+			kind: "parsed",
+			brief: "Filter by event kind",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "connector-telemetry-events list",
-				classification: {
-					safeFlags: ["dry-run"],
-				} satisfies ArgClassification<Args>,
+				classification: { safeFlags: ["dry-run"] } satisfies ArgClassification<
+					typeof argv
+				>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -88,6 +83,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Loaded` });
 			}
 		),
-};
+});
 
 export default command;

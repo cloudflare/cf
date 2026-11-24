@@ -1,11 +1,10 @@
 import operation from "../../_operations/api-security/session-identifiers/update.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * update command
  * @generated from apis/overlays/api-security.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import { createCommandClient, getZoneId } from "#lib/auth.js";
 import { compactBody, parseBody, parseObjectArray } from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
@@ -13,45 +12,45 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 api-security session-identifiers update\n\nReplaces the zone's authentication identifier characteristics used to identify distinct API sessions."
-		)
-		.option("normalize", {
-			type: "boolean",
-			description:
-				"Ensures that the configuration is written or retrieved in normalized fashion",
-		})
-		.option("auth-id-characteristics", {
-			type: "string",
-			description:
-				'The auth_id_characteristics field. Provide as a JSON array of objects or @path/to/file.json. Shape: [({"name": string, "type": "header" | "cookie"} | {"name": string, "type": "jwt"})].',
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "update",
 	describe: "Update session identifier settings",
-	builder,
+	usage:
+		"$0 api-security session-identifiers update\n\nReplaces the zone's authentication identifier characteristics used to identify distinct API sessions.",
+	flags: {
+		normalize: {
+			kind: "boolean",
+			brief:
+				"Ensures that the configuration is written or retrieved in normalized fashion",
+			optional: true,
+		},
+		"auth-id-characteristics": {
+			kind: "parsed",
+			brief:
+				'The auth_id_characteristics field. Provide as a JSON array of objects or @path/to/file.json. Shape: [({"name": string, "type": "header" | "cookie"} | {"name": string, "type": "jwt"})].',
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "api-security session-identifiers update",
 				classification: {
 					safeFlags: ["normalize", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -139,6 +138,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Updated` });
 			}
 		),
-};
+});
 
 export default command;

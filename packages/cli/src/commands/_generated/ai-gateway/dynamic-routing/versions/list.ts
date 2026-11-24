@@ -1,11 +1,10 @@
 import operation from "../../../_operations/ai-gateway/dynamic-routing/versions/list.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * list command
  * @generated from apis/overlays/ai-gateway.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -17,42 +16,40 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 ai-gateway dynamic-routing versions list\n\nLists the saved versions of a dynamic route."
-		)
-		.option("gateway-id", {
-			type: "string",
-			description: "Gateway ID",
-			demandOption: true,
-		})
-		.option("id", { type: "string", description: "ID", demandOption: true })
-		.option("page", { type: "number", description: "Page number" })
-		.option("per-page", {
-			type: "number",
-			description: "Number of versions per page",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "list",
 	describe: "List dynamic route versions",
-	builder,
+	usage:
+		"$0 ai-gateway dynamic-routing versions list\n\nLists the saved versions of a dynamic route.",
+	flags: {
+		"gateway-id": { kind: "parsed", brief: "Gateway ID", parse: String },
+		id: { kind: "parsed", brief: "ID", parse: String },
+		page: {
+			kind: "parsed",
+			brief: "Page number",
+			optional: true,
+			parse: Number,
+		},
+		"per-page": {
+			kind: "parsed",
+			brief: "Number of versions per page",
+			optional: true,
+			parse: Number,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "ai-gateway dynamic-routing versions list",
-				classification: {
-					safeFlags: ["dry-run"],
-				} satisfies ArgClassification<Args>,
+				classification: { safeFlags: ["dry-run"] } satisfies ArgClassification<
+					typeof argv
+				>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -90,6 +87,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Loaded` });
 			}
 		),
-};
+});
 
 export default command;

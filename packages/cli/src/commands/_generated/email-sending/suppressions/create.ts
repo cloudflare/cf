@@ -1,11 +1,10 @@
 import operation from "../../_operations/email-sending/suppressions/create.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * create command
  * @generated from apis/overlays/email-sending.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -21,65 +20,6 @@ import { withProgress } from "#lib/progress.js";
 import { promptForRequiredField } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 email-sending suppressions create\n\nCreates a suppression for every sending domain of the account (default) or for one sending domain (`scope.type = sending_domain`). Creating an existing active suppression returns its identifier."
-		)
-		.option("email", {
-			type: "string",
-			description: "The email address to suppress.",
-		})
-		.option("expires-at", {
-			type: "string",
-			description:
-				"Expiration timestamp for the suppression. Omit or set to null for a permanent suppression that never expires.",
-		})
-		.option("note", {
-			type: "string",
-			description:
-				"Advisory note for this suppression. Not enforced or validated beyond length.",
-		})
-		.option("scope-type", {
-			type: "string",
-			description:
-				"Variant descriptions:\n- `account`: Blocks the recipient for every sending domain of the account.\n- `sending_domain`: Blocks the recipient only for mail whose envelope MAIL FROM uses `value`.",
-			choices: ["account", "sending_domain"],
-		})
-		.coerce("scope-type", (value) =>
-			resolveFileToken(value, "scope-type", "text")
-		)
-		.option("scope-value", {
-			type: "string",
-			description:
-				"The sending domain to suppress for: the domain part of the envelope MAIL FROM. It is lowercased and trailing dots are removed. Internationalized domains must use the ASCII (punycode) form. Ownership is not checked; a domain the account does not send from never matches.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		})
-		.check((argv) => {
-			const groupSet = ["scope-type", "scope-value"].some(
-				(k) => argv[k] !== undefined
-			);
-			if (!argv.body && groupSet) {
-				const missing = ["scope-type"].filter((k) => argv[k] === undefined);
-				if (missing.length > 0) {
-					throw new Error(
-						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when any --scope-* flag is set`
-					);
-				}
-			}
-			return true;
-		});
-}
-
-type Args = InferArgs<typeof builder>;
 const bodyUnions: Parameters<typeof validateBodyUnions>[1] = [
 	{
 		path: ["scope"],
@@ -110,17 +50,84 @@ const bodyUnions: Parameters<typeof validateBodyUnions>[1] = [
 	},
 ];
 
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "create",
 	describe: "Create account Email Sending suppression",
-	builder,
+	usage:
+		"$0 email-sending suppressions create\n\nCreates a suppression for every sending domain of the account (default) or for one sending domain (`scope.type = sending_domain`). Creating an existing active suppression returns its identifier.",
+	flags: {
+		email: {
+			kind: "parsed",
+			brief: "The email address to suppress.",
+			optional: true,
+			parse: String,
+		},
+		"expires-at": {
+			kind: "parsed",
+			brief:
+				"Expiration timestamp for the suppression. Omit or set to null for a permanent suppression that never expires.",
+			optional: true,
+			parse: String,
+		},
+		note: {
+			kind: "parsed",
+			brief:
+				"Advisory note for this suppression. Not enforced or validated beyond length.",
+			optional: true,
+			parse: String,
+		},
+		"scope-type": {
+			kind: "parsed",
+			brief:
+				"Variant descriptions:\n- `account`: Blocks the recipient for every sending domain of the account.\n- `sending_domain`: Blocks the recipient only for mail whose envelope MAIL FROM uses `value`.",
+			optional: true,
+			choices: ["account", "sending_domain"],
+			parse: String,
+			coerce: (value: string) => resolveFileToken(value, "scope-type", "text"),
+		},
+		"scope-value": {
+			kind: "parsed",
+			brief:
+				"The sending domain to suppress for: the domain part of the envelope MAIL FROM. It is lowercased and trailing dots are removed. Internationalized domains must use the ASCII (punycode) form. Ownership is not checked; a domain the account does not send from never matches.",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [],
+	rules(rules) {
+		rules.check((argv) => {
+			const groupSet = ["scope-type", "scope-value"].some(
+				(k) => argv[k] !== undefined
+			);
+			if (!argv.body && groupSet) {
+				const missing = ["scope-type"].filter((k) => argv[k] === undefined);
+				if (missing.length > 0) {
+					throw new Error(
+						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when any --scope-* flag is set`
+					);
+				}
+			}
+			return true;
+		});
+	},
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "email-sending suppressions create",
 				classification: {
 					safeFlags: ["scope-type", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -226,6 +233,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Created` });
 			}
 		),
-};
+});
 
 export default command;

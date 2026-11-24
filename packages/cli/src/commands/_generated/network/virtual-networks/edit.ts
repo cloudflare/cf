@@ -1,11 +1,10 @@
 import operation from "../../_operations/network/virtual-networks/edit.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * edit command
  * @generated from apis/overlays/network.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -19,53 +18,55 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 network virtual-networks edit <virtual-network-id>\n\nUpdates an existing virtual network."
-		)
-		.positional("virtual-network-id", {
-			type: "string",
-			description: "UUID of the virtual network.",
-			demandOption: true,
-		})
-		.option("comment", {
-			type: "string",
-			description: "Optional remark describing the virtual network.",
-		})
-		.option("is-default-network", {
-			type: "boolean",
-			description:
-				"If `true`, this virtual network is the default for the account.",
-		})
-		.option("name", {
-			type: "string",
-			description: "A user-friendly name for the virtual network.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "edit <virtual-network-id>",
 	describe: "Update a virtual network",
-	builder,
+	usage:
+		"$0 network virtual-networks edit <virtual-network-id>\n\nUpdates an existing virtual network.",
+	flags: {
+		comment: {
+			kind: "parsed",
+			brief: "Optional remark describing the virtual network.",
+			optional: true,
+			parse: String,
+		},
+		"is-default-network": {
+			kind: "boolean",
+			brief: "If `true`, this virtual network is the default for the account.",
+			optional: true,
+		},
+		name: {
+			kind: "parsed",
+			brief: "A user-friendly name for the virtual network.",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [
+		{
+			placeholder: "virtual-network-id",
+			brief: "UUID of the virtual network.",
+			parse: String,
+		},
+	],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "network virtual-networks edit",
 				classification: {
 					safeFlags: ["is-default-network", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -141,6 +142,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Updated` });
 			}
 		),
-};
+});
 
 export default command;

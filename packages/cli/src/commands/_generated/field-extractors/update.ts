@@ -1,11 +1,10 @@
 import operation from "../_operations/field-extractors/update.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * update command
  * @generated from apis/overlays/field-extractors.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -18,46 +17,41 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 field-extractors update <extractor>\n\nReplaces all custom extraction rules for an extractor type. Omitted rules are deleted."
-		)
-		.positional("extractor", {
-			type: "string",
-			description: "Extractor type.",
-			demandOption: true,
-		})
-		.option("rules", {
-			type: "string",
-			description:
-				'The rules field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"fields": [{...}], "ref": string, "description"?: string}]. ? marks optional keys.',
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description:
-				"Desired-state replacement of all rules for this extractor type.",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "update <extractor>",
 	describe: "Update Field Extractor",
-	builder,
+	usage:
+		"$0 field-extractors update <extractor>\n\nReplaces all custom extraction rules for an extractor type. Omitted rules are deleted.",
+	flags: {
+		rules: {
+			kind: "parsed",
+			brief:
+				'The rules field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"fields": [{...}], "ref": string, "description"?: string}]. ? marks optional keys.',
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Desired-state replacement of all rules for this extractor type.",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [
+		{ placeholder: "extractor", brief: "Extractor type.", parse: String },
+	],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "field-extractors update",
-				classification: {
-					safeFlags: ["dry-run"],
-				} satisfies ArgClassification<Args>,
+				classification: { safeFlags: ["dry-run"] } satisfies ArgClassification<
+					typeof argv
+				>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -122,6 +116,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Updated` });
 			}
 		),
-};
+});
 
 export default command;

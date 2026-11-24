@@ -1,11 +1,10 @@
 import operation from "../../_operations/iam/permission-groups/list.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * list command
  * @generated from apis/overlays/iam.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -17,51 +16,56 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 iam permission-groups list\n\nList all the permissions groups for an account."
-		)
-		.option("id", {
-			type: "string",
-			description: "ID of the permission group to be fetched.",
-		})
-		.option("name", {
-			type: "string",
-			description: "Name of the permission group to be fetched.",
-		})
-		.option("label", {
-			type: "string",
-			description: "Label of the permission group to be fetched.",
-		})
-		.option("page", {
-			type: "number",
-			description: "Page number of paginated results.",
-		})
-		.option("per-page", {
-			type: "number",
-			description: "Maximum number of results per page.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "list",
 	describe: "List Account Permission Groups",
-	builder,
+	usage:
+		"$0 iam permission-groups list\n\nList all the permissions groups for an account.",
+	flags: {
+		id: {
+			kind: "parsed",
+			brief: "ID of the permission group to be fetched.",
+			optional: true,
+			parse: String,
+		},
+		name: {
+			kind: "parsed",
+			brief: "Name of the permission group to be fetched.",
+			optional: true,
+			parse: String,
+		},
+		label: {
+			kind: "parsed",
+			brief: "Label of the permission group to be fetched.",
+			optional: true,
+			parse: String,
+		},
+		page: {
+			kind: "parsed",
+			brief: "Page number of paginated results.",
+			optional: true,
+			parse: Number,
+		},
+		"per-page": {
+			kind: "parsed",
+			brief: "Maximum number of results per page.",
+			optional: true,
+			parse: Number,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "iam permission-groups list",
-				classification: {
-					safeFlags: ["dry-run"],
-				} satisfies ArgClassification<Args>,
+				classification: { safeFlags: ["dry-run"] } satisfies ArgClassification<
+					typeof argv
+				>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -94,6 +98,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Loaded` });
 			}
 		),
-};
+});
 
 export default command;

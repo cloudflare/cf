@@ -1,24 +1,19 @@
 import $edit from "./edit.js";
 import $get from "./get.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * connectivity-settings command group
  * @generated from apis/overlays/zero-trust.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "connectivity-settings",
 	describe: "Operations for connectivity-settings",
 
-	builder: (yargs) => {
-		return yargs
-			.command($edit)
-			.command($get)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		edit: $edit,
+		get: $get,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

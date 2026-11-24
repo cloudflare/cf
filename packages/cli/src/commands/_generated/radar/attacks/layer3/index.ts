@@ -2,27 +2,22 @@ import $summary from "./summary.js";
 import $timeseriesgroups from "./timeseries-groups.js";
 import $timeseries from "./timeseries.js";
 import $top from "./top/index.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * layer3 command group
  * @generated from apis/overlays/radar.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "layer3",
 	describe: "Operations for attacks.layer3",
 
-	builder: (yargs) => {
-		return yargs
-			.command($summary)
-			.command($timeseries)
-			.command($timeseriesgroups)
-			.command($top)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		summary: $summary,
+		timeseries: $timeseries,
+		"timeseries-groups": $timeseriesgroups,
+		top: $top,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

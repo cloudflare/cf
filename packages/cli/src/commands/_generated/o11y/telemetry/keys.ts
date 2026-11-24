@@ -1,11 +1,10 @@
 import operation from "../../_operations/o11y/telemetry/keys.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * keys command
  * @generated from apis/overlays/o11y.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -18,66 +17,83 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 o11y telemetry keys\n\nList all the keys in your telemetry events."
-		)
-		.option("datasets", {
-			type: "string",
-			array: true,
-			description: "Leave this empty to use the default datasets",
-		})
-		.option("filters", {
-			type: "string",
-			description:
-				'Apply filters to narrow key discovery. Supports nested groups via kind: \'group\'. Maximum nesting depth is 4. Provide as a JSON array of objects or @path/to/file.json. Shape: [({"filterCombination": "and" | "or" | "AND" | ...more, "filters": [{...}], "kind": "group"} | ...more)].',
-		})
-		.option("from", { type: "number", description: "The from field" })
-		.option("key-needle-is-regex", {
-			type: "boolean",
-			description:
-				"When true, treats the value as a regular expression (RE2 syntax).",
-		})
-		.option("key-needle-match-case", {
-			type: "boolean",
-			description:
-				"When true, performs a case-sensitive search. Defaults to case-insensitive.",
-		})
-		.option("limit", {
-			type: "number",
-			description:
-				"Advanced usage: set limit=1000+ to retrieve comprehensive key options without needing additional filtering.",
-		})
-		.option("needle-is-regex", {
-			type: "boolean",
-			description:
-				"When true, treats the value as a regular expression (RE2 syntax).",
-		})
-		.option("needle-match-case", {
-			type: "boolean",
-			description:
-				"When true, performs a case-sensitive search. Defaults to case-insensitive.",
-		})
-		.option("to", { type: "number", description: "The to field" })
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description:
-				"Find keys in your telemetry events matching a specific filter or needle.",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "keys",
 	describe: "List keys",
-	builder,
+	usage:
+		"$0 o11y telemetry keys\n\nList all the keys in your telemetry events.",
+	flags: {
+		datasets: {
+			kind: "parsed",
+			brief: "Leave this empty to use the default datasets",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		filters: {
+			kind: "parsed",
+			brief:
+				'Apply filters to narrow key discovery. Supports nested groups via kind: \'group\'. Maximum nesting depth is 4. Provide as a JSON array of objects or @path/to/file.json. Shape: [({"filterCombination": "and" | "or" | "AND" | ...more, "filters": [{...}], "kind": "group"} | ...more)].',
+			optional: true,
+			parse: String,
+		},
+		from: {
+			kind: "parsed",
+			brief: "The from field",
+			optional: true,
+			parse: Number,
+		},
+		"key-needle-is-regex": {
+			kind: "boolean",
+			brief:
+				"When true, treats the value as a regular expression (RE2 syntax).",
+			optional: true,
+		},
+		"key-needle-match-case": {
+			kind: "boolean",
+			brief:
+				"When true, performs a case-sensitive search. Defaults to case-insensitive.",
+			optional: true,
+		},
+		limit: {
+			kind: "parsed",
+			brief:
+				"Advanced usage: set limit=1000+ to retrieve comprehensive key options without needing additional filtering.",
+			optional: true,
+			parse: Number,
+		},
+		"needle-is-regex": {
+			kind: "boolean",
+			brief:
+				"When true, treats the value as a regular expression (RE2 syntax).",
+			optional: true,
+		},
+		"needle-match-case": {
+			kind: "boolean",
+			brief:
+				"When true, performs a case-sensitive search. Defaults to case-insensitive.",
+			optional: true,
+		},
+		to: {
+			kind: "parsed",
+			brief: "The to field",
+			optional: true,
+			parse: Number,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief:
+				"Find keys in your telemetry events matching a specific filter or needle.",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
@@ -90,7 +106,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"needle-match-case",
 						"dry-run",
 					],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -160,6 +176,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Created` });
 			}
 		),
-};
+});
 
 export default command;

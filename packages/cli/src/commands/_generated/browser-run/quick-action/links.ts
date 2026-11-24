@@ -1,11 +1,10 @@
 import operation from "../../_operations/browser-run/quick-action/links.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * links command
  * @generated from apis/overlays/browser-run.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -24,179 +23,242 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage("$0 browser-run quick-action links\n\nGet links from a web page.")
-		.option("cache-ttl", {
-			type: "number",
-			description: "Cache TTL default is 5s. Set to 0 to disable.",
-		})
-		.option("browser", {
-			type: "string",
-			description:
-				"Rendering backend. Set to `kitesurf` to use Kitesurf (beta).",
-			choices: ["kitesurf"],
-		})
-		.option("action-timeout", {
-			type: "number",
-			description:
+const command = apiCommand({
+	command: "links",
+	describe: "Get Links.",
+	usage: "$0 browser-run quick-action links\n\nGet links from a web page.",
+	flags: {
+		"cache-ttl": {
+			kind: "parsed",
+			brief: "Cache TTL default is 5s. Set to 0 to disable.",
+			optional: true,
+			parse: Number,
+		},
+		browser: {
+			kind: "enum",
+			brief: "Rendering backend. Set to `kitesurf` to use Kitesurf (beta).",
+			values: ["kitesurf"],
+			optional: true,
+		},
+		"action-timeout": {
+			kind: "parsed",
+			brief:
 				"The maximum duration allowed for the browser action to complete after the page has loaded (such as taking screenshots, extracting content, or generating PDFs). If this time limit is exceeded, the action stops and returns a timeout error.",
-		})
-		.option("add-script-tag", {
-			type: "string",
-			description:
+			optional: true,
+			parse: Number,
+		},
+		"add-script-tag": {
+			kind: "parsed",
+			brief:
 				'Adds a script element into the page with the desired URL or content. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"content"?: string, "id"?: string, "type"?: string, "url"?: string}]. ? marks optional keys.',
-		})
-		.option("add-style-tag", {
-			type: "string",
-			description:
+			optional: true,
+			parse: String,
+		},
+		"add-style-tag": {
+			kind: "parsed",
+			brief:
 				'Adds a `<link rel="stylesheet">` tag into the page with the desired URL or a `<style type="text/css">` tag with the content. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"content"?: string, "url"?: string}]. ? marks optional keys.',
-		})
-		.option("allow-request-pattern", {
-			type: "string",
-			array: true,
-			description:
+			optional: true,
+			parse: String,
+		},
+		"allow-request-pattern": {
+			kind: "parsed",
+			brief:
 				"Only allow requests that match the provided regex patterns, eg. '/^.*\\.(css)'. Reject rules are applied first.",
-		})
-		.option("allow-resource-types", {
-			type: "string",
-			array: true,
-			description:
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"allow-resource-types": {
+			kind: "parsed",
+			brief:
 				"Only allow requests that match the provided resource types, eg. 'image' or 'script'. Reject rules are applied first.",
-		})
-		.option("authenticate-password", {
-			type: "string",
-			description: "The authenticate.password field",
-		})
-		.option("authenticate-username", {
-			type: "string",
-			description: "The authenticate.username field",
-		})
-		.option("best-attempt", {
-			type: "boolean",
-			description: "Attempt to proceed when 'awaited' events fail or timeout.",
-		})
-		.option("cookies", {
-			type: "string",
-			description:
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"authenticate-password": {
+			kind: "parsed",
+			brief: "The authenticate.password field",
+			optional: true,
+			parse: String,
+		},
+		"authenticate-username": {
+			kind: "parsed",
+			brief: "The authenticate.username field",
+			optional: true,
+			parse: String,
+		},
+		"best-attempt": {
+			kind: "boolean",
+			brief: "Attempt to proceed when 'awaited' events fail or timeout.",
+			optional: true,
+		},
+		cookies: {
+			kind: "parsed",
+			brief:
 				'Check [options](https://pptr.dev/api/puppeteer.page.setcookie). Provide as a JSON array of objects or @path/to/file.json. Shape: [{"name": string, "value": string, "domain"?: string, "expires"?: number, "httpOnly"?: boolean, ...more}]. ? marks optional keys.',
-		})
-		.option("emulate-media-type", {
-			type: "string",
-			description: "The emulateMediaType field",
-		})
-		.option("exclude-external-links", {
-			type: "boolean",
-			description: "The excludeExternalLinks field",
+			optional: true,
+			parse: String,
+		},
+		"emulate-media-type": {
+			kind: "parsed",
+			brief: "The emulateMediaType field",
+			optional: true,
+			parse: String,
+		},
+		"exclude-external-links": {
+			kind: "boolean",
+			brief: "The excludeExternalLinks field",
 			default: false,
-		})
-		.option("goto-options-referer", {
-			type: "string",
-			description: "The gotoOptions.referer field",
-		})
-		.option("goto-options-referrer-policy", {
-			type: "string",
-			description: "The gotoOptions.referrerPolicy field",
-		})
-		.option("goto-options-timeout", {
-			type: "number",
-			description: "The gotoOptions.timeout field",
-		})
-		.option("html", {
-			type: "string",
-			description:
+		},
+		"goto-options-referer": {
+			kind: "parsed",
+			brief: "The gotoOptions.referer field",
+			optional: true,
+			parse: String,
+		},
+		"goto-options-referrer-policy": {
+			kind: "parsed",
+			brief: "The gotoOptions.referrerPolicy field",
+			optional: true,
+			parse: String,
+		},
+		"goto-options-timeout": {
+			kind: "parsed",
+			brief: "The gotoOptions.timeout field",
+			optional: true,
+			parse: Number,
+		},
+		html: {
+			kind: "parsed",
+			brief:
 				"Set the content of the page, eg: `<h1>Hello World!!</h1>`. Either `html` or `url` must be set.",
-		})
-		.option("reject-request-pattern", {
-			type: "string",
-			array: true,
-			description:
+			optional: true,
+			parse: String,
+		},
+		"reject-request-pattern": {
+			kind: "parsed",
+			brief:
 				"Block undesired requests that match the provided regex patterns, eg. '/^.*\\.(css)'.",
-		})
-		.option("reject-resource-types", {
-			type: "string",
-			array: true,
-			description:
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"reject-resource-types": {
+			kind: "parsed",
+			brief:
 				"Block undesired requests that match the provided resource types, eg. 'image' or 'script'.",
-		})
-		.option("set-extra-httpheaders", {
-			type: "string",
-			description:
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"set-extra-httpheaders": {
+			kind: "parsed",
+			brief:
 				'The setExtraHTTPHeaders field. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": string}.',
-		})
-		.option("set-java-script-enabled", {
-			type: "boolean",
-			description: "The setJavaScriptEnabled field",
-		})
-		.option("url", {
-			type: "string",
-			description: "URL to navigate to, eg. `https://example.com`.",
-		})
-		.option("user-agent", {
-			type: "string",
-			description: "The userAgent field",
+			optional: true,
+			parse: String,
+		},
+		"set-java-script-enabled": {
+			kind: "boolean",
+			brief: "The setJavaScriptEnabled field",
+			optional: true,
+		},
+		url: {
+			kind: "parsed",
+			brief: "URL to navigate to, eg. `https://example.com`.",
+			optional: true,
+			parse: String,
+		},
+		"user-agent": {
+			kind: "parsed",
+			brief: "The userAgent field",
 			default:
 				"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36",
-		})
-		.option("viewport-device-scale-factor", {
-			type: "number",
-			description: "The viewport.deviceScaleFactor field",
-		})
-		.option("viewport-has-touch", {
-			type: "boolean",
-			description: "The viewport.hasTouch field",
-		})
-		.option("viewport-height", {
-			type: "number",
-			description: "The viewport.height field",
-		})
-		.option("viewport-is-landscape", {
-			type: "boolean",
-			description: "The viewport.isLandscape field",
-		})
-		.option("viewport-is-mobile", {
-			type: "boolean",
-			description: "The viewport.isMobile field",
-		})
-		.option("viewport-width", {
-			type: "number",
-			description: "The viewport.width field",
-		})
-		.option("visible-links-only", {
-			type: "boolean",
-			description: "The visibleLinksOnly field",
+			parse: String,
+		},
+		"viewport-device-scale-factor": {
+			kind: "parsed",
+			brief: "The viewport.deviceScaleFactor field",
+			optional: true,
+			parse: Number,
+		},
+		"viewport-has-touch": {
+			kind: "boolean",
+			brief: "The viewport.hasTouch field",
+			optional: true,
+		},
+		"viewport-height": {
+			kind: "parsed",
+			brief: "The viewport.height field",
+			optional: true,
+			parse: Number,
+		},
+		"viewport-is-landscape": {
+			kind: "boolean",
+			brief: "The viewport.isLandscape field",
+			optional: true,
+		},
+		"viewport-is-mobile": {
+			kind: "boolean",
+			brief: "The viewport.isMobile field",
+			optional: true,
+		},
+		"viewport-width": {
+			kind: "parsed",
+			brief: "The viewport.width field",
+			optional: true,
+			parse: Number,
+		},
+		"visible-links-only": {
+			kind: "boolean",
+			brief: "The visibleLinksOnly field",
 			default: false,
-		})
-		.option("wait-for-selector-hidden", {
-			type: "boolean",
-			description: "The waitForSelector.hidden field",
-		})
-		.option("wait-for-selector-selector", {
-			type: "string",
-			description: "The waitForSelector.selector field",
-		})
-		.option("wait-for-selector-timeout", {
-			type: "number",
-			description: "The waitForSelector.timeout field",
-		})
-		.option("wait-for-selector-visible", {
-			type: "boolean",
-			description: "The waitForSelector.visible field",
-		})
-		.option("wait-for-timeout", {
-			type: "number",
-			description: "Waits for a specified timeout before continuing.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
+		},
+		"wait-for-selector-hidden": {
+			kind: "boolean",
+			brief: "The waitForSelector.hidden field",
+			optional: true,
+		},
+		"wait-for-selector-selector": {
+			kind: "parsed",
+			brief: "The waitForSelector.selector field",
+			optional: true,
+			parse: String,
+		},
+		"wait-for-selector-timeout": {
+			kind: "parsed",
+			brief: "The waitForSelector.timeout field",
+			optional: true,
+			parse: Number,
+		},
+		"wait-for-selector-visible": {
+			kind: "boolean",
+			brief: "The waitForSelector.visible field",
+			optional: true,
+		},
+		"wait-for-timeout": {
+			kind: "parsed",
+			brief: "Waits for a specified timeout before continuing.",
+			optional: true,
+			parse: Number,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
 			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		})
-		.check((argv) => {
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [],
+	rules(rules) {
+		rules.check((argv) => {
 			const groupSet = ["authenticate-password", "authenticate-username"].some(
 				(k) => argv[k] !== undefined
 			);
@@ -212,8 +274,8 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				}
 			}
 			return true;
-		})
-		.check((argv) => {
+		});
+		rules.check((argv) => {
 			const groupSet = [
 				"viewport-device-scale-factor",
 				"viewport-has-touch",
@@ -233,8 +295,8 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				}
 			}
 			return true;
-		})
-		.check((argv) => {
+		});
+		rules.check((argv) => {
 			const groupSet = [
 				"wait-for-selector-hidden",
 				"wait-for-selector-selector",
@@ -253,14 +315,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			}
 			return true;
 		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "links",
-	describe: "Get Links.",
-	builder,
+	},
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
@@ -279,7 +334,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"wait-for-selector-visible",
 						"dry-run",
 					],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -529,6 +584,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Created` });
 			}
 		),
-};
+});
 
 export default command;

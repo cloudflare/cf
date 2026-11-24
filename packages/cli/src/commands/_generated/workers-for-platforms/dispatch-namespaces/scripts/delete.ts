@@ -1,11 +1,10 @@
 import operation from "../../../_operations/workers-for-platforms/dispatch-namespaces/scripts/delete.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * delete command
  * @generated from apis/overlays/workers-for-platforms.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -18,45 +17,38 @@ import { withProgress } from "#lib/progress.js";
 import { confirmDelete } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 workers-for-platforms dispatch-namespaces scripts delete <script-name>\n\nDelete a script from a Workers for Platforms dispatch namespace. This call has no response body on a successful delete."
-		)
-		.positional("script-name", {
-			type: "string",
-			description: "Name of the script.",
-			demandOption: true,
-		})
-		.option("dispatch-namespace", {
-			type: "string",
-			description: "Name of the Workers for Platforms dispatch namespace.",
-			demandOption: true,
-		})
-		.option("delete-with-references", {
-			type: "boolean",
-			description:
-				"If true, delete the script even when other Workers still reference it. Service bindings in those Workers may be left broken. Durable Object namespaces implemented by the deleted script are deleted even if other Workers reference them.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("force", {
-			type: "boolean",
-			alias: "f",
-			description: "Skip confirmation (useful in scripts and CI)",
-			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "delete <script-name>",
 	describe: "Delete Workers for Platforms Script",
-	builder,
+	usage:
+		"$0 workers-for-platforms dispatch-namespaces scripts delete <script-name>\n\nDelete a script from a Workers for Platforms dispatch namespace. This call has no response body on a successful delete.",
+	flags: {
+		"dispatch-namespace": {
+			kind: "parsed",
+			brief: "Name of the Workers for Platforms dispatch namespace.",
+			parse: String,
+		},
+		"delete-with-references": {
+			kind: "boolean",
+			brief:
+				"If true, delete the script even when other Workers still reference it. Service bindings in those Workers may be left broken. Durable Object namespaces implemented by the deleted script are deleted even if other Workers reference them.",
+			optional: true,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		force: {
+			kind: "boolean",
+			brief: "Skip confirmation (useful in scripts and CI)",
+			alias: "f",
+			default: false,
+		},
+	},
+	operands: [
+		{ placeholder: "script-name", brief: "Name of the script.", parse: String },
+	],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
@@ -64,7 +56,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				classification: {
 					safeFlags: ["delete-with-references", "dry-run", "force"],
 					shortFlagAliases: { f: { canonical: "force", type: "boolean" } },
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -111,6 +103,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Deleted` });
 			}
 		),
-};
+});
 
 export default command;

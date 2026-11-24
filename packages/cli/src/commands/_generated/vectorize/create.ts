@@ -1,11 +1,10 @@
 import operation from "../_operations/vectorize/create.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * create command
  * @generated from apis/overlays/vectorize.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -20,24 +19,30 @@ import { withProgress } from "#lib/progress.js";
 import { promptForRequiredField } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage("$0 vectorize create\n\nCreates and returns a new Vectorize Index.")
-		.option("index-config-dimensions", {
-			type: "number",
-			description: "Specifies the number of dimensions for the index",
-		})
-		.option("index-config-metric", {
-			type: "string",
-			description: "Specifies the type of metric to use calculating distance.",
+const command = apiCommand({
+	command: "create",
+	describe: "Create Vectorize Index",
+	usage: "$0 vectorize create\n\nCreates and returns a new Vectorize Index.",
+	flags: {
+		"index-config-dimensions": {
+			kind: "parsed",
+			brief: "Specifies the number of dimensions for the index",
+			optional: true,
+			parse: Number,
+		},
+		"index-config-metric": {
+			kind: "parsed",
+			brief: "Specifies the type of metric to use calculating distance.",
+			optional: true,
 			choices: ["cosine", "euclidean", "dot-product"],
-		})
-		.coerce("index-config-metric", (value) =>
-			resolveFileToken(value, "index-config-metric", "text")
-		)
-		.option("index-config-preset", {
-			type: "string",
-			description: "Specifies the preset to use for the index.",
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "index-config-metric", "text"),
+		},
+		"index-config-preset": {
+			kind: "parsed",
+			brief: "Specifies the preset to use for the index.",
+			optional: true,
 			choices: [
 				"@cf/baai/bge-small-en-v1.5",
 				"@cf/baai/bge-base-en-v1.5",
@@ -45,47 +50,52 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"openai/text-embedding-ada-002",
 				"cohere/embed-multilingual-v2.0",
 			],
-		})
-		.coerce("index-config-preset", (value) =>
-			resolveFileToken(value, "index-config-preset", "text")
-		)
-		.option("description", {
-			type: "string",
-			description: "Specifies the description of the index.",
-		})
-		.option("name", { type: "string", description: "The name field" })
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "index-config-preset", "text"),
+		},
+		description: {
+			kind: "parsed",
+			brief: "Specifies the description of the index.",
+			optional: true,
+			parse: String,
+		},
+		name: {
+			kind: "parsed",
+			brief: "The name field",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
 			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		})
-		.conflicts("index-config-dimensions", ["index-config-preset"])
-		.implies("index-config-dimensions", ["index-config-metric"])
-		.conflicts("index-config-metric", ["index-config-preset"])
-		.implies("index-config-metric", ["index-config-dimensions"])
-		.conflicts("index-config-preset", [
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [],
+	rules(rules) {
+		rules.conflicts("index-config-dimensions", ["index-config-preset"]);
+		rules.implies("index-config-dimensions", ["index-config-metric"]);
+		rules.conflicts("index-config-metric", ["index-config-preset"]);
+		rules.implies("index-config-metric", ["index-config-dimensions"]);
+		rules.conflicts("index-config-preset", [
 			"index-config-dimensions",
 			"index-config-metric",
 		]);
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "create",
-	describe: "Create Vectorize Index",
-	builder,
+	},
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "vectorize create",
 				classification: {
 					safeFlags: ["index-config-metric", "index-config-preset", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -171,6 +181,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Created` });
 			}
 		),
-};
+});
 
 export default command;

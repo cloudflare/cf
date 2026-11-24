@@ -1,11 +1,10 @@
 import operation from "../../../../_operations/artifacts/namespaces/repos/commits/get.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * get command
  * @generated from apis/overlays/artifacts.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -17,46 +16,38 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 artifacts namespaces repos commits get <hash>\n\nReturns decoded metadata for an immutable Git commit object. Commit responses are cacheable forever by hash."
-		)
-		.positional("hash", {
-			type: "string",
-			description: "40-character lowercase hexadecimal Git object hash.",
-			demandOption: true,
-		})
-		.option("namespace", {
-			type: "string",
-			description: "Artifacts namespace name.",
-			demandOption: true,
-		})
-		.option("name", {
-			type: "string",
-			description: "Repository name.",
-			demandOption: true,
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "get <hash>",
 	describe: "Read a Git commit",
-	builder,
+	usage:
+		"$0 artifacts namespaces repos commits get <hash>\n\nReturns decoded metadata for an immutable Git commit object. Commit responses are cacheable forever by hash.",
+	flags: {
+		namespace: {
+			kind: "parsed",
+			brief: "Artifacts namespace name.",
+			parse: String,
+		},
+		name: { kind: "parsed", brief: "Repository name.", parse: String },
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+	},
+	operands: [
+		{
+			placeholder: "hash",
+			brief: "40-character lowercase hexadecimal Git object hash.",
+			parse: String,
+		},
+	],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "artifacts namespaces repos commits get",
-				classification: {
-					safeFlags: ["dry-run"],
-				} satisfies ArgClassification<Args>,
+				classification: { safeFlags: ["dry-run"] } satisfies ArgClassification<
+					typeof argv
+				>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -90,6 +81,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Loaded` });
 			}
 		),
-};
+});
 
 export default command;

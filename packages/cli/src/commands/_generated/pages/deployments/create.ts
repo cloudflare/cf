@@ -1,11 +1,10 @@
 import operation from "../../_operations/pages/deployments/create.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * create command
  * @generated from apis/overlays/pages.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -19,102 +18,126 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 pages deployments create <project-name>\n\nCreate a Cloudflare Pages deployment from a Git branch or Direct Upload manifest. Git repositories must already be authorized in Cloudflare Pages."
-		)
-		.positional("project-name", {
-			type: "string",
-			description:
-				"Name of the Pages project. Must begin with a lowercase letter or digit and contain only lowercase letters, digits, and hyphens.",
-			demandOption: true,
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		})
-		.option("file", {
-			type: "string",
-			description: "Path to a file to upload as the request body",
-		})
-		.option("branch", {
-			type: "string",
-			description:
-				"Git branch to deploy. Uses the branch's \`HEAD\`; defaults to the project's production branch.",
-		})
-		.option("commit-dirty", {
-			type: "string",
-			description:
-				"Whether the associated Git working tree has uncommitted changes. Provide \`true\` or \`false\`.",
-		})
-		.option("commit-hash", {
-			type: "string",
-			description: "Git commit SHA associated with the deployment.",
-		})
-		.option("commit-message", {
-			type: "string",
-			description: "Git commit message associated with the deployment.",
-		})
-		.option("manifest", {
-			type: "string",
-			description:
-				"JSON-encoded object mapping deployment file paths to their uploaded content hashes. Required for Direct Upload deployments. Maximum 20,000 entries. ",
-		})
-		.option("pages-build-output-dir", {
-			type: "string",
-			description: "The build output directory path.",
-		})
-		.option("wrangler-config-hash", {
-			type: "string",
-			description:
-				"Hash of the Wrangler configuration file used for this deployment.",
-		})
-		.option("redirects", {
-			type: "string",
-			description:
-				"Literal content or @path/to/file for the `_redirects` form field. Redirects configuration file for the deployment.",
-		})
-		.option("routes-json", {
-			type: "string",
-			description:
-				"Literal content or @path/to/file for the `_routes.json` form field. Routes configuration file defining routing rules.",
-		})
-		.option("worker-bundle", {
-			type: "string",
-			description:
-				"Literal content or @path/to/file for the `_worker.bundle` form field. Worker bundle file in multipart/form-data format. Mutually exclusive with `_worker.js`.\nCannot specify both `_worker.js` and `_worker.bundle` in the same request.\nMaximum size: 25 MiB.\n",
-		})
-		.option("worker-js", {
-			type: "string",
-			description:
-				"Literal content or @path/to/file for the `_worker.js` form field. Worker JavaScript file. Mutually exclusive with `_worker.bundle`.\nCannot specify both `_worker.js` and `_worker.bundle` in the same request.\n",
-		})
-		.option("functions-filepath-routing-config-json", {
-			type: "string",
-			description:
-				"Literal content or @path/to/file for the `functions-filepath-routing-config.json` form field. Functions routing configuration file.",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "create <project-name>",
 	describe: "Create a Pages deployment",
-	builder,
+	usage:
+		"$0 pages deployments create <project-name>\n\nCreate a Cloudflare Pages deployment from a Git branch or Direct Upload manifest. Git repositories must already be authorized in Cloudflare Pages.",
+	flags: {
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+		file: {
+			kind: "parsed",
+			brief: "Path to a file to upload as the request body",
+			optional: true,
+			parse: String,
+		},
+		branch: {
+			kind: "parsed",
+			brief:
+				"Git branch to deploy. Uses the branch's `HEAD`; defaults to the project's production branch.",
+			optional: true,
+			parse: String,
+		},
+		"commit-dirty": {
+			kind: "parsed",
+			brief:
+				"Whether the associated Git working tree has uncommitted changes. Provide `true` or `false`.",
+			optional: true,
+			parse: String,
+		},
+		"commit-hash": {
+			kind: "parsed",
+			brief: "Git commit SHA associated with the deployment.",
+			optional: true,
+			parse: String,
+		},
+		"commit-message": {
+			kind: "parsed",
+			brief: "Git commit message associated with the deployment.",
+			optional: true,
+			parse: String,
+		},
+		manifest: {
+			kind: "parsed",
+			brief:
+				"JSON-encoded object mapping deployment file paths to their uploaded content hashes. Required for Direct Upload deployments. Maximum 20,000 entries. ",
+			optional: true,
+			parse: String,
+		},
+		"pages-build-output-dir": {
+			kind: "parsed",
+			brief: "The build output directory path.",
+			optional: true,
+			parse: String,
+		},
+		"wrangler-config-hash": {
+			kind: "parsed",
+			brief:
+				"Hash of the Wrangler configuration file used for this deployment.",
+			optional: true,
+			parse: String,
+		},
+		redirects: {
+			kind: "parsed",
+			brief:
+				"Literal content or @path/to/file for the `_redirects` form field. Redirects configuration file for the deployment.",
+			optional: true,
+			parse: String,
+		},
+		"routes-json": {
+			kind: "parsed",
+			brief:
+				"Literal content or @path/to/file for the `_routes.json` form field. Routes configuration file defining routing rules.",
+			optional: true,
+			parse: String,
+		},
+		"worker-bundle": {
+			kind: "parsed",
+			brief:
+				"Literal content or @path/to/file for the `_worker.bundle` form field. Worker bundle file in multipart/form-data format. Mutually exclusive with `_worker.js`.\nCannot specify both `_worker.js` and `_worker.bundle` in the same request.\nMaximum size: 25 MiB.\n",
+			optional: true,
+			parse: String,
+		},
+		"worker-js": {
+			kind: "parsed",
+			brief:
+				"Literal content or @path/to/file for the `_worker.js` form field. Worker JavaScript file. Mutually exclusive with `_worker.bundle`.\nCannot specify both `_worker.js` and `_worker.bundle` in the same request.\n",
+			optional: true,
+			parse: String,
+		},
+		"functions-filepath-routing-config-json": {
+			kind: "parsed",
+			brief:
+				"Literal content or @path/to/file for the `functions-filepath-routing-config.json` form field. Functions routing configuration file.",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [
+		{
+			placeholder: "project-name",
+			brief:
+				"Name of the Pages project. Must begin with a lowercase letter or digit and contain only lowercase letters, digits, and hyphens.",
+			parse: String,
+		},
+	],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "pages deployments create",
-				classification: {
-					safeFlags: ["dry-run"],
-				} satisfies ArgClassification<Args>,
+				classification: { safeFlags: ["dry-run"] } satisfies ArgClassification<
+					typeof argv
+				>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -398,6 +421,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Created` });
 			}
 		),
-};
+});
 
 export default command;

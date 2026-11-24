@@ -1,11 +1,10 @@
 import operation from "../../_operations/intel/miscategorizations/create.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * create command
  * @generated from apis/overlays/intel.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -19,72 +18,82 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 intel miscategorizations create\n\nAllows you to submit requests to change a domain’s category. Requests that include category `169` (New Domains) or category `177` (Newly Seen) in any of `content_adds`, `content_removes`, `security_adds`, or `security_removes` will be rejected with a `400 Bad Request`. These categories are automatically managed and fall off 30 days after they are applied."
-		)
-		.option("content-adds", {
-			type: "string",
-			array: true,
-			description: "Content category IDs to add.",
-		})
-		.option("content-removes", {
-			type: "string",
-			array: true,
-			description: "Content category IDs to remove.",
-		})
-		.option("indicator-type", {
-			type: "string",
-			description: "The indicator_type field",
-			choices: ["domain", "ipv4", "ipv6", "url"],
-		})
-		.coerce("indicator-type", (value) =>
-			resolveFileToken(value, "indicator-type", "text")
-		)
-		.option("ip", {
-			type: "string",
-			description: "Provide only if indicator_type is `ipv4` or `ipv6`.",
-		})
-		.option("security-adds", {
-			type: "string",
-			array: true,
-			description: "Security category IDs to add.",
-		})
-		.option("security-removes", {
-			type: "string",
-			array: true,
-			description: "Security category IDs to remove.",
-		})
-		.option("url", {
-			type: "string",
-			description:
-				"Provide only if indicator_type is `domain` or `url`. Example if indicator_type is `domain`: `example.com`. Example if indicator_type is `url`: `https://example.com/news/`.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "create",
 	describe: "Create Miscategorization",
-	builder,
+	usage:
+		"$0 intel miscategorizations create\n\nAllows you to submit requests to change a domain’s category. Requests that include category `169` (New Domains) or category `177` (Newly Seen) in any of `content_adds`, `content_removes`, `security_adds`, or `security_removes` will be rejected with a `400 Bad Request`. These categories are automatically managed and fall off 30 days after they are applied.",
+	flags: {
+		"content-adds": {
+			kind: "parsed",
+			brief: "Content category IDs to add.",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"content-removes": {
+			kind: "parsed",
+			brief: "Content category IDs to remove.",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"indicator-type": {
+			kind: "parsed",
+			brief: "The indicator_type field",
+			optional: true,
+			choices: ["domain", "ipv4", "ipv6", "url"],
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "indicator-type", "text"),
+		},
+		ip: {
+			kind: "parsed",
+			brief: "Provide only if indicator_type is `ipv4` or `ipv6`.",
+			optional: true,
+			parse: String,
+		},
+		"security-adds": {
+			kind: "parsed",
+			brief: "Security category IDs to add.",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"security-removes": {
+			kind: "parsed",
+			brief: "Security category IDs to remove.",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		url: {
+			kind: "parsed",
+			brief:
+				"Provide only if indicator_type is `domain` or `url`. Example if indicator_type is `domain`: `example.com`. Example if indicator_type is `url`: `https://example.com/news/`.",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "intel miscategorizations create",
 				classification: {
 					safeFlags: ["indicator-type", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -154,6 +163,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Created` });
 			}
 		),
-};
+});
 
 export default command;

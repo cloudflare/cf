@@ -1,22 +1,17 @@
 import $create from "./create.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * tokens command group
  * @generated from apis/overlays/magic-network-monitoring.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "tokens",
 	describe: "Operations for vpc-flows.tokens",
 
-	builder: (yargs) => {
-		return yargs
-			.command($create)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		create: $create,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

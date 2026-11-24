@@ -1,11 +1,10 @@
 import operation from "../_operations/resource-sharing/get.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * get command
  * @generated from apis/overlays/resource-sharing.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -17,41 +16,37 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage("$0 resource-sharing get <share-id>\n\nFetches share by ID.")
-		.positional("share-id", {
-			type: "string",
-			description: "Share identifier tag.",
-			demandOption: true,
-		})
-		.option("include-resources", {
-			type: "boolean",
-			description: "Include resources in the response.",
-		})
-		.option("include-recipient-counts", {
-			type: "boolean",
-			description: "Include recipient counts in the response.",
-		})
-		.option("include-tags-from", {
-			type: "string",
-			description:
-				"Include share tags in the response. `api` reads tags from the tag service; `mirror` reads a local, eventually consistent replica. If the tag lookup fails, the response omits `tags`.",
-			choices: ["api", "mirror"],
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "get <share-id>",
 	describe: "Get account share by ID",
-	builder,
+	usage: "$0 resource-sharing get <share-id>\n\nFetches share by ID.",
+	flags: {
+		"include-resources": {
+			kind: "boolean",
+			brief: "Include resources in the response.",
+			optional: true,
+		},
+		"include-recipient-counts": {
+			kind: "boolean",
+			brief: "Include recipient counts in the response.",
+			optional: true,
+		},
+		"include-tags-from": {
+			kind: "enum",
+			brief:
+				"Include share tags in the response. `api` reads tags from the tag service; `mirror` reads a local, eventually consistent replica. If the tag lookup fails, the response omits `tags`.",
+			values: ["api", "mirror"],
+			optional: true,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+	},
+	operands: [
+		{ placeholder: "share-id", brief: "Share identifier tag.", parse: String },
+	],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
@@ -63,7 +58,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"include-tags-from",
 						"dry-run",
 					],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -98,6 +93,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Loaded` });
 			}
 		),
-};
+});
 
 export default command;

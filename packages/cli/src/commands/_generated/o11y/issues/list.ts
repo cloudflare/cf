@@ -1,11 +1,10 @@
 import operation from "../../_operations/o11y/issues/list.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * list command
  * @generated from apis/overlays/o11y.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -17,20 +16,28 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage("$0 o11y issues list\n\nList detected issues.")
-		.option("page", { type: "number", description: "Page" })
-		.option("per-page", { type: "number", description: "PerPage" })
-		.option("order", {
-			type: "string",
-			description: "Order",
-			choices: ["asc", "desc"],
-		})
-		.option("order-by", {
-			type: "string",
-			description: "OrderBy",
-			choices: [
+const command = apiCommand({
+	command: "list",
+	describe: "List detected issues",
+	usage: "$0 o11y issues list\n\nList detected issues.",
+	flags: {
+		page: { kind: "parsed", brief: "Page", optional: true, parse: Number },
+		"per-page": {
+			kind: "parsed",
+			brief: "PerPage",
+			optional: true,
+			parse: Number,
+		},
+		order: {
+			kind: "enum",
+			brief: "Order",
+			values: ["asc", "desc"],
+			optional: true,
+		},
+		"order-by": {
+			kind: "enum",
+			brief: "OrderBy",
+			values: [
 				"id",
 				"service",
 				"title",
@@ -43,35 +50,36 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"created",
 				"updated",
 			],
-		})
-		.option("search", { type: "string", description: "Search" })
-		.option("service", { type: "string", description: "Service" })
-		.option("type", { type: "string", description: "Type" })
-		.option("status", {
-			type: "string",
-			description: "Status",
-			choices: ["active", "resolved", "ignored"],
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
+			optional: true,
+		},
+		search: { kind: "parsed", brief: "Search", optional: true, parse: String },
+		service: {
+			kind: "parsed",
+			brief: "Service",
+			optional: true,
+			parse: String,
+		},
+		type: { kind: "parsed", brief: "Type", optional: true, parse: String },
+		status: {
+			kind: "enum",
+			brief: "Status",
+			values: ["active", "resolved", "ignored"],
+			optional: true,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
 			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "list",
-	describe: "List detected issues",
-	builder,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "o11y issues list",
 				classification: {
 					safeFlags: ["order", "order-by", "status", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -107,6 +115,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Loaded` });
 			}
 		),
-};
+});
 
 export default command;

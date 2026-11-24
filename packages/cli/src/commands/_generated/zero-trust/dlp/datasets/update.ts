@@ -1,11 +1,10 @@
 import operation from "../../../_operations/zero-trust/dlp/datasets/update.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * update command
  * @generated from apis/overlays/zero-trust.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -19,53 +18,50 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 zero-trust dlp datasets update <dataset-id>\n\nUpdates the configuration of an existing DLP dataset, such as its name, description, or detection settings."
-		)
-		.positional("dataset-id", {
-			type: "string",
-			description: "Dataset ID",
-			demandOption: true,
-		})
-		.option("case-sensitive", {
-			type: "boolean",
-			description:
-				"Determines if the words should be matched in a case-sensitive manner.\n\nOnly required for custom word lists.",
-		})
-		.option("description", {
-			type: "string",
-			description: "The description of the dataset.",
-		})
-		.option("name", {
-			type: "string",
-			description: "The name of the dataset, must be unique.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Dataset description.",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "update <dataset-id>",
 	describe: "Update details about a dataset",
-	builder,
+	usage:
+		"$0 zero-trust dlp datasets update <dataset-id>\n\nUpdates the configuration of an existing DLP dataset, such as its name, description, or detection settings.",
+	flags: {
+		"case-sensitive": {
+			kind: "boolean",
+			brief:
+				"Determines if the words should be matched in a case-sensitive manner.\n\nOnly required for custom word lists.",
+			optional: true,
+		},
+		description: {
+			kind: "parsed",
+			brief: "The description of the dataset.",
+			optional: true,
+			parse: String,
+		},
+		name: {
+			kind: "parsed",
+			brief: "The name of the dataset, must be unique.",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Dataset description.",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [{ placeholder: "dataset-id", brief: "Dataset ID", parse: String }],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "zero-trust dlp datasets update",
 				classification: {
 					safeFlags: ["case-sensitive", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -139,6 +135,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Updated` });
 			}
 		),
-};
+});
 
 export default command;

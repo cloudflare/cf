@@ -1,10 +1,9 @@
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * get command
  * @generated from apis/overlays/zero-trust.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -17,48 +16,44 @@ import { withProgress } from "#lib/progress.js";
 import { fetchRawBytes, writeRawOutput } from "#lib/raw-fetch.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 zero-trust dex commands results get <filename>\n\nDownloads artifacts for an executed command. Bulk downloads are not supported"
-		)
-		.positional("filename", {
-			type: "string",
-			description:
-				"The name of the file to be downloaded, including the \`.zip\` extension.",
-			demandOption: true,
-		})
-		.option("command-id", {
-			type: "string",
-			description: "Unique identifier for command.",
-			demandOption: true,
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("text", {
-			type: "boolean",
-			description:
-				"Decode the response body as UTF-8 text instead of writing raw bytes",
-			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "get <filename>",
 	describe: "Download command output file",
-	builder,
+	usage:
+		"$0 zero-trust dex commands results get <filename>\n\nDownloads artifacts for an executed command. Bulk downloads are not supported",
+	flags: {
+		"command-id": {
+			kind: "parsed",
+			brief: "Unique identifier for command.",
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		text: {
+			kind: "boolean",
+			brief:
+				"Decode the response body as UTF-8 text instead of writing raw bytes",
+			default: false,
+		},
+	},
+	operands: [
+		{
+			placeholder: "filename",
+			brief:
+				"The name of the file to be downloaded, including the \`.zip\` extension.",
+			parse: String,
+		},
+	],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "zero-trust dex commands results get",
 				classification: {
 					safeFlags: ["dry-run", "text"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -96,6 +91,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				return;
 			}
 		),
-};
+});
 
 export default command;

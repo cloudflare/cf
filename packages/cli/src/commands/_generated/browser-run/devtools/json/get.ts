@@ -1,11 +1,10 @@
 import operation from "../../../_operations/browser-run/devtools/json/get.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * get command
  * @generated from apis/overlays/browser-run.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -17,41 +16,35 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 browser-run devtools json get <session-id>\n\nReturns a list of all debuggable targets including tabs, pages, service workers, and other browser contexts."
-		)
-		.positional("session-id", {
-			type: "string",
-			description: "Browser session ID.",
-			demandOption: true,
-		})
-		.option("live-view-url-expires-in-ms", {
-			type: "number",
-			description:
-				"How long the live view URLs remain valid, in milliseconds (max 60 minutes)",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "get <session-id>",
 	describe: "List targets.",
-	builder,
+	usage:
+		"$0 browser-run devtools json get <session-id>\n\nReturns a list of all debuggable targets including tabs, pages, service workers, and other browser contexts.",
+	flags: {
+		"live-view-url-expires-in-ms": {
+			kind: "parsed",
+			brief:
+				"How long the live view URLs remain valid, in milliseconds (max 60 minutes)",
+			optional: true,
+			parse: Number,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+	},
+	operands: [
+		{ placeholder: "session-id", brief: "Browser session ID.", parse: String },
+	],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "browser-run devtools json get",
-				classification: {
-					safeFlags: ["dry-run"],
-				} satisfies ArgClassification<Args>,
+				classification: { safeFlags: ["dry-run"] } satisfies ArgClassification<
+					typeof argv
+				>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -84,6 +77,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Loaded` });
 			}
 		),
-};
+});
 
 export default command;

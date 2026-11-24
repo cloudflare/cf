@@ -1,11 +1,10 @@
 import operation from "../../_operations/email-security/domains/edit.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * edit command
  * @generated from apis/overlays/email-security.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -19,85 +18,97 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 email-security domains edit <domain-id>\n\nUpdates configuration for a protected email domain. Only provided fields will be modified. Changes affect delivery mode, security settings, and regional processing."
-		)
-		.positional("domain-id", {
-			type: "string",
-			description: "Domain identifier.",
-			demandOption: true,
-		})
-		.option("allowed-delivery-modes", {
-			type: "string",
-			array: true,
-			description: "Delivery modes to onboard the domain through.",
-		})
-		.option("drop-dispositions", {
-			type: "string",
-			array: true,
-			description:
-				'Dispositions to drop instead of delivering, e.g. `["MALICIOUS", "SPAM"]`.',
-		})
-		.option("folder", {
-			type: "string",
-			description: "The mailbox folder to scan, for API-scanning domains.",
-			choices: ["AllItems", "Inbox"],
-		})
-		.coerce("folder", (value) => resolveFileToken(value, "folder", "text"))
-		.option("integration-id", {
-			type: "string",
-			description:
-				"Identifier of the CASB integration that authorizes this domain. The integration also enables API scanning, post-delivery actions, and directory sync.",
-		})
-		.option("ip-restrictions", {
-			type: "string",
-			array: true,
-			description:
-				"Source IP ranges mail is accepted from. Any other source is rejected.",
-		})
-		.option("lookback-hops", {
-			type: "number",
-			description:
-				"Number of hops to trace back through received headers when reconstructing the original message (1-20).",
-		})
-		.option("regions", {
-			type: "string",
-			array: true,
-			description:
-				'Regions that process messages for this domain, e.g. `["GLOBAL"]` or `["US"]`.',
-		})
-		.option("require-tls-inbound", {
-			type: "boolean",
-			description: "Require TLS on inbound connections.",
-		})
-		.option("require-tls-outbound", {
-			type: "boolean",
-			description: "Require TLS on outbound connections.",
-		})
-		.option("transport", {
-			type: "string",
-			description:
-				"The mail transport hostname for MX/Inline delivery — the MX record Cloudflare delivers email to (e.g. `mx.example.com`).",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "edit <domain-id>",
 	describe: "Update an email domain",
-	builder,
+	usage:
+		"$0 email-security domains edit <domain-id>\n\nUpdates configuration for a protected email domain. Only provided fields will be modified. Changes affect delivery mode, security settings, and regional processing.",
+	flags: {
+		"allowed-delivery-modes": {
+			kind: "parsed",
+			brief: "Delivery modes to onboard the domain through.",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"drop-dispositions": {
+			kind: "parsed",
+			brief:
+				'Dispositions to drop instead of delivering, e.g. `["MALICIOUS", "SPAM"]`.',
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		folder: {
+			kind: "parsed",
+			brief: "The mailbox folder to scan, for API-scanning domains.",
+			optional: true,
+			choices: ["AllItems", "Inbox"],
+			parse: String,
+			coerce: (value: string) => resolveFileToken(value, "folder", "text"),
+		},
+		"integration-id": {
+			kind: "parsed",
+			brief:
+				"Identifier of the CASB integration that authorizes this domain. The integration also enables API scanning, post-delivery actions, and directory sync.",
+			optional: true,
+			parse: String,
+		},
+		"ip-restrictions": {
+			kind: "parsed",
+			brief:
+				"Source IP ranges mail is accepted from. Any other source is rejected.",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"lookback-hops": {
+			kind: "parsed",
+			brief:
+				"Number of hops to trace back through received headers when reconstructing the original message (1-20).",
+			optional: true,
+			parse: Number,
+		},
+		regions: {
+			kind: "parsed",
+			brief:
+				'Regions that process messages for this domain, e.g. `["GLOBAL"]` or `["US"]`.',
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"require-tls-inbound": {
+			kind: "boolean",
+			brief: "Require TLS on inbound connections.",
+			optional: true,
+		},
+		"require-tls-outbound": {
+			kind: "boolean",
+			brief: "Require TLS on outbound connections.",
+			optional: true,
+		},
+		transport: {
+			kind: "parsed",
+			brief:
+				"The mail transport hostname for MX/Inline delivery — the MX record Cloudflare delivers email to (e.g. `mx.example.com`).",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [
+		{ placeholder: "domain-id", brief: "Domain identifier.", parse: String },
+	],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
@@ -109,7 +120,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"require-tls-outbound",
 						"dry-run",
 					],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -197,6 +208,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Updated` });
 			}
 		),
-};
+});
 
 export default command;

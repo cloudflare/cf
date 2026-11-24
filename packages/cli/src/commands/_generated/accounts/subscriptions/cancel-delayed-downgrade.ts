@@ -1,11 +1,10 @@
 import operation from "../../_operations/accounts/subscriptions/cancel-delayed-downgrade.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * cancel-delayed-downgrade command
  * @generated from apis/overlays/accounts.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -18,40 +17,39 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 accounts subscriptions cancel-delayed-downgrade\n\nCancels pending delayed downgrades for the specified subscriptions."
-		)
-		.option("subscription-ids", {
-			type: "string",
-			array: true,
-			description: "List of subscription identifiers to cancel downgrades for.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "cancel-delayed-downgrade",
 	describe: "Cancel Delayed Downgrade",
-	builder,
+	usage:
+		"$0 accounts subscriptions cancel-delayed-downgrade\n\nCancels pending delayed downgrades for the specified subscriptions.",
+	flags: {
+		"subscription-ids": {
+			kind: "parsed",
+			brief: "List of subscription identifiers to cancel downgrades for.",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "accounts subscriptions cancel-delayed-downgrade",
-				classification: {
-					safeFlags: ["dry-run"],
-				} satisfies ArgClassification<Args>,
+				classification: { safeFlags: ["dry-run"] } satisfies ArgClassification<
+					typeof argv
+				>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -97,6 +95,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Created` });
 			}
 		),
-};
+});
 
 export default command;

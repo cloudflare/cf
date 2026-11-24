@@ -1,20 +1,17 @@
 import $edit from "./edit.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * advertisements command group
  * @generated from apis/overlays/magic-network-monitoring.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "advertisements",
 	describe: "Operations for rules.advertisements",
 
-	builder: (yargs) => {
-		return yargs.command($edit).demandCommand(1, "Please specify a subcommand");
+	routes: {
+		edit: $edit,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

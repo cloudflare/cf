@@ -5,30 +5,25 @@ import $get from "./get.js";
 import $list from "./list.js";
 import $providers from "./providers/index.js";
 import $update from "./update.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * gateways command group
  * @generated from apis/overlays/ai-gateway.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "gateways",
 	describe: "Create and configure AI Gateways for an account",
 
-	builder: (yargs) => {
-		return yargs
-			.command($create)
-			.command($delete)
-			.command($get)
-			.command($geturl)
-			.command($list)
-			.command($update)
-			.command($providers)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		create: $create,
+		delete: $delete,
+		get: $get,
+		"get-url": $geturl,
+		list: $list,
+		update: $update,
+		providers: $providers,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

@@ -1,112 +1,132 @@
 import operation from "../../../../_operations/radar/bgp/hijacks/events/list.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * list command
  * @generated from apis/overlays/radar.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import { createCommandClient } from "#lib/auth.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 radar bgp hijacks events list\n\nRetrieves the BGP hijack events."
-		)
-		.option("page", {
-			type: "number",
-			description: "Current page number, starting from 1.",
-		})
-		.option("per-page", {
-			type: "number",
-			description: "Number of entries per page.",
-		})
-		.option("event-id", {
-			type: "number",
-			description: "The unique identifier of a event.",
-		})
-		.option("hijacker-asn", {
-			type: "number",
-			description: "The potential hijacker AS of a BGP hijack event.",
-		})
-		.option("victim-asn", {
-			type: "number",
-			description: "The potential victim AS of a BGP hijack event.",
-		})
-		.option("involved-asn", {
-			type: "number",
-			description: "The potential hijacker or victim AS of a BGP hijack event.",
-		})
-		.option("involved-country", {
-			type: "string",
-			description:
-				"The country code of the potential hijacker or victim AS of a BGP hijack event.",
-		})
-		.option("prefix", { type: "string", description: "Prefix" })
-		.option("min-confidence", {
-			type: "number",
-			description:
-				"Filters events by minimum confidence score (1-4 low, 5-7 mid, 8+ high).",
-		})
-		.option("max-confidence", {
-			type: "number",
-			description:
-				"Filters events by maximum confidence score (1-4 low, 5-7 mid, 8+ high).",
-		})
-		.option("date-range", {
-			type: "string",
-			description:
-				"Filters results by a relative date range ending at the current time. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`), e.g. `7d`. Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `3dcontrol` covers days -10 to -7, `7dcontrol` covers days -14 to -7, `28dcontrol` covers days -56 to -28, and `10dcontrol` covers days -24 to -14). Mutually exclusive with `dateStart`/`dateEnd`.",
-		})
-		.option("date-start", {
-			type: "string",
-			description:
-				"Start of the date range (inclusive). Alternative to `dateRange`; provide together with `dateEnd`.",
-		})
-		.option("date-end", {
-			type: "string",
-			description:
-				"End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`.",
-		})
-		.option("sort-by", {
-			type: "string",
-			description: "Sorts results by the specified field.",
-			choices: ["ID", "TIME", "CONFIDENCE"],
-		})
-		.option("sort-order", {
-			type: "string",
-			description: "Sort order.",
-			choices: ["ASC", "DESC"],
-		})
-		.option("format", {
-			type: "string",
-			description: "Format in which results will be returned.",
-			choices: ["JSON", "CSV"],
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "list",
 	describe: "Get BGP hijack events",
-	builder,
+	usage: "$0 radar bgp hijacks events list\n\nRetrieves the BGP hijack events.",
+	flags: {
+		page: {
+			kind: "parsed",
+			brief: "Current page number, starting from 1.",
+			optional: true,
+			parse: Number,
+		},
+		"per-page": {
+			kind: "parsed",
+			brief: "Number of entries per page.",
+			optional: true,
+			parse: Number,
+		},
+		"event-id": {
+			kind: "parsed",
+			brief: "The unique identifier of a event.",
+			optional: true,
+			parse: Number,
+		},
+		"hijacker-asn": {
+			kind: "parsed",
+			brief: "The potential hijacker AS of a BGP hijack event.",
+			optional: true,
+			parse: Number,
+		},
+		"victim-asn": {
+			kind: "parsed",
+			brief: "The potential victim AS of a BGP hijack event.",
+			optional: true,
+			parse: Number,
+		},
+		"involved-asn": {
+			kind: "parsed",
+			brief: "The potential hijacker or victim AS of a BGP hijack event.",
+			optional: true,
+			parse: Number,
+		},
+		"involved-country": {
+			kind: "parsed",
+			brief:
+				"The country code of the potential hijacker or victim AS of a BGP hijack event.",
+			optional: true,
+			parse: String,
+		},
+		prefix: { kind: "parsed", brief: "Prefix", optional: true, parse: String },
+		"min-confidence": {
+			kind: "parsed",
+			brief:
+				"Filters events by minimum confidence score (1-4 low, 5-7 mid, 8+ high).",
+			optional: true,
+			parse: Number,
+		},
+		"max-confidence": {
+			kind: "parsed",
+			brief:
+				"Filters events by maximum confidence score (1-4 low, 5-7 mid, 8+ high).",
+			optional: true,
+			parse: Number,
+		},
+		"date-range": {
+			kind: "parsed",
+			brief:
+				"Filters results by a relative date range ending at the current time. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`), e.g. `7d`. Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `3dcontrol` covers days -10 to -7, `7dcontrol` covers days -14 to -7, `28dcontrol` covers days -56 to -28, and `10dcontrol` covers days -24 to -14). Mutually exclusive with `dateStart`/`dateEnd`.",
+			optional: true,
+			parse: String,
+		},
+		"date-start": {
+			kind: "parsed",
+			brief:
+				"Start of the date range (inclusive). Alternative to `dateRange`; provide together with `dateEnd`.",
+			optional: true,
+			parse: String,
+		},
+		"date-end": {
+			kind: "parsed",
+			brief:
+				"End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`.",
+			optional: true,
+			parse: String,
+		},
+		"sort-by": {
+			kind: "enum",
+			brief: "Sorts results by the specified field.",
+			values: ["ID", "TIME", "CONFIDENCE"],
+			optional: true,
+		},
+		"sort-order": {
+			kind: "enum",
+			brief: "Sort order.",
+			values: ["ASC", "DESC"],
+			optional: true,
+		},
+		format: {
+			kind: "enum",
+			brief: "Format in which results will be returned.",
+			values: ["JSON", "CSV"],
+			optional: true,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "radar bgp hijacks events list",
 				classification: {
 					safeFlags: ["sort-by", "sort-order", "format", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -147,6 +167,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Loaded` });
 			}
 		),
-};
+});
 
 export default command;

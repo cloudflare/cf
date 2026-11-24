@@ -5,30 +5,25 @@ import $edit from "./edit.js";
 import $get from "./get.js";
 import $operations from "./operations/index.js";
 import $update from "./update.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * user command group
  * @generated from apis/overlays/web-assets.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "user",
 	describe: "Operations for labels.user",
 
-	builder: (yargs) => {
-		return yargs
-			.command($bulkcreate)
-			.command($bulkdelete)
-			.command($delete)
-			.command($edit)
-			.command($get)
-			.command($update)
-			.command($operations)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		"bulk-create": $bulkcreate,
+		"bulk-delete": $bulkdelete,
+		delete: $delete,
+		edit: $edit,
+		get: $get,
+		update: $update,
+		operations: $operations,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

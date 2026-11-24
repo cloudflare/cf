@@ -1,11 +1,10 @@
 import operation from "../../../../../../_operations/magic-transit/advanced-dns-protection/configs/dns/protection/rules/update.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * update command
  * @generated from apis/overlays/magic-transit.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -19,58 +18,64 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 magic-transit advanced-dns-protection configs dns protection rules update <rule-id>\n\nUpdate a DNS Protection rule specified by the given UUID."
-		)
-		.positional("rule-id", {
-			type: "string",
-			description: "The UUID of the DNS Protection rule to update.",
-			demandOption: true,
-		})
-		.option("block-any-queries", {
-			type: "boolean",
-			description:
-				"The new value for whether to block DNS ANY queries. Optional.",
-		})
-		.option("burst-sensitivity", {
-			type: "string",
-			description:
-				"The new burst sensitivity. Optional. Must be one of 'low', 'medium', 'high'.",
-		})
-		.option("protection-mode", {
-			type: "string",
-			description:
-				"The new mode for DNS Protection. Optional. Must be one of 'enabled', 'disabled', 'monitoring'.",
-		})
-		.option("profile-sensitivity", {
-			type: "string",
-			description:
-				"The new profile sensitivity. Optional. Recommended setting is 'low'. Must be one of 'low', 'medium', 'high', or 'very_high'.",
-		})
-		.option("rate-sensitivity", {
-			type: "string",
-			description:
-				"The new rate sensitivity. Optional. Must be one of 'low', 'medium', 'high'.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "The updates to apply to the DNS Protection rule.",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "update <rule-id>",
 	describe: "Update DNS Protection rule.",
-	builder,
+	usage:
+		"$0 magic-transit advanced-dns-protection configs dns protection rules update <rule-id>\n\nUpdate a DNS Protection rule specified by the given UUID.",
+	flags: {
+		"block-any-queries": {
+			kind: "boolean",
+			brief: "The new value for whether to block DNS ANY queries. Optional.",
+			optional: true,
+		},
+		"burst-sensitivity": {
+			kind: "parsed",
+			brief:
+				"The new burst sensitivity. Optional. Must be one of 'low', 'medium', 'high'.",
+			optional: true,
+			parse: String,
+		},
+		"protection-mode": {
+			kind: "parsed",
+			brief:
+				"The new mode for DNS Protection. Optional. Must be one of 'enabled', 'disabled', 'monitoring'.",
+			optional: true,
+			parse: String,
+		},
+		"profile-sensitivity": {
+			kind: "parsed",
+			brief:
+				"The new profile sensitivity. Optional. Recommended setting is 'low'. Must be one of 'low', 'medium', 'high', or 'very_high'.",
+			optional: true,
+			parse: String,
+		},
+		"rate-sensitivity": {
+			kind: "parsed",
+			brief:
+				"The new rate sensitivity. Optional. Must be one of 'low', 'medium', 'high'.",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "The updates to apply to the DNS Protection rule.",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [
+		{
+			placeholder: "rule-id",
+			brief: "The UUID of the DNS Protection rule to update.",
+			parse: String,
+		},
+	],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
@@ -78,7 +83,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					"magic-transit advanced-dns-protection configs dns protection rules update",
 				classification: {
 					safeFlags: ["block-any-queries", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -173,6 +178,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Updated` });
 			}
 		),
-};
+});
 
 export default command;

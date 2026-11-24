@@ -11,36 +11,31 @@ import $quota from "./quota/index.js";
 import $resolve from "./resolve.js";
 import $topics from "./topics/index.js";
 import $update from "./update.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * priority-intelligence command group
  * @generated from apis/overlays/cloudforce-one.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "priority-intelligence",
 	describe: "Operations for priority-intelligence",
 
-	builder: (yargs) => {
-		return yargs
-			.command($create)
-			.command($delete)
-			.command($get)
-			.command($list)
-			.command($resolve)
-			.command($update)
-			.command($constants)
-			.command($filters)
-			.command($interests)
-			.command($matches)
-			.command($profile)
-			.command($quota)
-			.command($topics)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		create: $create,
+		delete: $delete,
+		get: $get,
+		list: $list,
+		resolve: $resolve,
+		update: $update,
+		constants: $constants,
+		filters: $filters,
+		interests: $interests,
+		matches: $matches,
+		profile: $profile,
+		quota: $quota,
+		topics: $topics,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

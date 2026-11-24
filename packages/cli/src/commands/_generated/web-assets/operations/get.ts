@@ -1,67 +1,63 @@
 import operation from "../../_operations/web-assets/operations/get.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * get command
  * @generated from apis/overlays/web-assets.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import { createCommandClient, getZoneId } from "#lib/auth.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 web-assets operations get <operation-id>\n\nReturns a web or API operation, including its schema validation settings and requested feature data."
-		)
-		.positional("operation-id", {
-			type: "string",
-			description: "Identifier for the operation",
-			demandOption: true,
-		})
-		.option("feature", {
-			type: "string",
-			array: true,
-			description:
+const command = apiCommand({
+	command: "get <operation-id>",
+	describe: "Get a web or API operation",
+	usage:
+		"$0 web-assets operations get <operation-id>\n\nReturns a web or API operation, including its schema validation settings and requested feature data.",
+	flags: {
+		feature: {
+			kind: "parsed",
+			brief:
 				"Add feature(s) to the results. The feature name that is given here corresponds to the resulting feature object. Have a look at the top-level object description for more details on the specific meaning.",
+			variadic: true,
+			optional: true,
 			choices: [
 				"thresholds",
 				"parameter_schemas",
 				"schema_info",
 				"confidence_intervals",
 			],
-		})
-		.coerce("feature", (values: string[]) =>
-			values.flatMap((value) => value.split(","))
-		)
-		.option("with-schemas", {
-			type: "boolean",
-			description:
+			parse: String,
+			coerce: (values: string[]) => values.flatMap((value) => value.split(",")),
+		},
+		"with-schemas": {
+			kind: "boolean",
+			brief:
 				"When true, includes OpenAPI schemas (both uploaded and learned) for the operation in the response. Due to the conversion overhead, this parameter is only supported on single-operation retrieval.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
+			optional: true,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
 			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "get <operation-id>",
-	describe: "Get a web or API operation",
-	builder,
+		},
+	},
+	operands: [
+		{
+			placeholder: "operation-id",
+			brief: "Identifier for the operation",
+			parse: String,
+		},
+	],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "web-assets operations get",
 				classification: {
 					safeFlags: ["with-schemas", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -99,6 +95,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Loaded` });
 			}
 		),
-};
+});
 
 export default command;

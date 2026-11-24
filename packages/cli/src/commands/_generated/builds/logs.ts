@@ -1,11 +1,10 @@
 import operation from "../_operations/builds/logs.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * logs command
  * @generated from apis/overlays/builds.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -17,40 +16,38 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 builds logs <build-uuid>\n\nRetrieve cursor-paginated log lines for a build UUID."
-		)
-		.positional("build-uuid", {
-			type: "string",
-			description: "UUID of the build, as returned by builds list.",
-			demandOption: true,
-		})
-		.option("cursor", {
-			type: "string",
-			description: "Pagination cursor for log retrieval.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "logs <build-uuid>",
 	describe: "Get Workers build logs",
-	builder,
+	usage:
+		"$0 builds logs <build-uuid>\n\nRetrieve cursor-paginated log lines for a build UUID.",
+	flags: {
+		cursor: {
+			kind: "parsed",
+			brief: "Pagination cursor for log retrieval.",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+	},
+	operands: [
+		{
+			placeholder: "build-uuid",
+			brief: "UUID of the build, as returned by builds list.",
+			parse: String,
+		},
+	],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "builds logs",
-				classification: {
-					safeFlags: ["dry-run"],
-				} satisfies ArgClassification<Args>,
+				classification: { safeFlags: ["dry-run"] } satisfies ArgClassification<
+					typeof argv
+				>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -83,6 +80,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Loaded` });
 			}
 		),
-};
+});
 
 export default command;

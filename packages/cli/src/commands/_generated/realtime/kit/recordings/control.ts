@@ -1,11 +1,10 @@
 import operation from "../../../_operations/realtime/kit/recordings/control.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * control command
  * @generated from apis/overlays/realtime.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -20,51 +19,51 @@ import { withProgress } from "#lib/progress.js";
 import { promptForRequiredEnumField } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 realtime kit recordings control <recording-id>\n\nPause/Resume/Stop a given recording ID. **Note:** A recording can stay paused for a maximum of 12 hours. After that, it automatically resumes and finishes."
-		)
-		.positional("recording-id", {
-			type: "string",
-			description: "ID of the recording",
-			demandOption: true,
-		})
-		.option("app-id", {
-			type: "string",
-			description: "The app identifier tag.",
-			demandOption: true,
-		})
-		.option("action", {
-			type: "string",
-			description: "The action field",
-			choices: ["stop", "pause", "resume"],
-		})
-		.coerce("action", (value) => resolveFileToken(value, "action", "text"))
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "control <recording-id>",
 	describe: "Pause/Resume/Stop recording",
-	builder,
+	usage:
+		"$0 realtime kit recordings control <recording-id>\n\nPause/Resume/Stop a given recording ID. **Note:** A recording can stay paused for a maximum of 12 hours. After that, it automatically resumes and finishes.",
+	flags: {
+		"app-id": {
+			kind: "parsed",
+			brief: "The app identifier tag.",
+			parse: String,
+		},
+		action: {
+			kind: "parsed",
+			brief: "The action field",
+			optional: true,
+			choices: ["stop", "pause", "resume"],
+			parse: String,
+			coerce: (value: string) => resolveFileToken(value, "action", "text"),
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [
+		{
+			placeholder: "recording-id",
+			brief: "ID of the recording",
+			parse: String,
+		},
+	],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "realtime kit recordings control",
 				classification: {
 					safeFlags: ["action", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -136,6 +135,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Updated` });
 			}
 		),
-};
+});
 
 export default command;

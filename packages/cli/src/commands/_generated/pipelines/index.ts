@@ -11,37 +11,32 @@ import $sinks from "./sinks/index.js";
 import $streams from "./streams/index.js";
 import $updatetables from "./update-tables.js";
 import $validatesql from "./validate-sql.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * pipelines command
  * @generated from apis/overlays/pipelines.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "pipelines",
 	describe:
 		"Ingest, transform, and route event streams into R2, analytics, or other destinations in real time",
 
-	builder: (yargs) => {
-		return yargs
-			.command($create)
-			.command($delete)
-			.command($get)
-			.command($legacycreate)
-			.command($legacydelete)
-			.command($legacyget)
-			.command($legacylist)
-			.command($legacyupdate)
-			.command($list)
-			.command($updatetables)
-			.command($validatesql)
-			.command($sinks)
-			.command($streams)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		create: $create,
+		delete: $delete,
+		get: $get,
+		"legacy-create": $legacycreate,
+		"legacy-delete": $legacydelete,
+		"legacy-get": $legacyget,
+		"legacy-list": $legacylist,
+		"legacy-update": $legacyupdate,
+		list: $list,
+		"update-tables": $updatetables,
+		"validate-sql": $validatesql,
+		sinks: $sinks,
+		streams: $streams,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

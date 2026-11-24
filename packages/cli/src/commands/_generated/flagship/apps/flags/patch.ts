@@ -1,11 +1,10 @@
 import operation from "../../../_operations/flagship/apps/flags/patch.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * patch command
  * @generated from apis/overlays/flagship.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -19,65 +18,70 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 flagship apps flags patch <flag-key>\n\nApplies a partial update to lightweight flag fields: `enabled`, `description`, `metadata`, and `default_variation`. Only fields present in the request body are modified; omitted fields are preserved. `metadata: null` or an empty object clears metadata. `default_variation` must exist in the current `variations`. Structural changes to `variations` and `rules` use PUT. A changelog entry is appended when the flag content actually changes."
-		)
-		.positional("flag-key", {
-			type: "string",
-			description: "Case-sensitive key identifying the flag within the app.",
-			demandOption: true,
-		})
-		.option("app-id", {
-			type: "string",
-			description: "Flagship app ID returned when the app was created.",
-			demandOption: true,
-		})
-		.option("default-variation", {
-			type: "string",
-			description:
-				"Variation the API serves when the flag is off, or when it's on but no rule matches the context. Must be a key in `variations`.",
-		})
-		.option("description", {
-			type: "string",
-			description:
-				"Optional operator-facing description. It does not affect flag evaluation.",
-		})
-		.option("enabled", {
-			type: "boolean",
-			description:
-				"When false, the flag bypasses all rules and always serves `default_variation`.",
-		})
-		.option("metadata", {
-			type: "string",
-			description:
-				'Key-value metadata associated with the flag. `null` or an empty object clears existing metadata; omission semantics depend on the endpoint (PUT clears it, PATCH preserves it). Provide as a JSON object or @path/to/file.json. Shape: {"<key>": (boolean | string | number)}.',
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "patch <flag-key>",
 	describe: "Partially update flag",
-	builder,
+	usage:
+		"$0 flagship apps flags patch <flag-key>\n\nApplies a partial update to lightweight flag fields: `enabled`, `description`, `metadata`, and `default_variation`. Only fields present in the request body are modified; omitted fields are preserved. `metadata: null` or an empty object clears metadata. `default_variation` must exist in the current `variations`. Structural changes to `variations` and `rules` use PUT. A changelog entry is appended when the flag content actually changes.",
+	flags: {
+		"app-id": {
+			kind: "parsed",
+			brief: "Flagship app ID returned when the app was created.",
+			parse: String,
+		},
+		"default-variation": {
+			kind: "parsed",
+			brief:
+				"Variation the API serves when the flag is off, or when it's on but no rule matches the context. Must be a key in `variations`.",
+			optional: true,
+			parse: String,
+		},
+		description: {
+			kind: "parsed",
+			brief:
+				"Optional operator-facing description. It does not affect flag evaluation.",
+			optional: true,
+			parse: String,
+		},
+		enabled: {
+			kind: "boolean",
+			brief:
+				"When false, the flag bypasses all rules and always serves `default_variation`.",
+			optional: true,
+		},
+		metadata: {
+			kind: "parsed",
+			brief:
+				'Key-value metadata associated with the flag. `null` or an empty object clears existing metadata; omission semantics depend on the endpoint (PUT clears it, PATCH preserves it). Provide as a JSON object or @path/to/file.json. Shape: {"<key>": (boolean | string | number)}.',
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [
+		{
+			placeholder: "flag-key",
+			brief: "Case-sensitive key identifying the flag within the app.",
+			parse: String,
+		},
+	],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "flagship apps flags patch",
 				classification: {
 					safeFlags: ["enabled", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -164,6 +168,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Updated` });
 			}
 		),
-};
+});
 
 export default command;

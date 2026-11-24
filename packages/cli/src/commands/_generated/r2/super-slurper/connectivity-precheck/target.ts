@@ -1,11 +1,10 @@
 import operation from "../../../_operations/r2/super-slurper/connectivity-precheck/target.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * target command
  * @generated from apis/overlays/r2.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -23,58 +22,67 @@ import {
 } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 r2 super-slurper connectivity-precheck target\n\nCheck whether tokens are valid against the target bucket"
-		)
-		.option("bucket", { type: "string", description: "The bucket field" })
-		.option("jurisdiction", {
-			type: "string",
-			description: "The jurisdiction field",
-			choices: ["default", "eu", "us", "fedramp"],
-		})
-		.coerce("jurisdiction", (value) =>
-			resolveFileToken(value, "jurisdiction", "text")
-		)
-		.option("secret-access-key-id", {
-			type: "string",
-			description: "The secret.accessKeyId field",
-		})
-		.option("secret-secret-access-key", {
-			type: "string",
-			description: "The secret.secretAccessKey field",
-		})
-		.option("vendor", {
-			type: "string",
-			description: "The vendor field",
-			choices: ["r2"],
-		})
-		.coerce("vendor", (value) => resolveFileToken(value, "vendor", "text"))
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "target",
 	describe: "Check target connectivity",
-	builder,
+	usage:
+		"$0 r2 super-slurper connectivity-precheck target\n\nCheck whether tokens are valid against the target bucket",
+	flags: {
+		bucket: {
+			kind: "parsed",
+			brief: "The bucket field",
+			optional: true,
+			parse: String,
+		},
+		jurisdiction: {
+			kind: "parsed",
+			brief: "The jurisdiction field",
+			optional: true,
+			choices: ["default", "eu", "us", "fedramp"],
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "jurisdiction", "text"),
+		},
+		"secret-access-key-id": {
+			kind: "parsed",
+			brief: "The secret.accessKeyId field",
+			optional: true,
+			parse: String,
+		},
+		"secret-secret-access-key": {
+			kind: "parsed",
+			brief: "The secret.secretAccessKey field",
+			optional: true,
+			parse: String,
+		},
+		vendor: {
+			kind: "parsed",
+			brief: "The vendor field",
+			optional: true,
+			choices: ["r2"],
+			parse: String,
+			coerce: (value: string) => resolveFileToken(value, "vendor", "text"),
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "r2 super-slurper connectivity-precheck target",
 				classification: {
 					safeFlags: ["jurisdiction", "vendor", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -189,6 +197,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Updated` });
 			}
 		),
-};
+});
 
 export default command;

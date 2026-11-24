@@ -1,11 +1,10 @@
 import operation from "../_operations/agent-memory/list-profiles.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * list-profiles command
  * @generated from apis/overlays/agent-memory.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -17,45 +16,40 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 agent-memory list-profiles <namespace-name>\n\nLists the profiles of a namespace, ordered by name. A profile appears once it has been used."
-		)
-		.positional("namespace-name", {
-			type: "string",
-			description: "Namespace name.",
-			demandOption: true,
-		})
-		.option("per-page", {
-			type: "number",
-			description: "Number of results per page.",
-		})
-		.option("cursor", {
-			type: "string",
-			description:
-				"Opaque continuation cursor returned by a previous list response.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "list-profiles <namespace-name>",
 	describe: "List profiles",
-	builder,
+	usage:
+		"$0 agent-memory list-profiles <namespace-name>\n\nLists the profiles of a namespace, ordered by name. A profile appears once it has been used.",
+	flags: {
+		"per-page": {
+			kind: "parsed",
+			brief: "Number of results per page.",
+			optional: true,
+			parse: Number,
+		},
+		cursor: {
+			kind: "parsed",
+			brief: "Opaque continuation cursor returned by a previous list response.",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+	},
+	operands: [
+		{ placeholder: "namespace-name", brief: "Namespace name.", parse: String },
+	],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "agent-memory list-profiles",
-				classification: {
-					safeFlags: ["dry-run"],
-				} satisfies ArgClassification<Args>,
+				classification: { safeFlags: ["dry-run"] } satisfies ArgClassification<
+					typeof argv
+				>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -91,6 +85,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Loaded` });
 			}
 		),
-};
+});
 
 export default command;

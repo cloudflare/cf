@@ -1,11 +1,10 @@
 import operation from "../../../_operations/magic-transit/sites/wans/update.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * update command
  * @generated from apis/overlays/magic-transit.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -19,85 +18,103 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 magic-transit sites wans update <wan-id>\n\nUpdate a specific Site WAN."
-		)
-		.positional("wan-id", {
-			type: "string",
-			description: "Identifier",
-			demandOption: true,
-		})
-		.option("site-id", {
-			type: "string",
-			description: "Identifier",
-			demandOption: true,
-		})
-		.option("health-check-rate", {
-			type: "string",
-			description:
-				"Magic WAN health check rate for tunnels created on this link.",
-			choices: ["low", "mid", "high"],
-		})
-		.coerce("health-check-rate", (value) =>
-			resolveFileToken(value, "health-check-rate", "text")
-		)
-		.option("load-balance-inner-flows", {
-			type: "boolean",
-			description: "The load_balance_inner_flows field",
-		})
-		.option("name", { type: "string", description: "The name field" })
-		.option("physport", { type: "number", description: "The physport field" })
-		.option("priority", { type: "number", description: "The priority field" })
-		.option("provisioned-download-kbps", {
-			type: "number",
-			description:
-				"Provisioned download rate of the WAN circuit in kilobits per second. Set to null to remove it.",
-		})
-		.option("provisioned-upload-kbps", {
-			type: "number",
-			description:
-				"Provisioned upload rate of the WAN circuit in kilobits per second. Set to null to remove it.",
-		})
-		.option("static-addressing-address", {
-			type: "string",
-			description: "A valid CIDR notation representing an IP range.",
-		})
-		.option("static-addressing-gateway-address", {
-			type: "string",
-			description: "A valid IPv4 address.",
-		})
-		.option("static-addressing-secondary-address", {
-			type: "string",
-			description: "A valid CIDR notation representing an IP range.",
-		})
-		.option("static-addressing-secondary-gateway-address", {
-			type: "string",
-			description:
-				"Gateway address for the secondary connector of a high availability site. Set to null to remove it.",
-		})
-		.option("vlan-tag", {
-			type: "number",
-			description: "VLAN ID. Use zero for untagged.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "update <wan-id>",
 	describe: "Update Site WAN",
-	builder,
+	usage:
+		"$0 magic-transit sites wans update <wan-id>\n\nUpdate a specific Site WAN.",
+	flags: {
+		"site-id": { kind: "parsed", brief: "Identifier", parse: String },
+		"health-check-rate": {
+			kind: "parsed",
+			brief: "Magic WAN health check rate for tunnels created on this link.",
+			optional: true,
+			choices: ["low", "mid", "high"],
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "health-check-rate", "text"),
+		},
+		"load-balance-inner-flows": {
+			kind: "boolean",
+			brief: "The load_balance_inner_flows field",
+			optional: true,
+		},
+		name: {
+			kind: "parsed",
+			brief: "The name field",
+			optional: true,
+			parse: String,
+		},
+		physport: {
+			kind: "parsed",
+			brief: "The physport field",
+			optional: true,
+			parse: Number,
+		},
+		priority: {
+			kind: "parsed",
+			brief: "The priority field",
+			optional: true,
+			parse: Number,
+		},
+		"provisioned-download-kbps": {
+			kind: "parsed",
+			brief:
+				"Provisioned download rate of the WAN circuit in kilobits per second. Set to null to remove it.",
+			optional: true,
+			parse: Number,
+		},
+		"provisioned-upload-kbps": {
+			kind: "parsed",
+			brief:
+				"Provisioned upload rate of the WAN circuit in kilobits per second. Set to null to remove it.",
+			optional: true,
+			parse: Number,
+		},
+		"static-addressing-address": {
+			kind: "parsed",
+			brief: "A valid CIDR notation representing an IP range.",
+			optional: true,
+			parse: String,
+		},
+		"static-addressing-gateway-address": {
+			kind: "parsed",
+			brief: "A valid IPv4 address.",
+			optional: true,
+			parse: String,
+		},
+		"static-addressing-secondary-address": {
+			kind: "parsed",
+			brief: "A valid CIDR notation representing an IP range.",
+			optional: true,
+			parse: String,
+		},
+		"static-addressing-secondary-gateway-address": {
+			kind: "parsed",
+			brief:
+				"Gateway address for the secondary connector of a high availability site. Set to null to remove it.",
+			optional: true,
+			parse: String,
+		},
+		"vlan-tag": {
+			kind: "parsed",
+			brief: "VLAN ID. Use zero for untagged.",
+			optional: true,
+			parse: Number,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [{ placeholder: "wan-id", brief: "Identifier", parse: String }],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
@@ -108,7 +125,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"load-balance-inner-flows",
 						"dry-run",
 					],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -242,6 +259,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Updated` });
 			}
 		),
-};
+});
 
 export default command;

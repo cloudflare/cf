@@ -1,11 +1,10 @@
 import operation from "../_operations/resource-sharing/delete.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * delete command
  * @generated from apis/overlays/resource-sharing.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -18,35 +17,27 @@ import { withProgress } from "#lib/progress.js";
 import { confirmDelete } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 resource-sharing delete <share-id>\n\nDeletion is not immediate, an updated share object with a new status will be returned."
-		)
-		.positional("share-id", {
-			type: "string",
-			description: "Share identifier tag.",
-			demandOption: true,
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("force", {
-			type: "boolean",
-			alias: "f",
-			description: "Skip confirmation (useful in scripts and CI)",
-			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "delete <share-id>",
 	describe: "Trigger a share deletion",
-	builder,
+	usage:
+		"$0 resource-sharing delete <share-id>\n\nDeletion is not immediate, an updated share object with a new status will be returned.",
+	flags: {
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		force: {
+			kind: "boolean",
+			brief: "Skip confirmation (useful in scripts and CI)",
+			alias: "f",
+			default: false,
+		},
+	},
+	operands: [
+		{ placeholder: "share-id", brief: "Share identifier tag.", parse: String },
+	],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
@@ -54,7 +45,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				classification: {
 					safeFlags: ["dry-run", "force"],
 					shortFlagAliases: { f: { canonical: "force", type: "boolean" } },
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -91,6 +82,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Deleted` });
 			}
 		),
-};
+});
 
 export default command;

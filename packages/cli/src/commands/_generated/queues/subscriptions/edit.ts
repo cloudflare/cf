@@ -1,11 +1,10 @@
 import operation from "../../_operations/queues/subscriptions/edit.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * edit command
  * @generated from apis/overlays/queues.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -19,48 +18,66 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 queues subscriptions edit <subscription-id>\n\nUpdates an existing Queue event subscription."
-		)
-		.positional("subscription-id", {
-			type: "string",
-			description: "A Resource identifier.",
-			demandOption: true,
-		})
-		.option("destination-queue-id", {
-			type: "string",
-			description: "ID of the target queue",
-		})
-		.option("destination-type", {
-			type: "string",
-			description: "Type of destination",
+const command = apiCommand({
+	command: "edit <subscription-id>",
+	describe: "Update Event Subscription",
+	usage:
+		"$0 queues subscriptions edit <subscription-id>\n\nUpdates an existing Queue event subscription.",
+	flags: {
+		"destination-queue-id": {
+			kind: "parsed",
+			brief: "ID of the target queue",
+			optional: true,
+			parse: String,
+		},
+		"destination-type": {
+			kind: "parsed",
+			brief: "Type of destination",
+			optional: true,
 			choices: ["queues.queue"],
-		})
-		.coerce("destination-type", (value) =>
-			resolveFileToken(value, "destination-type", "text")
-		)
-		.option("enabled", {
-			type: "boolean",
-			description: "Whether the subscription is active",
-		})
-		.option("events", {
-			type: "string",
-			array: true,
-			description: "List of event types this subscription handles",
-		})
-		.option("name", { type: "string", description: "Name of the subscription" })
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "destination-type", "text"),
+		},
+		enabled: {
+			kind: "boolean",
+			brief: "Whether the subscription is active",
+			optional: true,
+		},
+		events: {
+			kind: "parsed",
+			brief: "List of event types this subscription handles",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		name: {
+			kind: "parsed",
+			brief: "Name of the subscription",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
 			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		})
-		.check((argv) => {
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [
+		{
+			placeholder: "subscription-id",
+			brief: "A Resource identifier.",
+			parse: String,
+		},
+	],
+	rules(rules) {
+		rules.check((argv) => {
 			const groupSet = ["destination-queue-id", "destination-type"].some(
 				(k) => argv[k] !== undefined
 			);
@@ -76,21 +93,14 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			}
 			return true;
 		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "edit <subscription-id>",
-	describe: "Update Event Subscription",
-	builder,
+	},
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "queues subscriptions edit",
 				classification: {
 					safeFlags: ["destination-type", "enabled", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -174,6 +184,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Updated` });
 			}
 		),
-};
+});
 
 export default command;

@@ -6,32 +6,27 @@ import $list from "./list.js";
 import $pskgenerate from "./psk-generate.js";
 import $pskset from "./psk-set.js";
 import $update from "./update.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * ipsec-tunnels command group
  * @generated from apis/overlays/magic-transit.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "ipsec-tunnels",
 	describe:
 		"IPsec tunnel endpoints with pre-shared key management for encrypted transit",
 
-	builder: (yargs) => {
-		return yargs
-			.command($bulkupdate)
-			.command($create)
-			.command($delete)
-			.command($get)
-			.command($list)
-			.command($pskgenerate)
-			.command($pskset)
-			.command($update)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		"bulk-update": $bulkupdate,
+		create: $create,
+		delete: $delete,
+		get: $get,
+		list: $list,
+		"psk-generate": $pskgenerate,
+		"psk-set": $pskset,
+		update: $update,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

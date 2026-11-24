@@ -1,11 +1,10 @@
 import operation from "../../../_operations/email-routing/rules/catch-all/update.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * update command
  * @generated from apis/overlays/email-routing.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import { createCommandClient, getZoneId } from "#lib/auth.js";
 import { compactBody, parseBody, parseObjectArray } from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
@@ -14,59 +13,69 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 email-routing rules catch-all update\n\nEnable or disable catch-all routing rule, or change action to forward to a specific destination address. Forward actions require exactly one verified destination address."
-		)
-		.option("actions", {
-			type: "string",
-			description:
-				'List actions for the catch-all routing rule. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"type": "drop" | "forward" | "worker", "value"?: [string]}]. ? marks optional keys.',
-		})
-		.option("enabled", { type: "boolean", description: "Routing rule status." })
-		.option("matchers", {
-			type: "string",
-			description:
-				'List of matchers for the catch-all routing rule. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"type": "all"}].',
-		})
-		.option("name", { type: "string", description: "Routing rule name." })
-		.option("owner-worker-tag", {
-			type: "string",
-			description:
-				"Public tag (script_tag) of the Worker that owns this rule. Required when\n`source` is `wrangler`.\n",
-		})
-		.option("source", {
-			type: "string",
-			description:
-				"Who manages the rule. `api` covers dashboard, generic API, and Terraform;\n`wrangler` means the rule is managed by a Worker's wrangler.jsonc. Defaults\nto `api` when omitted on write.\n",
-			choices: ["api", "wrangler"],
-		})
-		.coerce("source", (value) => resolveFileToken(value, "source", "text"))
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "update",
 	describe: "Update catch-all rule",
-	builder,
+	usage:
+		"$0 email-routing rules catch-all update\n\nEnable or disable catch-all routing rule, or change action to forward to a specific destination address. Forward actions require exactly one verified destination address.",
+	flags: {
+		actions: {
+			kind: "parsed",
+			brief:
+				'List actions for the catch-all routing rule. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"type": "drop" | "forward" | "worker", "value"?: [string]}]. ? marks optional keys.',
+			optional: true,
+			parse: String,
+		},
+		enabled: { kind: "boolean", brief: "Routing rule status.", optional: true },
+		matchers: {
+			kind: "parsed",
+			brief:
+				'List of matchers for the catch-all routing rule. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"type": "all"}].',
+			optional: true,
+			parse: String,
+		},
+		name: {
+			kind: "parsed",
+			brief: "Routing rule name.",
+			optional: true,
+			parse: String,
+		},
+		"owner-worker-tag": {
+			kind: "parsed",
+			brief:
+				"Public tag (script_tag) of the Worker that owns this rule. Required when\n`source` is `wrangler`.\n",
+			optional: true,
+			parse: String,
+		},
+		source: {
+			kind: "parsed",
+			brief:
+				"Who manages the rule. `api` covers dashboard, generic API, and Terraform;\n`wrangler` means the rule is managed by a Worker's wrangler.jsonc. Defaults\nto `api` when omitted on write.\n",
+			optional: true,
+			choices: ["api", "wrangler"],
+			parse: String,
+			coerce: (value: string) => resolveFileToken(value, "source", "text"),
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "email-routing rules catch-all update",
 				classification: {
 					safeFlags: ["enabled", "source", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -157,6 +166,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Updated` });
 			}
 		),
-};
+});
 
 export default command;

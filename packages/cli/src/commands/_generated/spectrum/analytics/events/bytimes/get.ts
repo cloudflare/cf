@@ -1,44 +1,47 @@
 import operation from "../../../../_operations/spectrum/analytics/events/bytimes/get.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * get command
  * @generated from apis/overlays/spectrum.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import { createCommandClient, getZoneId } from "#lib/auth.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 spectrum analytics events bytimes get\n\nRetrieves a list of aggregate metrics grouped by time interval."
-		)
-		.option("dimensions", {
-			type: "string",
-			array: true,
-			description:
+const command = apiCommand({
+	command: "get",
+	describe: "Get analytics by time",
+	usage:
+		"$0 spectrum analytics events bytimes get\n\nRetrieves a list of aggregate metrics grouped by time interval.",
+	flags: {
+		dimensions: {
+			kind: "parsed",
+			brief:
 				"Can be used to break down the data by given attributes. Options are:\n\nDimension                 | Name                            | Example\n--------------------------|---------------------------------|--------------------------\nevent                     | Connection Event                | connect, progress, disconnect, originError, clientFiltered\nappID                     | Application ID                  | 40d67c87c6cd4b889a4fd57805225e85\ncoloName                  | Colo Name                       | SFO\nipVersion                 | IP version used by the client   | 4, 6.",
+			variadic: true,
+			optional: true,
 			choices: ["event", "appID", "coloName", "ipVersion"],
-		})
-		.coerce("dimensions", (values: string[]) =>
-			values.flatMap((value) => value.split(","))
-		)
-		.option("sort", {
-			type: "string",
-			array: true,
-			description:
+			parse: String,
+			coerce: (values: string[]) => values.flatMap((value) => value.split(",")),
+		},
+		sort: {
+			kind: "parsed",
+			brief:
 				"The sort order for the result set; sort fields must be included in `metrics` or `dimensions`.",
-		})
-		.option("until", { type: "string", description: "Until" })
-		.option("metrics", {
-			type: "string",
-			array: true,
-			description:
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		until: { kind: "parsed", brief: "Until", optional: true, parse: String },
+		metrics: {
+			kind: "parsed",
+			brief:
 				"One or more metrics to compute. Options are:\n\nMetric                    | Name                                | Example                  | Unit\n--------------------------|-------------------------------------|--------------------------|--------------------------\ncount                     | Count of total events               | 1000                     | Count\nbytesIngress              | Sum of ingress bytes                | 1000                     | Sum\nbytesEgress               | Sum of egress bytes                 | 1000                     | Sum\ndurationAvg               | Average connection duration         | 1.0                      | Time in milliseconds\ndurationMedian            | Median connection duration          | 1.0                      | Time in milliseconds\nduration90th              | 90th percentile connection duration | 1.0                      | Time in milliseconds\nduration99th              | 99th percentile connection duration | 1.0                      | Time in milliseconds.",
+			variadic: true,
+			optional: true,
 			choices: [
 				"count",
 				"bytesIngress",
@@ -48,20 +51,21 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"duration90th",
 				"duration99th",
 			],
-		})
-		.coerce("metrics", (values: string[]) =>
-			values.flatMap((value) => value.split(","))
-		)
-		.option("filters", {
-			type: "string",
-			description:
+			parse: String,
+			coerce: (values: string[]) => values.flatMap((value) => value.split(",")),
+		},
+		filters: {
+			kind: "parsed",
+			brief:
 				"Used to filter rows by one or more dimensions. Filters can be combined using OR and AND boolean logic. AND takes precedence over OR in all the expressions. The OR operator is defined using a comma (,) or OR keyword surrounded by whitespace. The AND operator is defined using a semicolon (;) or AND keyword surrounded by whitespace. Note that the semicolon is a reserved character in URLs (rfc1738) and needs to be percent-encoded as %3B. Comparison options are:\n\nOperator                  | Name                            | URL Encoded\n--------------------------|---------------------------------|--------------------------\n==                        | Equals                          | %3D%3D\n!=                        | Does not equals                 | !%3D\n\\>                        | Greater Than                    | %3E\n\\<                        | Less Than                       | %3C\n\\>=                       | Greater than or equal to        | %3E%3D\n\\<=                       | Less than or equal to           | %3C%3D\n\nUse the above to construct filters.",
-		})
-		.option("since", { type: "string", description: "Since" })
-		.option("time-delta", {
-			type: "string",
-			description: "Used to select time series resolution.",
-			choices: [
+			optional: true,
+			parse: String,
+		},
+		since: { kind: "parsed", brief: "Since", optional: true, parse: String },
+		"time-delta": {
+			kind: "enum",
+			brief: "Used to select time series resolution.",
+			values: [
 				"year",
 				"quarter",
 				"month",
@@ -71,28 +75,21 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"dekaminute",
 				"minute",
 			],
-			demandOption: true,
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
 			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "get",
-	describe: "Get analytics by time",
-	builder,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "spectrum analytics events bytimes get",
 				classification: {
 					safeFlags: ["time-delta", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -130,6 +127,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Loaded` });
 			}
 		),
-};
+});
 
 export default command;

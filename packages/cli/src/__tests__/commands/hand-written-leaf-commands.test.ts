@@ -34,7 +34,7 @@ describe("hand-written leaf commands", () => {
 			"import $run from '#commands/ai/run/index.js';"
 		);
 		expect(generated).not.toContain("import $run from './run.js';");
-		expect(generated).toContain(".command($run)");
+		expect(generated).toContain("'run': $run,");
 	});
 
 	it("registers a leaf command against its generated product", () => {
@@ -254,12 +254,12 @@ describe("hand-written leaf commands", () => {
 		);
 		expect(generated).toContain("describe: 'Manage Worker Previews'");
 		if (leaves.length > 0) {
-			expect(generated).toContain(".command($delete)");
+			expect(generated).toContain("'delete': $delete,");
 		} else {
-			expect(generated).not.toContain(".command($delete)");
+			expect(generated).not.toContain("'delete': $delete,");
 		}
 		expect(generated).toContain(
-			".command(withHandWrittenDryRun($deploy, 'preview'))"
+			"'deploy': withHandWrittenDryRun($deploy, 'preview'),"
 		);
 	});
 
@@ -315,16 +315,16 @@ describe("hand-written leaf commands", () => {
 		expect(generated).toContain(
 			"import $delete from '#commands/workers/delete/index.js';"
 		);
-		expect(generated).toContain(".command($delete)");
+		expect(generated).toContain("'delete': $delete,");
 		expect(generated).toContain(
-			".command(withHandWrittenDryRun($check, 'preview'))"
+			"'check': withHandWrittenDryRun($check, 'preview'),"
 		);
 		expect(generated).toContain(
-			".command(withHandWrittenDryRun($types, 'preview'))"
+			"'types': withHandWrittenDryRun($types, 'preview'),"
 		);
 		expect(
-			generated.indexOf(".command(withHandWrittenDryRun($check, 'preview'))")
-		).toBeLessThan(generated.indexOf(".command($versions)"));
+			generated.indexOf("'check': withHandWrittenDryRun($check, 'preview'),")
+		).toBeLessThan(generated.indexOf("'versions': $versions,"));
 	});
 
 	it("splices a nested leaf into its generated group index", () => {
@@ -344,11 +344,11 @@ describe("hand-written leaf commands", () => {
 			"import $create from '#commands/workers/versions/create/index.js';"
 		);
 		expect(generated).toContain(
-			".command(withHandWrittenDryRun($create, 'native'))"
+			"'create': withHandWrittenDryRun($create, 'native'),"
 		);
 		expect(
-			generated.indexOf(".command(withHandWrittenDryRun($create, 'native'))")
-		).toBeLessThan(generated.indexOf(".command($delete)"));
+			generated.indexOf("'create': withHandWrittenDryRun($create, 'native'),")
+		).toBeLessThan(generated.indexOf("'delete': $delete,"));
 	});
 
 	it.each([
@@ -423,7 +423,7 @@ describe("nested hand-written image leaves", () => {
 		);
 		expect(output).toContain("#commands/containers/images/list/index.js");
 		expect(output).toContain("#commands/containers/images/delete/index.js");
-		expect(output).toContain(".command($prepare)");
+		expect(output).toContain("'prepare': $prepare,");
 		expect(handWrittenLeafCommandModule("containers/images/list")).toBe(
 			"#commands/containers/images/list/index.js"
 		);

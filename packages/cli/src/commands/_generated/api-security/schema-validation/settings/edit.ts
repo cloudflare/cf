@@ -1,11 +1,10 @@
 import operation from "../../../_operations/api-security/schema-validation/settings/edit.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * edit command
  * @generated from apis/overlays/api-security.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import { createCommandClient, getZoneId } from "#lib/auth.js";
 import { compactBody, parseBody } from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
@@ -14,46 +13,49 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 api-security schema-validation settings edit\n\nPartially updates global schema validation settings for a zone using PATCH semantics."
-		)
-		.option("validation-default-mitigation-action", {
-			type: "string",
-			description:
-				'The default mitigation action used\nMitigation actions are as follows:\n\n  - `"log"` - log request when request does not conform to schema\n  - `"block"` - deny access to the site when request does not conform to schema\n  - `"none"` - skip running schema validation\n',
-			choices: ["none", "log", "block"],
-		})
-		.coerce("validation-default-mitigation-action", (value) =>
-			resolveFileToken(value, "validation-default-mitigation-action", "text")
-		)
-		.option("validation-override-mitigation-action", {
-			type: "string",
-			description:
-				'When set, this overrides both zone level and operation level mitigation actions.\n\n  - `"none"` - skip running schema validation entirely for the request\n  - `null` - clears any existing override\n',
-			choices: ["none"],
-		})
-		.coerce("validation-override-mitigation-action", (value) =>
-			resolveFileToken(value, "validation-override-mitigation-action", "text")
-		)
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "edit",
 	describe: "Edit global schema validation settings",
-	builder,
+	usage:
+		"$0 api-security schema-validation settings edit\n\nPartially updates global schema validation settings for a zone using PATCH semantics.",
+	flags: {
+		"validation-default-mitigation-action": {
+			kind: "parsed",
+			brief:
+				'The default mitigation action used\nMitigation actions are as follows:\n\n  - `"log"` - log request when request does not conform to schema\n  - `"block"` - deny access to the site when request does not conform to schema\n  - `"none"` - skip running schema validation\n',
+			optional: true,
+			choices: ["none", "log", "block"],
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "validation-default-mitigation-action", "text"),
+		},
+		"validation-override-mitigation-action": {
+			kind: "parsed",
+			brief:
+				'When set, this overrides both zone level and operation level mitigation actions.\n\n  - `"none"` - skip running schema validation entirely for the request\n  - `null` - clears any existing override\n',
+			optional: true,
+			choices: ["none"],
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(
+					value,
+					"validation-override-mitigation-action",
+					"text"
+				),
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
@@ -64,7 +66,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"validation-override-mitigation-action",
 						"dry-run",
 					],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -119,6 +121,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Updated` });
 			}
 		),
-};
+});
 
 export default command;

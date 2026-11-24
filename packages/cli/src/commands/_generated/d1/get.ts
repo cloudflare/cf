@@ -1,11 +1,10 @@
 import operation from "../_operations/d1/get.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * get command
  * @generated from apis/overlays/d1.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -17,19 +16,17 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage("$0 d1 get <database-id>\n\nGet details for a specific D1 database.")
-		.positional("database-id", {
-			type: "string",
-			description: "Database ID",
-			demandOption: true,
-		})
-		.option("fields", {
-			type: "string",
-			array: true,
-			description:
+const command = apiCommand({
+	command: "get <database-id>",
+	describe: "Get D1 Database",
+	usage: "$0 d1 get <database-id>\n\nGet details for a specific D1 database.",
+	flags: {
+		fields: {
+			kind: "parsed",
+			brief:
 				"Comma-separated list of fields to include in the response. When omitted,\nall fields are returned.",
+			variadic: true,
+			optional: true,
 			choices: [
 				"uuid",
 				"name",
@@ -41,30 +38,25 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"running_in_region",
 				"read_replication",
 			],
-		})
-		.coerce("fields", (values: string[]) =>
-			values.flatMap((value) => value.split(","))
-		)
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
+			parse: String,
+			coerce: (values: string[]) => values.flatMap((value) => value.split(",")),
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
 			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "get <database-id>",
-	describe: "Get D1 Database",
-	builder,
+		},
+	},
+	operands: [
+		{ placeholder: "database-id", brief: "Database ID", parse: String },
+	],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "d1 get",
-				classification: {
-					safeFlags: ["dry-run"],
-				} satisfies ArgClassification<Args>,
+				classification: { safeFlags: ["dry-run"] } satisfies ArgClassification<
+					typeof argv
+				>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -97,6 +89,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Loaded` });
 			}
 		),
-};
+});
 
 export default command;

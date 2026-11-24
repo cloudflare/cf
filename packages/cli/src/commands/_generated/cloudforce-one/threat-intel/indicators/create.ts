@@ -1,11 +1,10 @@
 import operation from "../../../_operations/cloudforce-one/threat-intel/indicators/create.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * create command
  * @generated from apis/overlays/cloudforce-one.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -20,60 +19,66 @@ import { withProgress } from "#lib/progress.js";
 import { promptForRequiredField } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 cloudforce-one threat-intel indicators create <dataset-id>\n\nCreates an indicator in a dataset. Set `autoCreateType` to create the indicator type if it doesn't exist."
-		)
-		.positional("dataset-id", {
-			type: "string",
-			description: "Dataset UUID.",
-			demandOption: true,
-		})
-		.option("auto-create-type", {
-			type: "boolean",
-			description:
-				"If true, automatically create the indicator type if it doesn't exist. If false (default), reject an indicator type the dataset has not registered, unless the type is pre-approved (the same list event create accepts, such as BITCOIN or ERC-20), in which case it is registered on first use. Direct create applies this check to analytics datasets too. Bulk create skips it for analytics datasets.",
-		})
-		.option("indicator-type", {
-			type: "string",
-			description: "The indicatorType field",
-		})
-		.option("related-events", {
-			type: "string",
-			description:
-				'The relatedEvents field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"datasetId": string, "eventId": string}].',
-		})
-		.option("tlp", {
-			type: "string",
-			description:
-				"Traffic Light Protocol designation. Case-insensitive on input, stored and returned as UPPERCASE. Allowed values: clear, green, amber, amber-strict, red, purple.",
-		})
-		.option("value", { type: "string", description: "The value field" })
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "create <dataset-id>",
 	describe: "Create an indicator",
-	builder,
+	usage:
+		"$0 cloudforce-one threat-intel indicators create <dataset-id>\n\nCreates an indicator in a dataset. Set `autoCreateType` to create the indicator type if it doesn't exist.",
+	flags: {
+		"auto-create-type": {
+			kind: "boolean",
+			brief:
+				"If true, automatically create the indicator type if it doesn't exist. If false (default), reject an indicator type the dataset has not registered, unless the type is pre-approved (the same list event create accepts, such as BITCOIN or ERC-20), in which case it is registered on first use. Direct create applies this check to analytics datasets too. Bulk create skips it for analytics datasets.",
+			optional: true,
+		},
+		"indicator-type": {
+			kind: "parsed",
+			brief: "The indicatorType field",
+			optional: true,
+			parse: String,
+		},
+		"related-events": {
+			kind: "parsed",
+			brief:
+				'The relatedEvents field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"datasetId": string, "eventId": string}].',
+			optional: true,
+			parse: String,
+		},
+		tlp: {
+			kind: "parsed",
+			brief:
+				"Traffic Light Protocol designation. Case-insensitive on input, stored and returned as UPPERCASE. Allowed values: clear, green, amber, amber-strict, red, purple.",
+			optional: true,
+			parse: String,
+		},
+		value: {
+			kind: "parsed",
+			brief: "The value field",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [
+		{ placeholder: "dataset-id", brief: "Dataset UUID.", parse: String },
+	],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "cloudforce-one threat-intel indicators create",
 				classification: {
 					safeFlags: ["auto-create-type", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -183,6 +188,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Created` });
 			}
 		),
-};
+});
 
 export default command;

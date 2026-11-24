@@ -1,24 +1,19 @@
 import $language from "./language/index.js";
 import $list from "./list.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * captions command group
  * @generated from apis/overlays/stream.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "captions",
 	describe: "Operations for videos.captions",
 
-	builder: (yargs) => {
-		return yargs
-			.command($list)
-			.command($language)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		list: $list,
+		language: $language,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

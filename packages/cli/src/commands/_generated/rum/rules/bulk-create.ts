@@ -1,11 +1,10 @@
 import operation from "../../_operations/rum/rules/bulk-create.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * bulk-create command
  * @generated from apis/overlays/rum.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -18,50 +17,51 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 rum rules bulk-create\n\nModifies one or more rules in a Web Analytics ruleset with a single request."
-		)
-		.option("ruleset-id", {
-			type: "string",
-			description: "The Web Analytics ruleset identifier.",
-			demandOption: true,
-		})
-		.option("delete-rules", {
-			type: "string",
-			array: true,
-			description: "A list of rule identifiers to delete.",
-		})
-		.option("rules", {
-			type: "string",
-			description:
-				'A list of rules to create or update. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"host"?: string, "id"?: string, "inclusive"?: boolean, "is_paused"?: boolean, "paths"?: [string]}]. ? marks optional keys.',
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "bulk-create",
 	describe: "Update Web Analytics rules",
-	builder,
+	usage:
+		"$0 rum rules bulk-create\n\nModifies one or more rules in a Web Analytics ruleset with a single request.",
+	flags: {
+		"ruleset-id": {
+			kind: "parsed",
+			brief: "The Web Analytics ruleset identifier.",
+			parse: String,
+		},
+		"delete-rules": {
+			kind: "parsed",
+			brief: "A list of rule identifiers to delete.",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		rules: {
+			kind: "parsed",
+			brief:
+				'A list of rules to create or update. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"host"?: string, "id"?: string, "inclusive"?: boolean, "is_paused"?: boolean, "paths"?: [string]}]. ? marks optional keys.',
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "rum rules bulk-create",
-				classification: {
-					safeFlags: ["dry-run"],
-				} satisfies ArgClassification<Args>,
+				classification: { safeFlags: ["dry-run"] } satisfies ArgClassification<
+					typeof argv
+				>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -117,6 +117,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Created` });
 			}
 		),
-};
+});
 
 export default command;

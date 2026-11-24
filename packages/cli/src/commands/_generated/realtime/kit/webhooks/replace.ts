@@ -1,11 +1,10 @@
 import operation from "../../../_operations/realtime/kit/webhooks/replace.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * replace command
  * @generated from apis/overlays/realtime.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -20,60 +19,63 @@ import { withProgress } from "#lib/progress.js";
 import { promptForRequiredField } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 realtime kit webhooks replace <webhook-id>\n\nReplace all details for the given webhook ID."
-		)
-		.positional("webhook-id", {
-			type: "string",
-			description: "ID of the webhook",
-			demandOption: true,
-		})
-		.option("app-id", {
-			type: "string",
-			description: "The app identifier tag.",
-			demandOption: true,
-		})
-		.option("enabled", {
-			type: "boolean",
-			description:
-				"Set whether or not the webhook should be active when created",
-		})
-		.option("events", {
-			type: "string",
-			array: true,
-			description: "Events that this webhook will get triggered by",
-		})
-		.option("name", { type: "string", description: "Name of the webhook" })
-		.option("url", {
-			type: "string",
-			description: "URL this webhook will send events to",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "replace <webhook-id>",
 	describe: "Replace a webhook",
-	builder,
+	usage:
+		"$0 realtime kit webhooks replace <webhook-id>\n\nReplace all details for the given webhook ID.",
+	flags: {
+		"app-id": {
+			kind: "parsed",
+			brief: "The app identifier tag.",
+			parse: String,
+		},
+		enabled: {
+			kind: "boolean",
+			brief: "Set whether or not the webhook should be active when created",
+			optional: true,
+		},
+		events: {
+			kind: "parsed",
+			brief: "Events that this webhook will get triggered by",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		name: {
+			kind: "parsed",
+			brief: "Name of the webhook",
+			optional: true,
+			parse: String,
+		},
+		url: {
+			kind: "parsed",
+			brief: "URL this webhook will send events to",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [
+		{ placeholder: "webhook-id", brief: "ID of the webhook", parse: String },
+	],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "realtime kit webhooks replace",
 				classification: {
 					safeFlags: ["enabled", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -177,6 +179,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Updated` });
 			}
 		),
-};
+});
 
 export default command;

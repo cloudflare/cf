@@ -1,11 +1,10 @@
 import operation from "../../_operations/pay-per-crawl/zones/set-can-be-enabled.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * set-can-be-enabled command
  * @generated from apis/overlays/pay-per-crawl.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -18,40 +17,39 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 pay-per-crawl zones set-can-be-enabled\n\nAllows an account admin to set the can_be_enabled setting on a list of zones. An omitted can_be_enabled value leaves that zone unchanged."
-		)
-		.option("zones", {
-			type: "string",
-			description:
-				'The zones field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"id": string, "can_be_enabled"?: boolean}]. ? marks optional keys.',
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Data for setting flag on zones",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "set-can-be-enabled",
 	describe: "Set can_be_enabled setting on zones",
-	builder,
+	usage:
+		"$0 pay-per-crawl zones set-can-be-enabled\n\nAllows an account admin to set the can_be_enabled setting on a list of zones. An omitted can_be_enabled value leaves that zone unchanged.",
+	flags: {
+		zones: {
+			kind: "parsed",
+			brief:
+				'The zones field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"id": string, "can_be_enabled"?: boolean}]. ? marks optional keys.',
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Data for setting flag on zones",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "pay-per-crawl zones set-can-be-enabled",
-				classification: {
-					safeFlags: ["dry-run"],
-				} satisfies ArgClassification<Args>,
+				classification: { safeFlags: ["dry-run"] } satisfies ArgClassification<
+					typeof argv
+				>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -108,6 +106,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Updated` });
 			}
 		),
-};
+});
 
 export default command;

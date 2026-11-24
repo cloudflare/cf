@@ -1,11 +1,10 @@
 import operation from "../../../../_operations/r2/super-slurper/jobs/logs/list.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * list command
  * @generated from apis/overlays/r2.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -17,38 +16,29 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 r2 super-slurper jobs logs list\n\nGets log entries for an R2 Super Slurper migration job, showing migration status changes, errors, etc."
-		)
-		.option("job-id", {
-			type: "string",
-			description: "Job ID",
-			demandOption: true,
-		})
-		.option("limit", { type: "number", description: "Limit" })
-		.option("offset", { type: "number", description: "Offset" })
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "list",
 	describe: "Get job logs",
-	builder,
+	usage:
+		"$0 r2 super-slurper jobs logs list\n\nGets log entries for an R2 Super Slurper migration job, showing migration status changes, errors, etc.",
+	flags: {
+		"job-id": { kind: "parsed", brief: "Job ID", parse: String },
+		limit: { kind: "parsed", brief: "Limit", optional: true, parse: Number },
+		offset: { kind: "parsed", brief: "Offset", optional: true, parse: Number },
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "r2 super-slurper jobs logs list",
-				classification: {
-					safeFlags: ["dry-run"],
-				} satisfies ArgClassification<Args>,
+				classification: { safeFlags: ["dry-run"] } satisfies ArgClassification<
+					typeof argv
+				>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -82,6 +72,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Loaded` });
 			}
 		),
-};
+});
 
 export default command;

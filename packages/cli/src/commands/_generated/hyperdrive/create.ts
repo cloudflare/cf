@@ -1,11 +1,10 @@
 import operation from "../_operations/hyperdrive/create.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * create command
  * @generated from apis/overlays/hyperdrive.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -20,24 +19,29 @@ import { withProgress } from "#lib/progress.js";
 import { promptForRequiredField } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 hyperdrive create\n\nCreates and returns a new Hyperdrive configuration. For a PlanetScale integration, the Cloudflare account must already be linked to PlanetScale in the Hyperdrive dashboard."
-		)
-		.option("mtls-ca-certificate-id", {
-			type: "string",
-			description: "Define CA certificate ID obtained after uploading CA cert.",
-		})
-		.option("mtls-certificate-id", {
-			type: "string",
-			description:
-				"Define mTLS certificate ID obtained after uploading client cert.",
-		})
-		.option("mtls-sslmode", {
-			type: "string",
-			description:
+const command = apiCommand({
+	command: "create",
+	describe: "Create Hyperdrive",
+	usage:
+		"$0 hyperdrive create\n\nCreates and returns a new Hyperdrive configuration. For a PlanetScale integration, the Cloudflare account must already be linked to PlanetScale in the Hyperdrive dashboard.",
+	flags: {
+		"mtls-ca-certificate-id": {
+			kind: "parsed",
+			brief: "Define CA certificate ID obtained after uploading CA cert.",
+			optional: true,
+			parse: String,
+		},
+		"mtls-certificate-id": {
+			kind: "parsed",
+			brief: "Define mTLS certificate ID obtained after uploading client cert.",
+			optional: true,
+			parse: String,
+		},
+		"mtls-sslmode": {
+			kind: "parsed",
+			brief:
 				"PostgreSQL accepts `require`, `verify-ca`, and `verify-full`. MySQL accepts `REQUIRED`, `VERIFY_CA`, and `VERIFY_IDENTITY`. The verify modes require a CA certificate; the require modes cannot be used with a CA certificate.",
+			optional: true,
 			choices: [
 				"require",
 				"verify-ca",
@@ -46,112 +50,148 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"VERIFY_CA",
 				"VERIFY_IDENTITY",
 			],
-		})
-		.coerce("mtls-sslmode", (value) =>
-			resolveFileToken(value, "mtls-sslmode", "text")
-		)
-		.option("name", {
-			type: "string",
-			description:
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "mtls-sslmode", "text"),
+		},
+		name: {
+			kind: "parsed",
+			brief:
 				"The name of the Hyperdrive configuration. Used to identify the configuration in the Cloudflare dashboard and API.",
-		})
-		.option("origin-connection-limit", {
-			type: "number",
-			description:
+			optional: true,
+			parse: String,
+		},
+		"origin-connection-limit": {
+			kind: "parsed",
+			brief:
 				"The (soft) maximum number of connections the Hyperdrive is allowed to make to the origin database.\n\nMaximum allowed: 20 for free tier accounts, 100 for paid tier accounts.\nIf not specified, defaults to 20 for free tier and 60 for paid tier.\nCertain Cloudflare-managed origins may be permitted a higher limit.\nContact Cloudflare if you need a higher limit.",
-		})
-		.option("integration-custom-database-name", {
-			type: "string",
-			description:
+			optional: true,
+			parse: Number,
+		},
+		"integration-custom-database-name": {
+			kind: "parsed",
+			brief:
 				"The database name to use when connecting. Defaults to `postgres` for PostgreSQL and `mysql` for MySQL.",
-		})
-		.option("integration-database-branch-name", {
-			type: "string",
-			description: "The name of the PlanetScale database branch.",
-		})
-		.option("integration-database-name", {
-			type: "string",
-			description: "The name of the PlanetScale database.",
-		})
-		.option("integration-organization-name", {
-			type: "string",
-			description: "The name of the PlanetScale organization.",
-		})
-		.option("integration-provider", {
-			type: "string",
-			description: "The database integration provider used by this operation.",
+			optional: true,
+			parse: String,
+		},
+		"integration-database-branch-name": {
+			kind: "parsed",
+			brief: "The name of the PlanetScale database branch.",
+			optional: true,
+			parse: String,
+		},
+		"integration-database-name": {
+			kind: "parsed",
+			brief: "The name of the PlanetScale database.",
+			optional: true,
+			parse: String,
+		},
+		"integration-organization-name": {
+			kind: "parsed",
+			brief: "The name of the PlanetScale organization.",
+			optional: true,
+			parse: String,
+		},
+		"integration-provider": {
+			kind: "parsed",
+			brief: "The database integration provider used by this operation.",
+			optional: true,
 			choices: ["planetscale"],
-		})
-		.coerce("integration-provider", (value) =>
-			resolveFileToken(value, "integration-provider", "text")
-		)
-		.option("integration-scheme", {
-			type: "string",
-			description:
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "integration-provider", "text"),
+		},
+		"integration-scheme": {
+			kind: "parsed",
+			brief:
 				"Specifies the URL scheme used to connect to your origin database.",
+			optional: true,
 			choices: ["postgres", "postgresql", "mysql"],
-		})
-		.coerce("integration-scheme", (value) =>
-			resolveFileToken(value, "integration-scheme", "text")
-		)
-		.option("origin-database", {
-			type: "string",
-			description: "Set the name of your origin database.",
-		})
-		.option("origin-password", {
-			type: "string",
-			description:
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "integration-scheme", "text"),
+		},
+		"origin-database": {
+			kind: "parsed",
+			brief: "Set the name of your origin database.",
+			optional: true,
+			parse: String,
+		},
+		"origin-password": {
+			kind: "parsed",
+			brief:
 				"Set the password needed to access your origin database. The API never returns this write-only value.",
-		})
-		.option("origin-scheme", {
-			type: "string",
-			description:
+			optional: true,
+			parse: String,
+		},
+		"origin-scheme": {
+			kind: "parsed",
+			brief:
 				"Specifies the URL scheme used to connect to your origin database.",
+			optional: true,
 			choices: ["postgres", "postgresql", "mysql"],
-		})
-		.coerce("origin-scheme", (value) =>
-			resolveFileToken(value, "origin-scheme", "text")
-		)
-		.option("origin-user", {
-			type: "string",
-			description: "Set the user of your origin database.",
-		})
-		.option("origin-host", {
-			type: "string",
-			description:
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "origin-scheme", "text"),
+		},
+		"origin-user": {
+			kind: "parsed",
+			brief: "Set the user of your origin database.",
+			optional: true,
+			parse: String,
+		},
+		"origin-host": {
+			kind: "parsed",
+			brief:
 				"Variant descriptions:\n- Defines the publicly reachable hostname or IP of your origin database. Private, loopback, and link-local IP addresses are not allowed.\n- Defines the host (hostname or IP) of your origin database.",
-		})
-		.option("origin-port", {
-			type: "number",
-			description:
+			optional: true,
+			parse: String,
+		},
+		"origin-port": {
+			kind: "parsed",
+			brief:
 				"Defines the port of your origin database. Defaults to 5432 for PostgreSQL or 3306 for MySQL if not specified.",
-		})
-		.option("origin-access-client-id", {
-			type: "string",
-			description:
+			optional: true,
+			parse: Number,
+		},
+		"origin-access-client-id": {
+			kind: "parsed",
+			brief:
 				"Defines the Client ID of the Access token to use when connecting to the origin database.",
-		})
-		.option("origin-access-client-secret", {
-			type: "string",
-			description:
+			optional: true,
+			parse: String,
+		},
+		"origin-access-client-secret": {
+			kind: "parsed",
+			brief:
 				"Defines the Client Secret of the Access Token to use when connecting to the origin database. The API never returns this write-only value.",
-		})
-		.option("origin-service-id", {
-			type: "string",
-			description:
+			optional: true,
+			parse: String,
+		},
+		"origin-service-id": {
+			kind: "parsed",
+			brief:
 				"The identifier of the Workers VPC Service to connect through. Hyperdrive will egress through the specified VPC Service to reach the origin database.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
 			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description:
+		},
+		body: {
+			kind: "parsed",
+			brief:
 				"A request to create a Hyperdrive configuration using exactly one of caller-supplied origin credentials or a managed integration.",
-		})
-		.conflicts("integration-custom-database-name", [
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [],
+	rules(rules) {
+		rules.conflicts("integration-custom-database-name", [
 			"origin-database",
 			"origin-password",
 			"origin-scheme",
@@ -161,15 +201,15 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"origin-access-client-id",
 			"origin-access-client-secret",
 			"origin-service-id",
-		])
-		.implies("integration-custom-database-name", [
+		]);
+		rules.implies("integration-custom-database-name", [
 			"integration-database-branch-name",
 			"integration-database-name",
 			"integration-organization-name",
 			"integration-provider",
 			"integration-scheme",
-		])
-		.conflicts("integration-database-branch-name", [
+		]);
+		rules.conflicts("integration-database-branch-name", [
 			"origin-database",
 			"origin-password",
 			"origin-scheme",
@@ -179,14 +219,14 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"origin-access-client-id",
 			"origin-access-client-secret",
 			"origin-service-id",
-		])
-		.implies("integration-database-branch-name", [
+		]);
+		rules.implies("integration-database-branch-name", [
 			"integration-database-name",
 			"integration-organization-name",
 			"integration-provider",
 			"integration-scheme",
-		])
-		.conflicts("integration-database-name", [
+		]);
+		rules.conflicts("integration-database-name", [
 			"origin-database",
 			"origin-password",
 			"origin-scheme",
@@ -196,14 +236,14 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"origin-access-client-id",
 			"origin-access-client-secret",
 			"origin-service-id",
-		])
-		.implies("integration-database-name", [
+		]);
+		rules.implies("integration-database-name", [
 			"integration-database-branch-name",
 			"integration-organization-name",
 			"integration-provider",
 			"integration-scheme",
-		])
-		.conflicts("integration-organization-name", [
+		]);
+		rules.conflicts("integration-organization-name", [
 			"origin-database",
 			"origin-password",
 			"origin-scheme",
@@ -213,14 +253,14 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"origin-access-client-id",
 			"origin-access-client-secret",
 			"origin-service-id",
-		])
-		.implies("integration-organization-name", [
+		]);
+		rules.implies("integration-organization-name", [
 			"integration-database-branch-name",
 			"integration-database-name",
 			"integration-provider",
 			"integration-scheme",
-		])
-		.conflicts("integration-provider", [
+		]);
+		rules.conflicts("integration-provider", [
 			"origin-database",
 			"origin-password",
 			"origin-scheme",
@@ -230,14 +270,14 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"origin-access-client-id",
 			"origin-access-client-secret",
 			"origin-service-id",
-		])
-		.implies("integration-provider", [
+		]);
+		rules.implies("integration-provider", [
 			"integration-database-branch-name",
 			"integration-database-name",
 			"integration-organization-name",
 			"integration-scheme",
-		])
-		.conflicts("integration-scheme", [
+		]);
+		rules.conflicts("integration-scheme", [
 			"origin-database",
 			"origin-password",
 			"origin-scheme",
@@ -247,66 +287,66 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"origin-access-client-id",
 			"origin-access-client-secret",
 			"origin-service-id",
-		])
-		.implies("integration-scheme", [
+		]);
+		rules.implies("integration-scheme", [
 			"integration-database-branch-name",
 			"integration-database-name",
 			"integration-organization-name",
 			"integration-provider",
-		])
-		.conflicts("origin-database", [
+		]);
+		rules.conflicts("origin-database", [
 			"integration-custom-database-name",
 			"integration-database-branch-name",
 			"integration-database-name",
 			"integration-organization-name",
 			"integration-provider",
 			"integration-scheme",
-		])
-		.implies("origin-database", [
+		]);
+		rules.implies("origin-database", [
 			"origin-password",
 			"origin-scheme",
 			"origin-user",
-		])
-		.conflicts("origin-password", [
+		]);
+		rules.conflicts("origin-password", [
 			"integration-custom-database-name",
 			"integration-database-branch-name",
 			"integration-database-name",
 			"integration-organization-name",
 			"integration-provider",
 			"integration-scheme",
-		])
-		.implies("origin-password", [
+		]);
+		rules.implies("origin-password", [
 			"origin-database",
 			"origin-scheme",
 			"origin-user",
-		])
-		.conflicts("origin-scheme", [
+		]);
+		rules.conflicts("origin-scheme", [
 			"integration-custom-database-name",
 			"integration-database-branch-name",
 			"integration-database-name",
 			"integration-organization-name",
 			"integration-provider",
 			"integration-scheme",
-		])
-		.implies("origin-scheme", [
+		]);
+		rules.implies("origin-scheme", [
 			"origin-database",
 			"origin-password",
 			"origin-user",
-		])
-		.conflicts("origin-user", [
+		]);
+		rules.conflicts("origin-user", [
 			"integration-custom-database-name",
 			"integration-database-branch-name",
 			"integration-database-name",
 			"integration-organization-name",
 			"integration-provider",
 			"integration-scheme",
-		])
-		.implies("origin-user", [
+		]);
+		rules.implies("origin-user", [
 			"origin-database",
 			"origin-password",
 			"origin-scheme",
-		])
-		.conflicts("origin-host", [
+		]);
+		rules.conflicts("origin-host", [
 			"origin-service-id",
 			"integration-custom-database-name",
 			"integration-database-branch-name",
@@ -314,93 +354,86 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"integration-organization-name",
 			"integration-provider",
 			"integration-scheme",
-		])
-		.implies("origin-host", [
-			"origin-database",
-			"origin-password",
-			"origin-scheme",
-			"origin-user",
-		])
-		.conflicts("origin-port", [
-			"origin-access-client-id",
-			"origin-access-client-secret",
-			"origin-service-id",
-			"integration-custom-database-name",
-			"integration-database-branch-name",
-			"integration-database-name",
-			"integration-organization-name",
-			"integration-provider",
-			"integration-scheme",
-		])
-		.implies("origin-port", [
-			"origin-host",
-			"origin-database",
-			"origin-password",
-			"origin-scheme",
-			"origin-user",
-		])
-		.conflicts("origin-access-client-id", [
-			"origin-port",
-			"origin-service-id",
-			"integration-custom-database-name",
-			"integration-database-branch-name",
-			"integration-database-name",
-			"integration-organization-name",
-			"integration-provider",
-			"integration-scheme",
-		])
-		.implies("origin-access-client-id", [
-			"origin-host",
-			"origin-access-client-secret",
-			"origin-database",
-			"origin-password",
-			"origin-scheme",
-			"origin-user",
-		])
-		.conflicts("origin-access-client-secret", [
-			"origin-port",
-			"origin-service-id",
-			"integration-custom-database-name",
-			"integration-database-branch-name",
-			"integration-database-name",
-			"integration-organization-name",
-			"integration-provider",
-			"integration-scheme",
-		])
-		.implies("origin-access-client-secret", [
-			"origin-host",
-			"origin-access-client-id",
-			"origin-database",
-			"origin-password",
-			"origin-scheme",
-			"origin-user",
-		])
-		.conflicts("origin-service-id", [
-			"origin-host",
-			"origin-port",
-			"origin-access-client-id",
-			"origin-access-client-secret",
-			"integration-custom-database-name",
-			"integration-database-branch-name",
-			"integration-database-name",
-			"integration-organization-name",
-			"integration-provider",
-			"integration-scheme",
-		])
-		.implies("origin-service-id", [
+		]);
+		rules.implies("origin-host", [
 			"origin-database",
 			"origin-password",
 			"origin-scheme",
 			"origin-user",
 		]);
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "create",
-	describe: "Create Hyperdrive",
-	builder,
+		rules.conflicts("origin-port", [
+			"origin-access-client-id",
+			"origin-access-client-secret",
+			"origin-service-id",
+			"integration-custom-database-name",
+			"integration-database-branch-name",
+			"integration-database-name",
+			"integration-organization-name",
+			"integration-provider",
+			"integration-scheme",
+		]);
+		rules.implies("origin-port", [
+			"origin-host",
+			"origin-database",
+			"origin-password",
+			"origin-scheme",
+			"origin-user",
+		]);
+		rules.conflicts("origin-access-client-id", [
+			"origin-port",
+			"origin-service-id",
+			"integration-custom-database-name",
+			"integration-database-branch-name",
+			"integration-database-name",
+			"integration-organization-name",
+			"integration-provider",
+			"integration-scheme",
+		]);
+		rules.implies("origin-access-client-id", [
+			"origin-host",
+			"origin-access-client-secret",
+			"origin-database",
+			"origin-password",
+			"origin-scheme",
+			"origin-user",
+		]);
+		rules.conflicts("origin-access-client-secret", [
+			"origin-port",
+			"origin-service-id",
+			"integration-custom-database-name",
+			"integration-database-branch-name",
+			"integration-database-name",
+			"integration-organization-name",
+			"integration-provider",
+			"integration-scheme",
+		]);
+		rules.implies("origin-access-client-secret", [
+			"origin-host",
+			"origin-access-client-id",
+			"origin-database",
+			"origin-password",
+			"origin-scheme",
+			"origin-user",
+		]);
+		rules.conflicts("origin-service-id", [
+			"origin-host",
+			"origin-port",
+			"origin-access-client-id",
+			"origin-access-client-secret",
+			"integration-custom-database-name",
+			"integration-database-branch-name",
+			"integration-database-name",
+			"integration-organization-name",
+			"integration-provider",
+			"integration-scheme",
+		]);
+		rules.implies("origin-service-id", [
+			"origin-database",
+			"origin-password",
+			"origin-scheme",
+			"origin-user",
+		]);
+	},
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
@@ -413,7 +446,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"origin-scheme",
 						"dry-run",
 					],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -645,6 +678,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Created` });
 			}
 		),
-};
+});
 
 export default command;

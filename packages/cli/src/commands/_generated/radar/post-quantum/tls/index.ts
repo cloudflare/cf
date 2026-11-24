@@ -1,22 +1,17 @@
 import $support from "./support.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * tls command group
  * @generated from apis/overlays/radar.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "tls",
 	describe: "Operations for post-quantum.tls",
 
-	builder: (yargs) => {
-		return yargs
-			.command($support)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		support: $support,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

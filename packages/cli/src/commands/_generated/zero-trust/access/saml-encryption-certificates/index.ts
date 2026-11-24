@@ -2,27 +2,22 @@ import $getpem from "./get-pem.js";
 import $get from "./get.js";
 import $list from "./list.js";
 import $rotate from "./rotate.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * saml-encryption-certificates command group
  * @generated from apis/overlays/zero-trust.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "saml-encryption-certificates",
 	describe: "Operations for access.saml-encryption-certificates",
 
-	builder: (yargs) => {
-		return yargs
-			.command($get)
-			.command($getpem)
-			.command($list)
-			.command($rotate)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		get: $get,
+		"get-pem": $getpem,
+		list: $list,
+		rotate: $rotate,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

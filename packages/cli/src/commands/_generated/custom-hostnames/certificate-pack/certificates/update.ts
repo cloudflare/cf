@@ -1,11 +1,10 @@
 import operation from "../../../_operations/custom-hostnames/certificate-pack/certificates/update.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * update command
  * @generated from apis/overlays/custom-hostnames.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import { createCommandClient, getZoneId } from "#lib/auth.js";
 import { compactBody, parseBody } from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
@@ -15,58 +14,60 @@ import { withProgress } from "#lib/progress.js";
 import { promptForRequiredField } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 custom-hostnames certificate-pack certificates update <certificate-id>\n\nReplace a single custom certificate within a certificate pack that contains two bundled certificates. The replacement must adhere to the following constraints. You can only replace an RSA certificate with another RSA certificate or an ECDSA certificate with another ECDSA certificate."
-		)
-		.positional("certificate-id", {
-			type: "string",
-			description: "Custom hostname identifier tag.",
-			demandOption: true,
-		})
-		.option("custom-hostname-id", {
-			type: "string",
-			description: "Custom hostname identifier tag.",
-			demandOption: true,
-		})
-		.option("certificate-pack-id", {
-			type: "string",
-			description: "Custom hostname identifier tag.",
-			demandOption: true,
-		})
-		.option("custom-certificate", {
-			type: "string",
-			description: "If a custom uploaded certificate is used.",
-		})
-		.option("custom-key", {
-			type: "string",
-			description: "The key for a custom uploaded certificate.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "update <certificate-id>",
 	describe: "Replace Custom Certificate and Custom Key In Custom Hostname",
-	builder,
+	usage:
+		"$0 custom-hostnames certificate-pack certificates update <certificate-id>\n\nReplace a single custom certificate within a certificate pack that contains two bundled certificates. The replacement must adhere to the following constraints. You can only replace an RSA certificate with another RSA certificate or an ECDSA certificate with another ECDSA certificate.",
+	flags: {
+		"custom-hostname-id": {
+			kind: "parsed",
+			brief: "Custom hostname identifier tag.",
+			parse: String,
+		},
+		"certificate-pack-id": {
+			kind: "parsed",
+			brief: "Custom hostname identifier tag.",
+			parse: String,
+		},
+		"custom-certificate": {
+			kind: "parsed",
+			brief: "If a custom uploaded certificate is used.",
+			optional: true,
+			parse: String,
+		},
+		"custom-key": {
+			kind: "parsed",
+			brief: "The key for a custom uploaded certificate.",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [
+		{
+			placeholder: "certificate-id",
+			brief: "Custom hostname identifier tag.",
+			parse: String,
+		},
+	],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "custom-hostnames certificate-pack certificates update",
-				classification: {
-					safeFlags: ["dry-run"],
-				} satisfies ArgClassification<Args>,
+				classification: { safeFlags: ["dry-run"] } satisfies ArgClassification<
+					typeof argv
+				>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -168,6 +169,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Updated` });
 			}
 		),
-};
+});
 
 export default command;

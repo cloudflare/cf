@@ -1,11 +1,10 @@
 import operation from "../../_operations/cloudforce-one/threat-signals/search.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * search command
  * @generated from apis/overlays/cloudforce-one.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -17,47 +16,46 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 cloudforce-one threat-signals search\n\nSearches the account's Threat Signals articles using keyword and semantic retrieval."
-		)
-		.option("query", {
-			type: "string",
-			description:
-				"Keyword and semantic article-search text, from 1 to 1000 characters.",
-			demandOption: true,
-		})
-		.option("max-results", {
-			type: "string",
-			description:
-				"Maximum search matches to request, an integer from 1 to 50. Defaults to 20 when omitted or empty; multiple matches from one article can produce fewer returned articles.",
-		})
-		.option("feed-id", {
-			type: "string",
-			description:
-				"Optional feed UUID that restricts results to articles from that feed.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "search",
 	describe: "Search Threat Signals articles using AI Search",
-	builder,
+	usage:
+		"$0 cloudforce-one threat-signals search\n\nSearches the account's Threat Signals articles using keyword and semantic retrieval.",
+	flags: {
+		query: {
+			kind: "parsed",
+			brief:
+				"Keyword and semantic article-search text, from 1 to 1000 characters.",
+			parse: String,
+		},
+		"max-results": {
+			kind: "parsed",
+			brief:
+				"Maximum search matches to request, an integer from 1 to 50. Defaults to 20 when omitted or empty; multiple matches from one article can produce fewer returned articles.",
+			optional: true,
+			parse: String,
+		},
+		"feed-id": {
+			kind: "parsed",
+			brief:
+				"Optional feed UUID that restricts results to articles from that feed.",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "cloudforce-one threat-signals search",
-				classification: {
-					safeFlags: ["dry-run"],
-				} satisfies ArgClassification<Args>,
+				classification: { safeFlags: ["dry-run"] } satisfies ArgClassification<
+					typeof argv
+				>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -88,6 +86,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Loaded` });
 			}
 		),
-};
+});
 
 export default command;

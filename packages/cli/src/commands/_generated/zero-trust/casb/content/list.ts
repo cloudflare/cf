@@ -1,11 +1,10 @@
 import operation from "../../../_operations/zero-trust/casb/content/list.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * list command
  * @generated from apis/overlays/zero-trust.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -17,55 +16,76 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage("$0 zero-trust casb content list\n\nList DLP content findings")
-		.option("direction", {
-			type: "string",
-			description: "Direction to order results.",
-			choices: ["asc", "desc"],
-		})
-		.option("dlp-profile-id", {
-			type: "string",
-			description: "Filter by an DLP profile ID",
-		})
-		.option("integration-id", {
-			type: "string",
-			description: "Filter by an integration ID",
-		})
-		.option("max-affliction-date", {
-			type: "string",
-			description:
+const command = apiCommand({
+	command: "list",
+	describe: "List DLP content findings",
+	usage: "$0 zero-trust casb content list\n\nList DLP content findings",
+	flags: {
+		direction: {
+			kind: "enum",
+			brief: "Direction to order results.",
+			values: ["asc", "desc"],
+			optional: true,
+		},
+		"dlp-profile-id": {
+			kind: "parsed",
+			brief: "Filter by an DLP profile ID",
+			optional: true,
+			parse: String,
+		},
+		"integration-id": {
+			kind: "parsed",
+			brief: "Filter by an integration ID",
+			optional: true,
+			parse: String,
+		},
+		"max-affliction-date": {
+			kind: "parsed",
+			brief:
 				"Filter to view findings that occurred on or before the affliction date. Can be a date-time in ISO 8601 format or an epoch timestamp.",
-		})
-		.option("min-affliction-date", {
-			type: "string",
-			description:
+			optional: true,
+			parse: String,
+		},
+		"min-affliction-date": {
+			kind: "parsed",
+			brief:
 				"Filter to view findings that occurred on or after the affliction date. Can be a date-time in ISO 8601 format or an epoch timestamp.",
-		})
-		.option("order", {
-			type: "string",
-			description: "Which field to use when ordering content assets.",
-			choices: [
+			optional: true,
+			parse: String,
+		},
+		order: {
+			kind: "enum",
+			brief: "Which field to use when ordering content assets.",
+			values: [
 				"asset_name",
 				"dlp_profile_count",
 				"integration_name",
 				"latest_affliction_date",
 			],
-		})
-		.option("page", {
-			type: "number",
-			description: "A page number within the paginated result set.",
-		})
-		.option("per-page", {
-			type: "number",
-			description: "Number of results to return per page.",
-		})
-		.option("search", { type: "string", description: "A search term." })
-		.option("vendor", {
-			type: "string",
-			description: "Filter by vendor",
-			choices: [
+			optional: true,
+		},
+		page: {
+			kind: "parsed",
+			brief: "A page number within the paginated result set.",
+			optional: true,
+			parse: Number,
+		},
+		"per-page": {
+			kind: "parsed",
+			brief: "Number of results to return per page.",
+			optional: true,
+			parse: Number,
+		},
+		search: {
+			kind: "parsed",
+			brief: "A search term.",
+			optional: true,
+			parse: String,
+		},
+		vendor: {
+			kind: "enum",
+			brief: "Filter by vendor",
+			values: [
 				"ANTHROPIC",
 				"AWS",
 				"BITBUCKET",
@@ -84,27 +104,22 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"SLACK",
 				"ZOOM",
 			],
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
+			optional: true,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
 			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "list",
-	describe: "List DLP content findings",
-	builder,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "zero-trust casb content list",
 				classification: {
 					safeFlags: ["direction", "order", "vendor", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -142,6 +157,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Loaded` });
 			}
 		),
-};
+});
 
 export default command;

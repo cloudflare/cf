@@ -1,11 +1,10 @@
 import operation from "../../_operations/cloudforce-one/requests/update.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * update command
  * @generated from apis/overlays/cloudforce-one.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -19,31 +18,35 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 cloudforce-one requests update <request-id>\n\nUpdates an existing RFI with the provided fields. Only provided fields will be updated."
-		)
-		.positional("request-id", {
-			type: "string",
-			description: "RFI UUID",
-			demandOption: true,
-		})
-		.option("project-type", {
-			type: "string",
-			description:
+const command = apiCommand({
+	command: "update <request-id>",
+	describe: "Update an RFI",
+	usage:
+		"$0 cloudforce-one requests update <request-id>\n\nUpdates an existing RFI with the provided fields. Only provided fields will be updated.",
+	flags: {
+		"project-type": {
+			kind: "parsed",
+			brief:
 				"RFI project type. Valid values: threat-intelligence, incident-response, ir-emergency-response, table-top, pentest, irp, threat-hunting, cybersecurity-assessment, react-general, legal-response, soc-alerts, demo",
-			demandOption: true,
-		})
-		.option("description", { type: "string", description: "RFI description" })
-		.option("event-id", {
-			type: "string",
-			description: "Optional related event ID",
-		})
-		.option("priority", {
-			type: "string",
-			description:
+			parse: String,
+		},
+		description: {
+			kind: "parsed",
+			brief: "RFI description",
+			optional: true,
+			parse: String,
+		},
+		"event-id": {
+			kind: "parsed",
+			brief: "Optional related event ID",
+			optional: true,
+			parse: String,
+		},
+		priority: {
+			kind: "parsed",
+			brief:
 				"RFI priority. Four-level projects use a distinct `low` level; existing projects retain legacy `low`->routine compatibility. `medium`, `critical`, and `unknown` remain accepted legacy aliases.",
+			optional: true,
 			choices: [
 				"low",
 				"routine",
@@ -53,26 +56,39 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"medium",
 				"critical",
 			],
-		})
-		.coerce("priority", (value) => resolveFileToken(value, "priority", "text"))
-		.option("request-type", {
-			type: "string",
-			description:
+			parse: String,
+			coerce: (value: string) => resolveFileToken(value, "priority", "text"),
+		},
+		"request-type": {
+			kind: "parsed",
+			brief:
 				"Request type. May only be changed while the request is still open; changing it recalculates the request's token cost.",
-		})
-		.option("subtype-id", {
-			type: "string",
-			description: "Optional subtype ID",
-		})
-		.option("summary", { type: "string", description: "RFI summary" })
-		.option("title", {
-			type: "string",
-			description: "RFI title (alias for summary field)",
-		})
-		.option("tlp", {
-			type: "string",
-			description:
+			optional: true,
+			parse: String,
+		},
+		"subtype-id": {
+			kind: "parsed",
+			brief: "Optional subtype ID",
+			optional: true,
+			parse: String,
+		},
+		summary: {
+			kind: "parsed",
+			brief: "RFI summary",
+			optional: true,
+			parse: String,
+		},
+		title: {
+			kind: "parsed",
+			brief: "RFI title (alias for summary field)",
+			optional: true,
+			parse: String,
+		},
+		tlp: {
+			kind: "parsed",
+			brief:
 				"Traffic Light Protocol level. `white` and `amber+strict` are accepted input aliases; responses always use the canonical spelling.",
+			optional: true,
 			choices: [
 				"clear",
 				"green",
@@ -83,32 +99,29 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"white",
 				"amber+strict",
 			],
-		})
-		.coerce("tlp", (value) => resolveFileToken(value, "tlp", "text"))
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
+			parse: String,
+			coerce: (value: string) => resolveFileToken(value, "tlp", "text"),
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
 			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "update <request-id>",
-	describe: "Update an RFI",
-	builder,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [{ placeholder: "request-id", brief: "RFI UUID", parse: String }],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "cloudforce-one requests update",
 				classification: {
 					safeFlags: ["priority", "tlp", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -229,6 +242,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Updated` });
 			}
 		),
-};
+});
 
 export default command;

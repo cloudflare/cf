@@ -1,22 +1,17 @@
 import $purge from "./purge.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * build-cache command group
  * @generated from apis/overlays/pages.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "build-cache",
 	describe: "Operations for build-cache",
 
-	builder: (yargs) => {
-		return yargs
-			.command($purge)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		purge: $purge,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

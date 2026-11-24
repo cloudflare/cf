@@ -1,11 +1,10 @@
 import operation from "../../../_operations/cloudforce-one/rules/exemptions/delete.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * delete command
  * @generated from apis/overlays/cloudforce-one.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -19,49 +18,52 @@ import { withProgress } from "#lib/progress.js";
 import { confirmDelete } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 cloudforce-one rules exemptions delete\n\nRemove regex patterns from per-account exemption rules. Missing keys leave that type untouched; non-existent patterns are silently skipped."
-		)
-		.option("namespace", {
-			type: "string",
-			array: true,
-			description: "The namespace field",
-		})
-		.option("tag-match", {
-			type: "string",
-			array: true,
-			description: "The tag_match field",
-		})
-		.option("worker-name", {
-			type: "string",
-			array: true,
-			description: "The worker_name field",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("force", {
-			type: "boolean",
-			alias: "f",
-			description: "Skip confirmation (useful in scripts and CI)",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "delete",
 	describe: "Remove patterns from exemption rules",
-	builder,
+	usage:
+		"$0 cloudforce-one rules exemptions delete\n\nRemove regex patterns from per-account exemption rules. Missing keys leave that type untouched; non-existent patterns are silently skipped.",
+	flags: {
+		namespace: {
+			kind: "parsed",
+			brief: "The namespace field",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"tag-match": {
+			kind: "parsed",
+			brief: "The tag_match field",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"worker-name": {
+			kind: "parsed",
+			brief: "The worker_name field",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		force: {
+			kind: "boolean",
+			brief: "Skip confirmation (useful in scripts and CI)",
+			alias: "f",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
@@ -69,7 +71,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				classification: {
 					safeFlags: ["dry-run", "force"],
 					shortFlagAliases: { f: { canonical: "force", type: "boolean" } },
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -123,6 +125,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Deleted` });
 			}
 		),
-};
+});
 
 export default command;

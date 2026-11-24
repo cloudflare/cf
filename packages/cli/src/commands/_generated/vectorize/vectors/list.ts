@@ -1,11 +1,10 @@
 import operation from "../../_operations/vectorize/vectors/list.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * list command
  * @generated from apis/overlays/vectorize.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -17,44 +16,39 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 vectorize vectors list\n\nReturns a paginated list of vector identifiers from the specified index."
-		)
-		.option("index-name", {
-			type: "string",
-			description: "Index name",
-			demandOption: true,
-		})
-		.option("result-count", {
-			type: "number",
-			description: "Maximum number of vectors to return",
-		})
-		.option("cursor", {
-			type: "string",
-			description: "Cursor for pagination to get the next page of results",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "list",
 	describe: "List Vectors",
-	builder,
+	usage:
+		"$0 vectorize vectors list\n\nReturns a paginated list of vector identifiers from the specified index.",
+	flags: {
+		"index-name": { kind: "parsed", brief: "Index name", parse: String },
+		"result-count": {
+			kind: "parsed",
+			brief: "Maximum number of vectors to return",
+			optional: true,
+			parse: Number,
+		},
+		cursor: {
+			kind: "parsed",
+			brief: "Cursor for pagination to get the next page of results",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "vectorize vectors list",
-				classification: {
-					safeFlags: ["dry-run"],
-				} satisfies ArgClassification<Args>,
+				classification: { safeFlags: ["dry-run"] } satisfies ArgClassification<
+					typeof argv
+				>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -88,6 +82,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Loaded` });
 			}
 		),
-};
+});
 
 export default command;

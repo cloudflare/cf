@@ -4,29 +4,24 @@ import $feeds from "./feeds/index.js";
 import $indicators from "./indicators/index.js";
 import $search from "./search.js";
 import $skills from "./skills/index.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * threat-signals command group
  * @generated from apis/overlays/cloudforce-one.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "threat-signals",
 	describe: "Operations for threat-signals",
 
-	builder: (yargs) => {
-		return yargs
-			.command($search)
-			.command($articles)
-			.command($categories)
-			.command($feeds)
-			.command($indicators)
-			.command($skills)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		search: $search,
+		articles: $articles,
+		categories: $categories,
+		feeds: $feeds,
+		indicators: $indicators,
+		skills: $skills,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

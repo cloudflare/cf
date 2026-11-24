@@ -1,11 +1,10 @@
 import operation from "../../../../../_operations/zero-trust/access/applications/policy-tests/users/list.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * list command
  * @generated from apis/overlays/zero-trust.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -17,43 +16,49 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 zero-trust access applications policy-tests users list\n\nFetches a single page of user results from an Access policy test."
-		)
-		.option("policy-test-id", {
-			type: "string",
-			description: "The UUID of the policy test.",
-			demandOption: true,
-		})
-		.option("page", { type: "number", description: "Page number of results." })
-		.option("per-page", { type: "number", description: "Per page" })
-		.option("status", {
-			type: "string",
-			description: "Filter users by their policy evaluation status.",
-			choices: ["success", "fail", "error"],
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "list",
 	describe: "Get an Access policy test users page",
-	builder,
+	usage:
+		"$0 zero-trust access applications policy-tests users list\n\nFetches a single page of user results from an Access policy test.",
+	flags: {
+		"policy-test-id": {
+			kind: "parsed",
+			brief: "The UUID of the policy test.",
+			parse: String,
+		},
+		page: {
+			kind: "parsed",
+			brief: "Page number of results.",
+			optional: true,
+			parse: Number,
+		},
+		"per-page": {
+			kind: "parsed",
+			brief: "Per page",
+			optional: true,
+			parse: Number,
+		},
+		status: {
+			kind: "enum",
+			brief: "Filter users by their policy evaluation status.",
+			values: ["success", "fail", "error"],
+			optional: true,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "zero-trust access applications policy-tests users list",
 				classification: {
 					safeFlags: ["status", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -91,6 +96,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Loaded` });
 			}
 		),
-};
+});
 
 export default command;

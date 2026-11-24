@@ -1,22 +1,17 @@
 import $hostnameassociations from "./hostname-associations/index.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * certificate-authorities command group
  * @generated from apis/overlays/ssl.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "certificate-authorities",
 	describe: "Operations for certificate-authorities",
 
-	builder: (yargs) => {
-		return yargs
-			.command($hostnameassociations)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		"hostname-associations": $hostnameassociations,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

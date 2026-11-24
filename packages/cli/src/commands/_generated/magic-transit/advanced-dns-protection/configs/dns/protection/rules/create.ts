@@ -1,11 +1,10 @@
 import operation from "../../../../../../_operations/magic-transit/advanced-dns-protection/configs/dns/protection/rules/create.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * create command
  * @generated from apis/overlays/magic-transit.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -20,63 +19,70 @@ import { withProgress } from "#lib/progress.js";
 import { promptForRequiredField } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 magic-transit advanced-dns-protection configs dns protection rules create\n\nCreate a DNS Protection rule for an account."
-		)
-		.option("block-any-queries", {
-			type: "boolean",
-			description:
-				"Whether to block DNS ANY queries. Optional. Defaults to true.",
-		})
-		.option("burst-sensitivity", {
-			type: "string",
-			description:
-				"The burst sensitivity. Must be one of 'low', 'medium', 'high'.",
-		})
-		.option("protection-mode", {
-			type: "string",
-			description:
-				"The mode for DNS Protection. Must be one of 'enabled', 'disabled', 'monitoring'.",
-		})
-		.option("name", {
-			type: "string",
-			description:
-				"The name of the DNS Protection rule. Value is relative to the 'scope' setting. For 'global' scope, name should be 'global'. For either the 'region' or 'datacenter' scope, name should be the actual name of the region or datacenter, e.g., 'wnam' or 'lax'.",
-		})
-		.option("profile-sensitivity", {
-			type: "string",
-			description:
-				"The profile sensitivity. Recommended setting is 'low'. Must be one of 'low', 'medium', 'high', or 'very_high'.",
-		})
-		.option("rate-sensitivity", {
-			type: "string",
-			description:
-				"The rate sensitivity. Must be one of 'low', 'medium', 'high'.",
-		})
-		.option("scope", {
-			type: "string",
-			description:
-				"The scope for the DNS Protection rule. Must be one of 'global', 'region', or 'datacenter'.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "The new DNS Protection rule to add.",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "create",
 	describe: "Create DNS Protection rule.",
-	builder,
+	usage:
+		"$0 magic-transit advanced-dns-protection configs dns protection rules create\n\nCreate a DNS Protection rule for an account.",
+	flags: {
+		"block-any-queries": {
+			kind: "boolean",
+			brief: "Whether to block DNS ANY queries. Optional. Defaults to true.",
+			optional: true,
+		},
+		"burst-sensitivity": {
+			kind: "parsed",
+			brief: "The burst sensitivity. Must be one of 'low', 'medium', 'high'.",
+			optional: true,
+			parse: String,
+		},
+		"protection-mode": {
+			kind: "parsed",
+			brief:
+				"The mode for DNS Protection. Must be one of 'enabled', 'disabled', 'monitoring'.",
+			optional: true,
+			parse: String,
+		},
+		name: {
+			kind: "parsed",
+			brief:
+				"The name of the DNS Protection rule. Value is relative to the 'scope' setting. For 'global' scope, name should be 'global'. For either the 'region' or 'datacenter' scope, name should be the actual name of the region or datacenter, e.g., 'wnam' or 'lax'.",
+			optional: true,
+			parse: String,
+		},
+		"profile-sensitivity": {
+			kind: "parsed",
+			brief:
+				"The profile sensitivity. Recommended setting is 'low'. Must be one of 'low', 'medium', 'high', or 'very_high'.",
+			optional: true,
+			parse: String,
+		},
+		"rate-sensitivity": {
+			kind: "parsed",
+			brief: "The rate sensitivity. Must be one of 'low', 'medium', 'high'.",
+			optional: true,
+			parse: String,
+		},
+		scope: {
+			kind: "parsed",
+			brief:
+				"The scope for the DNS Protection rule. Must be one of 'global', 'region', or 'datacenter'.",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "The new DNS Protection rule to add.",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
@@ -84,7 +90,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					"magic-transit advanced-dns-protection configs dns protection rules create",
 				classification: {
 					safeFlags: ["block-any-queries", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -233,6 +239,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Created` });
 			}
 		),
-};
+});
 
 export default command;

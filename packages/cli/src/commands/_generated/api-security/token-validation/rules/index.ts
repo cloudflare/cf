@@ -5,30 +5,25 @@ import $delete from "./delete.js";
 import $edit from "./edit.js";
 import $get from "./get.js";
 import $list from "./list.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * rules command group
  * @generated from apis/overlays/api-security.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "rules",
 	describe: "Operations for token-validation.rules",
 
-	builder: (yargs) => {
-		return yargs
-			.command($bulkcreate)
-			.command($bulkedit)
-			.command($create)
-			.command($delete)
-			.command($edit)
-			.command($get)
-			.command($list)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		"bulk-create": $bulkcreate,
+		"bulk-edit": $bulkedit,
+		create: $create,
+		delete: $delete,
+		edit: $edit,
+		get: $get,
+		list: $list,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

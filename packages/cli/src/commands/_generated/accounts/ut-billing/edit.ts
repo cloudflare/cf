@@ -1,11 +1,10 @@
 import operation from "../../_operations/accounts/ut-billing/edit.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * edit command
  * @generated from apis/overlays/accounts.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -20,42 +19,41 @@ import { withProgress } from "#lib/progress.js";
 import { promptForRequiredEnumField } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			'$0 accounts ut-billing edit\n\nUpdates the Unique Transformations billing configuration for an account. When enabled, billing data is directed to the Transformations pipeline. Note: setting the value to "off" is not permitted once enabled.'
-		)
-		.option("value", {
-			type: "string",
-			description:
-				'Enables Unique Transformations billing for the account.\nNote: once enabled, this setting cannot be set back to "off".\n',
-			choices: ["on"],
-		})
-		.coerce("value", (value) => resolveFileToken(value, "value", "text"))
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "edit",
 	describe: "Change Unique Transformations billing setting",
-	builder,
+	usage:
+		'$0 accounts ut-billing edit\n\nUpdates the Unique Transformations billing configuration for an account. When enabled, billing data is directed to the Transformations pipeline. Note: setting the value to "off" is not permitted once enabled.',
+	flags: {
+		value: {
+			kind: "parsed",
+			brief:
+				'Enables Unique Transformations billing for the account.\nNote: once enabled, this setting cannot be set back to "off".\n',
+			optional: true,
+			choices: ["on"],
+			parse: String,
+			coerce: (value: string) => resolveFileToken(value, "value", "text"),
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "accounts ut-billing edit",
 				classification: {
 					safeFlags: ["value", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -114,6 +112,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Updated` });
 			}
 		),
-};
+});
 
 export default command;

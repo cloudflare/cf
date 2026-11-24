@@ -1,11 +1,10 @@
 import operation from "../../_operations/rum/site-info/list.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * list command
  * @generated from apis/overlays/rum.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -17,44 +16,44 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 rum site-info list\n\nLists all Web Analytics sites of an account."
-		)
-		.option("per-page", {
-			type: "number",
-			description: "Number of items to return per page of results.",
-		})
-		.option("page", {
-			type: "number",
-			description: "Current page within the paginated list of results.",
-		})
-		.option("order-by", {
-			type: "string",
-			description: "The property used to sort the list of results.",
-			choices: ["host", "created"],
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "list",
 	describe: "List Web Analytics sites",
-	builder,
+	usage:
+		"$0 rum site-info list\n\nLists all Web Analytics sites of an account.",
+	flags: {
+		"per-page": {
+			kind: "parsed",
+			brief: "Number of items to return per page of results.",
+			optional: true,
+			parse: Number,
+		},
+		page: {
+			kind: "parsed",
+			brief: "Current page within the paginated list of results.",
+			optional: true,
+			parse: Number,
+		},
+		"order-by": {
+			kind: "enum",
+			brief: "The property used to sort the list of results.",
+			values: ["host", "created"],
+			optional: true,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "rum site-info list",
 				classification: {
 					safeFlags: ["order-by", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -85,6 +84,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Loaded` });
 			}
 		),
-};
+});
 
 export default command;

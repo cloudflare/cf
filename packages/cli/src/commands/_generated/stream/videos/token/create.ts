@@ -1,11 +1,10 @@
 import operation from "../../../_operations/stream/videos/token/create.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * create command
  * @generated from apis/overlays/stream.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -20,75 +19,83 @@ import { withProgress } from "#lib/progress.js";
 import { confirmDelete } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 stream videos token create <identifier>\n\nCreates a signed URL token for a video. If a body is not provided in the request, a token is created with default values."
-		)
-		.positional("identifier", {
-			type: "string",
-			description: "A Cloudflare-generated unique identifier for a media item.",
-			demandOption: true,
-		})
-		.option("access-rules", {
-			type: "string",
-			description:
-				'The optional list of access rule constraints on the token. Access can be blocked or allowed based on an IP, IP range, or by country. Access rules are evaluated from first to last. If a rule matches, the associated action is applied and no further rules are evaluated. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"action"?: "allow" | "block", "country"?: [string], "ip"?: [string], "type"?: "any" | "ip.src" | "ip.geoip.country"}]. ? marks optional keys.',
-		})
-		.option("downloadable", {
-			type: "boolean",
-			description:
-				"The optional boolean value that enables using signed tokens to access MP4 download links for a video.",
-			default: false,
-		})
-		.option("exp", {
-			type: "number",
-			description:
-				"The optional unix epoch timestamp that specficies the time after a token is not accepted. The maximum time specification is 24 hours from issuing time. If this field is not set, the default is one hour after issuing.",
-		})
-		.option("flags-original", {
-			type: "boolean",
-			description:
-				"Whether to return the original video without transformations.",
-		})
-		.option("id", {
-			type: "string",
-			description:
-				"The optional ID of a Stream signing key. If present, the `pem` field is also required.",
-		})
-		.option("nbf", {
-			type: "number",
-			description:
-				"The optional unix epoch timestamp that specifies the time before a the token is not accepted. If this field is not set, the default is one hour before issuing.",
-		})
-		.option("pem", {
-			type: "string",
-			description:
-				"The optional base64 encoded private key in PEM format associated with a Stream signing key. If present, the `id` field is also required.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("force", {
-			type: "boolean",
-			alias: "f",
-			description: "Skip confirmation (useful in scripts and CI)",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "create <identifier>",
 	describe: "Create signed URL tokens for videos",
-	builder,
+	usage:
+		"$0 stream videos token create <identifier>\n\nCreates a signed URL token for a video. If a body is not provided in the request, a token is created with default values.",
+	flags: {
+		"access-rules": {
+			kind: "parsed",
+			brief:
+				'The optional list of access rule constraints on the token. Access can be blocked or allowed based on an IP, IP range, or by country. Access rules are evaluated from first to last. If a rule matches, the associated action is applied and no further rules are evaluated. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"action"?: "allow" | "block", "country"?: [string], "ip"?: [string], "type"?: "any" | "ip.src" | "ip.geoip.country"}]. ? marks optional keys.',
+			optional: true,
+			parse: String,
+		},
+		downloadable: {
+			kind: "boolean",
+			brief:
+				"The optional boolean value that enables using signed tokens to access MP4 download links for a video.",
+			default: false,
+		},
+		exp: {
+			kind: "parsed",
+			brief:
+				"The optional unix epoch timestamp that specficies the time after a token is not accepted. The maximum time specification is 24 hours from issuing time. If this field is not set, the default is one hour after issuing.",
+			optional: true,
+			parse: Number,
+		},
+		"flags-original": {
+			kind: "boolean",
+			brief: "Whether to return the original video without transformations.",
+			optional: true,
+		},
+		id: {
+			kind: "parsed",
+			brief:
+				"The optional ID of a Stream signing key. If present, the `pem` field is also required.",
+			optional: true,
+			parse: String,
+		},
+		nbf: {
+			kind: "parsed",
+			brief:
+				"The optional unix epoch timestamp that specifies the time before a the token is not accepted. If this field is not set, the default is one hour before issuing.",
+			optional: true,
+			parse: Number,
+		},
+		pem: {
+			kind: "parsed",
+			brief:
+				"The optional base64 encoded private key in PEM format associated with a Stream signing key. If present, the `id` field is also required.",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		force: {
+			kind: "boolean",
+			brief: "Skip confirmation (useful in scripts and CI)",
+			alias: "f",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [
+		{
+			placeholder: "identifier",
+			brief: "A Cloudflare-generated unique identifier for a media item.",
+			parse: String,
+		},
+	],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
@@ -96,7 +103,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				classification: {
 					safeFlags: ["downloadable", "flags-original", "dry-run", "force"],
 					shortFlagAliases: { f: { canonical: "force", type: "boolean" } },
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -191,6 +198,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Done` });
 			}
 		),
-};
+});
 
 export default command;

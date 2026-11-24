@@ -1,11 +1,10 @@
 import operation from "../_operations/dns-firewall/create.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * create command
  * @generated from apis/overlays/dns-firewall.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -20,87 +19,101 @@ import { withProgress } from "#lib/progress.js";
 import { promptForRequiredField } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage("$0 dns-firewall create\n\nCreate a DNS Firewall cluster")
-		.option("attack-mitigation-enabled", {
-			type: "boolean",
-			description:
-				"When enabled, automatically mitigate random-prefix attacks to protect upstream DNS servers",
-		})
-		.option("attack-mitigation-only-when-upstream-unhealthy", {
-			type: "boolean",
-			description: "Only mitigate attacks when upstream servers seem unhealthy",
-		})
-		.option("deprecate-any-requests", {
-			type: "boolean",
-			description: "Whether to refuse to answer queries for the ANY type",
-		})
-		.option("ecs-fallback", {
-			type: "boolean",
-			description:
-				"Whether to forward client IP (resolver) subnet if no EDNS Client Subnet is sent",
-		})
-		.option("maximum-cache-ttl", {
-			type: "number",
-			description:
-				"By default, Cloudflare attempts to cache responses for as long as\nindicated by the TTL received from upstream nameservers. This setting\nsets an upper bound on this duration. For caching purposes, higher TTLs\nwill be decreased to the maximum value defined by this setting.\n\nThis setting does not affect the TTL value in the DNS response\nCloudflare returns to clients. Cloudflare will always forward the TTL\nvalue received from upstream nameservers.\n",
-			default: 900,
-		})
-		.option("minimum-cache-ttl", {
-			type: "number",
-			description:
-				"By default, Cloudflare attempts to cache responses for as long as\nindicated by the TTL received from upstream nameservers. This setting\nsets a lower bound on this duration. For caching purposes, lower TTLs\nwill be increased to the minimum value defined by this setting.\n\nThis setting does not affect the TTL value in the DNS response\nCloudflare returns to clients. Cloudflare will always forward the TTL\nvalue received from upstream nameservers.\n\nNote that, even with this setting, there is no guarantee that a\nresponse will be cached for at least the specified duration. Cached\nresponses may be removed earlier for capacity or other operational\nreasons.\n",
-			default: 60,
-		})
-		.option("name", {
-			type: "string",
-			description: "DNS Firewall cluster name",
-		})
-		.option("negative-cache-ttl", {
-			type: "number",
-			description:
-				"This setting controls how long DNS Firewall should cache negative\nresponses (e.g., NXDOMAIN) from the upstream servers.\n\nThis setting does not affect the TTL value in the DNS response\nCloudflare returns to clients. Cloudflare will always forward the TTL\nvalue received from upstream nameservers.\n",
-		})
-		.option("ratelimit", {
-			type: "number",
-			description:
-				"Maximum number of DNS queries per second that will be forwarded to your upstream nameservers. The limit is enforced per server, where each server receives a fraction of the configured value. The actual aggregate rate for a data center may vary depending on how many servers are present. Responses served from cache do not count toward this limit. Set to null to disable rate limiting.",
-		})
-		.option("retries", {
-			type: "number",
-			description:
-				"Number of retries for fetching DNS responses from upstream nameservers (not counting the initial attempt)",
-			default: 2,
-		})
-		.option("upstream-ips", {
-			type: "string",
-			array: true,
-			description: "The upstream_ips field",
-		})
-		.option("dns-firewall-ip-count", {
-			type: "number",
-			description:
-				"Number of IPv4 addresses to assign to the DNS Firewall cluster. Only used during cluster creation and cannot be changed later.",
-			default: 2,
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "create",
 	describe: "Create DNS Firewall Cluster",
-	builder,
+	usage: "$0 dns-firewall create\n\nCreate a DNS Firewall cluster",
+	flags: {
+		"attack-mitigation-enabled": {
+			kind: "boolean",
+			brief:
+				"When enabled, automatically mitigate random-prefix attacks to protect upstream DNS servers",
+			optional: true,
+		},
+		"attack-mitigation-only-when-upstream-unhealthy": {
+			kind: "boolean",
+			brief: "Only mitigate attacks when upstream servers seem unhealthy",
+			optional: true,
+		},
+		"deprecate-any-requests": {
+			kind: "boolean",
+			brief: "Whether to refuse to answer queries for the ANY type",
+			optional: true,
+		},
+		"ecs-fallback": {
+			kind: "boolean",
+			brief:
+				"Whether to forward client IP (resolver) subnet if no EDNS Client Subnet is sent",
+			optional: true,
+		},
+		"maximum-cache-ttl": {
+			kind: "parsed",
+			brief:
+				"By default, Cloudflare attempts to cache responses for as long as\nindicated by the TTL received from upstream nameservers. This setting\nsets an upper bound on this duration. For caching purposes, higher TTLs\nwill be decreased to the maximum value defined by this setting.\n\nThis setting does not affect the TTL value in the DNS response\nCloudflare returns to clients. Cloudflare will always forward the TTL\nvalue received from upstream nameservers.\n",
+			default: "900",
+			parse: Number,
+		},
+		"minimum-cache-ttl": {
+			kind: "parsed",
+			brief:
+				"By default, Cloudflare attempts to cache responses for as long as\nindicated by the TTL received from upstream nameservers. This setting\nsets a lower bound on this duration. For caching purposes, lower TTLs\nwill be increased to the minimum value defined by this setting.\n\nThis setting does not affect the TTL value in the DNS response\nCloudflare returns to clients. Cloudflare will always forward the TTL\nvalue received from upstream nameservers.\n\nNote that, even with this setting, there is no guarantee that a\nresponse will be cached for at least the specified duration. Cached\nresponses may be removed earlier for capacity or other operational\nreasons.\n",
+			default: "60",
+			parse: Number,
+		},
+		name: {
+			kind: "parsed",
+			brief: "DNS Firewall cluster name",
+			optional: true,
+			parse: String,
+		},
+		"negative-cache-ttl": {
+			kind: "parsed",
+			brief:
+				"This setting controls how long DNS Firewall should cache negative\nresponses (e.g., NXDOMAIN) from the upstream servers.\n\nThis setting does not affect the TTL value in the DNS response\nCloudflare returns to clients. Cloudflare will always forward the TTL\nvalue received from upstream nameservers.\n",
+			optional: true,
+			parse: Number,
+		},
+		ratelimit: {
+			kind: "parsed",
+			brief:
+				"Maximum number of DNS queries per second that will be forwarded to your upstream nameservers. The limit is enforced per server, where each server receives a fraction of the configured value. The actual aggregate rate for a data center may vary depending on how many servers are present. Responses served from cache do not count toward this limit. Set to null to disable rate limiting.",
+			optional: true,
+			parse: Number,
+		},
+		retries: {
+			kind: "parsed",
+			brief:
+				"Number of retries for fetching DNS responses from upstream nameservers (not counting the initial attempt)",
+			default: "2",
+			parse: Number,
+		},
+		"upstream-ips": {
+			kind: "parsed",
+			brief: "The upstream_ips field",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"dns-firewall-ip-count": {
+			kind: "parsed",
+			brief:
+				"Number of IPv4 addresses to assign to the DNS Firewall cluster. Only used during cluster creation and cannot be changed later.",
+			default: "2",
+			parse: Number,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
@@ -113,7 +126,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"ecs-fallback",
 						"dry-run",
 					],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -212,6 +225,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Created` });
 			}
 		),
-};
+});
 
 export default command;

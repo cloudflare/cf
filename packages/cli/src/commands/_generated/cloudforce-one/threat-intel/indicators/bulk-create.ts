@@ -1,11 +1,10 @@
 import operation from "../../../_operations/cloudforce-one/threat-intel/indicators/bulk-create.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * bulk-create command
  * @generated from apis/overlays/cloudforce-one.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -18,50 +17,46 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 cloudforce-one threat-intel indicators bulk-create\n\nCreates multiple indicators in a dataset in one request. Set `autoCreateType` to create any indicator types that don't exist."
-		)
-		.option("dataset-id", {
-			type: "string",
-			description: "Dataset UUID.",
-			demandOption: true,
-		})
-		.option("auto-create-type", {
-			type: "boolean",
-			description:
-				"Global flag to automatically create indicator types if they don't exist. Individual indicators can override this with their own autoCreateType flag. When false, a non-analytics dataset still accepts pre-approved types (the same list event create accepts, such as BITCOIN or ERC-20) and registers them on first use. Analytics datasets do not check registered types.",
-		})
-		.option("indicators", {
-			type: "string",
-			description:
-				'The indicators field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"indicatorType": string, "value": string, "autoCreateType"?: boolean, "relatedEvents"?: [{...}], "tags"?: [(string | {...})], ...more}]. ? marks optional keys.',
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "bulk-create",
 	describe: "Create indicators in bulk",
-	builder,
+	usage:
+		"$0 cloudforce-one threat-intel indicators bulk-create\n\nCreates multiple indicators in a dataset in one request. Set `autoCreateType` to create any indicator types that don't exist.",
+	flags: {
+		"dataset-id": { kind: "parsed", brief: "Dataset UUID.", parse: String },
+		"auto-create-type": {
+			kind: "boolean",
+			brief:
+				"Global flag to automatically create indicator types if they don't exist. Individual indicators can override this with their own autoCreateType flag. When false, a non-analytics dataset still accepts pre-approved types (the same list event create accepts, such as BITCOIN or ERC-20) and registers them on first use. Analytics datasets do not check registered types.",
+			optional: true,
+		},
+		indicators: {
+			kind: "parsed",
+			brief:
+				'The indicators field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"indicatorType": string, "value": string, "autoCreateType"?: boolean, "relatedEvents"?: [{...}], "tags"?: [(string | {...})], ...more}]. ? marks optional keys.',
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "cloudforce-one threat-intel indicators bulk-create",
 				classification: {
 					safeFlags: ["auto-create-type", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -131,6 +126,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Created` });
 			}
 		),
-};
+});
 
 export default command;

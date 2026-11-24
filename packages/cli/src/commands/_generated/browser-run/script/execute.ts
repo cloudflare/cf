@@ -1,10 +1,9 @@
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * execute command
  * @generated from apis/overlays/browser-run.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -20,68 +19,67 @@ import { promptForRequiredField } from "#lib/prompt.js";
 import { fetchRawBytes, writeRawOutput } from "#lib/raw-fetch.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 browser-run script execute <session-id>\n\nRuns the provided code in an existing browser session. The session stays open; close it with `DELETE /devtools/browser/:sessionId` or `browser.close()`, otherwise it ends at the idle timeout."
-		)
-		.positional("session-id", {
-			type: "string",
-			description: "Browser session ID",
-			demandOption: true,
-		})
-		.option("code", {
-			type: "string",
-			description:
-				"Function body executed against the selected library's runner.",
-		})
-		.option("library", {
-			type: "string",
-			description:
-				"Library the script runs with. Defaults to raw CDP when omitted.",
-			choices: ["playwright", "puppeteer"],
-		})
-		.coerce("library", (value) => resolveFileToken(value, "library", "text"))
-		.option("target-id", {
-			type: "string",
-			description:
-				"Page target the script attaches to. Defaults to the session's first page.",
-		})
-		.option("timeout", {
-			type: "number",
-			description: "Maximum script run time in milliseconds.",
-			default: 60000,
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		})
-		.option("text", {
-			type: "boolean",
-			description:
-				"Decode the response body as UTF-8 text instead of writing raw bytes",
-			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "execute <session-id>",
 	describe: "Dynamic Script - execute code in an existing browser session.",
-	builder,
+	usage:
+		"$0 browser-run script execute <session-id>\n\nRuns the provided code in an existing browser session. The session stays open; close it with `DELETE /devtools/browser/:sessionId` or `browser.close()`, otherwise it ends at the idle timeout.",
+	flags: {
+		code: {
+			kind: "parsed",
+			brief: "Function body executed against the selected library's runner.",
+			optional: true,
+			parse: String,
+		},
+		library: {
+			kind: "parsed",
+			brief: "Library the script runs with. Defaults to raw CDP when omitted.",
+			optional: true,
+			choices: ["playwright", "puppeteer"],
+			parse: String,
+			coerce: (value: string) => resolveFileToken(value, "library", "text"),
+		},
+		"target-id": {
+			kind: "parsed",
+			brief:
+				"Page target the script attaches to. Defaults to the session's first page.",
+			optional: true,
+			parse: String,
+		},
+		timeout: {
+			kind: "parsed",
+			brief: "Maximum script run time in milliseconds.",
+			default: "60000",
+			parse: Number,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+		text: {
+			kind: "boolean",
+			brief:
+				"Decode the response body as UTF-8 text instead of writing raw bytes",
+			default: false,
+		},
+	},
+	operands: [
+		{ placeholder: "session-id", brief: "Browser session ID", parse: String },
+	],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "browser-run script execute",
 				classification: {
 					safeFlags: ["library", "dry-run", "text"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -190,6 +188,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				return;
 			}
 		),
-};
+});
 
 export default command;

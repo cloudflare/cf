@@ -1,11 +1,10 @@
 import operation from "../../../_operations/email-security/bulk-actions/messages/list.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * list command
  * @generated from apis/overlays/email-security.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -17,28 +16,33 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 email-security bulk-actions messages list\n\nReturns the individual messages associated with a bulk action job, including their processing status."
-		)
-		.option("job-id", {
-			type: "string",
-			description: "Identifier of the bulk action job whose messages to list.",
-			demandOption: true,
-		})
-		.option("page", {
-			type: "number",
-			description: "Current page within paginated list of results.",
-		})
-		.option("per-page", {
-			type: "number",
-			description: "The number of results per page. Maximum value is 1000.",
-		})
-		.option("status", {
-			type: "string",
-			description: "Filter the job's messages by their processing status.",
-			choices: [
+const command = apiCommand({
+	command: "list",
+	describe: "List messages for a bulk action job",
+	usage:
+		"$0 email-security bulk-actions messages list\n\nReturns the individual messages associated with a bulk action job, including their processing status.",
+	flags: {
+		"job-id": {
+			kind: "parsed",
+			brief: "Identifier of the bulk action job whose messages to list.",
+			parse: String,
+		},
+		page: {
+			kind: "parsed",
+			brief: "Current page within paginated list of results.",
+			optional: true,
+			parse: Number,
+		},
+		"per-page": {
+			kind: "parsed",
+			brief: "The number of results per page. Maximum value is 1000.",
+			optional: true,
+			parse: Number,
+		},
+		status: {
+			kind: "enum",
+			brief: "Filter the job's messages by their processing status.",
+			values: [
 				"PENDING",
 				"PROCESSING",
 				"COMPLETED",
@@ -46,27 +50,22 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"CANCELLED",
 				"SKIPPED",
 			],
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
+			optional: true,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
 			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "list",
-	describe: "List messages for a bulk action job",
-	builder,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "email-security bulk-actions messages list",
 				classification: {
 					safeFlags: ["status", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -101,6 +100,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Loaded` });
 			}
 		),
-};
+});
 
 export default command;

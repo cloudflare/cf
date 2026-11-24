@@ -1,11 +1,10 @@
 import operation from "../../../../_operations/zero-trust/dlp/validators/proximity-words/update.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * update command
  * @generated from apis/overlays/zero-trust.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -20,49 +19,47 @@ import { withProgress } from "#lib/progress.js";
 import { promptForRequiredField } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 zero-trust dlp validators proximity-words update <validator-id>\n\nReplaces the name and word list of a `proximity_words` validator. Attachments to detection entries are owned from the entry side and are not affected."
-		)
-		.positional("validator-id", {
-			type: "string",
-			description: "Validator ID",
-			demandOption: true,
-		})
-		.option("name", {
-			type: "string",
-			description: "A name for this validator, at most 50 characters.",
-		})
-		.option("words", {
-			type: "string",
-			description:
-				'The words that raise confidence when found near a match, at most 100 per validator. Matching\nignores case, so the list may not contain the same word twice with different capitalisation.\nWords are stored as sent.\n\nFor example, a validator for medical record numbers might use\n`[{"word": "patient", "weight": "strong"}, {"word": "diagnosis", "weight": "moderate"},\n{"word": "mrn", "weight": "weak"}]`. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"weight": "strong" | "moderate" | "weak", "word": string}].',
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Attributes of the validator to update.",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "update <validator-id>",
 	describe: "Update a proximity word validator",
-	builder,
+	usage:
+		"$0 zero-trust dlp validators proximity-words update <validator-id>\n\nReplaces the name and word list of a `proximity_words` validator. Attachments to detection entries are owned from the entry side and are not affected.",
+	flags: {
+		name: {
+			kind: "parsed",
+			brief: "A name for this validator, at most 50 characters.",
+			optional: true,
+			parse: String,
+		},
+		words: {
+			kind: "parsed",
+			brief:
+				'The words that raise confidence when found near a match, at most 100 per validator. Matching\nignores case, so the list may not contain the same word twice with different capitalisation.\nWords are stored as sent.\n\nFor example, a validator for medical record numbers might use\n`[{"word": "patient", "weight": "strong"}, {"word": "diagnosis", "weight": "moderate"},\n{"word": "mrn", "weight": "weak"}]`. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"weight": "strong" | "moderate" | "weak", "word": string}].',
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Attributes of the validator to update.",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [
+		{ placeholder: "validator-id", brief: "Validator ID", parse: String },
+	],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "zero-trust dlp validators proximity-words update",
-				classification: {
-					safeFlags: ["dry-run"],
-				} satisfies ArgClassification<Args>,
+				classification: { safeFlags: ["dry-run"] } satisfies ArgClassification<
+					typeof argv
+				>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -143,6 +140,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Updated` });
 			}
 		),
-};
+});
 
 export default command;

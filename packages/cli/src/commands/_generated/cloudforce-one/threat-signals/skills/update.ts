@@ -1,11 +1,10 @@
 import operation from "../../../_operations/cloudforce-one/threat-signals/skills/update.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * update command
  * @generated from apis/overlays/cloudforce-one.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -19,63 +18,68 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 cloudforce-one threat-signals skills update <skill-id>\n\nUpdates a Custom Skill. Managed Default Skills cannot be updated. Free Threat Signals accounts cannot update Custom Skills."
-		)
-		.positional("skill-id", {
-			type: "string",
-			description: "Custom Skill UUID or a Managed Default Skill ID",
-			demandOption: true,
-		})
-		.option("skill-config", {
-			type: "string",
-			description:
-				"Optional skill configuration (stored but not currently interpreted).",
-		})
-		.option("is-active", {
-			type: "boolean",
-			description:
-				"Whether the skill is active and eligible for feed assignment.",
-		})
-		.option("name", {
-			type: "string",
-			description: "Custom Skill name (1–100 characters).",
-		})
-		.option("output-schema", {
-			type: "string",
-			description: "JSON Schema serialized as a string (max 4096 characters).",
-		})
-		.option("prompt", {
-			type: "string",
-			description:
-				"AI prompt (1–4000 characters) defining the skill's instructions.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "update <skill-id>",
 	describe: "Update Threat Signals skill",
-	builder,
+	usage:
+		"$0 cloudforce-one threat-signals skills update <skill-id>\n\nUpdates a Custom Skill. Managed Default Skills cannot be updated. Free Threat Signals accounts cannot update Custom Skills.",
+	flags: {
+		"skill-config": {
+			kind: "parsed",
+			brief:
+				"Optional skill configuration (stored but not currently interpreted).",
+			optional: true,
+			parse: String,
+		},
+		"is-active": {
+			kind: "boolean",
+			brief: "Whether the skill is active and eligible for feed assignment.",
+			optional: true,
+		},
+		name: {
+			kind: "parsed",
+			brief: "Custom Skill name (1–100 characters).",
+			optional: true,
+			parse: String,
+		},
+		"output-schema": {
+			kind: "parsed",
+			brief: "JSON Schema serialized as a string (max 4096 characters).",
+			optional: true,
+			parse: String,
+		},
+		prompt: {
+			kind: "parsed",
+			brief: "AI prompt (1–4000 characters) defining the skill's instructions.",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [
+		{
+			placeholder: "skill-id",
+			brief: "Custom Skill UUID or a Managed Default Skill ID",
+			parse: String,
+		},
+	],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "cloudforce-one threat-signals skills update",
 				classification: {
 					safeFlags: ["is-active", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -169,6 +173,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Updated` });
 			}
 		),
-};
+});
 
 export default command;

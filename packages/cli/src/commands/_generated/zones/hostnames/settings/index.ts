@@ -1,24 +1,19 @@
 import $tlssingle from "./tls-single/index.js";
 import $tls from "./tls/index.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * settings command group
  * @generated from apis/overlays/zones.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "settings",
 	describe: "Operations for hostnames.settings",
 
-	builder: (yargs) => {
-		return yargs
-			.command($tls)
-			.command($tlssingle)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		tls: $tls,
+		"tls-single": $tlssingle,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

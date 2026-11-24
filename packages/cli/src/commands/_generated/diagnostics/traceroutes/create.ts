@@ -1,11 +1,10 @@
 import operation from "../../_operations/diagnostics/traceroutes/create.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * create command
  * @generated from apis/overlays/diagnostics.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -19,69 +18,81 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 diagnostics traceroutes create\n\nRun traceroutes from Cloudflare colos."
-		)
-		.option("colos", {
-			type: "string",
-			array: true,
-			description:
-				"If no source colo names specified, all colos will be used. China colos are unavailable for traceroutes.",
-		})
-		.option("options-max-ttl", { type: "number", description: "Max TTL." })
-		.option("options-packet-type", {
-			type: "string",
-			description: "Type of packet sent.",
-			choices: ["icmp", "tcp", "udp", "gre", "gre+icmp"],
-		})
-		.coerce("options-packet-type", (value) =>
-			resolveFileToken(value, "options-packet-type", "text")
-		)
-		.option("options-packets-per-ttl", {
-			type: "number",
-			description: "Number of packets sent at each TTL.",
-		})
-		.option("options-port", {
-			type: "number",
-			description:
-				"For UDP and TCP, specifies the destination port. For ICMP, specifies the initial ICMP sequence value. Default value 0 will choose the best value to use for each protocol.",
-		})
-		.option("options-wait-time", {
-			type: "number",
-			description:
-				"Set the time (in seconds) to wait for a response to a probe.",
-		})
-		.option("targets", {
-			type: "string",
-			array: true,
-			description: "The targets field",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "create",
 	describe: "Traceroute",
-	builder,
+	usage:
+		"$0 diagnostics traceroutes create\n\nRun traceroutes from Cloudflare colos.",
+	flags: {
+		colos: {
+			kind: "parsed",
+			brief:
+				"If no source colo names specified, all colos will be used. China colos are unavailable for traceroutes.",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"options-max-ttl": {
+			kind: "parsed",
+			brief: "Max TTL.",
+			optional: true,
+			parse: Number,
+		},
+		"options-packet-type": {
+			kind: "parsed",
+			brief: "Type of packet sent.",
+			optional: true,
+			choices: ["icmp", "tcp", "udp", "gre", "gre+icmp"],
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "options-packet-type", "text"),
+		},
+		"options-packets-per-ttl": {
+			kind: "parsed",
+			brief: "Number of packets sent at each TTL.",
+			optional: true,
+			parse: Number,
+		},
+		"options-port": {
+			kind: "parsed",
+			brief:
+				"For UDP and TCP, specifies the destination port. For ICMP, specifies the initial ICMP sequence value. Default value 0 will choose the best value to use for each protocol.",
+			optional: true,
+			parse: Number,
+		},
+		"options-wait-time": {
+			kind: "parsed",
+			brief: "Set the time (in seconds) to wait for a response to a probe.",
+			optional: true,
+			parse: Number,
+		},
+		targets: {
+			kind: "parsed",
+			brief: "The targets field",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "diagnostics traceroutes create",
 				classification: {
 					safeFlags: ["options-packet-type", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -154,6 +165,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Created` });
 			}
 		),
-};
+});
 
 export default command;

@@ -1,11 +1,10 @@
 import operation from "../../_operations/email-security/impersonation-registry/edit.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * edit command
  * @generated from apis/overlays/email-security.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -19,84 +18,95 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 email-security impersonation-registry edit <impersonation-registry-id>\n\nUpdates an existing impersonation registry entry. Only provided fields will be modified. Directory-synced entries can't be updated."
-		)
-		.positional("impersonation-registry-id", {
-			type: "string",
-			description: "Impersonation registry entry identifier.",
-			demandOption: true,
-		})
-		.option("comments", {
-			type: "string",
-			description: "Optional note describing the entry.",
-		})
-		.option("directory-id", {
-			type: "number",
-			description:
+const command = apiCommand({
+	command: "edit <impersonation-registry-id>",
+	describe: "Update an impersonation registry entry",
+	usage:
+		"$0 email-security impersonation-registry edit <impersonation-registry-id>\n\nUpdates an existing impersonation registry entry. Only provided fields will be modified. Directory-synced entries can't be updated.",
+	flags: {
+		comments: {
+			kind: "parsed",
+			brief: "Optional note describing the entry.",
+			optional: true,
+			parse: String,
+		},
+		"directory-id": {
+			kind: "parsed",
+			brief:
 				"Identifier of the directory the entry was synced from, when directory-synced.",
-		})
-		.option("directory-node-id", {
-			type: "number",
-			description:
+			optional: true,
+			parse: Number,
+		},
+		"directory-node-id": {
+			kind: "parsed",
+			brief:
 				"Identifier of the directory node the entry was synced from, when directory-synced.",
-		})
-		.option("email", {
-			type: "string",
-			description: "Email address (or pattern) of the protected identity.",
-		})
-		.option("external-directory-node-id", {
-			type: "string",
-			description: "Deprecated. External identifier of the directory node.",
-		})
-		.option("is-email-regex", {
-			type: "boolean",
-			description:
+			optional: true,
+			parse: Number,
+		},
+		email: {
+			kind: "parsed",
+			brief: "Email address (or pattern) of the protected identity.",
+			optional: true,
+			parse: String,
+		},
+		"external-directory-node-id": {
+			kind: "parsed",
+			brief: "Deprecated. External identifier of the directory node.",
+			optional: true,
+			parse: String,
+		},
+		"is-email-regex": {
+			kind: "boolean",
+			brief:
 				"Whether `email` is a regular expression instead of a literal address.",
-		})
-		.option("name", {
-			type: "string",
-			description: "Display name of the protected identity.",
-		})
-		.option("provenance", {
-			type: "string",
-			description: "Source the entry was created from.",
+			optional: true,
+		},
+		name: {
+			kind: "parsed",
+			brief: "Display name of the protected identity.",
+			optional: true,
+			parse: String,
+		},
+		provenance: {
+			kind: "parsed",
+			brief: "Source the entry was created from.",
+			optional: true,
 			choices: [
 				"A1S_INTERNAL",
 				"SNOOPY-CASB_OFFICE_365",
 				"SNOOPY-OFFICE_365",
 				"SNOOPY-GOOGLE_DIRECTORY",
 			],
-		})
-		.coerce("provenance", (value) =>
-			resolveFileToken(value, "provenance", "text")
-		)
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
+			parse: String,
+			coerce: (value: string) => resolveFileToken(value, "provenance", "text"),
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
 			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Update an impersonation registry entry.",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "edit <impersonation-registry-id>",
-	describe: "Update an impersonation registry entry",
-	builder,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Update an impersonation registry entry.",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [
+		{
+			placeholder: "impersonation-registry-id",
+			brief: "Impersonation registry entry identifier.",
+			parse: String,
+		},
+	],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "email-security impersonation-registry edit",
 				classification: {
 					safeFlags: ["is-email-regex", "provenance", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -200,6 +210,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Updated` });
 			}
 		),
-};
+});
 
 export default command;

@@ -1,50 +1,60 @@
 import operation from "../../../_operations/radar/annotations/outages/list.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * list command
  * @generated from apis/overlays/radar.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import { createCommandClient } from "#lib/auth.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 radar annotations outages list\n\nRetrieves the latest Internet outages and anomalies."
-		)
-		.option("limit", {
-			type: "number",
-			description: "Limits the number of objects returned in the response.",
-		})
-		.option("offset", {
-			type: "number",
-			description:
+const command = apiCommand({
+	command: "list",
+	describe: "Get latest Internet outages and anomalies",
+	usage:
+		"$0 radar annotations outages list\n\nRetrieves the latest Internet outages and anomalies.",
+	flags: {
+		limit: {
+			kind: "parsed",
+			brief: "Limits the number of objects returned in the response.",
+			optional: true,
+			parse: Number,
+		},
+		offset: {
+			kind: "parsed",
+			brief:
 				"Skips the specified number of objects before fetching the results.",
-		})
-		.option("date-range", {
-			type: "string",
-			description:
+			optional: true,
+			parse: Number,
+		},
+		"date-range": {
+			kind: "parsed",
+			brief:
 				"Filters results by a relative date range ending at the current time. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`), e.g. `7d`. Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `3dcontrol` covers days -10 to -7, `7dcontrol` covers days -14 to -7, `28dcontrol` covers days -56 to -28, and `10dcontrol` covers days -24 to -14). Mutually exclusive with `dateStart`/`dateEnd`.",
-		})
-		.option("date-start", {
-			type: "string",
-			description:
+			optional: true,
+			parse: String,
+		},
+		"date-start": {
+			kind: "parsed",
+			brief:
 				"Start of the date range (inclusive). Alternative to `dateRange`; provide together with `dateEnd`.",
-		})
-		.option("date-end", {
-			type: "string",
-			description:
+			optional: true,
+			parse: String,
+		},
+		"date-end": {
+			kind: "parsed",
+			brief:
 				"End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`.",
-		})
-		.option("data-source", {
-			type: "string",
-			description: "Filters results by data source.",
-			choices: [
+			optional: true,
+			parse: String,
+		},
+		"data-source": {
+			kind: "enum",
+			brief: "Filters results by data source.",
+			values: [
 				"ALL",
 				"AI_BOTS",
 				"AI_GATEWAY",
@@ -71,16 +81,18 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"SPEED",
 				"WORKERS_AI",
 			],
-		})
-		.option("outage-type", {
-			type: "string",
-			description: "Filters results by outage type.",
-			choices: ["NATIONWIDE", "REGIONAL", "NETWORK", "PLATFORM"],
-		})
-		.option("outage-cause", {
-			type: "string",
-			description: "Filters results by outage cause.",
-			choices: [
+			optional: true,
+		},
+		"outage-type": {
+			kind: "enum",
+			brief: "Filters results by outage type.",
+			values: ["NATIONWIDE", "REGIONAL", "NETWORK", "PLATFORM"],
+			optional: true,
+		},
+		"outage-cause": {
+			kind: "enum",
+			brief: "Filters results by outage cause.",
+			values: [
 				"BLOCKING",
 				"CABLE_CUT",
 				"CYBERATTACK",
@@ -99,12 +111,14 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"UNKNOWN",
 				"WEATHER",
 			],
-		})
-		.option("tags", {
-			type: "string",
-			array: true,
-			description:
+			optional: true,
+		},
+		tags: {
+			kind: "parsed",
+			brief:
 				"Filters results by annotation tag. Matches annotations carrying at least one of the given tags.",
+			variadic: true,
+			optional: true,
 			choices: [
 				"ADM1",
 				"ADM2",
@@ -203,65 +217,79 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"VECTOR",
 				"VERTICAL",
 			],
-		})
-		.coerce("tags", (values: string[]) =>
-			values.flatMap((value) => value.split(","))
-		)
-		.option("query", {
-			type: "string",
-			description:
+			parse: String,
+			coerce: (values: string[]) => values.flatMap((value) => value.split(",")),
+		},
+		query: {
+			kind: "parsed",
+			brief:
 				"Filters results by a free-text match on the annotation description, id, or linked entities (location, ASN, origin).",
-		})
-		.option("asn", {
-			type: "number",
-			description:
+			optional: true,
+			parse: String,
+		},
+		asn: {
+			kind: "parsed",
+			brief:
 				"Filters results by Autonomous System. Specify a single Autonomous System Number (ASN) as integer.",
-		})
-		.option("location", {
-			type: "string",
-			description:
-				"Filters results by location. Specify an alpha-2 location code.",
-		})
-		.option("geo-id", {
-			type: "string",
-			description:
+			optional: true,
+			parse: Number,
+		},
+		location: {
+			kind: "parsed",
+			brief: "Filters results by location. Specify an alpha-2 location code.",
+			optional: true,
+			parse: String,
+		},
+		"geo-id": {
+			kind: "parsed",
+			brief:
 				"Filters results by geolocation. Refer to [GeoNames](https://download.geonames.org/export/dump/readme.txt).",
-		})
-		.option("origin", {
-			type: "string",
-			description: "Filters results by origin.",
-		})
-		.option("tld", {
-			type: "string",
-			description: "Filters results by top-level domain.",
-		})
-		.option("ca", {
-			type: "string",
-			description: "Filters results by certificate authority.",
-		})
-		.option("log", {
-			type: "string",
-			description: "Filters results by certificate log.",
-		})
-		.option("bot", { type: "string", description: "Filters results by bot." })
-		.option("format", {
-			type: "string",
-			description: "Format in which results will be returned.",
-			choices: ["JSON", "CSV"],
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
+			optional: true,
+			parse: String,
+		},
+		origin: {
+			kind: "parsed",
+			brief: "Filters results by origin.",
+			optional: true,
+			parse: String,
+		},
+		tld: {
+			kind: "parsed",
+			brief: "Filters results by top-level domain.",
+			optional: true,
+			parse: String,
+		},
+		ca: {
+			kind: "parsed",
+			brief: "Filters results by certificate authority.",
+			optional: true,
+			parse: String,
+		},
+		log: {
+			kind: "parsed",
+			brief: "Filters results by certificate log.",
+			optional: true,
+			parse: String,
+		},
+		bot: {
+			kind: "parsed",
+			brief: "Filters results by bot.",
+			optional: true,
+			parse: String,
+		},
+		format: {
+			kind: "enum",
+			brief: "Format in which results will be returned.",
+			values: ["JSON", "CSV"],
+			optional: true,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
 			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "list",
-	describe: "Get latest Internet outages and anomalies",
-	builder,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
@@ -274,7 +302,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"format",
 						"dry-run",
 					],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -318,6 +346,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Loaded` });
 			}
 		),
-};
+});
 
 export default command;

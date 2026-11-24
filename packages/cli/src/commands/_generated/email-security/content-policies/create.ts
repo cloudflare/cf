@@ -1,11 +1,10 @@
 import operation from "../../_operations/email-security/content-policies/create.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * create command
  * @generated from apis/overlays/email-security.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -20,61 +19,69 @@ import { withProgress } from "#lib/progress.js";
 import { promptForRequiredField } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 email-security content-policies create\n\nCreates a new content policy. Emails whose subject or body matches the pattern will be subject to the configured action."
-		)
-		.option("enabled", {
-			type: "boolean",
-			description: "Whether the policy is active.",
-		})
-		.option("expires-at", {
-			type: "string",
-			description:
-				"Timestamp at which the policy expires. After this time, Email Security ignores the policy. The value must lie in the future. Send `null` to clear the expiration.",
-		})
-		.option("name", {
-			type: "string",
-			description: "Human-readable name of the policy.",
-		})
-		.option("notes", {
-			type: "string",
-			description: "Optional note describing the purpose of the policy.",
-		})
-		.option("pattern", {
-			type: "string",
-			description: "Regular expression the policy matches against.",
-		})
-		.option("targets", {
-			type: "string",
-			array: true,
-			description: "Parts of the email the pattern is matched against.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Create a content policy.",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "create",
 	describe: "Create a content policy",
-	builder,
+	usage:
+		"$0 email-security content-policies create\n\nCreates a new content policy. Emails whose subject or body matches the pattern will be subject to the configured action.",
+	flags: {
+		enabled: {
+			kind: "boolean",
+			brief: "Whether the policy is active.",
+			optional: true,
+		},
+		"expires-at": {
+			kind: "parsed",
+			brief:
+				"Timestamp at which the policy expires. After this time, Email Security ignores the policy. The value must lie in the future. Send `null` to clear the expiration.",
+			optional: true,
+			parse: String,
+		},
+		name: {
+			kind: "parsed",
+			brief: "Human-readable name of the policy.",
+			optional: true,
+			parse: String,
+		},
+		notes: {
+			kind: "parsed",
+			brief: "Optional note describing the purpose of the policy.",
+			optional: true,
+			parse: String,
+		},
+		pattern: {
+			kind: "parsed",
+			brief: "Regular expression the policy matches against.",
+			optional: true,
+			parse: String,
+		},
+		targets: {
+			kind: "parsed",
+			brief: "Parts of the email the pattern is matched against.",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Create a content policy.",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "email-security content-policies create",
 				classification: {
 					safeFlags: ["enabled", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -190,6 +197,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Created` });
 			}
 		),
-};
+});
 
 export default command;

@@ -1,11 +1,10 @@
 import operation from "../../_operations/security-insights/scans/start.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * start command
  * @generated from apis/overlays/security-insights.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -20,14 +19,16 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 security-insights scans start\n\nInitiates an on-demand security scan for the entire account or zone, scanning all zones associated with the account or zone. Rate limited to 5 scans per account or zone per 24-hour window.\n\nRuns against your account. Pass --zone to run against a zone instead. CLOUDFLARE_ZONE_ID is ignored."
-		)
-		.option("issue-type", {
-			type: "string",
-			description: "The issue_type field",
+const command = apiCommand({
+	command: "start",
+	describe: "Start On-Demand account or zone Scan",
+	usage:
+		"$0 security-insights scans start\n\nInitiates an on-demand security scan for the entire account or zone, scanning all zones associated with the account or zone. Rate limited to 5 scans per account or zone per 24-hour window.\n\nRuns against your account. Pass --zone to run against a zone instead. CLOUDFLARE_ZONE_ID is ignored.",
+	flags: {
+		"issue-type": {
+			kind: "parsed",
+			brief: "The issue_type field",
+			optional: true,
 			choices: [
 				"compliance_violation",
 				"email_security",
@@ -36,41 +37,40 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"weak_authentication",
 				"configuration_suggestion",
 			],
-		})
-		.coerce("issue-type", (value) =>
-			resolveFileToken(value, "issue-type", "text")
-		)
-		.option("issue-class", {
-			type: "string",
-			description: "The issue_class field",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
+			parse: String,
+			coerce: (value: string) => resolveFileToken(value, "issue-type", "text"),
+		},
+		"issue-class": {
+			kind: "parsed",
+			brief: "The issue_class field",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
 			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description:
+		},
+		body: {
+			kind: "parsed",
+			brief:
 				"Request body for starting an on-demand scan. Specify issue_type or issue_class to scope the scan, or provide an empty object to scan all issue types.",
-		})
-		.conflicts("issue-type", ["issue-class"])
-		.conflicts("issue-class", ["issue-type"]);
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "start",
-	describe: "Start On-Demand account or zone Scan",
-	builder,
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [],
+	rules(rules) {
+		rules.conflicts("issue-type", ["issue-class"]);
+		rules.conflicts("issue-class", ["issue-type"]);
+	},
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "security-insights scans start",
 				classification: {
 					safeFlags: ["issue-type", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -155,6 +155,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Created` });
 			}
 		),
-};
+});
 
 export default command;

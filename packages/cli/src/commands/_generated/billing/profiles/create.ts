@@ -1,11 +1,10 @@
 import operation from "../../_operations/billing/profiles/create.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * create command
  * @generated from apis/overlays/billing.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -19,105 +18,146 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 billing profiles create\n\nCreates a billing profile for an account."
-		)
-		.option("address", {
-			type: "string",
-			description: "Street address line 1.",
-		})
-		.option("address2", {
-			type: "string",
-			description: "Street address line 2 (apt, suite, etc.).",
-		})
-		.option("billing-email", {
-			type: "string",
-			description: "Primary billing email address.",
-		})
-		.option("buying-rate-plan", {
-			type: "string",
-			description: "Rate plan being purchased right after profile setup.",
-		})
-		.option("captcha-challenge-jwt", {
-			type: "string",
-			description: "Captcha challenge JWT issued during onboarding.",
-		})
-		.option("cf-turnstile-response", {
-			type: "string",
-			description: "Cloudflare Turnstile response.",
-		})
-		.option("city", {
-			type: "string",
-			description: "City on the billing profile.",
-		})
-		.option("company", {
-			type: "string",
-			description: "Company name on the billing profile.",
-		})
-		.option("country", {
-			type: "string",
-			description: "ISO 3166-1 alpha-2 country code.",
-		})
-		.option("first-name", {
-			type: "string",
-			description: "First name on the billing profile.",
-		})
-		.option("h-captcha-response", {
-			type: "string",
-			description: "hCaptcha response.",
-		})
-		.option("last-name", {
-			type: "string",
-			description: "Last name on the billing profile.",
-		})
-		.option("preferred-locale", {
-			type: "string",
-			description: "Preferred locale for invoice rendering (BCP 47).",
-		})
-		.option("secondary-billing-email", {
-			type: "string",
-			description: "Secondary billing email address for CC on invoices.",
-		})
-		.option("state", {
-			type: "string",
-			description: "State or region on the billing profile.",
-		})
-		.option("tax-id-type", {
-			type: "string",
-			description: "Type of tax ID provided.",
-		})
-		.option("telephone", {
-			type: "string",
-			description: "Contact phone number.",
-		})
-		.option("vat", { type: "string", description: "VAT identifier." })
-		.option("zipcode", { type: "string", description: "ZIP or postal code." })
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Request body for creating or updating a billing profile.",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "create",
 	describe: "Create Billing Profile",
-	builder,
+	usage:
+		"$0 billing profiles create\n\nCreates a billing profile for an account.",
+	flags: {
+		address: {
+			kind: "parsed",
+			brief: "Street address line 1.",
+			optional: true,
+			parse: String,
+		},
+		address2: {
+			kind: "parsed",
+			brief: "Street address line 2 (apt, suite, etc.).",
+			optional: true,
+			parse: String,
+		},
+		"billing-email": {
+			kind: "parsed",
+			brief: "Primary billing email address.",
+			optional: true,
+			parse: String,
+		},
+		"buying-rate-plan": {
+			kind: "parsed",
+			brief: "Rate plan being purchased right after profile setup.",
+			optional: true,
+			parse: String,
+		},
+		"captcha-challenge-jwt": {
+			kind: "parsed",
+			brief: "Captcha challenge JWT issued during onboarding.",
+			optional: true,
+			parse: String,
+		},
+		"cf-turnstile-response": {
+			kind: "parsed",
+			brief: "Cloudflare Turnstile response.",
+			optional: true,
+			parse: String,
+		},
+		city: {
+			kind: "parsed",
+			brief: "City on the billing profile.",
+			optional: true,
+			parse: String,
+		},
+		company: {
+			kind: "parsed",
+			brief: "Company name on the billing profile.",
+			optional: true,
+			parse: String,
+		},
+		country: {
+			kind: "parsed",
+			brief: "ISO 3166-1 alpha-2 country code.",
+			optional: true,
+			parse: String,
+		},
+		"first-name": {
+			kind: "parsed",
+			brief: "First name on the billing profile.",
+			optional: true,
+			parse: String,
+		},
+		"h-captcha-response": {
+			kind: "parsed",
+			brief: "hCaptcha response.",
+			optional: true,
+			parse: String,
+		},
+		"last-name": {
+			kind: "parsed",
+			brief: "Last name on the billing profile.",
+			optional: true,
+			parse: String,
+		},
+		"preferred-locale": {
+			kind: "parsed",
+			brief: "Preferred locale for invoice rendering (BCP 47).",
+			optional: true,
+			parse: String,
+		},
+		"secondary-billing-email": {
+			kind: "parsed",
+			brief: "Secondary billing email address for CC on invoices.",
+			optional: true,
+			parse: String,
+		},
+		state: {
+			kind: "parsed",
+			brief: "State or region on the billing profile.",
+			optional: true,
+			parse: String,
+		},
+		"tax-id-type": {
+			kind: "parsed",
+			brief: "Type of tax ID provided.",
+			optional: true,
+			parse: String,
+		},
+		telephone: {
+			kind: "parsed",
+			brief: "Contact phone number.",
+			optional: true,
+			parse: String,
+		},
+		vat: {
+			kind: "parsed",
+			brief: "VAT identifier.",
+			optional: true,
+			parse: String,
+		},
+		zipcode: {
+			kind: "parsed",
+			brief: "ZIP or postal code.",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Request body for creating or updating a billing profile.",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "billing profiles create",
-				classification: {
-					safeFlags: ["dry-run"],
-				} satisfies ArgClassification<Args>,
+				classification: { safeFlags: ["dry-run"] } satisfies ArgClassification<
+					typeof argv
+				>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -351,6 +391,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Created` });
 			}
 		),
-};
+});
 
 export default command;

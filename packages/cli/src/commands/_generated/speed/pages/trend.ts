@@ -1,31 +1,26 @@
 import operation from "../../_operations/speed/pages/trend.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * trend command
  * @generated from apis/overlays/speed.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import { createCommandClient, getZoneId } from "#lib/auth.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 speed pages trend <url>\n\nLists the core web vital metrics trend over time for a specific page."
-		)
-		.positional("url", {
-			type: "string",
-			description: "A URL.",
-			demandOption: true,
-		})
-		.option("region", {
-			type: "string",
-			description: "A test region.",
-			choices: [
+const command = apiCommand({
+	command: "trend <url>",
+	describe: "List core web vital metrics trend",
+	usage:
+		"$0 speed pages trend <url>\n\nLists the core web vital metrics trend over time for a specific page.",
+	flags: {
+		region: {
+			kind: "enum",
+			brief: "A test region.",
+			values: [
 				"asia-east1",
 				"asia-northeast1",
 				"asia-northeast2",
@@ -48,51 +43,38 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"us-south1",
 				"us-west1",
 			],
-			demandOption: true,
-		})
-		.option("device-type", {
-			type: "string",
-			description: "The type of device.",
-			choices: ["DESKTOP", "MOBILE"],
-			demandOption: true,
-		})
-		.option("start", {
-			type: "string",
-			description: "Start",
-			demandOption: true,
-		})
-		.option("end", { type: "string", description: "End" })
-		.option("tz", {
-			type: "string",
-			description: "The timezone of the start and end timestamps.",
-			demandOption: true,
-		})
-		.option("metrics", {
-			type: "string",
-			description:
-				"A comma-separated list of metrics to include in the results.",
-			demandOption: true,
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
+		},
+		"device-type": {
+			kind: "enum",
+			brief: "The type of device.",
+			values: ["DESKTOP", "MOBILE"],
+		},
+		start: { kind: "parsed", brief: "Start", parse: String },
+		end: { kind: "parsed", brief: "End", optional: true, parse: String },
+		tz: {
+			kind: "parsed",
+			brief: "The timezone of the start and end timestamps.",
+			parse: String,
+		},
+		metrics: {
+			kind: "parsed",
+			brief: "A comma-separated list of metrics to include in the results.",
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
 			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "trend <url>",
-	describe: "List core web vital metrics trend",
-	builder,
+		},
+	},
+	operands: [{ placeholder: "url", brief: "A URL.", parse: String }],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "speed pages trend",
 				classification: {
 					safeFlags: ["region", "device-type", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -134,6 +116,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Loaded` });
 			}
 		),
-};
+});
 
 export default command;

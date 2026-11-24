@@ -1,11 +1,10 @@
 import operation from "../../_operations/ssl/keyless-certificates/edit.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * edit command
  * @generated from apis/overlays/ssl.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import { createCommandClient, getZoneId } from "#lib/auth.js";
 import { compactBody, parseBody } from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
@@ -14,45 +13,69 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 ssl keyless-certificates edit <keyless-certificate-id>\n\nThis will update attributes of a Keyless SSL. Consists of one or more of the following: host,name,port."
-		)
-		.positional("keyless-certificate-id", {
-			type: "string",
-			description: "Keyless certificate identifier tag.",
-			demandOption: true,
-		})
-		.option("enabled", {
-			type: "boolean",
-			description: "Whether or not the Keyless SSL is on or off.",
-		})
-		.option("host", { type: "string", description: "The keyless SSL name." })
-		.option("name", { type: "string", description: "The keyless SSL name." })
-		.option("port", {
-			type: "number",
-			description:
+const command = apiCommand({
+	command: "edit <keyless-certificate-id>",
+	describe: "Edit Keyless SSL Configuration",
+	usage:
+		"$0 ssl keyless-certificates edit <keyless-certificate-id>\n\nThis will update attributes of a Keyless SSL. Consists of one or more of the following: host,name,port.",
+	flags: {
+		enabled: {
+			kind: "boolean",
+			brief: "Whether or not the Keyless SSL is on or off.",
+			optional: true,
+		},
+		host: {
+			kind: "parsed",
+			brief: "The keyless SSL name.",
+			optional: true,
+			parse: String,
+		},
+		name: {
+			kind: "parsed",
+			brief: "The keyless SSL name.",
+			optional: true,
+			parse: String,
+		},
+		port: {
+			kind: "parsed",
+			brief:
 				"The keyless SSL port used to communicate between Cloudflare and the client's Keyless SSL server.",
-		})
-		.option("tunnel-private-ip", {
-			type: "string",
-			description: "Private IP of the Key Server Host.",
-		})
-		.option("tunnel-vnet-id", {
-			type: "string",
-			description: "Cloudflare Tunnel Virtual Network ID.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
+			optional: true,
+			parse: Number,
+		},
+		"tunnel-private-ip": {
+			kind: "parsed",
+			brief: "Private IP of the Key Server Host.",
+			optional: true,
+			parse: String,
+		},
+		"tunnel-vnet-id": {
+			kind: "parsed",
+			brief: "Cloudflare Tunnel Virtual Network ID.",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
 			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		})
-		.check((argv) => {
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [
+		{
+			placeholder: "keyless-certificate-id",
+			brief: "Keyless certificate identifier tag.",
+			parse: String,
+		},
+	],
+	rules(rules) {
+		rules.check((argv) => {
 			const groupSet = ["tunnel-private-ip", "tunnel-vnet-id"].some(
 				(k) => argv[k] !== undefined
 			);
@@ -68,21 +91,14 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			}
 			return true;
 		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "edit <keyless-certificate-id>",
-	describe: "Edit Keyless SSL Configuration",
-	builder,
+	},
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "ssl keyless-certificates edit",
 				classification: {
 					safeFlags: ["enabled", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -188,6 +204,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Updated` });
 			}
 		),
-};
+});
 
 export default command;

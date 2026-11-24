@@ -1,11 +1,10 @@
 import operation from "../../../_operations/zero-trust/access/custom-pages/validate.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * validate command
  * @generated from apis/overlays/zero-trust.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -23,49 +22,52 @@ import {
 } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 zero-trust access custom-pages validate\n\nValidate a Liquid template and return its errors and warnings without persisting it."
-		)
-		.option("template", {
-			type: "string",
-			description: "The Liquid template to validate.",
-		})
-		.option("type", {
-			type: "string",
-			description: "Custom page type.",
-			choices: ["identity_denied", "forbidden", "login", "interstitial"],
-		})
-		.coerce("type", (value) => resolveFileToken(value, "type", "text"))
-		.option("contract-version", {
-			type: "number",
-			description: "Contract version to validate against; omit for the latest.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "A template to validate without persisting it.",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "validate",
 	describe: "Validate a custom page template",
-	builder,
+	usage:
+		"$0 zero-trust access custom-pages validate\n\nValidate a Liquid template and return its errors and warnings without persisting it.",
+	flags: {
+		template: {
+			kind: "parsed",
+			brief: "The Liquid template to validate.",
+			optional: true,
+			parse: String,
+		},
+		type: {
+			kind: "parsed",
+			brief: "Custom page type.",
+			optional: true,
+			choices: ["identity_denied", "forbidden", "login", "interstitial"],
+			parse: String,
+			coerce: (value: string) => resolveFileToken(value, "type", "text"),
+		},
+		"contract-version": {
+			kind: "parsed",
+			brief: "Contract version to validate against; omit for the latest.",
+			optional: true,
+			parse: Number,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "A template to validate without persisting it.",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "zero-trust access custom-pages validate",
 				classification: {
 					safeFlags: ["type", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -142,6 +144,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Validated` });
 			}
 		),
-};
+});
 
 export default command;

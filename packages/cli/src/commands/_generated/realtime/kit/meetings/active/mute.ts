@@ -1,11 +1,10 @@
 import operation from "../../../../_operations/realtime/kit/meetings/active/mute.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * mute command
  * @generated from apis/overlays/realtime.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -18,51 +17,47 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 realtime kit meetings active mute <meeting-id>\n\nMutes the microphone of one or more participants of an active session using their participant IDs."
-		)
-		.positional("meeting-id", {
-			type: "string",
-			description: "ID of the meeting",
-			demandOption: true,
-		})
-		.option("app-id", {
-			type: "string",
-			description: "The app identifier tag.",
-			demandOption: true,
-		})
-		.option("participant-ids", {
-			type: "string",
-			array: true,
-			description:
-				"IDs of the participants to mute, as returned when the participants were added to the meeting.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Request body for muting participants in an active session.",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "mute <meeting-id>",
 	describe: "Mute participants of an active session",
-	builder,
+	usage:
+		"$0 realtime kit meetings active mute <meeting-id>\n\nMutes the microphone of one or more participants of an active session using their participant IDs.",
+	flags: {
+		"app-id": {
+			kind: "parsed",
+			brief: "The app identifier tag.",
+			parse: String,
+		},
+		"participant-ids": {
+			kind: "parsed",
+			brief:
+				"IDs of the participants to mute, as returned when the participants were added to the meeting.",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Request body for muting participants in an active session.",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [
+		{ placeholder: "meeting-id", brief: "ID of the meeting", parse: String },
+	],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "realtime kit meetings active mute",
-				classification: {
-					safeFlags: ["dry-run"],
-				} satisfies ArgClassification<Args>,
+				classification: { safeFlags: ["dry-run"] } satisfies ArgClassification<
+					typeof argv
+				>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -132,6 +127,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Created` });
 			}
 		),
-};
+});
 
 export default command;

@@ -1,25 +1,20 @@
 import $list from "./list.js";
 import $tables from "./tables/index.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * namespaces command group
  * @generated from apis/overlays/basin-catalog.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "namespaces",
 	describe:
 		"Logical namespaces that group related tables within the data catalog",
 
-	builder: (yargs) => {
-		return yargs
-			.command($list)
-			.command($tables)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		list: $list,
+		tables: $tables,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

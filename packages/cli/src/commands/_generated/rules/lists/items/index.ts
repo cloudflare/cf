@@ -3,28 +3,23 @@ import $delete from "./delete.js";
 import $get from "./get.js";
 import $list from "./list.js";
 import $update from "./update.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * items command group
  * @generated from apis/overlays/rules.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "items",
 	describe: "Operations for lists.items",
 
-	builder: (yargs) => {
-		return yargs
-			.command($create)
-			.command($delete)
-			.command($get)
-			.command($list)
-			.command($update)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		create: $create,
+		delete: $delete,
+		get: $get,
+		list: $list,
+		update: $update,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

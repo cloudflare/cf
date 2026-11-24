@@ -1,22 +1,17 @@
 import $origin from "./origin.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * ases command group
  * @generated from apis/overlays/radar.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "ases",
 	describe: "Operations for attacks.layer7.top.ases",
 
-	builder: (yargs) => {
-		return yargs
-			.command($origin)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		origin: $origin,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

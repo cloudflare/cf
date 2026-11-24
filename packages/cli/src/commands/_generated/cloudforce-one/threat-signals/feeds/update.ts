@@ -1,11 +1,10 @@
 import operation from "../../../_operations/cloudforce-one/threat-signals/feeds/update.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * update command
  * @generated from apis/overlays/cloudforce-one.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -19,20 +18,17 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 cloudforce-one threat-signals feeds update <feed-id>\n\nUpdates a Threat Signals feed subscription."
-		)
-		.positional("feed-id", {
-			type: "string",
-			description: "UUID of the Threat Signals feed",
-			demandOption: true,
-		})
-		.option("category-id", {
-			type: "string",
-			description:
+const command = apiCommand({
+	command: "update <feed-id>",
+	describe: "Update Threat Signals feed",
+	usage:
+		"$0 cloudforce-one threat-signals feeds update <feed-id>\n\nUpdates a Threat Signals feed subscription.",
+	flags: {
+		"category-id": {
+			kind: "parsed",
+			brief:
 				"One of the predefined Threat Signals feed categories; see GET /:account_id/v2/threat-signals/categories.",
+			optional: true,
 			choices: [
 				"b12a0fd6-f7b9-5393-9ef3-f888d506c550",
 				"d5b70eaa-626f-5761-b55b-6d9590df49fb",
@@ -43,59 +39,67 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"b1ef66d9-a73c-58dc-b269-22d34dfd11f4",
 				"ab02a976-0a20-5c76-a553-7f6325afacfe",
 			],
-		})
-		.coerce("category-id", (value) =>
-			resolveFileToken(value, "category-id", "text")
-		)
-		.option("display-name", {
-			type: "string",
-			description:
+			parse: String,
+			coerce: (value: string) => resolveFileToken(value, "category-id", "text"),
+		},
+		"display-name": {
+			kind: "parsed",
+			brief:
 				"Override the feed's display name. Null clears it; omit to keep existing or derived value.",
-		})
-		.option("enabled", {
-			type: "boolean",
-			description:
-				"Whether to actively poll the feed. Omit to keep current value.",
-		})
-		.option("poll-interval-s", {
-			type: "number",
-			description:
+			optional: true,
+			parse: String,
+		},
+		enabled: {
+			kind: "boolean",
+			brief: "Whether to actively poll the feed. Omit to keep current value.",
+			optional: true,
+		},
+		"poll-interval-s": {
+			kind: "parsed",
+			brief:
 				"New polling interval in seconds (60-86400). Omit to keep current value.",
-		})
-		.option("tagging-enabled", {
-			type: "boolean",
-			description:
+			optional: true,
+			parse: Number,
+		},
+		"tagging-enabled": {
+			kind: "boolean",
+			brief:
 				"When enabled, new articles from this feed are tagged automatically by AI. Changes apply to articles processed afterwards. Omit to keep current value.",
-		})
-		.option("title", {
-			type: "string",
-			description:
+			optional: true,
+		},
+		title: {
+			kind: "parsed",
+			brief:
 				"Override the feed's title. Null clears it; omit to keep existing or derived value.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
 			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "update <feed-id>",
-	describe: "Update Threat Signals feed",
-	builder,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [
+		{
+			placeholder: "feed-id",
+			brief: "UUID of the Threat Signals feed",
+			parse: String,
+		},
+	],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "cloudforce-one threat-signals feeds update",
 				classification: {
 					safeFlags: ["category-id", "enabled", "tagging-enabled", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -175,6 +179,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Updated` });
 			}
 		),
-};
+});
 
 export default command;

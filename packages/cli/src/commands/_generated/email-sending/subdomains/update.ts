@@ -1,11 +1,10 @@
 import operation from "../../_operations/email-sending/subdomains/update.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * update command
  * @generated from apis/overlays/email-sending.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import { createCommandClient, getZoneId } from "#lib/auth.js";
 import { compactBody, parseBody } from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
@@ -13,44 +12,44 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 email-sending subdomains update <subdomain-id>\n\nUpdates the activity-log preview preference for a sending subdomain."
-		)
-		.positional("subdomain-id", {
-			type: "string",
-			description: "Sending subdomain identifier.",
-			demandOption: true,
-		})
-		.option("drop-suppressed-recipients", {
-			type: "boolean",
-			description:
-				"Whether a send request that includes a recipient suppressed on\nthis subdomain drops that recipient and still delivers to the\nrest, instead of failing the entire request.\n",
-		})
-		.option("preview-enabled", {
-			type: "boolean",
-			description:
-				"Whether sent messages from this subdomain can be previewed in the activity log.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description:
-				"At least one of \`preview_enabled\` or \`drop_suppressed_recipients\` must be provided. A field omitted from the request body is left unchanged. ",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "update <subdomain-id>",
 	describe: "Update a sending subdomain",
-	builder,
+	usage:
+		"$0 email-sending subdomains update <subdomain-id>\n\nUpdates the activity-log preview preference for a sending subdomain.",
+	flags: {
+		"drop-suppressed-recipients": {
+			kind: "boolean",
+			brief:
+				"Whether a send request that includes a recipient suppressed on\nthis subdomain drops that recipient and still delivers to the\nrest, instead of failing the entire request.\n",
+			optional: true,
+		},
+		"preview-enabled": {
+			kind: "boolean",
+			brief:
+				"Whether sent messages from this subdomain can be previewed in the activity log.",
+			optional: true,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief:
+				"At least one of `preview_enabled` or `drop_suppressed_recipients` must be provided. A field omitted from the request body is left unchanged. ",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [
+		{
+			placeholder: "subdomain-id",
+			brief: "Sending subdomain identifier.",
+			parse: String,
+		},
+	],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
@@ -61,7 +60,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"preview-enabled",
 						"dry-run",
 					],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -122,6 +121,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Updated` });
 			}
 		),
-};
+});
 
 export default command;

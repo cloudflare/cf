@@ -1,11 +1,10 @@
 import operation from "../../_operations/cloudforce-one/priority-intelligence/create.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * create command
  * @generated from apis/overlays/cloudforce-one.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -25,587 +24,6 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 cloudforce-one priority-intelligence create\n\nCreates a new PIR for the account. The cfone.priority_intelligence_requirement_limit entitlement sets how many PIRs can be active; drafts do not count, but the account can hold at most five times that many PIRs in total. A free-form PIR has a `requirement`, and an active one requires a query. A structured PIR has a `definition` instead; its requirement and event query are generated, and the response includes them in `resolved`."
-		)
-		.option("based-on-profile-revision", {
-			type: "number",
-			description: "The based_on.profile_revision field",
-		})
-		.option("based-on-topic-fingerprint", {
-			type: "string",
-			description: "The based_on.topic_fingerprint field",
-		})
-		.option("dataset-scope-type", {
-			type: "string",
-			description: "The dataset_scope.type field",
-			choices: ["default", "datasets"],
-		})
-		.coerce("dataset-scope-type", (value) =>
-			resolveFileToken(value, "dataset-scope-type", "text")
-		)
-		.option("dataset-scope-dataset-ids", {
-			type: "string",
-			array: true,
-			description: "The dataset_scope.dataset_ids field",
-		})
-		.option("definition-additional-criteria", {
-			type: "string",
-			description:
-				'The definition.additional_criteria field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"band": "highly" | "somewhat" | "not", "id": string, "text": string}].',
-		})
-		.option("definition-criterion-selections-add", {
-			type: "string",
-			array: true,
-			description: "The definition.criterion_selections.add field",
-		})
-		.option("definition-criterion-selections-remove", {
-			type: "string",
-			array: true,
-			description: "The definition.criterion_selections.remove field",
-		})
-		.option("definition-mode", {
-			type: "string",
-			description: "The definition.mode field",
-			choices: ["managed", "custom"],
-		})
-		.coerce("definition-mode", (value) =>
-			resolveFileToken(value, "definition-mode", "text")
-		)
-		.option("definition-question-mode", {
-			type: "string",
-			description: "The definition.question.mode field",
-			choices: ["inherit", "replace"],
-		})
-		.coerce("definition-question-mode", (value) =>
-			resolveFileToken(value, "definition-question-mode", "text")
-		)
-		.option("definition-question-value", {
-			type: "string",
-			description: "The definition.question.value field",
-		})
-		.option("definition-schema-version", {
-			type: "number",
-			description: "The definition.schema_version field",
-		})
-		.option("definition-selections-actor-notes", {
-			type: "string",
-			description: "The definition.selections.actor_notes field",
-		})
-		.option("definition-selections-actor-types-mode", {
-			type: "string",
-			description: "The definition.selections.actor_types.mode field",
-			choices: ["inherit", "replace"],
-		})
-		.coerce("definition-selections-actor-types-mode", (value) =>
-			resolveFileToken(value, "definition-selections-actor-types-mode", "text")
-		)
-		.option("definition-selections-actor-types-value", {
-			type: "string",
-			array: true,
-			description: "The definition.selections.actor_types.value field",
-		})
-		.option("definition-selections-actors-add", {
-			type: "string",
-			array: true,
-			description: "The definition.selections.actors.add field",
-		})
-		.option("definition-selections-actors-remove", {
-			type: "string",
-			array: true,
-			description: "The definition.selections.actors.remove field",
-		})
-		.option("definition-selections-attributed-countries", {
-			type: "string",
-			array: true,
-			description: "The definition.selections.attributed_countries field",
-		})
-		.option("definition-selections-countries-mode", {
-			type: "string",
-			description: "The definition.selections.countries.mode field",
-			choices: ["inherit", "replace"],
-		})
-		.coerce("definition-selections-countries-mode", (value) =>
-			resolveFileToken(value, "definition-selections-countries-mode", "text")
-		)
-		.option("definition-selections-countries-value", {
-			type: "string",
-			array: true,
-			description: "The definition.selections.countries.value field",
-		})
-		.option("definition-selections-cves", {
-			type: "string",
-			array: true,
-			description: "The definition.selections.cves field",
-		})
-		.option("definition-selections-excluded-actors", {
-			type: "string",
-			array: true,
-			description: "The definition.selections.excluded_actors field",
-		})
-		.option("definition-selections-key-suppliers-mode", {
-			type: "string",
-			description: "The definition.selections.key_suppliers.mode field",
-			choices: ["inherit", "replace"],
-		})
-		.coerce("definition-selections-key-suppliers-mode", (value) =>
-			resolveFileToken(
-				value,
-				"definition-selections-key-suppliers-mode",
-				"text"
-			)
-		)
-		.option("definition-selections-key-suppliers-value", {
-			type: "string",
-			description:
-				'The definition.selections.key_suppliers.value field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"name": string, "domains"?: [string]}]. ? marks optional keys.',
-		})
-		.option("definition-selections-malware-tools", {
-			type: "string",
-			array: true,
-			description: "The definition.selections.malware_tools field",
-		})
-		.option("definition-selections-motivations-mode", {
-			type: "string",
-			description: "The definition.selections.motivations.mode field",
-			choices: ["inherit", "replace"],
-		})
-		.coerce("definition-selections-motivations-mode", (value) =>
-			resolveFileToken(value, "definition-selections-motivations-mode", "text")
-		)
-		.option("definition-selections-motivations-value", {
-			type: "string",
-			array: true,
-			description: "The definition.selections.motivations.value field",
-		})
-		.option("definition-selections-peers-mode", {
-			type: "string",
-			description: "The definition.selections.peers.mode field",
-			choices: ["inherit", "replace"],
-		})
-		.coerce("definition-selections-peers-mode", (value) =>
-			resolveFileToken(value, "definition-selections-peers-mode", "text")
-		)
-		.option("definition-selections-peers-value", {
-			type: "string",
-			description:
-				'The definition.selections.peers.value field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"name": string, "domains"?: [string]}]. ? marks optional keys.',
-		})
-		.option("definition-selections-sectors-mode", {
-			type: "string",
-			description: "The definition.selections.sectors.mode field",
-			choices: ["inherit", "replace"],
-		})
-		.coerce("definition-selections-sectors-mode", (value) =>
-			resolveFileToken(value, "definition-selections-sectors-mode", "text")
-		)
-		.option("definition-selections-sectors-value", {
-			type: "string",
-			array: true,
-			description: "The definition.selections.sectors.value field",
-		})
-		.option("definition-selections-targets-mode", {
-			type: "string",
-			description: "The definition.selections.targets.mode field",
-			choices: ["inherit", "replace"],
-		})
-		.coerce("definition-selections-targets-mode", (value) =>
-			resolveFileToken(value, "definition-selections-targets-mode", "text")
-		)
-		.option("definition-selections-targets-value", {
-			type: "string",
-			array: true,
-			description: "The definition.selections.targets.value field",
-		})
-		.option("definition-selections-technique-ids", {
-			type: "string",
-			array: true,
-			description: "The definition.selections.technique_ids field",
-		})
-		.option("definition-selections-technologies-mode", {
-			type: "string",
-			description: "The definition.selections.technologies.mode field",
-			choices: ["inherit", "replace"],
-		})
-		.coerce("definition-selections-technologies-mode", (value) =>
-			resolveFileToken(value, "definition-selections-technologies-mode", "text")
-		)
-		.option("definition-selections-technologies-value", {
-			type: "string",
-			array: true,
-			description: "The definition.selections.technologies.value field",
-		})
-		.option("definition-title-mode", {
-			type: "string",
-			description: "The definition.title.mode field",
-			choices: ["inherit", "replace"],
-		})
-		.coerce("definition-title-mode", (value) =>
-			resolveFileToken(value, "definition-title-mode", "text")
-		)
-		.option("definition-title-value", {
-			type: "string",
-			description: "The definition.title.value field",
-		})
-		.option("definition-topic-id", {
-			type: "string",
-			description: "The definition.topic_id field",
-		})
-		.option("definition-relevance-criteria", {
-			type: "string",
-			description:
-				'The definition.relevance_criteria field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"band": "highly" | "somewhat" | "not", "id": string, "text": string}].',
-		})
-		.option("digest-interval-hours", {
-			type: "number",
-			description:
-				"Hours between digests: 6, 12, or 24. Used only when `notification_mode` is `digest`.",
-			default: 24,
-		})
-		.option("intent-clauses", {
-			type: "string",
-			description:
-				'The intent.clauses field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"actors": [string], "attacker_countries": [string], "categories": [string], "cves": [string], "keywords": [string], ...more}].',
-		})
-		.option("intent-exclusions-actors", {
-			type: "string",
-			array: true,
-			description: "The intent.exclusions.actors field",
-		})
-		.option("intent-exclusions-attacker-countries", {
-			type: "string",
-			array: true,
-			description: "The intent.exclusions.attacker_countries field",
-		})
-		.option("intent-exclusions-categories", {
-			type: "string",
-			array: true,
-			description: "The intent.exclusions.categories field",
-		})
-		.option("intent-exclusions-cves", {
-			type: "string",
-			array: true,
-			description: "The intent.exclusions.cves field",
-		})
-		.option("intent-exclusions-keywords", {
-			type: "string",
-			array: true,
-			description: "The intent.exclusions.keywords field",
-		})
-		.option("intent-exclusions-target-countries", {
-			type: "string",
-			array: true,
-			description: "The intent.exclusions.target_countries field",
-		})
-		.option("intent-exclusions-target-industries", {
-			type: "string",
-			array: true,
-			description: "The intent.exclusions.target_industries field",
-		})
-		.option("intent-exclusions-techniques", {
-			type: "string",
-			array: true,
-			description: "The intent.exclusions.techniques field",
-		})
-		.option("intent-indicators", {
-			type: "string",
-			array: true,
-			description: "The intent.indicators field",
-		})
-		.option("intent-unsupported-terms", {
-			type: "string",
-			array: true,
-			description: "The intent.unsupported_terms field",
-		})
-		.option("labels", {
-			type: "string",
-			array: true,
-			description: "The labels field",
-		})
-		.option("model", { type: "string", description: "The model field" })
-		.option("notification-mode", {
-			type: "string",
-			description:
-				"`none` or `digest`. Notifications are opt-in. `immediate` is reserved and currently rejected.",
-			choices: ["none", "immediate", "digest"],
-			default: "none",
-		})
-		.coerce("notification-mode", (value) =>
-			resolveFileToken(value, "notification-mode", "text")
-		)
-		.option("priority", {
-			type: "number",
-			description: "The priority field",
-			default: 0,
-		})
-		.option("query-branches", {
-			type: "string",
-			description:
-				'Event List `searchBranches`: filters within a branch are ANDed, branches are ORed. Provide as a JSON array of arrays or @path/to/file.json. Shape: [[({"field": "attacker" | "attackerCountry" | "category" | ...more, "op": "equals" | "not" | "gt" | ...more, "value": string} | ...more)]].',
-		})
-		.option("query-version", {
-			type: "number",
-			description:
-				"Ignored. Accepted so a PIR read from the API can be sent back unchanged.",
-		})
-		.option("query-source", {
-			type: "string",
-			description: "The query_source field",
-			choices: ["generated", "edited"],
-		})
-		.coerce("query-source", (value) =>
-			resolveFileToken(value, "query-source", "text")
-		)
-		.option("requirement", {
-			type: "string",
-			description:
-				"Free-form requirement. Required unless `definition` is sent.",
-		})
-		.option("status", {
-			type: "string",
-			description:
-				"`draft`: not monitored. `active`: monitored, unless `pause_reason` is set. Setting `active` on a PIR with a `pause_reason` resumes it. Moving a PIR back to `draft` and activating it again starts matching afresh with a 30-day backfill.",
-			choices: ["draft", "active"],
-			default: "draft",
-		})
-		.coerce("status", (value) => resolveFileToken(value, "status", "text"))
-		.option("title", { type: "string", description: "The title field" })
-		.option("tlp", {
-			type: "string",
-			description: "The tlp field",
-			default: "amber",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		})
-		.conflicts("definition-additional-criteria", [
-			"definition-relevance-criteria",
-		])
-		.implies("definition-additional-criteria", ["definition-topic-id"])
-		.conflicts("definition-criterion-selections-add", [
-			"definition-relevance-criteria",
-		])
-		.implies("definition-criterion-selections-add", ["definition-topic-id"])
-		.conflicts("definition-criterion-selections-remove", [
-			"definition-relevance-criteria",
-		])
-		.implies("definition-criterion-selections-remove", ["definition-topic-id"])
-		.conflicts("definition-question-mode", ["definition-relevance-criteria"])
-		.implies("definition-question-mode", ["definition-topic-id"])
-		.conflicts("definition-question-value", ["definition-relevance-criteria"])
-		.implies("definition-question-value", [
-			"definition-question-mode",
-			"definition-topic-id",
-		])
-		.implies("definition-selections-actor-types-value", [
-			"definition-selections-actor-types-mode",
-		])
-		.implies("definition-selections-countries-value", [
-			"definition-selections-countries-mode",
-		])
-		.implies("definition-selections-key-suppliers-value", [
-			"definition-selections-key-suppliers-mode",
-		])
-		.implies("definition-selections-motivations-value", [
-			"definition-selections-motivations-mode",
-		])
-		.implies("definition-selections-peers-value", [
-			"definition-selections-peers-mode",
-		])
-		.implies("definition-selections-sectors-value", [
-			"definition-selections-sectors-mode",
-		])
-		.implies("definition-selections-targets-value", [
-			"definition-selections-targets-mode",
-		])
-		.implies("definition-selections-technologies-value", [
-			"definition-selections-technologies-mode",
-		])
-		.conflicts("definition-title-mode", ["definition-relevance-criteria"])
-		.implies("definition-title-mode", ["definition-topic-id"])
-		.conflicts("definition-title-value", ["definition-relevance-criteria"])
-		.implies("definition-title-value", [
-			"definition-title-mode",
-			"definition-topic-id",
-		])
-		.conflicts("definition-topic-id", ["definition-relevance-criteria"])
-		.conflicts("definition-relevance-criteria", [
-			"definition-additional-criteria",
-			"definition-criterion-selections-add",
-			"definition-criterion-selections-remove",
-			"definition-question-mode",
-			"definition-question-value",
-			"definition-title-mode",
-			"definition-title-value",
-			"definition-topic-id",
-		])
-		.check((argv) => {
-			const groupSet = [
-				"based-on-profile-revision",
-				"based-on-topic-fingerprint",
-			].some((k) => argv[k] !== undefined);
-			if (!argv.body && groupSet) {
-				const missing = [
-					"based-on-profile-revision",
-					"based-on-topic-fingerprint",
-				].filter((k) => argv[k] === undefined);
-				if (missing.length > 0) {
-					throw new Error(
-						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when any --based-on-* flag is set`
-					);
-				}
-			}
-			return true;
-		})
-		.check((argv) => {
-			const groupSet = ["dataset-scope-type", "dataset-scope-dataset-ids"].some(
-				(k) => argv[k] !== undefined
-			);
-			if (!argv.body && groupSet) {
-				const missing = ["dataset-scope-type"].filter(
-					(k) => argv[k] === undefined
-				);
-				if (missing.length > 0) {
-					throw new Error(
-						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when any --dataset-scope-* flag is set`
-					);
-				}
-			}
-			return true;
-		})
-		.check((argv) => {
-			const groupSet = [
-				"definition-additional-criteria",
-				"definition-criterion-selections-add",
-				"definition-criterion-selections-remove",
-				"definition-mode",
-				"definition-question-mode",
-				"definition-question-value",
-				"definition-schema-version",
-				"definition-selections-actor-notes",
-				"definition-selections-actor-types-mode",
-				"definition-selections-actor-types-value",
-				"definition-selections-actors-add",
-				"definition-selections-actors-remove",
-				"definition-selections-attributed-countries",
-				"definition-selections-countries-mode",
-				"definition-selections-countries-value",
-				"definition-selections-cves",
-				"definition-selections-excluded-actors",
-				"definition-selections-key-suppliers-mode",
-				"definition-selections-key-suppliers-value",
-				"definition-selections-malware-tools",
-				"definition-selections-motivations-mode",
-				"definition-selections-motivations-value",
-				"definition-selections-peers-mode",
-				"definition-selections-peers-value",
-				"definition-selections-sectors-mode",
-				"definition-selections-sectors-value",
-				"definition-selections-targets-mode",
-				"definition-selections-targets-value",
-				"definition-selections-technique-ids",
-				"definition-selections-technologies-mode",
-				"definition-selections-technologies-value",
-				"definition-title-mode",
-				"definition-title-value",
-				"definition-topic-id",
-				"definition-relevance-criteria",
-			].some((k) => argv[k] !== undefined);
-			if (!argv.body && groupSet) {
-				const missing = ["definition-mode", "definition-schema-version"].filter(
-					(k) => argv[k] === undefined
-				);
-				if (missing.length > 0) {
-					throw new Error(
-						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when any --definition-* flag is set`
-					);
-				}
-			}
-			return true;
-		})
-		.check((argv) => {
-			const groupSet = [
-				"intent-clauses",
-				"intent-exclusions-actors",
-				"intent-exclusions-attacker-countries",
-				"intent-exclusions-categories",
-				"intent-exclusions-cves",
-				"intent-exclusions-keywords",
-				"intent-exclusions-target-countries",
-				"intent-exclusions-target-industries",
-				"intent-exclusions-techniques",
-				"intent-indicators",
-				"intent-unsupported-terms",
-			].some((k) => argv[k] !== undefined);
-			if (!argv.body && groupSet) {
-				const missing = [
-					"intent-clauses",
-					"intent-indicators",
-					"intent-unsupported-terms",
-				].filter((k) => argv[k] === undefined);
-				if (missing.length > 0) {
-					throw new Error(
-						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when any --intent-* flag is set`
-					);
-				}
-			}
-			return true;
-		})
-		.check((argv) => {
-			const groupSet = [
-				"intent-exclusions-actors",
-				"intent-exclusions-attacker-countries",
-				"intent-exclusions-categories",
-				"intent-exclusions-cves",
-				"intent-exclusions-keywords",
-				"intent-exclusions-target-countries",
-				"intent-exclusions-target-industries",
-				"intent-exclusions-techniques",
-			].some((k) => argv[k] !== undefined);
-			if (!argv.body && groupSet) {
-				const missing = [
-					"intent-exclusions-actors",
-					"intent-exclusions-attacker-countries",
-					"intent-exclusions-categories",
-					"intent-exclusions-cves",
-					"intent-exclusions-keywords",
-					"intent-exclusions-target-countries",
-					"intent-exclusions-target-industries",
-					"intent-exclusions-techniques",
-				].filter((k) => argv[k] === undefined);
-				if (missing.length > 0) {
-					throw new Error(
-						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when any --intent-exclusions-* flag is set`
-					);
-				}
-			}
-			return true;
-		})
-		.check((argv) => {
-			const groupSet = ["query-branches", "query-version"].some(
-				(k) => argv[k] !== undefined
-			);
-			if (!argv.body && groupSet) {
-				const missing = ["query-branches"].filter((k) => argv[k] === undefined);
-				if (missing.length > 0) {
-					throw new Error(
-						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when any --query-* flag is set`
-					);
-				}
-			}
-			return true;
-		});
-}
-
-type Args = InferArgs<typeof builder>;
 const bodyUnions: Parameters<typeof validateBodyUnions>[1] = [
 	{
 		path: ["dataset_scope"],
@@ -1408,10 +826,723 @@ const bodyUnions: Parameters<typeof validateBodyUnions>[1] = [
 	},
 ];
 
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "create",
 	describe: "Create a priority intelligence requirement",
-	builder,
+	usage:
+		"$0 cloudforce-one priority-intelligence create\n\nCreates a new PIR for the account. The cfone.priority_intelligence_requirement_limit entitlement sets how many PIRs can be active; drafts do not count, but the account can hold at most five times that many PIRs in total. A free-form PIR has a `requirement`, and an active one requires a query. A structured PIR has a `definition` instead; its requirement and event query are generated, and the response includes them in `resolved`.",
+	flags: {
+		"based-on-profile-revision": {
+			kind: "parsed",
+			brief: "The based_on.profile_revision field",
+			optional: true,
+			parse: Number,
+		},
+		"based-on-topic-fingerprint": {
+			kind: "parsed",
+			brief: "The based_on.topic_fingerprint field",
+			optional: true,
+			parse: String,
+		},
+		"dataset-scope-type": {
+			kind: "parsed",
+			brief: "The dataset_scope.type field",
+			optional: true,
+			choices: ["default", "datasets"],
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "dataset-scope-type", "text"),
+		},
+		"dataset-scope-dataset-ids": {
+			kind: "parsed",
+			brief: "The dataset_scope.dataset_ids field",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"definition-additional-criteria": {
+			kind: "parsed",
+			brief:
+				'The definition.additional_criteria field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"band": "highly" | "somewhat" | "not", "id": string, "text": string}].',
+			optional: true,
+			parse: String,
+		},
+		"definition-criterion-selections-add": {
+			kind: "parsed",
+			brief: "The definition.criterion_selections.add field",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"definition-criterion-selections-remove": {
+			kind: "parsed",
+			brief: "The definition.criterion_selections.remove field",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"definition-mode": {
+			kind: "parsed",
+			brief: "The definition.mode field",
+			optional: true,
+			choices: ["managed", "custom"],
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "definition-mode", "text"),
+		},
+		"definition-question-mode": {
+			kind: "parsed",
+			brief: "The definition.question.mode field",
+			optional: true,
+			choices: ["inherit", "replace"],
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "definition-question-mode", "text"),
+		},
+		"definition-question-value": {
+			kind: "parsed",
+			brief: "The definition.question.value field",
+			optional: true,
+			parse: String,
+		},
+		"definition-schema-version": {
+			kind: "parsed",
+			brief: "The definition.schema_version field",
+			optional: true,
+			parse: Number,
+		},
+		"definition-selections-actor-notes": {
+			kind: "parsed",
+			brief: "The definition.selections.actor_notes field",
+			optional: true,
+			parse: String,
+		},
+		"definition-selections-actor-types-mode": {
+			kind: "parsed",
+			brief: "The definition.selections.actor_types.mode field",
+			optional: true,
+			choices: ["inherit", "replace"],
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(
+					value,
+					"definition-selections-actor-types-mode",
+					"text"
+				),
+		},
+		"definition-selections-actor-types-value": {
+			kind: "parsed",
+			brief: "The definition.selections.actor_types.value field",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"definition-selections-actors-add": {
+			kind: "parsed",
+			brief: "The definition.selections.actors.add field",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"definition-selections-actors-remove": {
+			kind: "parsed",
+			brief: "The definition.selections.actors.remove field",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"definition-selections-attributed-countries": {
+			kind: "parsed",
+			brief: "The definition.selections.attributed_countries field",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"definition-selections-countries-mode": {
+			kind: "parsed",
+			brief: "The definition.selections.countries.mode field",
+			optional: true,
+			choices: ["inherit", "replace"],
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "definition-selections-countries-mode", "text"),
+		},
+		"definition-selections-countries-value": {
+			kind: "parsed",
+			brief: "The definition.selections.countries.value field",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"definition-selections-cves": {
+			kind: "parsed",
+			brief: "The definition.selections.cves field",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"definition-selections-excluded-actors": {
+			kind: "parsed",
+			brief: "The definition.selections.excluded_actors field",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"definition-selections-key-suppliers-mode": {
+			kind: "parsed",
+			brief: "The definition.selections.key_suppliers.mode field",
+			optional: true,
+			choices: ["inherit", "replace"],
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(
+					value,
+					"definition-selections-key-suppliers-mode",
+					"text"
+				),
+		},
+		"definition-selections-key-suppliers-value": {
+			kind: "parsed",
+			brief:
+				'The definition.selections.key_suppliers.value field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"name": string, "domains"?: [string]}]. ? marks optional keys.',
+			optional: true,
+			parse: String,
+		},
+		"definition-selections-malware-tools": {
+			kind: "parsed",
+			brief: "The definition.selections.malware_tools field",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"definition-selections-motivations-mode": {
+			kind: "parsed",
+			brief: "The definition.selections.motivations.mode field",
+			optional: true,
+			choices: ["inherit", "replace"],
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(
+					value,
+					"definition-selections-motivations-mode",
+					"text"
+				),
+		},
+		"definition-selections-motivations-value": {
+			kind: "parsed",
+			brief: "The definition.selections.motivations.value field",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"definition-selections-peers-mode": {
+			kind: "parsed",
+			brief: "The definition.selections.peers.mode field",
+			optional: true,
+			choices: ["inherit", "replace"],
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "definition-selections-peers-mode", "text"),
+		},
+		"definition-selections-peers-value": {
+			kind: "parsed",
+			brief:
+				'The definition.selections.peers.value field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"name": string, "domains"?: [string]}]. ? marks optional keys.',
+			optional: true,
+			parse: String,
+		},
+		"definition-selections-sectors-mode": {
+			kind: "parsed",
+			brief: "The definition.selections.sectors.mode field",
+			optional: true,
+			choices: ["inherit", "replace"],
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "definition-selections-sectors-mode", "text"),
+		},
+		"definition-selections-sectors-value": {
+			kind: "parsed",
+			brief: "The definition.selections.sectors.value field",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"definition-selections-targets-mode": {
+			kind: "parsed",
+			brief: "The definition.selections.targets.mode field",
+			optional: true,
+			choices: ["inherit", "replace"],
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "definition-selections-targets-mode", "text"),
+		},
+		"definition-selections-targets-value": {
+			kind: "parsed",
+			brief: "The definition.selections.targets.value field",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"definition-selections-technique-ids": {
+			kind: "parsed",
+			brief: "The definition.selections.technique_ids field",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"definition-selections-technologies-mode": {
+			kind: "parsed",
+			brief: "The definition.selections.technologies.mode field",
+			optional: true,
+			choices: ["inherit", "replace"],
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(
+					value,
+					"definition-selections-technologies-mode",
+					"text"
+				),
+		},
+		"definition-selections-technologies-value": {
+			kind: "parsed",
+			brief: "The definition.selections.technologies.value field",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"definition-title-mode": {
+			kind: "parsed",
+			brief: "The definition.title.mode field",
+			optional: true,
+			choices: ["inherit", "replace"],
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "definition-title-mode", "text"),
+		},
+		"definition-title-value": {
+			kind: "parsed",
+			brief: "The definition.title.value field",
+			optional: true,
+			parse: String,
+		},
+		"definition-topic-id": {
+			kind: "parsed",
+			brief: "The definition.topic_id field",
+			optional: true,
+			parse: String,
+		},
+		"definition-relevance-criteria": {
+			kind: "parsed",
+			brief:
+				'The definition.relevance_criteria field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"band": "highly" | "somewhat" | "not", "id": string, "text": string}].',
+			optional: true,
+			parse: String,
+		},
+		"digest-interval-hours": {
+			kind: "parsed",
+			brief:
+				"Hours between digests: 6, 12, or 24. Used only when `notification_mode` is `digest`.",
+			default: "24",
+			parse: Number,
+		},
+		"intent-clauses": {
+			kind: "parsed",
+			brief:
+				'The intent.clauses field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"actors": [string], "attacker_countries": [string], "categories": [string], "cves": [string], "keywords": [string], ...more}].',
+			optional: true,
+			parse: String,
+		},
+		"intent-exclusions-actors": {
+			kind: "parsed",
+			brief: "The intent.exclusions.actors field",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"intent-exclusions-attacker-countries": {
+			kind: "parsed",
+			brief: "The intent.exclusions.attacker_countries field",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"intent-exclusions-categories": {
+			kind: "parsed",
+			brief: "The intent.exclusions.categories field",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"intent-exclusions-cves": {
+			kind: "parsed",
+			brief: "The intent.exclusions.cves field",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"intent-exclusions-keywords": {
+			kind: "parsed",
+			brief: "The intent.exclusions.keywords field",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"intent-exclusions-target-countries": {
+			kind: "parsed",
+			brief: "The intent.exclusions.target_countries field",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"intent-exclusions-target-industries": {
+			kind: "parsed",
+			brief: "The intent.exclusions.target_industries field",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"intent-exclusions-techniques": {
+			kind: "parsed",
+			brief: "The intent.exclusions.techniques field",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"intent-indicators": {
+			kind: "parsed",
+			brief: "The intent.indicators field",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"intent-unsupported-terms": {
+			kind: "parsed",
+			brief: "The intent.unsupported_terms field",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		labels: {
+			kind: "parsed",
+			brief: "The labels field",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		model: {
+			kind: "parsed",
+			brief: "The model field",
+			optional: true,
+			parse: String,
+		},
+		"notification-mode": {
+			kind: "parsed",
+			brief:
+				"`none` or `digest`. Notifications are opt-in. `immediate` is reserved and currently rejected.",
+			default: "none",
+			choices: ["none", "immediate", "digest"],
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "notification-mode", "text"),
+		},
+		priority: {
+			kind: "parsed",
+			brief: "The priority field",
+			default: "0",
+			parse: Number,
+		},
+		"query-branches": {
+			kind: "parsed",
+			brief:
+				'Event List `searchBranches`: filters within a branch are ANDed, branches are ORed. Provide as a JSON array of arrays or @path/to/file.json. Shape: [[({"field": "attacker" | "attackerCountry" | "category" | ...more, "op": "equals" | "not" | "gt" | ...more, "value": string} | ...more)]].',
+			optional: true,
+			parse: String,
+		},
+		"query-version": {
+			kind: "parsed",
+			brief:
+				"Ignored. Accepted so a PIR read from the API can be sent back unchanged.",
+			optional: true,
+			parse: Number,
+		},
+		"query-source": {
+			kind: "parsed",
+			brief: "The query_source field",
+			optional: true,
+			choices: ["generated", "edited"],
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "query-source", "text"),
+		},
+		requirement: {
+			kind: "parsed",
+			brief: "Free-form requirement. Required unless `definition` is sent.",
+			optional: true,
+			parse: String,
+		},
+		status: {
+			kind: "parsed",
+			brief:
+				"`draft`: not monitored. `active`: monitored, unless `pause_reason` is set. Setting `active` on a PIR with a `pause_reason` resumes it. Moving a PIR back to `draft` and activating it again starts matching afresh with a 30-day backfill.",
+			default: "draft",
+			choices: ["draft", "active"],
+			parse: String,
+			coerce: (value: string) => resolveFileToken(value, "status", "text"),
+		},
+		title: {
+			kind: "parsed",
+			brief: "The title field",
+			optional: true,
+			parse: String,
+		},
+		tlp: {
+			kind: "parsed",
+			brief: "The tlp field",
+			default: "amber",
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [],
+	rules(rules) {
+		rules.conflicts("definition-additional-criteria", [
+			"definition-relevance-criteria",
+		]);
+		rules.implies("definition-additional-criteria", ["definition-topic-id"]);
+		rules.conflicts("definition-criterion-selections-add", [
+			"definition-relevance-criteria",
+		]);
+		rules.implies("definition-criterion-selections-add", [
+			"definition-topic-id",
+		]);
+		rules.conflicts("definition-criterion-selections-remove", [
+			"definition-relevance-criteria",
+		]);
+		rules.implies("definition-criterion-selections-remove", [
+			"definition-topic-id",
+		]);
+		rules.conflicts("definition-question-mode", [
+			"definition-relevance-criteria",
+		]);
+		rules.implies("definition-question-mode", ["definition-topic-id"]);
+		rules.conflicts("definition-question-value", [
+			"definition-relevance-criteria",
+		]);
+		rules.implies("definition-question-value", [
+			"definition-question-mode",
+			"definition-topic-id",
+		]);
+		rules.implies("definition-selections-actor-types-value", [
+			"definition-selections-actor-types-mode",
+		]);
+		rules.implies("definition-selections-countries-value", [
+			"definition-selections-countries-mode",
+		]);
+		rules.implies("definition-selections-key-suppliers-value", [
+			"definition-selections-key-suppliers-mode",
+		]);
+		rules.implies("definition-selections-motivations-value", [
+			"definition-selections-motivations-mode",
+		]);
+		rules.implies("definition-selections-peers-value", [
+			"definition-selections-peers-mode",
+		]);
+		rules.implies("definition-selections-sectors-value", [
+			"definition-selections-sectors-mode",
+		]);
+		rules.implies("definition-selections-targets-value", [
+			"definition-selections-targets-mode",
+		]);
+		rules.implies("definition-selections-technologies-value", [
+			"definition-selections-technologies-mode",
+		]);
+		rules.conflicts("definition-title-mode", ["definition-relevance-criteria"]);
+		rules.implies("definition-title-mode", ["definition-topic-id"]);
+		rules.conflicts("definition-title-value", [
+			"definition-relevance-criteria",
+		]);
+		rules.implies("definition-title-value", [
+			"definition-title-mode",
+			"definition-topic-id",
+		]);
+		rules.conflicts("definition-topic-id", ["definition-relevance-criteria"]);
+		rules.conflicts("definition-relevance-criteria", [
+			"definition-additional-criteria",
+			"definition-criterion-selections-add",
+			"definition-criterion-selections-remove",
+			"definition-question-mode",
+			"definition-question-value",
+			"definition-title-mode",
+			"definition-title-value",
+			"definition-topic-id",
+		]);
+		rules.check((argv) => {
+			const groupSet = [
+				"based-on-profile-revision",
+				"based-on-topic-fingerprint",
+			].some((k) => argv[k] !== undefined);
+			if (!argv.body && groupSet) {
+				const missing = [
+					"based-on-profile-revision",
+					"based-on-topic-fingerprint",
+				].filter((k) => argv[k] === undefined);
+				if (missing.length > 0) {
+					throw new Error(
+						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when any --based-on-* flag is set`
+					);
+				}
+			}
+			return true;
+		});
+		rules.check((argv) => {
+			const groupSet = ["dataset-scope-type", "dataset-scope-dataset-ids"].some(
+				(k) => argv[k] !== undefined
+			);
+			if (!argv.body && groupSet) {
+				const missing = ["dataset-scope-type"].filter(
+					(k) => argv[k] === undefined
+				);
+				if (missing.length > 0) {
+					throw new Error(
+						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when any --dataset-scope-* flag is set`
+					);
+				}
+			}
+			return true;
+		});
+		rules.check((argv) => {
+			const groupSet = [
+				"definition-additional-criteria",
+				"definition-criterion-selections-add",
+				"definition-criterion-selections-remove",
+				"definition-mode",
+				"definition-question-mode",
+				"definition-question-value",
+				"definition-schema-version",
+				"definition-selections-actor-notes",
+				"definition-selections-actor-types-mode",
+				"definition-selections-actor-types-value",
+				"definition-selections-actors-add",
+				"definition-selections-actors-remove",
+				"definition-selections-attributed-countries",
+				"definition-selections-countries-mode",
+				"definition-selections-countries-value",
+				"definition-selections-cves",
+				"definition-selections-excluded-actors",
+				"definition-selections-key-suppliers-mode",
+				"definition-selections-key-suppliers-value",
+				"definition-selections-malware-tools",
+				"definition-selections-motivations-mode",
+				"definition-selections-motivations-value",
+				"definition-selections-peers-mode",
+				"definition-selections-peers-value",
+				"definition-selections-sectors-mode",
+				"definition-selections-sectors-value",
+				"definition-selections-targets-mode",
+				"definition-selections-targets-value",
+				"definition-selections-technique-ids",
+				"definition-selections-technologies-mode",
+				"definition-selections-technologies-value",
+				"definition-title-mode",
+				"definition-title-value",
+				"definition-topic-id",
+				"definition-relevance-criteria",
+			].some((k) => argv[k] !== undefined);
+			if (!argv.body && groupSet) {
+				const missing = ["definition-mode", "definition-schema-version"].filter(
+					(k) => argv[k] === undefined
+				);
+				if (missing.length > 0) {
+					throw new Error(
+						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when any --definition-* flag is set`
+					);
+				}
+			}
+			return true;
+		});
+		rules.check((argv) => {
+			const groupSet = [
+				"intent-clauses",
+				"intent-exclusions-actors",
+				"intent-exclusions-attacker-countries",
+				"intent-exclusions-categories",
+				"intent-exclusions-cves",
+				"intent-exclusions-keywords",
+				"intent-exclusions-target-countries",
+				"intent-exclusions-target-industries",
+				"intent-exclusions-techniques",
+				"intent-indicators",
+				"intent-unsupported-terms",
+			].some((k) => argv[k] !== undefined);
+			if (!argv.body && groupSet) {
+				const missing = [
+					"intent-clauses",
+					"intent-indicators",
+					"intent-unsupported-terms",
+				].filter((k) => argv[k] === undefined);
+				if (missing.length > 0) {
+					throw new Error(
+						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when any --intent-* flag is set`
+					);
+				}
+			}
+			return true;
+		});
+		rules.check((argv) => {
+			const groupSet = [
+				"intent-exclusions-actors",
+				"intent-exclusions-attacker-countries",
+				"intent-exclusions-categories",
+				"intent-exclusions-cves",
+				"intent-exclusions-keywords",
+				"intent-exclusions-target-countries",
+				"intent-exclusions-target-industries",
+				"intent-exclusions-techniques",
+			].some((k) => argv[k] !== undefined);
+			if (!argv.body && groupSet) {
+				const missing = [
+					"intent-exclusions-actors",
+					"intent-exclusions-attacker-countries",
+					"intent-exclusions-categories",
+					"intent-exclusions-cves",
+					"intent-exclusions-keywords",
+					"intent-exclusions-target-countries",
+					"intent-exclusions-target-industries",
+					"intent-exclusions-techniques",
+				].filter((k) => argv[k] === undefined);
+				if (missing.length > 0) {
+					throw new Error(
+						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when any --intent-exclusions-* flag is set`
+					);
+				}
+			}
+			return true;
+		});
+		rules.check((argv) => {
+			const groupSet = ["query-branches", "query-version"].some(
+				(k) => argv[k] !== undefined
+			);
+			if (!argv.body && groupSet) {
+				const missing = ["query-branches"].filter((k) => argv[k] === undefined);
+				if (missing.length > 0) {
+					throw new Error(
+						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when any --query-* flag is set`
+					);
+				}
+			}
+			return true;
+		});
+	},
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
@@ -1435,7 +1566,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"status",
 						"dry-run",
 					],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -1817,6 +1948,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Created` });
 			}
 		),
-};
+});
 
 export default command;

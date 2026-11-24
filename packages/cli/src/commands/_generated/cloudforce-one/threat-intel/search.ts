@@ -1,11 +1,10 @@
 import operation from "../../_operations/cloudforce-one/threat-intel/search.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * search command
  * @generated from apis/overlays/cloudforce-one.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -20,56 +19,58 @@ import { withProgress } from "#lib/progress.js";
 import { promptForRequiredField } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 cloudforce-one threat-intel search\n\nSearches the articles, actors, tags, events, and indicators you can read and returns one list of typed results, most relevant first. Use `entity_types` to limit the types searched."
-		)
-		.option("entity-types", {
-			type: "string",
-			array: true,
-			description:
-				"Entity types to search. Omit to search articles, actors, tags, events, and indicators.",
-		})
-		.option("include-analytics-datasets", {
-			type: "boolean",
-			description:
-				"Whether to include Event and Indicator matches from analytics datasets. Defaults to false because these datasets can take longer to search. When omitted or false, those matches are intentionally excluded and source completeness covers only the backends that were queried.",
-			default: false,
-		})
-		.option("limit", {
-			type: "number",
-			description: "Maximum number of results to return. Defaults to 20.",
-			default: 20,
-		})
-		.option("query", {
-			type: "string",
-			description: "Search text, from 1 to 1000 characters after trimming.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "search",
 	describe: "Search threat intelligence",
-	builder,
+	usage:
+		"$0 cloudforce-one threat-intel search\n\nSearches the articles, actors, tags, events, and indicators you can read and returns one list of typed results, most relevant first. Use `entity_types` to limit the types searched.",
+	flags: {
+		"entity-types": {
+			kind: "parsed",
+			brief:
+				"Entity types to search. Omit to search articles, actors, tags, events, and indicators.",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"include-analytics-datasets": {
+			kind: "boolean",
+			brief:
+				"Whether to include Event and Indicator matches from analytics datasets. Defaults to false because these datasets can take longer to search. When omitted or false, those matches are intentionally excluded and source completeness covers only the backends that were queried.",
+			default: false,
+		},
+		limit: {
+			kind: "parsed",
+			brief: "Maximum number of results to return. Defaults to 20.",
+			default: "20",
+			parse: Number,
+		},
+		query: {
+			kind: "parsed",
+			brief: "Search text, from 1 to 1000 characters after trimming.",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "cloudforce-one threat-intel search",
 				classification: {
 					safeFlags: ["include-analytics-datasets", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -142,6 +143,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Loaded` });
 			}
 		),
-};
+});
 
 export default command;

@@ -1,11 +1,10 @@
 import operation from "../../../_operations/network/subnets/warp/edit.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * edit command
  * @generated from apis/overlays/network.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -19,53 +18,56 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 network subnets warp edit <subnet-id>\n\nUpdates a WARP IP assignment subnet. **Update constraints:** - The `network` field cannot be modified for WARP subnets. Only `name`, `comment`, and `is_default_network` can be updated. - IPv6 subnets cannot be updated"
-		)
-		.positional("subnet-id", {
-			type: "string",
-			description: "The UUID of the subnet.",
-			demandOption: true,
-		})
-		.option("comment", {
-			type: "string",
-			description: "An optional description of the subnet.",
-		})
-		.option("is-default-network", {
-			type: "boolean",
-			description:
-				"If `true`, this is the default subnet for the account. There can only be one default subnet per account.",
-		})
-		.option("name", {
-			type: "string",
-			description: "A user-friendly name for the subnet.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "edit <subnet-id>",
 	describe: "Update WARP IP subnet",
-	builder,
+	usage:
+		"$0 network subnets warp edit <subnet-id>\n\nUpdates a WARP IP assignment subnet. **Update constraints:** - The `network` field cannot be modified for WARP subnets. Only `name`, `comment`, and `is_default_network` can be updated. - IPv6 subnets cannot be updated",
+	flags: {
+		comment: {
+			kind: "parsed",
+			brief: "An optional description of the subnet.",
+			optional: true,
+			parse: String,
+		},
+		"is-default-network": {
+			kind: "boolean",
+			brief:
+				"If `true`, this is the default subnet for the account. There can only be one default subnet per account.",
+			optional: true,
+		},
+		name: {
+			kind: "parsed",
+			brief: "A user-friendly name for the subnet.",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [
+		{
+			placeholder: "subnet-id",
+			brief: "The UUID of the subnet.",
+			parse: String,
+		},
+	],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "network subnets warp edit",
 				classification: {
 					safeFlags: ["is-default-network", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -139,6 +141,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Updated` });
 			}
 		),
-};
+});
 
 export default command;

@@ -1,11 +1,10 @@
 import operation from "../_operations/d1/create.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * create command
  * @generated from apis/overlays/d1.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -20,54 +19,60 @@ import { withProgress } from "#lib/progress.js";
 import { promptForRequiredField } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage("$0 d1 create\n\nCreate a new D1 database in your account.")
-		.option("jurisdiction", {
-			type: "string",
-			description:
-				"Specify the location to restrict the D1 database to run and store data. If this option is present, the location hint is ignored.",
-			choices: ["eu", "fedramp", "us"],
-		})
-		.coerce("jurisdiction", (value) =>
-			resolveFileToken(value, "jurisdiction", "text")
-		)
-		.option("name", { type: "string", description: "D1 database name." })
-		.option("primary-location-hint", {
-			type: "string",
-			description:
-				"Specify the region to create the D1 primary, if available. If this option is omitted, the D1 will be created as close as possible to the current user.",
-			choices: ["wnam", "enam", "weur", "eeur", "apac", "oc"],
-		})
-		.coerce("primary-location-hint", (value) =>
-			resolveFileToken(value, "primary-location-hint", "text")
-		)
-		.option("read-replication-mode", {
-			type: "string",
-			description:
-				"The read replication mode for the database. Use 'auto' to create replicas and allow D1 automatically place them around the world, or 'disabled' to not use any database replicas (it can take a few hours for all replicas to be deleted).",
-			choices: ["auto", "disabled"],
-		})
-		.coerce("read-replication-mode", (value) =>
-			resolveFileToken(value, "read-replication-mode", "text")
-		)
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "create",
 	describe: "Create D1 Database",
-	builder,
+	usage: "$0 d1 create\n\nCreate a new D1 database in your account.",
+	flags: {
+		jurisdiction: {
+			kind: "parsed",
+			brief:
+				"Specify the location to restrict the D1 database to run and store data. If this option is present, the location hint is ignored.",
+			optional: true,
+			choices: ["eu", "fedramp", "us"],
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "jurisdiction", "text"),
+		},
+		name: {
+			kind: "parsed",
+			brief: "D1 database name.",
+			optional: true,
+			parse: String,
+		},
+		"primary-location-hint": {
+			kind: "parsed",
+			brief:
+				"Specify the region to create the D1 primary, if available. If this option is omitted, the D1 will be created as close as possible to the current user.",
+			optional: true,
+			choices: ["wnam", "enam", "weur", "eeur", "apac", "oc"],
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "primary-location-hint", "text"),
+		},
+		"read-replication-mode": {
+			kind: "parsed",
+			brief:
+				"The read replication mode for the database. Use 'auto' to create replicas and allow D1 automatically place them around the world, or 'disabled' to not use any database replicas (it can take a few hours for all replicas to be deleted).",
+			optional: true,
+			choices: ["auto", "disabled"],
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "read-replication-mode", "text"),
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
@@ -79,7 +84,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"read-replication-mode",
 						"dry-run",
 					],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -155,6 +160,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Created` });
 			}
 		),
-};
+});
 
 export default command;

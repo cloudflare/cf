@@ -4,29 +4,24 @@ import $delete from "./delete.js";
 import $edit from "./edit.js";
 import $get from "./get.js";
 import $list from "./list.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * url-ignore-patterns command group
  * @generated from apis/overlays/email-security.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "url-ignore-patterns",
 	describe: "Operations for url-ignore-patterns",
 
-	builder: (yargs) => {
-		return yargs
-			.command($bulkapply)
-			.command($create)
-			.command($delete)
-			.command($edit)
-			.command($get)
-			.command($list)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		"bulk-apply": $bulkapply,
+		create: $create,
+		delete: $delete,
+		edit: $edit,
+		get: $get,
+		list: $list,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

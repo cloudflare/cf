@@ -1,11 +1,10 @@
 import operation from "../_operations/queues/edit.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * edit command
  * @generated from apis/overlays/queues.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -19,67 +18,68 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 queues edit <queue-id>\n\nUpdates part of a Queue's configuration."
-		)
-		.positional("queue-id", {
-			type: "string",
-			description: "A Resource identifier.",
-			demandOption: true,
-		})
-		.option("jurisdiction", {
-			type: "string",
-			description: "The jurisdiction field",
-			choices: ["eu", "us", "fedramp"],
-		})
-		.coerce("jurisdiction", (value) =>
-			resolveFileToken(value, "jurisdiction", "text")
-		)
-		.option("queue-name", {
-			type: "string",
-			description: "The queue_name field",
-		})
-		.option("settings-delivery-delay", {
-			type: "number",
-			description:
-				"Number of seconds to delay delivery of all messages to consumers.",
-		})
-		.option("settings-delivery-paused", {
-			type: "boolean",
-			description:
-				"Indicates if message delivery to consumers is currently paused.",
-		})
-		.option("settings-message-retention-period", {
-			type: "number",
-			description:
-				"Number of seconds after which an unconsumed message will be delayed.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "edit <queue-id>",
 	describe: "Update Queue",
-	builder,
+	usage:
+		"$0 queues edit <queue-id>\n\nUpdates part of a Queue's configuration.",
+	flags: {
+		jurisdiction: {
+			kind: "parsed",
+			brief: "The jurisdiction field",
+			optional: true,
+			choices: ["eu", "us", "fedramp"],
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "jurisdiction", "text"),
+		},
+		"queue-name": {
+			kind: "parsed",
+			brief: "The queue_name field",
+			optional: true,
+			parse: String,
+		},
+		"settings-delivery-delay": {
+			kind: "parsed",
+			brief:
+				"Number of seconds to delay delivery of all messages to consumers.",
+			optional: true,
+			parse: Number,
+		},
+		"settings-delivery-paused": {
+			kind: "boolean",
+			brief: "Indicates if message delivery to consumers is currently paused.",
+			optional: true,
+		},
+		"settings-message-retention-period": {
+			kind: "parsed",
+			brief:
+				"Number of seconds after which an unconsumed message will be delayed.",
+			optional: true,
+			parse: Number,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [
+		{ placeholder: "queue-id", brief: "A Resource identifier.", parse: String },
+	],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "queues edit",
 				classification: {
 					safeFlags: ["jurisdiction", "settings-delivery-paused", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -154,6 +154,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Updated` });
 			}
 		),
-};
+});
 
 export default command;

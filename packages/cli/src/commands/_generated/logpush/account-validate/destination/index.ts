@@ -1,22 +1,17 @@
 import $delete from "./delete.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * destination command group
  * @generated from apis/overlays/logpush.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "destination",
 	describe: "Operations for account-validate.destination",
 
-	builder: (yargs) => {
-		return yargs
-			.command($delete)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		delete: $delete,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

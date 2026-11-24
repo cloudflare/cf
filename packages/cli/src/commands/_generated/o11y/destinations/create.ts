@@ -1,11 +1,10 @@
 import operation from "../../_operations/o11y/destinations/create.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * create command
  * @generated from apis/overlays/o11y.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -23,63 +22,72 @@ import {
 } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 o11y destinations create\n\nCreate a new Workers Observability Telemetry Destination."
-		)
-		.option("configuration-headers", {
-			type: "string",
-			description:
+const command = apiCommand({
+	command: "create",
+	describe: "Create Destination",
+	usage:
+		"$0 o11y destinations create\n\nCreate a new Workers Observability Telemetry Destination.",
+	flags: {
+		"configuration-headers": {
+			kind: "parsed",
+			brief:
 				'The configuration.headers field. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": string}.',
-		})
-		.option("configuration-logpush-dataset", {
-			type: "string",
-			description: "The configuration.logpushDataset field",
+			optional: true,
+			parse: String,
+		},
+		"configuration-logpush-dataset": {
+			kind: "parsed",
+			brief: "The configuration.logpushDataset field",
+			optional: true,
 			choices: [
 				"opentelemetry-traces",
 				"opentelemetry-logs",
 				"opentelemetry-metrics",
 			],
-		})
-		.coerce("configuration-logpush-dataset", (value) =>
-			resolveFileToken(value, "configuration-logpush-dataset", "text")
-		)
-		.option("configuration-type", {
-			type: "string",
-			description: "The configuration.type field",
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "configuration-logpush-dataset", "text"),
+		},
+		"configuration-type": {
+			kind: "parsed",
+			brief: "The configuration.type field",
+			optional: true,
 			choices: ["logpush"],
-		})
-		.coerce("configuration-type", (value) =>
-			resolveFileToken(value, "configuration-type", "text")
-		)
-		.option("configuration-url", {
-			type: "string",
-			description: "The configuration.url field",
-		})
-		.option("enabled", { type: "boolean", description: "The enabled field" })
-		.option("name", { type: "string", description: "The name field" })
-		.option("skip-preflight-check", {
-			type: "boolean",
-			description: "The skipPreflightCheck field",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "configuration-type", "text"),
+		},
+		"configuration-url": {
+			kind: "parsed",
+			brief: "The configuration.url field",
+			optional: true,
+			parse: String,
+		},
+		enabled: { kind: "boolean", brief: "The enabled field", optional: true },
+		name: {
+			kind: "parsed",
+			brief: "The name field",
+			optional: true,
+			parse: String,
+		},
+		"skip-preflight-check": {
+			kind: "boolean",
+			brief: "The skipPreflightCheck field",
+			optional: true,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
 			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "create",
-	describe: "Create Destination",
-	builder,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
@@ -92,7 +100,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"skip-preflight-check",
 						"dry-run",
 					],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -243,6 +251,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Created` });
 			}
 		),
-};
+});
 
 export default command;

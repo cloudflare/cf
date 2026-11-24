@@ -1,11 +1,10 @@
 import operation from "../../_operations/rulesets/rules/update.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * update command
  * @generated from apis/overlays/rulesets.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -20,65 +19,70 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 rulesets rules update <rule-id>\n\nUpdates an existing rule in an account or zone ruleset.\n\nRuns against your account. Pass --zone to run against a zone instead. CLOUDFLARE_ZONE_ID is ignored."
-		)
-		.positional("rule-id", {
-			type: "string",
-			description: "The unique ID of the rule.",
-			demandOption: true,
-		})
-		.option("ruleset-id", {
-			type: "string",
-			description: "The unique ID of the ruleset.",
-			demandOption: true,
-		})
-		.option("validate-only", {
-			type: "boolean",
-			description:
-				"Validates the request without persisting changes when set to `true`. Responses that normally return 200 return `result: null`; endpoints that normally return 204 continue to return 204.",
-		})
-		.option("position-before", {
-			type: "string",
-			description:
-				"The ID of another rule to place the rule before. An empty value causes the rule to be placed at the top.",
-		})
-		.option("position-after", {
-			type: "string",
-			description:
-				"The ID of another rule to place the rule after. An empty value causes the rule to be placed at the bottom.",
-		})
-		.option("position-index", {
-			type: "number",
-			description:
-				"An index at which to place the rule, where index 1 is the first rule.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "update <rule-id>",
 	describe: "Update an account or zone ruleset rule",
-	builder,
+	usage:
+		"$0 rulesets rules update <rule-id>\n\nUpdates an existing rule in an account or zone ruleset.\n\nRuns against your account. Pass --zone to run against a zone instead. CLOUDFLARE_ZONE_ID is ignored.",
+	flags: {
+		"ruleset-id": {
+			kind: "parsed",
+			brief: "The unique ID of the ruleset.",
+			parse: String,
+		},
+		"validate-only": {
+			kind: "boolean",
+			brief:
+				"Validates the request without persisting changes when set to `true`. Responses that normally return 200 return `result: null`; endpoints that normally return 204 continue to return 204.",
+			optional: true,
+		},
+		"position-before": {
+			kind: "parsed",
+			brief:
+				"The ID of another rule to place the rule before. An empty value causes the rule to be placed at the top.",
+			optional: true,
+			parse: String,
+		},
+		"position-after": {
+			kind: "parsed",
+			brief:
+				"The ID of another rule to place the rule after. An empty value causes the rule to be placed at the bottom.",
+			optional: true,
+			parse: String,
+		},
+		"position-index": {
+			kind: "parsed",
+			brief:
+				"An index at which to place the rule, where index 1 is the first rule.",
+			optional: true,
+			parse: Number,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [
+		{
+			placeholder: "rule-id",
+			brief: "The unique ID of the rule.",
+			parse: String,
+		},
+	],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "rulesets rules update",
 				classification: {
 					safeFlags: ["validate-only", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -199,6 +203,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Updated` });
 			}
 		),
-};
+});
 
 export default command;

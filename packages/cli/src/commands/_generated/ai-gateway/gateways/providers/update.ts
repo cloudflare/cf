@@ -1,11 +1,10 @@
 import operation from "../../../_operations/ai-gateway/gateways/providers/update.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * update command
  * @generated from apis/overlays/ai-gateway.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -20,50 +19,44 @@ import { withProgress } from "#lib/progress.js";
 import { promptForRequiredField } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 ai-gateway gateways providers update <id>\n\nReplaces the stored API key of a provider key configuration. Only the key can change."
-		)
-		.positional("id", {
-			type: "string",
-			description: "ID",
-			demandOption: true,
-		})
-		.option("gateway-id", {
-			type: "string",
-			description: "Unique identifier of the AI Gateway within the account.",
-			demandOption: true,
-		})
-		.option("secret", {
-			type: "string",
-			description:
-				"Provider API key to store in the Secrets Store configured on the gateway.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "update <id>",
 	describe: "Rotate a provider key",
-	builder,
+	usage:
+		"$0 ai-gateway gateways providers update <id>\n\nReplaces the stored API key of a provider key configuration. Only the key can change.",
+	flags: {
+		"gateway-id": {
+			kind: "parsed",
+			brief: "Unique identifier of the AI Gateway within the account.",
+			parse: String,
+		},
+		secret: {
+			kind: "parsed",
+			brief:
+				"Provider API key to store in the Secrets Store configured on the gateway.",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [{ placeholder: "id", brief: "ID", parse: String }],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "ai-gateway gateways providers update",
-				classification: {
-					safeFlags: ["dry-run"],
-				} satisfies ArgClassification<Args>,
+				classification: { safeFlags: ["dry-run"] } satisfies ArgClassification<
+					typeof argv
+				>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -144,6 +137,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Updated` });
 			}
 		),
-};
+});
 
 export default command;

@@ -1,22 +1,17 @@
 import $makereusable from "./make-reusable.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * policies command group
  * @generated from apis/overlays/zero-trust.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "policies",
 	describe: "Operations for access.applications.policies",
 
-	builder: (yargs) => {
-		return yargs
-			.command($makereusable)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		"make-reusable": $makereusable,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

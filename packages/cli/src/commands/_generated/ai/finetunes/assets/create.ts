@@ -1,10 +1,9 @@
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * create command
  * @generated from apis/overlays/ai.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -18,49 +17,47 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 ai finetunes assets create <finetune-id>\n\nUploads training data assets for a Workers AI fine-tuning job."
-		)
-		.positional("finetune-id", {
-			type: "string",
-			description: "Finetune ID",
-			demandOption: true,
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Finetune asset file upload.",
-		})
-		.option("file", {
-			type: "string",
-			description: "Path to a file to upload as the request body",
-		})
-		.option("file-name", {
-			type: "string",
-			description:
-				"Name of the file (adapter_config.json or adapter_model.safetensors).",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "create <finetune-id>",
 	describe: "Upload a Finetune Asset",
-	builder,
+	usage:
+		"$0 ai finetunes assets create <finetune-id>\n\nUploads training data assets for a Workers AI fine-tuning job.",
+	flags: {
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Finetune asset file upload.",
+			optional: true,
+			parse: String,
+		},
+		file: {
+			kind: "parsed",
+			brief: "Path to a file to upload as the request body",
+			optional: true,
+			parse: String,
+		},
+		"file-name": {
+			kind: "parsed",
+			brief:
+				"Name of the file (adapter_config.json or adapter_model.safetensors).",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [
+		{ placeholder: "finetune-id", brief: "Finetune ID", parse: String },
+	],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "ai finetunes assets create",
-				classification: {
-					safeFlags: ["dry-run"],
-				} satisfies ArgClassification<Args>,
+				classification: { safeFlags: ["dry-run"] } satisfies ArgClassification<
+					typeof argv
+				>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -152,6 +149,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 			}
 		),
-};
+});
 
 export default command;

@@ -12,38 +12,33 @@ import $region from "./region/index.js";
 import $regions from "./regions/index.js";
 import $riskscoring from "./risk-scoring/index.js";
 import $users from "./users/index.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * zero-trust command
  * @generated from apis/overlays/zero-trust.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "zero-trust",
 	describe:
 		"Cloudflare's SASE platform — secure access, device posture, DLP, tunnels, gateway policies, and network segmentation",
 
-	builder: (yargs) => {
-		return yargs
-			.command($access)
-			.command($casb)
-			.command($connectivitysettings)
-			.command($cws)
-			.command($devices)
-			.command($dex)
-			.command($dlp)
-			.command($gateway)
-			.command($identityproviders)
-			.command($organization)
-			.command($region)
-			.command($regions)
-			.command($riskscoring)
-			.command($users)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		access: $access,
+		casb: $casb,
+		"connectivity-settings": $connectivitysettings,
+		cws: $cws,
+		devices: $devices,
+		dex: $dex,
+		dlp: $dlp,
+		gateway: $gateway,
+		"identity-providers": $identityproviders,
+		organization: $organization,
+		region: $region,
+		regions: $regions,
+		"risk-scoring": $riskscoring,
+		users: $users,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

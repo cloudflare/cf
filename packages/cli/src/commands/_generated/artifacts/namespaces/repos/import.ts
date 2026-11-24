@@ -1,11 +1,10 @@
 import operation from "../../../_operations/artifacts/namespaces/repos/import.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * import command
  * @generated from apis/overlays/artifacts.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -20,56 +19,61 @@ import { withProgress } from "#lib/progress.js";
 import { promptForRequiredField } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 artifacts namespaces repos import <name>\n\nImports an HTTPS Git repository into an Artifacts repository."
-		)
-		.positional("name", {
-			type: "string",
-			description: "Repository name.",
-			demandOption: true,
-		})
-		.option("namespace", {
-			type: "string",
-			description: "Artifacts namespace name.",
-			demandOption: true,
-		})
-		.option("branch", {
-			type: "string",
-			description:
-				"Git branch name. Must match /^[a-zA-Z0-9][a-zA-Z0-9._/-]*$/, must not contain '..', and must not end with '/' or '.'.",
-		})
-		.option("depth", { type: "number", description: "The depth field" })
-		.option("read-only", {
-			type: "boolean",
-			description: "The read_only field",
-		})
-		.option("url", { type: "string", description: "The url field" })
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "import <name>",
 	describe: "Import a repository",
-	builder,
+	usage:
+		"$0 artifacts namespaces repos import <name>\n\nImports an HTTPS Git repository into an Artifacts repository.",
+	flags: {
+		namespace: {
+			kind: "parsed",
+			brief: "Artifacts namespace name.",
+			parse: String,
+		},
+		branch: {
+			kind: "parsed",
+			brief:
+				"Git branch name. Must match /^[a-zA-Z0-9][a-zA-Z0-9._/-]*$/, must not contain '..', and must not end with '/' or '.'.",
+			optional: true,
+			parse: String,
+		},
+		depth: {
+			kind: "parsed",
+			brief: "The depth field",
+			optional: true,
+			parse: Number,
+		},
+		"read-only": {
+			kind: "boolean",
+			brief: "The read_only field",
+			optional: true,
+		},
+		url: {
+			kind: "parsed",
+			brief: "The url field",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [{ placeholder: "name", brief: "Repository name.", parse: String }],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "artifacts namespaces repos import",
 				classification: {
 					safeFlags: ["read-only", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -159,6 +163,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Created` });
 			}
 		),
-};
+});
 
 export default command;

@@ -1,10 +1,9 @@
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * create command
  * @generated from apis/overlays/zero-trust.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -24,109 +23,140 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 zero-trust access user-populations users create <user-population-id>\n\nCreates a SCIM user in a user population."
-		)
-		.positional("user-population-id", {
-			type: "string",
-			description: "UUID.",
-			demandOption: true,
-		})
-		.option("active", { type: "boolean", description: "The active field" })
-		.option("display-name", {
-			type: "string",
-			description: "The displayName field",
-		})
-		.option("emails", {
-			type: "string",
-			description:
-				'The emails field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"primary"?: boolean, "type"?: string, "value"?: string}]. ? marks optional keys.',
-		})
-		.option("external-id", {
-			type: "string",
-			description: "The externalId field",
-		})
-		.option("meta-created", {
-			type: "string",
-			description: "The meta.created field",
-		})
-		.option("meta-last-modified", {
-			type: "string",
-			description: "The meta.lastModified field",
-		})
-		.option("meta-location", {
-			type: "string",
-			description: "The meta.location field",
-		})
-		.option("meta-resource-type", {
-			type: "string",
-			description: "The meta.resourceType field",
-		})
-		.option("meta-version", {
-			type: "string",
-			description: "The meta.version field",
-		})
-		.option("name-family-name", {
-			type: "string",
-			description: "The name.familyName field",
-		})
-		.option("name-formatted", {
-			type: "string",
-			description: "The name.formatted field",
-		})
-		.option("name-given-name", {
-			type: "string",
-			description: "The name.givenName field",
-		})
-		.option("name-honorific-prefix", {
-			type: "string",
-			description: "The name.honorificPrefix field",
-		})
-		.option("name-honorific-suffix", {
-			type: "string",
-			description: "The name.honorificSuffix field",
-		})
-		.option("name-middle-name", {
-			type: "string",
-			description: "The name.middleName field",
-		})
-		.option("schemas", {
-			type: "string",
-			array: true,
-			description: "The SCIM schemas that apply to this resource.",
-		})
-		.option("user-name", { type: "string", description: "The userName field" })
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description:
-				"A SCIM User resource. Additional SCIM extension attributes are supported.",
-		})
-		.option("file", {
-			type: "string",
-			description: "Path to a file to upload as the request body",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "create <user-population-id>",
 	describe: "Create a user population user",
-	builder,
+	usage:
+		"$0 zero-trust access user-populations users create <user-population-id>\n\nCreates a SCIM user in a user population.",
+	flags: {
+		active: { kind: "boolean", brief: "The active field", optional: true },
+		"display-name": {
+			kind: "parsed",
+			brief: "The displayName field",
+			optional: true,
+			parse: String,
+		},
+		emails: {
+			kind: "parsed",
+			brief:
+				'The emails field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"primary"?: boolean, "type"?: string, "value"?: string}]. ? marks optional keys.',
+			optional: true,
+			parse: String,
+		},
+		"external-id": {
+			kind: "parsed",
+			brief: "The externalId field",
+			optional: true,
+			parse: String,
+		},
+		"meta-created": {
+			kind: "parsed",
+			brief: "The meta.created field",
+			optional: true,
+			parse: String,
+		},
+		"meta-last-modified": {
+			kind: "parsed",
+			brief: "The meta.lastModified field",
+			optional: true,
+			parse: String,
+		},
+		"meta-location": {
+			kind: "parsed",
+			brief: "The meta.location field",
+			optional: true,
+			parse: String,
+		},
+		"meta-resource-type": {
+			kind: "parsed",
+			brief: "The meta.resourceType field",
+			optional: true,
+			parse: String,
+		},
+		"meta-version": {
+			kind: "parsed",
+			brief: "The meta.version field",
+			optional: true,
+			parse: String,
+		},
+		"name-family-name": {
+			kind: "parsed",
+			brief: "The name.familyName field",
+			optional: true,
+			parse: String,
+		},
+		"name-formatted": {
+			kind: "parsed",
+			brief: "The name.formatted field",
+			optional: true,
+			parse: String,
+		},
+		"name-given-name": {
+			kind: "parsed",
+			brief: "The name.givenName field",
+			optional: true,
+			parse: String,
+		},
+		"name-honorific-prefix": {
+			kind: "parsed",
+			brief: "The name.honorificPrefix field",
+			optional: true,
+			parse: String,
+		},
+		"name-honorific-suffix": {
+			kind: "parsed",
+			brief: "The name.honorificSuffix field",
+			optional: true,
+			parse: String,
+		},
+		"name-middle-name": {
+			kind: "parsed",
+			brief: "The name.middleName field",
+			optional: true,
+			parse: String,
+		},
+		schemas: {
+			kind: "parsed",
+			brief: "The SCIM schemas that apply to this resource.",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"user-name": {
+			kind: "parsed",
+			brief: "The userName field",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief:
+				"A SCIM User resource. Additional SCIM extension attributes are supported.",
+			optional: true,
+			parse: String,
+		},
+		file: {
+			kind: "parsed",
+			brief: "Path to a file to upload as the request body",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [
+		{ placeholder: "user-population-id", brief: "UUID.", parse: String },
+	],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "zero-trust access user-populations users create",
 				classification: {
 					safeFlags: ["active", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -431,6 +461,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Created` });
 			}
 		),
-};
+});
 
 export default command;

@@ -1,11 +1,10 @@
 import operation from "../../../_operations/stream/live-inputs/outputs/create.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * create command
  * @generated from apis/overlays/stream.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -20,55 +19,56 @@ import { withProgress } from "#lib/progress.js";
 import { promptForRequiredField } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 stream live-inputs outputs create <live-input-identifier>\n\nCreates a new output that can be used to simulcast or restream live video to other RTMP or SRT destinations. Outputs are always linked to a specific live input — one live input can have many outputs."
-		)
-		.positional("live-input-identifier", {
-			type: "string",
-			description: "A unique identifier for a live input.",
-			demandOption: true,
-		})
-		.option("enabled", {
-			type: "boolean",
-			description:
-				"When enabled, live video streamed to the associated live input will be sent to the output URL. When disabled, live video will not be sent to the output URL, even when streaming to the associated live input. Use this to control precisely when you start and stop simulcasting to specific destinations like YouTube and Twitch.",
-			default: true,
-		})
-		.option("stream-key", {
-			type: "string",
-			description:
-				"The streamKey used to authenticate against an output's target.",
-		})
-		.option("url", {
-			type: "string",
-			description: "The URL an output uses to restream.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "create <live-input-identifier>",
 	describe: "Create a new output, connected to a live input",
-	builder,
+	usage:
+		"$0 stream live-inputs outputs create <live-input-identifier>\n\nCreates a new output that can be used to simulcast or restream live video to other RTMP or SRT destinations. Outputs are always linked to a specific live input — one live input can have many outputs.",
+	flags: {
+		enabled: {
+			kind: "boolean",
+			brief:
+				"When enabled, live video streamed to the associated live input will be sent to the output URL. When disabled, live video will not be sent to the output URL, even when streaming to the associated live input. Use this to control precisely when you start and stop simulcasting to specific destinations like YouTube and Twitch.",
+			default: true,
+		},
+		"stream-key": {
+			kind: "parsed",
+			brief: "The streamKey used to authenticate against an output's target.",
+			optional: true,
+			parse: String,
+		},
+		url: {
+			kind: "parsed",
+			brief: "The URL an output uses to restream.",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [
+		{
+			placeholder: "live-input-identifier",
+			brief: "A unique identifier for a live input.",
+			parse: String,
+		},
+	],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "stream live-inputs outputs create",
 				classification: {
 					safeFlags: ["enabled", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -167,6 +167,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Created` });
 			}
 		),
-};
+});
 
 export default command;

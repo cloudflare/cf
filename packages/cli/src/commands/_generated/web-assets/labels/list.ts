@@ -1,73 +1,77 @@
 import operation from "../../_operations/web-assets/labels/list.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * list command
  * @generated from apis/overlays/web-assets.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import { createCommandClient, getZoneId } from "#lib/auth.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 web-assets labels list\n\nReturns all managed and user-defined labels available for web and API operations in the zone."
-		)
-		.option("page", {
-			type: "number",
-			description: "Page number of paginated results.",
-		})
-		.option("per-page", {
-			type: "number",
-			description: "Maximum number of results per page.",
-		})
-		.option("order", {
-			type: "string",
-			description: "Field to order by",
-			choices: [
+const command = apiCommand({
+	command: "list",
+	describe: "List operation labels",
+	usage:
+		"$0 web-assets labels list\n\nReturns all managed and user-defined labels available for web and API operations in the zone.",
+	flags: {
+		page: {
+			kind: "parsed",
+			brief: "Page number of paginated results.",
+			optional: true,
+			parse: Number,
+		},
+		"per-page": {
+			kind: "parsed",
+			brief: "Maximum number of results per page.",
+			optional: true,
+			parse: Number,
+		},
+		order: {
+			kind: "enum",
+			brief: "Field to order by",
+			values: [
 				"name",
 				"description",
 				"created_at",
 				"last_updated",
 				"mapped_resources.operations",
 			],
-		})
-		.option("direction", {
-			type: "string",
-			description: "Direction to order results.",
-			choices: ["asc", "desc"],
-		})
-		.option("source", {
-			type: "string",
-			description: "Filter for labels with source",
-			choices: ["user", "managed"],
-		})
-		.option("filter", {
-			type: "string",
-			description:
+			optional: true,
+		},
+		direction: {
+			kind: "enum",
+			brief: "Direction to order results.",
+			values: ["asc", "desc"],
+			optional: true,
+		},
+		source: {
+			kind: "enum",
+			brief: "Filter for labels with source",
+			values: ["user", "managed"],
+			optional: true,
+		},
+		filter: {
+			kind: "parsed",
+			brief:
 				"Filter for labels where the name or description matches using substring match",
-		})
-		.option("with-mapped-resource-counts", {
-			type: "boolean",
-			description: "Include `mapped_resources` for each label",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
+			optional: true,
+			parse: String,
+		},
+		"with-mapped-resource-counts": {
+			kind: "boolean",
+			brief: "Include `mapped_resources` for each label",
+			optional: true,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
 			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "list",
-	describe: "List operation labels",
-	builder,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
@@ -80,7 +84,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"with-mapped-resource-counts",
 						"dry-run",
 					],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -118,6 +122,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Loaded` });
 			}
 		),
-};
+});
 
 export default command;

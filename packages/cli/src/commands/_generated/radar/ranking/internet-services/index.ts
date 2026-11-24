@@ -1,26 +1,21 @@
 import $categories from "./categories.js";
 import $timeseriesgroups from "./timeseries-groups.js";
 import $top from "./top.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * internet-services command group
  * @generated from apis/overlays/radar.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "internet-services",
 	describe: "Operations for ranking.internet-services",
 
-	builder: (yargs) => {
-		return yargs
-			.command($categories)
-			.command($timeseriesgroups)
-			.command($top)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		categories: $categories,
+		"timeseries-groups": $timeseriesgroups,
+		top: $top,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

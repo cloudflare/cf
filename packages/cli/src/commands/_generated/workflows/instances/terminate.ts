@@ -1,11 +1,10 @@
 import operation from "../../_operations/workflows/instances/terminate.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * terminate command
  * @generated from apis/overlays/workflows.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -20,74 +19,80 @@ import { withProgress } from "#lib/progress.js";
 import { confirmDelete, promptForRequiredEnumField } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 workflows instances terminate <instance-id>\n\nChanges the execution status of a workflow instance (e.g., pause, resume, terminate)."
-		)
-		.positional("instance-id", {
-			type: "string",
-			description:
-				"Instance identifier. User-created instances match \`^[a-zA-Z0-9_][a-zA-Z0-9-_]*$\` (max 100 characters); cron-triggered instances can use a longer, system-generated id derived from the cron expression.",
-			demandOption: true,
-		})
-		.option("workflow-name", {
-			type: "string",
-			description: "Workflow name",
-			demandOption: true,
-		})
-		.option("status", {
-			type: "string",
-			description: "The status field",
-			choices: ["pause", "resume", "terminate", "restart"],
-		})
-		.coerce("status", (value) => resolveFileToken(value, "status", "text"))
-		.option("rollback", {
-			type: "boolean",
-			description: "Run rollback before terminating.",
-		})
-		.option("from-count", {
-			type: "number",
-			description: "The from.count field",
-		})
-		.option("from-name", { type: "string", description: "The from.name field" })
-		.option("from-type", {
-			type: "string",
-			description: "The from.type field",
-			choices: ["do", "sleep", "waitForEvent"],
-		})
-		.coerce("from-type", (value) =>
-			resolveFileToken(value, "from-type", "text")
-		)
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("force", {
-			type: "boolean",
-			alias: "f",
-			description: "Skip confirmation (useful in scripts and CI)",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		})
-		.conflicts("rollback", ["from-count", "from-name", "from-type"])
-		.conflicts("from-count", ["rollback"])
-		.implies("from-count", ["from-name"])
-		.conflicts("from-name", ["rollback"])
-		.conflicts("from-type", ["rollback"])
-		.implies("from-type", ["from-name"]);
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "terminate <instance-id>",
 	describe: "Change status of instance",
-	builder,
+	usage:
+		"$0 workflows instances terminate <instance-id>\n\nChanges the execution status of a workflow instance (e.g., pause, resume, terminate).",
+	flags: {
+		"workflow-name": { kind: "parsed", brief: "Workflow name", parse: String },
+		status: {
+			kind: "parsed",
+			brief: "The status field",
+			optional: true,
+			choices: ["pause", "resume", "terminate", "restart"],
+			parse: String,
+			coerce: (value: string) => resolveFileToken(value, "status", "text"),
+		},
+		rollback: {
+			kind: "boolean",
+			brief: "Run rollback before terminating.",
+			optional: true,
+		},
+		"from-count": {
+			kind: "parsed",
+			brief: "The from.count field",
+			optional: true,
+			parse: Number,
+		},
+		"from-name": {
+			kind: "parsed",
+			brief: "The from.name field",
+			optional: true,
+			parse: String,
+		},
+		"from-type": {
+			kind: "parsed",
+			brief: "The from.type field",
+			optional: true,
+			choices: ["do", "sleep", "waitForEvent"],
+			parse: String,
+			coerce: (value: string) => resolveFileToken(value, "from-type", "text"),
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		force: {
+			kind: "boolean",
+			brief: "Skip confirmation (useful in scripts and CI)",
+			alias: "f",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [
+		{
+			placeholder: "instance-id",
+			brief:
+				"Instance identifier. User-created instances match \`^[a-zA-Z0-9_][a-zA-Z0-9-_]*$\` (max 100 characters); cron-triggered instances can use a longer, system-generated id derived from the cron expression.",
+			parse: String,
+		},
+	],
+	rules(rules) {
+		rules.conflicts("rollback", ["from-count", "from-name", "from-type"]);
+		rules.conflicts("from-count", ["rollback"]);
+		rules.implies("from-count", ["from-name"]);
+		rules.conflicts("from-name", ["rollback"]);
+		rules.conflicts("from-type", ["rollback"]);
+		rules.implies("from-type", ["from-name"]);
+	},
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
@@ -95,7 +100,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				classification: {
 					safeFlags: ["status", "rollback", "from-type", "dry-run", "force"],
 					shortFlagAliases: { f: { canonical: "force", type: "boolean" } },
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -196,6 +201,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Updated` });
 			}
 		),
-};
+});
 
 export default command;

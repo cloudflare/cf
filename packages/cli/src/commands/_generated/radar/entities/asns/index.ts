@@ -4,29 +4,24 @@ import $get from "./get.js";
 import $ip from "./ip.js";
 import $list from "./list.js";
 import $rel from "./rel.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * asns command group
  * @generated from apis/overlays/radar.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "asns",
 	describe: "Operations for entities.asns",
 
-	builder: (yargs) => {
-		return yargs
-			.command($asset)
-			.command($botnetthreatfeed)
-			.command($get)
-			.command($ip)
-			.command($list)
-			.command($rel)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		"as-set": $asset,
+		"botnet-threat-feed": $botnetthreatfeed,
+		get: $get,
+		ip: $ip,
+		list: $list,
+		rel: $rel,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

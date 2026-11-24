@@ -1,23 +1,18 @@
 import $validate from "./validate.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * patterns command group
  * @generated from apis/overlays/zero-trust.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "patterns",
 	describe:
 		"Data Loss Prevention - validate regular expressions used for content detection",
 
-	builder: (yargs) => {
-		return yargs
-			.command($validate)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		validate: $validate,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

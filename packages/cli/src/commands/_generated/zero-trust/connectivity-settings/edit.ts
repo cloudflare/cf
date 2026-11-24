@@ -1,11 +1,10 @@
 import operation from "../../_operations/zero-trust/connectivity-settings/edit.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * edit command
  * @generated from apis/overlays/zero-trust.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -18,43 +17,42 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 zero-trust connectivity-settings edit\n\nUpdates the Zero Trust Connectivity Settings for the given account."
-		)
-		.option("icmp-proxy-enabled", {
-			type: "boolean",
-			description: "A flag to enable the ICMP proxy for the account network.",
-		})
-		.option("offramp-warp-enabled", {
-			type: "boolean",
-			description: "A flag to enable WARP to WARP traffic.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "edit",
 	describe: "Updates the Zero Trust Connectivity Settings",
-	builder,
+	usage:
+		"$0 zero-trust connectivity-settings edit\n\nUpdates the Zero Trust Connectivity Settings for the given account.",
+	flags: {
+		"icmp-proxy-enabled": {
+			kind: "boolean",
+			brief: "A flag to enable the ICMP proxy for the account network.",
+			optional: true,
+		},
+		"offramp-warp-enabled": {
+			kind: "boolean",
+			brief: "A flag to enable WARP to WARP traffic.",
+			optional: true,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "zero-trust connectivity-settings edit",
 				classification: {
 					safeFlags: ["icmp-proxy-enabled", "offramp-warp-enabled", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -102,6 +100,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Updated` });
 			}
 		),
-};
+});
 
 export default command;

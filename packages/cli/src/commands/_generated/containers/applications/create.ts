@@ -1,11 +1,10 @@
 import operation from "../../_operations/containers/applications/create.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * create command
  * @generated from apis/overlays/containers.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -23,41 +22,53 @@ import {
 } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			'$0 containers applications create\n\nCreate a Containers application. Use `scheduling_policy: "default"` for a scheduler-backed application. The Containers scheduler maintains the requested instance count and manages deployment configuration, placement, scaling, versions, and rollouts. Use `scheduling_policy: "durable_object"` for a Durable Object-managed application. Each Durable Object creates and manages the lifecycle of its container instance. Supply `name`, `scheduling_policy`, and `durable_objects`, with optional `configuration` and optional top-level `observability` settings. Deployment configuration, scaling, constraints, versions, and rollouts do not apply.'
-		)
-		.option("configuration-authorized-keys", {
-			type: "string",
-			description:
+const command = apiCommand({
+	command: "create",
+	describe: "Create a new application",
+	usage:
+		'$0 containers applications create\n\nCreate a Containers application. Use `scheduling_policy: "default"` for a scheduler-backed application. The Containers scheduler maintains the requested instance count and manages deployment configuration, placement, scaling, versions, and rollouts. Use `scheduling_policy: "durable_object"` for a Durable Object-managed application. Each Durable Object creates and manages the lifecycle of its container instance. Supply `name`, `scheduling_policy`, and `durable_objects`, with optional `configuration` and optional top-level `observability` settings. Deployment configuration, scaling, constraints, versions, and rollouts do not apply.',
+	flags: {
+		"configuration-authorized-keys": {
+			kind: "parsed",
+			brief:
 				'The configuration.authorized_keys field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"public_key": string, "name"?: string}]. ? marks optional keys.',
-		})
-		.option("configuration-command", {
-			type: "string",
-			array: true,
-			description:
+			optional: true,
+			parse: String,
+		},
+		"configuration-command": {
+			kind: "parsed",
+			brief:
 				"The command that runs when the container starts, passed to the entrypoint.\nYou can override this at run-time. If you override only the command,\nit gets passed to the default entrypoint specified in the image.\n",
-		})
-		.option("configuration-entrypoint", {
-			type: "string",
-			array: true,
-			description:
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"configuration-entrypoint": {
+			kind: "parsed",
+			brief:
 				"The entry point for the container, specifying the executable to run when the container starts.\nYou can override this at run-time. If you do, the default command from the image is ignored.\nSpecify both entrypoint and command at run-time to completely replace the image defaults.\n",
-		})
-		.option("configuration-environment-variables", {
-			type: "string",
-			description:
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"configuration-environment-variables": {
+			kind: "parsed",
+			brief:
 				'Container environment variables. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"name": string, "value": string}].',
-		})
-		.option("configuration-image", {
-			type: "string",
-			description: "Image url.",
-		})
-		.option("configuration-instance-type", {
-			type: "string",
-			description:
+			optional: true,
+			parse: String,
+		},
+		"configuration-image": {
+			kind: "parsed",
+			brief: "Image url.",
+			optional: true,
+			parse: String,
+		},
+		"configuration-instance-type": {
+			kind: "parsed",
+			brief:
 				'The instance type configures vCPU, memory, and disk.\n\n- "lite": 1/16 vCPU, 256 MiB memory, 2 GB disk\n- "basic": 1/4 vCPU, 1 GiB memory, 4 GB disk\n- "standard-1": 1/2 vCPU, 4 GiB memory, 8 GB disk\n- "standard-2": 1 vCPU, 6 GiB memory, 12 GB disk\n- "standard-3": 2 vCPU, 8 GiB memory, 16 GB disk\n- "standard-4": 4 vCPU, 12 GiB memory, 20 GB disk\n',
+			optional: true,
 			choices: [
 				"lite",
 				"basic",
@@ -66,204 +77,234 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"standard-3",
 				"standard-4",
 			],
-		})
-		.coerce("configuration-instance-type", (value) =>
-			resolveFileToken(value, "configuration-instance-type", "text")
-		)
-		.option("configuration-observability-logs-enabled", {
-			type: "boolean",
-			description: "The configuration.observability.logs.enabled field",
-		})
-		.option("configuration-wrangler-ssh-enabled", {
-			type: "boolean",
-			description: "The configuration.wrangler_ssh.enabled field",
-		})
-		.option("configuration-wrangler-ssh-port", {
-			type: "number",
-			description: "The configuration.wrangler_ssh.port field",
-		})
-		.option("constraints-jurisdiction", {
-			type: "string",
-			description:
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "configuration-instance-type", "text"),
+		},
+		"configuration-observability-logs-enabled": {
+			kind: "boolean",
+			brief: "The configuration.observability.logs.enabled field",
+			optional: true,
+		},
+		"configuration-wrangler-ssh-enabled": {
+			kind: "boolean",
+			brief: "The configuration.wrangler_ssh.enabled field",
+			optional: true,
+		},
+		"configuration-wrangler-ssh-port": {
+			kind: "parsed",
+			brief: "The configuration.wrangler_ssh.port field",
+			optional: true,
+			parse: Number,
+		},
+		"constraints-jurisdiction": {
+			kind: "parsed",
+			brief:
 				'Restricts placement to datacenters in the selected jurisdiction. Choose "eu", "fedramp", or "us". When combined with regions, EU supports EEUR and WEUR while FedRAMP and US support ENAM and WNAM.',
-		})
-		.option("constraints-regions", {
-			type: "string",
-			array: true,
-			description: "The constraints.regions field",
-		})
-		.option("durable-objects-namespace-id", {
-			type: "string",
-			description:
+			optional: true,
+			parse: String,
+		},
+		"constraints-regions": {
+			kind: "parsed",
+			brief: "The constraints.regions field",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"durable-objects-namespace-id": {
+			kind: "parsed",
+			brief:
 				"The namespace ID of the durable object namespace to use for this application.",
-		})
-		.option("durable-objects-class-name", {
-			type: "string",
-			description: "The class name of the durable object.",
-		})
-		.option("durable-objects-script-name", {
-			type: "string",
-			description: "The script name where the durable object class is defined.",
-		})
-		.option("instances", {
-			type: "number",
-			description: "The initial number of deployments to create.",
-		})
-		.option("max-instances", {
-			type: "number",
-			description:
+			optional: true,
+			parse: String,
+		},
+		"durable-objects-class-name": {
+			kind: "parsed",
+			brief: "The class name of the durable object.",
+			optional: true,
+			parse: String,
+		},
+		"durable-objects-script-name": {
+			kind: "parsed",
+			brief: "The script name where the durable object class is defined.",
+			optional: true,
+			parse: String,
+		},
+		instances: {
+			kind: "parsed",
+			brief: "The initial number of deployments to create.",
+			optional: true,
+			parse: Number,
+		},
+		"max-instances": {
+			kind: "parsed",
+			brief:
 				"Sets the maximum number of instances that the application can run.",
-		})
-		.option("name", {
-			type: "string",
-			description: "The name for this application.",
-		})
-		.option("observability-logs-enabled", {
-			type: "boolean",
-			description: "The observability.logs.enabled field",
-		})
-		.option("rollout-active-grace-period", {
-			type: "number",
-			description:
+			optional: true,
+			parse: Number,
+		},
+		name: {
+			kind: "parsed",
+			brief: "The name for this application.",
+			optional: true,
+			parse: String,
+		},
+		"observability-logs-enabled": {
+			kind: "boolean",
+			brief: "The observability.logs.enabled field",
+			optional: true,
+		},
+		"rollout-active-grace-period": {
+			kind: "parsed",
+			brief:
 				"Grace period for active instances to stay alive before becoming eligible for shutdown signal due to a rollout, in seconds.\nDefaults to 0.\n",
-		})
-		.option("scheduling-policy", {
-			type: "string",
-			description:
+			optional: true,
+			parse: Number,
+		},
+		"scheduling-policy": {
+			kind: "parsed",
+			brief:
 				"Variant descriptions:\n- `default`: Selects a scheduler-backed application. Use `default` when the Containers\nscheduler should maintain the requested number of instances and manage deployment\nconfiguration, placement, scaling, versions, and rollouts.\n- `durable_object`: Selects a Durable Object-managed application. Each Durable Object creates and\nmanages the lifecycle of its container instance. Configure application-wide\nobservability settings here. Deployment configuration, scaling, placement\nconstraints, versions, and rollouts do not apply.",
+			optional: true,
 			choices: ["default", "durable_object"],
-		})
-		.coerce("scheduling-policy", (value) =>
-			resolveFileToken(value, "scheduling-policy", "text")
-		)
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "scheduling-policy", "text"),
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
 			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description:
-				"Create a Containers application. Set \`scheduling_policy\` to \`default\` for a scheduler-backed application with deployment configuration, instance counts, constraints, versions, and rollouts. Set it to \`durable_object\` for a Durable Object-managed application where each Durable Object creates and manages the lifecycle of its container instance. For \`durable_object\` requests, supply \`name\`, \`scheduling_policy\`, and \`durable_objects\`, with optional \`configuration\` and top-level \`observability\` settings. ",
-		})
-		.conflicts("configuration-command", [
+		},
+		body: {
+			kind: "parsed",
+			brief:
+				"Create a Containers application. Set `scheduling_policy` to `default` for a scheduler-backed application with deployment configuration, instance counts, constraints, versions, and rollouts. Set it to `durable_object` for a Durable Object-managed application where each Durable Object creates and manages the lifecycle of its container instance. For `durable_object` requests, supply `name`, `scheduling_policy`, and `durable_objects`, with optional `configuration` and top-level `observability` settings. ",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [],
+	rules(rules) {
+		rules.conflicts("configuration-command", [
 			"configuration-wrangler-ssh-enabled",
 			"configuration-wrangler-ssh-port",
-		])
-		.implies("configuration-command", [
-			"configuration-image",
-			"instances",
-			"max-instances",
-		])
-		.conflicts("configuration-entrypoint", [
-			"configuration-wrangler-ssh-enabled",
-			"configuration-wrangler-ssh-port",
-		])
-		.implies("configuration-entrypoint", [
-			"configuration-image",
-			"instances",
-			"max-instances",
-		])
-		.conflicts("configuration-environment-variables", [
-			"configuration-wrangler-ssh-enabled",
-			"configuration-wrangler-ssh-port",
-		])
-		.implies("configuration-environment-variables", [
-			"configuration-image",
-			"instances",
-			"max-instances",
-		])
-		.conflicts("configuration-image", [
-			"configuration-wrangler-ssh-enabled",
-			"configuration-wrangler-ssh-port",
-		])
-		.implies("configuration-image", ["instances", "max-instances"])
-		.conflicts("configuration-instance-type", [
-			"configuration-wrangler-ssh-enabled",
-			"configuration-wrangler-ssh-port",
-		])
-		.implies("configuration-instance-type", [
-			"configuration-image",
-			"instances",
-			"max-instances",
-		])
-		.conflicts("configuration-observability-logs-enabled", [
-			"configuration-wrangler-ssh-enabled",
-			"configuration-wrangler-ssh-port",
-		])
-		.implies("configuration-observability-logs-enabled", [
-			"configuration-image",
-			"instances",
-			"max-instances",
-		])
-		.conflicts("configuration-wrangler-ssh-enabled", [
-			"configuration-command",
-			"configuration-entrypoint",
-			"configuration-environment-variables",
-			"configuration-image",
-			"configuration-instance-type",
-			"configuration-observability-logs-enabled",
-			"constraints-regions",
-			"instances",
-			"max-instances",
-			"rollout-active-grace-period",
-		])
-		.conflicts("configuration-wrangler-ssh-port", [
-			"configuration-command",
-			"configuration-entrypoint",
-			"configuration-environment-variables",
-			"configuration-image",
-			"configuration-instance-type",
-			"configuration-observability-logs-enabled",
-			"constraints-regions",
-			"instances",
-			"max-instances",
-			"rollout-active-grace-period",
-		])
-		.conflicts("constraints-regions", [
-			"configuration-wrangler-ssh-enabled",
-			"configuration-wrangler-ssh-port",
-		])
-		.implies("constraints-regions", [
-			"configuration-image",
-			"instances",
-			"max-instances",
-		])
-		.conflicts("durable-objects-namespace-id", [
-			"durable-objects-class-name",
-			"durable-objects-script-name",
-		])
-		.conflicts("durable-objects-class-name", ["durable-objects-namespace-id"])
-		.implies("durable-objects-class-name", ["durable-objects-script-name"])
-		.conflicts("durable-objects-script-name", ["durable-objects-namespace-id"])
-		.implies("durable-objects-script-name", ["durable-objects-class-name"])
-		.conflicts("instances", [
-			"configuration-wrangler-ssh-enabled",
-			"configuration-wrangler-ssh-port",
-		])
-		.implies("instances", ["configuration-image", "max-instances"])
-		.conflicts("max-instances", [
-			"configuration-wrangler-ssh-enabled",
-			"configuration-wrangler-ssh-port",
-		])
-		.implies("max-instances", ["configuration-image", "instances"])
-		.conflicts("rollout-active-grace-period", [
-			"configuration-wrangler-ssh-enabled",
-			"configuration-wrangler-ssh-port",
-		])
-		.implies("rollout-active-grace-period", [
+		]);
+		rules.implies("configuration-command", [
 			"configuration-image",
 			"instances",
 			"max-instances",
 		]);
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "create",
-	describe: "Create a new application",
-	builder,
+		rules.conflicts("configuration-entrypoint", [
+			"configuration-wrangler-ssh-enabled",
+			"configuration-wrangler-ssh-port",
+		]);
+		rules.implies("configuration-entrypoint", [
+			"configuration-image",
+			"instances",
+			"max-instances",
+		]);
+		rules.conflicts("configuration-environment-variables", [
+			"configuration-wrangler-ssh-enabled",
+			"configuration-wrangler-ssh-port",
+		]);
+		rules.implies("configuration-environment-variables", [
+			"configuration-image",
+			"instances",
+			"max-instances",
+		]);
+		rules.conflicts("configuration-image", [
+			"configuration-wrangler-ssh-enabled",
+			"configuration-wrangler-ssh-port",
+		]);
+		rules.implies("configuration-image", ["instances", "max-instances"]);
+		rules.conflicts("configuration-instance-type", [
+			"configuration-wrangler-ssh-enabled",
+			"configuration-wrangler-ssh-port",
+		]);
+		rules.implies("configuration-instance-type", [
+			"configuration-image",
+			"instances",
+			"max-instances",
+		]);
+		rules.conflicts("configuration-observability-logs-enabled", [
+			"configuration-wrangler-ssh-enabled",
+			"configuration-wrangler-ssh-port",
+		]);
+		rules.implies("configuration-observability-logs-enabled", [
+			"configuration-image",
+			"instances",
+			"max-instances",
+		]);
+		rules.conflicts("configuration-wrangler-ssh-enabled", [
+			"configuration-command",
+			"configuration-entrypoint",
+			"configuration-environment-variables",
+			"configuration-image",
+			"configuration-instance-type",
+			"configuration-observability-logs-enabled",
+			"constraints-regions",
+			"instances",
+			"max-instances",
+			"rollout-active-grace-period",
+		]);
+		rules.conflicts("configuration-wrangler-ssh-port", [
+			"configuration-command",
+			"configuration-entrypoint",
+			"configuration-environment-variables",
+			"configuration-image",
+			"configuration-instance-type",
+			"configuration-observability-logs-enabled",
+			"constraints-regions",
+			"instances",
+			"max-instances",
+			"rollout-active-grace-period",
+		]);
+		rules.conflicts("constraints-regions", [
+			"configuration-wrangler-ssh-enabled",
+			"configuration-wrangler-ssh-port",
+		]);
+		rules.implies("constraints-regions", [
+			"configuration-image",
+			"instances",
+			"max-instances",
+		]);
+		rules.conflicts("durable-objects-namespace-id", [
+			"durable-objects-class-name",
+			"durable-objects-script-name",
+		]);
+		rules.conflicts("durable-objects-class-name", [
+			"durable-objects-namespace-id",
+		]);
+		rules.implies("durable-objects-class-name", [
+			"durable-objects-script-name",
+		]);
+		rules.conflicts("durable-objects-script-name", [
+			"durable-objects-namespace-id",
+		]);
+		rules.implies("durable-objects-script-name", [
+			"durable-objects-class-name",
+		]);
+		rules.conflicts("instances", [
+			"configuration-wrangler-ssh-enabled",
+			"configuration-wrangler-ssh-port",
+		]);
+		rules.implies("instances", ["configuration-image", "max-instances"]);
+		rules.conflicts("max-instances", [
+			"configuration-wrangler-ssh-enabled",
+			"configuration-wrangler-ssh-port",
+		]);
+		rules.implies("max-instances", ["configuration-image", "instances"]);
+		rules.conflicts("rollout-active-grace-period", [
+			"configuration-wrangler-ssh-enabled",
+			"configuration-wrangler-ssh-port",
+		]);
+		rules.implies("rollout-active-grace-period", [
+			"configuration-image",
+			"instances",
+			"max-instances",
+		]);
+	},
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
@@ -277,7 +318,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"scheduling-policy",
 						"dry-run",
 					],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -480,6 +521,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Created` });
 			}
 		),
-};
+});
 
 export default command;

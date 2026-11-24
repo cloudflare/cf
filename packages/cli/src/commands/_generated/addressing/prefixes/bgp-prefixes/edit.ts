@@ -1,11 +1,10 @@
 import operation from "../../../_operations/addressing/prefixes/bgp-prefixes/edit.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * edit command
  * @generated from apis/overlays/addressing.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -18,52 +17,54 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 addressing prefixes bgp-prefixes edit <bgp-prefix-id>\n\nUpdate the properties of a BGP Prefix, such as the on demand advertisement status (advertised or withdrawn)."
-		)
-		.positional("bgp-prefix-id", {
-			type: "string",
-			description: "Identifier of BGP Prefix.",
-			demandOption: true,
-		})
-		.option("prefix-id", {
-			type: "string",
-			description: "Identifier of an IP Prefix.",
-			demandOption: true,
-		})
-		.option("asn-prepend-count", {
-			type: "number",
-			description:
-				"Number of times to prepend the Cloudflare ASN to the BGP AS-Path attribute",
-		})
-		.option("auto-advertise-withdraw", {
-			type: "boolean",
-			description:
-				"Determines if Cloudflare advertises a BYOIP BGP prefix even when there is no matching BGP prefix in the Magic routing table. When true, Cloudflare will automatically withdraw the BGP prefix when there are no matching BGP routes, and will resume advertising when there is at least one matching BGP route.",
-		})
-		.option("on-demand-advertised", {
-			type: "boolean",
-			description: "The on_demand.advertised field",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "edit <bgp-prefix-id>",
 	describe: "Update BGP Prefix",
-	builder,
+	usage:
+		"$0 addressing prefixes bgp-prefixes edit <bgp-prefix-id>\n\nUpdate the properties of a BGP Prefix, such as the on demand advertisement status (advertised or withdrawn).",
+	flags: {
+		"prefix-id": {
+			kind: "parsed",
+			brief: "Identifier of an IP Prefix.",
+			parse: String,
+		},
+		"asn-prepend-count": {
+			kind: "parsed",
+			brief:
+				"Number of times to prepend the Cloudflare ASN to the BGP AS-Path attribute",
+			optional: true,
+			parse: Number,
+		},
+		"auto-advertise-withdraw": {
+			kind: "boolean",
+			brief:
+				"Determines if Cloudflare advertises a BYOIP BGP prefix even when there is no matching BGP prefix in the Magic routing table. When true, Cloudflare will automatically withdraw the BGP prefix when there are no matching BGP routes, and will resume advertising when there is at least one matching BGP route.",
+			optional: true,
+		},
+		"on-demand-advertised": {
+			kind: "boolean",
+			brief: "The on_demand.advertised field",
+			optional: true,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [
+		{
+			placeholder: "bgp-prefix-id",
+			brief: "Identifier of BGP Prefix.",
+			parse: String,
+		},
+	],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
@@ -74,7 +75,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"on-demand-advertised",
 						"dry-run",
 					],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -141,6 +142,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Updated` });
 			}
 		),
-};
+});
 
 export default command;

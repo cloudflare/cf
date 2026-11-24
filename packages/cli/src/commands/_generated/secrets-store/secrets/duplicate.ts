@@ -1,11 +1,10 @@
 import operation from "../../_operations/secrets-store/secrets/duplicate.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * duplicate command
  * @generated from apis/overlays/secrets-store.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -20,56 +19,55 @@ import { withProgress } from "#lib/progress.js";
 import { promptForRequiredField } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 secrets-store secrets duplicate <secret-id>\n\nCreates a duplicate of the secret, keeping the value."
-		)
-		.positional("secret-id", {
-			type: "string",
-			description: "Secret identifier.",
-			demandOption: true,
-		})
-		.option("store-id", {
-			type: "string",
-			description: "Store identifier.",
-			demandOption: true,
-		})
-		.option("comment", {
-			type: "string",
-			description: "Freeform text describing the secret.",
-		})
-		.option("name", { type: "string", description: "The name of the secret." })
-		.option("scopes", {
-			type: "string",
-			array: true,
-			description:
-				"The list of services that can use this secret. Omit it on create or duplicate to inherit the store's scopes. An empty list lets no service use the secret.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "duplicate <secret-id>",
 	describe: "Duplicate Secret",
-	builder,
+	usage:
+		"$0 secrets-store secrets duplicate <secret-id>\n\nCreates a duplicate of the secret, keeping the value.",
+	flags: {
+		"store-id": { kind: "parsed", brief: "Store identifier.", parse: String },
+		comment: {
+			kind: "parsed",
+			brief: "Freeform text describing the secret.",
+			optional: true,
+			parse: String,
+		},
+		name: {
+			kind: "parsed",
+			brief: "The name of the secret.",
+			optional: true,
+			parse: String,
+		},
+		scopes: {
+			kind: "parsed",
+			brief:
+				"The list of services that can use this secret. Omit it on create or duplicate to inherit the store's scopes. An empty list lets no service use the secret.",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [
+		{ placeholder: "secret-id", brief: "Secret identifier.", parse: String },
+	],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "secrets-store secrets duplicate",
-				classification: {
-					safeFlags: ["dry-run"],
-				} satisfies ArgClassification<Args>,
+				classification: { safeFlags: ["dry-run"] } satisfies ArgClassification<
+					typeof argv
+				>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -160,6 +158,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Created` });
 			}
 		),
-};
+});
 
 export default command;

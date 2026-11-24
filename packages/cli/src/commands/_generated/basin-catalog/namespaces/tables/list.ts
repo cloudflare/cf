@@ -1,11 +1,10 @@
 import operation from "../../../_operations/basin-catalog/namespaces/tables/list.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * list command
  * @generated from apis/overlays/basin-catalog.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -17,62 +16,63 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 basin-catalog namespaces tables list\n\nReturns a list of tables in the specified namespace within a Basin Catalog. Supports pagination for efficient traversal of large table collections."
-		)
-		.option("bucket-name", {
-			type: "string",
-			description: "Specifies the R2 bucket name.",
-			demandOption: true,
-		})
-		.option("namespace", {
-			type: "string",
-			description:
-				'The namespace identifier.\nFor nested namespaces, use %1F as separator (e.g., "bronze%1Fanalytics").',
-			demandOption: true,
-		})
-		.option("page-token", {
-			type: "string",
-			description:
-				"Opaque pagination token from a previous response.\nUse this to fetch the next page of results.",
-		})
-		.option("page-size", {
-			type: "number",
-			description:
-				"Maximum number of tables to return per page.\nDefaults to 100, maximum 1000.",
-		})
-		.option("return-uuids", {
-			type: "boolean",
-			description:
-				"Whether to include table UUIDs in the response.\nSet to true to receive the table_uuids array.",
-		})
-		.option("return-details", {
-			type: "boolean",
-			description:
-				"Whether to include additional metadata (timestamps, locations).\nWhen true, response includes created_at, updated_at, metadata_locations, and locations arrays.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "list",
 	describe: "List tables in namespace",
-	builder,
+	usage:
+		"$0 basin-catalog namespaces tables list\n\nReturns a list of tables in the specified namespace within a Basin Catalog. Supports pagination for efficient traversal of large table collections.",
+	flags: {
+		"bucket-name": {
+			kind: "parsed",
+			brief: "Specifies the R2 bucket name.",
+			parse: String,
+		},
+		namespace: {
+			kind: "parsed",
+			brief:
+				'The namespace identifier.\nFor nested namespaces, use %1F as separator (e.g., "bronze%1Fanalytics").',
+			parse: String,
+		},
+		"page-token": {
+			kind: "parsed",
+			brief:
+				"Opaque pagination token from a previous response.\nUse this to fetch the next page of results.",
+			optional: true,
+			parse: String,
+		},
+		"page-size": {
+			kind: "parsed",
+			brief:
+				"Maximum number of tables to return per page.\nDefaults to 100, maximum 1000.",
+			optional: true,
+			parse: Number,
+		},
+		"return-uuids": {
+			kind: "boolean",
+			brief:
+				"Whether to include table UUIDs in the response.\nSet to true to receive the table_uuids array.",
+			optional: true,
+		},
+		"return-details": {
+			kind: "boolean",
+			brief:
+				"Whether to include additional metadata (timestamps, locations).\nWhen true, response includes created_at, updated_at, metadata_locations, and locations arrays.",
+			optional: true,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "basin-catalog namespaces tables list",
 				classification: {
 					safeFlags: ["return-uuids", "return-details", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -112,6 +112,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Loaded` });
 			}
 		),
-};
+});
 
 export default command;

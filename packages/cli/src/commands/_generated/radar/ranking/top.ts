@@ -1,77 +1,83 @@
 import operation from "../../_operations/radar/ranking/top.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * top command
  * @generated from apis/overlays/radar.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import { createCommandClient } from "#lib/auth.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 radar ranking top\n\nRetrieves the top or trending domains based on their rank. Popular domains are domains of broad appeal based on how people use the Internet. Trending domains are domains that are generating a surge in interest. For more information on top domains, see https://blog.cloudflare.com/radar-domain-rankings/."
-		)
-		.option("limit", {
-			type: "number",
-			description: "Limits the number of objects returned in the response.",
-		})
-		.option("name", {
-			type: "string",
-			array: true,
-			description: "Array of names used to label the series in the response.",
-		})
-		.option("location", {
-			type: "string",
-			array: true,
-			description:
-				"Filters results by location. Specify a comma-separated list of alpha-2 location codes.",
-		})
-		.option("domain-category", {
-			type: "string",
-			array: true,
-			description: "Filters results by domain category.",
-		})
-		.option("date", {
-			type: "string",
-			array: true,
-			description: "Filters results by the specified array of dates.",
-		})
-		.option("ranking-type", {
-			type: "string",
-			description: "The ranking type.",
-			choices: ["POPULAR", "TRENDING_RISE", "TRENDING_STEADY"],
-		})
-		.option("format", {
-			type: "string",
-			description: "Format in which results will be returned.",
-			choices: ["JSON", "CSV"],
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "top",
 	describe: "Get top or trending domains",
-	builder,
+	usage:
+		"$0 radar ranking top\n\nRetrieves the top or trending domains based on their rank. Popular domains are domains of broad appeal based on how people use the Internet. Trending domains are domains that are generating a surge in interest. For more information on top domains, see https://blog.cloudflare.com/radar-domain-rankings/.",
+	flags: {
+		limit: {
+			kind: "parsed",
+			brief: "Limits the number of objects returned in the response.",
+			optional: true,
+			parse: Number,
+		},
+		name: {
+			kind: "parsed",
+			brief: "Array of names used to label the series in the response.",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		location: {
+			kind: "parsed",
+			brief:
+				"Filters results by location. Specify a comma-separated list of alpha-2 location codes.",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"domain-category": {
+			kind: "parsed",
+			brief: "Filters results by domain category.",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		date: {
+			kind: "parsed",
+			brief: "Filters results by the specified array of dates.",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"ranking-type": {
+			kind: "enum",
+			brief: "The ranking type.",
+			values: ["POPULAR", "TRENDING_RISE", "TRENDING_STEADY"],
+			optional: true,
+		},
+		format: {
+			kind: "enum",
+			brief: "Format in which results will be returned.",
+			values: ["JSON", "CSV"],
+			optional: true,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "radar ranking top",
 				classification: {
 					safeFlags: ["ranking-type", "format", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -103,6 +109,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Loaded` });
 			}
 		),
-};
+});
 
 export default command;

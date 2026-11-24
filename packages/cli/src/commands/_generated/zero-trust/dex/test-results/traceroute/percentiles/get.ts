@@ -1,11 +1,10 @@
 import operation from "../../../../../_operations/zero-trust/dex/test-results/traceroute/percentiles/get.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * get command
  * @generated from apis/overlays/zero-trust.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -17,58 +16,57 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 zero-trust dex test-results traceroute percentiles get <test-id>\n\nGet percentiles for a traceroute test for a given time period between 1 hour and 7 days."
-		)
-		.positional("test-id", {
-			type: "string",
-			description: "Unique identifier for a specific test.",
-			demandOption: true,
-		})
-		.option("device-id", {
-			type: "string",
-			array: true,
-			description:
-				"Optionally filter result stats to a specific device(s). Cannot be used in combination with colo param.",
-		})
-		.option("from", {
-			type: "string",
-			description:
-				"Start time for the query in ISO (RFC3339 - ISO 8601) format.",
-			demandOption: true,
-		})
-		.option("to", {
-			type: "string",
-			description: "End time for the query in ISO (RFC3339 - ISO 8601) format.",
-			demandOption: true,
-		})
-		.option("colo", {
-			type: "string",
-			description:
-				"Optionally filter result stats to a Cloudflare colo. Cannot be used in combination with deviceId param.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "get <test-id>",
 	describe: "Get percentiles for a traceroute test",
-	builder,
+	usage:
+		"$0 zero-trust dex test-results traceroute percentiles get <test-id>\n\nGet percentiles for a traceroute test for a given time period between 1 hour and 7 days.",
+	flags: {
+		"device-id": {
+			kind: "parsed",
+			brief:
+				"Optionally filter result stats to a specific device(s). Cannot be used in combination with colo param.",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		from: {
+			kind: "parsed",
+			brief: "Start time for the query in ISO (RFC3339 - ISO 8601) format.",
+			parse: String,
+		},
+		to: {
+			kind: "parsed",
+			brief: "End time for the query in ISO (RFC3339 - ISO 8601) format.",
+			parse: String,
+		},
+		colo: {
+			kind: "parsed",
+			brief:
+				"Optionally filter result stats to a Cloudflare colo. Cannot be used in combination with deviceId param.",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+	},
+	operands: [
+		{
+			placeholder: "test-id",
+			brief: "Unique identifier for a specific test.",
+			parse: String,
+		},
+	],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "zero-trust dex test-results traceroute percentiles get",
-				classification: {
-					safeFlags: ["dry-run"],
-				} satisfies ArgClassification<Args>,
+				classification: { safeFlags: ["dry-run"] } satisfies ArgClassification<
+					typeof argv
+				>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -105,6 +103,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Loaded` });
 			}
 		),
-};
+});
 
 export default command;

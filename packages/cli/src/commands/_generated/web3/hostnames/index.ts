@@ -4,30 +4,25 @@ import $edit from "./edit.js";
 import $get from "./get.js";
 import $ipfsuniversalpaths from "./ipfs-universal-paths/index.js";
 import $list from "./list.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * hostnames command group
  * @generated from apis/overlays/web3.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "hostnames",
 	describe:
 		"Web3 gateway hostnames with IPFS Universal Path content list management",
 
-	builder: (yargs) => {
-		return yargs
-			.command($create)
-			.command($delete)
-			.command($edit)
-			.command($get)
-			.command($list)
-			.command($ipfsuniversalpaths)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		create: $create,
+		delete: $delete,
+		edit: $edit,
+		get: $get,
+		list: $list,
+		"ipfs-universal-paths": $ipfsuniversalpaths,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

@@ -1,11 +1,10 @@
 import operation from "../../../_operations/r2/buckets/local-uploads/update.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * update command
  * @generated from apis/overlays/r2.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -18,44 +17,39 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 r2 buckets local-uploads update <bucket-name>\n\nEnables or disables Local Uploads for an R2 bucket in the default jurisdiction. When enabled, object data is written near the client before being asynchronously copied to the bucket's primary region. Disabling Local Uploads allows existing replication to finish."
-		)
-		.positional("bucket-name", {
-			type: "string",
-			description: "Name of the bucket.",
-			demandOption: true,
-		})
-		.option("enabled", {
-			type: "boolean",
-			description: "Whether to enable local uploads for this bucket.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "update <bucket-name>",
 	describe: "Set Local Uploads Configuration",
-	builder,
+	usage:
+		"$0 r2 buckets local-uploads update <bucket-name>\n\nEnables or disables Local Uploads for an R2 bucket in the default jurisdiction. When enabled, object data is written near the client before being asynchronously copied to the bucket's primary region. Disabling Local Uploads allows existing replication to finish.",
+	flags: {
+		enabled: {
+			kind: "boolean",
+			brief: "Whether to enable local uploads for this bucket.",
+			optional: true,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [
+		{ placeholder: "bucket-name", brief: "Name of the bucket.", parse: String },
+	],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "r2 buckets local-uploads update",
 				classification: {
 					safeFlags: ["enabled", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -120,6 +114,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Updated` });
 			}
 		),
-};
+});
 
 export default command;

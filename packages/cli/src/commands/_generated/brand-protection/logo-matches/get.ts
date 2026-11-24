@@ -1,11 +1,10 @@
 import operation from "../../_operations/brand-protection/logo-matches/get.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * get command
  * @generated from apis/overlays/brand-protection.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -17,60 +16,63 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 brand-protection logo-matches get\n\nLists images that matched a saved logo query, most recently matched first by default. Set `download=true` to include each matched image as base64 data."
-		)
-		.option("offset", {
-			type: "string",
-			description: "Number of matches to skip, for pagination. Defaults to 0.",
-		})
-		.option("limit", {
-			type: "string",
-			description: "Maximum number of matches to return. Defaults to 50.",
-		})
-		.option("query-id", {
-			type: "string",
-			description: "ID of the logo query whose matches to list.",
-			demandOption: true,
-		})
-		.option("download", {
-			type: "string",
-			description:
-				"Set to `true` to include each matched image as base64 data in `image_data`, with its MIME type in `content_type`.",
-		})
-		.option("order-by", {
-			type: "string",
-			description:
-				"Field to sort by: `matchedAt`, `domain`, `similarityScore`, or `registrar`. Defaults to `matchedAt`.",
-			choices: ["matchedAt", "domain", "similarityScore", "registrar"],
-		})
-		.option("order", {
-			type: "string",
-			description: "Sort direction: `asc` or `desc`. Defaults to `desc`.",
-			choices: ["asc", "desc"],
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "get",
 	describe: "List logo matches",
-	builder,
+	usage:
+		"$0 brand-protection logo-matches get\n\nLists images that matched a saved logo query, most recently matched first by default. Set `download=true` to include each matched image as base64 data.",
+	flags: {
+		offset: {
+			kind: "parsed",
+			brief: "Number of matches to skip, for pagination. Defaults to 0.",
+			optional: true,
+			parse: String,
+		},
+		limit: {
+			kind: "parsed",
+			brief: "Maximum number of matches to return. Defaults to 50.",
+			optional: true,
+			parse: String,
+		},
+		"query-id": {
+			kind: "parsed",
+			brief: "ID of the logo query whose matches to list.",
+			parse: String,
+		},
+		download: {
+			kind: "parsed",
+			brief:
+				"Set to `true` to include each matched image as base64 data in `image_data`, with its MIME type in `content_type`.",
+			optional: true,
+			parse: String,
+		},
+		"order-by": {
+			kind: "enum",
+			brief:
+				"Field to sort by: `matchedAt`, `domain`, `similarityScore`, or `registrar`. Defaults to `matchedAt`.",
+			values: ["matchedAt", "domain", "similarityScore", "registrar"],
+			optional: true,
+		},
+		order: {
+			kind: "enum",
+			brief: "Sort direction: `asc` or `desc`. Defaults to `desc`.",
+			values: ["asc", "desc"],
+			optional: true,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "brand-protection logo-matches get",
 				classification: {
 					safeFlags: ["order-by", "order", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -104,6 +106,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Loaded` });
 			}
 		),
-};
+});
 
 export default command;

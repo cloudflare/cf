@@ -1,10 +1,9 @@
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * update command
  * @generated from apis/overlays/cloudforce-one.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -23,68 +22,63 @@ import {
 } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 cloudforce-one requests messages update <message-id>\n\nUpdates an existing message, typically to publish a draft by setting publish=true. Workflow-enabled publication requires Idempotency-Key and atomically records message activity and any policy transition."
-		)
-		.positional("message-id", {
-			type: "string",
-			description: "Message ID",
-			demandOption: true,
-		})
-		.option("project-type", {
-			type: "string",
-			description: "Project type",
-			demandOption: true,
-		})
-		.option("request-id", {
-			type: "string",
-			description: "Request ID",
-			demandOption: true,
-		})
-		.option("idempotency-key", {
-			type: "string",
-			description:
-				"Client command key. Required when publishing a message for a workflow-enabled project; trimmed and limited to 255 characters.",
-		})
-		.option("attachment-asset-ids", {
-			type: "string",
-			array: true,
-			description: "The attachment_asset_ids field",
-		})
-		.option("content", { type: "string", description: "The content field" })
-		.option("publish", { type: "boolean", description: "The publish field" })
-		.option("tlp", {
-			type: "string",
-			description: "The tlp field",
-			choices: ["clear", "green", "amber", "amber-strict", "red", "white"],
-		})
-		.coerce("tlp", (value) => resolveFileToken(value, "tlp", "text"))
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "update <message-id>",
 	describe: "Update/publish a message for an RFI request",
-	builder,
+	usage:
+		"$0 cloudforce-one requests messages update <message-id>\n\nUpdates an existing message, typically to publish a draft by setting publish=true. Workflow-enabled publication requires Idempotency-Key and atomically records message activity and any policy transition.",
+	flags: {
+		"project-type": { kind: "parsed", brief: "Project type", parse: String },
+		"request-id": { kind: "parsed", brief: "Request ID", parse: String },
+		"idempotency-key": {
+			kind: "parsed",
+			brief:
+				"Client command key. Required when publishing a message for a workflow-enabled project; trimmed and limited to 255 characters.",
+			optional: true,
+			parse: String,
+		},
+		"attachment-asset-ids": {
+			kind: "parsed",
+			brief: "The attachment_asset_ids field",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		content: {
+			kind: "parsed",
+			brief: "The content field",
+			optional: true,
+			parse: String,
+		},
+		publish: { kind: "boolean", brief: "The publish field", optional: true },
+		tlp: {
+			kind: "parsed",
+			brief: "The tlp field",
+			optional: true,
+			choices: ["clear", "green", "amber", "amber-strict", "red", "white"],
+			parse: String,
+			coerce: (value: string) => resolveFileToken(value, "tlp", "text"),
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [{ placeholder: "message-id", brief: "Message ID", parse: String }],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "cloudforce-one requests messages update",
 				classification: {
 					safeFlags: ["publish", "tlp", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -209,6 +203,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Updated` });
 			}
 		),
-};
+});
 
 export default command;

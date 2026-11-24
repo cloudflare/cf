@@ -1,11 +1,10 @@
 import operation from "../../../_operations/zero-trust/devices/networks/create.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * create command
  * @generated from apis/overlays/zero-trust.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -23,56 +22,61 @@ import {
 } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 zero-trust devices networks create\n\nCreates a new device managed network."
-		)
-		.option("network-config-sha256", {
-			type: "string",
-			description:
-				"The SHA-256 hash of the TLS certificate presented by the host found at tls_sockaddr. If absent, regular certificate verification (trusted roots, valid timestamp, etc) will be used to validate the certificate.",
-		})
-		.option("network-config-tls-sockaddr", {
-			type: "string",
-			description:
-				'A network address of the form "host:port" that the WARP client will use to detect the presence of a TLS host.',
-		})
-		.option("name", {
-			type: "string",
-			description:
-				"The name of the device managed network. This name must be unique.",
-		})
-		.option("type", {
-			type: "string",
-			description: "The type of device managed network.",
-			choices: ["tls"],
-		})
-		.coerce("type", (value) => resolveFileToken(value, "type", "text"))
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "create",
 	describe: "Create a device managed network",
-	builder,
+	usage:
+		"$0 zero-trust devices networks create\n\nCreates a new device managed network.",
+	flags: {
+		"network-config-sha256": {
+			kind: "parsed",
+			brief:
+				"The SHA-256 hash of the TLS certificate presented by the host found at tls_sockaddr. If absent, regular certificate verification (trusted roots, valid timestamp, etc) will be used to validate the certificate.",
+			optional: true,
+			parse: String,
+		},
+		"network-config-tls-sockaddr": {
+			kind: "parsed",
+			brief:
+				'A network address of the form "host:port" that the WARP client will use to detect the presence of a TLS host.',
+			optional: true,
+			parse: String,
+		},
+		name: {
+			kind: "parsed",
+			brief:
+				"The name of the device managed network. This name must be unique.",
+			optional: true,
+			parse: String,
+		},
+		type: {
+			kind: "parsed",
+			brief: "The type of device managed network.",
+			optional: true,
+			choices: ["tls"],
+			parse: String,
+			coerce: (value: string) => resolveFileToken(value, "type", "text"),
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "zero-trust devices networks create",
 				classification: {
 					safeFlags: ["type", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -179,6 +183,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Created` });
 			}
 		),
-};
+});
 
 export default command;

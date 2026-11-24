@@ -1,11 +1,10 @@
 import operation from "../../../_operations/addressing/address-maps/ips/create.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * create command
  * @generated from apis/overlays/addressing.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -17,41 +16,37 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 addressing address-maps ips create <ip-address>\n\nAdd an IP from a prefix owned by the account to a particular address map."
-		)
-		.positional("ip-address", {
-			type: "string",
-			description: "An IPv4 or IPv6 address.",
-			demandOption: true,
-		})
-		.option("address-map-id", {
-			type: "string",
-			description: "Identifier of an Address Map.",
-			demandOption: true,
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "create <ip-address>",
 	describe: "Add an IP to an Address Map",
-	builder,
+	usage:
+		"$0 addressing address-maps ips create <ip-address>\n\nAdd an IP from a prefix owned by the account to a particular address map.",
+	flags: {
+		"address-map-id": {
+			kind: "parsed",
+			brief: "Identifier of an Address Map.",
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+	},
+	operands: [
+		{
+			placeholder: "ip-address",
+			brief: "An IPv4 or IPv6 address.",
+			parse: String,
+		},
+	],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "addressing address-maps ips create",
-				classification: {
-					safeFlags: ["dry-run"],
-				} satisfies ArgClassification<Args>,
+				classification: { safeFlags: ["dry-run"] } satisfies ArgClassification<
+					typeof argv
+				>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -83,6 +78,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Updated` });
 			}
 		),
-};
+});
 
 export default command;

@@ -1,11 +1,10 @@
 import operation from "../../../_operations/cloudforce-one/requests/assets/upload.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * upload command
  * @generated from apis/overlays/cloudforce-one.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -19,64 +18,64 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 cloudforce-one requests assets upload <request-id>\n\nUpload a file asset to R2 storage and associate it with a request. Customer can only upload to their own account."
-		)
-		.positional("request-id", {
-			type: "string",
-			description: "RFI UUID",
-			demandOption: true,
-		})
-		.option("project-type", {
-			type: "string",
-			description:
-				"RFI project type. Valid values: threat-intelligence, incident-response, ir-emergency-response, table-top, pentest, irp, threat-hunting, cybersecurity-assessment, react-general, legal-response, soc-alerts, demo",
-			demandOption: true,
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		})
-		.option("file", {
-			type: "string",
-			description: "Path to a file to upload as the request body",
-		})
-		.option("description", {
-			type: "string",
-			description: "Optional description of the asset",
-		})
-		.option("metadata", {
-			type: "string",
-			description:
-				'Optional JSON string of key-value pairs (e.g., \'{"key1":"value1"}\')',
-		})
-		.option("source", {
-			type: "string",
-			description:
-				"Literal content or @path/to/file for the `source` form field. The file to upload (can also use 'file')",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "upload <request-id>",
 	describe: "Upload asset to request (Customer)",
-	builder,
+	usage:
+		"$0 cloudforce-one requests assets upload <request-id>\n\nUpload a file asset to R2 storage and associate it with a request. Customer can only upload to their own account.",
+	flags: {
+		"project-type": {
+			kind: "parsed",
+			brief:
+				"RFI project type. Valid values: threat-intelligence, incident-response, ir-emergency-response, table-top, pentest, irp, threat-hunting, cybersecurity-assessment, react-general, legal-response, soc-alerts, demo",
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+		file: {
+			kind: "parsed",
+			brief: "Path to a file to upload as the request body",
+			optional: true,
+			parse: String,
+		},
+		description: {
+			kind: "parsed",
+			brief: "Optional description of the asset",
+			optional: true,
+			parse: String,
+		},
+		metadata: {
+			kind: "parsed",
+			brief:
+				'Optional JSON string of key-value pairs (e.g., \'{"key1":"value1"}\')',
+			optional: true,
+			parse: String,
+		},
+		source: {
+			kind: "parsed",
+			brief:
+				"Literal content or @path/to/file for the `source` form field. The file to upload (can also use 'file')",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [{ placeholder: "request-id", brief: "RFI UUID", parse: String }],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "cloudforce-one requests assets upload",
-				classification: {
-					safeFlags: ["dry-run"],
-				} satisfies ArgClassification<Args>,
+				classification: { safeFlags: ["dry-run"] } satisfies ArgClassification<
+					typeof argv
+				>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -204,6 +203,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Created` });
 			}
 		),
-};
+});
 
 export default command;

@@ -1,11 +1,10 @@
 import operation from "../../_operations/network-interconnects/slots/list.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * list command
  * @generated from apis/overlays/network-interconnects.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -17,51 +16,53 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 network-interconnects slots list\n\nLists all available infrastructure slots for the account, showing allocation status and capacity."
-		)
-		.option("address-contains", {
-			type: "string",
-			description:
-				"If specified, only show slots with the given text in their address field",
-		})
-		.option("site", {
-			type: "string",
-			description: "If specified, only show slots located at the given site",
-		})
-		.option("speed", {
-			type: "string",
-			description: "If specified, only show slots that support the given speed",
-		})
-		.option("occupied", {
-			type: "boolean",
-			description:
-				"If specified, only show slots with a specific occupied/unoccupied state",
-		})
-		.option("cursor", { type: "number", description: "Cursor" })
-		.option("limit", { type: "number", description: "Limit" })
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "list",
 	describe: "Retrieve a list of all slots matching the specified parameters",
-	builder,
+	usage:
+		"$0 network-interconnects slots list\n\nLists all available infrastructure slots for the account, showing allocation status and capacity.",
+	flags: {
+		"address-contains": {
+			kind: "parsed",
+			brief:
+				"If specified, only show slots with the given text in their address field",
+			optional: true,
+			parse: String,
+		},
+		site: {
+			kind: "parsed",
+			brief: "If specified, only show slots located at the given site",
+			optional: true,
+			parse: String,
+		},
+		speed: {
+			kind: "parsed",
+			brief: "If specified, only show slots that support the given speed",
+			optional: true,
+			parse: String,
+		},
+		occupied: {
+			kind: "boolean",
+			brief:
+				"If specified, only show slots with a specific occupied/unoccupied state",
+			optional: true,
+		},
+		cursor: { kind: "parsed", brief: "Cursor", optional: true, parse: Number },
+		limit: { kind: "parsed", brief: "Limit", optional: true, parse: Number },
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "network-interconnects slots list",
 				classification: {
 					safeFlags: ["occupied", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -95,6 +96,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Loaded` });
 			}
 		),
-};
+});
 
 export default command;

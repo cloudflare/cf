@@ -1,11 +1,10 @@
 import operation from "../../../../_operations/browser-run/devtools/browser/live-view/create.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * create command
  * @generated from apis/overlays/browser-run.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -19,69 +18,66 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 browser-run devtools browser live-view create <session-id>\n\nGenerates time-limited URLs to view a remote browser session. Set `guardrails: { mode: 'readonly' }` to create a view-only link."
-		)
-		.positional("session-id", {
-			type: "string",
-			description: "Browser session ID",
-			demandOption: true,
-		})
-		.option("expires-in-ms", {
-			type: "number",
-			description:
-				"How long the live view URLs remain valid, in milliseconds. Default: 5 minutes. Max: 60 minutes.",
-			default: 300000,
-		})
-		.option("guardrails-mode", {
-			type: "string",
-			description: "The guardrails.mode field",
-			choices: ["readonly"],
-		})
-		.coerce("guardrails-mode", (value) =>
-			resolveFileToken(value, "guardrails-mode", "text")
-		)
-		.option("view-mode", {
-			type: "string",
-			description:
-				"UI mode: 'devtools' (Chrome DevTools), 'tab' (single tab view), 'full' (multi-tab browser)",
-			choices: ["devtools", "tab", "full"],
-			default: "devtools",
-		})
-		.coerce("view-mode", (value) =>
-			resolveFileToken(value, "view-mode", "text")
-		)
-		.option("target-id", {
-			type: "string",
-			description:
-				"Target ID (page) to connect to. If omitted, auto-resolves to the first active page.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "create <session-id>",
 	describe: "Mint live view URLs for a browser session",
-	builder,
+	usage:
+		"$0 browser-run devtools browser live-view create <session-id>\n\nGenerates time-limited URLs to view a remote browser session. Set `guardrails: { mode: 'readonly' }` to create a view-only link.",
+	flags: {
+		"expires-in-ms": {
+			kind: "parsed",
+			brief:
+				"How long the live view URLs remain valid, in milliseconds. Default: 5 minutes. Max: 60 minutes.",
+			default: "300000",
+			parse: Number,
+		},
+		"guardrails-mode": {
+			kind: "parsed",
+			brief: "The guardrails.mode field",
+			optional: true,
+			choices: ["readonly"],
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "guardrails-mode", "text"),
+		},
+		"view-mode": {
+			kind: "parsed",
+			brief:
+				"UI mode: 'devtools' (Chrome DevTools), 'tab' (single tab view), 'full' (multi-tab browser)",
+			default: "devtools",
+			choices: ["devtools", "tab", "full"],
+			parse: String,
+			coerce: (value: string) => resolveFileToken(value, "view-mode", "text"),
+		},
+		"target-id": {
+			kind: "parsed",
+			brief:
+				"Target ID (page) to connect to. If omitted, auto-resolves to the first active page.",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [
+		{ placeholder: "session-id", brief: "Browser session ID", parse: String },
+	],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "browser-run devtools browser live-view create",
 				classification: {
 					safeFlags: ["guardrails-mode", "view-mode", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -153,6 +149,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Created` });
 			}
 		),
-};
+});
 
 export default command;

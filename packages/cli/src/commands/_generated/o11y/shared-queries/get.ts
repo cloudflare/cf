@@ -1,11 +1,10 @@
 import operation from "../../_operations/o11y/shared-queries/get.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * get command
  * @generated from apis/overlays/o11y.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -17,42 +16,39 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 o11y shared-queries get <id>\n\nShared queries store the results of a previously run query, allowing you to share the results with others."
-		)
-		.positional("id", {
-			type: "string",
-			description: "Specify the ID of the shared query.",
-			demandOption: true,
-		})
-		.option("view", {
-			type: "string",
-			description:
-				"Select the view of the query result to return, defaults to events.",
-			choices: ["events", "invocations", "calculations"],
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "get <id>",
 	describe: "View a query that has been shared",
-	builder,
+	usage:
+		"$0 o11y shared-queries get <id>\n\nShared queries store the results of a previously run query, allowing you to share the results with others.",
+	flags: {
+		view: {
+			kind: "enum",
+			brief:
+				"Select the view of the query result to return, defaults to events.",
+			values: ["events", "invocations", "calculations"],
+			optional: true,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+	},
+	operands: [
+		{
+			placeholder: "id",
+			brief: "Specify the ID of the shared query.",
+			parse: String,
+		},
+	],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "o11y shared-queries get",
 				classification: {
 					safeFlags: ["view", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -85,6 +81,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Loaded` });
 			}
 		),
-};
+});
 
 export default command;

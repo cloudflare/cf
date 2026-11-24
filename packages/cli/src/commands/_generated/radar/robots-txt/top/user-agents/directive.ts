@@ -1,76 +1,81 @@
 import operation from "../../../../_operations/radar/robots-txt/top/user-agents/directive.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * directive command
  * @generated from apis/overlays/radar.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import { createCommandClient } from "#lib/auth.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 radar robots-txt top user-agents directive\n\nRetrieves the top user agents on robots.txt files."
-		)
-		.option("limit", {
-			type: "number",
-			description: "Limits the number of objects returned in the response.",
-		})
-		.option("name", {
-			type: "string",
-			array: true,
-			description: "Array of names used to label the series in the response.",
-		})
-		.option("user-agent-category", {
-			type: "string",
-			description: "Filters results by user agent category.",
-			choices: ["AI"],
-		})
-		.option("date", {
-			type: "string",
-			array: true,
-			description: "Filters results by the specified array of dates.",
-		})
-		.option("domain-category", {
-			type: "string",
-			array: true,
-			description: "Filters results by domain category.",
-		})
-		.option("directive", {
-			type: "string",
-			description: "Filters results by robots.txt directive.",
-			choices: ["ALLOW", "DISALLOW"],
-		})
-		.option("format", {
-			type: "string",
-			description: "Format in which results will be returned.",
-			choices: ["JSON", "CSV"],
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "directive",
 	describe: "Get top user agents on robots.txt files",
-	builder,
+	usage:
+		"$0 radar robots-txt top user-agents directive\n\nRetrieves the top user agents on robots.txt files.",
+	flags: {
+		limit: {
+			kind: "parsed",
+			brief: "Limits the number of objects returned in the response.",
+			optional: true,
+			parse: Number,
+		},
+		name: {
+			kind: "parsed",
+			brief: "Array of names used to label the series in the response.",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"user-agent-category": {
+			kind: "enum",
+			brief: "Filters results by user agent category.",
+			values: ["AI"],
+			optional: true,
+		},
+		date: {
+			kind: "parsed",
+			brief: "Filters results by the specified array of dates.",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"domain-category": {
+			kind: "parsed",
+			brief: "Filters results by domain category.",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		directive: {
+			kind: "enum",
+			brief: "Filters results by robots.txt directive.",
+			values: ["ALLOW", "DISALLOW"],
+			optional: true,
+		},
+		format: {
+			kind: "enum",
+			brief: "Format in which results will be returned.",
+			values: ["JSON", "CSV"],
+			optional: true,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "radar robots-txt top user-agents directive",
 				classification: {
 					safeFlags: ["user-agent-category", "directive", "format", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -102,6 +107,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Loaded` });
 			}
 		),
-};
+});
 
 export default command;

@@ -1,11 +1,10 @@
 import operation from "../../_operations/email-security/submissions/create.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * create command
  * @generated from apis/overlays/email-security.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -20,46 +19,47 @@ import { withProgress } from "#lib/progress.js";
 import { promptForRequiredEnumField } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 email-security submissions create\n\nSubmits messages for reclassification or to report missed detections."
-		)
-		.option("messages", {
-			type: "string",
-			description:
-				'The messages field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"alert_id": string, "expected_disposition": "MALICIOUS" | "SUSPICIOUS" | "SPOOF" | ...more, "escalated_submission_id"?: string}]. ? marks optional keys.',
-		})
-		.option("type", {
-			type: "string",
-			description: "The type field",
-			choices: ["reclassification", "missed_detection"],
-		})
-		.coerce("type", (value) => resolveFileToken(value, "type", "text"))
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "create",
 	describe: "Create new submissions",
-	builder,
+	usage:
+		"$0 email-security submissions create\n\nSubmits messages for reclassification or to report missed detections.",
+	flags: {
+		messages: {
+			kind: "parsed",
+			brief:
+				'The messages field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"alert_id": string, "expected_disposition": "MALICIOUS" | "SUSPICIOUS" | "SPOOF" | ...more, "escalated_submission_id"?: string}]. ? marks optional keys.',
+			optional: true,
+			parse: String,
+		},
+		type: {
+			kind: "parsed",
+			brief: "The type field",
+			optional: true,
+			choices: ["reclassification", "missed_detection"],
+			parse: String,
+			coerce: (value: string) => resolveFileToken(value, "type", "text"),
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "email-security submissions create",
 				classification: {
 					safeFlags: ["type", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -125,6 +125,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Created` });
 			}
 		),
-};
+});
 
 export default command;

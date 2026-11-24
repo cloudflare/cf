@@ -1,11 +1,10 @@
 import operation from "../../_operations/mcp/portals/create.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * create command
  * @generated from apis/overlays/mcp.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -20,69 +19,77 @@ import { withProgress } from "#lib/progress.js";
 import { promptForRequiredField } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 mcp portals create\n\nCreates a new MCP portal. Each account supports up to 50 portals, including disabled portals."
-		)
-		.option("allow-code-mode", {
-			type: "boolean",
-			description:
-				"Deprecated: use `code_mode` for new integrations. `true` maps to any non-off Code Mode policy; `false` maps to `code_mode: off`. If both fields are sent, they must be consistent or the request returns a 400.",
-		})
-		.option("code-mode", {
-			type: "string",
-			description:
-				"Code Mode policy for this portal. `off`: Code Mode is unavailable; query parameters are ignored. `opt_in`: Code Mode is off by default; clients turn it on with `?codemode=search_and_execute`. `default_on`: Code Mode is on by default; clients can opt out with `?codemode=off`. `enforced`: Code Mode is always on; query parameters are ignored. Defaults to `opt_in` when omitted on create. If both `code_mode` and `allow_code_mode` are sent, they must be consistent or the request returns a 400.",
-			choices: ["off", "opt_in", "default_on", "enforced"],
-		})
-		.coerce("code-mode", (value) =>
-			resolveFileToken(value, "code-mode", "text")
-		)
-		.option("description", {
-			type: "string",
-			description: "Optional description of the MCP portal.",
-		})
-		.option("hostname", {
-			type: "string",
-			description: "Hostname where the MCP portal is available.",
-		})
-		.option("id", {
-			type: "string",
-			description: "Unique identifier for the MCP portal.",
-		})
-		.option("name", {
-			type: "string",
-			description: "Display name for the MCP portal.",
-		})
-		.option("secure-web-gateway", {
-			type: "boolean",
-			description:
-				"Route outbound MCP traffic through Zero Trust Secure Web Gateway.",
-			default: false,
-		})
-		.option("servers", {
-			type: "string",
-			description:
-				'MCP servers attached to the portal and their portal-specific settings. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"server_id": string, "default_disabled"?: boolean, "on_behalf"?: boolean, "updated_prompts"?: [{...}], "updated_tools"?: [{...}]}]. ? marks optional keys.',
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "create",
 	describe: "Create a new MCP Portal",
-	builder,
+	usage:
+		"$0 mcp portals create\n\nCreates a new MCP portal. Each account supports up to 50 portals, including disabled portals.",
+	flags: {
+		"allow-code-mode": {
+			kind: "boolean",
+			brief:
+				"Deprecated: use `code_mode` for new integrations. `true` maps to any non-off Code Mode policy; `false` maps to `code_mode: off`. If both fields are sent, they must be consistent or the request returns a 400.",
+			optional: true,
+		},
+		"code-mode": {
+			kind: "parsed",
+			brief:
+				"Code Mode policy for this portal. `off`: Code Mode is unavailable; query parameters are ignored. `opt_in`: Code Mode is off by default; clients turn it on with `?codemode=search_and_execute`. `default_on`: Code Mode is on by default; clients can opt out with `?codemode=off`. `enforced`: Code Mode is always on; query parameters are ignored. Defaults to `opt_in` when omitted on create. If both `code_mode` and `allow_code_mode` are sent, they must be consistent or the request returns a 400.",
+			optional: true,
+			choices: ["off", "opt_in", "default_on", "enforced"],
+			parse: String,
+			coerce: (value: string) => resolveFileToken(value, "code-mode", "text"),
+		},
+		description: {
+			kind: "parsed",
+			brief: "Optional description of the MCP portal.",
+			optional: true,
+			parse: String,
+		},
+		hostname: {
+			kind: "parsed",
+			brief: "Hostname where the MCP portal is available.",
+			optional: true,
+			parse: String,
+		},
+		id: {
+			kind: "parsed",
+			brief: "Unique identifier for the MCP portal.",
+			optional: true,
+			parse: String,
+		},
+		name: {
+			kind: "parsed",
+			brief: "Display name for the MCP portal.",
+			optional: true,
+			parse: String,
+		},
+		"secure-web-gateway": {
+			kind: "boolean",
+			brief:
+				"Route outbound MCP traffic through Zero Trust Secure Web Gateway.",
+			default: false,
+		},
+		servers: {
+			kind: "parsed",
+			brief:
+				'MCP servers attached to the portal and their portal-specific settings. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"server_id": string, "default_disabled"?: boolean, "on_behalf"?: boolean, "updated_prompts"?: [{...}], "updated_tools"?: [{...}]}]. ? marks optional keys.',
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
@@ -94,7 +101,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"secure-web-gateway",
 						"dry-run",
 					],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -206,6 +213,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Created` });
 			}
 		),
-};
+});
 
 export default command;

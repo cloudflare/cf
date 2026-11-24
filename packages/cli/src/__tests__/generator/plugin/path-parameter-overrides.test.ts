@@ -1,5 +1,6 @@
 import { beforeAll, describe, expect, it } from "vite-plus/test";
 import { generateFiles } from "../../helpers/cli-plugin.js";
+import { generatedOptions } from "../../helpers/command-parser.js";
 import type { CommandMeta } from "../../../lib/metadata.js";
 
 const spec = {
@@ -74,19 +75,13 @@ describe("path parameter overrides in generated commands", () => {
 
 	it("registers a defaulted namespace flag beside the sole instance positional", () => {
 		const code = read("ai-search/create.ts");
-		const namespaceLine = code
-			.split("\n")
-			.map((line) => line.trim())
-			.find((line) => line.startsWith(".option('namespace',"));
-		expect(namespaceLine).toBeDefined();
-		const json = namespaceLine?.slice(".option('namespace', ".length, -1) ?? "";
-		expect(JSON.parse(json)).toEqual({
+		expect(generatedOptions(code).namespace).toEqual({
 			type: "string",
 			description: "Name",
 			default: "default",
 		});
 		expect(code).toContain("command: 'create <id>'");
-		expect(code).not.toContain(".positional('namespace'");
+		expect(code).not.toContain("placeholder: 'namespace'");
 	});
 
 	it("keeps the default and positional placement consistent with metadata, requests, and previews", () => {

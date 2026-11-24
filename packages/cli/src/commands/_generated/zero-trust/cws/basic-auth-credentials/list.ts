@@ -1,11 +1,10 @@
 import operation from "../../../_operations/zero-trust/cws/basic-auth-credentials/list.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * list command
  * @generated from apis/overlays/zero-trust.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -17,57 +16,62 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 zero-trust cws basic-auth-credentials list\n\nReturns a paginated list of basic-auth credentials in the account."
-		)
-		.option("cursor", {
-			type: "string",
-			description: "Pagination cursor from previous response",
-		})
-		.option("per-page", {
-			type: "number",
-			description: "Number of items per page (1-100, default 20)",
-		})
-		.option("order", {
-			type: "string",
-			description: "Field to order results by (default: created_at)",
-			choices: ["username", "created_at", "updated_at"],
-		})
-		.option("direction", {
-			type: "string",
-			description: "Sort direction (default: asc)",
-			choices: ["asc", "desc"],
-		})
-		.option("username", {
-			type: "string",
-			description: "Filter by username (case-insensitive substring match)",
-		})
-		.option("deployment-id", {
-			type: "string",
-			description: "Filter to credentials attached to this deployment",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "list",
 	describe: "List basic-auth credentials for an account",
-	builder,
+	usage:
+		"$0 zero-trust cws basic-auth-credentials list\n\nReturns a paginated list of basic-auth credentials in the account.",
+	flags: {
+		cursor: {
+			kind: "parsed",
+			brief: "Pagination cursor from previous response",
+			optional: true,
+			parse: String,
+		},
+		"per-page": {
+			kind: "parsed",
+			brief: "Number of items per page (1-100, default 20)",
+			optional: true,
+			parse: Number,
+		},
+		order: {
+			kind: "enum",
+			brief: "Field to order results by (default: created_at)",
+			values: ["username", "created_at", "updated_at"],
+			optional: true,
+		},
+		direction: {
+			kind: "enum",
+			brief: "Sort direction (default: asc)",
+			values: ["asc", "desc"],
+			optional: true,
+		},
+		username: {
+			kind: "parsed",
+			brief: "Filter by username (case-insensitive substring match)",
+			optional: true,
+			parse: String,
+		},
+		"deployment-id": {
+			kind: "parsed",
+			brief: "Filter to credentials attached to this deployment",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "zero-trust cws basic-auth-credentials list",
 				classification: {
 					safeFlags: ["order", "direction", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -101,6 +105,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Loaded` });
 			}
 		),
-};
+});
 
 export default command;

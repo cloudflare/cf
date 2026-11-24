@@ -1,11 +1,10 @@
 import operation from "../../_operations/basin-catalog/maintenance-configs/update.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * update command
  * @generated from apis/overlays/basin-catalog.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -19,68 +18,71 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 basin-catalog maintenance-configs update <bucket-name>\n\nUpdate the maintenance configuration for a catalog. This allows you to enable or disable compaction and adjust target file sizes for optimization."
-		)
-		.positional("bucket-name", {
-			type: "string",
-			description: "Specifies the R2 bucket name.",
-			demandOption: true,
-		})
-		.option("compaction-state", {
-			type: "string",
-			description: "Specifies the state of maintenance operations.",
-			choices: ["enabled", "disabled"],
-		})
-		.coerce("compaction-state", (value) =>
-			resolveFileToken(value, "compaction-state", "text")
-		)
-		.option("compaction-target-size-mb", {
-			type: "string",
-			description:
-				'Sets the target file size for compaction in megabytes. Defaults to "128".',
-			choices: ["64", "128", "256", "512"],
-		})
-		.coerce("compaction-target-size-mb", (value) =>
-			resolveFileToken(value, "compaction-target-size-mb", "text")
-		)
-		.option("snapshot-expiration-max-snapshot-age", {
-			type: "string",
-			description: "Updates the maximum age for snapshots optionally.",
-		})
-		.option("snapshot-expiration-min-snapshots-to-keep", {
-			type: "number",
-			description:
-				"Updates the minimum number of snapshots to retain optionally.",
-		})
-		.option("snapshot-expiration-state", {
-			type: "string",
-			description: "Specifies the state of maintenance operations.",
-			choices: ["enabled", "disabled"],
-		})
-		.coerce("snapshot-expiration-state", (value) =>
-			resolveFileToken(value, "snapshot-expiration-state", "text")
-		)
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description:
-				"Contains request to update catalog maintenance configuration.",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "update <bucket-name>",
 	describe: "Update catalog maintenance configuration",
-	builder,
+	usage:
+		"$0 basin-catalog maintenance-configs update <bucket-name>\n\nUpdate the maintenance configuration for a catalog. This allows you to enable or disable compaction and adjust target file sizes for optimization.",
+	flags: {
+		"compaction-state": {
+			kind: "parsed",
+			brief: "Specifies the state of maintenance operations.",
+			optional: true,
+			choices: ["enabled", "disabled"],
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "compaction-state", "text"),
+		},
+		"compaction-target-size-mb": {
+			kind: "parsed",
+			brief:
+				'Sets the target file size for compaction in megabytes. Defaults to "128".',
+			optional: true,
+			choices: ["64", "128", "256", "512"],
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "compaction-target-size-mb", "text"),
+		},
+		"snapshot-expiration-max-snapshot-age": {
+			kind: "parsed",
+			brief: "Updates the maximum age for snapshots optionally.",
+			optional: true,
+			parse: String,
+		},
+		"snapshot-expiration-min-snapshots-to-keep": {
+			kind: "parsed",
+			brief: "Updates the minimum number of snapshots to retain optionally.",
+			optional: true,
+			parse: Number,
+		},
+		"snapshot-expiration-state": {
+			kind: "parsed",
+			brief: "Specifies the state of maintenance operations.",
+			optional: true,
+			choices: ["enabled", "disabled"],
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "snapshot-expiration-state", "text"),
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Contains request to update catalog maintenance configuration.",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [
+		{
+			placeholder: "bucket-name",
+			brief: "Specifies the R2 bucket name.",
+			parse: String,
+		},
+	],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
@@ -92,7 +94,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"snapshot-expiration-state",
 						"dry-run",
 					],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -176,6 +178,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Created` });
 			}
 		),
-};
+});
 
 export default command;

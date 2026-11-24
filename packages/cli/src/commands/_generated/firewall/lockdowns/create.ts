@@ -1,11 +1,10 @@
 import operation from "../../_operations/firewall/lockdowns/create.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * create command
  * @generated from apis/overlays/firewall.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import { createCommandClient, getZoneId } from "#lib/auth.js";
 import { compactBody, parseBody, parseObjectArray } from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
@@ -14,58 +13,65 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage("$0 firewall lockdowns create\n\nCreates a new Zone Lockdown rule.")
-		.option("configurations", {
-			type: "string",
-			description:
-				'A list of IP addresses or CIDR ranges that will be allowed to access the URLs specified in the Zone Lockdown rule. You can include any number of `ip` or `ip_range` configurations. Provide as a JSON array of objects or @path/to/file.json. Shape: [({"target"?: "ip", "value"?: string} | {"target"?: "ip_range", "value"?: string})]. ? marks optional keys.',
-		})
-		.option("description", {
-			type: "string",
-			description:
-				"An informative summary of the rule. This value is sanitized and any tags will be removed.",
-		})
-		.option("paused", {
-			type: "boolean",
-			description: "When true, indicates that the rule is currently paused.",
-		})
-		.option("priority", {
-			type: "number",
-			description:
-				"The priority of the rule to control the processing order. A lower number indicates higher priority. If not provided, any rules with a configured priority will be processed before rules without a priority.",
-		})
-		.option("urls", {
-			type: "string",
-			array: true,
-			description:
-				"The URLs to include in the current WAF override. You can use wildcards. Each entered URL will be escaped before use, which means you can only use simple wildcard patterns.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "create",
 	describe: "Create a Zone Lockdown rule",
-	builder,
+	usage: "$0 firewall lockdowns create\n\nCreates a new Zone Lockdown rule.",
+	flags: {
+		configurations: {
+			kind: "parsed",
+			brief:
+				'A list of IP addresses or CIDR ranges that will be allowed to access the URLs specified in the Zone Lockdown rule. You can include any number of `ip` or `ip_range` configurations. Provide as a JSON array of objects or @path/to/file.json. Shape: [({"target"?: "ip", "value"?: string} | {"target"?: "ip_range", "value"?: string})]. ? marks optional keys.',
+			optional: true,
+			parse: String,
+		},
+		description: {
+			kind: "parsed",
+			brief:
+				"An informative summary of the rule. This value is sanitized and any tags will be removed.",
+			optional: true,
+			parse: String,
+		},
+		paused: {
+			kind: "boolean",
+			brief: "When true, indicates that the rule is currently paused.",
+			optional: true,
+		},
+		priority: {
+			kind: "parsed",
+			brief:
+				"The priority of the rule to control the processing order. A lower number indicates higher priority. If not provided, any rules with a configured priority will be processed before rules without a priority.",
+			optional: true,
+			parse: Number,
+		},
+		urls: {
+			kind: "parsed",
+			brief:
+				"The URLs to include in the current WAF override. You can use wildcards. Each entered URL will be escaped before use, which means you can only use simple wildcard patterns.",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "firewall lockdowns create",
 				classification: {
 					safeFlags: ["paused", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -152,6 +158,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Created` });
 			}
 		),
-};
+});
 
 export default command;

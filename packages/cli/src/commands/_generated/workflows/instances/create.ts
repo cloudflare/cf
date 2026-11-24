@@ -1,11 +1,10 @@
 import operation from "../../_operations/workflows/instances/create.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * create command
  * @generated from apis/overlays/workflows.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -19,34 +18,37 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 workflows instances create <workflow-name>\n\nCreates a new instance of a workflow, starting its execution."
-		)
-		.positional("workflow-name", {
-			type: "string",
-			description: "Workflow name",
-			demandOption: true,
-		})
-		.option("instance-id", {
-			type: "string",
-			description:
+const command = apiCommand({
+	command: "create <workflow-name>",
+	describe: "Create a new workflow instance",
+	usage:
+		"$0 workflows instances create <workflow-name>\n\nCreates a new instance of a workflow, starting its execution.",
+	flags: {
+		"instance-id": {
+			kind: "parsed",
+			brief:
 				"The system reserves IDs that consist of the `cf_` prefix and exactly 64 lowercase hexadecimal characters.",
-		})
-		.option("instance-retention-error", {
-			type: "string",
-			description:
+			optional: true,
+			parse: String,
+		},
+		"instance-retention-error": {
+			kind: "parsed",
+			brief:
 				"Specifies the duration in milliseconds or as a string like '5 minutes'. Accepts a JSON scalar or plain string, or @path/to/file.",
-		})
-		.option("instance-retention-success", {
-			type: "string",
-			description:
+			optional: true,
+			parse: String,
+		},
+		"instance-retention-success": {
+			kind: "parsed",
+			brief:
 				"Specifies the duration in milliseconds or as a string like '5 minutes'. Accepts a JSON scalar or plain string, or @path/to/file.",
-		})
-		.option("location-hint", {
-			type: "string",
-			description: "The location_hint field",
+			optional: true,
+			parse: String,
+		},
+		"location-hint": {
+			kind: "parsed",
+			brief: "The location_hint field",
+			optional: true,
 			choices: [
 				"wnam",
 				"weur",
@@ -60,38 +62,38 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"afr",
 				"me",
 			],
-		})
-		.coerce("location-hint", (value) =>
-			resolveFileToken(value, "location-hint", "text")
-		)
-		.option("params", {
-			type: "string",
-			description: "JSON-encoded event payload passed into the new instance.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "location-hint", "text"),
+		},
+		params: {
+			kind: "parsed",
+			brief: "JSON-encoded event payload passed into the new instance.",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
 			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "create <workflow-name>",
-	describe: "Create a new workflow instance",
-	builder,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [
+		{ placeholder: "workflow-name", brief: "Workflow name", parse: String },
+	],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "workflows instances create",
 				classification: {
 					safeFlags: ["location-hint", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -187,6 +189,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Created` });
 			}
 		),
-};
+});
 
 export default command;

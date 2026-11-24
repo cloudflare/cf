@@ -11,36 +11,31 @@ import $posture from "./posture/index.js";
 import $registrations from "./registrations/index.js";
 import $settings from "./settings/index.js";
 import $update from "./update.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * devices command group
  * @generated from apis/overlays/zero-trust.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "devices",
 	describe: "Operations for devices",
 
-	builder: (yargs) => {
-		return yargs
-			.command($delete)
-			.command($get)
-			.command($list)
-			.command($update)
-			.command($clientversions)
-			.command($deploymentgroups)
-			.command($emergencydisconnect)
-			.command($ipprofiles)
-			.command($networks)
-			.command($overridecodes)
-			.command($posture)
-			.command($registrations)
-			.command($settings)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		delete: $delete,
+		get: $get,
+		list: $list,
+		update: $update,
+		"client-versions": $clientversions,
+		"deployment-groups": $deploymentgroups,
+		"emergency-disconnect": $emergencydisconnect,
+		"ip-profiles": $ipprofiles,
+		networks: $networks,
+		"override-codes": $overridecodes,
+		posture: $posture,
+		registrations: $registrations,
+		settings: $settings,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

@@ -4,30 +4,25 @@ import $get from "./get.js";
 import $list from "./list.js";
 import $rotatesecret from "./rotate-secret.js";
 import $update from "./update.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * widgets command group
  * @generated from apis/overlays/turnstile.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "widgets",
 	describe:
 		"Turnstile widget configurations — site keys, secret rotation, and challenge mode settings",
 
-	builder: (yargs) => {
-		return yargs
-			.command($create)
-			.command($delete)
-			.command($get)
-			.command($list)
-			.command($rotatesecret)
-			.command($update)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		create: $create,
+		delete: $delete,
+		get: $get,
+		list: $list,
+		"rotate-secret": $rotatesecret,
+		update: $update,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

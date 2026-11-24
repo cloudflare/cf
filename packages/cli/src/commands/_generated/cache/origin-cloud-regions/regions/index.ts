@@ -1,22 +1,17 @@
 import $listsupported from "./list-supported.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * regions command group
  * @generated from apis/overlays/cache.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "regions",
 	describe: "Operations for origin-cloud-regions.regions",
 
-	builder: (yargs) => {
-		return yargs
-			.command($listsupported)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		"list-supported": $listsupported,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

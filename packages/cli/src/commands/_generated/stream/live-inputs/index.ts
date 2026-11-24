@@ -7,32 +7,27 @@ import $list from "./list.js";
 import $outputs from "./outputs/index.js";
 import $rotatekeys from "./rotate-keys.js";
 import $update from "./update.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * live-inputs command group
  * @generated from apis/overlays/stream.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "live-inputs",
 	describe: "Enable and disable live input streams",
 
-	builder: (yargs) => {
-		return yargs
-			.command($create)
-			.command($delete)
-			.command($disable)
-			.command($enable)
-			.command($get)
-			.command($list)
-			.command($rotatekeys)
-			.command($update)
-			.command($outputs)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		create: $create,
+		delete: $delete,
+		disable: $disable,
+		enable: $enable,
+		get: $get,
+		list: $list,
+		"rotate-keys": $rotatekeys,
+		update: $update,
+		outputs: $outputs,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

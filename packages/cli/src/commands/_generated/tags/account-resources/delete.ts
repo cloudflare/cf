@@ -1,10 +1,9 @@
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * delete command
  * @generated from apis/overlays/tags.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -19,20 +18,21 @@ import { withProgress } from "#lib/progress.js";
 import { confirmDelete } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 tags account-resources delete\n\nRemoves all tags from a specific account or zone-level resource.\n\nRuns against your account. Pass --zone to run against a zone instead. CLOUDFLARE_ZONE_ID is ignored."
-		)
-		.option("resource-id", {
-			type: "string",
-			description: "The ID of the resource to remove tags from.",
-			demandOption: true,
-		})
-		.option("resource-type", {
-			type: "string",
-			description: "The type of the resource.",
-			choices: [
+const command = apiCommand({
+	command: "delete",
+	describe: "Delete tags from an account or zone-level resource",
+	usage:
+		"$0 tags account-resources delete\n\nRemoves all tags from a specific account or zone-level resource.\n\nRuns against your account. Pass --zone to run against a zone instead. CLOUDFLARE_ZONE_ID is ignored.",
+	flags: {
+		"resource-id": {
+			kind: "parsed",
+			brief: "The ID of the resource to remove tags from.",
+			parse: String,
+		},
+		"resource-type": {
+			kind: "enum",
+			brief: "The type of the resource.",
+			values: [
 				"access_application",
 				"access_group",
 				"access_service_token",
@@ -70,36 +70,33 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"worker",
 				"worker_version",
 			],
-			demandOption: true,
-		})
-		.option("worker-id", {
-			type: "string",
-			description: "Worker identifier. Required for worker_version resources.",
-		})
-		.option("if-match", {
-			type: "string",
-			description:
+		},
+		"worker-id": {
+			kind: "parsed",
+			brief: "Worker identifier. Required for worker_version resources.",
+			optional: true,
+			parse: String,
+		},
+		"if-match": {
+			kind: "parsed",
+			brief:
 				"ETag value for optimistic concurrency control. When provided, the server will\nverify the current resource ETag matches before applying the write. Returns\n412 Precondition Failed if the resource has been modified since the ETag was\nobtained. Omit this header for unconditional writes.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
 			default: false,
-		})
-		.option("force", {
-			type: "boolean",
+		},
+		force: {
+			kind: "boolean",
+			brief: "Skip confirmation (useful in scripts and CI)",
 			alias: "f",
-			description: "Skip confirmation (useful in scripts and CI)",
 			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "delete",
-	describe: "Delete tags from an account or zone-level resource",
-	builder,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
@@ -107,7 +104,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				classification: {
 					safeFlags: ["resource-type", "dry-run", "force"],
 					shortFlagAliases: { f: { canonical: "force", type: "boolean" } },
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -175,6 +172,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Deleted` });
 			}
 		),
-};
+});
 
 export default command;

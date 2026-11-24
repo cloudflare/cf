@@ -1,11 +1,10 @@
 import operation from "../../_operations/pay-per-use/proposals/decide.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * decide command
  * @generated from apis/overlays/pay-per-use.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -20,46 +19,47 @@ import { withProgress } from "#lib/progress.js";
 import { promptForRequiredEnumField } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 pay-per-use proposals decide\n\nAccepts or rejects the pending pay-per-use price proposal identified by price_id in the request body. Acceptance requires an enabled operator with a verified name, an enabled publisher zone, and matching billing classifications; rejection remains available for cleanup."
-		)
-		.option("action", {
-			type: "string",
-			description: "The action field",
-			choices: ["accept", "reject"],
-		})
-		.coerce("action", (value) => resolveFileToken(value, "action", "text"))
-		.option("price-id", {
-			type: "number",
-			description:
-				"Pending pay-per-use price id returned in the operator proposal queue.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Pay-per-use operator proposal decision",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "decide",
 	describe: "Decide a pay-per-use price proposal",
-	builder,
+	usage:
+		"$0 pay-per-use proposals decide\n\nAccepts or rejects the pending pay-per-use price proposal identified by price_id in the request body. Acceptance requires an enabled operator with a verified name, an enabled publisher zone, and matching billing classifications; rejection remains available for cleanup.",
+	flags: {
+		action: {
+			kind: "parsed",
+			brief: "The action field",
+			optional: true,
+			choices: ["accept", "reject"],
+			parse: String,
+			coerce: (value: string) => resolveFileToken(value, "action", "text"),
+		},
+		"price-id": {
+			kind: "parsed",
+			brief:
+				"Pending pay-per-use price id returned in the operator proposal queue.",
+			optional: true,
+			parse: Number,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Pay-per-use operator proposal decision",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "pay-per-use proposals decide",
 				classification: {
 					safeFlags: ["action", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -125,6 +125,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Created` });
 			}
 		),
-};
+});
 
 export default command;

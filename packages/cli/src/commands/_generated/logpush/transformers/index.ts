@@ -6,31 +6,26 @@ import $list from "./list.js";
 import $preview from "./preview.js";
 import $update from "./update.js";
 import $versions from "./versions/index.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * transformers command group
  * @generated from apis/overlays/logpush.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "transformers",
 	describe: "Operations for transformers",
 
-	builder: (yargs) => {
-		return yargs
-			.command($create)
-			.command($delete)
-			.command($get)
-			.command($list)
-			.command($preview)
-			.command($update)
-			.command($content)
-			.command($versions)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		create: $create,
+		delete: $delete,
+		get: $get,
+		list: $list,
+		preview: $preview,
+		update: $update,
+		content: $content,
+		versions: $versions,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

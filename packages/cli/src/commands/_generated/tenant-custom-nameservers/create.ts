@@ -1,11 +1,10 @@
 import operation from "../_operations/tenant-custom-nameservers/create.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * create command
  * @generated from apis/overlays/tenant-custom-nameservers.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import { createCommandClient } from "#lib/auth.js";
 import { compactBody, parseBody } from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
@@ -15,49 +14,50 @@ import { withProgress } from "#lib/progress.js";
 import { promptForRequiredField } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 tenant-custom-nameservers create <tenant-id>\n\nAdds a custom nameserver for a tenant."
-		)
-		.positional("tenant-id", {
-			type: "string",
-			description: "Tenant identifier tag.",
-			demandOption: true,
-		})
-		.option("ns-name", {
-			type: "string",
-			description: "The FQDN of the name server.",
-		})
-		.option("ns-set", {
-			type: "number",
-			description: "The number of the set that this name server belongs to.",
-			default: 1,
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "create <tenant-id>",
 	describe: "Add Tenant Custom Nameserver",
-	builder,
+	usage:
+		"$0 tenant-custom-nameservers create <tenant-id>\n\nAdds a custom nameserver for a tenant.",
+	flags: {
+		"ns-name": {
+			kind: "parsed",
+			brief: "The FQDN of the name server.",
+			optional: true,
+			parse: String,
+		},
+		"ns-set": {
+			kind: "parsed",
+			brief: "The number of the set that this name server belongs to.",
+			default: "1",
+			parse: Number,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [
+		{
+			placeholder: "tenant-id",
+			brief: "Tenant identifier tag.",
+			parse: String,
+		},
+	],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "tenant-custom-nameservers create",
-				classification: {
-					safeFlags: ["dry-run"],
-				} satisfies ArgClassification<Args>,
+				classification: { safeFlags: ["dry-run"] } satisfies ArgClassification<
+					typeof argv
+				>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -128,6 +128,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Created` });
 			}
 		),
-};
+});
 
 export default command;

@@ -1,10 +1,9 @@
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * export command
  * @generated from apis/overlays/zero-trust.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -24,61 +23,71 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 zero-trust casb findings instances export <finding-namespace-id>\n\nCreates a CSV export for Finding instances and accepts optional filters in the payload. Identify the finding as `<integration_id>-<finding_type_id>`: join the `integration.id` and `finding.id` of the finding (from the List posture findings response) with a hyphen."
-		)
-		.positional("finding-namespace-id", {
-			type: "string",
-			description:
-				"Identifies the finding whose instances to export, in the form \`<integration_id>-<finding_type_id>\`. Take \`integration.id\` and \`finding.id\` from the finding in the List posture findings response and join them with a hyphen.",
-			demandOption: true,
-		})
-		.option("archived", {
-			type: "boolean",
-			description: "Filter for archived status.",
-		})
-		.option("max-affliction-date", {
-			type: "string",
-			description:
-				"Filter to view findings that occurred on or before the affliction date. Can be a date-time in ISO 8601 format or an epoch timestamp.",
-		})
-		.option("min-affliction-date", {
-			type: "string",
-			description:
-				"Filter to view findings that occurred on or after the affliction date. Can be a date-time in ISO 8601 format or an epoch timestamp.",
-		})
-		.option("orders", {
-			type: "string",
-			description:
-				'Ordering specifications for the export. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"direction": "asc" | "desc", "name": "asset.name" | "affliction_date"}].',
-		})
-		.option("search", { type: "string", description: "A search term." })
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Filter specification for finding instance exports.",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "export <finding-namespace-id>",
 	describe: "Create a finding instances export",
-	builder,
+	usage:
+		"$0 zero-trust casb findings instances export <finding-namespace-id>\n\nCreates a CSV export for Finding instances and accepts optional filters in the payload. Identify the finding as `<integration_id>-<finding_type_id>`: join the `integration.id` and `finding.id` of the finding (from the List posture findings response) with a hyphen.",
+	flags: {
+		archived: {
+			kind: "boolean",
+			brief: "Filter for archived status.",
+			optional: true,
+		},
+		"max-affliction-date": {
+			kind: "parsed",
+			brief:
+				"Filter to view findings that occurred on or before the affliction date. Can be a date-time in ISO 8601 format or an epoch timestamp.",
+			optional: true,
+			parse: String,
+		},
+		"min-affliction-date": {
+			kind: "parsed",
+			brief:
+				"Filter to view findings that occurred on or after the affliction date. Can be a date-time in ISO 8601 format or an epoch timestamp.",
+			optional: true,
+			parse: String,
+		},
+		orders: {
+			kind: "parsed",
+			brief:
+				'Ordering specifications for the export. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"direction": "asc" | "desc", "name": "asset.name" | "affliction_date"}].',
+			optional: true,
+			parse: String,
+		},
+		search: {
+			kind: "parsed",
+			brief: "A search term.",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Filter specification for finding instance exports.",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [
+		{
+			placeholder: "finding-namespace-id",
+			brief:
+				"Identifies the finding whose instances to export, in the form \`<integration_id>-<finding_type_id>\`. Take \`integration.id\` and \`finding.id\` from the finding in the List posture findings response and join them with a hyphen.",
+			parse: String,
+		},
+	],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "zero-trust casb findings instances export",
 				classification: {
 					safeFlags: ["archived", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -190,6 +199,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Loaded` });
 			}
 		),
-};
+});
 
 export default command;

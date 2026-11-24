@@ -1,11 +1,10 @@
 import operation from "../../_operations/basin-catalog/namespaces/list.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * list command
  * @generated from apis/overlays/basin-catalog.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -17,61 +16,64 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 basin-catalog namespaces list\n\nReturns a list of namespaces in the specified Basin Catalog. Supports hierarchical filtering and pagination for efficient traversal of large namespace hierarchies."
-		)
-		.option("bucket-name", {
-			type: "string",
-			description: "Specifies the R2 bucket name.",
-			demandOption: true,
-		})
-		.option("page-token", {
-			type: "string",
-			description:
-				"Opaque pagination token from a previous response.\nUse this to fetch the next page of results.",
-		})
-		.option("page-size", {
-			type: "number",
-			description:
-				"Maximum number of namespaces to return per page.\nDefaults to 100, maximum 1000.",
-		})
-		.option("parent", {
-			type: "string",
-			description:
-				'Parent namespace to filter by. Only returns direct children of this namespace.\nFor nested namespaces, use %1F as separator (e.g., "bronze%1Fanalytics").\nOmit this parameter to list top-level namespaces.',
-		})
-		.option("return-uuids", {
-			type: "boolean",
-			description:
-				"Whether to include namespace UUIDs in the response.\nSet to true to receive the namespace_uuids array.",
-		})
-		.option("return-details", {
-			type: "boolean",
-			description:
-				"Whether to include additional metadata (timestamps).\nWhen true, response includes created_at and updated_at arrays.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "list",
 	describe: "List namespaces in catalog",
-	builder,
+	usage:
+		"$0 basin-catalog namespaces list\n\nReturns a list of namespaces in the specified Basin Catalog. Supports hierarchical filtering and pagination for efficient traversal of large namespace hierarchies.",
+	flags: {
+		"bucket-name": {
+			kind: "parsed",
+			brief: "Specifies the R2 bucket name.",
+			parse: String,
+		},
+		"page-token": {
+			kind: "parsed",
+			brief:
+				"Opaque pagination token from a previous response.\nUse this to fetch the next page of results.",
+			optional: true,
+			parse: String,
+		},
+		"page-size": {
+			kind: "parsed",
+			brief:
+				"Maximum number of namespaces to return per page.\nDefaults to 100, maximum 1000.",
+			optional: true,
+			parse: Number,
+		},
+		parent: {
+			kind: "parsed",
+			brief:
+				'Parent namespace to filter by. Only returns direct children of this namespace.\nFor nested namespaces, use %1F as separator (e.g., "bronze%1Fanalytics").\nOmit this parameter to list top-level namespaces.',
+			optional: true,
+			parse: String,
+		},
+		"return-uuids": {
+			kind: "boolean",
+			brief:
+				"Whether to include namespace UUIDs in the response.\nSet to true to receive the namespace_uuids array.",
+			optional: true,
+		},
+		"return-details": {
+			kind: "boolean",
+			brief:
+				"Whether to include additional metadata (timestamps).\nWhen true, response includes created_at and updated_at arrays.",
+			optional: true,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "basin-catalog namespaces list",
 				classification: {
 					safeFlags: ["return-uuids", "return-details", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -108,6 +110,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Loaded` });
 			}
 		),
-};
+});
 
 export default command;

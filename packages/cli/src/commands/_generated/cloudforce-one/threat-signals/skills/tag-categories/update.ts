@@ -1,11 +1,10 @@
 import operation from "../../../../_operations/cloudforce-one/threat-signals/skills/tag-categories/update.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * update command
  * @generated from apis/overlays/cloudforce-one.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -18,47 +17,47 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 cloudforce-one threat-signals skills tag-categories update <skill-id>\n\nReplaces the Tag Categories the managed default tagging skill may select tags from. This configures the managed default tagging skill, not Custom Skills."
-		)
-		.positional("skill-id", {
-			type: "string",
-			description:
-				"Must be default-tagging-skill; configures the managed default tagging skill",
-			demandOption: true,
-		})
-		.option("category-uuids", {
-			type: "string",
-			array: true,
-			description:
-				"Up to 100 unique tag category UUIDs that the managed default tagging skill may select tags from.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "update <skill-id>",
 	describe: "Replace Threat Signals skill tag categories",
-	builder,
+	usage:
+		"$0 cloudforce-one threat-signals skills tag-categories update <skill-id>\n\nReplaces the Tag Categories the managed default tagging skill may select tags from. This configures the managed default tagging skill, not Custom Skills.",
+	flags: {
+		"category-uuids": {
+			kind: "parsed",
+			brief:
+				"Up to 100 unique tag category UUIDs that the managed default tagging skill may select tags from.",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [
+		{
+			placeholder: "skill-id",
+			brief:
+				"Must be default-tagging-skill; configures the managed default tagging skill",
+			parse: String,
+		},
+	],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "cloudforce-one threat-signals skills tag-categories update",
-				classification: {
-					safeFlags: ["dry-run"],
-				} satisfies ArgClassification<Args>,
+				classification: { safeFlags: ["dry-run"] } satisfies ArgClassification<
+					typeof argv
+				>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -124,6 +123,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Updated` });
 			}
 		),
-};
+});
 
 export default command;

@@ -1,11 +1,10 @@
 import operation from "../../_operations/resource-sharing/resources/list.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * list command
  * @generated from apis/overlays/resource-sharing.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -17,25 +16,27 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 resource-sharing resources list\n\nList share resources by share ID."
-		)
-		.option("share-id", {
-			type: "string",
-			description: "Share identifier tag.",
-			demandOption: true,
-		})
-		.option("status", {
-			type: "string",
-			description: "Filter share resources by status.",
-			choices: ["active", "deleting", "deleted"],
-		})
-		.option("resource-type", {
-			type: "string",
-			description: "Filter share resources by resource_type.",
-			choices: [
+const command = apiCommand({
+	command: "list",
+	describe: "List share resources by share ID",
+	usage:
+		"$0 resource-sharing resources list\n\nList share resources by share ID.",
+	flags: {
+		"share-id": {
+			kind: "parsed",
+			brief: "Share identifier tag.",
+			parse: String,
+		},
+		status: {
+			kind: "enum",
+			brief: "Filter share resources by status.",
+			values: ["active", "deleting", "deleted"],
+			optional: true,
+		},
+		"resource-type": {
+			kind: "enum",
+			brief: "Filter share resources by resource_type.",
+			values: [
 				"custom-ruleset",
 				"gateway-policy",
 				"gateway-destination-ip",
@@ -44,36 +45,35 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"idp-federation-grant",
 				"trust-grant",
 			],
-		})
-		.option("page", {
-			type: "number",
-			description: "Page number. Defaults to `1` when omitted.",
-		})
-		.option("per-page", {
-			type: "number",
-			description:
+			optional: true,
+		},
+		page: {
+			kind: "parsed",
+			brief: "Page number. Defaults to `1` when omitted.",
+			optional: true,
+			parse: Number,
+		},
+		"per-page": {
+			kind: "parsed",
+			brief:
 				"Number of objects to return per page. Defaults to `20` when omitted.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
+			optional: true,
+			parse: Number,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
 			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "list",
-	describe: "List share resources by share ID",
-	builder,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "resource-sharing resources list",
 				classification: {
 					safeFlags: ["status", "resource-type", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -109,6 +109,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Loaded` });
 			}
 		),
-};
+});
 
 export default command;

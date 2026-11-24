@@ -1,11 +1,10 @@
 import operation from "../../../_operations/artifacts/namespaces/repos/list.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * list command
  * @generated from apis/overlays/artifacts.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -17,49 +16,46 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 artifacts namespaces repos list\n\nLists repositories in a namespace."
-		)
-		.option("namespace", {
-			type: "string",
-			description: "Artifacts namespace name.",
-			demandOption: true,
-		})
-		.option("limit", { type: "number", description: "Limit" })
-		.option("cursor", { type: "string", description: "Cursor" })
-		.option("search", { type: "string", description: "Search" })
-		.option("sort", {
-			type: "string",
-			description: "Sort",
-			choices: ["created_at", "updated_at", "last_push_at", "name"],
-		})
-		.option("direction", {
-			type: "string",
-			description: "Direction",
-			choices: ["asc", "desc"],
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "list",
 	describe: "List repositories",
-	builder,
+	usage:
+		"$0 artifacts namespaces repos list\n\nLists repositories in a namespace.",
+	flags: {
+		namespace: {
+			kind: "parsed",
+			brief: "Artifacts namespace name.",
+			parse: String,
+		},
+		limit: { kind: "parsed", brief: "Limit", optional: true, parse: Number },
+		cursor: { kind: "parsed", brief: "Cursor", optional: true, parse: String },
+		search: { kind: "parsed", brief: "Search", optional: true, parse: String },
+		sort: {
+			kind: "enum",
+			brief: "Sort",
+			values: ["created_at", "updated_at", "last_push_at", "name"],
+			optional: true,
+		},
+		direction: {
+			kind: "enum",
+			brief: "Direction",
+			values: ["asc", "desc"],
+			optional: true,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "artifacts namespaces repos list",
 				classification: {
 					safeFlags: ["sort", "direction", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -96,6 +92,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Loaded` });
 			}
 		),
-};
+});
 
 export default command;

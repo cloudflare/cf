@@ -1,11 +1,10 @@
 import operation from "../_operations/basin-catalog/enable.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * enable command
  * @generated from apis/overlays/basin-catalog.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -19,45 +18,45 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 basin-catalog enable <bucket-name>\n\nEnable an R2 bucket as an Apache Iceberg catalog. This operation creates the necessary catalog infrastructure and activates the bucket for storing Iceberg metadata and data files."
-		)
-		.positional("bucket-name", {
-			type: "string",
-			description: "Specifies the R2 bucket name to enable as catalog.",
-			demandOption: true,
-		})
-		.option("credential-token", {
-			type: "string",
-			description: "Provides the Cloudflare API token for accessing R2.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description:
-				"Contains the optional request to enable a catalog. Send an empty body to keep the defaults. If you include \`credential\`, the service checks that the token can access the bucket, then stores it as the catalog's maintenance credential, like the store credentials operation. ",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "enable <bucket-name>",
 	describe: "Enable R2 bucket as a catalog",
-	builder,
+	usage:
+		"$0 basin-catalog enable <bucket-name>\n\nEnable an R2 bucket as an Apache Iceberg catalog. This operation creates the necessary catalog infrastructure and activates the bucket for storing Iceberg metadata and data files.",
+	flags: {
+		"credential-token": {
+			kind: "parsed",
+			brief: "Provides the Cloudflare API token for accessing R2.",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief:
+				"Contains the optional request to enable a catalog. Send an empty body to keep the defaults. If you include `credential`, the service checks that the token can access the bucket, then stores it as the catalog's maintenance credential, like the store credentials operation. ",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [
+		{
+			placeholder: "bucket-name",
+			brief: "Specifies the R2 bucket name to enable as catalog.",
+			parse: String,
+		},
+	],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "basin-catalog enable",
-				classification: {
-					safeFlags: ["dry-run"],
-				} satisfies ArgClassification<Args>,
+				classification: { safeFlags: ["dry-run"] } satisfies ArgClassification<
+					typeof argv
+				>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -124,6 +123,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Created` });
 			}
 		),
-};
+});
 
 export default command;

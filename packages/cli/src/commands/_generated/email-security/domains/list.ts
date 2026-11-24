@@ -1,11 +1,10 @@
 import operation from "../../_operations/email-security/domains/list.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * list command
  * @generated from apis/overlays/email-security.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -17,70 +16,80 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 email-security domains list\n\nReturns a paginated list of email domains protected by Email Security. Includes domain configuration, delivery modes, and authorization status. Supports filtering by delivery mode and integration ID."
-		)
-		.option("page", {
-			type: "number",
-			description: "Current page within paginated list of results.",
-		})
-		.option("per-page", {
-			type: "number",
-			description: "The number of results per page. Maximum value is 1000.",
-		})
-		.option("search", {
-			type: "string",
-			description: "Search term for filtering records. Behavior may change.",
-		})
-		.option("order", {
-			type: "string",
-			description: "Field to sort by.",
-			choices: ["domain", "created_at"],
-		})
-		.option("direction", {
-			type: "string",
-			description: "The sorting direction.",
-			choices: ["asc", "desc"],
-		})
-		.option("allowed-delivery-mode", {
-			type: "string",
-			description: "Delivery mode to filter by.",
-			choices: ["DIRECT", "BCC", "JOURNAL", "API", "RETRO_SCAN"],
-		})
-		.option("domain", {
-			type: "string",
-			array: true,
-			description: "Domain names to filter by.",
-		})
-		.option("active-delivery-mode", {
-			type: "string",
-			description: "Currently active delivery mode to filter by.",
-			choices: ["DIRECT", "BCC", "JOURNAL", "API", "RETRO_SCAN"],
-		})
-		.option("integration-id", {
-			type: "string",
-			description: "Integration ID to filter by.",
-		})
-		.option("status", {
-			type: "string",
-			description: "Filters response to domains with the provided status.",
-			choices: ["PENDING", "ACTIVE", "FAILED", "TIMEOUT"],
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "list",
 	describe: "List protected email domains",
-	builder,
+	usage:
+		"$0 email-security domains list\n\nReturns a paginated list of email domains protected by Email Security. Includes domain configuration, delivery modes, and authorization status. Supports filtering by delivery mode and integration ID.",
+	flags: {
+		page: {
+			kind: "parsed",
+			brief: "Current page within paginated list of results.",
+			optional: true,
+			parse: Number,
+		},
+		"per-page": {
+			kind: "parsed",
+			brief: "The number of results per page. Maximum value is 1000.",
+			optional: true,
+			parse: Number,
+		},
+		search: {
+			kind: "parsed",
+			brief: "Search term for filtering records. Behavior may change.",
+			optional: true,
+			parse: String,
+		},
+		order: {
+			kind: "enum",
+			brief: "Field to sort by.",
+			values: ["domain", "created_at"],
+			optional: true,
+		},
+		direction: {
+			kind: "enum",
+			brief: "The sorting direction.",
+			values: ["asc", "desc"],
+			optional: true,
+		},
+		"allowed-delivery-mode": {
+			kind: "enum",
+			brief: "Delivery mode to filter by.",
+			values: ["DIRECT", "BCC", "JOURNAL", "API", "RETRO_SCAN"],
+			optional: true,
+		},
+		domain: {
+			kind: "parsed",
+			brief: "Domain names to filter by.",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"active-delivery-mode": {
+			kind: "enum",
+			brief: "Currently active delivery mode to filter by.",
+			values: ["DIRECT", "BCC", "JOURNAL", "API", "RETRO_SCAN"],
+			optional: true,
+		},
+		"integration-id": {
+			kind: "parsed",
+			brief: "Integration ID to filter by.",
+			optional: true,
+			parse: String,
+		},
+		status: {
+			kind: "enum",
+			brief: "Filters response to domains with the provided status.",
+			values: ["PENDING", "ACTIVE", "FAILED", "TIMEOUT"],
+			optional: true,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
@@ -94,7 +103,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"status",
 						"dry-run",
 					],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -132,6 +141,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Loaded` });
 			}
 		),
-};
+});
 
 export default command;

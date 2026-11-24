@@ -1,11 +1,10 @@
 import operation from "../../../../_operations/realtime/kit/sessions/peers/get.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * get command
  * @generated from apis/overlays/realtime.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -17,57 +16,50 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 realtime kit sessions peers get <peer-id>\n\nReturns participant details for the given peer ID along with call statistics."
-		)
-		.positional("peer-id", {
-			type: "string",
-			description: "ID of the peer",
-			demandOption: true,
-		})
-		.option("app-id", {
-			type: "string",
-			description: "The app identifier tag.",
-			demandOption: true,
-		})
-		.option("filters", {
-			type: "string",
-			description: "Filter to apply to the peer report.",
-			choices: [
+const command = apiCommand({
+	command: "get <peer-id>",
+	describe: "Fetch details of peer",
+	usage:
+		"$0 realtime kit sessions peers get <peer-id>\n\nReturns participant details for the given peer ID along with call statistics.",
+	flags: {
+		"app-id": {
+			kind: "parsed",
+			brief: "The app identifier tag.",
+			parse: String,
+		},
+		filters: {
+			kind: "enum",
+			brief: "Filter to apply to the peer report.",
+			values: [
 				"device_info",
 				"ip_information",
 				"precall_network_information",
 				"events",
 				"quality_stats",
 			],
-		})
-		.option("include-peer-events", {
-			type: "boolean",
-			description:
-				"if true, response includes all the peer events of participant.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
+			optional: true,
+		},
+		"include-peer-events": {
+			kind: "boolean",
+			brief: "if true, response includes all the peer events of participant.",
+			optional: true,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
 			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "get <peer-id>",
-	describe: "Fetch details of peer",
-	builder,
+		},
+	},
+	operands: [
+		{ placeholder: "peer-id", brief: "ID of the peer", parse: String },
+	],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "realtime kit sessions peers get",
 				classification: {
 					safeFlags: ["filters", "include-peer-events", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -105,6 +97,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Loaded` });
 			}
 		),
-};
+});
 
 export default command;

@@ -1,11 +1,10 @@
 import operation from "../../_operations/email-security/trusted-domains/list.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * list command
  * @generated from apis/overlays/email-security.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -17,57 +16,67 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 email-security trusted-domains list\n\nReturns a paginated list of trusted domain patterns. Trusted domains prevent false positives for recently registered domains and lookalike domain detections. Patterns can use regular expressions for flexible matching."
-		)
-		.option("page", {
-			type: "number",
-			description: "Current page within paginated list of results.",
-		})
-		.option("per-page", {
-			type: "number",
-			description: "The number of results per page. Maximum value is 1000.",
-		})
-		.option("search", {
-			type: "string",
-			description: "Search term for filtering records. Behavior may change.",
-		})
-		.option("order", {
-			type: "string",
-			description: "Field to sort by.",
-			choices: ["pattern", "created_at"],
-		})
-		.option("direction", {
-			type: "string",
-			description: "The sorting direction.",
-			choices: ["asc", "desc"],
-		})
-		.option("is-recent", {
-			type: "boolean",
-			description:
-				"Filter to show only recently registered domains that are trusted to prevent triggering Suspicious or Malicious dispositions.",
-		})
-		.option("is-similarity", {
-			type: "boolean",
-			description:
-				"Filter to show only proximity domains (partner or approved domains with similar spelling to connected domains) that prevent Spoof dispositions.",
-		})
-		.option("pattern", { type: "string", description: "Pattern" })
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "list",
 	describe: "List trusted email domains",
-	builder,
+	usage:
+		"$0 email-security trusted-domains list\n\nReturns a paginated list of trusted domain patterns. Trusted domains prevent false positives for recently registered domains and lookalike domain detections. Patterns can use regular expressions for flexible matching.",
+	flags: {
+		page: {
+			kind: "parsed",
+			brief: "Current page within paginated list of results.",
+			optional: true,
+			parse: Number,
+		},
+		"per-page": {
+			kind: "parsed",
+			brief: "The number of results per page. Maximum value is 1000.",
+			optional: true,
+			parse: Number,
+		},
+		search: {
+			kind: "parsed",
+			brief: "Search term for filtering records. Behavior may change.",
+			optional: true,
+			parse: String,
+		},
+		order: {
+			kind: "enum",
+			brief: "Field to sort by.",
+			values: ["pattern", "created_at"],
+			optional: true,
+		},
+		direction: {
+			kind: "enum",
+			brief: "The sorting direction.",
+			values: ["asc", "desc"],
+			optional: true,
+		},
+		"is-recent": {
+			kind: "boolean",
+			brief:
+				"Filter to show only recently registered domains that are trusted to prevent triggering Suspicious or Malicious dispositions.",
+			optional: true,
+		},
+		"is-similarity": {
+			kind: "boolean",
+			brief:
+				"Filter to show only proximity domains (partner or approved domains with similar spelling to connected domains) that prevent Spoof dispositions.",
+			optional: true,
+		},
+		pattern: {
+			kind: "parsed",
+			brief: "Pattern",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
@@ -80,7 +89,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"is-similarity",
 						"dry-run",
 					],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -116,6 +125,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Loaded` });
 			}
 		),
-};
+});
 
 export default command;

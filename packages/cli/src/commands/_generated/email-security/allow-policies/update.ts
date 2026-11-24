@@ -1,11 +1,10 @@
 import operation from "../../_operations/email-security/allow-policies/update.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * update command
  * @generated from apis/overlays/email-security.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -23,88 +22,107 @@ import {
 } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 email-security allow-policies update <policy-id>\n\nReplaces an existing allow policy in full. Unlike PATCH, every field is taken from the request body, so optional fields that are omitted are reset rather than left untouched. Use this when managing policies declaratively."
-		)
-		.positional("policy-id", {
-			type: "string",
-			description: "Allow policy identifier.",
-			demandOption: true,
-		})
-		.option("comments", { type: "string", description: "The comments field" })
-		.option("expires-at", {
-			type: "string",
-			description:
-				"Timestamp at which the policy expires. After this time, Email Security ignores the policy. The value must lie in the future. Send `null` to clear the expiration.",
-		})
-		.option("is-acceptable-sender", {
-			type: "boolean",
-			description:
-				"Exempts messages from this sender from Spam, Spoof and Bulk dispositions only; Malicious and Suspicious dispositions still apply.",
-		})
-		.option("is-exempt-recipient", {
-			type: "boolean",
-			description: "Bypasses all detections for messages to this recipient.",
-		})
-		.option("is-recipient", {
-			type: "boolean",
-			description:
-				"Deprecated as of July 1, 2025. Use `is_exempt_recipient` instead. End of life: July 1, 2026.",
-		})
-		.option("is-regex", { type: "boolean", description: "The is_regex field" })
-		.option("is-sender", {
-			type: "boolean",
-			description:
-				"Deprecated as of July 1, 2025. Use `is_trusted_sender` instead. End of life: July 1, 2026.",
-		})
-		.option("is-spoof", {
-			type: "boolean",
-			description:
-				"Deprecated as of July 1, 2025. Use `is_acceptable_sender` instead. End of life: July 1, 2026.",
-		})
-		.option("is-trusted-sender", {
-			type: "boolean",
-			description:
-				"Bypasses all detections and link following for messages from this sender.",
-		})
-		.option("pattern", {
-			type: "string",
-			description:
-				"The pattern value to match. The format depends on `pattern_type`: a valid email address for EMAIL (e.g. `user@example.com`), a valid domain name for DOMAIN (e.g. `example.com`), or a plain IPv4 or IPv6 address or CIDR block for IP (e.g. `1.2.3.4`, `1.2.3.0/24`, `2606:4700:4700::1111`, or `2606:4700:4700::/48`); the API rejects private or unique-local, loopback, link-local, unspecified, and IPv4 broadcast addresses, including their IPv4-mapped IPv6 equivalents. The API also rejects a pattern that equals a domain onboarded to the account, ignoring case.",
-		})
-		.option("pattern-type", {
-			type: "string",
-			description:
-				"Type of pattern matching.\n- EMAIL: matches a full email address (e.g. `user@example.com`)\n- DOMAIN: matches a domain name (e.g. `example.com`)\n- IP: matches a plain IPv4 or IPv6 address (e.g. `1.2.3.4` or `2606:4700:4700::1111`) or CIDR block (e.g. `1.2.3.0/24` or `2606:4700:4700::/48`). The API rejects private or unique-local, loopback, link-local, unspecified, and IPv4 broadcast addresses, including their IPv4-mapped IPv6 equivalents.\n- UNKNOWN: deprecated; you cannot use this when creating or updating policies, but it may appear on existing entries.\n",
-			choices: ["EMAIL", "DOMAIN", "IP", "UNKNOWN"],
-		})
-		.coerce("pattern-type", (value) =>
-			resolveFileToken(value, "pattern-type", "text")
-		)
-		.option("verify-sender", {
-			type: "boolean",
-			description:
-				"Enforce DMARC, SPF or DKIM authentication. When on, Email Security only honors policies that pass authentication.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Create an allow policy.",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "update <policy-id>",
 	describe: "Replace an email allow policy",
-	builder,
+	usage:
+		"$0 email-security allow-policies update <policy-id>\n\nReplaces an existing allow policy in full. Unlike PATCH, every field is taken from the request body, so optional fields that are omitted are reset rather than left untouched. Use this when managing policies declaratively.",
+	flags: {
+		comments: {
+			kind: "parsed",
+			brief: "The comments field",
+			optional: true,
+			parse: String,
+		},
+		"expires-at": {
+			kind: "parsed",
+			brief:
+				"Timestamp at which the policy expires. After this time, Email Security ignores the policy. The value must lie in the future. Send `null` to clear the expiration.",
+			optional: true,
+			parse: String,
+		},
+		"is-acceptable-sender": {
+			kind: "boolean",
+			brief:
+				"Exempts messages from this sender from Spam, Spoof and Bulk dispositions only; Malicious and Suspicious dispositions still apply.",
+			optional: true,
+		},
+		"is-exempt-recipient": {
+			kind: "boolean",
+			brief: "Bypasses all detections for messages to this recipient.",
+			optional: true,
+		},
+		"is-recipient": {
+			kind: "boolean",
+			brief:
+				"Deprecated as of July 1, 2025. Use `is_exempt_recipient` instead. End of life: July 1, 2026.",
+			optional: true,
+		},
+		"is-regex": {
+			kind: "boolean",
+			brief: "The is_regex field",
+			optional: true,
+		},
+		"is-sender": {
+			kind: "boolean",
+			brief:
+				"Deprecated as of July 1, 2025. Use `is_trusted_sender` instead. End of life: July 1, 2026.",
+			optional: true,
+		},
+		"is-spoof": {
+			kind: "boolean",
+			brief:
+				"Deprecated as of July 1, 2025. Use `is_acceptable_sender` instead. End of life: July 1, 2026.",
+			optional: true,
+		},
+		"is-trusted-sender": {
+			kind: "boolean",
+			brief:
+				"Bypasses all detections and link following for messages from this sender.",
+			optional: true,
+		},
+		pattern: {
+			kind: "parsed",
+			brief:
+				"The pattern value to match. The format depends on `pattern_type`: a valid email address for EMAIL (e.g. `user@example.com`), a valid domain name for DOMAIN (e.g. `example.com`), or a plain IPv4 or IPv6 address or CIDR block for IP (e.g. `1.2.3.4`, `1.2.3.0/24`, `2606:4700:4700::1111`, or `2606:4700:4700::/48`); the API rejects private or unique-local, loopback, link-local, unspecified, and IPv4 broadcast addresses, including their IPv4-mapped IPv6 equivalents. The API also rejects a pattern that equals a domain onboarded to the account, ignoring case.",
+			optional: true,
+			parse: String,
+		},
+		"pattern-type": {
+			kind: "parsed",
+			brief:
+				"Type of pattern matching.\n- EMAIL: matches a full email address (e.g. `user@example.com`)\n- DOMAIN: matches a domain name (e.g. `example.com`)\n- IP: matches a plain IPv4 or IPv6 address (e.g. `1.2.3.4` or `2606:4700:4700::1111`) or CIDR block (e.g. `1.2.3.0/24` or `2606:4700:4700::/48`). The API rejects private or unique-local, loopback, link-local, unspecified, and IPv4 broadcast addresses, including their IPv4-mapped IPv6 equivalents.\n- UNKNOWN: deprecated; you cannot use this when creating or updating policies, but it may appear on existing entries.\n",
+			optional: true,
+			choices: ["EMAIL", "DOMAIN", "IP", "UNKNOWN"],
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "pattern-type", "text"),
+		},
+		"verify-sender": {
+			kind: "boolean",
+			brief:
+				"Enforce DMARC, SPF or DKIM authentication. When on, Email Security only honors policies that pass authentication.",
+			optional: true,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Create an allow policy.",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [
+		{
+			placeholder: "policy-id",
+			brief: "Allow policy identifier.",
+			parse: String,
+		},
+	],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
@@ -122,7 +140,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"verify-sender",
 						"dry-run",
 					],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -266,6 +284,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Updated` });
 			}
 		),
-};
+});
 
 export default command;

@@ -1,11 +1,10 @@
 import operation from "../../_operations/email-sending/suppressions/list.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * list command
  * @generated from apis/overlays/email-sending.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -17,65 +16,72 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 email-sending suppressions list\n\nLists every active Email Sending suppression owned by the account: sending-domain suppressions and account-wide suppressions. Each scope is listed newest first. The order between sending-domain and account-wide suppressions is not fixed; use `scope_type` to list one scope."
-		)
-		.option("per-page", {
-			type: "number",
-			description: "Maximum number of suppressions to return per page.",
-		})
-		.option("cursor", {
-			type: "string",
-			description:
-				"Opaque pagination cursor returned as `result_info.next_cursor`. It carries the filters that produced it.",
-		})
-		.option("email", {
-			type: "string",
-			description: "Exact email-address filter.",
-		})
-		.option("search", {
-			type: "string",
-			description:
-				"A complete address is an exact match; a value ending in `@` matches that username across every domain. Prefix searches may return short intermediate pages while the bounded account scan advances.",
-		})
-		.option("reason", {
-			type: "string",
-			description: "Filter to suppressions with this reason.",
-			choices: ["manual", "complaint", "hard_bounce", "soft_bounce", "policy"],
-		})
-		.option("scope-type", {
-			type: "string",
-			description:
-				"Filter by scope: `account` returns only account-wide suppressions, `sending_domain` only sending-domain suppressions. Omit to list both; the order between the two scopes is not fixed.",
-			choices: ["account", "sending_domain"],
-		})
-		.option("scope-value", {
-			type: "string",
-			description:
-				"Exact sending-domain filter. Requires `scope_type=sending_domain`.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "list",
 	describe: "List account Email Sending suppressions",
-	builder,
+	usage:
+		"$0 email-sending suppressions list\n\nLists every active Email Sending suppression owned by the account: sending-domain suppressions and account-wide suppressions. Each scope is listed newest first. The order between sending-domain and account-wide suppressions is not fixed; use `scope_type` to list one scope.",
+	flags: {
+		"per-page": {
+			kind: "parsed",
+			brief: "Maximum number of suppressions to return per page.",
+			optional: true,
+			parse: Number,
+		},
+		cursor: {
+			kind: "parsed",
+			brief:
+				"Opaque pagination cursor returned as `result_info.next_cursor`. It carries the filters that produced it.",
+			optional: true,
+			parse: String,
+		},
+		email: {
+			kind: "parsed",
+			brief: "Exact email-address filter.",
+			optional: true,
+			parse: String,
+		},
+		search: {
+			kind: "parsed",
+			brief:
+				"A complete address is an exact match; a value ending in `@` matches that username across every domain. Prefix searches may return short intermediate pages while the bounded account scan advances.",
+			optional: true,
+			parse: String,
+		},
+		reason: {
+			kind: "enum",
+			brief: "Filter to suppressions with this reason.",
+			values: ["manual", "complaint", "hard_bounce", "soft_bounce", "policy"],
+			optional: true,
+		},
+		"scope-type": {
+			kind: "enum",
+			brief:
+				"Filter by scope: `account` returns only account-wide suppressions, `sending_domain` only sending-domain suppressions. Omit to list both; the order between the two scopes is not fixed.",
+			values: ["account", "sending_domain"],
+			optional: true,
+		},
+		"scope-value": {
+			kind: "parsed",
+			brief:
+				"Exact sending-domain filter. Requires `scope_type=sending_domain`.",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "email-sending suppressions list",
 				classification: {
 					safeFlags: ["reason", "scope-type", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -110,6 +116,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Loaded` });
 			}
 		),
-};
+});
 
 export default command;

@@ -1,11 +1,10 @@
 import operation from "../../../_operations/zero-trust/gateway/lists/create.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * create command
  * @generated from apis/overlays/zero-trust.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -23,24 +22,34 @@ import {
 } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 zero-trust gateway lists create\n\nCreates a new Zero Trust list."
-		)
-		.option("description", {
-			type: "string",
-			description: "Provide the list description.",
-		})
-		.option("items", {
-			type: "string",
-			description:
+const command = apiCommand({
+	command: "create",
+	describe: "Create Zero Trust list",
+	usage: "$0 zero-trust gateway lists create\n\nCreates a new Zero Trust list.",
+	flags: {
+		description: {
+			kind: "parsed",
+			brief: "Provide the list description.",
+			optional: true,
+			parse: String,
+		},
+		items: {
+			kind: "parsed",
+			brief:
 				'Add items to the list. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"description"?: string, "value"?: string}]. ? marks optional keys.',
-		})
-		.option("name", { type: "string", description: "Specify the list name." })
-		.option("type", {
-			type: "string",
-			description: "Specify the list type.",
+			optional: true,
+			parse: String,
+		},
+		name: {
+			kind: "parsed",
+			brief: "Specify the list name.",
+			optional: true,
+			parse: String,
+		},
+		type: {
+			kind: "parsed",
+			brief: "Specify the list type.",
+			optional: true,
 			choices: [
 				"SERIAL",
 				"URL",
@@ -52,32 +61,29 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"DEVICE",
 				"AAGUID",
 			],
-		})
-		.coerce("type", (value) => resolveFileToken(value, "type", "text"))
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
+			parse: String,
+			coerce: (value: string) => resolveFileToken(value, "type", "text"),
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
 			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "create",
-	describe: "Create Zero Trust list",
-	builder,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "zero-trust gateway lists create",
 				classification: {
 					safeFlags: ["type", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -174,6 +180,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Created` });
 			}
 		),
-};
+});
 
 export default command;

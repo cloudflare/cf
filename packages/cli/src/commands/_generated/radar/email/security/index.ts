@@ -1,26 +1,21 @@
 import $summary from "./summary.js";
 import $timeseriesgroups from "./timeseries-groups.js";
 import $top from "./top/index.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * security command group
  * @generated from apis/overlays/radar.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "security",
 	describe: "Operations for email.security",
 
-	builder: (yargs) => {
-		return yargs
-			.command($summary)
-			.command($timeseriesgroups)
-			.command($top)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		summary: $summary,
+		"timeseries-groups": $timeseriesgroups,
+		top: $top,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

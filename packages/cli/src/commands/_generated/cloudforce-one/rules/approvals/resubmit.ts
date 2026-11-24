@@ -1,11 +1,10 @@
 import operation from "../../../_operations/cloudforce-one/rules/approvals/resubmit.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * resubmit command
  * @generated from apis/overlays/cloudforce-one.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -19,56 +18,70 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 cloudforce-one rules approvals resubmit <id>\n\nCreate a new pending revision from a rejected rule approval. Only the original requester may resubmit the latest revision."
-		)
-		.positional("id", {
-			type: "string",
-			description: "The unique identifier for the approval.",
-			demandOption: true,
-		})
-		.option("commit-message", {
-			type: "string",
-			description: "The commit_message field",
-		})
-		.option("content", { type: "string", description: "The content field" })
-		.option("description", {
-			type: "string",
-			description: "The description field",
-		})
-		.option("enabled", { type: "boolean", description: "The enabled field" })
-		.option("name", { type: "string", description: "The name field" })
-		.option("namespaces", {
-			type: "string",
-			array: true,
-			description: "The namespaces field",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "resubmit <id>",
 	describe: "Revise and resubmit a rejected approval",
-	builder,
+	usage:
+		"$0 cloudforce-one rules approvals resubmit <id>\n\nCreate a new pending revision from a rejected rule approval. Only the original requester may resubmit the latest revision.",
+	flags: {
+		"commit-message": {
+			kind: "parsed",
+			brief: "The commit_message field",
+			optional: true,
+			parse: String,
+		},
+		content: {
+			kind: "parsed",
+			brief: "The content field",
+			optional: true,
+			parse: String,
+		},
+		description: {
+			kind: "parsed",
+			brief: "The description field",
+			optional: true,
+			parse: String,
+		},
+		enabled: { kind: "boolean", brief: "The enabled field", optional: true },
+		name: {
+			kind: "parsed",
+			brief: "The name field",
+			optional: true,
+			parse: String,
+		},
+		namespaces: {
+			kind: "parsed",
+			brief: "The namespaces field",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [
+		{
+			placeholder: "id",
+			brief: "The unique identifier for the approval.",
+			parse: String,
+		},
+	],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "cloudforce-one rules approvals resubmit",
 				classification: {
 					safeFlags: ["enabled", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -164,6 +177,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Created` });
 			}
 		),
-};
+});
 
 export default command;

@@ -1,24 +1,19 @@
 import $get from "./get.js";
 import $replace from "./replace.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * initial-resolved-ip command group
  * @generated from apis/overlays/network.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "initial-resolved-ip",
 	describe: "Operations for subnets.initial-resolved-ip",
 
-	builder: (yargs) => {
-		return yargs
-			.command($get)
-			.command($replace)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		get: $get,
+		replace: $replace,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

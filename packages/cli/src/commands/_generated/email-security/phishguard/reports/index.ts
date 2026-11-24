@@ -1,20 +1,17 @@
 import $list from "./list.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * reports command group
  * @generated from apis/overlays/email-security.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "reports",
 	describe: "Operations for phishguard.reports",
 
-	builder: (yargs) => {
-		return yargs.command($list).demandCommand(1, "Please specify a subcommand");
+	routes: {
+		list: $list,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

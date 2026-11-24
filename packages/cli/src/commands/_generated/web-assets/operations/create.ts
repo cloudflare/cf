@@ -1,11 +1,10 @@
 import operation from "../../_operations/web-assets/operations/create.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * create command
  * @generated from apis/overlays/web-assets.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import { createCommandClient, getZoneId } from "#lib/auth.js";
 import { compactBody, parseBody } from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
@@ -18,20 +17,29 @@ import {
 } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 web-assets operations create\n\nCreates one web or API operation. The host, method, and path are normalized; an existing matching operation is returned instead of duplicated."
-		)
-		.option("endpoint", {
-			type: "string",
-			description:
+const command = apiCommand({
+	command: "create",
+	describe: "Create a web or API operation",
+	usage:
+		"$0 web-assets operations create\n\nCreates one web or API operation. The host, method, and path are normalized; an existing matching operation is returned instead of duplicated.",
+	flags: {
+		endpoint: {
+			kind: "parsed",
+			brief:
 				"The endpoint which can contain path parameter templates in curly braces, each will be replaced from left to right with {varN}, starting with {var1}, during insertion. This will further be Cloudflare-normalized upon insertion. See: https://developers.cloudflare.com/rules/normalization/how-it-works/.",
-		})
-		.option("host", { type: "string", description: "RFC3986-compliant host." })
-		.option("method", {
-			type: "string",
-			description: "The HTTP method used to access the endpoint.",
+			optional: true,
+			parse: String,
+		},
+		host: {
+			kind: "parsed",
+			brief: "RFC3986-compliant host.",
+			optional: true,
+			parse: String,
+		},
+		method: {
+			kind: "parsed",
+			brief: "The HTTP method used to access the endpoint.",
+			optional: true,
 			choices: [
 				"GET",
 				"POST",
@@ -43,32 +51,29 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"PATCH",
 				"TRACE",
 			],
-		})
-		.coerce("method", (value) => resolveFileToken(value, "method", "text"))
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
+			parse: String,
+			coerce: (value: string) => resolveFileToken(value, "method", "text"),
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
 			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "create",
-	describe: "Create a web or API operation",
-	builder,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "web-assets operations create",
 				classification: {
 					safeFlags: ["method", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -172,6 +177,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Created` });
 			}
 		),
-};
+});
 
 export default command;

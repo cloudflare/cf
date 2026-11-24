@@ -1,11 +1,10 @@
 import operation from "../../../_operations/ai-gateway/gateways/providers/create.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * create command
  * @generated from apis/overlays/ai-gateway.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -20,64 +19,80 @@ import { withProgress } from "#lib/progress.js";
 import { promptForRequiredField } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 ai-gateway gateways providers create <gateway-id>\n\nStores an upstream AI provider API key for an AI Gateway in the Secrets Store configured on the gateway, with an optional rate limit. Pass `secret` to store a new key, or omit it to use an existing Secrets Store secret."
-		)
-		.positional("gateway-id", {
-			type: "string",
-			description: "Unique identifier of the AI Gateway within the account.",
-			demandOption: true,
-		})
-		.option("alias", { type: "string", description: "The alias field" })
-		.option("default-config", {
-			type: "boolean",
-			description: "The default_config field",
-		})
-		.option("provider-slug", {
-			type: "string",
-			description: "The provider_slug field",
-		})
-		.option("rate-limit", {
-			type: "number",
-			description: "The rate_limit field",
-		})
-		.option("rate-limit-period", {
-			type: "number",
-			description: "The rate_limit_period field",
-			default: 60,
-		})
-		.option("secret", {
-			type: "string",
-			description:
-				"Provider API key to store in the Secrets Store configured on the gateway.",
-		})
-		.option("secret-id", { type: "string", description: "The secret_id field" })
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "create <gateway-id>",
 	describe: "Store a provider key",
-	builder,
+	usage:
+		"$0 ai-gateway gateways providers create <gateway-id>\n\nStores an upstream AI provider API key for an AI Gateway in the Secrets Store configured on the gateway, with an optional rate limit. Pass `secret` to store a new key, or omit it to use an existing Secrets Store secret.",
+	flags: {
+		alias: {
+			kind: "parsed",
+			brief: "The alias field",
+			optional: true,
+			parse: String,
+		},
+		"default-config": {
+			kind: "boolean",
+			brief: "The default_config field",
+			optional: true,
+		},
+		"provider-slug": {
+			kind: "parsed",
+			brief: "The provider_slug field",
+			optional: true,
+			parse: String,
+		},
+		"rate-limit": {
+			kind: "parsed",
+			brief: "The rate_limit field",
+			optional: true,
+			parse: Number,
+		},
+		"rate-limit-period": {
+			kind: "parsed",
+			brief: "The rate_limit_period field",
+			default: "60",
+			parse: Number,
+		},
+		secret: {
+			kind: "parsed",
+			brief:
+				"Provider API key to store in the Secrets Store configured on the gateway.",
+			optional: true,
+			parse: String,
+		},
+		"secret-id": {
+			kind: "parsed",
+			brief: "The secret_id field",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [
+		{
+			placeholder: "gateway-id",
+			brief: "Unique identifier of the AI Gateway within the account.",
+			parse: String,
+		},
+	],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "ai-gateway gateways providers create",
 				classification: {
 					safeFlags: ["default-config", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -199,6 +214,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Created` });
 			}
 		),
-};
+});
 
 export default command;

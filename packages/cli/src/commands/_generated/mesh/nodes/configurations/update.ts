@@ -1,11 +1,10 @@
 import operation from "../../../_operations/mesh/nodes/configurations/update.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * update command
  * @generated from apis/overlays/mesh.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -20,69 +19,73 @@ import { withProgress } from "#lib/progress.js";
 import { promptForRequiredEnumField } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 mesh nodes configurations update <tunnel-id>\n\nAdds or updates the high-availability configuration for a Mesh node."
-		)
-		.positional("tunnel-id", {
-			type: "string",
-			description: "UUID of the tunnel.",
-			demandOption: true,
-		})
-		.option("mesh-config-fnr-id", {
-			type: "string",
-			description:
-				"Floating Network Resource ID — the secondary ENI that is moved between nodes on failover.",
-		})
-		.option("mesh-config-vips", {
-			type: "string",
-			description:
-				'VIPs to assign on the CloudflareWARP interface. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"address": string}].',
-		})
-		.option("mesh-config-vips-previous", {
-			type: "string",
-			description:
-				'VIPs to clean up on demotion or version drift. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"address": string}].',
-		})
-		.option("ha-mode", {
-			type: "string",
-			description:
-				"High-availability mode for the Mesh node. `none` means HA is enabled but no provider is configured yet (newly created nodes default to this). `disabled` means HA is explicitly turned off. `aws` uses AWS ENI move for failover. `local` uses virtual IPs (VIPs) on the local interface.",
-			choices: ["none", "disabled", "aws", "local"],
-		})
-		.coerce("ha-mode", (value) => resolveFileToken(value, "ha-mode", "text"))
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		})
-		.conflicts("mesh-config-fnr-id", [
-			"mesh-config-vips",
-			"mesh-config-vips-previous",
-		])
-		.conflicts("mesh-config-vips", ["mesh-config-fnr-id"])
-		.conflicts("mesh-config-vips-previous", ["mesh-config-fnr-id"])
-		.implies("mesh-config-vips-previous", ["mesh-config-vips"]);
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "update <tunnel-id>",
 	describe: "Update Mesh node HA configuration",
-	builder,
+	usage:
+		"$0 mesh nodes configurations update <tunnel-id>\n\nAdds or updates the high-availability configuration for a Mesh node.",
+	flags: {
+		"mesh-config-fnr-id": {
+			kind: "parsed",
+			brief:
+				"Floating Network Resource ID — the secondary ENI that is moved between nodes on failover.",
+			optional: true,
+			parse: String,
+		},
+		"mesh-config-vips": {
+			kind: "parsed",
+			brief:
+				'VIPs to assign on the CloudflareWARP interface. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"address": string}].',
+			optional: true,
+			parse: String,
+		},
+		"mesh-config-vips-previous": {
+			kind: "parsed",
+			brief:
+				'VIPs to clean up on demotion or version drift. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"address": string}].',
+			optional: true,
+			parse: String,
+		},
+		"ha-mode": {
+			kind: "parsed",
+			brief:
+				"High-availability mode for the Mesh node. `none` means HA is enabled but no provider is configured yet (newly created nodes default to this). `disabled` means HA is explicitly turned off. `aws` uses AWS ENI move for failover. `local` uses virtual IPs (VIPs) on the local interface.",
+			optional: true,
+			choices: ["none", "disabled", "aws", "local"],
+			parse: String,
+			coerce: (value: string) => resolveFileToken(value, "ha-mode", "text"),
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [
+		{ placeholder: "tunnel-id", brief: "UUID of the tunnel.", parse: String },
+	],
+	rules(rules) {
+		rules.conflicts("mesh-config-fnr-id", [
+			"mesh-config-vips",
+			"mesh-config-vips-previous",
+		]);
+		rules.conflicts("mesh-config-vips", ["mesh-config-fnr-id"]);
+		rules.conflicts("mesh-config-vips-previous", ["mesh-config-fnr-id"]);
+		rules.implies("mesh-config-vips-previous", ["mesh-config-vips"]);
+	},
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "mesh nodes configurations update",
 				classification: {
 					safeFlags: ["ha-mode", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -179,6 +182,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Updated` });
 			}
 		),
-};
+});
 
 export default command;

@@ -1,11 +1,10 @@
 import operation from "../../../../_operations/zero-trust/dlp/profiles/predefined/update.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * update command
  * @generated from apis/overlays/zero-trust.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -19,57 +18,68 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 zero-trust dlp profiles predefined update <profile-id>\n\nUpdates a DLP predefined profile. Only supports enabling/disabling entries."
-		)
-		.positional("profile-id", {
-			type: "string",
-			description: "Profile ID",
-			demandOption: true,
-		})
-		.option("ai-context-enabled", {
-			type: "boolean",
-			description: "The ai_context_enabled field",
-		})
-		.option("allowed-match-count", {
-			type: "number",
-			description: "The allowed_match_count field",
-		})
-		.option("confidence-threshold", {
-			type: "string",
-			description: "The confidence_threshold field",
-		})
-		.option("context-awareness-enabled", {
-			type: "boolean",
-			description:
+const command = apiCommand({
+	command: "update <profile-id>",
+	describe: "Update predefined profile",
+	usage:
+		"$0 zero-trust dlp profiles predefined update <profile-id>\n\nUpdates a DLP predefined profile. Only supports enabling/disabling entries.",
+	flags: {
+		"ai-context-enabled": {
+			kind: "boolean",
+			brief: "The ai_context_enabled field",
+			optional: true,
+		},
+		"allowed-match-count": {
+			kind: "parsed",
+			brief: "The allowed_match_count field",
+			optional: true,
+			parse: Number,
+		},
+		"confidence-threshold": {
+			kind: "parsed",
+			brief: "The confidence_threshold field",
+			optional: true,
+			parse: String,
+		},
+		"context-awareness-enabled": {
+			kind: "boolean",
+			brief:
 				"If true, scan the context of predefined entries to only return matches surrounded by keywords.",
-		})
-		.option("context-awareness-skip-files", {
-			type: "boolean",
-			description:
+			optional: true,
+		},
+		"context-awareness-skip-files": {
+			kind: "boolean",
+			brief:
 				"If the content type is a file, skip context analysis and return all matches.",
-		})
-		.option("entries", {
-			type: "string",
-			description:
+			optional: true,
+		},
+		entries: {
+			kind: "parsed",
+			brief:
 				'The entries field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"enabled": boolean, "id": string}].',
-		})
-		.option("ocr-enabled", {
-			type: "boolean",
-			description: "The ocr_enabled field",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
+			optional: true,
+			parse: String,
+		},
+		"ocr-enabled": {
+			kind: "boolean",
+			brief: "The ocr_enabled field",
+			optional: true,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
 			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "The updated parameters for the predefined profile.",
-		})
-		.check((argv) => {
+		},
+		body: {
+			kind: "parsed",
+			brief: "The updated parameters for the predefined profile.",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [{ placeholder: "profile-id", brief: "Profile ID", parse: String }],
+	rules(rules) {
+		rules.check((argv) => {
 			const groupSet = [
 				"context-awareness-enabled",
 				"context-awareness-skip-files",
@@ -87,14 +97,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			}
 			return true;
 		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "update <profile-id>",
-	describe: "Update predefined profile",
-	builder,
+	},
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
@@ -107,7 +110,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"ocr-enabled",
 						"dry-run",
 					],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -189,6 +192,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Updated` });
 			}
 		),
-};
+});
 
 export default command;

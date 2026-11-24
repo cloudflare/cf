@@ -2,27 +2,22 @@ import $bulkdelete from "./bulk-delete.js";
 import $create from "./create.js";
 import $list from "./list.js";
 import $prefix from "./prefix/index.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * allowlist command group
  * @generated from apis/overlays/magic-transit.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "allowlist",
 	describe: "Operations for advanced-tcp-protection.configs.allowlist",
 
-	builder: (yargs) => {
-		return yargs
-			.command($bulkdelete)
-			.command($create)
-			.command($list)
-			.command($prefix)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		"bulk-delete": $bulkdelete,
+		create: $create,
+		list: $list,
+		prefix: $prefix,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

@@ -1,86 +1,92 @@
 import operation from "../../../_operations/user/firewall/access-rules/list.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * list command
  * @generated from apis/overlays/user.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import { createCommandClient } from "#lib/auth.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 user firewall access-rules list\n\nFetches IP Access rules of the user. You can filter the results using several optional parameters."
-		)
-		.option("access-rule-mode", {
-			type: "string",
-			description: "The action to apply to a matched request.",
-			choices: [
+const command = apiCommand({
+	command: "list",
+	describe: "List IP Access rules",
+	usage:
+		"$0 user firewall access-rules list\n\nFetches IP Access rules of the user. You can filter the results using several optional parameters.",
+	flags: {
+		"access-rule-mode": {
+			kind: "enum",
+			brief: "The action to apply to a matched request.",
+			values: [
 				"block",
 				"challenge",
 				"whitelist",
 				"js_challenge",
 				"managed_challenge",
 			],
-		})
-		.option("configuration-target", {
-			type: "string",
-			description: "Defines the target to search in existing rules.",
-			choices: ["ip", "ip_range", "asn", "country"],
-		})
-		.option("configuration-value", {
-			type: "string",
-			description:
+			optional: true,
+		},
+		"configuration-target": {
+			kind: "enum",
+			brief: "Defines the target to search in existing rules.",
+			values: ["ip", "ip_range", "asn", "country"],
+			optional: true,
+		},
+		"configuration-value": {
+			kind: "parsed",
+			brief:
 				"Defines the target value to search for in existing rules: an IP address, an IP address range, or a country code, depending on the provided `configuration.target`.\nNotes: You can search for a single IPv4 address, an IP address range with a subnet of '/16' or '/24', or a two-letter ISO-3166-1 alpha-2 country code.",
-		})
-		.option("notes", {
-			type: "string",
-			description:
+			optional: true,
+			parse: String,
+		},
+		notes: {
+			kind: "parsed",
+			brief:
 				"Defines the string to search for in the notes of existing IP Access rules.\nNotes: For example, the string 'attack' would match IP Access rules with notes 'Attack 26/02' and 'Attack 27/02'. The search is case insensitive.",
-		})
-		.option("match", {
-			type: "string",
-			description:
+			optional: true,
+			parse: String,
+		},
+		match: {
+			kind: "enum",
+			brief:
 				"Defines the search requirements. When set to `all`, all the search requirements must match. When set to `any`, only one of the search requirements has to match.",
-			choices: ["any", "all"],
-		})
-		.option("page", {
-			type: "number",
-			description:
-				"Defines the requested page within paginated list of results.",
-		})
-		.option("per-page", {
-			type: "number",
-			description: "Defines the maximum number of results requested.",
-		})
-		.option("order", {
-			type: "string",
-			description: "Defines the field used to sort returned rules.",
-			choices: ["configuration.target", "configuration.value", "mode"],
-		})
-		.option("direction", {
-			type: "string",
-			description: "Defines the direction used to sort returned rules.",
-			choices: ["asc", "desc"],
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
+			values: ["any", "all"],
+			optional: true,
+		},
+		page: {
+			kind: "parsed",
+			brief: "Defines the requested page within paginated list of results.",
+			optional: true,
+			parse: Number,
+		},
+		"per-page": {
+			kind: "parsed",
+			brief: "Defines the maximum number of results requested.",
+			optional: true,
+			parse: Number,
+		},
+		order: {
+			kind: "enum",
+			brief: "Defines the field used to sort returned rules.",
+			values: ["configuration.target", "configuration.value", "mode"],
+			optional: true,
+		},
+		direction: {
+			kind: "enum",
+			brief: "Defines the direction used to sort returned rules.",
+			values: ["asc", "desc"],
+			optional: true,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
 			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "list",
-	describe: "List IP Access rules",
-	builder,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
@@ -94,7 +100,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"direction",
 						"dry-run",
 					],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -128,6 +134,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Loaded` });
 			}
 		),
-};
+});
 
 export default command;

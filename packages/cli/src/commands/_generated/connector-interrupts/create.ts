@@ -1,11 +1,10 @@
 import operation from "../_operations/connector-interrupts/create.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * create command
  * @generated from apis/overlays/connector-interrupts.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -18,45 +17,42 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 connector-interrupts create <connector-id>\n\nCreates an interrupt for a Magic WAN Connector."
-		)
-		.positional("connector-id", {
-			type: "string",
-			description: "Connector ID",
-			demandOption: true,
-		})
-		.option("reboot-purge", {
-			type: "boolean",
-			description: "Purge connector state.",
-		})
-		.option("restart-purge", {
-			type: "boolean",
-			description: "Purge connector state.",
-		})
-		.option("shutdown-purge", {
-			type: "boolean",
-			description: "Purge connector state.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Interrupt action for a connector.",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "create <connector-id>",
 	describe: "Create Interrupt",
-	builder,
+	usage:
+		"$0 connector-interrupts create <connector-id>\n\nCreates an interrupt for a Magic WAN Connector.",
+	flags: {
+		"reboot-purge": {
+			kind: "boolean",
+			brief: "Purge connector state.",
+			optional: true,
+		},
+		"restart-purge": {
+			kind: "boolean",
+			brief: "Purge connector state.",
+			optional: true,
+		},
+		"shutdown-purge": {
+			kind: "boolean",
+			brief: "Purge connector state.",
+			optional: true,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Interrupt action for a connector.",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [
+		{ placeholder: "connector-id", brief: "Connector ID", parse: String },
+	],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
@@ -68,7 +64,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"shutdown-purge",
 						"dry-run",
 					],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -138,6 +134,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Created` });
 			}
 		),
-};
+});
 
 export default command;

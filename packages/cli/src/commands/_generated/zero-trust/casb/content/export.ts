@@ -1,11 +1,10 @@
 import operation from "../../../_operations/zero-trust/casb/content/export.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * export command
  * @generated from apis/overlays/zero-trust.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -19,72 +18,85 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 zero-trust casb content export\n\nCreates a CSV export for content and accepts optional filters in the payload."
-		)
-		.option("dlp-profile-id", {
-			type: "string",
-			array: true,
-			description: "Filter by DLP profile IDs.",
-		})
-		.option("dlp-profile-information", {
-			type: "string",
-			description:
-				'DLP profile metadata for the export. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"entries": [{...}], "id": string, "name": string}].',
-		})
-		.option("integration-id", {
-			type: "string",
-			array: true,
-			description: "Filter by integration IDs.",
-		})
-		.option("max-affliction-date", {
-			type: "string",
-			description: "Filter to view content flagged on or before this date.",
-		})
-		.option("min-affliction-date", {
-			type: "string",
-			description: "Filter to view content flagged on or after this date.",
-		})
-		.option("orders", {
-			type: "string",
-			description:
-				'Ordering specifications for the export. Provide as a JSON array of objects or @path/to/file.json. Shape: [({"direction": "asc" | "desc", "name": string} & {"name": "asset_name" | "dlp_profile_count" | "integration_name" | ...more})].',
-		})
-		.option("search", {
-			type: "string",
-			description: "Search term to filter content.",
-		})
-		.option("vendors", {
-			type: "string",
-			array: true,
-			description: "Filter by vendor types.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Request body for creating content exports.",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "export",
 	describe: "Create a content export",
-	builder,
+	usage:
+		"$0 zero-trust casb content export\n\nCreates a CSV export for content and accepts optional filters in the payload.",
+	flags: {
+		"dlp-profile-id": {
+			kind: "parsed",
+			brief: "Filter by DLP profile IDs.",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"dlp-profile-information": {
+			kind: "parsed",
+			brief:
+				'DLP profile metadata for the export. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"entries": [{...}], "id": string, "name": string}].',
+			optional: true,
+			parse: String,
+		},
+		"integration-id": {
+			kind: "parsed",
+			brief: "Filter by integration IDs.",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"max-affliction-date": {
+			kind: "parsed",
+			brief: "Filter to view content flagged on or before this date.",
+			optional: true,
+			parse: String,
+		},
+		"min-affliction-date": {
+			kind: "parsed",
+			brief: "Filter to view content flagged on or after this date.",
+			optional: true,
+			parse: String,
+		},
+		orders: {
+			kind: "parsed",
+			brief:
+				'Ordering specifications for the export. Provide as a JSON array of objects or @path/to/file.json. Shape: [({"direction": "asc" | "desc", "name": string} & {"name": "asset_name" | "dlp_profile_count" | "integration_name" | ...more})].',
+			optional: true,
+			parse: String,
+		},
+		search: {
+			kind: "parsed",
+			brief: "Search term to filter content.",
+			optional: true,
+			parse: String,
+		},
+		vendors: {
+			kind: "parsed",
+			brief: "Filter by vendor types.",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Request body for creating content exports.",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "zero-trust casb content export",
-				classification: {
-					safeFlags: ["dry-run"],
-				} satisfies ArgClassification<Args>,
+				classification: { safeFlags: ["dry-run"] } satisfies ArgClassification<
+					typeof argv
+				>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -185,6 +197,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Loaded` });
 			}
 		),
-};
+});
 
 export default command;

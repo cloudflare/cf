@@ -1,64 +1,75 @@
 import operation from "../../_operations/radar/traffic-anomalies/list.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * list command
  * @generated from apis/overlays/radar.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import { createCommandClient } from "#lib/auth.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 radar traffic-anomalies list\n\nRetrieves the latest Internet traffic anomalies, which are signals that might indicate an outage. These alerts are automatically detected by Radar and manually verified by our team."
-		)
-		.option("limit", {
-			type: "number",
-			description: "Limits the number of objects returned in the response.",
-		})
-		.option("offset", {
-			type: "number",
-			description:
+const command = apiCommand({
+	command: "list",
+	describe: "Get latest Internet traffic anomalies",
+	usage:
+		"$0 radar traffic-anomalies list\n\nRetrieves the latest Internet traffic anomalies, which are signals that might indicate an outage. These alerts are automatically detected by Radar and manually verified by our team.",
+	flags: {
+		limit: {
+			kind: "parsed",
+			brief: "Limits the number of objects returned in the response.",
+			optional: true,
+			parse: Number,
+		},
+		offset: {
+			kind: "parsed",
+			brief:
 				"Skips the specified number of objects before fetching the results.",
-		})
-		.option("date-range", {
-			type: "string",
-			description:
+			optional: true,
+			parse: Number,
+		},
+		"date-range": {
+			kind: "parsed",
+			brief:
 				"Filters results by a relative date range ending at the current time. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`), e.g. `7d`. Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `3dcontrol` covers days -10 to -7, `7dcontrol` covers days -14 to -7, `28dcontrol` covers days -56 to -28, and `10dcontrol` covers days -24 to -14). Mutually exclusive with `dateStart`/`dateEnd`.",
-		})
-		.option("date-start", {
-			type: "string",
-			description:
+			optional: true,
+			parse: String,
+		},
+		"date-start": {
+			kind: "parsed",
+			brief:
 				"Start of the date range (inclusive). Alternative to `dateRange`; provide together with `dateEnd`.",
-		})
-		.option("date-end", {
-			type: "string",
-			description:
+			optional: true,
+			parse: String,
+		},
+		"date-end": {
+			kind: "parsed",
+			brief:
 				"End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`.",
-		})
-		.option("status", {
-			type: "string",
-			description: "Status",
-			choices: ["VERIFIED", "UNVERIFIED"],
-		})
-		.option("type", {
-			type: "string",
-			array: true,
-			description: "Filters results by entity type (LOCATION, AS, or ORIGIN).",
+			optional: true,
+			parse: String,
+		},
+		status: {
+			kind: "enum",
+			brief: "Status",
+			values: ["VERIFIED", "UNVERIFIED"],
+			optional: true,
+		},
+		type: {
+			kind: "parsed",
+			brief: "Filters results by entity type (LOCATION, AS, or ORIGIN).",
+			variadic: true,
+			optional: true,
 			choices: ["LOCATION", "AS", "ORIGIN"],
-		})
-		.coerce("type", (values: string[]) =>
-			values.flatMap((value) => value.split(","))
-		)
-		.option("data-source", {
-			type: "string",
-			description: "Filters results by data source.",
-			choices: [
+			parse: String,
+			coerce: (values: string[]) => values.flatMap((value) => value.split(",")),
+		},
+		"data-source": {
+			kind: "enum",
+			brief: "Filters results by data source.",
+			values: [
 				"ALL",
 				"AI_BOTS",
 				"AI_GATEWAY",
@@ -85,46 +96,47 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"SPEED",
 				"WORKERS_AI",
 			],
-		})
-		.option("asn", {
-			type: "number",
-			description:
+			optional: true,
+		},
+		asn: {
+			kind: "parsed",
+			brief:
 				"Filters results by Autonomous System. Specify a single Autonomous System Number (ASN) as integer.",
-		})
-		.option("location", {
-			type: "string",
-			description:
-				"Filters results by location. Specify an alpha-2 location code.",
-		})
-		.option("origin", {
-			type: "string",
-			description: "Filters results by origin.",
-		})
-		.option("format", {
-			type: "string",
-			description: "Format in which results will be returned.",
-			choices: ["JSON", "CSV"],
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
+			optional: true,
+			parse: Number,
+		},
+		location: {
+			kind: "parsed",
+			brief: "Filters results by location. Specify an alpha-2 location code.",
+			optional: true,
+			parse: String,
+		},
+		origin: {
+			kind: "parsed",
+			brief: "Filters results by origin.",
+			optional: true,
+			parse: String,
+		},
+		format: {
+			kind: "enum",
+			brief: "Format in which results will be returned.",
+			values: ["JSON", "CSV"],
+			optional: true,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
 			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "list",
-	describe: "Get latest Internet traffic anomalies",
-	builder,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "radar traffic-anomalies list",
 				classification: {
 					safeFlags: ["status", "data-source", "format", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -161,6 +173,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Loaded` });
 			}
 		),
-};
+});
 
 export default command;

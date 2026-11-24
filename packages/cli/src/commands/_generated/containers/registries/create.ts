@@ -1,11 +1,10 @@
 import operation from "../../_operations/containers/registries/create.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * create command
  * @generated from apis/overlays/containers.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -23,66 +22,74 @@ import {
 } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 containers registries create\n\nRegisters credentials for a supported private external image registry so Containers can pull images from it. This endpoint does not create a registry or upload an image. Public Docker Hub images and images in the Cloudflare managed registry do not require this configuration. Refer to [Image management](https://developers.cloudflare.com/containers/platform-details/image-management/) for supported registries and instructions for storing registry credentials."
-		)
-		.option("auth-private-credential-secret-name", {
-			type: "string",
-			description: "Name of the secret within the store.",
-		})
-		.option("auth-private-credential-store-id", {
-			type: "string",
-			description: "Identifier of the Secrets Store containing the secret.",
-		})
-		.option("auth-public-credential", {
-			type: "string",
-			description:
-				"The non-secret part of the registry credential: an AWS access key ID for ECR,\na username for Docker Hub, or a service account email for Google Artifact Registry.\n",
-		})
-		.option("domain", {
-			type: "string",
-			description:
-				"Hostname of the private registry, without a scheme or image path. Supported\nhostnames are `docker.io`, AWS ECR hostnames, and Google Artifact Registry\n`*-docker.pkg.dev` hostnames.\n",
-		})
-		.option("is-public", {
-			type: "boolean",
-			description:
-				"Omit this field or set it to `false`. Public Docker Hub images do not require\nregistry configuration and cannot be added with this endpoint.\n",
-		})
-		.option("kind", {
-			type: "string",
-			description:
-				"Registry provider. This must match `domain`: `DockerHub` for `docker.io`,\n`ECR` for AWS ECR, or `GAR` for Google Artifact Registry.\n",
-			choices: ["ECR", "DockerHub", "GAR"],
-		})
-		.coerce("kind", (value) => resolveFileToken(value, "kind", "text"))
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description:
-				"Configuration for connecting Containers to a supported private external image registry. See [Image management](https://developers.cloudflare.com/containers/platform-details/image-management/) for supported providers and credential setup instructions. ",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "create",
 	describe: "Configure a private external image registry",
-	builder,
+	usage:
+		"$0 containers registries create\n\nRegisters credentials for a supported private external image registry so Containers can pull images from it. This endpoint does not create a registry or upload an image. Public Docker Hub images and images in the Cloudflare managed registry do not require this configuration. Refer to [Image management](https://developers.cloudflare.com/containers/platform-details/image-management/) for supported registries and instructions for storing registry credentials.",
+	flags: {
+		"auth-private-credential-secret-name": {
+			kind: "parsed",
+			brief: "Name of the secret within the store.",
+			optional: true,
+			parse: String,
+		},
+		"auth-private-credential-store-id": {
+			kind: "parsed",
+			brief: "Identifier of the Secrets Store containing the secret.",
+			optional: true,
+			parse: String,
+		},
+		"auth-public-credential": {
+			kind: "parsed",
+			brief:
+				"The non-secret part of the registry credential: an AWS access key ID for ECR,\na username for Docker Hub, or a service account email for Google Artifact Registry.\n",
+			optional: true,
+			parse: String,
+		},
+		domain: {
+			kind: "parsed",
+			brief:
+				"Hostname of the private registry, without a scheme or image path. Supported\nhostnames are `docker.io`, AWS ECR hostnames, and Google Artifact Registry\n`*-docker.pkg.dev` hostnames.\n",
+			optional: true,
+			parse: String,
+		},
+		"is-public": {
+			kind: "boolean",
+			brief:
+				"Omit this field or set it to `false`. Public Docker Hub images do not require\nregistry configuration and cannot be added with this endpoint.\n",
+			optional: true,
+		},
+		kind: {
+			kind: "parsed",
+			brief:
+				"Registry provider. This must match `domain`: `DockerHub` for `docker.io`,\n`ECR` for AWS ECR, or `GAR` for Google Artifact Registry.\n",
+			optional: true,
+			choices: ["ECR", "DockerHub", "GAR"],
+			parse: String,
+			coerce: (value: string) => resolveFileToken(value, "kind", "text"),
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief:
+				"Configuration for connecting Containers to a supported private external image registry. See [Image management](https://developers.cloudflare.com/containers/platform-details/image-management/) for supported providers and credential setup instructions. ",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "containers registries create",
 				classification: {
 					safeFlags: ["is-public", "kind", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -223,6 +230,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Created` });
 			}
 		),
-};
+});
 
 export default command;

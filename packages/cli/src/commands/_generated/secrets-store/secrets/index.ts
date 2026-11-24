@@ -5,31 +5,26 @@ import $duplicate from "./duplicate.js";
 import $edit from "./edit.js";
 import $get from "./get.js";
 import $list from "./list.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * secrets command group
  * @generated from apis/overlays/secrets-store.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "secrets",
 	describe:
 		"Encrypted key-value secrets within a store. Pass --store-id to scope.",
 
-	builder: (yargs) => {
-		return yargs
-			.command($bulkdelete)
-			.command($create)
-			.command($delete)
-			.command($duplicate)
-			.command($edit)
-			.command($get)
-			.command($list)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		"bulk-delete": $bulkdelete,
+		create: $create,
+		delete: $delete,
+		duplicate: $duplicate,
+		edit: $edit,
+		get: $get,
+		list: $list,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

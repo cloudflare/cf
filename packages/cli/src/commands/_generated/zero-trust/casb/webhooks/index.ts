@@ -6,31 +6,26 @@ import $get from "./get.js";
 import $jobs from "./jobs/index.js";
 import $list from "./list.js";
 import $update from "./update.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * webhooks command group
  * @generated from apis/overlays/zero-trust.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "webhooks",
 	describe: "Operations for casb.webhooks",
 
-	builder: (yargs) => {
-		return yargs
-			.command($create)
-			.command($delete)
-			.command($evaluate)
-			.command($evaluateexisting)
-			.command($get)
-			.command($list)
-			.command($update)
-			.command($jobs)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		create: $create,
+		delete: $delete,
+		evaluate: $evaluate,
+		"evaluate-existing": $evaluateexisting,
+		get: $get,
+		list: $list,
+		update: $update,
+		jobs: $jobs,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

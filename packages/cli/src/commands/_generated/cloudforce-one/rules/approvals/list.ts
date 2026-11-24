@@ -1,11 +1,10 @@
 import operation from "../../../_operations/cloudforce-one/rules/approvals/list.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * list command
  * @generated from apis/overlays/cloudforce-one.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -17,52 +16,52 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 cloudforce-one rules approvals list\n\nReturns rule approvals with optional status, revision, reviewer-scope, and mutation-type filtering."
-		)
-		.option("status", {
-			type: "string",
-			description:
-				"Selects approval statuses. Repeat the parameter to OR-match statuses (for example, status=pending&status=rejected). Use status=all alone to disable status filtering.",
-			choices: ["pending", "approved", "rejected", "cancelled", "all"],
-		})
-		.option("latest-only", {
-			type: "string",
-			description:
-				"When true, returns the newest revision in each approval chain.",
-			choices: ["true", "false"],
-		})
-		.option("limit", { type: "number", description: "Limit" })
-		.option("offset", { type: "number", description: "Offset" })
-		.option("reviewer-scope", {
-			type: "string",
-			description: "Limits approvals to the specified reviewer scope.",
-			choices: ["default", "email", "unresolved"],
-		})
-		.option("change-type", {
-			type: "string",
-			description: "Limits approvals to the specified mutation type.",
-			choices: ["create", "update", "delete"],
-		})
-		.option("rule-id", {
-			type: "string",
-			description: "Filter approvals by rule ID.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "list",
 	describe: "List rule approvals",
-	builder,
+	usage:
+		"$0 cloudforce-one rules approvals list\n\nReturns rule approvals with optional status, revision, reviewer-scope, and mutation-type filtering.",
+	flags: {
+		status: {
+			kind: "enum",
+			brief:
+				"Selects approval statuses. Repeat the parameter to OR-match statuses (for example, status=pending&status=rejected). Use status=all alone to disable status filtering.",
+			values: ["pending", "approved", "rejected", "cancelled", "all"],
+			optional: true,
+		},
+		"latest-only": {
+			kind: "enum",
+			brief: "When true, returns the newest revision in each approval chain.",
+			values: ["true", "false"],
+			optional: true,
+		},
+		limit: { kind: "parsed", brief: "Limit", optional: true, parse: Number },
+		offset: { kind: "parsed", brief: "Offset", optional: true, parse: Number },
+		"reviewer-scope": {
+			kind: "enum",
+			brief: "Limits approvals to the specified reviewer scope.",
+			values: ["default", "email", "unresolved"],
+			optional: true,
+		},
+		"change-type": {
+			kind: "enum",
+			brief: "Limits approvals to the specified mutation type.",
+			values: ["create", "update", "delete"],
+			optional: true,
+		},
+		"rule-id": {
+			kind: "parsed",
+			brief: "Filter approvals by rule ID.",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
@@ -75,7 +74,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"change-type",
 						"dry-run",
 					],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -110,6 +109,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Loaded` });
 			}
 		),
-};
+});
 
 export default command;

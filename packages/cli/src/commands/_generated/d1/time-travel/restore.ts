@@ -1,11 +1,10 @@
 import operation from "../../_operations/d1/time-travel/restore.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * restore command
  * @generated from apis/overlays/d1.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -18,45 +17,45 @@ import { withProgress } from "#lib/progress.js";
 import { confirmDelete } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 d1 time-travel restore <database-id>\n\nRestore a D1 database to a previous point in time either via a bookmark or a timestamp."
-		)
-		.positional("database-id", {
-			type: "string",
-			description: "D1 database identifier (UUID).",
-			demandOption: true,
-		})
-		.option("bookmark", {
-			type: "string",
-			description:
-				"A bookmark to restore the database to. Required if `timestamp` is not provided.",
-		})
-		.option("timestamp", {
-			type: "string",
-			description:
-				"An ISO 8601 timestamp to restore the database to. Required if `bookmark` is not provided.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("force", {
-			type: "boolean",
-			alias: "f",
-			description: "Skip confirmation (useful in scripts and CI)",
-			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "restore <database-id>",
 	describe: "Restore D1 Database to a bookmark or point in time",
-	builder,
+	usage:
+		"$0 d1 time-travel restore <database-id>\n\nRestore a D1 database to a previous point in time either via a bookmark or a timestamp.",
+	flags: {
+		bookmark: {
+			kind: "parsed",
+			brief:
+				"A bookmark to restore the database to. Required if `timestamp` is not provided.",
+			optional: true,
+			parse: String,
+		},
+		timestamp: {
+			kind: "parsed",
+			brief:
+				"An ISO 8601 timestamp to restore the database to. Required if `bookmark` is not provided.",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		force: {
+			kind: "boolean",
+			brief: "Skip confirmation (useful in scripts and CI)",
+			alias: "f",
+			default: false,
+		},
+	},
+	operands: [
+		{
+			placeholder: "database-id",
+			brief: "D1 database identifier (UUID).",
+			parse: String,
+		},
+	],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
@@ -64,7 +63,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				classification: {
 					safeFlags: ["dry-run", "force"],
 					shortFlagAliases: { f: { canonical: "force", type: "boolean" } },
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -107,6 +106,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Done` });
 			}
 		),
-};
+});
 
 export default command;

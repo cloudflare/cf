@@ -1,11 +1,10 @@
 import operation from "../../../_operations/zero-trust/access/applications/list.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * list command
  * @generated from apis/overlays/zero-trust.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -18,52 +17,74 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 zero-trust access applications list\n\nLists all Access applications in an account or zone.\n\nRuns against your account. Pass --zone to run against a zone instead. CLOUDFLARE_ZONE_ID is ignored."
-		)
-		.option("name", { type: "string", description: "The name of the app." })
-		.option("domain", { type: "string", description: "The domain of the app." })
-		.option("aud", { type: "string", description: "The aud of the app." })
-		.option("target-attributes", {
-			type: "string",
-			description: "Target Criteria attributes in key=value format.",
-		})
-		.option("exact", {
-			type: "boolean",
-			description:
-				"True for only exact string matches against passed name/domain query parameters.",
-		})
-		.option("search", {
-			type: "string",
-			description: "Search for apps by other listed query parameters.",
-		})
-		.option("page", { type: "number", description: "Page number of results." })
-		.option("per-page", {
-			type: "number",
-			description: "Number of results per page.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "list",
 	describe: "List Access applications",
-	builder,
+	usage:
+		"$0 zero-trust access applications list\n\nLists all Access applications in an account or zone.\n\nRuns against your account. Pass --zone to run against a zone instead. CLOUDFLARE_ZONE_ID is ignored.",
+	flags: {
+		name: {
+			kind: "parsed",
+			brief: "The name of the app.",
+			optional: true,
+			parse: String,
+		},
+		domain: {
+			kind: "parsed",
+			brief: "The domain of the app.",
+			optional: true,
+			parse: String,
+		},
+		aud: {
+			kind: "parsed",
+			brief: "The aud of the app.",
+			optional: true,
+			parse: String,
+		},
+		"target-attributes": {
+			kind: "parsed",
+			brief: "Target Criteria attributes in key=value format.",
+			optional: true,
+			parse: String,
+		},
+		exact: {
+			kind: "boolean",
+			brief:
+				"True for only exact string matches against passed name/domain query parameters.",
+			optional: true,
+		},
+		search: {
+			kind: "parsed",
+			brief: "Search for apps by other listed query parameters.",
+			optional: true,
+			parse: String,
+		},
+		page: {
+			kind: "parsed",
+			brief: "Page number of results.",
+			optional: true,
+			parse: Number,
+		},
+		"per-page": {
+			kind: "parsed",
+			brief: "Number of results per page.",
+			optional: true,
+			parse: Number,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "zero-trust access applications list",
 				classification: {
 					safeFlags: ["exact", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -124,6 +145,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Loaded` });
 			}
 		),
-};
+});
 
 export default command;

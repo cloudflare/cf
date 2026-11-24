@@ -1,11 +1,10 @@
 import operation from "../../../_operations/builds/repos/config-autofill/get.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * get command
  * @generated from apis/overlays/builds.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -17,57 +16,50 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 builds repos config-autofill get <repo-id>\n\nAnalyze repository for automatic configuration detection"
-		)
-		.positional("repo-id", {
-			type: "string",
-			description: "Provider-specific repository identifier.",
-			demandOption: true,
-		})
-		.option("provider-type", {
-			type: "string",
-			description: "SCM provider type",
-			demandOption: true,
-		})
-		.option("provider-account-id", {
-			type: "string",
-			description:
-				"Provider-specific identifier of the account or namespace that owns the repository.",
-			demandOption: true,
-		})
-		.option("branch", {
-			type: "string",
-			description: "Git branch name.",
-			demandOption: true,
-		})
-		.option("root-directory", {
-			type: "string",
-			description:
-				"Repository directory in which build and deploy commands run.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "get <repo-id>",
 	describe: "Get repository configuration autofill",
-	builder,
+	usage:
+		"$0 builds repos config-autofill get <repo-id>\n\nAnalyze repository for automatic configuration detection",
+	flags: {
+		"provider-type": {
+			kind: "parsed",
+			brief: "SCM provider type",
+			parse: String,
+		},
+		"provider-account-id": {
+			kind: "parsed",
+			brief:
+				"Provider-specific identifier of the account or namespace that owns the repository.",
+			parse: String,
+		},
+		branch: { kind: "parsed", brief: "Git branch name.", parse: String },
+		"root-directory": {
+			kind: "parsed",
+			brief: "Repository directory in which build and deploy commands run.",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+	},
+	operands: [
+		{
+			placeholder: "repo-id",
+			brief: "Provider-specific repository identifier.",
+			parse: String,
+		},
+	],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "builds repos config-autofill get",
-				classification: {
-					safeFlags: ["dry-run"],
-				} satisfies ArgClassification<Args>,
+				classification: { safeFlags: ["dry-run"] } satisfies ArgClassification<
+					typeof argv
+				>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -107,6 +99,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Loaded` });
 			}
 		),
-};
+});
 
 export default command;

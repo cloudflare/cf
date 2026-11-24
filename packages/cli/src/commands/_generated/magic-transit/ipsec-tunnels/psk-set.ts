@@ -1,11 +1,10 @@
 import operation from "../../_operations/magic-transit/ipsec-tunnels/psk-set.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * psk-set command
  * @generated from apis/overlays/magic-transit.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -18,44 +17,44 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 magic-transit ipsec-tunnels psk-set\n\nSets Pre-Shared Keys for multiple IPsec tunnels associated with an account. Use `?validate_only=true` as an optional query parameter to only run validation without persisting changes. After PSKs are applied, they are immediately persisted to Cloudflare's edge and cannot be retrieved later. Store the PSKs in a safe place."
-		)
-		.option("validate-only", {
-			type: "boolean",
-			description: "If `true`, only run validation without persisting changes.",
-		})
-		.option("psks", {
-			type: "string",
-			description:
-				'List of tunnel ID and PSK pairs. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"psk": string}].',
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Request body for setting PSKs for multiple IPsec tunnels.",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "psk-set",
 	describe: "Set Pre-Shared Keys (PSK) for IPsec tunnels",
-	builder,
+	usage:
+		"$0 magic-transit ipsec-tunnels psk-set\n\nSets Pre-Shared Keys for multiple IPsec tunnels associated with an account. Use `?validate_only=true` as an optional query parameter to only run validation without persisting changes. After PSKs are applied, they are immediately persisted to Cloudflare's edge and cannot be retrieved later. Store the PSKs in a safe place.",
+	flags: {
+		"validate-only": {
+			kind: "boolean",
+			brief: "If `true`, only run validation without persisting changes.",
+			optional: true,
+		},
+		psks: {
+			kind: "parsed",
+			brief:
+				'List of tunnel ID and PSK pairs. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"psk": string}].',
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Request body for setting PSKs for multiple IPsec tunnels.",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "magic-transit ipsec-tunnels psk-set",
 				classification: {
 					safeFlags: ["validate-only", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -134,6 +133,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Created` });
 			}
 		),
-};
+});
 
 export default command;

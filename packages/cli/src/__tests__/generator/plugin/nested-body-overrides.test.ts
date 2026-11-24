@@ -16,6 +16,7 @@ import { commandParser } from "../../helpers/command-parser.js";
 import type { Method } from "../../../../generator/plugin/commands.js";
 import type { CommandMeta } from "../../../lib/command-meta.js";
 import type { CommandModule } from "yargs";
+import { apiCommand } from "#lib/api-command.js";
 
 describe("exact body-field overrides", () => {
 	const op = operation("post", "/things", {
@@ -217,6 +218,7 @@ describe("emitted nested overrides and metadata", () => {
 				.replace("export default command;", "command;");
 			const formatDryRun = vi.fn();
 			const command = new Script(source).runInNewContext({
+				apiCommand,
 				compactBody,
 				parseBody,
 				resolveFileToken,

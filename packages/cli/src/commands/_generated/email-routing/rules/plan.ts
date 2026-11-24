@@ -1,11 +1,10 @@
 import operation from "../../_operations/email-routing/rules/plan.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * plan command
  * @generated from apis/overlays/email-routing.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -20,50 +19,53 @@ import { withProgress } from "#lib/progress.js";
 import { promptForRequiredField } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 email-routing rules plan\n\nComputes the Email Routing rule changes that would be needed to reconcile a Wrangler-managed desired ruleset. This endpoint is read-only and does not create, update, or delete rules."
-		)
-		.option("catch-all-rules", {
-			type: "string",
-			description:
-				'Desired catch-all Email Routing rules managed by the deploying Worker. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"rule": {...}, "target": string}].',
-		})
-		.option("owner-worker-tag", {
-			type: "string",
-			description:
-				"Public tag (script_tag) of the Worker that owns this rule. Required when\n`source` is `wrangler`.\n",
-		})
-		.option("rules", {
-			type: "string",
-			description:
-				'Desired normal Email Routing rules managed by the deploying Worker. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"actions": [{...}], "matchers": [{...}], "enabled"?: true | false}]. ? marks optional keys.',
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "plan",
 	describe: "Plan account routing rule changes",
-	builder,
+	usage:
+		"$0 email-routing rules plan\n\nComputes the Email Routing rule changes that would be needed to reconcile a Wrangler-managed desired ruleset. This endpoint is read-only and does not create, update, or delete rules.",
+	flags: {
+		"catch-all-rules": {
+			kind: "parsed",
+			brief:
+				'Desired catch-all Email Routing rules managed by the deploying Worker. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"rule": {...}, "target": string}].',
+			optional: true,
+			parse: String,
+		},
+		"owner-worker-tag": {
+			kind: "parsed",
+			brief:
+				"Public tag (script_tag) of the Worker that owns this rule. Required when\n`source` is `wrangler`.\n",
+			optional: true,
+			parse: String,
+		},
+		rules: {
+			kind: "parsed",
+			brief:
+				'Desired normal Email Routing rules managed by the deploying Worker. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"actions": [{...}], "matchers": [{...}], "enabled"?: true | false}]. ? marks optional keys.',
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "email-routing rules plan",
-				classification: {
-					safeFlags: ["dry-run"],
-				} satisfies ArgClassification<Args>,
+				classification: { safeFlags: ["dry-run"] } satisfies ArgClassification<
+					typeof argv
+				>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -139,6 +141,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Created` });
 			}
 		),
-};
+});
 
 export default command;

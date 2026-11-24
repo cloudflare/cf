@@ -1,11 +1,10 @@
 import operation from "../../../_operations/zero-trust/casb/findings/tune-severity.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * tune-severity command
  * @generated from apis/overlays/zero-trust.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -18,45 +17,45 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 zero-trust casb findings tune-severity <finding-id>\n\nUpdate the severity of a Finding. This will update the `severity_override` field on the Finding payload with the new severity value."
-		)
-		.positional("finding-id", {
-			type: "string",
-			description:
-				"The \`id\` of a finding, as returned in each item of the List posture findings response. It is a base64-encoded identifier.",
-			demandOption: true,
-		})
-		.option("new-severity", {
-			type: "number",
-			description: "The numeric severity value to apply to the finding.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Request body for updating a finding's severity.",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "tune-severity <finding-id>",
 	describe: "Update the severity for a finding",
-	builder,
+	usage:
+		"$0 zero-trust casb findings tune-severity <finding-id>\n\nUpdate the severity of a Finding. This will update the `severity_override` field on the Finding payload with the new severity value.",
+	flags: {
+		"new-severity": {
+			kind: "parsed",
+			brief: "The numeric severity value to apply to the finding.",
+			optional: true,
+			parse: Number,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Request body for updating a finding's severity.",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [
+		{
+			placeholder: "finding-id",
+			brief:
+				"The \`id\` of a finding, as returned in each item of the List posture findings response. It is a base64-encoded identifier.",
+			parse: String,
+		},
+	],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "zero-trust casb findings tune-severity",
-				classification: {
-					safeFlags: ["dry-run"],
-				} satisfies ArgClassification<Args>,
+				classification: { safeFlags: ["dry-run"] } satisfies ArgClassification<
+					typeof argv
+				>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -121,6 +120,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Created` });
 			}
 		),
-};
+});
 
 export default command;

@@ -8,33 +8,28 @@ import $failover from "./failover.js";
 import $get from "./get.js";
 import $list from "./list.js";
 import $token from "./token/index.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * nodes command group
  * @generated from apis/overlays/mesh.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "nodes",
 	describe: "Operations for nodes",
 
-	builder: (yargs) => {
-		return yargs
-			.command($create)
-			.command($delete)
-			.command($edit)
-			.command($failover)
-			.command($get)
-			.command($list)
-			.command($configurations)
-			.command($connections)
-			.command($connectors)
-			.command($token)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		create: $create,
+		delete: $delete,
+		edit: $edit,
+		failover: $failover,
+		get: $get,
+		list: $list,
+		configurations: $configurations,
+		connections: $connections,
+		connectors: $connectors,
+		token: $token,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

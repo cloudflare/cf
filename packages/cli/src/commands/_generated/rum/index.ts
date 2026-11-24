@@ -1,25 +1,20 @@
 import $rules from "./rules/index.js";
 import $siteinfo from "./site-info/index.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * rum command
  * @generated from apis/overlays/rum.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "rum",
 	describe:
 		"Real User Measurement (Web Analytics) — track page loads, Core Web Vitals, and visitor metrics",
 
-	builder: (yargs) => {
-		return yargs
-			.command($rules)
-			.command($siteinfo)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		rules: $rules,
+		"site-info": $siteinfo,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

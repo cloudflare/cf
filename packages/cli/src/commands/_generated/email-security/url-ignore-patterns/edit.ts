@@ -1,11 +1,10 @@
 import operation from "../../_operations/email-security/url-ignore-patterns/edit.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * edit command
  * @generated from apis/overlays/email-security.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -19,51 +18,51 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 email-security url-ignore-patterns edit <pattern-id>\n\nUpdates an existing URL rewrite ignore pattern. Only provided fields will be modified."
-		)
-		.positional("pattern-id", {
-			type: "string",
-			description: "URL ignore pattern identifier.",
-			demandOption: true,
-		})
-		.option("comments", {
-			type: "string",
-			description:
-				"Optional note describing the reason for the ignore pattern.",
-		})
-		.option("pattern", {
-			type: "string",
-			description:
-				"Regular expression identifying URLs to exempt from rewriting.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description:
-				"Updates a URL rewrite ignore pattern; modifies only the provided fields.",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "edit <pattern-id>",
 	describe: "Update a URL ignore pattern",
-	builder,
+	usage:
+		"$0 email-security url-ignore-patterns edit <pattern-id>\n\nUpdates an existing URL rewrite ignore pattern. Only provided fields will be modified.",
+	flags: {
+		comments: {
+			kind: "parsed",
+			brief: "Optional note describing the reason for the ignore pattern.",
+			optional: true,
+			parse: String,
+		},
+		pattern: {
+			kind: "parsed",
+			brief: "Regular expression identifying URLs to exempt from rewriting.",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief:
+				"Updates a URL rewrite ignore pattern; modifies only the provided fields.",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [
+		{
+			placeholder: "pattern-id",
+			brief: "URL ignore pattern identifier.",
+			parse: String,
+		},
+	],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "email-security url-ignore-patterns edit",
-				classification: {
-					safeFlags: ["dry-run"],
-				} satisfies ArgClassification<Args>,
+				classification: { safeFlags: ["dry-run"] } satisfies ArgClassification<
+					typeof argv
+				>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -135,6 +134,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Updated` });
 			}
 		),
-};
+});
 
 export default command;

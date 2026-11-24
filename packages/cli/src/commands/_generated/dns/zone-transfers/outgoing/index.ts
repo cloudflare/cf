@@ -6,31 +6,26 @@ import $forcenotify from "./force-notify.js";
 import $get from "./get.js";
 import $status from "./status.js";
 import $update from "./update.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * outgoing command group
  * @generated from apis/overlays/dns.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "outgoing",
 	describe: "Operations for zone-transfers.outgoing",
 
-	builder: (yargs) => {
-		return yargs
-			.command($create)
-			.command($delete)
-			.command($disable)
-			.command($enable)
-			.command($forcenotify)
-			.command($get)
-			.command($status)
-			.command($update)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		create: $create,
+		delete: $delete,
+		disable: $disable,
+		enable: $enable,
+		"force-notify": $forcenotify,
+		get: $get,
+		status: $status,
+		update: $update,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

@@ -1,10 +1,9 @@
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * create command
  * @generated from apis/overlays/builds.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -24,63 +23,85 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 builds create <worker>\n\nStart a production build for a branch or commit."
-		)
-		.positional("worker", {
-			type: "string",
-			description: "Script tag of the Worker.",
-			demandOption: true,
-		})
-		.option("branch", {
-			type: "string",
-			description: "Git branch name (required if commit_hash not provided)",
-		})
-		.option("commit-hash", {
-			type: "string",
-			description: "Git commit hash (required if branch not provided)",
-		})
-		.option("seed-repo-branch", {
-			type: "string",
-			description: "Repository branch to seed.",
-		})
-		.option("seed-repo-files", {
-			type: "string",
-			description:
+const command = apiCommand({
+	command: "create <worker>",
+	describe: "Start a Worker build",
+	usage:
+		"$0 builds create <worker>\n\nStart a production build for a branch or commit.",
+	flags: {
+		branch: {
+			kind: "parsed",
+			brief: "Git branch name (required if commit_hash not provided)",
+			optional: true,
+			parse: String,
+		},
+		"commit-hash": {
+			kind: "parsed",
+			brief: "Git commit hash (required if branch not provided)",
+			optional: true,
+			parse: String,
+		},
+		"seed-repo-branch": {
+			kind: "parsed",
+			brief: "Repository branch to seed.",
+			optional: true,
+			parse: String,
+		},
+		"seed-repo-files": {
+			kind: "parsed",
+			brief:
 				'Files to add or replace for this build. Maximum 2. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"content": string, "filename": string, "isBase64"?: boolean, "replace"?: string}]. ? marks optional keys.',
-		})
-		.option("seed-repo-owner", {
-			type: "string",
-			description: "Repository owner or namespace.",
-		})
-		.option("seed-repo-path", {
-			type: "string",
-			description: "Path within the repository to seed.",
-		})
-		.option("seed-repo-provider", {
-			type: "string",
-			description: "Source control provider for the seed repository.",
+			optional: true,
+			parse: String,
+		},
+		"seed-repo-owner": {
+			kind: "parsed",
+			brief: "Repository owner or namespace.",
+			optional: true,
+			parse: String,
+		},
+		"seed-repo-path": {
+			kind: "parsed",
+			brief: "Path within the repository to seed.",
+			optional: true,
+			parse: String,
+		},
+		"seed-repo-provider": {
+			kind: "parsed",
+			brief: "Source control provider for the seed repository.",
+			optional: true,
 			choices: ["github", "gitlab"],
-		})
-		.coerce("seed-repo-provider", (value) =>
-			resolveFileToken(value, "seed-repo-provider", "text")
-		)
-		.option("seed-repo-repository", {
-			type: "string",
-			description: "Repository name.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "seed-repo-provider", "text"),
+		},
+		"seed-repo-repository": {
+			kind: "parsed",
+			brief: "Repository name.",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
 			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		})
-		.check((argv) => {
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [
+		{
+			placeholder: "worker",
+			brief: "Script tag of the Worker.",
+			parse: String,
+		},
+	],
+	rules(rules) {
+		rules.check((argv) => {
 			const groupSet = [
 				"seed-repo-branch",
 				"seed-repo-files",
@@ -103,21 +124,14 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			}
 			return true;
 		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "create <worker>",
-	describe: "Start a Worker build",
-	builder,
+	},
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "builds create",
 				classification: {
 					safeFlags: ["seed-repo-provider", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -279,6 +293,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Created` });
 			}
 		),
-};
+});
 
 export default command;

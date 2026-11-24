@@ -1,22 +1,17 @@
 import $query from "./query.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * sql command group
  * @generated from apis/overlays/analytics-engine.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "sql",
 	describe: "Operations for sql",
 
-	builder: (yargs) => {
-		return yargs
-			.command($query)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		query: $query,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

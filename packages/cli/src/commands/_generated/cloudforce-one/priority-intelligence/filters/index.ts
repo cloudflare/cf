@@ -1,22 +1,17 @@
 import $generate from "./generate.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * filters command group
  * @generated from apis/overlays/cloudforce-one.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "filters",
 	describe: "Operations for priority-intelligence.filters",
 
-	builder: (yargs) => {
-		return yargs
-			.command($generate)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		generate: $generate,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

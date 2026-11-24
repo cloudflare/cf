@@ -1,11 +1,10 @@
 import operation from "../../_operations/o11y/destinations/update.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * update command
  * @generated from apis/overlays/o11y.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -19,48 +18,55 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 o11y destinations update <slug>\n\nUpdate an existing Workers Observability Telemetry Destination."
-		)
-		.positional("slug", {
-			type: "string",
-			description: "Slug",
-			demandOption: true,
-		})
-		.option("configuration-headers", {
-			type: "string",
-			description:
+const command = apiCommand({
+	command: "update <slug>",
+	describe: "Update Destination",
+	usage:
+		"$0 o11y destinations update <slug>\n\nUpdate an existing Workers Observability Telemetry Destination.",
+	flags: {
+		"configuration-headers": {
+			kind: "parsed",
+			brief:
 				'The configuration.headers field. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": (string | null)}.',
-		})
-		.option("configuration-replace-headers", {
-			type: "boolean",
-			description: "The configuration.replaceHeaders field",
-		})
-		.option("configuration-type", {
-			type: "string",
-			description: "The configuration.type field",
+			optional: true,
+			parse: String,
+		},
+		"configuration-replace-headers": {
+			kind: "boolean",
+			brief: "The configuration.replaceHeaders field",
+			optional: true,
+		},
+		"configuration-type": {
+			kind: "parsed",
+			brief: "The configuration.type field",
+			optional: true,
 			choices: ["logpush"],
-		})
-		.coerce("configuration-type", (value) =>
-			resolveFileToken(value, "configuration-type", "text")
-		)
-		.option("configuration-url", {
-			type: "string",
-			description: "The configuration.url field",
-		})
-		.option("enabled", { type: "boolean", description: "The enabled field" })
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "configuration-type", "text"),
+		},
+		"configuration-url": {
+			kind: "parsed",
+			brief: "The configuration.url field",
+			optional: true,
+			parse: String,
+		},
+		enabled: { kind: "boolean", brief: "The enabled field", optional: true },
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
 			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		})
-		.check((argv) => {
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [{ placeholder: "slug", brief: "Slug", parse: String }],
+	rules(rules) {
+		rules.check((argv) => {
 			const groupSet = [
 				"configuration-headers",
 				"configuration-replace-headers",
@@ -81,14 +87,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			}
 			return true;
 		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "update <slug>",
-	describe: "Update Destination",
-	builder,
+	},
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
@@ -100,7 +99,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"enabled",
 						"dry-run",
 					],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -197,6 +196,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Updated` });
 			}
 		),
-};
+});
 
 export default command;

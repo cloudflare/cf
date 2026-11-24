@@ -1,11 +1,10 @@
 import operation from "../../../_operations/zero-trust/dlp/settings/update.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * update command
  * @generated from apis/overlays/zero-trust.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -19,51 +18,52 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 zero-trust dlp settings update\n\nMissing fields are reset to initial (unconfigured) values."
-		)
-		.option("ai-context-analysis", {
-			type: "boolean",
-			description:
-				"Whether AI context analysis is enabled at the account level.",
-		})
-		.option("ocr", {
-			type: "boolean",
-			description: "Whether OCR is enabled at the account level.",
-		})
-		.option("payload-logging-masking-level", {
-			type: "string",
-			description:
-				"Masking level for payload logs.\n\n- `full`: The entire payload is masked.\n- `partial`: Only partial payload content is masked.\n- `clear`: No masking is applied to the payload content.\n- `default`: DLP uses its default masking behavior.",
-			choices: ["full", "partial", "clear", "default"],
-		})
-		.coerce("payload-logging-masking-level", (value) =>
-			resolveFileToken(value, "payload-logging-masking-level", "text")
-		)
-		.option("payload-logging-public-key", {
-			type: "string",
-			description:
-				"Base64-encoded public key for encrypting payload logs.\n\n- Set to a non-empty base64 string to enable payload logging with the given key.\n- Set to an empty string to disable payload logging.\n- Omit or set to null to leave unchanged (PATCH) or reset to disabled (PUT).",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "New DLP settings.",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "update",
 	describe: "Update DLP account-level settings (full replacement).",
-	builder,
+	usage:
+		"$0 zero-trust dlp settings update\n\nMissing fields are reset to initial (unconfigured) values.",
+	flags: {
+		"ai-context-analysis": {
+			kind: "boolean",
+			brief: "Whether AI context analysis is enabled at the account level.",
+			optional: true,
+		},
+		ocr: {
+			kind: "boolean",
+			brief: "Whether OCR is enabled at the account level.",
+			optional: true,
+		},
+		"payload-logging-masking-level": {
+			kind: "parsed",
+			brief:
+				"Masking level for payload logs.\n\n- `full`: The entire payload is masked.\n- `partial`: Only partial payload content is masked.\n- `clear`: No masking is applied to the payload content.\n- `default`: DLP uses its default masking behavior.",
+			optional: true,
+			choices: ["full", "partial", "clear", "default"],
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "payload-logging-masking-level", "text"),
+		},
+		"payload-logging-public-key": {
+			kind: "parsed",
+			brief:
+				"Base64-encoded public key for encrypting payload logs.\n\n- Set to a non-empty base64 string to enable payload logging with the given key.\n- Set to an empty string to disable payload logging.\n- Omit or set to null to leave unchanged (PATCH) or reset to disabled (PUT).",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "New DLP settings.",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
@@ -75,7 +75,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"payload-logging-masking-level",
 						"dry-run",
 					],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -141,6 +141,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Updated` });
 			}
 		),
-};
+});
 
 export default command;

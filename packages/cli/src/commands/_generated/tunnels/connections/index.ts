@@ -1,24 +1,19 @@
 import $cleanup from "./cleanup.js";
 import $list from "./list.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * connections command group
  * @generated from apis/overlays/tunnels.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "connections",
 	describe: "Operations for connections",
 
-	builder: (yargs) => {
-		return yargs
-			.command($cleanup)
-			.command($list)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		cleanup: $cleanup,
+		list: $list,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

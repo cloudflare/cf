@@ -1,11 +1,10 @@
 import operation from "../../_operations/vectorize/metadata-indexes/create.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * create command
  * @generated from apis/overlays/vectorize.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -23,52 +22,46 @@ import {
 } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 vectorize metadata-indexes create <index-name>\n\nEnable metadata filtering based on metadata property. Limited to 10 properties."
-		)
-		.positional("index-name", {
-			type: "string",
-			description: "Index name",
-			demandOption: true,
-		})
-		.option("index-type", {
-			type: "string",
-			description: "Specifies the type of metadata property to index.",
-			choices: ["string", "number", "boolean"],
-		})
-		.coerce("index-type", (value) =>
-			resolveFileToken(value, "index-type", "text")
-		)
-		.option("property-name", {
-			type: "string",
-			description: "Specifies the metadata property to index.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "create <index-name>",
 	describe: "Create Metadata Index",
-	builder,
+	usage:
+		"$0 vectorize metadata-indexes create <index-name>\n\nEnable metadata filtering based on metadata property. Limited to 10 properties.",
+	flags: {
+		"index-type": {
+			kind: "parsed",
+			brief: "Specifies the type of metadata property to index.",
+			optional: true,
+			choices: ["string", "number", "boolean"],
+			parse: String,
+			coerce: (value: string) => resolveFileToken(value, "index-type", "text"),
+		},
+		"property-name": {
+			kind: "parsed",
+			brief: "Specifies the metadata property to index.",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [{ placeholder: "index-name", brief: "Index name", parse: String }],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "vectorize metadata-indexes create",
 				classification: {
 					safeFlags: ["index-type", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -151,6 +144,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Created` });
 			}
 		),
-};
+});
 
 export default command;

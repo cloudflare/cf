@@ -1,11 +1,10 @@
 import operation from "../_operations/smart-shield/update.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * update command
  * @generated from apis/overlays/smart-shield.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import { createCommandClient, getZoneId } from "#lib/auth.js";
 import { compactBody, parseBody } from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
@@ -14,58 +13,60 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage("$0 smart-shield update\n\nSet Smart Shield Settings.")
-		.option("cache-reserve-value", {
-			type: "string",
-			description: "Specifies the enablement value of Cache Reserve.",
-			choices: ["on", "off"],
-		})
-		.coerce("cache-reserve-value", (value) =>
-			resolveFileToken(value, "cache-reserve-value", "text")
-		)
-		.option("regional-tiered-cache-value", {
-			type: "string",
-			description: "Specifies the enablement value of Regional Tiered Cache.",
-			choices: ["on", "off"],
-		})
-		.coerce("regional-tiered-cache-value", (value) =>
-			resolveFileToken(value, "regional-tiered-cache-value", "text")
-		)
-		.option("smart-routing-value", {
-			type: "string",
-			description: "Specifies the enablement value of Smart Routing.",
-			choices: ["on", "off"],
-		})
-		.coerce("smart-routing-value", (value) =>
-			resolveFileToken(value, "smart-routing-value", "text")
-		)
-		.option("smart-tiered-cache-value", {
-			type: "string",
-			description: "Specifies the enablement value of Smart Tiered Cache.",
-			choices: ["on", "off"],
-		})
-		.coerce("smart-tiered-cache-value", (value) =>
-			resolveFileToken(value, "smart-tiered-cache-value", "text")
-		)
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "The patch body for Smart Shield.",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "update",
 	describe: "Patch Smart Shield Settings",
-	builder,
+	usage: "$0 smart-shield update\n\nSet Smart Shield Settings.",
+	flags: {
+		"cache-reserve-value": {
+			kind: "parsed",
+			brief: "Specifies the enablement value of Cache Reserve.",
+			optional: true,
+			choices: ["on", "off"],
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "cache-reserve-value", "text"),
+		},
+		"regional-tiered-cache-value": {
+			kind: "parsed",
+			brief: "Specifies the enablement value of Regional Tiered Cache.",
+			optional: true,
+			choices: ["on", "off"],
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "regional-tiered-cache-value", "text"),
+		},
+		"smart-routing-value": {
+			kind: "parsed",
+			brief: "Specifies the enablement value of Smart Routing.",
+			optional: true,
+			choices: ["on", "off"],
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "smart-routing-value", "text"),
+		},
+		"smart-tiered-cache-value": {
+			kind: "parsed",
+			brief: "Specifies the enablement value of Smart Tiered Cache.",
+			optional: true,
+			choices: ["on", "off"],
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "smart-tiered-cache-value", "text"),
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "The patch body for Smart Shield.",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
@@ -78,7 +79,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"smart-tiered-cache-value",
 						"dry-run",
 					],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -149,6 +150,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Updated` });
 			}
 		),
-};
+});
 
 export default command;

@@ -1,11 +1,10 @@
 import operation from "../../../_operations/artifacts/namespaces/repos/fork.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * fork command
  * @generated from apis/overlays/artifacts.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -19,57 +18,53 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 artifacts namespaces repos fork <name>\n\nForks a source repository into a new repository."
-		)
-		.positional("name", {
-			type: "string",
-			description: "Repository name.",
-			demandOption: true,
-		})
-		.option("namespace", {
-			type: "string",
-			description: "Artifacts namespace name.",
-			demandOption: true,
-		})
-		.option("default-branch-only", {
-			type: "boolean",
-			description: "The default_branch_only field",
-		})
-		.option("description", {
-			type: "string",
-			description: "The description field",
-		})
-		.option("read-only", {
-			type: "boolean",
-			description: "The read_only field",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "fork <name>",
 	describe: "Fork a repository",
-	builder,
+	usage:
+		"$0 artifacts namespaces repos fork <name>\n\nForks a source repository into a new repository.",
+	flags: {
+		namespace: {
+			kind: "parsed",
+			brief: "Artifacts namespace name.",
+			parse: String,
+		},
+		"default-branch-only": {
+			kind: "boolean",
+			brief: "The default_branch_only field",
+			optional: true,
+		},
+		description: {
+			kind: "parsed",
+			brief: "The description field",
+			optional: true,
+			parse: String,
+		},
+		"read-only": {
+			kind: "boolean",
+			brief: "The read_only field",
+			optional: true,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [{ placeholder: "name", brief: "Repository name.", parse: String }],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "artifacts namespaces repos fork",
 				classification: {
 					safeFlags: ["default-branch-only", "read-only", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -140,6 +135,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Created` });
 			}
 		),
-};
+});
 
 export default command;

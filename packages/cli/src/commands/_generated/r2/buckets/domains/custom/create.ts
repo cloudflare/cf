@@ -1,10 +1,9 @@
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * create command
  * @generated from apis/overlays/r2.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -20,71 +19,76 @@ import { withProgress } from "#lib/progress.js";
 import { promptForRequiredField } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 r2 buckets domains custom create <bucket-name>\n\nRegister a new custom domain for an existing R2 bucket."
-		)
-		.positional("bucket-name", {
-			type: "string",
-			description: "Name of the bucket.",
-			demandOption: true,
-		})
-		.option("cf-r2-jurisdiction", {
-			type: "string",
-			description:
-				"Jurisdiction where objects in this bucket are guaranteed to be stored.",
-		})
-		.option("ciphers", {
-			type: "string",
-			array: true,
-			description:
-				"An allowlist of ciphers for TLS termination. These ciphers must be in the BoringSSL format.",
-		})
-		.option("domain", {
-			type: "string",
-			description: "Name of the custom domain to be added.",
-		})
-		.option("enabled", {
-			type: "boolean",
-			description:
-				"Whether to enable public bucket access at the custom domain. If undefined, the domain will be enabled.",
-		})
-		.option("min-tls", {
-			type: "string",
-			description:
-				"Minimum TLS Version the custom domain will accept for incoming connections. If not set, defaults to 1.0.",
-			choices: ["1.0", "1.1", "1.2", "1.3"],
-		})
-		.coerce("min-tls", (value) => resolveFileToken(value, "min-tls", "text"))
-		.option("zone-id", {
-			type: "string",
-			description: "Zone ID of the custom domain.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "create <bucket-name>",
 	describe: "Attach Custom Domain To Bucket",
-	builder,
+	usage:
+		"$0 r2 buckets domains custom create <bucket-name>\n\nRegister a new custom domain for an existing R2 bucket.",
+	flags: {
+		"cf-r2-jurisdiction": {
+			kind: "parsed",
+			brief:
+				"Jurisdiction where objects in this bucket are guaranteed to be stored.",
+			optional: true,
+			parse: String,
+		},
+		ciphers: {
+			kind: "parsed",
+			brief:
+				"An allowlist of ciphers for TLS termination. These ciphers must be in the BoringSSL format.",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		domain: {
+			kind: "parsed",
+			brief: "Name of the custom domain to be added.",
+			optional: true,
+			parse: String,
+		},
+		enabled: {
+			kind: "boolean",
+			brief:
+				"Whether to enable public bucket access at the custom domain. If undefined, the domain will be enabled.",
+			optional: true,
+		},
+		"min-tls": {
+			kind: "parsed",
+			brief:
+				"Minimum TLS Version the custom domain will accept for incoming connections. If not set, defaults to 1.0.",
+			optional: true,
+			choices: ["1.0", "1.1", "1.2", "1.3"],
+			parse: String,
+			coerce: (value: string) => resolveFileToken(value, "min-tls", "text"),
+		},
+		"zone-id": {
+			kind: "parsed",
+			brief: "Zone ID of the custom domain.",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [
+		{ placeholder: "bucket-name", brief: "Name of the bucket.", parse: String },
+	],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "r2 buckets domains custom create",
 				classification: {
 					safeFlags: ["enabled", "min-tls", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -208,6 +212,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Created` });
 			}
 		),
-};
+});
 
 export default command;

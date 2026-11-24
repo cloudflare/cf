@@ -8,6 +8,7 @@ import { generateFiles } from "../../helpers/cli-plugin.js";
 import { commandParser } from "../../helpers/command-parser.js";
 import type { CommandMeta } from "../../../lib/command-meta.js";
 import type { CommandModule } from "yargs";
+import { apiCommand } from "#lib/api-command.js";
 
 function setup(code: string) {
 	const send = vi.fn(async () => undefined);
@@ -15,10 +16,11 @@ function setup(code: string) {
 	const formatDryRun = vi.fn();
 	const source = stripTypeScriptTypes(
 		code
-			.slice(code.indexOf("function builder"))
+			.replace(/^import[\s\S]*?;\n/gm, "")
 			.replace("export default command;", "command;")
 	);
 	const command = new Script(source).runInNewContext({
+		apiCommand,
 		...bodyParser,
 		resolveFileToken,
 		operation: {},

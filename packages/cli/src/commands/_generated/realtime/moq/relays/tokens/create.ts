@@ -1,11 +1,10 @@
 import operation from "../../../../_operations/realtime/moq/relays/tokens/create.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * create command
  * @generated from apis/overlays/realtime.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -19,55 +18,59 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 realtime moq relays tokens create <relay-id>\n\nMints a new relay-scoped token and adds it to the relay's accepted-auth registry. The token value (secret) is shown once in the response. A relay may hold up to 10 tokens; creating an 11th is rejected."
-		)
-		.positional("relay-id", {
-			type: "string",
-			description: "Relay unique identifier (32 hex characters).",
-			demandOption: true,
-		})
-		.option("expires", {
-			type: "string",
-			description:
-				"Optional expiry (RFC 3339). Defaults to 1 year from creation;\nrejected if more than 1 year in the future.\n",
-		})
-		.option("label", {
-			type: "string",
-			description: "Optional, customer-set label.",
-		})
-		.option("operations", {
-			type: "string",
-			array: true,
-			description:
-				"Non-empty subset of the V1 roles the token is allowed to\nperform. Signed into the token.\n",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "create <relay-id>",
 	describe: "Create a token",
-	builder,
+	usage:
+		"$0 realtime moq relays tokens create <relay-id>\n\nMints a new relay-scoped token and adds it to the relay's accepted-auth registry. The token value (secret) is shown once in the response. A relay may hold up to 10 tokens; creating an 11th is rejected.",
+	flags: {
+		expires: {
+			kind: "parsed",
+			brief:
+				"Optional expiry (RFC 3339). Defaults to 1 year from creation;\nrejected if more than 1 year in the future.\n",
+			optional: true,
+			parse: String,
+		},
+		label: {
+			kind: "parsed",
+			brief: "Optional, customer-set label.",
+			optional: true,
+			parse: String,
+		},
+		operations: {
+			kind: "parsed",
+			brief:
+				"Non-empty subset of the V1 roles the token is allowed to\nperform. Signed into the token.\n",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [
+		{
+			placeholder: "relay-id",
+			brief: "Relay unique identifier (32 hex characters).",
+			parse: String,
+		},
+	],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "realtime moq relays tokens create",
-				classification: {
-					safeFlags: ["dry-run"],
-				} satisfies ArgClassification<Args>,
+				classification: { safeFlags: ["dry-run"] } satisfies ArgClassification<
+					typeof argv
+				>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -152,6 +155,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Created` });
 			}
 		),
-};
+});
 
 export default command;

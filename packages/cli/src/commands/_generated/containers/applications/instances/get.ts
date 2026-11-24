@@ -1,11 +1,10 @@
 import operation from "../../../_operations/containers/applications/instances/get.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * get command
  * @generated from apis/overlays/containers.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -17,43 +16,38 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 containers applications instances get <instance-id>\n\nReturns a container instance belonging to an application."
-		)
-		.positional("instance-id", {
-			type: "string",
-			description:
-				"A container instance ID (64-character hex Durable Object actor ID).",
-			demandOption: true,
-		})
-		.option("application-id", {
-			type: "string",
-			description:
-				"An Application ID represents an identifier of an application.",
-			demandOption: true,
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "get <instance-id>",
 	describe: "Get a container instance",
-	builder,
+	usage:
+		"$0 containers applications instances get <instance-id>\n\nReturns a container instance belonging to an application.",
+	flags: {
+		"application-id": {
+			kind: "parsed",
+			brief: "An Application ID represents an identifier of an application.",
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+	},
+	operands: [
+		{
+			placeholder: "instance-id",
+			brief:
+				"A container instance ID (64-character hex Durable Object actor ID).",
+			parse: String,
+		},
+	],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "containers applications instances get",
-				classification: {
-					safeFlags: ["dry-run"],
-				} satisfies ArgClassification<Args>,
+				classification: { safeFlags: ["dry-run"] } satisfies ArgClassification<
+					typeof argv
+				>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -85,6 +79,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Loaded` });
 			}
 		),
-};
+});
 
 export default command;

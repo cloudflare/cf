@@ -10,36 +10,31 @@ import $members from "./members/index.js";
 import $profile from "./profile/index.js";
 import $shares from "./shares/index.js";
 import $update from "./update.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * organizations command
  * @generated from apis/overlays/organizations.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "organizations",
 	describe:
 		"Multi-user organizations that group accounts, members, and shared settings under a single entity",
 
-	builder: (yargs) => {
-		return yargs
-			.command($create)
-			.command($delete)
-			.command($get)
-			.command($list)
-			.command($update)
-			.command($accounts)
-			.command($billing)
-			.command($invites)
-			.command($logs)
-			.command($members)
-			.command($profile)
-			.command($shares)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		create: $create,
+		delete: $delete,
+		get: $get,
+		list: $list,
+		update: $update,
+		accounts: $accounts,
+		billing: $billing,
+		invites: $invites,
+		logs: $logs,
+		members: $members,
+		profile: $profile,
+		shares: $shares,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

@@ -1,11 +1,10 @@
 import operation from "../../../_operations/realtime/kit/apps/list.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * list command
  * @generated from apis/overlays/realtime.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -17,47 +16,50 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage("$0 realtime kit apps list\n\nFetch all apps for your account")
-		.option("page-no", {
-			type: "number",
-			description:
-				"The page number from which you want your page search results to be displayed.",
-		})
-		.option("per-page", {
-			type: "number",
-			description: "Number of results per page.",
-		})
-		.option("search", {
-			type: "string",
-			description: "Search string that matches apps by name.",
-		})
-		.option("sort-order", {
-			type: "string",
-			description: "Sort order for apps by creation time.",
-			choices: ["ASC", "DESC"],
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "list",
 	describe: "Fetch all apps",
-	builder,
+	usage: "$0 realtime kit apps list\n\nFetch all apps for your account",
+	flags: {
+		"page-no": {
+			kind: "parsed",
+			brief:
+				"The page number from which you want your page search results to be displayed.",
+			optional: true,
+			parse: Number,
+		},
+		"per-page": {
+			kind: "parsed",
+			brief: "Number of results per page.",
+			optional: true,
+			parse: Number,
+		},
+		search: {
+			kind: "parsed",
+			brief: "Search string that matches apps by name.",
+			optional: true,
+			parse: String,
+		},
+		"sort-order": {
+			kind: "enum",
+			brief: "Sort order for apps by creation time.",
+			values: ["ASC", "DESC"],
+			optional: true,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "realtime kit apps list",
 				classification: {
 					safeFlags: ["sort-order", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -89,6 +91,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Loaded` });
 			}
 		),
-};
+});
 
 export default command;

@@ -1,11 +1,10 @@
 import operation from "../../_operations/ai-gateway/custom-domains/delete.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * delete command
  * @generated from apis/overlays/ai-gateway.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -18,40 +17,36 @@ import { withProgress } from "#lib/progress.js";
 import { confirmDelete } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 ai-gateway custom-domains delete <hostname>\n\nDeletes a custom domain from an AI Gateway and removes its Cloudflare for SaaS custom hostname."
-		)
-		.positional("hostname", {
-			type: "string",
-			description: "Custom hostname that you own, such as \`ai.example.com\`.",
-			demandOption: true,
-		})
-		.option("gateway-id", {
-			type: "string",
-			description: "Unique identifier of the AI Gateway within the account.",
-			demandOption: true,
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("force", {
-			type: "boolean",
-			alias: "f",
-			description: "Skip confirmation (useful in scripts and CI)",
-			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "delete <hostname>",
 	describe: "Delete a custom domain",
-	builder,
+	usage:
+		"$0 ai-gateway custom-domains delete <hostname>\n\nDeletes a custom domain from an AI Gateway and removes its Cloudflare for SaaS custom hostname.",
+	flags: {
+		"gateway-id": {
+			kind: "parsed",
+			brief: "Unique identifier of the AI Gateway within the account.",
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		force: {
+			kind: "boolean",
+			brief: "Skip confirmation (useful in scripts and CI)",
+			alias: "f",
+			default: false,
+		},
+	},
+	operands: [
+		{
+			placeholder: "hostname",
+			brief: "Custom hostname that you own, such as \`ai.example.com\`.",
+			parse: String,
+		},
+	],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
@@ -59,7 +54,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				classification: {
 					safeFlags: ["dry-run", "force"],
 					shortFlagAliases: { f: { canonical: "force", type: "boolean" } },
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -100,6 +95,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Deleted` });
 			}
 		),
-};
+});
 
 export default command;

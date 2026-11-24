@@ -1,11 +1,10 @@
 import operation from "../../../_operations/zero-trust/casb/webhooks/update.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * update command
  * @generated from apis/overlays/zero-trust.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -23,19 +22,16 @@ import {
 } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 zero-trust casb webhooks update <webhook-id>\n\nUpdates an existing webhook configuration with new settings."
-		)
-		.positional("webhook-id", {
-			type: "string",
-			description: "A UUID identifying the webhook configuration.",
-			demandOption: true,
-		})
-		.option("authentication-type", {
-			type: "string",
-			description: "Type of authentication used for the webhook.",
+const command = apiCommand({
+	command: "update <webhook-id>",
+	describe: "Update an existing webhook configuration",
+	usage:
+		"$0 zero-trust casb webhooks update <webhook-id>\n\nUpdates an existing webhook configuration with new settings.",
+	flags: {
+		"authentication-type": {
+			kind: "parsed",
+			brief: "Type of authentication used for the webhook.",
+			optional: true,
 			choices: [
 				"Basic Auth",
 				"None",
@@ -43,61 +39,71 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Static Headers",
 				"HMAC-Signing",
 			],
-		})
-		.coerce("authentication-type", (value) =>
-			resolveFileToken(value, "authentication-type", "text")
-		)
-		.option("destination-url", {
-			type: "string",
-			description:
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "authentication-type", "text"),
+		},
+		"destination-url": {
+			kind: "parsed",
+			brief:
 				"Target URL for the webhook configuration. Where resulting data will be sent.",
-		})
-		.option("headers", {
-			type: "string",
-			description:
+			optional: true,
+			parse: String,
+		},
+		headers: {
+			kind: "parsed",
+			brief:
 				'List of custom headers to include in webhook requests. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"key": string, "value"?: (string | null)}]. ? marks optional keys.',
-		})
-		.option("label", {
-			type: "string",
-			description:
-				"Account-specified display label for the webhook configuration.",
-		})
-		.option("signing-secret", {
-			type: "string",
-			description:
+			optional: true,
+			parse: String,
+		},
+		label: {
+			kind: "parsed",
+			brief: "Account-specified display label for the webhook configuration.",
+			optional: true,
+			parse: String,
+		},
+		"signing-secret": {
+			kind: "parsed",
+			brief:
 				'Secret key used for HMAC signing when authentication_type is "HMAC-Signing".',
-		})
-		.option("status", {
-			type: "string",
-			description: "Status of the webhook configuration.",
+			optional: true,
+			parse: String,
+		},
+		status: {
+			kind: "parsed",
+			brief: "Status of the webhook configuration.",
+			optional: true,
 			choices: ["enabled", "disabled"],
-		})
-		.coerce("status", (value) => resolveFileToken(value, "status", "text"))
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
+			parse: String,
+			coerce: (value: string) => resolveFileToken(value, "status", "text"),
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
 			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description:
-				"Request body for updating an existing webhook configuration.",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "update <webhook-id>",
-	describe: "Update an existing webhook configuration",
-	builder,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Request body for updating an existing webhook configuration.",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [
+		{
+			placeholder: "webhook-id",
+			brief: "A UUID identifying the webhook configuration.",
+			parse: String,
+		},
+	],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "zero-trust casb webhooks update",
 				classification: {
 					safeFlags: ["authentication-type", "status", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -224,6 +230,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Updated` });
 			}
 		),
-};
+});
 
 export default command;

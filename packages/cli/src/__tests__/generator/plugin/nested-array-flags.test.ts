@@ -14,6 +14,7 @@ import { generateFiles } from "../../helpers/cli-plugin.js";
 import { commandParser } from "../../helpers/command-parser.js";
 import type { CommandMeta } from "../../../lib/command-meta.js";
 import type { CommandModule } from "yargs";
+import { apiCommand } from "#lib/api-command.js";
 
 function generate(typed: boolean) {
 	const schema = {
@@ -118,6 +119,7 @@ describe.each([true, false])(
 				const requestApi = vi.fn(async () => undefined);
 				const formatDryRun = vi.fn();
 				const command = new Script(source).runInNewContext({
+					apiCommand,
 					compactBody,
 					parseBody,
 					parseNestedArray,

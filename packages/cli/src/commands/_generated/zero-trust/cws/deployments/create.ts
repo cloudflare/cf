@@ -1,11 +1,10 @@
 import operation from "../../../_operations/zero-trust/cws/deployments/create.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * create command
  * @generated from apis/overlays/zero-trust.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -23,75 +22,88 @@ import {
 } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 zero-trust cws deployments create\n\nCreates a deployment with the specified policy sets, domain ACL, and basic-auth credentials."
-		)
-		.option("basic-auth-credential-ids", {
-			type: "string",
-			array: true,
-			description: "IDs of basic-auth credentials to attach",
-		})
-		.option("default-mode", {
-			type: "string",
-			description: "Default traffic mode: ALLOW or BLOCK",
-			choices: ["ALLOW", "BLOCK"],
-		})
-		.coerce("default-mode", (value) =>
-			resolveFileToken(value, "default-mode", "text")
-		)
-		.option("description", {
-			type: "string",
-			description: "Optional free-form description.",
-		})
-		.option("domain-acl-id", {
-			type: "string",
-			description: "ID of the domain ACL to attach (omit or null for none)",
-		})
-		.option("name", { type: "string", description: "Name of the deployment" })
-		.option("on-error-action", {
-			type: "string",
-			description: "Action for runtime Rego errors. Omit to use BLOCK.",
-			choices: ["BLOCK", "SKIP"],
-			default: "BLOCK",
-		})
-		.coerce("on-error-action", (value) =>
-			resolveFileToken(value, "on-error-action", "text")
-		)
-		.option("policy-set-ids", {
-			type: "string",
-			array: true,
-			description: "IDs of policy sets to attach",
-		})
-		.option("rego-raise-error", {
-			type: "boolean",
-			description:
-				"Whether OPA builtin failures are raised as runtime evaluation errors. Omit to use the default true value.",
-			default: true,
-		})
-		.option("tags", {
-			type: "string",
-			description:
-				'Tags to attach. Keys are limited to 256 UTF-8 bytes and values to 1024 UTF-8 bytes. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": string}.',
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "create",
 	describe: "Create a new deployment",
-	builder,
+	usage:
+		"$0 zero-trust cws deployments create\n\nCreates a deployment with the specified policy sets, domain ACL, and basic-auth credentials.",
+	flags: {
+		"basic-auth-credential-ids": {
+			kind: "parsed",
+			brief: "IDs of basic-auth credentials to attach",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"default-mode": {
+			kind: "parsed",
+			brief: "Default traffic mode: ALLOW or BLOCK",
+			optional: true,
+			choices: ["ALLOW", "BLOCK"],
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "default-mode", "text"),
+		},
+		description: {
+			kind: "parsed",
+			brief: "Optional free-form description.",
+			optional: true,
+			parse: String,
+		},
+		"domain-acl-id": {
+			kind: "parsed",
+			brief: "ID of the domain ACL to attach (omit or null for none)",
+			optional: true,
+			parse: String,
+		},
+		name: {
+			kind: "parsed",
+			brief: "Name of the deployment",
+			optional: true,
+			parse: String,
+		},
+		"on-error-action": {
+			kind: "parsed",
+			brief: "Action for runtime Rego errors. Omit to use BLOCK.",
+			default: "BLOCK",
+			choices: ["BLOCK", "SKIP"],
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "on-error-action", "text"),
+		},
+		"policy-set-ids": {
+			kind: "parsed",
+			brief: "IDs of policy sets to attach",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"rego-raise-error": {
+			kind: "boolean",
+			brief:
+				"Whether OPA builtin failures are raised as runtime evaluation errors. Omit to use the default true value.",
+			default: true,
+		},
+		tags: {
+			kind: "parsed",
+			brief:
+				'Tags to attach. Keys are limited to 256 UTF-8 bytes and values to 1024 UTF-8 bytes. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": string}.',
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
@@ -103,7 +115,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"rego-raise-error",
 						"dry-run",
 					],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -225,6 +237,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Created` });
 			}
 		),
-};
+});
 
 export default command;

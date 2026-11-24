@@ -1,11 +1,10 @@
 import operation from "../_operations/resource-sharing/update.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * update command
  * @generated from apis/overlays/resource-sharing.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -20,47 +19,48 @@ import { withProgress } from "#lib/progress.js";
 import { promptForRequiredField } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 resource-sharing update <share-id>\n\nUpdates the share's display name and tags. Omitting `tags` leaves the existing tags unchanged. Recipients and resources are managed via their subresource endpoints."
-		)
-		.positional("share-id", {
-			type: "string",
-			description: "Share identifier tag.",
-			demandOption: true,
-		})
-		.option("name", { type: "string", description: "The name of the share." })
-		.option("tags", {
-			type: "string",
-			description:
-				'Tags associated with the share. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": string}.',
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description:
-				"Request body for \`PUT /accounts/{account_id}/shares/{share_id}\`. The share's display \`name\` and \`tags\` can be updated via this endpoint. To modify recipients, use the \`/accounts/{account_id}/shares/{share_id}/recipients\` subresource endpoints (POST, PUT, DELETE). ",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "update <share-id>",
 	describe: "Trigger a share update",
-	builder,
+	usage:
+		"$0 resource-sharing update <share-id>\n\nUpdates the share's display name and tags. Omitting `tags` leaves the existing tags unchanged. Recipients and resources are managed via their subresource endpoints.",
+	flags: {
+		name: {
+			kind: "parsed",
+			brief: "The name of the share.",
+			optional: true,
+			parse: String,
+		},
+		tags: {
+			kind: "parsed",
+			brief:
+				'Tags associated with the share. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": string}.',
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief:
+				"Request body for `PUT /accounts/{account_id}/shares/{share_id}`. The share's display `name` and `tags` can be updated via this endpoint. To modify recipients, use the `/accounts/{account_id}/shares/{share_id}/recipients` subresource endpoints (POST, PUT, DELETE). ",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [
+		{ placeholder: "share-id", brief: "Share identifier tag.", parse: String },
+	],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "resource-sharing update",
-				classification: {
-					safeFlags: ["dry-run"],
-				} satisfies ArgClassification<Args>,
+				classification: { safeFlags: ["dry-run"] } satisfies ArgClassification<
+					typeof argv
+				>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -142,6 +142,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Updated` });
 			}
 		),
-};
+});
 
 export default command;

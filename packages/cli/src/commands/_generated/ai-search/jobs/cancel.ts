@@ -1,10 +1,9 @@
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * cancel command
  * @generated from apis/overlays/ai-search.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -20,55 +19,52 @@ import { withProgress } from "#lib/progress.js";
 import { confirmDelete, promptForRequiredEnumField } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 ai-search jobs cancel <job-id>\n\nCancels an in-progress indexing job for an AI Search instance."
-		)
-		.positional("job-id", {
-			type: "string",
-			description: "Indexing job ID.",
-			demandOption: true,
-		})
-		.option("namespace", {
-			type: "string",
-			description: "Namespace to use for this operation.",
-			default: "default",
-		})
-		.option("instance-id", {
-			type: "string",
-			description: "AI Search instance ID.",
-			demandOption: true,
-		})
-		.option("action", {
-			type: "string",
-			description: "The action field",
-			choices: ["cancel"],
-		})
-		.coerce("action", (value) => resolveFileToken(value, "action", "text"))
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("force", {
-			type: "boolean",
-			alias: "f",
-			description: "Skip confirmation (useful in scripts and CI)",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "cancel <job-id>",
 	describe: "Cancel an indexing job.",
-	builder,
+	usage:
+		"$0 ai-search jobs cancel <job-id>\n\nCancels an in-progress indexing job for an AI Search instance.",
+	flags: {
+		namespace: {
+			kind: "parsed",
+			brief: "Namespace to use for this operation.",
+			default: "default",
+			parse: String,
+		},
+		"instance-id": {
+			kind: "parsed",
+			brief: "AI Search instance ID.",
+			parse: String,
+		},
+		action: {
+			kind: "parsed",
+			brief: "The action field",
+			optional: true,
+			choices: ["cancel"],
+			parse: String,
+			coerce: (value: string) => resolveFileToken(value, "action", "text"),
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		force: {
+			kind: "boolean",
+			brief: "Skip confirmation (useful in scripts and CI)",
+			alias: "f",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [
+		{ placeholder: "job-id", brief: "Indexing job ID.", parse: String },
+	],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
@@ -76,7 +72,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				classification: {
 					safeFlags: ["action", "dry-run", "force"],
 					shortFlagAliases: { f: { canonical: "force", type: "boolean" } },
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -158,6 +154,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Updated` });
 			}
 		),
-};
+});
 
 export default command;

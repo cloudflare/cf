@@ -1,11 +1,10 @@
 import operation from "../_operations/url-normalization/update.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * update command
  * @generated from apis/overlays/url-normalization.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import { createCommandClient, getZoneId } from "#lib/auth.js";
 import { compactBody, parseBody } from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
@@ -15,47 +14,48 @@ import { withProgress } from "#lib/progress.js";
 import { promptForRequiredEnumField } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 url-normalization update\n\nUpdates the URL Normalization settings."
-		)
-		.option("scope", {
-			type: "string",
-			description: "The scope of the URL normalization.",
-			choices: ["incoming", "both", "none"],
-		})
-		.coerce("scope", (value) => resolveFileToken(value, "scope", "text"))
-		.option("type", {
-			type: "string",
-			description: "The type of URL normalization performed by Cloudflare.",
-			choices: ["cloudflare", "rfc3986"],
-		})
-		.coerce("type", (value) => resolveFileToken(value, "type", "text"))
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "A URL Normalization object.",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "update",
 	describe: "Update URL Normalization settings",
-	builder,
+	usage:
+		"$0 url-normalization update\n\nUpdates the URL Normalization settings.",
+	flags: {
+		scope: {
+			kind: "parsed",
+			brief: "The scope of the URL normalization.",
+			optional: true,
+			choices: ["incoming", "both", "none"],
+			parse: String,
+			coerce: (value: string) => resolveFileToken(value, "scope", "text"),
+		},
+		type: {
+			kind: "parsed",
+			brief: "The type of URL normalization performed by Cloudflare.",
+			optional: true,
+			choices: ["cloudflare", "rfc3986"],
+			parse: String,
+			coerce: (value: string) => resolveFileToken(value, "type", "text"),
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "A URL Normalization object.",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "url-normalization update",
 				classification: {
 					safeFlags: ["scope", "type", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -126,6 +126,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Updated` });
 			}
 		),
-};
+});
 
 export default command;

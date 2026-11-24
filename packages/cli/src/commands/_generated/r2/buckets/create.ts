@@ -1,10 +1,9 @@
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * create command
  * @generated from apis/overlays/r2.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -20,59 +19,64 @@ import { withProgress } from "#lib/progress.js";
 import { promptForRequiredField } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 r2 buckets create\n\nCreates an R2 bucket in the account and selected jurisdiction, with an optional location hint and default storage class."
-		)
-		.option("cf-r2-jurisdiction", {
-			type: "string",
-			description:
-				"Jurisdiction where objects in this bucket are guaranteed to be stored.",
-		})
-		.option("location-hint", {
-			type: "string",
-			description: "Location of the bucket.",
-			choices: ["apac", "eeur", "enam", "weur", "wnam", "oc"],
-		})
-		.coerce("location-hint", (value) =>
-			resolveFileToken(value, "location-hint", "text")
-		)
-		.option("name", { type: "string", description: "Name of the bucket." })
-		.option("storage-class", {
-			type: "string",
-			description:
-				"Storage class for newly uploaded objects, unless specified otherwise.",
-			choices: ["Standard", "InfrequentAccess"],
-			default: "Standard",
-		})
-		.coerce("storage-class", (value) =>
-			resolveFileToken(value, "storage-class", "text")
-		)
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "create",
 	describe: "Create Bucket",
-	builder,
+	usage:
+		"$0 r2 buckets create\n\nCreates an R2 bucket in the account and selected jurisdiction, with an optional location hint and default storage class.",
+	flags: {
+		"cf-r2-jurisdiction": {
+			kind: "parsed",
+			brief:
+				"Jurisdiction where objects in this bucket are guaranteed to be stored.",
+			optional: true,
+			parse: String,
+		},
+		"location-hint": {
+			kind: "parsed",
+			brief: "Location of the bucket.",
+			optional: true,
+			choices: ["apac", "eeur", "enam", "weur", "wnam", "oc"],
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "location-hint", "text"),
+		},
+		name: {
+			kind: "parsed",
+			brief: "Name of the bucket.",
+			optional: true,
+			parse: String,
+		},
+		"storage-class": {
+			kind: "parsed",
+			brief:
+				"Storage class for newly uploaded objects, unless specified otherwise.",
+			default: "Standard",
+			choices: ["Standard", "InfrequentAccess"],
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "storage-class", "text"),
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "r2 buckets create",
 				classification: {
 					safeFlags: ["location-hint", "storage-class", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -163,6 +167,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Created` });
 			}
 		),
-};
+});
 
 export default command;

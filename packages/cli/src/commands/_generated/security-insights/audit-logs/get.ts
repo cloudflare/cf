@@ -1,11 +1,10 @@
 import operation from "../../_operations/security-insights/audit-logs/get.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * get command
  * @generated from apis/overlays/security-insights.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -18,69 +17,70 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 security-insights audit-logs get <issue-id>\n\nLists audit log entries for a specific Security Center insight, showing changes to its status and classification over time.\n\nRuns against your account. Pass --zone to run against a zone instead. CLOUDFLARE_ZONE_ID is ignored."
-		)
-		.positional("issue-id", {
-			type: "string",
-			description: "Issue ID",
-			demandOption: true,
-		})
-		.option("per-page", {
-			type: "number",
-			description: "Number of results per page.",
-		})
-		.option("cursor", {
-			type: "string",
-			description:
-				"Opaque cursor for pagination. Use the cursor value from result_info of the previous response.",
-		})
-		.option("field-changed", {
-			type: "string",
-			description: "Filter by the field that was changed.",
-			choices: ["status", "user_classification"],
-		})
-		.option("changed-by", {
-			type: "string",
-			description: "Filter by the actor that made the change.",
-		})
-		.option("since", {
-			type: "string",
-			description:
-				"Filter entries changed at or after this timestamp (RFC 3339).",
-		})
-		.option("before", {
-			type: "string",
-			description: "Filter entries changed before this timestamp (RFC 3339).",
-		})
-		.option("order", {
-			type: "string",
-			description:
-				"Sort order for results. Use 'asc' for oldest first or 'desc' for newest first.",
-			choices: ["asc", "desc"],
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "get <issue-id>",
 	describe: "Retrieves Issue Audit Log",
-	builder,
+	usage:
+		"$0 security-insights audit-logs get <issue-id>\n\nLists audit log entries for a specific Security Center insight, showing changes to its status and classification over time.\n\nRuns against your account. Pass --zone to run against a zone instead. CLOUDFLARE_ZONE_ID is ignored.",
+	flags: {
+		"per-page": {
+			kind: "parsed",
+			brief: "Number of results per page.",
+			optional: true,
+			parse: Number,
+		},
+		cursor: {
+			kind: "parsed",
+			brief:
+				"Opaque cursor for pagination. Use the cursor value from result_info of the previous response.",
+			optional: true,
+			parse: String,
+		},
+		"field-changed": {
+			kind: "enum",
+			brief: "Filter by the field that was changed.",
+			values: ["status", "user_classification"],
+			optional: true,
+		},
+		"changed-by": {
+			kind: "parsed",
+			brief: "Filter by the actor that made the change.",
+			optional: true,
+			parse: String,
+		},
+		since: {
+			kind: "parsed",
+			brief: "Filter entries changed at or after this timestamp (RFC 3339).",
+			optional: true,
+			parse: String,
+		},
+		before: {
+			kind: "parsed",
+			brief: "Filter entries changed before this timestamp (RFC 3339).",
+			optional: true,
+			parse: String,
+		},
+		order: {
+			kind: "enum",
+			brief:
+				"Sort order for results. Use 'asc' for oldest first or 'desc' for newest first.",
+			values: ["asc", "desc"],
+			optional: true,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+	},
+	operands: [{ placeholder: "issue-id", brief: "Issue ID", parse: String }],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "security-insights audit-logs get",
 				classification: {
 					safeFlags: ["field-changed", "order", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -142,6 +142,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Loaded` });
 			}
 		),
-};
+});
 
 export default command;

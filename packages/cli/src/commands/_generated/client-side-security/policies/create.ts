@@ -1,11 +1,10 @@
 import operation from "../../_operations/client-side-security/policies/create.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * create command
  * @generated from apis/overlays/client-side-security.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import { createCommandClient, getZoneId } from "#lib/auth.js";
 import { compactBody, parseBody } from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
@@ -18,58 +17,64 @@ import {
 } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 client-side-security policies create\n\nCreates a rule that applies a client-side security action when its filter expression matches."
-		)
-		.option("action", {
-			type: "string",
-			description: "The action to take if the expression matches",
-			choices: ["allow", "log", "add_reporting_directives"],
-		})
-		.coerce("action", (value) => resolveFileToken(value, "action", "text"))
-		.option("description", {
-			type: "string",
-			description: "A description for the policy",
-		})
-		.option("enabled", {
-			type: "boolean",
-			description: "Whether the policy is enabled",
-		})
-		.option("expression", {
-			type: "string",
-			description:
-				"The expression which must match for the policy to be applied, using the Cloudflare Firewall rule expression syntax",
-		})
-		.option("value", {
-			type: "string",
-			description: "The policy which will be applied",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "create",
 	describe: "Create a content security rule",
-	builder,
+	usage:
+		"$0 client-side-security policies create\n\nCreates a rule that applies a client-side security action when its filter expression matches.",
+	flags: {
+		action: {
+			kind: "parsed",
+			brief: "The action to take if the expression matches",
+			optional: true,
+			choices: ["allow", "log", "add_reporting_directives"],
+			parse: String,
+			coerce: (value: string) => resolveFileToken(value, "action", "text"),
+		},
+		description: {
+			kind: "parsed",
+			brief: "A description for the policy",
+			optional: true,
+			parse: String,
+		},
+		enabled: {
+			kind: "boolean",
+			brief: "Whether the policy is enabled",
+			optional: true,
+		},
+		expression: {
+			kind: "parsed",
+			brief:
+				"The expression which must match for the policy to be applied, using the Cloudflare Firewall rule expression syntax",
+			optional: true,
+			parse: String,
+		},
+		value: {
+			kind: "parsed",
+			brief: "The policy which will be applied",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "client-side-security policies create",
 				classification: {
 					safeFlags: ["action", "enabled", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -186,6 +191,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Created` });
 			}
 		),
-};
+});
 
 export default command;

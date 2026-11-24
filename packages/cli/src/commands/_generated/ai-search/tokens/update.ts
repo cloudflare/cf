@@ -1,10 +1,9 @@
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * update command
  * @generated from apis/overlays/ai-search.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -20,56 +19,61 @@ import { withProgress } from "#lib/progress.js";
 import { promptForRequiredField } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 ai-search tokens update <token-id>\n\nReplace a stored AI Search credential and invalidate cached credentials for instances that use it."
-		)
-		.positional("token-id", {
-			type: "string",
-			description: "Stored credential record ID.",
-			demandOption: true,
-		})
-		.option("api-token-id", {
-			type: "string",
-			description: "Cloudflare API token ID.",
-		})
-		.option("api-token", {
-			type: "string",
-			description: "Cloudflare API token value.",
-		})
-		.option("legacy", {
-			type: "boolean",
-			description: "Whether the credential uses the legacy API key format.",
-		})
-		.option("name", {
-			type: "string",
-			description: "Human-readable name for the credential.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "update <token-id>",
 	describe: "Update a token",
-	builder,
+	usage:
+		"$0 ai-search tokens update <token-id>\n\nReplace a stored AI Search credential and invalidate cached credentials for instances that use it.",
+	flags: {
+		"api-token-id": {
+			kind: "parsed",
+			brief: "Cloudflare API token ID.",
+			optional: true,
+			parse: String,
+		},
+		"api-token": {
+			kind: "parsed",
+			brief: "Cloudflare API token value.",
+			optional: true,
+			parse: String,
+		},
+		legacy: {
+			kind: "boolean",
+			brief: "Whether the credential uses the legacy API key format.",
+			optional: true,
+		},
+		name: {
+			kind: "parsed",
+			brief: "Human-readable name for the credential.",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [
+		{
+			placeholder: "token-id",
+			brief: "Stored credential record ID.",
+			parse: String,
+		},
+	],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "ai-search tokens update",
 				classification: {
 					safeFlags: ["legacy", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -192,6 +196,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Updated` });
 			}
 		),
-};
+});
 
 export default command;

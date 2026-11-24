@@ -1,11 +1,10 @@
 import operation from "../../_operations/kv/namespaces/list.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * list command
  * @generated from apis/overlays/kv.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -17,50 +16,51 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 kv namespaces list\n\nLists Workers KV namespaces owned by the specified account. Use `page` and `per_page` to select a page of results, and `order` and `direction` to control sorting."
-		)
-		.option("page", {
-			type: "number",
-			description: "Page number of paginated results.",
-		})
-		.option("per-page", {
-			type: "number",
-			description: "Maximum number of results per page.",
-		})
-		.option("order", {
-			type: "string",
-			description: "Namespace field to sort by (`id` or `title`).",
-			choices: ["id", "title"],
-		})
-		.option("direction", {
-			type: "string",
-			description:
-				"Sort namespaces in ascending (`asc`) or descending (`desc`) order.",
-			choices: ["asc", "desc"],
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "list",
 	describe: "List namespaces",
-	builder,
+	usage:
+		"$0 kv namespaces list\n\nLists Workers KV namespaces owned by the specified account. Use `page` and `per_page` to select a page of results, and `order` and `direction` to control sorting.",
+	flags: {
+		page: {
+			kind: "parsed",
+			brief: "Page number of paginated results.",
+			optional: true,
+			parse: Number,
+		},
+		"per-page": {
+			kind: "parsed",
+			brief: "Maximum number of results per page.",
+			optional: true,
+			parse: Number,
+		},
+		order: {
+			kind: "enum",
+			brief: "Namespace field to sort by (`id` or `title`).",
+			values: ["id", "title"],
+			optional: true,
+		},
+		direction: {
+			kind: "enum",
+			brief:
+				"Sort namespaces in ascending (`asc`) or descending (`desc`) order.",
+			values: ["asc", "desc"],
+			optional: true,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "kv namespaces list",
 				classification: {
 					safeFlags: ["order", "direction", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -92,6 +92,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Loaded` });
 			}
 		),
-};
+});
 
 export default command;

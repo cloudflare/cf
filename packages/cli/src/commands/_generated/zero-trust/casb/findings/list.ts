@@ -1,11 +1,10 @@
 import operation from "../../../_operations/zero-trust/casb/findings/list.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * list command
  * @generated from apis/overlays/zero-trust.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -17,84 +16,109 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 zero-trust casb findings list\n\nList all security findings that have been identified as being problematic. This will return a list of findings regardless if they have been ignored or not."
-		)
-		.option("cursor", {
-			type: "string",
-			description:
+const command = apiCommand({
+	command: "list",
+	describe: "List posture findings",
+	usage:
+		"$0 zero-trust casb findings list\n\nList all security findings that have been identified as being problematic. This will return a list of findings regardless if they have been ignored or not.",
+	flags: {
+		cursor: {
+			kind: "parsed",
+			brief:
 				"A cursor for pagination. Obtained from the `result_info.cursor` field of a previous response.",
-		})
-		.option("direction", {
-			type: "string",
-			description: "Direction to order results.",
-			choices: ["asc", "desc"],
-		})
-		.option("ignored", {
-			type: "boolean",
-			description:
+			optional: true,
+			parse: String,
+		},
+		direction: {
+			kind: "enum",
+			brief: "Direction to order results.",
+			values: ["asc", "desc"],
+			optional: true,
+		},
+		ignored: {
+			kind: "boolean",
+			brief:
 				'Filter for only the ignored findings. Set to false to only see "active" items',
-		})
-		.option("integration-id", {
-			type: "string",
-			description: "Filter by an integration ID",
-		})
-		.option("max-affliction-date", {
-			type: "string",
-			description:
+			optional: true,
+		},
+		"integration-id": {
+			kind: "parsed",
+			brief: "Filter by an integration ID",
+			optional: true,
+			parse: String,
+		},
+		"max-affliction-date": {
+			kind: "parsed",
+			brief:
 				"Filter to view findings that occurred on or before the affliction date. Can be a date-time in ISO 8601 format or an epoch timestamp.",
-		})
-		.option("min-affliction-date", {
-			type: "string",
-			description:
+			optional: true,
+			parse: String,
+		},
+		"min-affliction-date": {
+			kind: "parsed",
+			brief:
 				"Filter to view findings that occurred on or after the affliction date. Can be a date-time in ISO 8601 format or an epoch timestamp.",
-		})
-		.option("observation", {
-			type: "string",
-			description: "Filter by observation type of the finding",
-			choices: ["Activity", "Insight", "Issue"],
-		})
-		.option("order", {
-			type: "string",
-			description: "Which field to use when ordering the findings.",
-			choices: [
+			optional: true,
+			parse: String,
+		},
+		observation: {
+			kind: "enum",
+			brief: "Filter by observation type of the finding",
+			values: ["Activity", "Insight", "Issue"],
+			optional: true,
+		},
+		order: {
+			kind: "enum",
+			brief: "Which field to use when ordering the findings.",
+			values: [
 				"finding.name",
 				"instance_count",
 				"integration.name",
 				"latest_affliction_date",
 				"severity",
 			],
-		})
-		.option("page", {
-			type: "number",
-			description: "A page number within the paginated result set.",
-		})
-		.option("per-page", {
-			type: "number",
-			description: "Number of results to return per page.",
-		})
-		.option("product", {
-			type: "string",
-			description: "Filter by product category of the finding",
-			choices: ["Cloud", "Saas"],
-		})
-		.option("search", { type: "string", description: "A search term." })
-		.option("severity", {
-			type: "string",
-			description: "Filter by severity",
-			choices: ["Critical", "High", "Medium", "Low"],
-		})
-		.option("type", {
-			type: "string",
-			description: "Filter by type of the finding",
-			choices: ["Content", "Posture"],
-		})
-		.option("vendor", {
-			type: "string",
-			description: "Filter by vendor",
-			choices: [
+			optional: true,
+		},
+		page: {
+			kind: "parsed",
+			brief: "A page number within the paginated result set.",
+			optional: true,
+			parse: Number,
+		},
+		"per-page": {
+			kind: "parsed",
+			brief: "Number of results to return per page.",
+			optional: true,
+			parse: Number,
+		},
+		product: {
+			kind: "enum",
+			brief: "Filter by product category of the finding",
+			values: ["Cloud", "Saas"],
+			optional: true,
+		},
+		search: {
+			kind: "parsed",
+			brief: "A search term.",
+			optional: true,
+			parse: String,
+		},
+		severity: {
+			kind: "enum",
+			brief: "Filter by severity",
+			values: ["Critical", "High", "Medium", "Low"],
+			optional: true,
+		},
+		type: {
+			kind: "enum",
+			brief: "Filter by type of the finding",
+			values: ["Content", "Posture"],
+			optional: true,
+		},
+		vendor: {
+			kind: "enum",
+			brief: "Filter by vendor",
+			values: [
 				"ANTHROPIC",
 				"AWS",
 				"BITBUCKET",
@@ -113,25 +137,21 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"SLACK",
 				"ZOOM",
 			],
-		})
-		.option("finding-type-ids", {
-			type: "string",
-			description:
-				"A comma separated list of UUIDs identifying the finding type(s).",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
+			optional: true,
+		},
+		"finding-type-ids": {
+			kind: "parsed",
+			brief: "A comma separated list of UUIDs identifying the finding type(s).",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
 			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "list",
-	describe: "List posture findings",
-	builder,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
@@ -148,7 +168,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"vendor",
 						"dry-run",
 					],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -192,6 +212,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Loaded` });
 			}
 		),
-};
+});
 
 export default command;

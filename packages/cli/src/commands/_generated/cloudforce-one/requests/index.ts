@@ -10,36 +10,31 @@ import $quota from "./quota/index.js";
 import $types from "./types/index.js";
 import $update from "./update.js";
 import $user from "./user/index.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * requests command group
  * @generated from apis/overlays/cloudforce-one.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "requests",
 	describe:
 		"Additional request operations — priority listing and asset creation",
 
-	builder: (yargs) => {
-		return yargs
-			.command($create)
-			.command($get)
-			.command($list)
-			.command($update)
-			.command($assets)
-			.command($constants)
-			.command($legalresponse)
-			.command($messages)
-			.command($metadata)
-			.command($quota)
-			.command($types)
-			.command($user)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		create: $create,
+		get: $get,
+		list: $list,
+		update: $update,
+		assets: $assets,
+		constants: $constants,
+		"legal-response": $legalresponse,
+		messages: $messages,
+		metadata: $metadata,
+		quota: $quota,
+		types: $types,
+		user: $user,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

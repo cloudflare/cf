@@ -8,34 +8,29 @@ import $providers from "./providers/index.js";
 import $snapshots from "./snapshots/index.js";
 import $update from "./update.js";
 import $uploads from "./uploads/index.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * indicator-feeds command group
  * @generated from apis/overlays/intel.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "indicator-feeds",
 	describe:
 		"Threat indicator feeds — subscribe to and manage curated lists of malicious IPs, domains, and URLs",
 
-	builder: (yargs) => {
-		return yargs
-			.command($create)
-			.command($data)
-			.command($get)
-			.command($list)
-			.command($update)
-			.command($downloads)
-			.command($permissions)
-			.command($providers)
-			.command($snapshots)
-			.command($uploads)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		create: $create,
+		data: $data,
+		get: $get,
+		list: $list,
+		update: $update,
+		downloads: $downloads,
+		permissions: $permissions,
+		providers: $providers,
+		snapshots: $snapshots,
+		uploads: $uploads,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

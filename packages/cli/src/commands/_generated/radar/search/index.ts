@@ -1,22 +1,17 @@
 import $global from "./global.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * search command group
  * @generated from apis/overlays/radar.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "search",
 	describe: "Search Radar data across IPs, ASNs, domains, and locations",
 
-	builder: (yargs) => {
-		return yargs
-			.command($global)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		global: $global,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

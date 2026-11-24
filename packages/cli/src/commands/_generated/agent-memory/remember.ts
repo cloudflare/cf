@@ -1,11 +1,10 @@
 import operation from "../_operations/agent-memory/remember.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * remember command
  * @generated from apis/overlays/agent-memory.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -20,53 +19,51 @@ import { withProgress } from "#lib/progress.js";
 import { promptForRequiredField } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 agent-memory remember <profile-name>\n\nStores a single memory explicitly."
-		)
-		.positional("profile-name", {
-			type: "string",
-			description: "Profile name.",
-			demandOption: true,
-		})
-		.option("namespace-name", {
-			type: "string",
-			description: "Namespace name.",
-			demandOption: true,
-		})
-		.option("content", {
-			type: "string",
-			description: "Raw memory content to store.",
-		})
-		.option("session-id", {
-			type: "string",
-			description: "Session identifier.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "remember <profile-name>",
 	describe: "Remember a memory",
-	builder,
+	usage:
+		"$0 agent-memory remember <profile-name>\n\nStores a single memory explicitly.",
+	flags: {
+		"namespace-name": {
+			kind: "parsed",
+			brief: "Namespace name.",
+			parse: String,
+		},
+		content: {
+			kind: "parsed",
+			brief: "Raw memory content to store.",
+			optional: true,
+			parse: String,
+		},
+		"session-id": {
+			kind: "parsed",
+			brief: "Session identifier.",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [
+		{ placeholder: "profile-name", brief: "Profile name.", parse: String },
+	],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "agent-memory remember",
-				classification: {
-					safeFlags: ["dry-run"],
-				} satisfies ArgClassification<Args>,
+				classification: { safeFlags: ["dry-run"] } satisfies ArgClassification<
+					typeof argv
+				>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -155,6 +152,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Created` });
 			}
 		),
-};
+});
 
 export default command;

@@ -1,11 +1,10 @@
 import operation from "../../../../_operations/cloudforce-one/threat-intel/indicators/relationships/create.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * create command
  * @generated from apis/overlays/cloudforce-one.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -23,68 +22,69 @@ import {
 } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 cloudforce-one threat-intel indicators relationships create <indicator-id>\n\nCreates a relationship from an indicator to an event or tag (`targetType`). Relationships between two indicators are not supported."
-		)
-		.positional("indicator-id", {
-			type: "string",
-			description: "Indicator UUID.",
-			demandOption: true,
-		})
-		.option("dataset-id", {
-			type: "string",
-			description: "Dataset UUID.",
-			demandOption: true,
-		})
-		.option("confidence", {
-			type: "number",
-			description: "Confidence score 0–100.",
-		})
-		.option("metadata", {
-			type: "string",
-			description:
-				'Arbitrary JSON metadata. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": unknown}.',
-		})
-		.option("target-id", {
-			type: "string",
-			description: "UUID of the target entity.",
-		})
-		.option("target-type", {
-			type: "string",
-			description:
-				'Target type. "indicator" is not allowed (indicator↔indicator relationships are not supported).',
-			choices: ["event", "tag"],
-		})
-		.coerce("target-type", (value) =>
-			resolveFileToken(value, "target-type", "text")
-		)
-		.option("type", { type: "string", description: "Relationship type." })
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "create <indicator-id>",
 	describe: "Create an indicator relationship",
-	builder,
+	usage:
+		"$0 cloudforce-one threat-intel indicators relationships create <indicator-id>\n\nCreates a relationship from an indicator to an event or tag (`targetType`). Relationships between two indicators are not supported.",
+	flags: {
+		"dataset-id": { kind: "parsed", brief: "Dataset UUID.", parse: String },
+		confidence: {
+			kind: "parsed",
+			brief: "Confidence score 0–100.",
+			optional: true,
+			parse: Number,
+		},
+		metadata: {
+			kind: "parsed",
+			brief:
+				'Arbitrary JSON metadata. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": unknown}.',
+			optional: true,
+			parse: String,
+		},
+		"target-id": {
+			kind: "parsed",
+			brief: "UUID of the target entity.",
+			optional: true,
+			parse: String,
+		},
+		"target-type": {
+			kind: "parsed",
+			brief:
+				'Target type. "indicator" is not allowed (indicator↔indicator relationships are not supported).',
+			optional: true,
+			choices: ["event", "tag"],
+			parse: String,
+			coerce: (value: string) => resolveFileToken(value, "target-type", "text"),
+		},
+		type: {
+			kind: "parsed",
+			brief: "Relationship type.",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [
+		{ placeholder: "indicator-id", brief: "Indicator UUID.", parse: String },
+	],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "cloudforce-one threat-intel indicators relationships create",
 				classification: {
 					safeFlags: ["target-type", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -199,6 +199,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Created` });
 			}
 		),
-};
+});
 
 export default command;

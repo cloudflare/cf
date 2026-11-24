@@ -1,11 +1,10 @@
 import operation from "../../../../_operations/realtime/kit/sessions/livestreams/get.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * get command
  * @generated from apis/overlays/realtime.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -17,50 +16,44 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 realtime kit sessions livestreams get <session-id>\n\nReturns livestream session details for the given session ID. Retreive the session ID using the `Fetch all sessions of an App` API."
-		)
-		.positional("session-id", {
-			type: "string",
-			description: "Session ID",
-			demandOption: true,
-		})
-		.option("app-id", {
-			type: "string",
-			description: "The app identifier tag.",
-			demandOption: true,
-		})
-		.option("per-page", {
-			type: "number",
-			description: "Number of results per page.",
-		})
-		.option("page-no", {
-			type: "number",
-			description:
-				"The page number from which you want your page search results to be displayed.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "get <session-id>",
 	describe: "Fetch livestream session details using a session ID",
-	builder,
+	usage:
+		"$0 realtime kit sessions livestreams get <session-id>\n\nReturns livestream session details for the given session ID. Retreive the session ID using the `Fetch all sessions of an App` API.",
+	flags: {
+		"app-id": {
+			kind: "parsed",
+			brief: "The app identifier tag.",
+			parse: String,
+		},
+		"per-page": {
+			kind: "parsed",
+			brief: "Number of results per page.",
+			optional: true,
+			parse: Number,
+		},
+		"page-no": {
+			kind: "parsed",
+			brief:
+				"The page number from which you want your page search results to be displayed.",
+			optional: true,
+			parse: Number,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+	},
+	operands: [{ placeholder: "session-id", brief: "Session ID", parse: String }],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "realtime kit sessions livestreams get",
-				classification: {
-					safeFlags: ["dry-run"],
-				} satisfies ArgClassification<Args>,
+				classification: { safeFlags: ["dry-run"] } satisfies ArgClassification<
+					typeof argv
+				>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -98,6 +91,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Loaded` });
 			}
 		),
-};
+});
 
 export default command;

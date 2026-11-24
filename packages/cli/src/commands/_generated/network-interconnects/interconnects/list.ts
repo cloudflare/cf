@@ -1,11 +1,10 @@
 import operation from "../../_operations/network-interconnects/interconnects/list.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * list command
  * @generated from apis/overlays/network-interconnects.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -17,43 +16,41 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 network-interconnects interconnects list\n\nLists network interconnects of a single type configured for the account. The `type` query parameter selects the type to list; when omitted, only `direct` interconnects are returned."
-		)
-		.option("site", {
-			type: "string",
-			description:
-				"If specified, only show interconnects located at the given site",
-		})
-		.option("type", {
-			type: "string",
-			description:
-				"Type of interconnect to list, such as `direct` or `gcp_partner`. Defaults to `direct`.",
-		})
-		.option("cursor", { type: "number", description: "Cursor" })
-		.option("limit", { type: "number", description: "Limit" })
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "list",
 	describe: "List existing interconnects",
-	builder,
+	usage:
+		"$0 network-interconnects interconnects list\n\nLists network interconnects of a single type configured for the account. The `type` query parameter selects the type to list; when omitted, only `direct` interconnects are returned.",
+	flags: {
+		site: {
+			kind: "parsed",
+			brief: "If specified, only show interconnects located at the given site",
+			optional: true,
+			parse: String,
+		},
+		type: {
+			kind: "parsed",
+			brief:
+				"Type of interconnect to list, such as `direct` or `gcp_partner`. Defaults to `direct`.",
+			optional: true,
+			parse: String,
+		},
+		cursor: { kind: "parsed", brief: "Cursor", optional: true, parse: Number },
+		limit: { kind: "parsed", brief: "Limit", optional: true, parse: Number },
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "network-interconnects interconnects list",
-				classification: {
-					safeFlags: ["dry-run"],
-				} satisfies ArgClassification<Args>,
+				classification: { safeFlags: ["dry-run"] } satisfies ArgClassification<
+					typeof argv
+				>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -85,6 +82,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Loaded` });
 			}
 		),
-};
+});
 
 export default command;

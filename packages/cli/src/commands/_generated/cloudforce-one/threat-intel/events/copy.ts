@@ -1,11 +1,10 @@
 import operation from "../../../_operations/cloudforce-one/threat-intel/events/copy.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * copy command
  * @generated from apis/overlays/cloudforce-one.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -20,54 +19,53 @@ import { withProgress } from "#lib/progress.js";
 import { promptForRequiredField } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 cloudforce-one threat-intel events copy <dataset-id>\n\nCopies events to the dataset given by `destDatasetId` and leaves the originals in place. Raw event data is copied only when `keepRawData` is true."
-		)
-		.positional("dataset-id", {
-			type: "string",
-			description: "Dataset UUID.",
-			demandOption: true,
-		})
-		.option("keep-raw-data", {
-			type: "boolean",
-			description:
-				"If true, copies raw data to the destination dataset. Default is false (raw data is stripped/not copied).",
-		})
-		.option("dest-dataset-id", {
-			type: "string",
-			description: "The destDatasetId field",
-		})
-		.option("event-ids", {
-			type: "string",
-			array: true,
-			description: "The eventIds field",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "copy <dataset-id>",
 	describe: "Copy events to another dataset",
-	builder,
+	usage:
+		"$0 cloudforce-one threat-intel events copy <dataset-id>\n\nCopies events to the dataset given by `destDatasetId` and leaves the originals in place. Raw event data is copied only when `keepRawData` is true.",
+	flags: {
+		"keep-raw-data": {
+			kind: "boolean",
+			brief:
+				"If true, copies raw data to the destination dataset. Default is false (raw data is stripped/not copied).",
+			optional: true,
+		},
+		"dest-dataset-id": {
+			kind: "parsed",
+			brief: "The destDatasetId field",
+			optional: true,
+			parse: String,
+		},
+		"event-ids": {
+			kind: "parsed",
+			brief: "The eventIds field",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [
+		{ placeholder: "dataset-id", brief: "Dataset UUID.", parse: String },
+	],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "cloudforce-one threat-intel events copy",
 				classification: {
 					safeFlags: ["keep-raw-data", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -164,6 +162,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Created` });
 			}
 		),
-};
+});
 
 export default command;

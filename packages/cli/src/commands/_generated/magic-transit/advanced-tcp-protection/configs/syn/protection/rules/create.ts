@@ -1,11 +1,10 @@
 import operation from "../../../../../../_operations/magic-transit/advanced-tcp-protection/configs/syn/protection/rules/create.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * create command
  * @generated from apis/overlays/magic-transit.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -20,66 +19,73 @@ import { withProgress } from "#lib/progress.js";
 import { promptForRequiredField } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 magic-transit advanced-tcp-protection configs syn protection rules create\n\nCreate a SYN Protection rule for an account."
-		)
-		.option("burst-sensitivity", {
-			type: "string",
-			description:
-				"The burst sensitivity. Must be one of 'low', 'medium', 'high'.",
-		})
-		.option("mitigation-type", {
-			type: "string",
-			description:
-				"The type of mitigation. Must be one of 'challenge' or 'retransmit'. Optional. Defaults to 'challenge'.",
-		})
-		.option("protection-mode", {
-			type: "string",
-			description:
-				"The mode for SYN Protection. Must be one of 'enabled', 'disabled', 'monitoring'.",
-		})
-		.option("name", {
-			type: "string",
-			description:
-				"The name of the SYN Protection rule. Value is relative to the 'scope' setting. For 'global' scope, name should be 'global'. For either the 'region' or 'datacenter' scope, name should be the actual name of the region or datacenter, e.g., 'wnam' or 'lax'.",
-		})
-		.option("rate-sensitivity", {
-			type: "string",
-			description:
-				"The rate sensitivity. Must be one of 'low', 'medium', 'high'.",
-		})
-		.option("scope", {
-			type: "string",
-			description:
-				"The scope for the SYN Protection rule. Must be one of 'global', 'region', or 'datacenter'.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "The new SYN Protection rule to add.",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "create",
 	describe: "Create SYN Protection rule.",
-	builder,
+	usage:
+		"$0 magic-transit advanced-tcp-protection configs syn protection rules create\n\nCreate a SYN Protection rule for an account.",
+	flags: {
+		"burst-sensitivity": {
+			kind: "parsed",
+			brief: "The burst sensitivity. Must be one of 'low', 'medium', 'high'.",
+			optional: true,
+			parse: String,
+		},
+		"mitigation-type": {
+			kind: "parsed",
+			brief:
+				"The type of mitigation. Must be one of 'challenge' or 'retransmit'. Optional. Defaults to 'challenge'.",
+			optional: true,
+			parse: String,
+		},
+		"protection-mode": {
+			kind: "parsed",
+			brief:
+				"The mode for SYN Protection. Must be one of 'enabled', 'disabled', 'monitoring'.",
+			optional: true,
+			parse: String,
+		},
+		name: {
+			kind: "parsed",
+			brief:
+				"The name of the SYN Protection rule. Value is relative to the 'scope' setting. For 'global' scope, name should be 'global'. For either the 'region' or 'datacenter' scope, name should be the actual name of the region or datacenter, e.g., 'wnam' or 'lax'.",
+			optional: true,
+			parse: String,
+		},
+		"rate-sensitivity": {
+			kind: "parsed",
+			brief: "The rate sensitivity. Must be one of 'low', 'medium', 'high'.",
+			optional: true,
+			parse: String,
+		},
+		scope: {
+			kind: "parsed",
+			brief:
+				"The scope for the SYN Protection rule. Must be one of 'global', 'region', or 'datacenter'.",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "The new SYN Protection rule to add.",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command:
 					"magic-transit advanced-tcp-protection configs syn protection rules create",
-				classification: {
-					safeFlags: ["dry-run"],
-				} satisfies ArgClassification<Args>,
+				classification: { safeFlags: ["dry-run"] } satisfies ArgClassification<
+					typeof argv
+				>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -220,6 +226,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Created` });
 			}
 		),
-};
+});
 
 export default command;

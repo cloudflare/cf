@@ -1,10 +1,9 @@
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * get command
  * @generated from apis/overlays/workflows.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -17,65 +16,58 @@ import { withProgress } from "#lib/progress.js";
 import { fetchRawBytes, writeRawOutput } from "#lib/raw-fetch.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 workflows instances step get <instance-id>\n\nRetrieves the full, untruncated output for a specific step on a workflow instance. Returns a flat status-shaped JSON body with step `status` ('running' | 'waiting' | 'complete' | 'errored'), `error` (nullable), and `output` (the step value, or null while running/waiting/errored). When the step returned a ReadableStream from step.do, the response is served as 'application/octet-stream' with the raw bytes as the body instead of JSON. A `status='running'` response with non-null `error` indicates the step is currently retrying after a prior attempt failed."
-		)
-		.positional("instance-id", {
-			type: "string",
-			description:
-				"Instance identifier. User-created instances match \`^[a-zA-Z0-9_][a-zA-Z0-9-_]*$\` (max 100 characters); cron-triggered instances can use a longer, system-generated id derived from the cron expression.",
-			demandOption: true,
-		})
-		.option("workflow-name", {
-			type: "string",
-			description: "Workflow name",
-			demandOption: true,
-		})
-		.option("name", {
-			type: "string",
-			description:
-				"Exact step name from the instance logs response, including the generated counter suffix.",
-			demandOption: true,
-		})
-		.option("type", {
-			type: "string",
-			description:
-				"Step type to disambiguate step.do and waitForEvent entries that share the same name.",
-			choices: ["step", "waitForEvent"],
-			demandOption: true,
-		})
-		.option("attempt", {
-			type: "number",
-			description: "Specific attempt number to retrieve output or error for.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("text", {
-			type: "boolean",
-			description:
-				"Decode the response body as UTF-8 text instead of writing raw bytes",
-			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "get <instance-id>",
 	describe: "Get full step output from instance",
-	builder,
+	usage:
+		"$0 workflows instances step get <instance-id>\n\nRetrieves the full, untruncated output for a specific step on a workflow instance. Returns a flat status-shaped JSON body with step `status` ('running' | 'waiting' | 'complete' | 'errored'), `error` (nullable), and `output` (the step value, or null while running/waiting/errored). When the step returned a ReadableStream from step.do, the response is served as 'application/octet-stream' with the raw bytes as the body instead of JSON. A `status='running'` response with non-null `error` indicates the step is currently retrying after a prior attempt failed.",
+	flags: {
+		"workflow-name": { kind: "parsed", brief: "Workflow name", parse: String },
+		name: {
+			kind: "parsed",
+			brief:
+				"Exact step name from the instance logs response, including the generated counter suffix.",
+			parse: String,
+		},
+		type: {
+			kind: "enum",
+			brief:
+				"Step type to disambiguate step.do and waitForEvent entries that share the same name.",
+			values: ["step", "waitForEvent"],
+		},
+		attempt: {
+			kind: "parsed",
+			brief: "Specific attempt number to retrieve output or error for.",
+			optional: true,
+			parse: Number,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		text: {
+			kind: "boolean",
+			brief:
+				"Decode the response body as UTF-8 text instead of writing raw bytes",
+			default: false,
+		},
+	},
+	operands: [
+		{
+			placeholder: "instance-id",
+			brief:
+				"Instance identifier. User-created instances match \`^[a-zA-Z0-9_][a-zA-Z0-9-_]*$\` (max 100 characters); cron-triggered instances can use a longer, system-generated id derived from the cron expression.",
+			parse: String,
+		},
+	],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "workflows instances step get",
 				classification: {
 					safeFlags: ["type", "dry-run", "text"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -124,6 +116,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				return;
 			}
 		),
-};
+});
 
 export default command;

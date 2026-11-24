@@ -1,11 +1,10 @@
 import operation from "../../../_operations/zero-trust/casb/policies/create.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * create command
  * @generated from apis/overlays/zero-trust.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -20,73 +19,84 @@ import { withProgress } from "#lib/progress.js";
 import { promptForRequiredField } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 zero-trust casb policies create\n\nCreates a new policy configuration that defines automated actions to be executed when security findings are detected. A policy can include multiple remediation and/or webhook actions that will be triggered automatically."
-		)
-		.option("actions-remediation-types", {
-			type: "string",
-			description:
-				'Remediation actions to execute (at most one). Provide as a JSON array of objects or @path/to/file.json. Shape: [{"remediation_type_id": string}].',
-		})
-		.option("actions-webhook-configs", {
-			type: "string",
-			description:
-				'Webhook actions to execute. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"webhook_config_id": string}].',
-		})
-		.option("applies-to-all-integrations", {
-			type: "boolean",
-			description:
-				"When true, the policy applies to all integrations for the account. When false, integration_ids must be provided.",
-		})
-		.option("description", {
-			type: "string",
-			description: "Optional description of what this policy does.",
-		})
-		.option("display-name", {
-			type: "string",
-			description: "Display name for the policy configuration.",
-		})
-		.option("enabled", {
-			type: "boolean",
-			description: "Boolean specifying if the policy is enabled or disabled.",
-		})
-		.option("finding-type-id", {
-			type: "string",
-			description:
-				"The finding type this policy is associated with. All remediation actions must match this finding type.",
-		})
-		.option("integration-ids", {
-			type: "string",
-			array: true,
-			description:
-				"The integrations this policy applies to. Required when applies_to_all_integrations is false.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Request body for creating a new policy configuration.",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "create",
 	describe: "Create a new policy configuration",
-	builder,
+	usage:
+		"$0 zero-trust casb policies create\n\nCreates a new policy configuration that defines automated actions to be executed when security findings are detected. A policy can include multiple remediation and/or webhook actions that will be triggered automatically.",
+	flags: {
+		"actions-remediation-types": {
+			kind: "parsed",
+			brief:
+				'Remediation actions to execute (at most one). Provide as a JSON array of objects or @path/to/file.json. Shape: [{"remediation_type_id": string}].',
+			optional: true,
+			parse: String,
+		},
+		"actions-webhook-configs": {
+			kind: "parsed",
+			brief:
+				'Webhook actions to execute. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"webhook_config_id": string}].',
+			optional: true,
+			parse: String,
+		},
+		"applies-to-all-integrations": {
+			kind: "boolean",
+			brief:
+				"When true, the policy applies to all integrations for the account. When false, integration_ids must be provided.",
+			optional: true,
+		},
+		description: {
+			kind: "parsed",
+			brief: "Optional description of what this policy does.",
+			optional: true,
+			parse: String,
+		},
+		"display-name": {
+			kind: "parsed",
+			brief: "Display name for the policy configuration.",
+			optional: true,
+			parse: String,
+		},
+		enabled: {
+			kind: "boolean",
+			brief: "Boolean specifying if the policy is enabled or disabled.",
+			optional: true,
+		},
+		"finding-type-id": {
+			kind: "parsed",
+			brief:
+				"The finding type this policy is associated with. All remediation actions must match this finding type.",
+			optional: true,
+			parse: String,
+		},
+		"integration-ids": {
+			kind: "parsed",
+			brief:
+				"The integrations this policy applies to. Required when applies_to_all_integrations is false.",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Request body for creating a new policy configuration.",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "zero-trust casb policies create",
 				classification: {
 					safeFlags: ["applies-to-all-integrations", "enabled", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -215,6 +225,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Created` });
 			}
 		),
-};
+});
 
 export default command;

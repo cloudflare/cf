@@ -1,11 +1,10 @@
 import operation from "../../_operations/magic-transit/bgp-filter-profiles/update.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * update command
  * @generated from apis/overlays/magic-transit.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -19,64 +18,63 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			'$0 magic-transit bgp-filter-profiles update <profile-id>\n\nUpdates a BGP filter profile. Omitted properties are left unchanged. To clear an existing description send `description: ""`.'
-		)
-		.positional("profile-id", {
-			type: "string",
-			description: "Identifier",
-			demandOption: true,
-		})
-		.option("description", {
-			type: "string",
-			description: "Description of the filter profile",
-		})
-		.option("match-action", {
-			type: "string",
-			description:
-				"Action to take when a route matches one of the targets in this profile",
-			choices: ["allow", "deny"],
-		})
-		.coerce("match-action", (value) =>
-			resolveFileToken(value, "match-action", "text")
-		)
-		.option("name", {
-			type: "string",
-			description: "Friendly name for the filter profile",
-		})
-		.option("targets", {
-			type: "string",
-			array: true,
-			description:
-				"List of CIDR prefixes. Each entry may carry an optional suffix that specifies which prefix lengths to match relative to the prefix length N: '{X,Y}' matches prefix lengths in the inclusive range [X, Y] where N <= X <= Y <= max (max is 32 for IPv4, 128 for IPv6), '{X}' matches exactly length X (equivalent to {X,X}), '+' is shorthand for {N, max} (the prefix and all more-specific subnets, including at length N itself; valid even when N is the maximum length). Omit the suffix to match the prefix exactly at length N.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description:
-				'Partial update for a BGP filter profile. At least one property must be provided; omitted properties are left unchanged. To clear an existing description send \`description: ""\`.',
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "update <profile-id>",
 	describe: "Update BGP Filter Profile",
-	builder,
+	usage:
+		'$0 magic-transit bgp-filter-profiles update <profile-id>\n\nUpdates a BGP filter profile. Omitted properties are left unchanged. To clear an existing description send `description: ""`.',
+	flags: {
+		description: {
+			kind: "parsed",
+			brief: "Description of the filter profile",
+			optional: true,
+			parse: String,
+		},
+		"match-action": {
+			kind: "parsed",
+			brief:
+				"Action to take when a route matches one of the targets in this profile",
+			optional: true,
+			choices: ["allow", "deny"],
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "match-action", "text"),
+		},
+		name: {
+			kind: "parsed",
+			brief: "Friendly name for the filter profile",
+			optional: true,
+			parse: String,
+		},
+		targets: {
+			kind: "parsed",
+			brief:
+				"List of CIDR prefixes. Each entry may carry an optional suffix that specifies which prefix lengths to match relative to the prefix length N: '{X,Y}' matches prefix lengths in the inclusive range [X, Y] where N <= X <= Y <= max (max is 32 for IPv4, 128 for IPv6), '{X}' matches exactly length X (equivalent to {X,X}), '+' is shorthand for {N, max} (the prefix and all more-specific subnets, including at length N itself; valid even when N is the maximum length). Omit the suffix to match the prefix exactly at length N.",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief:
+				'Partial update for a BGP filter profile. At least one property must be provided; omitted properties are left unchanged. To clear an existing description send `description: ""`.',
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [{ placeholder: "profile-id", brief: "Identifier", parse: String }],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "magic-transit bgp-filter-profiles update",
 				classification: {
 					safeFlags: ["match-action", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -152,6 +150,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Updated` });
 			}
 		),
-};
+});
 
 export default command;

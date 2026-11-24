@@ -1,22 +1,17 @@
 import $eligibility from "./eligibility.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * appeals command group
  * @generated from apis/overlays/abuse-reports.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "appeals",
 	describe: "Appeal eligibility for abuse reports",
 
-	builder: (yargs) => {
-		return yargs
-			.command($eligibility)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		eligibility: $eligibility,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

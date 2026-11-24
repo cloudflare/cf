@@ -1,11 +1,10 @@
 import operation from "../../_operations/ssl/certificate-packs/create.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * create command
  * @generated from apis/overlays/ssl.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import { createCommandClient, getZoneId } from "#lib/auth.js";
 import { compactBody, parseBody } from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
@@ -15,66 +14,72 @@ import { withProgress } from "#lib/progress.js";
 import { promptForRequiredEnumField } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 ssl certificate-packs create\n\nFor a given zone, order an advanced certificate pack."
-		)
-		.option("certificate-authority", {
-			type: "string",
-			description:
-				"Certificate Authority selected for the order.  For information on any certificate authority specific details or restrictions [see this page for more details](https://developers.cloudflare.com/ssl/reference/certificate-authorities).",
-			choices: ["google", "lets_encrypt", "ssl_com"],
-		})
-		.coerce("certificate-authority", (value) =>
-			resolveFileToken(value, "certificate-authority", "text")
-		)
-		.option("cloudflare-branding", {
-			type: "boolean",
-			description:
-				"Whether or not to add Cloudflare Branding for the order.  This will add a subdomain of sni.cloudflaressl.com as the Common Name if set to true.",
-		})
-		.option("hosts", {
-			type: "string",
-			array: true,
-			description:
-				"Comma separated list of valid host names for the certificate packs. Must contain the zone apex, may not contain more than 50 hosts, and may not be empty.",
-		})
-		.option("type", {
-			type: "string",
-			description: "Type of certificate pack.",
-			choices: ["advanced"],
-		})
-		.coerce("type", (value) => resolveFileToken(value, "type", "text"))
-		.option("validation-method", {
-			type: "string",
-			description: "Validation Method selected for the order.",
-			choices: ["txt", "http", "email"],
-		})
-		.coerce("validation-method", (value) =>
-			resolveFileToken(value, "validation-method", "text")
-		)
-		.option("validity-days", {
-			type: "number",
-			description: "Validity Days selected for the order.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "create",
 	describe: "Order Advanced Certificate Manager Certificate Pack",
-	builder,
+	usage:
+		"$0 ssl certificate-packs create\n\nFor a given zone, order an advanced certificate pack.",
+	flags: {
+		"certificate-authority": {
+			kind: "parsed",
+			brief:
+				"Certificate Authority selected for the order.  For information on any certificate authority specific details or restrictions [see this page for more details](https://developers.cloudflare.com/ssl/reference/certificate-authorities).",
+			optional: true,
+			choices: ["google", "lets_encrypt", "ssl_com"],
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "certificate-authority", "text"),
+		},
+		"cloudflare-branding": {
+			kind: "boolean",
+			brief:
+				"Whether or not to add Cloudflare Branding for the order.  This will add a subdomain of sni.cloudflaressl.com as the Common Name if set to true.",
+			optional: true,
+		},
+		hosts: {
+			kind: "parsed",
+			brief:
+				"Comma separated list of valid host names for the certificate packs. Must contain the zone apex, may not contain more than 50 hosts, and may not be empty.",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		type: {
+			kind: "parsed",
+			brief: "Type of certificate pack.",
+			optional: true,
+			choices: ["advanced"],
+			parse: String,
+			coerce: (value: string) => resolveFileToken(value, "type", "text"),
+		},
+		"validation-method": {
+			kind: "parsed",
+			brief: "Validation Method selected for the order.",
+			optional: true,
+			choices: ["txt", "http", "email"],
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "validation-method", "text"),
+		},
+		"validity-days": {
+			kind: "parsed",
+			brief: "Validity Days selected for the order.",
+			optional: true,
+			parse: Number,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
@@ -87,7 +92,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"validation-method",
 						"dry-run",
 					],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -183,6 +188,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Created` });
 			}
 		),
-};
+});
 
 export default command;

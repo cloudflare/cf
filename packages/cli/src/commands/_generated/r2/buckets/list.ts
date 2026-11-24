@@ -1,10 +1,9 @@
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * list command
  * @generated from apis/overlays/r2.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -17,65 +16,72 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 r2 buckets list\n\nLists a page of R2 buckets in the account and selected jurisdiction. Use the returned cursor to retrieve the next page."
-		)
-		.option("name-contains", {
-			type: "string",
-			description:
-				"Bucket names to filter by. Only buckets with this phrase in their name will be returned.",
-		})
-		.option("start-after", {
-			type: "string",
-			description:
-				"Bucket name to start searching after. Buckets are ordered lexicographically.",
-		})
-		.option("per-page", {
-			type: "number",
-			description: "Maximum number of buckets to return in a single call.",
-		})
-		.option("order", {
-			type: "string",
-			description: "Field to order buckets by.",
-			choices: ["name"],
-		})
-		.option("direction", {
-			type: "string",
-			description: "Direction to order buckets.",
-			choices: ["asc", "desc"],
-		})
-		.option("cursor", {
-			type: "string",
-			description:
-				"Pagination cursor received during the last List Buckets call. R2 buckets are paginated using cursors instead of page numbers.",
-		})
-		.option("cf-r2-jurisdiction", {
-			type: "string",
-			description:
-				"Jurisdiction where objects in this bucket are guaranteed to be stored.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "list",
 	describe: "List Buckets",
-	builder,
+	usage:
+		"$0 r2 buckets list\n\nLists a page of R2 buckets in the account and selected jurisdiction. Use the returned cursor to retrieve the next page.",
+	flags: {
+		"name-contains": {
+			kind: "parsed",
+			brief:
+				"Bucket names to filter by. Only buckets with this phrase in their name will be returned.",
+			optional: true,
+			parse: String,
+		},
+		"start-after": {
+			kind: "parsed",
+			brief:
+				"Bucket name to start searching after. Buckets are ordered lexicographically.",
+			optional: true,
+			parse: String,
+		},
+		"per-page": {
+			kind: "parsed",
+			brief: "Maximum number of buckets to return in a single call.",
+			optional: true,
+			parse: Number,
+		},
+		order: {
+			kind: "enum",
+			brief: "Field to order buckets by.",
+			values: ["name"],
+			optional: true,
+		},
+		direction: {
+			kind: "enum",
+			brief: "Direction to order buckets.",
+			values: ["asc", "desc"],
+			optional: true,
+		},
+		cursor: {
+			kind: "parsed",
+			brief:
+				"Pagination cursor received during the last List Buckets call. R2 buckets are paginated using cursors instead of page numbers.",
+			optional: true,
+			parse: String,
+		},
+		"cf-r2-jurisdiction": {
+			kind: "parsed",
+			brief:
+				"Jurisdiction where objects in this bucket are guaranteed to be stored.",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "r2 buckets list",
 				classification: {
 					safeFlags: ["order", "direction", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -121,6 +127,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Loaded` });
 			}
 		),
-};
+});
 
 export default command;

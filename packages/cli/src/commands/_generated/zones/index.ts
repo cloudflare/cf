@@ -24,50 +24,45 @@ import $subscriptions from "./subscriptions/index.js";
 import $transformationsallowedorigins from "./transformations-allowed-origins/index.js";
 import $transformationsc2pa from "./transformations-c2pa/index.js";
 import $transformationsconfig from "./transformations-config/index.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * zones command
  * @generated from apis/overlays/zones.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "zones",
 	describe:
 		"Zones are domains on Cloudflare — list, create, and configure domain settings",
 
-	builder: (yargs) => {
-		return yargs
-			.command($create)
-			.command($delete)
-			.command($edit)
-			.command($get)
-			.command($list)
-			.command($activationcheck)
-			.command($aegis)
-			.command($automaticplatformoptimization)
-			.command($binaryast)
-			.command($fonts)
-			.command($h2prioritization)
-			.command($holds)
-			.command($hostnames)
-			.command($imageresizing)
-			.command($originh2maxstreams)
-			.command($originmaxhttpversion)
-			.command($origintlscompliancemodes)
-			.command($plans)
-			.command($rateplans)
-			.command($rum)
-			.command($settings)
-			.command($speedbrain)
-			.command($subscriptions)
-			.command($transformationsallowedorigins)
-			.command($transformationsc2pa)
-			.command($transformationsconfig)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		create: $create,
+		delete: $delete,
+		edit: $edit,
+		get: $get,
+		list: $list,
+		"activation-check": $activationcheck,
+		aegis: $aegis,
+		"automatic-platform-optimization": $automaticplatformoptimization,
+		"binary-ast": $binaryast,
+		fonts: $fonts,
+		"h2-prioritization": $h2prioritization,
+		holds: $holds,
+		hostnames: $hostnames,
+		"image-resizing": $imageresizing,
+		"origin-h2-max-streams": $originh2maxstreams,
+		"origin-max-http-version": $originmaxhttpversion,
+		"origin-tls-compliance-modes": $origintlscompliancemodes,
+		plans: $plans,
+		"rate-plans": $rateplans,
+		rum: $rum,
+		settings: $settings,
+		"speed-brain": $speedbrain,
+		subscriptions: $subscriptions,
+		"transformations-allowed-origins": $transformationsallowedorigins,
+		"transformations-c2pa": $transformationsc2pa,
+		"transformations-config": $transformationsconfig,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

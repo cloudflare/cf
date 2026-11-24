@@ -1,11 +1,10 @@
 import operation from "../../../../_operations/zero-trust/dlp/email/rules/bulk-edit.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * bulk-edit command
  * @generated from apis/overlays/zero-trust.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -18,40 +17,39 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 zero-trust dlp email rules bulk-edit\n\nReorders DLP email scanning rules by updating their priority values. Higher priority rules are evaluated first."
-		)
-		.option("new-priorities", {
-			type: "string",
-			description:
-				'The new_priorities field. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": number}.',
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Rule priorities.",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "bulk-edit",
 	describe: "Update email scanner rule priorities",
-	builder,
+	usage:
+		"$0 zero-trust dlp email rules bulk-edit\n\nReorders DLP email scanning rules by updating their priority values. Higher priority rules are evaluated first.",
+	flags: {
+		"new-priorities": {
+			kind: "parsed",
+			brief:
+				'The new_priorities field. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": number}.',
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Rule priorities.",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "zero-trust dlp email rules bulk-edit",
-				classification: {
-					safeFlags: ["dry-run"],
-				} satisfies ArgClassification<Args>,
+				classification: { safeFlags: ["dry-run"] } satisfies ArgClassification<
+					typeof argv
+				>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -128,6 +126,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Updated` });
 			}
 		),
-};
+});
 
 export default command;

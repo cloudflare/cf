@@ -1,10 +1,9 @@
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * get command
  * @generated from apis/overlays/artifacts.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -17,57 +16,49 @@ import { withProgress } from "#lib/progress.js";
 import { fetchRawBytes, writeRawOutput } from "#lib/raw-fetch.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 artifacts namespaces repos raw get <path>\n\nReturns file bytes resolved by ref and path, with a sniffed content type and browser-safe response headers."
-		)
-		.positional("path", {
-			type: "string",
-			description: "File path. May contain slashes.",
-			demandOption: true,
-		})
-		.option("namespace", {
-			type: "string",
-			description: "Artifacts namespace name.",
-			demandOption: true,
-		})
-		.option("name", {
-			type: "string",
-			description: "Repository name.",
-			demandOption: true,
-		})
-		.option("ref", {
-			type: "string",
-			description: "Git ref, branch, tag, or 40-character commit hash.",
-			demandOption: true,
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("text", {
-			type: "boolean",
-			description:
-				"Decode the response body as UTF-8 text instead of writing raw bytes",
-			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "get <path>",
 	describe: "Read a raw file with content type",
-	builder,
+	usage:
+		"$0 artifacts namespaces repos raw get <path>\n\nReturns file bytes resolved by ref and path, with a sniffed content type and browser-safe response headers.",
+	flags: {
+		namespace: {
+			kind: "parsed",
+			brief: "Artifacts namespace name.",
+			parse: String,
+		},
+		name: { kind: "parsed", brief: "Repository name.", parse: String },
+		ref: {
+			kind: "parsed",
+			brief: "Git ref, branch, tag, or 40-character commit hash.",
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		text: {
+			kind: "boolean",
+			brief:
+				"Decode the response body as UTF-8 text instead of writing raw bytes",
+			default: false,
+		},
+	},
+	operands: [
+		{
+			placeholder: "path",
+			brief: "File path. May contain slashes.",
+			parse: String,
+		},
+	],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "artifacts namespaces repos raw get",
 				classification: {
 					safeFlags: ["dry-run", "text"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -107,6 +98,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				return;
 			}
 		),
-};
+});
 
 export default command;

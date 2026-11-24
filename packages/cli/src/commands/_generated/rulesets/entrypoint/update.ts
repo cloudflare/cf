@@ -1,10 +1,9 @@
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * update command
  * @generated from apis/overlays/rulesets.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -25,58 +24,59 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 rulesets entrypoint update <phase>\n\nUpdates an account or zone entry point ruleset, creating a new version.\n\nRuns against your account. Pass --zone to run against a zone instead. CLOUDFLARE_ZONE_ID is ignored."
-		)
-		.positional("phase", {
-			type: "string",
-			description: "The phase of the ruleset.",
-			demandOption: true,
-		})
-		.option("validate-only", {
-			type: "boolean",
-			description:
-				"Validates the request without persisting changes when set to `true`. Responses that normally return 200 return `result: null`; endpoints that normally return 204 continue to return 204.",
-		})
-		.option("description", {
-			type: "string",
-			description: "An informative description of the ruleset.",
-		})
-		.option("name", {
-			type: "string",
-			description: "The human-readable name of the ruleset.",
-		})
-		.option("rules", {
-			type: "string",
-			description:
-				'The list of rules in the ruleset. Provide as a JSON array of objects or @path/to/file.json. Shape: [(({"action"?: string, "action_parameters"?: {...}, "description"?: string, "enabled"?: boolean, "exposed_credential_check"?: {...}, ...more} & {"action"?: "block", "action_parameters"?: {...}, "description"?: string}) | ...more)]. ? marks optional keys.',
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "update <phase>",
 	describe: "Update an account or zone entry point ruleset",
-	builder,
+	usage:
+		"$0 rulesets entrypoint update <phase>\n\nUpdates an account or zone entry point ruleset, creating a new version.\n\nRuns against your account. Pass --zone to run against a zone instead. CLOUDFLARE_ZONE_ID is ignored.",
+	flags: {
+		"validate-only": {
+			kind: "boolean",
+			brief:
+				"Validates the request without persisting changes when set to `true`. Responses that normally return 200 return `result: null`; endpoints that normally return 204 continue to return 204.",
+			optional: true,
+		},
+		description: {
+			kind: "parsed",
+			brief: "An informative description of the ruleset.",
+			optional: true,
+			parse: String,
+		},
+		name: {
+			kind: "parsed",
+			brief: "The human-readable name of the ruleset.",
+			optional: true,
+			parse: String,
+		},
+		rules: {
+			kind: "parsed",
+			brief:
+				'The list of rules in the ruleset. Provide as a JSON array of objects or @path/to/file.json. Shape: [(({"action"?: string, "action_parameters"?: {...}, "description"?: string, "enabled"?: boolean, "exposed_credential_check"?: {...}, ...more} & {"action"?: "block", "action_parameters"?: {...}, "description"?: string}) | ...more)]. ? marks optional keys.',
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [
+		{ placeholder: "phase", brief: "The phase of the ruleset.", parse: String },
+	],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "rulesets entrypoint update",
 				classification: {
 					safeFlags: ["validate-only", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -198,6 +198,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Updated` });
 			}
 		),
-};
+});
 
 export default command;

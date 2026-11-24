@@ -1,11 +1,10 @@
 import operation from "../_operations/abuse-reports/list-submitted.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * list-submitted command
  * @generated from apis/overlays/abuse-reports.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -17,54 +16,73 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 abuse-reports list-submitted\n\nList abuse reports submitted by the account."
-		)
-		.option("page", {
-			type: "number",
-			description: "Page of submitted reports to return.",
-		})
-		.option("per-page", {
-			type: "number",
-			description: "Number of submitted reports per page.",
-		})
-		.option("sort", {
-			type: "string",
-			description:
+const command = apiCommand({
+	command: "list-submitted",
+	describe: "List submitted abuse reports",
+	usage:
+		"$0 abuse-reports list-submitted\n\nList abuse reports submitted by the account.",
+	flags: {
+		page: {
+			kind: "parsed",
+			brief: "Page of submitted reports to return.",
+			optional: true,
+			parse: Number,
+		},
+		"per-page": {
+			kind: "parsed",
+			brief: "Number of submitted reports per page.",
+			optional: true,
+			parse: Number,
+		},
+		sort: {
+			kind: "parsed",
+			brief:
 				"A property and direction to sort by (id, cdate, domain, type, status).",
-		})
-		.option("id", { type: "string", description: "Filter by report code." })
-		.option("domain", {
-			type: "string",
-			array: true,
-			description:
+			optional: true,
+			parse: String,
+		},
+		id: {
+			kind: "parsed",
+			brief: "Filter by report code.",
+			optional: true,
+			parse: String,
+		},
+		domain: {
+			kind: "parsed",
+			brief:
 				"Filter by reported domain. This parameter can be specified multiple times.",
-		})
-		.option("created-before", {
-			type: "string",
-			description: "Return reports submitted before this time.",
-		})
-		.option("created-after", {
-			type: "string",
-			description: "Return reports submitted after this time.",
-		})
-		.option("status", {
-			type: "string",
-			array: true,
-			description:
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"created-before": {
+			kind: "parsed",
+			brief: "Return reports submitted before this time.",
+			optional: true,
+			parse: String,
+		},
+		"created-after": {
+			kind: "parsed",
+			brief: "Return reports submitted after this time.",
+			optional: true,
+			parse: String,
+		},
+		status: {
+			kind: "parsed",
+			brief:
 				"Filter by submitter-facing status. This parameter can be specified multiple times.",
+			variadic: true,
+			optional: true,
 			choices: ["submitted", "accepted", "denied"],
-		})
-		.coerce("status", (values: string[]) =>
-			values.flatMap((value) => value.split(","))
-		)
-		.option("type", {
-			type: "string",
-			array: true,
-			description:
+			parse: String,
+			coerce: (values: string[]) => values.flatMap((value) => value.split(",")),
+		},
+		type: {
+			kind: "parsed",
+			brief:
 				"Filter by report type. This parameter can be specified multiple times.",
+			variadic: true,
+			optional: true,
 			choices: [
 				"PHISH",
 				"GEN",
@@ -76,30 +94,23 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"NCSEI",
 				"NETWORK",
 			],
-		})
-		.coerce("type", (values: string[]) =>
-			values.flatMap((value) => value.split(","))
-		)
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
+			parse: String,
+			coerce: (values: string[]) => values.flatMap((value) => value.split(",")),
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
 			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "list-submitted",
-	describe: "List submitted abuse reports",
-	builder,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "abuse-reports list-submitted",
-				classification: {
-					safeFlags: ["dry-run"],
-				} satisfies ArgClassification<Args>,
+				classification: { safeFlags: ["dry-run"] } satisfies ArgClassification<
+					typeof argv
+				>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -136,6 +147,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Loaded` });
 			}
 		),
-};
+});
 
 export default command;

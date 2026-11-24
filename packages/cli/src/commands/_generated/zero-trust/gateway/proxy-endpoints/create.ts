@@ -1,11 +1,10 @@
 import operation from "../../../_operations/zero-trust/gateway/proxy-endpoints/create.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * create command
  * @generated from apis/overlays/zero-trust.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -19,42 +18,40 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 zero-trust gateway proxy-endpoints create\n\nCreate a new Zero Trust Gateway proxy endpoint."
-		)
-		.option("kind", {
-			type: "string",
-			description: "The proxy endpoint kind.",
-			choices: ["ip", "identity"],
-			default: "ip",
-		})
-		.coerce("kind", (value) => resolveFileToken(value, "kind", "text"))
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "create",
 	describe: "Create a proxy endpoint",
-	builder,
+	usage:
+		"$0 zero-trust gateway proxy-endpoints create\n\nCreate a new Zero Trust Gateway proxy endpoint.",
+	flags: {
+		kind: {
+			kind: "parsed",
+			brief: "The proxy endpoint kind.",
+			default: "ip",
+			choices: ["ip", "identity"],
+			parse: String,
+			coerce: (value: string) => resolveFileToken(value, "kind", "text"),
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "zero-trust gateway proxy-endpoints create",
 				classification: {
 					safeFlags: ["kind", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -100,6 +97,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Created` });
 			}
 		),
-};
+});
 
 export default command;

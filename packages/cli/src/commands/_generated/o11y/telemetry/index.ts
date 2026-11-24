@@ -1,26 +1,21 @@
 import $keys from "./keys.js";
 import $query from "./query.js";
 import $values from "./values.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * telemetry command group
  * @generated from apis/overlays/o11y.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "telemetry",
 	describe: "Operations for telemetry",
 
-	builder: (yargs) => {
-		return yargs
-			.command($keys)
-			.command($query)
-			.command($values)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		keys: $keys,
+		query: $query,
+		values: $values,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

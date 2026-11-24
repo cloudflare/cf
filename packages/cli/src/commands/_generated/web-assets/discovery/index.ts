@@ -1,24 +1,19 @@
 import $get from "./get.js";
 import $operations from "./operations/index.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * discovery command group
  * @generated from apis/overlays/web-assets.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "discovery",
 	describe: "Operations for discovery",
 
-	builder: (yargs) => {
-		return yargs
-			.command($get)
-			.command($operations)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		get: $get,
+		operations: $operations,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

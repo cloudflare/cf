@@ -1,11 +1,10 @@
 import operation from "../../../_operations/api-security/schema-validation/schemas/create.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * create command
  * @generated from apis/overlays/api-security.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import { createCommandClient, getZoneId } from "#lib/auth.js";
 import { compactBody, parseBody } from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
@@ -18,54 +17,57 @@ import {
 } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 api-security schema-validation schemas create\n\nUploads an OpenAPI schema that defines expected request formats for API operations."
-		)
-		.option("kind", {
-			type: "string",
-			description: "The kind of the schema",
-			choices: ["openapi_v3"],
-		})
-		.coerce("kind", (value) => resolveFileToken(value, "kind", "text"))
-		.option("name", {
-			type: "string",
-			description: "A human-readable name for the schema",
-		})
-		.option("source", {
-			type: "string",
-			description:
-				"The raw schema, e.g., the OpenAPI schema, either as JSON or YAML",
-		})
-		.option("validation-enabled", {
-			type: "boolean",
-			description: "An indicator if this schema is enabled",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "create",
 	describe: "Upload a schema",
-	builder,
+	usage:
+		"$0 api-security schema-validation schemas create\n\nUploads an OpenAPI schema that defines expected request formats for API operations.",
+	flags: {
+		kind: {
+			kind: "parsed",
+			brief: "The kind of the schema",
+			optional: true,
+			choices: ["openapi_v3"],
+			parse: String,
+			coerce: (value: string) => resolveFileToken(value, "kind", "text"),
+		},
+		name: {
+			kind: "parsed",
+			brief: "A human-readable name for the schema",
+			optional: true,
+			parse: String,
+		},
+		source: {
+			kind: "parsed",
+			brief: "The raw schema, e.g., the OpenAPI schema, either as JSON or YAML",
+			optional: true,
+			parse: String,
+		},
+		"validation-enabled": {
+			kind: "boolean",
+			brief: "An indicator if this schema is enabled",
+			optional: true,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "api-security schema-validation schemas create",
 				classification: {
 					safeFlags: ["kind", "validation-enabled", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -166,6 +168,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Created` });
 			}
 		),
-};
+});
 
 export default command;

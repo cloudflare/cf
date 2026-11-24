@@ -9,34 +9,29 @@ import $restart from "./restart.js";
 import $resume from "./resume.js";
 import $step from "./step/index.js";
 import $terminate from "./terminate.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * instances command group
  * @generated from apis/overlays/workflows.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "instances",
 	describe: "Workflow instance operations",
 
-	builder: (yargs) => {
-		return yargs
-			.command($create)
-			.command($delete)
-			.command($get)
-			.command($list)
-			.command($pause)
-			.command($restart)
-			.command($resume)
-			.command($terminate)
-			.command($batch)
-			.command($events)
-			.command($step)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		create: $create,
+		delete: $delete,
+		get: $get,
+		list: $list,
+		pause: $pause,
+		restart: $restart,
+		resume: $resume,
+		terminate: $terminate,
+		batch: $batch,
+		events: $events,
+		step: $step,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

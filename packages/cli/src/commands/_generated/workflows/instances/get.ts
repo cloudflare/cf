@@ -1,11 +1,10 @@
 import operation from "../../_operations/workflows/instances/get.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * get command
  * @generated from apis/overlays/workflows.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -17,54 +16,48 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 workflows instances get <instance-id>\n\nRetrieves logs and execution status for a specific workflow instance."
-		)
-		.positional("instance-id", {
-			type: "string",
-			description:
-				"Instance identifier. User-created instances match \`^[a-zA-Z0-9_][a-zA-Z0-9-_]*$\` (max 100 characters); cron-triggered instances can use a longer, system-generated id derived from the cron expression.",
-			demandOption: true,
-		})
-		.option("workflow-name", {
-			type: "string",
-			description: "Workflow name",
-			demandOption: true,
-		})
-		.option("simple", {
-			type: "string",
-			description:
-				"When true, omits step details and returns only metadata with step_count.",
-			choices: ["true", "false"],
-		})
-		.option("order", {
-			type: "string",
-			description:
-				'Step ordering: "asc" (default, oldest first) or "desc" (newest first).',
-			choices: ["asc", "desc"],
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "get <instance-id>",
 	describe: "Get logs and status from instance",
-	builder,
+	usage:
+		"$0 workflows instances get <instance-id>\n\nRetrieves logs and execution status for a specific workflow instance.",
+	flags: {
+		"workflow-name": { kind: "parsed", brief: "Workflow name", parse: String },
+		simple: {
+			kind: "enum",
+			brief:
+				"When true, omits step details and returns only metadata with step_count.",
+			values: ["true", "false"],
+			optional: true,
+		},
+		order: {
+			kind: "enum",
+			brief:
+				'Step ordering: "asc" (default, oldest first) or "desc" (newest first).',
+			values: ["asc", "desc"],
+			optional: true,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+	},
+	operands: [
+		{
+			placeholder: "instance-id",
+			brief:
+				"Instance identifier. User-created instances match \`^[a-zA-Z0-9_][a-zA-Z0-9-_]*$\` (max 100 characters); cron-triggered instances can use a longer, system-generated id derived from the cron expression.",
+			parse: String,
+		},
+	],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "workflows instances get",
 				classification: {
 					safeFlags: ["simple", "order", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -102,6 +95,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Loaded` });
 			}
 		),
-};
+});
 
 export default command;

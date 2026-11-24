@@ -1,11 +1,10 @@
 import operation from "../../_operations/turnstile/widgets/update.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * update command
  * @generated from apis/overlays/turnstile.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -23,74 +22,79 @@ import {
 } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 turnstile widgets update <sitekey>\n\nUpdates the configuration of a Turnstile widget."
-		)
-		.positional("sitekey", {
-			type: "string",
-			description: "Unique identifier for a Turnstile widget.",
-			demandOption: true,
-		})
-		.option("bot-fight-mode", {
-			type: "boolean",
-			description:
-				"If bot_fight_mode is set to `true`, Cloudflare issues computationally\nexpensive challenges in response to malicious bots (ENT only).\n",
-		})
-		.option("clearance-level", {
-			type: "string",
-			description:
-				"If Turnstile is embedded on a Cloudflare site and the widget should grant challenge clearance,\nthis setting can determine the clearance level to be set\n",
-			choices: ["no_clearance", "jschallenge", "managed", "interactive"],
-		})
-		.coerce("clearance-level", (value) =>
-			resolveFileToken(value, "clearance-level", "text")
-		)
-		.option("domains", {
-			type: "string",
-			array: true,
-			description: "The domains field",
-		})
-		.option("ephemeral-id", {
-			type: "boolean",
-			description: "Return the Ephemeral ID in /siteverify (ENT only).\n",
-		})
-		.option("widget-mode", {
-			type: "string",
-			description: "Widget mode",
-			choices: ["non-interactive", "invisible", "managed"],
-		})
-		.coerce("widget-mode", (value) =>
-			resolveFileToken(value, "widget-mode", "text")
-		)
-		.option("name", {
-			type: "string",
-			description:
-				"Human readable widget name. Not unique. Cloudflare suggests that you\nset this to a meaningful string to make it easier to identify your\nwidget, and where it is used.\n",
-		})
-		.option("offlabel", {
-			type: "boolean",
-			description:
-				"Do not show any Cloudflare branding on the widget (ENT only).\n",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "update <sitekey>",
 	describe: "Update a Turnstile Widget",
-	builder,
+	usage:
+		"$0 turnstile widgets update <sitekey>\n\nUpdates the configuration of a Turnstile widget.",
+	flags: {
+		"bot-fight-mode": {
+			kind: "boolean",
+			brief:
+				"If bot_fight_mode is set to `true`, Cloudflare issues computationally\nexpensive challenges in response to malicious bots (ENT only).\n",
+			optional: true,
+		},
+		"clearance-level": {
+			kind: "parsed",
+			brief:
+				"If Turnstile is embedded on a Cloudflare site and the widget should grant challenge clearance,\nthis setting can determine the clearance level to be set\n",
+			optional: true,
+			choices: ["no_clearance", "jschallenge", "managed", "interactive"],
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "clearance-level", "text"),
+		},
+		domains: {
+			kind: "parsed",
+			brief: "The domains field",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"ephemeral-id": {
+			kind: "boolean",
+			brief: "Return the Ephemeral ID in /siteverify (ENT only).\n",
+			optional: true,
+		},
+		"widget-mode": {
+			kind: "parsed",
+			brief: "Widget mode",
+			optional: true,
+			choices: ["non-interactive", "invisible", "managed"],
+			parse: String,
+			coerce: (value: string) => resolveFileToken(value, "widget-mode", "text"),
+		},
+		name: {
+			kind: "parsed",
+			brief:
+				"Human readable widget name. Not unique. Cloudflare suggests that you\nset this to a meaningful string to make it easier to identify your\nwidget, and where it is used.\n",
+			optional: true,
+			parse: String,
+		},
+		offlabel: {
+			kind: "boolean",
+			brief: "Do not show any Cloudflare branding on the widget (ENT only).\n",
+			optional: true,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [
+		{
+			placeholder: "sitekey",
+			brief: "Unique identifier for a Turnstile widget.",
+			parse: String,
+		},
+	],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
@@ -104,7 +108,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"offlabel",
 						"dry-run",
 					],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -202,6 +206,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Updated` });
 			}
 		),
-};
+});
 
 export default command;

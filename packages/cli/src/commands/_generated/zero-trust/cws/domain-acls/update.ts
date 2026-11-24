@@ -1,11 +1,10 @@
 import operation from "../../../_operations/zero-trust/cws/domain-acls/update.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * update command
  * @generated from apis/overlays/zero-trust.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -23,54 +22,60 @@ import {
 } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 zero-trust cws domain-acls update <domain-acl-id>\n\nReplaces the domain access control list's name, default action, and entries."
-		)
-		.positional("domain-acl-id", {
-			type: "string",
-			description: "ID of the domain ACL to update",
-			demandOption: true,
-		})
-		.option("default-action", {
-			type: "string",
-			description: "Default action when no entry matches",
-			choices: ["ALLOW", "BLOCK"],
-		})
-		.coerce("default-action", (value) =>
-			resolveFileToken(value, "default-action", "text")
-		)
-		.option("entries", {
-			type: "string",
-			description:
-				'Replacement set of domain entries. Each domain must appear at most once. Provide as a JSON array of objects, null, or @path/to/file.json. Shape: [{"action": "ALLOW" | "BLOCK", "domain": string}].',
-		})
-		.option("name", { type: "string", description: "Name of the domain ACL" })
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "update <domain-acl-id>",
 	describe: "Update a domain ACL and replace its entries",
-	builder,
+	usage:
+		"$0 zero-trust cws domain-acls update <domain-acl-id>\n\nReplaces the domain access control list's name, default action, and entries.",
+	flags: {
+		"default-action": {
+			kind: "parsed",
+			brief: "Default action when no entry matches",
+			optional: true,
+			choices: ["ALLOW", "BLOCK"],
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "default-action", "text"),
+		},
+		entries: {
+			kind: "parsed",
+			brief:
+				'Replacement set of domain entries. Each domain must appear at most once. Provide as a JSON array of objects, null, or @path/to/file.json. Shape: [{"action": "ALLOW" | "BLOCK", "domain": string}].',
+			optional: true,
+			parse: String,
+		},
+		name: {
+			kind: "parsed",
+			brief: "Name of the domain ACL",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [
+		{
+			placeholder: "domain-acl-id",
+			brief: "ID of the domain ACL to update",
+			parse: String,
+		},
+	],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "zero-trust cws domain-acls update",
 				classification: {
 					safeFlags: ["default-action", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -162,6 +167,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Updated` });
 			}
 		),
-};
+});
 
 export default command;

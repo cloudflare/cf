@@ -3,28 +3,23 @@ import $hostnamecertificates from "./hostname-certificates/index.js";
 import $hostnames from "./hostnames/index.js";
 import $settings from "./settings/index.js";
 import $zonecertificates from "./zone-certificates/index.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * origin-tls-client-auth command group
  * @generated from apis/overlays/ssl.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "origin-tls-client-auth",
 	describe: "Operations for origin-tls-client-auth",
 
-	builder: (yargs) => {
-		return yargs
-			.command($hostnameassociations)
-			.command($hostnamecertificates)
-			.command($hostnames)
-			.command($settings)
-			.command($zonecertificates)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		"hostname-associations": $hostnameassociations,
+		"hostname-certificates": $hostnamecertificates,
+		hostnames: $hostnames,
+		settings: $settings,
+		"zone-certificates": $zonecertificates,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

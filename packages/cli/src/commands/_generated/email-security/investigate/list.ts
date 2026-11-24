@@ -1,11 +1,10 @@
 import operation from "../../_operations/email-security/investigate/list.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * list command
  * @generated from apis/overlays/email-security.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -17,75 +16,104 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 email-security investigate list\n\nReturns information for each email that matches the provided search parameters."
-		)
-		.option("start", {
-			type: "string",
-			description:
+const command = apiCommand({
+	command: "list",
+	describe: "Search email messages",
+	usage:
+		"$0 email-security investigate list\n\nReturns information for each email that matches the provided search parameters.",
+	flags: {
+		start: {
+			kind: "parsed",
+			brief:
 				"The beginning of the search date range. Defaults to `now - 30 days`. Must not be in the future.",
-		})
-		.option("end", {
-			type: "string",
-			description: "The end of the search date range. Defaults to `now`.",
-		})
-		.option("query", {
-			type: "string",
-			description:
+			optional: true,
+			parse: String,
+		},
+		end: {
+			kind: "parsed",
+			brief: "The end of the search date range. Defaults to `now`.",
+			optional: true,
+			parse: String,
+		},
+		query: {
+			kind: "parsed",
+			brief:
 				"Space-delimited term matched case-insensitively against message metadata — sender, recipient, subject, attachment names and hashes, and message ID.",
-		})
-		.option("detections-only", {
-			type: "boolean",
-			description: "Whether to include only detections in search results.",
-		})
-		.option("final-disposition", {
-			type: "string",
-			description: "Dispositions to filter by.",
-			choices: ["MALICIOUS", "SUSPICIOUS", "SPOOF", "SPAM", "BULK", "NONE"],
-		})
-		.option("metric", {
-			type: "string",
-			description: "Metric to aggregate the results by.",
-		})
-		.option("message-action", {
-			type: "string",
-			description: "Message actions to filter by.",
-			choices: ["PREVIEW", "QUARANTINE_RELEASED", "MOVED"],
-		})
-		.option("recipient", {
-			type: "string",
-			description: "Filter by recipient. Matches an email address or a domain.",
-		})
-		.option("sender", {
-			type: "string",
-			description: "Filter by sender. Matches an email address or a domain.",
-		})
-		.option("smtp-helo-ip", {
-			type: "string",
-			description:
+			optional: true,
+			parse: String,
+		},
+		"detections-only": {
+			kind: "boolean",
+			brief: "Whether to include only detections in search results.",
+			optional: true,
+		},
+		"final-disposition": {
+			kind: "enum",
+			brief: "Dispositions to filter by.",
+			values: ["MALICIOUS", "SUSPICIOUS", "SPOOF", "SPAM", "BULK", "NONE"],
+			optional: true,
+		},
+		metric: {
+			kind: "parsed",
+			brief: "Metric to aggregate the results by.",
+			optional: true,
+			parse: String,
+		},
+		"message-action": {
+			kind: "enum",
+			brief: "Message actions to filter by.",
+			values: ["PREVIEW", "QUARANTINE_RELEASED", "MOVED"],
+			optional: true,
+		},
+		recipient: {
+			kind: "parsed",
+			brief: "Filter by recipient. Matches an email address or a domain.",
+			optional: true,
+			parse: String,
+		},
+		sender: {
+			kind: "parsed",
+			brief: "Filter by sender. Matches an email address or a domain.",
+			optional: true,
+			parse: String,
+		},
+		"smtp-helo-ip": {
+			kind: "parsed",
+			brief:
 				"Matches messages whose SMTP HELO server IP address equals this value.",
-		})
-		.option("alert-id", { type: "string", description: "Filter by alert ID." })
-		.option("domain", {
-			type: "string",
-			description:
+			optional: true,
+			parse: String,
+		},
+		"alert-id": {
+			kind: "parsed",
+			brief: "Filter by alert ID.",
+			optional: true,
+			parse: String,
+		},
+		domain: {
+			kind: "parsed",
+			brief:
 				"Filter by a domain found in the email — sender domain, recipient domain, or a domain in a link.",
-		})
-		.option("message-id", {
-			type: "string",
-			description: "Filter by the RFC 5322 Message-ID header.",
-		})
-		.option("subject", {
-			type: "string",
-			description:
+			optional: true,
+			parse: String,
+		},
+		"message-id": {
+			kind: "parsed",
+			brief: "Filter by the RFC 5322 Message-ID header.",
+			optional: true,
+			parse: String,
+		},
+		subject: {
+			kind: "parsed",
+			brief:
 				"Search for messages containing individual keywords in any order within the subject.",
-		})
-		.option("delivery-status", {
-			type: "string",
-			description: "Delivery status to filter by.",
-			choices: [
+			optional: true,
+			parse: String,
+		},
+		"delivery-status": {
+			kind: "enum",
+			brief: "Delivery status to filter by.",
+			values: [
 				"delivered",
 				"moved",
 				"quarantined",
@@ -95,34 +123,34 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"queued",
 				"move_failed",
 			],
-		})
-		.option("cursor", {
-			type: "string",
-			description:
-				"Pagination cursor from the previous response's `result_info`.",
-		})
-		.option("per-page", {
-			type: "number",
-			description: "The number of results per page. Maximum value is 1000.",
-		})
-		.option("page", {
-			type: "number",
-			description:
+			optional: true,
+		},
+		cursor: {
+			kind: "parsed",
+			brief: "Pagination cursor from the previous response's `result_info`.",
+			optional: true,
+			parse: String,
+		},
+		"per-page": {
+			kind: "parsed",
+			brief: "The number of results per page. Maximum value is 1000.",
+			optional: true,
+			parse: Number,
+		},
+		page: {
+			kind: "parsed",
+			brief:
 				"Deprecated: Use cursor pagination instead. End of life: November 1, 2026.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
+			optional: true,
+			parse: Number,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
 			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "list",
-	describe: "Search email messages",
-	builder,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
@@ -135,7 +163,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"delivery-status",
 						"dry-run",
 					],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -181,6 +209,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Loaded` });
 			}
 		),
-};
+});
 
 export default command;

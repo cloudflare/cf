@@ -1,11 +1,10 @@
 import operation from "../../../_operations/realtime/kit/recordings/list.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * list command
  * @generated from apis/overlays/realtime.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -17,64 +16,81 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 realtime kit recordings list\n\nReturns all recordings for an App. If the `meeting_id` parameter is passed, returns all recordings for the given meeting ID."
-		)
-		.option("app-id", {
-			type: "string",
-			description: "The app identifier tag.",
-			demandOption: true,
-		})
-		.option("meeting-id", {
-			type: "string",
-			description:
+const command = apiCommand({
+	command: "list",
+	describe: "Fetch all recordings for an App",
+	usage:
+		"$0 realtime kit recordings list\n\nReturns all recordings for an App. If the `meeting_id` parameter is passed, returns all recordings for the given meeting ID.",
+	flags: {
+		"app-id": {
+			kind: "parsed",
+			brief: "The app identifier tag.",
+			parse: String,
+		},
+		"meeting-id": {
+			kind: "parsed",
+			brief:
 				"ID of a meeting. Optional. Will limit results to only this meeting if passed.",
-		})
-		.option("page-no", {
-			type: "number",
-			description:
+			optional: true,
+			parse: String,
+		},
+		"page-no": {
+			kind: "parsed",
+			brief:
 				"The page number from which you want your page search results to be displayed.",
-		})
-		.option("per-page", {
-			type: "number",
-			description: "Number of results per page",
-		})
-		.option("expired", {
-			type: "boolean",
-			description:
+			optional: true,
+			parse: Number,
+		},
+		"per-page": {
+			kind: "parsed",
+			brief: "Number of results per page",
+			optional: true,
+			parse: Number,
+		},
+		expired: {
+			kind: "boolean",
+			brief:
 				"If passed, only shows expired/non-expired recordings on RealtimeKit's bucket",
-		})
-		.option("search", {
-			type: "string",
-			description:
+			optional: true,
+		},
+		search: {
+			kind: "parsed",
+			brief:
 				"The search query string. You can search using the meeting ID or title.",
-		})
-		.option("sort-by", {
-			type: "string",
-			description: "Sort by",
-			choices: ["invokedTime"],
-		})
-		.option("sort-order", {
-			type: "string",
-			description: "Sort order",
-			choices: ["ASC", "DESC"],
-		})
-		.option("start-time", {
-			type: "string",
-			description:
+			optional: true,
+			parse: String,
+		},
+		"sort-by": {
+			kind: "enum",
+			brief: "Sort by",
+			values: ["invokedTime"],
+			optional: true,
+		},
+		"sort-order": {
+			kind: "enum",
+			brief: "Sort order",
+			values: ["ASC", "DESC"],
+			optional: true,
+		},
+		"start-time": {
+			kind: "parsed",
+			brief:
 				"The start time range for which you want to retrieve the meetings. The time must be specified in ISO format.",
-		})
-		.option("end-time", {
-			type: "string",
-			description:
+			optional: true,
+			parse: String,
+		},
+		"end-time": {
+			kind: "parsed",
+			brief:
 				"The end time range for which you want to retrieve the meetings. The time must be specified in ISO format.",
-		})
-		.option("status", {
-			type: "string",
-			array: true,
-			description: "Filter by one or more recording status",
+			optional: true,
+			parse: String,
+		},
+		status: {
+			kind: "parsed",
+			brief: "Filter by one or more recording status",
+			variadic: true,
+			optional: true,
 			choices: [
 				"INVOKED",
 				"RECORDING",
@@ -83,30 +99,23 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"ERRORED",
 				"PAUSED",
 			],
-		})
-		.coerce("status", (values: string[]) =>
-			values.flatMap((value) => value.split(","))
-		)
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
+			parse: String,
+			coerce: (values: string[]) => values.flatMap((value) => value.split(",")),
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
 			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "list",
-	describe: "Fetch all recordings for an App",
-	builder,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "realtime kit recordings list",
 				classification: {
 					safeFlags: ["expired", "sort-by", "sort-order", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -148,6 +157,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Loaded` });
 			}
 		),
-};
+});
 
 export default command;

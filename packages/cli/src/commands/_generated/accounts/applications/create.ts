@@ -1,11 +1,10 @@
 import operation from "../../_operations/accounts/applications/create.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * create command
  * @generated from apis/overlays/accounts.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -20,67 +19,81 @@ import { withProgress } from "#lib/progress.js";
 import { promptForRequiredField } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 accounts applications create\n\nCreate a custom application for an account from a name, category, and optional network matchers."
-		)
-		.option("category-id", {
-			type: "number",
-			description: "Numeric identifier for an application category.",
-		})
-		.option("hostnames", {
-			type: "string",
-			array: true,
-			description: "Hostnames matched by the application.",
-		})
-		.option("human-id", {
-			type: "string",
-			description: "Human-readable identifier for the application.",
-		})
-		.option("ip-subnets", {
-			type: "string",
-			array: true,
-			description:
-				"IP subnets for this application. Custom application create and update requests accept IPv4 prefix lengths /8 through /32 and IPv6 prefix lengths /32 through /128.",
-		})
-		.option("name", { type: "string", description: "Application name." })
-		.option("port-protocols", {
-			type: "string",
-			array: true,
-			description:
-				"Ports matched by the application, in `protocol/port` or inclusive `protocol/start-end` format (for example, `tcp/443` or `udp/10000-20000`). TCP and UDP ports must be between 0 and 65535.",
-		})
-		.option("support-domains", {
-			type: "string",
-			array: true,
-			description: "Support domains matched by the application.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description:
-				"Defines a custom application. At least one hostname or IP subnet is required. Support domains and port/protocol pairs do not satisfy this requirement. A NUL character (U+0000) in any string value returns \`400\`. ",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "create",
 	describe: "Create application",
-	builder,
+	usage:
+		"$0 accounts applications create\n\nCreate a custom application for an account from a name, category, and optional network matchers.",
+	flags: {
+		"category-id": {
+			kind: "parsed",
+			brief: "Numeric identifier for an application category.",
+			optional: true,
+			parse: Number,
+		},
+		hostnames: {
+			kind: "parsed",
+			brief: "Hostnames matched by the application.",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"human-id": {
+			kind: "parsed",
+			brief: "Human-readable identifier for the application.",
+			optional: true,
+			parse: String,
+		},
+		"ip-subnets": {
+			kind: "parsed",
+			brief:
+				"IP subnets for this application. Custom application create and update requests accept IPv4 prefix lengths /8 through /32 and IPv6 prefix lengths /32 through /128.",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		name: {
+			kind: "parsed",
+			brief: "Application name.",
+			optional: true,
+			parse: String,
+		},
+		"port-protocols": {
+			kind: "parsed",
+			brief:
+				"Ports matched by the application, in `protocol/port` or inclusive `protocol/start-end` format (for example, `tcp/443` or `udp/10000-20000`). TCP and UDP ports must be between 0 and 65535.",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"support-domains": {
+			kind: "parsed",
+			brief: "Support domains matched by the application.",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief:
+				"Defines a custom application. At least one hostname or IP subnet is required. Support domains and port/protocol pairs do not satisfy this requirement. A NUL character (U+0000) in any string value returns `400`. ",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "accounts applications create",
-				classification: {
-					safeFlags: ["dry-run"],
-				} satisfies ArgClassification<Args>,
+				classification: { safeFlags: ["dry-run"] } satisfies ArgClassification<
+					typeof argv
+				>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -177,6 +190,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Created` });
 			}
 		),
-};
+});
 
 export default command;

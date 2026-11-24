@@ -1,11 +1,10 @@
 import operation from "../../../_operations/zero-trust/gateway/logging/update.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * update command
  * @generated from apis/overlays/zero-trust.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -18,60 +17,61 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 zero-trust gateway logging update\n\nUpdate logging settings for the current Zero Trust account."
-		)
-		.option("redact-pii", {
-			type: "boolean",
-			description:
-				"Indicate whether to redact personally identifiable information from activity logging (PII fields include source IP, user email, user ID, device ID, URL, referrer, and user agent).",
-		})
-		.option("settings-by-rule-type-dns-log-all", {
-			type: "boolean",
-			description: "Specify whether to log all requests to this service.",
-		})
-		.option("settings-by-rule-type-dns-log-blocks", {
-			type: "boolean",
-			description:
-				"Specify whether to log only blocking requests to this service.",
-		})
-		.option("settings-by-rule-type-http-log-all", {
-			type: "boolean",
-			description: "Specify whether to log all requests to this service.",
-		})
-		.option("settings-by-rule-type-http-log-blocks", {
-			type: "boolean",
-			description:
-				"Specify whether to log only blocking requests to this service.",
-		})
-		.option("settings-by-rule-type-l4-log-all", {
-			type: "boolean",
-			description: "Specify whether to log all requests to this service.",
-		})
-		.option("settings-by-rule-type-l4-log-blocks", {
-			type: "boolean",
-			description:
-				"Specify whether to log only blocking requests to this service.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "update",
 	describe: "Update Zero Trust account logging settings",
-	builder,
+	usage:
+		"$0 zero-trust gateway logging update\n\nUpdate logging settings for the current Zero Trust account.",
+	flags: {
+		"redact-pii": {
+			kind: "boolean",
+			brief:
+				"Indicate whether to redact personally identifiable information from activity logging (PII fields include source IP, user email, user ID, device ID, URL, referrer, and user agent).",
+			optional: true,
+		},
+		"settings-by-rule-type-dns-log-all": {
+			kind: "boolean",
+			brief: "Specify whether to log all requests to this service.",
+			optional: true,
+		},
+		"settings-by-rule-type-dns-log-blocks": {
+			kind: "boolean",
+			brief: "Specify whether to log only blocking requests to this service.",
+			optional: true,
+		},
+		"settings-by-rule-type-http-log-all": {
+			kind: "boolean",
+			brief: "Specify whether to log all requests to this service.",
+			optional: true,
+		},
+		"settings-by-rule-type-http-log-blocks": {
+			kind: "boolean",
+			brief: "Specify whether to log only blocking requests to this service.",
+			optional: true,
+		},
+		"settings-by-rule-type-l4-log-all": {
+			kind: "boolean",
+			brief: "Specify whether to log all requests to this service.",
+			optional: true,
+		},
+		"settings-by-rule-type-l4-log-blocks": {
+			kind: "boolean",
+			brief: "Specify whether to log only blocking requests to this service.",
+			optional: true,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
@@ -87,7 +87,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"settings-by-rule-type-l4-log-blocks",
 						"dry-run",
 					],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -163,6 +163,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Updated` });
 			}
 		),
-};
+});
 
 export default command;

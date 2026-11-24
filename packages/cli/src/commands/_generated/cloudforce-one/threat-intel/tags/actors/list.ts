@@ -1,11 +1,10 @@
 import operation from "../../../../_operations/cloudforce-one/threat-intel/tags/actors/list.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * list command
  * @generated from apis/overlays/cloudforce-one.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -17,43 +16,47 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 cloudforce-one threat-intel tags actors list\n\nLists threat actors from the Cloudforce One actor catalog. Use `value` to match actor names and `filters` to filter by fields such as origin country. Accounts outside Cloudforce One receive only public fields: identity, description, discovery date, TLP, confidence, custom properties, origin country, public aliases, and external references. Fields such as internal aliases, attribution, motive, and OPSEC level are omitted."
-		)
-		.option("page", { type: "number", description: "Page" })
-		.option("page-size", { type: "number", description: "PageSize" })
-		.option("value", {
-			type: "string",
-			description: "Free-text substring match on actor name (Tag.value).",
-		})
-		.option("filters", {
-			type: "string",
-			array: true,
-			description:
-				'Structured filters as a JSON array of {field, op, value} objects. Same shape as the events search API. Common use: filter actors by country with filters=[{"field":"originCountryISO","op":"in","value":["IR","CN"]}]. Country values may be passed as alpha-2, alpha-3, name, or alias (e.g. "iran"). Max 10 entries per request, max 100 values per \'in\'. Accounts other than the catalog owner may only filter on fields that are also public-readable (`uuid`, `value`, `categoryName`, `aliasGroupNames`, `originCountryISO`); filtering on a redacted field returns 400. `uuid` filters accept only the `equals` and `in` operators. Performance notes: `originCountryISO` uses its B-tree index for equals/in. `endsWith` and `aliasGroupNames` contains/like are leading-wildcard scans and slow on large result sets. `aliasGroupNames` matches on JSON-encoded text, so substrings can cross alias boundaries ("apt28" also matches "apt280" when both appear in the same tag\'s alias list).',
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "list",
 	describe: "List threat actors",
-	builder,
+	usage:
+		"$0 cloudforce-one threat-intel tags actors list\n\nLists threat actors from the Cloudforce One actor catalog. Use `value` to match actor names and `filters` to filter by fields such as origin country. Accounts outside Cloudforce One receive only public fields: identity, description, discovery date, TLP, confidence, custom properties, origin country, public aliases, and external references. Fields such as internal aliases, attribution, motive, and OPSEC level are omitted.",
+	flags: {
+		page: { kind: "parsed", brief: "Page", optional: true, parse: Number },
+		"page-size": {
+			kind: "parsed",
+			brief: "PageSize",
+			optional: true,
+			parse: Number,
+		},
+		value: {
+			kind: "parsed",
+			brief: "Free-text substring match on actor name (Tag.value).",
+			optional: true,
+			parse: String,
+		},
+		filters: {
+			kind: "parsed",
+			brief:
+				'Structured filters as a JSON array of {field, op, value} objects. Same shape as the events search API. Common use: filter actors by country with filters=[{"field":"originCountryISO","op":"in","value":["IR","CN"]}]. Country values may be passed as alpha-2, alpha-3, name, or alias (e.g. "iran"). Max 10 entries per request, max 100 values per \'in\'. Accounts other than the catalog owner may only filter on fields that are also public-readable (`uuid`, `value`, `categoryName`, `aliasGroupNames`, `originCountryISO`); filtering on a redacted field returns 400. `uuid` filters accept only the `equals` and `in` operators. Performance notes: `originCountryISO` uses its B-tree index for equals/in. `endsWith` and `aliasGroupNames` contains/like are leading-wildcard scans and slow on large result sets. `aliasGroupNames` matches on JSON-encoded text, so substrings can cross alias boundaries ("apt28" also matches "apt280" when both appear in the same tag\'s alias list).',
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "cloudforce-one threat-intel tags actors list",
-				classification: {
-					safeFlags: ["dry-run"],
-				} satisfies ArgClassification<Args>,
+				classification: { safeFlags: ["dry-run"] } satisfies ArgClassification<
+					typeof argv
+				>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -85,6 +88,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Loaded` });
 			}
 		),
-};
+});
 
 export default command;

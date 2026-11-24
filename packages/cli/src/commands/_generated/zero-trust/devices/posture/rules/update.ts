@@ -1,11 +1,10 @@
 import operation from "../../../../_operations/zero-trust/devices/posture/rules/update.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * update command
  * @generated from apis/overlays/zero-trust.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -23,132 +22,176 @@ import {
 } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 zero-trust devices posture rules update <rule-id>\n\nUpdates a device posture rule."
-		)
-		.positional("rule-id", {
-			type: "string",
-			description: "API UUID.",
-			demandOption: true,
-		})
-		.option("description", {
-			type: "string",
-			description: "The description of the device posture rule.",
-		})
-		.option("expiration", {
-			type: "string",
-			description:
+const command = apiCommand({
+	command: "update <rule-id>",
+	describe: "Update posture rule",
+	usage:
+		"$0 zero-trust devices posture rules update <rule-id>\n\nUpdates a device posture rule.",
+	flags: {
+		description: {
+			kind: "parsed",
+			brief: "The description of the device posture rule.",
+			optional: true,
+			parse: String,
+		},
+		expiration: {
+			kind: "parsed",
+			brief:
 				"Sets the expiration time for a posture check result. If empty, the result remains valid until it is overwritten by new data from the WARP client.",
-		})
-		.option("input-exists", {
-			type: "boolean",
-			description: "Whether or not file exists.",
-		})
-		.option("input-operating-system", {
-			type: "string",
-			description:
+			optional: true,
+			parse: String,
+		},
+		"input-exists": {
+			kind: "boolean",
+			brief: "Whether or not file exists.",
+			optional: true,
+		},
+		"input-operating-system": {
+			kind: "parsed",
+			brief:
 				"Variant descriptions:\n- `windows`, `linux`, `mac`: Operating system.\n- `android`, `ios`, `chromeos`, `windows`, `mac`, `linux`: Operating System.",
+			optional: true,
 			choices: ["windows", "linux", "mac", "android", "ios", "chromeos"],
-		})
-		.coerce("input-operating-system", (value) =>
-			resolveFileToken(value, "input-operating-system", "text")
-		)
-		.option("input-path", {
-			type: "string",
-			description:
-				"Variant descriptions:\n- File path.\n- Path for the application.",
-		})
-		.option("input-sha256", { type: "string", description: "SHA-256." })
-		.option("input-thumbprint", {
-			type: "string",
-			description: "Signing certificate thumbprint.",
-		})
-		.option("input-id", {
-			type: "string",
-			description: "Variant descriptions:\n- List ID.\n- UUID of Access List.",
-		})
-		.option("input-domain", { type: "string", description: "Domain." })
-		.option("input-operator", {
-			type: "string",
-			description:
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "input-operating-system", "text"),
+		},
+		"input-path": {
+			kind: "parsed",
+			brief: "Variant descriptions:\n- File path.\n- Path for the application.",
+			optional: true,
+			parse: String,
+		},
+		"input-sha256": {
+			kind: "parsed",
+			brief: "SHA-256.",
+			optional: true,
+			parse: String,
+		},
+		"input-thumbprint": {
+			kind: "parsed",
+			brief: "Signing certificate thumbprint.",
+			optional: true,
+			parse: String,
+		},
+		"input-id": {
+			kind: "parsed",
+			brief: "Variant descriptions:\n- List ID.\n- UUID of Access List.",
+			optional: true,
+			parse: String,
+		},
+		"input-domain": {
+			kind: "parsed",
+			brief: "Domain.",
+			optional: true,
+			parse: String,
+		},
+		"input-operator": {
+			kind: "parsed",
+			brief:
 				"Variant descriptions:\n- `<`, `<=`, `>`, `>=`, `==`: Operator.\n- `<`, `<=`, `>`, `>=`, `==`: Operator to evaluate risk_level or eid_last_seen.",
+			optional: true,
 			choices: ["<", "<=", ">", ">=", "=="],
-		})
-		.coerce("input-operator", (value) =>
-			resolveFileToken(value, "input-operator", "text")
-		)
-		.option("input-os-distro-name", {
-			type: "string",
-			description: "Operating System Distribution Name (linux only).",
-		})
-		.option("input-os-distro-revision", {
-			type: "string",
-			description: "Version of OS Distribution (linux only).",
-		})
-		.option("input-os-version-extra", {
-			type: "string",
-			description:
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "input-operator", "text"),
+		},
+		"input-os-distro-name": {
+			kind: "parsed",
+			brief: "Operating System Distribution Name (linux only).",
+			optional: true,
+			parse: String,
+		},
+		"input-os-distro-revision": {
+			kind: "parsed",
+			brief: "Version of OS Distribution (linux only).",
+			optional: true,
+			parse: String,
+		},
+		"input-os-version-extra": {
+			kind: "parsed",
+			brief:
 				"Additional operating system version details. For Windows, the UBR (Update Build Revision). For Mac or iOS, the Product Version Extra. For Linux, the distribution name and version.",
-		})
-		.option("input-version", {
-			type: "string",
-			description: "Variant descriptions:\n- Version of OS.\n- Version.",
-		})
-		.option("input-enabled", { type: "boolean", description: "Enabled." })
-		.option("input-check-disks", {
-			type: "string",
-			array: true,
-			description: "List of volume names to be checked for encryption.",
-		})
-		.option("input-require-all", {
-			type: "boolean",
-			description: "Whether to check all disks for encryption.",
-		})
-		.option("input-certificate-id", {
-			type: "string",
-			description: "UUID of Cloudflare managed certificate.",
-		})
-		.option("input-cn", {
-			type: "string",
-			description:
+			optional: true,
+			parse: String,
+		},
+		"input-version": {
+			kind: "parsed",
+			brief: "Variant descriptions:\n- Version of OS.\n- Version.",
+			optional: true,
+			parse: String,
+		},
+		"input-enabled": { kind: "boolean", brief: "Enabled.", optional: true },
+		"input-check-disks": {
+			kind: "parsed",
+			brief: "List of volume names to be checked for encryption.",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"input-require-all": {
+			kind: "boolean",
+			brief: "Whether to check all disks for encryption.",
+			optional: true,
+		},
+		"input-certificate-id": {
+			kind: "parsed",
+			brief: "UUID of Cloudflare managed certificate.",
+			optional: true,
+			parse: String,
+		},
+		"input-cn": {
+			kind: "parsed",
+			brief:
 				"Variant descriptions:\n- Common Name that is protected by the certificate.\n- Certificate Common Name. This may include one or more variables in the ${ } notation. Only ${serial_number} and ${hostname} are valid variables.",
-		})
-		.option("input-check-private-key", {
-			type: "boolean",
-			description:
+			optional: true,
+			parse: String,
+		},
+		"input-check-private-key": {
+			kind: "boolean",
+			brief:
 				"Confirm the certificate was not imported from another device. We recommend keeping this enabled unless the certificate was deployed without a private key.",
-		})
-		.option("input-extended-key-usage", {
-			type: "string",
-			array: true,
-			description:
+			optional: true,
+		},
+		"input-extended-key-usage": {
+			kind: "parsed",
+			brief:
 				"List of values indicating purposes for which the certificate public key can be used.",
-		})
-		.option("input-locations-paths", {
-			type: "string",
-			array: true,
-			description: "List of paths to check for client certificate on linux.",
-		})
-		.option("input-locations-trust-stores", {
-			type: "string",
-			array: true,
-			description: "List of trust stores to check for client certificate.",
-		})
-		.option("input-subject-alternative-names", {
-			type: "string",
-			array: true,
-			description: "List of certificate Subject Alternative Names.",
-		})
-		.option("input-update-window-days", {
-			type: "number",
-			description:
-				"Number of days that the antivirus should be updated within.",
-		})
-		.option("input-compliance-status", {
-			type: "string",
-			description: "Compliance Status.",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"input-locations-paths": {
+			kind: "parsed",
+			brief: "List of paths to check for client certificate on linux.",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"input-locations-trust-stores": {
+			kind: "parsed",
+			brief: "List of trust stores to check for client certificate.",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"input-subject-alternative-names": {
+			kind: "parsed",
+			brief: "List of certificate Subject Alternative Names.",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"input-update-window-days": {
+			kind: "parsed",
+			brief: "Number of days that the antivirus should be updated within.",
+			optional: true,
+			parse: Number,
+		},
+		"input-compliance-status": {
+			kind: "parsed",
+			brief: "Compliance Status.",
+			optional: true,
 			choices: [
 				"compliant",
 				"noncompliant",
@@ -159,110 +202,144 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"conflict",
 				"configmanager",
 			],
-		})
-		.coerce("input-compliance-status", (value) =>
-			resolveFileToken(value, "input-compliance-status", "text")
-		)
-		.option("input-connection-id", {
-			type: "string",
-			description: "Posture Integration ID.",
-		})
-		.option("input-last-seen", {
-			type: "string",
-			description:
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "input-compliance-status", "text"),
+		},
+		"input-connection-id": {
+			kind: "parsed",
+			brief: "Posture Integration ID.",
+			optional: true,
+			parse: String,
+		},
+		"input-last-seen": {
+			kind: "parsed",
+			brief:
 				"For more details on last seen, please refer to the Crowdstrike documentation.",
-		})
-		.option("input-os", { type: "string", description: "Os Version." })
-		.option("input-overall", { type: "string", description: "Overall." })
-		.option("input-sensor-config", {
-			type: "string",
-			description: "SensorConfig.",
-		})
-		.option("input-state", {
-			type: "string",
-			description:
+			optional: true,
+			parse: String,
+		},
+		"input-os": {
+			kind: "parsed",
+			brief: "Os Version.",
+			optional: true,
+			parse: String,
+		},
+		"input-overall": {
+			kind: "parsed",
+			brief: "Overall.",
+			optional: true,
+			parse: String,
+		},
+		"input-sensor-config": {
+			kind: "parsed",
+			brief: "SensorConfig.",
+			optional: true,
+			parse: String,
+		},
+		"input-state": {
+			kind: "parsed",
+			brief:
 				"For more details on state, please refer to the Crowdstrike documentation.",
+			optional: true,
 			choices: ["online", "offline", "unknown"],
-		})
-		.coerce("input-state", (value) =>
-			resolveFileToken(value, "input-state", "text")
-		)
-		.option("input-version-operator", {
-			type: "string",
-			description: "Version Operator.",
+			parse: String,
+			coerce: (value: string) => resolveFileToken(value, "input-state", "text"),
+		},
+		"input-version-operator": {
+			kind: "parsed",
+			brief: "Version Operator.",
+			optional: true,
 			choices: ["<", "<=", ">", ">=", "=="],
-		})
-		.coerce("input-version-operator", (value) =>
-			resolveFileToken(value, "input-version-operator", "text")
-		)
-		.option("input-auth-state", {
-			type: "string",
-			array: true,
-			description:
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "input-version-operator", "text"),
+		},
+		"input-auth-state": {
+			kind: "parsed",
+			brief:
 				"The set of Kolide device authentication states that pass the posture check. Device must match one of the specified states.",
-		})
-		.option("input-count-operator", {
-			type: "string",
-			description: "Count Operator.",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"input-count-operator": {
+			kind: "parsed",
+			brief: "Count Operator.",
+			optional: true,
 			choices: ["<", "<=", ">", ">=", "=="],
-		})
-		.coerce("input-count-operator", (value) =>
-			resolveFileToken(value, "input-count-operator", "text")
-		)
-		.option("input-issue-count", {
-			type: "string",
-			description: "The Number of Issues.",
-		})
-		.option("input-eid-last-seen", {
-			type: "string",
-			description:
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "input-count-operator", "text"),
+		},
+		"input-issue-count": {
+			kind: "parsed",
+			brief: "The Number of Issues.",
+			optional: true,
+			parse: String,
+		},
+		"input-eid-last-seen": {
+			kind: "parsed",
+			brief:
 				"For more details on eid last seen, refer to the Tanium documentation.",
-		})
-		.option("input-risk-level", {
-			type: "string",
-			description:
+			optional: true,
+			parse: String,
+		},
+		"input-risk-level": {
+			kind: "parsed",
+			brief:
 				"For more details on risk level, refer to the Tanium documentation.",
+			optional: true,
 			choices: ["low", "medium", "high", "critical"],
-		})
-		.coerce("input-risk-level", (value) =>
-			resolveFileToken(value, "input-risk-level", "text")
-		)
-		.option("input-score-operator", {
-			type: "string",
-			description: "Score Operator.",
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "input-risk-level", "text"),
+		},
+		"input-score-operator": {
+			kind: "parsed",
+			brief: "Score Operator.",
+			optional: true,
 			choices: ["<", "<=", ">", ">=", "=="],
-		})
-		.coerce("input-score-operator", (value) =>
-			resolveFileToken(value, "input-score-operator", "text")
-		)
-		.option("input-total-score", {
-			type: "number",
-			description:
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "input-score-operator", "text"),
+		},
+		"input-total-score": {
+			kind: "parsed",
+			brief:
 				"For more details on total score, refer to the Tanium documentation.",
-		})
-		.option("input-active-threats", {
-			type: "number",
-			description: "The Number of active threats.",
-		})
-		.option("input-infected", {
-			type: "boolean",
-			description: "Whether device is infected.",
-		})
-		.option("input-is-active", {
-			type: "boolean",
-			description: "Whether device is active.",
-		})
-		.option("input-network-status", {
-			type: "string",
-			description: "Network status of device.",
+			optional: true,
+			parse: Number,
+		},
+		"input-active-threats": {
+			kind: "parsed",
+			brief: "The Number of active threats.",
+			optional: true,
+			parse: Number,
+		},
+		"input-infected": {
+			kind: "boolean",
+			brief: "Whether device is infected.",
+			optional: true,
+		},
+		"input-is-active": {
+			kind: "boolean",
+			brief: "Whether device is active.",
+			optional: true,
+		},
+		"input-network-status": {
+			kind: "parsed",
+			brief: "Network status of device.",
+			optional: true,
 			choices: ["connected", "disconnected", "disconnecting", "connecting"],
-		})
-		.coerce("input-network-status", (value) =>
-			resolveFileToken(value, "input-network-status", "text")
-		)
-		.option("input-operational-state", {
-			type: "string",
-			description: "Agent operational state.",
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "input-network-status", "text"),
+		},
+		"input-operational-state": {
+			kind: "parsed",
+			brief: "Agent operational state.",
+			optional: true,
 			choices: [
 				"na",
 				"partially_disabled",
@@ -272,32 +349,41 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"disabled_error",
 				"db_corruption",
 			],
-		})
-		.coerce("input-operational-state", (value) =>
-			resolveFileToken(value, "input-operational-state", "text")
-		)
-		.option("input-score", {
-			type: "number",
-			description:
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "input-operational-state", "text"),
+		},
+		"input-score": {
+			kind: "parsed",
+			brief:
 				"A value between 0-100 assigned to devices set by the 3rd party posture provider.",
-		})
-		.option("match", {
-			type: "string",
-			description:
+			optional: true,
+			parse: Number,
+		},
+		match: {
+			kind: "parsed",
+			brief:
 				'The conditions that the client must match to run the rule. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"platform"?: "windows" | "mac" | "linux" | ...more}]. ? marks optional keys.',
-		})
-		.option("name", {
-			type: "string",
-			description: "The name of the device posture rule.",
-		})
-		.option("schedule", {
-			type: "string",
-			description:
+			optional: true,
+			parse: String,
+		},
+		name: {
+			kind: "parsed",
+			brief: "The name of the device posture rule.",
+			optional: true,
+			parse: String,
+		},
+		schedule: {
+			kind: "parsed",
+			brief:
 				"Polling frequency for the WARP client posture check. Default: `5m` (poll every five minutes). Minimum: `1m`.",
-		})
-		.option("type", {
-			type: "string",
-			description: "The type of device posture rule.",
+			optional: true,
+			parse: String,
+		},
+		type: {
+			kind: "parsed",
+			brief: "The type of device posture rule.",
+			optional: true,
 			choices: [
 				"file",
 				"application",
@@ -323,18 +409,24 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"sentinelone_s2s",
 				"custom_s2s",
 			],
-		})
-		.coerce("type", (value) => resolveFileToken(value, "type", "text"))
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
+			parse: String,
+			coerce: (value: string) => resolveFileToken(value, "type", "text"),
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
 			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		})
-		.conflicts("input-exists", [
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [{ placeholder: "rule-id", brief: "API UUID.", parse: String }],
+	rules(rules) {
+		rules.conflicts("input-exists", [
 			"input-id",
 			"input-domain",
 			"input-operator",
@@ -374,9 +466,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"input-network-status",
 			"input-operational-state",
 			"input-score",
-		])
-		.implies("input-exists", ["input-operating-system", "input-path"])
-		.conflicts("input-operating-system", [
+		]);
+		rules.implies("input-exists", ["input-operating-system", "input-path"]);
+		rules.conflicts("input-operating-system", [
 			"input-check-disks",
 			"input-require-all",
 			"input-update-window-days",
@@ -401,8 +493,8 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"input-network-status",
 			"input-operational-state",
 			"input-score",
-		])
-		.conflicts("input-path", [
+		]);
+		rules.conflicts("input-path", [
 			"input-id",
 			"input-domain",
 			"input-operator",
@@ -442,9 +534,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"input-network-status",
 			"input-operational-state",
 			"input-score",
-		])
-		.implies("input-path", ["input-operating-system"])
-		.conflicts("input-sha256", [
+		]);
+		rules.implies("input-path", ["input-operating-system"]);
+		rules.conflicts("input-sha256", [
 			"input-id",
 			"input-domain",
 			"input-operator",
@@ -484,9 +576,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"input-network-status",
 			"input-operational-state",
 			"input-score",
-		])
-		.implies("input-sha256", ["input-operating-system", "input-path"])
-		.conflicts("input-thumbprint", [
+		]);
+		rules.implies("input-sha256", ["input-operating-system", "input-path"]);
+		rules.conflicts("input-thumbprint", [
 			"input-id",
 			"input-domain",
 			"input-operator",
@@ -526,9 +618,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"input-network-status",
 			"input-operational-state",
 			"input-score",
-		])
-		.implies("input-thumbprint", ["input-operating-system", "input-path"])
-		.conflicts("input-id", [
+		]);
+		rules.implies("input-thumbprint", ["input-operating-system", "input-path"]);
+		rules.conflicts("input-id", [
 			"input-exists",
 			"input-path",
 			"input-sha256",
@@ -571,8 +663,8 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"input-network-status",
 			"input-operational-state",
 			"input-score",
-		])
-		.conflicts("input-domain", [
+		]);
+		rules.conflicts("input-domain", [
 			"input-exists",
 			"input-path",
 			"input-sha256",
@@ -615,9 +707,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"input-network-status",
 			"input-operational-state",
 			"input-score",
-		])
-		.implies("input-domain", ["input-operating-system"])
-		.conflicts("input-operator", [
+		]);
+		rules.implies("input-domain", ["input-operating-system"]);
+		rules.conflicts("input-operator", [
 			"input-exists",
 			"input-path",
 			"input-sha256",
@@ -639,8 +731,8 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"input-auth-state",
 			"input-count-operator",
 			"input-issue-count",
-		])
-		.conflicts("input-os-distro-name", [
+		]);
+		rules.conflicts("input-os-distro-name", [
 			"input-exists",
 			"input-path",
 			"input-sha256",
@@ -679,13 +771,13 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"input-network-status",
 			"input-operational-state",
 			"input-score",
-		])
-		.implies("input-os-distro-name", [
+		]);
+		rules.implies("input-os-distro-name", [
 			"input-operating-system",
 			"input-operator",
 			"input-version",
-		])
-		.conflicts("input-os-distro-revision", [
+		]);
+		rules.conflicts("input-os-distro-revision", [
 			"input-exists",
 			"input-path",
 			"input-sha256",
@@ -724,13 +816,13 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"input-network-status",
 			"input-operational-state",
 			"input-score",
-		])
-		.implies("input-os-distro-revision", [
+		]);
+		rules.implies("input-os-distro-revision", [
 			"input-operating-system",
 			"input-operator",
 			"input-version",
-		])
-		.conflicts("input-os-version-extra", [
+		]);
+		rules.conflicts("input-os-version-extra", [
 			"input-exists",
 			"input-path",
 			"input-sha256",
@@ -769,13 +861,13 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"input-network-status",
 			"input-operational-state",
 			"input-score",
-		])
-		.implies("input-os-version-extra", [
+		]);
+		rules.implies("input-os-version-extra", [
 			"input-operating-system",
 			"input-operator",
 			"input-version",
-		])
-		.conflicts("input-version", [
+		]);
+		rules.conflicts("input-version", [
 			"input-exists",
 			"input-path",
 			"input-sha256",
@@ -807,8 +899,8 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"input-network-status",
 			"input-operational-state",
 			"input-score",
-		])
-		.conflicts("input-enabled", [
+		]);
+		rules.conflicts("input-enabled", [
 			"input-exists",
 			"input-path",
 			"input-sha256",
@@ -851,53 +943,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"input-network-status",
 			"input-operational-state",
 			"input-score",
-		])
-		.implies("input-enabled", ["input-operating-system"])
-		.conflicts("input-check-disks", [
-			"input-exists",
-			"input-operating-system",
-			"input-path",
-			"input-sha256",
-			"input-thumbprint",
-			"input-id",
-			"input-domain",
-			"input-operator",
-			"input-os-distro-name",
-			"input-os-distro-revision",
-			"input-os-version-extra",
-			"input-version",
-			"input-enabled",
-			"input-certificate-id",
-			"input-cn",
-			"input-check-private-key",
-			"input-extended-key-usage",
-			"input-locations-paths",
-			"input-locations-trust-stores",
-			"input-subject-alternative-names",
-			"input-update-window-days",
-			"input-compliance-status",
-			"input-connection-id",
-			"input-last-seen",
-			"input-os",
-			"input-overall",
-			"input-sensor-config",
-			"input-state",
-			"input-version-operator",
-			"input-auth-state",
-			"input-count-operator",
-			"input-issue-count",
-			"input-eid-last-seen",
-			"input-risk-level",
-			"input-score-operator",
-			"input-total-score",
-			"input-active-threats",
-			"input-infected",
-			"input-is-active",
-			"input-network-status",
-			"input-operational-state",
-			"input-score",
-		])
-		.conflicts("input-require-all", [
+		]);
+		rules.implies("input-enabled", ["input-operating-system"]);
+		rules.conflicts("input-check-disks", [
 			"input-exists",
 			"input-operating-system",
 			"input-path",
@@ -940,8 +988,52 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"input-network-status",
 			"input-operational-state",
 			"input-score",
-		])
-		.conflicts("input-certificate-id", [
+		]);
+		rules.conflicts("input-require-all", [
+			"input-exists",
+			"input-operating-system",
+			"input-path",
+			"input-sha256",
+			"input-thumbprint",
+			"input-id",
+			"input-domain",
+			"input-operator",
+			"input-os-distro-name",
+			"input-os-distro-revision",
+			"input-os-version-extra",
+			"input-version",
+			"input-enabled",
+			"input-certificate-id",
+			"input-cn",
+			"input-check-private-key",
+			"input-extended-key-usage",
+			"input-locations-paths",
+			"input-locations-trust-stores",
+			"input-subject-alternative-names",
+			"input-update-window-days",
+			"input-compliance-status",
+			"input-connection-id",
+			"input-last-seen",
+			"input-os",
+			"input-overall",
+			"input-sensor-config",
+			"input-state",
+			"input-version-operator",
+			"input-auth-state",
+			"input-count-operator",
+			"input-issue-count",
+			"input-eid-last-seen",
+			"input-risk-level",
+			"input-score-operator",
+			"input-total-score",
+			"input-active-threats",
+			"input-infected",
+			"input-is-active",
+			"input-network-status",
+			"input-operational-state",
+			"input-score",
+		]);
+		rules.conflicts("input-certificate-id", [
 			"input-exists",
 			"input-path",
 			"input-sha256",
@@ -978,8 +1070,8 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"input-network-status",
 			"input-operational-state",
 			"input-score",
-		])
-		.conflicts("input-cn", [
+		]);
+		rules.conflicts("input-cn", [
 			"input-exists",
 			"input-path",
 			"input-sha256",
@@ -1016,9 +1108,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"input-network-status",
 			"input-operational-state",
 			"input-score",
-		])
-		.implies("input-cn", ["input-certificate-id"])
-		.conflicts("input-check-private-key", [
+		]);
+		rules.implies("input-cn", ["input-certificate-id"]);
+		rules.conflicts("input-check-private-key", [
 			"input-exists",
 			"input-path",
 			"input-sha256",
@@ -1055,12 +1147,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"input-network-status",
 			"input-operational-state",
 			"input-score",
-		])
-		.implies("input-check-private-key", [
+		]);
+		rules.implies("input-check-private-key", [
 			"input-operating-system",
 			"input-certificate-id",
-		])
-		.conflicts("input-extended-key-usage", [
+		]);
+		rules.conflicts("input-extended-key-usage", [
 			"input-exists",
 			"input-path",
 			"input-sha256",
@@ -1097,13 +1189,13 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"input-network-status",
 			"input-operational-state",
 			"input-score",
-		])
-		.implies("input-extended-key-usage", [
+		]);
+		rules.implies("input-extended-key-usage", [
 			"input-operating-system",
 			"input-certificate-id",
 			"input-check-private-key",
-		])
-		.conflicts("input-locations-paths", [
+		]);
+		rules.conflicts("input-locations-paths", [
 			"input-exists",
 			"input-path",
 			"input-sha256",
@@ -1140,13 +1232,13 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"input-network-status",
 			"input-operational-state",
 			"input-score",
-		])
-		.implies("input-locations-paths", [
+		]);
+		rules.implies("input-locations-paths", [
 			"input-operating-system",
 			"input-certificate-id",
 			"input-check-private-key",
-		])
-		.conflicts("input-locations-trust-stores", [
+		]);
+		rules.conflicts("input-locations-trust-stores", [
 			"input-exists",
 			"input-path",
 			"input-sha256",
@@ -1183,13 +1275,13 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"input-network-status",
 			"input-operational-state",
 			"input-score",
-		])
-		.implies("input-locations-trust-stores", [
+		]);
+		rules.implies("input-locations-trust-stores", [
 			"input-operating-system",
 			"input-certificate-id",
 			"input-check-private-key",
-		])
-		.conflicts("input-subject-alternative-names", [
+		]);
+		rules.conflicts("input-subject-alternative-names", [
 			"input-exists",
 			"input-path",
 			"input-sha256",
@@ -1226,13 +1318,13 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"input-network-status",
 			"input-operational-state",
 			"input-score",
-		])
-		.implies("input-subject-alternative-names", [
+		]);
+		rules.implies("input-subject-alternative-names", [
 			"input-operating-system",
 			"input-certificate-id",
 			"input-check-private-key",
-		])
-		.conflicts("input-update-window-days", [
+		]);
+		rules.conflicts("input-update-window-days", [
 			"input-exists",
 			"input-operating-system",
 			"input-path",
@@ -1276,8 +1368,8 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"input-network-status",
 			"input-operational-state",
 			"input-score",
-		])
-		.conflicts("input-compliance-status", [
+		]);
+		rules.conflicts("input-compliance-status", [
 			"input-exists",
 			"input-operating-system",
 			"input-path",
@@ -1320,9 +1412,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"input-network-status",
 			"input-operational-state",
 			"input-score",
-		])
-		.implies("input-compliance-status", ["input-connection-id"])
-		.conflicts("input-connection-id", [
+		]);
+		rules.implies("input-compliance-status", ["input-connection-id"]);
+		rules.conflicts("input-connection-id", [
 			"input-exists",
 			"input-operating-system",
 			"input-path",
@@ -1344,46 +1436,8 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"input-locations-trust-stores",
 			"input-subject-alternative-names",
 			"input-update-window-days",
-		])
-		.conflicts("input-last-seen", [
-			"input-exists",
-			"input-operating-system",
-			"input-path",
-			"input-sha256",
-			"input-thumbprint",
-			"input-id",
-			"input-domain",
-			"input-os-distro-name",
-			"input-os-distro-revision",
-			"input-os-version-extra",
-			"input-enabled",
-			"input-check-disks",
-			"input-require-all",
-			"input-certificate-id",
-			"input-cn",
-			"input-check-private-key",
-			"input-extended-key-usage",
-			"input-locations-paths",
-			"input-locations-trust-stores",
-			"input-subject-alternative-names",
-			"input-update-window-days",
-			"input-compliance-status",
-			"input-auth-state",
-			"input-count-operator",
-			"input-issue-count",
-			"input-eid-last-seen",
-			"input-risk-level",
-			"input-score-operator",
-			"input-total-score",
-			"input-active-threats",
-			"input-infected",
-			"input-is-active",
-			"input-network-status",
-			"input-operational-state",
-			"input-score",
-		])
-		.implies("input-last-seen", ["input-connection-id"])
-		.conflicts("input-os", [
+		]);
+		rules.conflicts("input-last-seen", [
 			"input-exists",
 			"input-operating-system",
 			"input-path",
@@ -1419,9 +1473,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"input-network-status",
 			"input-operational-state",
 			"input-score",
-		])
-		.implies("input-os", ["input-connection-id"])
-		.conflicts("input-overall", [
+		]);
+		rules.implies("input-last-seen", ["input-connection-id"]);
+		rules.conflicts("input-os", [
 			"input-exists",
 			"input-operating-system",
 			"input-path",
@@ -1457,9 +1511,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"input-network-status",
 			"input-operational-state",
 			"input-score",
-		])
-		.implies("input-overall", ["input-connection-id"])
-		.conflicts("input-sensor-config", [
+		]);
+		rules.implies("input-os", ["input-connection-id"]);
+		rules.conflicts("input-overall", [
 			"input-exists",
 			"input-operating-system",
 			"input-path",
@@ -1495,9 +1549,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"input-network-status",
 			"input-operational-state",
 			"input-score",
-		])
-		.implies("input-sensor-config", ["input-connection-id"])
-		.conflicts("input-state", [
+		]);
+		rules.implies("input-overall", ["input-connection-id"]);
+		rules.conflicts("input-sensor-config", [
 			"input-exists",
 			"input-operating-system",
 			"input-path",
@@ -1533,9 +1587,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"input-network-status",
 			"input-operational-state",
 			"input-score",
-		])
-		.implies("input-state", ["input-connection-id"])
-		.conflicts("input-version-operator", [
+		]);
+		rules.implies("input-sensor-config", ["input-connection-id"]);
+		rules.conflicts("input-state", [
 			"input-exists",
 			"input-operating-system",
 			"input-path",
@@ -1571,9 +1625,47 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"input-network-status",
 			"input-operational-state",
 			"input-score",
-		])
-		.implies("input-version-operator", ["input-connection-id"])
-		.conflicts("input-auth-state", [
+		]);
+		rules.implies("input-state", ["input-connection-id"]);
+		rules.conflicts("input-version-operator", [
+			"input-exists",
+			"input-operating-system",
+			"input-path",
+			"input-sha256",
+			"input-thumbprint",
+			"input-id",
+			"input-domain",
+			"input-os-distro-name",
+			"input-os-distro-revision",
+			"input-os-version-extra",
+			"input-enabled",
+			"input-check-disks",
+			"input-require-all",
+			"input-certificate-id",
+			"input-cn",
+			"input-check-private-key",
+			"input-extended-key-usage",
+			"input-locations-paths",
+			"input-locations-trust-stores",
+			"input-subject-alternative-names",
+			"input-update-window-days",
+			"input-compliance-status",
+			"input-auth-state",
+			"input-count-operator",
+			"input-issue-count",
+			"input-eid-last-seen",
+			"input-risk-level",
+			"input-score-operator",
+			"input-total-score",
+			"input-active-threats",
+			"input-infected",
+			"input-is-active",
+			"input-network-status",
+			"input-operational-state",
+			"input-score",
+		]);
+		rules.implies("input-version-operator", ["input-connection-id"]);
+		rules.conflicts("input-auth-state", [
 			"input-exists",
 			"input-operating-system",
 			"input-path",
@@ -1614,9 +1706,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"input-network-status",
 			"input-operational-state",
 			"input-score",
-		])
-		.implies("input-auth-state", ["input-connection-id"])
-		.conflicts("input-count-operator", [
+		]);
+		rules.implies("input-auth-state", ["input-connection-id"]);
+		rules.conflicts("input-count-operator", [
 			"input-exists",
 			"input-operating-system",
 			"input-path",
@@ -1657,9 +1749,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"input-network-status",
 			"input-operational-state",
 			"input-score",
-		])
-		.implies("input-count-operator", ["input-connection-id"])
-		.conflicts("input-issue-count", [
+		]);
+		rules.implies("input-count-operator", ["input-connection-id"]);
+		rules.conflicts("input-issue-count", [
 			"input-exists",
 			"input-operating-system",
 			"input-path",
@@ -1700,9 +1792,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"input-network-status",
 			"input-operational-state",
 			"input-score",
-		])
-		.implies("input-issue-count", ["input-connection-id"])
-		.conflicts("input-eid-last-seen", [
+		]);
+		rules.implies("input-issue-count", ["input-connection-id"]);
+		rules.conflicts("input-eid-last-seen", [
 			"input-exists",
 			"input-operating-system",
 			"input-path",
@@ -1741,9 +1833,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"input-network-status",
 			"input-operational-state",
 			"input-score",
-		])
-		.implies("input-eid-last-seen", ["input-connection-id"])
-		.conflicts("input-risk-level", [
+		]);
+		rules.implies("input-eid-last-seen", ["input-connection-id"]);
+		rules.conflicts("input-risk-level", [
 			"input-exists",
 			"input-operating-system",
 			"input-path",
@@ -1782,9 +1874,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"input-network-status",
 			"input-operational-state",
 			"input-score",
-		])
-		.implies("input-risk-level", ["input-connection-id"])
-		.conflicts("input-score-operator", [
+		]);
+		rules.implies("input-risk-level", ["input-connection-id"]);
+		rules.conflicts("input-score-operator", [
 			"input-exists",
 			"input-operating-system",
 			"input-path",
@@ -1823,9 +1915,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"input-network-status",
 			"input-operational-state",
 			"input-score",
-		])
-		.implies("input-score-operator", ["input-connection-id"])
-		.conflicts("input-total-score", [
+		]);
+		rules.implies("input-score-operator", ["input-connection-id"]);
+		rules.conflicts("input-total-score", [
 			"input-exists",
 			"input-operating-system",
 			"input-path",
@@ -1864,9 +1956,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"input-network-status",
 			"input-operational-state",
 			"input-score",
-		])
-		.implies("input-total-score", ["input-connection-id"])
-		.conflicts("input-active-threats", [
+		]);
+		rules.implies("input-total-score", ["input-connection-id"]);
+		rules.conflicts("input-active-threats", [
 			"input-exists",
 			"input-operating-system",
 			"input-path",
@@ -1904,9 +1996,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"input-score-operator",
 			"input-total-score",
 			"input-score",
-		])
-		.implies("input-active-threats", ["input-connection-id"])
-		.conflicts("input-infected", [
+		]);
+		rules.implies("input-active-threats", ["input-connection-id"]);
+		rules.conflicts("input-infected", [
 			"input-exists",
 			"input-operating-system",
 			"input-path",
@@ -1944,9 +2036,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"input-score-operator",
 			"input-total-score",
 			"input-score",
-		])
-		.implies("input-infected", ["input-connection-id"])
-		.conflicts("input-is-active", [
+		]);
+		rules.implies("input-infected", ["input-connection-id"]);
+		rules.conflicts("input-is-active", [
 			"input-exists",
 			"input-operating-system",
 			"input-path",
@@ -1984,9 +2076,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"input-score-operator",
 			"input-total-score",
 			"input-score",
-		])
-		.implies("input-is-active", ["input-connection-id"])
-		.conflicts("input-network-status", [
+		]);
+		rules.implies("input-is-active", ["input-connection-id"]);
+		rules.conflicts("input-network-status", [
 			"input-exists",
 			"input-operating-system",
 			"input-path",
@@ -2024,9 +2116,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"input-score-operator",
 			"input-total-score",
 			"input-score",
-		])
-		.implies("input-network-status", ["input-connection-id"])
-		.conflicts("input-operational-state", [
+		]);
+		rules.implies("input-network-status", ["input-connection-id"]);
+		rules.conflicts("input-operational-state", [
 			"input-exists",
 			"input-operating-system",
 			"input-path",
@@ -2064,9 +2156,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"input-score-operator",
 			"input-total-score",
 			"input-score",
-		])
-		.implies("input-operational-state", ["input-connection-id"])
-		.conflicts("input-score", [
+		]);
+		rules.implies("input-operational-state", ["input-connection-id"]);
+		rules.conflicts("input-score", [
 			"input-exists",
 			"input-operating-system",
 			"input-path",
@@ -2108,16 +2200,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"input-is-active",
 			"input-network-status",
 			"input-operational-state",
-		])
-		.implies("input-score", ["input-operator", "input-connection-id"]);
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "update <rule-id>",
-	describe: "Update posture rule",
-	builder,
+		]);
+		rules.implies("input-score", ["input-operator", "input-connection-id"]);
+	},
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
@@ -2143,7 +2228,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"type",
 						"dry-run",
 					],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -2523,6 +2608,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Updated` });
 			}
 		),
-};
+});
 
 export default command;

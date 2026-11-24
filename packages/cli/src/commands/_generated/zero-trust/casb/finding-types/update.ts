@@ -1,11 +1,10 @@
 import operation from "../../../_operations/zero-trust/casb/finding-types/update.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * update command
  * @generated from apis/overlays/zero-trust.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -19,67 +18,74 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 zero-trust casb finding-types update <finding-type-id>\n\nUpdate an existing custom finding type. **Immutable fields**: asset_vendor, asset_class, expression, and category cannot be changed after creation. **Security**: Only custom finding types (not system-managed) can be updated."
-		)
-		.positional("finding-type-id", {
-			type: "string",
-			description: "A UUID string identifying the finding type.",
-			demandOption: true,
-		})
-		.option("applies-to-all-integrations", {
-			type: "boolean",
-			description:
-				"When true, this finding type applies to every current and future integration of the vendor.",
-		})
-		.option("description", {
-			type: "string",
-			description:
-				"Optional description of the finding type. Cannot be empty if provided. Maximum 4096 characters.",
-		})
-		.option("integration-ids", {
-			type: "string",
-			array: true,
-			description:
-				"Required and non-empty when applies_to_all_integrations is false; omit when it is true.",
-		})
-		.option("name", {
-			type: "string",
-			description:
-				"Human-readable name for the finding type. Cannot be empty if provided. Maximum 256 characters.",
-		})
-		.option("severity", {
-			type: "string",
-			description: "The severity level of a finding.",
-			choices: ["Critical", "High", "Medium", "Low"],
-		})
-		.coerce("severity", (value) => resolveFileToken(value, "severity", "text"))
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "update <finding-type-id>",
 	describe: "Update a custom finding type",
-	builder,
+	usage:
+		"$0 zero-trust casb finding-types update <finding-type-id>\n\nUpdate an existing custom finding type. **Immutable fields**: asset_vendor, asset_class, expression, and category cannot be changed after creation. **Security**: Only custom finding types (not system-managed) can be updated.",
+	flags: {
+		"applies-to-all-integrations": {
+			kind: "boolean",
+			brief:
+				"When true, this finding type applies to every current and future integration of the vendor.",
+			optional: true,
+		},
+		description: {
+			kind: "parsed",
+			brief:
+				"Optional description of the finding type. Cannot be empty if provided. Maximum 4096 characters.",
+			optional: true,
+			parse: String,
+		},
+		"integration-ids": {
+			kind: "parsed",
+			brief:
+				"Required and non-empty when applies_to_all_integrations is false; omit when it is true.",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		name: {
+			kind: "parsed",
+			brief:
+				"Human-readable name for the finding type. Cannot be empty if provided. Maximum 256 characters.",
+			optional: true,
+			parse: String,
+		},
+		severity: {
+			kind: "parsed",
+			brief: "The severity level of a finding.",
+			optional: true,
+			choices: ["Critical", "High", "Medium", "Low"],
+			parse: String,
+			coerce: (value: string) => resolveFileToken(value, "severity", "text"),
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [
+		{
+			placeholder: "finding-type-id",
+			brief: "A UUID string identifying the finding type.",
+			parse: String,
+		},
+	],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "zero-trust casb finding-types update",
 				classification: {
 					safeFlags: ["applies-to-all-integrations", "severity", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -171,6 +177,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Updated` });
 			}
 		),
-};
+});
 
 export default command;

@@ -1,11 +1,10 @@
 import operation from "../../../_operations/network/subnets/warp/create.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * create command
  * @generated from apis/overlays/network.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -20,55 +19,57 @@ import { withProgress } from "#lib/progress.js";
 import { promptForRequiredField } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 network subnets warp create\n\nCreate a WARP IP assignment subnet. Currently, only IPv4 subnets can be created. **Network constraints:** - The network must be within one of the following private IP ranges: - `10.0.0.0/8` (RFC 1918) - `172.16.0.0/12` (RFC 1918) - `192.168.0.0/16` (RFC 1918) - `100.64.0.0/10` (RFC 6598 - CGNAT) - The subnet must have a prefix length of `/24` or larger (e.g., `/16`, `/20`, `/24` are valid; `/25`, `/28` are not)"
-		)
-		.option("comment", {
-			type: "string",
-			description: "An optional description of the subnet.",
-			default: "",
-		})
-		.option("is-default-network", {
-			type: "boolean",
-			description:
-				"If `true`, this is the default subnet for the account. There can only be one default subnet per account.",
-			default: false,
-		})
-		.option("name", {
-			type: "string",
-			description: "A user-friendly name for the subnet.",
-		})
-		.option("network", {
-			type: "string",
-			description:
-				"The private IPv4 or IPv6 range defining the subnet, in CIDR notation.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "create",
 	describe: "Create WARP IP subnet",
-	builder,
+	usage:
+		"$0 network subnets warp create\n\nCreate a WARP IP assignment subnet. Currently, only IPv4 subnets can be created. **Network constraints:** - The network must be within one of the following private IP ranges: - `10.0.0.0/8` (RFC 1918) - `172.16.0.0/12` (RFC 1918) - `192.168.0.0/16` (RFC 1918) - `100.64.0.0/10` (RFC 6598 - CGNAT) - The subnet must have a prefix length of `/24` or larger (e.g., `/16`, `/20`, `/24` are valid; `/25`, `/28` are not)",
+	flags: {
+		comment: {
+			kind: "parsed",
+			brief: "An optional description of the subnet.",
+			default: "",
+			parse: String,
+		},
+		"is-default-network": {
+			kind: "boolean",
+			brief:
+				"If `true`, this is the default subnet for the account. There can only be one default subnet per account.",
+			default: false,
+		},
+		name: {
+			kind: "parsed",
+			brief: "A user-friendly name for the subnet.",
+			optional: true,
+			parse: String,
+		},
+		network: {
+			kind: "parsed",
+			brief:
+				"The private IPv4 or IPv6 range defining the subnet, in CIDR notation.",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "network subnets warp create",
 				classification: {
 					safeFlags: ["is-default-network", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -162,6 +163,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Created` });
 			}
 		),
-};
+});
 
 export default command;

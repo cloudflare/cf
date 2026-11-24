@@ -1,11 +1,10 @@
 import operation from "../../_operations/network-interconnects/interconnects/create.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * create command
  * @generated from apis/overlays/network-interconnects.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -20,19 +19,40 @@ import { withProgress } from "#lib/progress.js";
 import { promptForRequiredField } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 network-interconnects interconnects create\n\nCreates a new network interconnect for connecting Cloudflare's network to external networks. Interconnects provide dedicated bandwidth and reduced latency for traffic exchange."
-		)
-		.option("account", { type: "string", description: "The account field" })
-		.option("type", { type: "string", description: "The type field" })
-		.option("slot-id", { type: "string", description: "The slot_id field" })
-		.option("speed", { type: "string", description: "The speed field" })
-		.option("bandwidth", {
-			type: "string",
-			description:
-				"Bandwidth structure as visible through the customer-facing API.",
+const command = apiCommand({
+	command: "create",
+	describe: "Create a new interconnect",
+	usage:
+		"$0 network-interconnects interconnects create\n\nCreates a new network interconnect for connecting Cloudflare's network to external networks. Interconnects provide dedicated bandwidth and reduced latency for traffic exchange.",
+	flags: {
+		account: {
+			kind: "parsed",
+			brief: "The account field",
+			optional: true,
+			parse: String,
+		},
+		type: {
+			kind: "parsed",
+			brief: "The type field",
+			optional: true,
+			parse: String,
+		},
+		"slot-id": {
+			kind: "parsed",
+			brief: "The slot_id field",
+			optional: true,
+			parse: String,
+		},
+		speed: {
+			kind: "parsed",
+			brief: "The speed field",
+			optional: true,
+			parse: String,
+		},
+		bandwidth: {
+			kind: "parsed",
+			brief: "Bandwidth structure as visible through the customer-facing API.",
+			optional: true,
 			choices: [
 				"50M",
 				"100M",
@@ -47,45 +67,44 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"20G",
 				"50G",
 			],
-		})
-		.coerce("bandwidth", (value) =>
-			resolveFileToken(value, "bandwidth", "text")
-		)
-		.option("pairing-key", {
-			type: "string",
-			description: "Pairing key provided by GCP",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
+			parse: String,
+			coerce: (value: string) => resolveFileToken(value, "bandwidth", "text"),
+		},
+		"pairing-key": {
+			kind: "parsed",
+			brief: "Pairing key provided by GCP",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
 			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		})
-		.conflicts("slot-id", ["bandwidth", "pairing-key"])
-		.conflicts("speed", ["bandwidth", "pairing-key"])
-		.implies("speed", ["slot-id"])
-		.conflicts("bandwidth", ["slot-id", "speed"])
-		.implies("bandwidth", ["pairing-key"])
-		.conflicts("pairing-key", ["slot-id", "speed"])
-		.implies("pairing-key", ["bandwidth"]);
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "create",
-	describe: "Create a new interconnect",
-	builder,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [],
+	rules(rules) {
+		rules.conflicts("slot-id", ["bandwidth", "pairing-key"]);
+		rules.conflicts("speed", ["bandwidth", "pairing-key"]);
+		rules.implies("speed", ["slot-id"]);
+		rules.conflicts("bandwidth", ["slot-id", "speed"]);
+		rules.implies("bandwidth", ["pairing-key"]);
+		rules.conflicts("pairing-key", ["slot-id", "speed"]);
+		rules.implies("pairing-key", ["bandwidth"]);
+	},
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "network-interconnects interconnects create",
 				classification: {
 					safeFlags: ["bandwidth", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -199,6 +218,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Created` });
 			}
 		),
-};
+});
 
 export default command;

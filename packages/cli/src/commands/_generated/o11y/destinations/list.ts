@@ -1,11 +1,10 @@
 import operation from "../../_operations/o11y/destinations/list.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * list command
  * @generated from apis/overlays/o11y.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -17,43 +16,45 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 o11y destinations list\n\nList your Workers Observability Telemetry Destinations."
-		)
-		.option("page", { type: "number", description: "Page" })
-		.option("per-page", { type: "number", description: "PerPage" })
-		.option("order", {
-			type: "string",
-			description: "Order",
-			choices: ["asc", "desc"],
-		})
-		.option("order-by", {
-			type: "string",
-			description: "OrderBy",
-			choices: ["created", "updated"],
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "list",
 	describe: "Get Destinations",
-	builder,
+	usage:
+		"$0 o11y destinations list\n\nList your Workers Observability Telemetry Destinations.",
+	flags: {
+		page: { kind: "parsed", brief: "Page", optional: true, parse: Number },
+		"per-page": {
+			kind: "parsed",
+			brief: "PerPage",
+			optional: true,
+			parse: Number,
+		},
+		order: {
+			kind: "enum",
+			brief: "Order",
+			values: ["asc", "desc"],
+			optional: true,
+		},
+		"order-by": {
+			kind: "enum",
+			brief: "OrderBy",
+			values: ["created", "updated"],
+			optional: true,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "o11y destinations list",
 				classification: {
 					safeFlags: ["order", "order-by", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -85,6 +86,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Loaded` });
 			}
 		),
-};
+});
 
 export default command;

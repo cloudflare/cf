@@ -1,11 +1,10 @@
 import operation from "../../_operations/abuse-reports/emails/list-submitted.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * list-submitted command
  * @generated from apis/overlays/abuse-reports.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -17,44 +16,40 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 abuse-reports emails list-submitted <report-id>\n\nList successful emails sent to the submitter of a report submitted by the account. Does not include emails sent to customers or hosts."
-		)
-		.positional("report-id", {
-			type: "string",
-			description: "Public report code.",
-			demandOption: true,
-		})
-		.option("page", {
-			type: "number",
-			description: "Page number to retrieve (default 1).",
-		})
-		.option("per-page", {
-			type: "number",
-			description: "Number of emails per page (default 20, max 100).",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "list-submitted <report-id>",
 	describe: "List emails sent to an abuse report submitter",
-	builder,
+	usage:
+		"$0 abuse-reports emails list-submitted <report-id>\n\nList successful emails sent to the submitter of a report submitted by the account. Does not include emails sent to customers or hosts.",
+	flags: {
+		page: {
+			kind: "parsed",
+			brief: "Page number to retrieve (default 1).",
+			optional: true,
+			parse: Number,
+		},
+		"per-page": {
+			kind: "parsed",
+			brief: "Number of emails per page (default 20, max 100).",
+			optional: true,
+			parse: Number,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+	},
+	operands: [
+		{ placeholder: "report-id", brief: "Public report code.", parse: String },
+	],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "abuse-reports emails list-submitted",
-				classification: {
-					safeFlags: ["dry-run"],
-				} satisfies ArgClassification<Args>,
+				classification: { safeFlags: ["dry-run"] } satisfies ArgClassification<
+					typeof argv
+				>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -88,6 +83,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Loaded` });
 			}
 		),
-};
+});
 
 export default command;

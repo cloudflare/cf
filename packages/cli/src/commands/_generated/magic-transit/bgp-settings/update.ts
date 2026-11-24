@@ -1,11 +1,10 @@
 import operation from "../../_operations/magic-transit/bgp-settings/update.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * update command
  * @generated from apis/overlays/magic-transit.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -18,44 +17,44 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 magic-transit bgp-settings update\n\nModifies the BGP settings for an account, including the default ASN and redistribution configuration."
-		)
-		.option("cloudflare-asn", {
-			type: "number",
-			description:
-				"Route advertisements from Cloudflare to ramps in this account will use this ASN.",
-		})
-		.option("redistribute-static:wan", {
-			type: "boolean",
-			description: "Redistribute static WAN routes into BGP",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "update",
 	describe: "Update BGP Settings",
-	builder,
+	usage:
+		"$0 magic-transit bgp-settings update\n\nModifies the BGP settings for an account, including the default ASN and redistribution configuration.",
+	flags: {
+		"cloudflare-asn": {
+			kind: "parsed",
+			brief:
+				"Route advertisements from Cloudflare to ramps in this account will use this ASN.",
+			optional: true,
+			parse: Number,
+		},
+		"redistribute-static:wan": {
+			kind: "boolean",
+			brief: "Redistribute static WAN routes into BGP",
+			optional: true,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "magic-transit bgp-settings update",
 				classification: {
 					safeFlags: ["redistribute-static:wan", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -107,6 +106,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Updated` });
 			}
 		),
-};
+});
 
 export default command;

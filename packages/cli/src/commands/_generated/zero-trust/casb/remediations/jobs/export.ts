@@ -1,11 +1,10 @@
 import operation from "../../../../_operations/zero-trust/casb/remediations/jobs/export.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * export command
  * @generated from apis/overlays/zero-trust.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -19,61 +18,73 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 zero-trust casb remediations jobs export\n\nCreates a CSV export for remediation jobs and accepts optional filters in the payload."
-		)
-		.option("integration-id", {
-			type: "string",
-			array: true,
-			description: "Filter by multiple integration IDs.",
-		})
-		.option("max-updated-at", {
-			type: "string",
-			description:
-				"Filter to view remediation jobs updated on or before this datetime. Can be a date-time in ISO 8601 format or an epoch timestamp.",
-		})
-		.option("min-updated-at", {
-			type: "string",
-			description:
-				"Filter to view remediation jobs updated on or after this datetime. Can be a date-time in ISO 8601 format or an epoch timestamp.",
-		})
-		.option("orders", {
-			type: "string",
-			description:
-				'Ordering specifications for the export. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"direction": "asc" | "desc", "name": "asset_name" | "finding_type_name" | "integration_name" | ...more}].',
-		})
-		.option("search", { type: "string", description: "A search term." })
-		.option("status", {
-			type: "string",
-			array: true,
-			description: "Filter by remediation job status.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Filter specification for remediation jobs export.",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "export",
 	describe: "Create a remediation jobs export",
-	builder,
+	usage:
+		"$0 zero-trust casb remediations jobs export\n\nCreates a CSV export for remediation jobs and accepts optional filters in the payload.",
+	flags: {
+		"integration-id": {
+			kind: "parsed",
+			brief: "Filter by multiple integration IDs.",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"max-updated-at": {
+			kind: "parsed",
+			brief:
+				"Filter to view remediation jobs updated on or before this datetime. Can be a date-time in ISO 8601 format or an epoch timestamp.",
+			optional: true,
+			parse: String,
+		},
+		"min-updated-at": {
+			kind: "parsed",
+			brief:
+				"Filter to view remediation jobs updated on or after this datetime. Can be a date-time in ISO 8601 format or an epoch timestamp.",
+			optional: true,
+			parse: String,
+		},
+		orders: {
+			kind: "parsed",
+			brief:
+				'Ordering specifications for the export. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"direction": "asc" | "desc", "name": "asset_name" | "finding_type_name" | "integration_name" | ...more}].',
+			optional: true,
+			parse: String,
+		},
+		search: {
+			kind: "parsed",
+			brief: "A search term.",
+			optional: true,
+			parse: String,
+		},
+		status: {
+			kind: "parsed",
+			brief: "Filter by remediation job status.",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Filter specification for remediation jobs export.",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "zero-trust casb remediations jobs export",
-				classification: {
-					safeFlags: ["dry-run"],
-				} satisfies ArgClassification<Args>,
+				classification: { safeFlags: ["dry-run"] } satisfies ArgClassification<
+					typeof argv
+				>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -153,6 +164,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Loaded` });
 			}
 		),
-};
+});
 
 export default command;

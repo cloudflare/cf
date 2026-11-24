@@ -59,7 +59,7 @@ describe("command metadata force option", () => {
 				},
 			]);
 			expect(code).toContain(
-				'.option("force", {"type":"boolean","alias":"f","description":"Skip confirmation (useful in scripts and CI)","default":false})'
+				'"force": {"kind":"boolean","brief":"Skip confirmation (useful in scripts and CI)","alias":"f","default":false}'
 			);
 			expect(code).toContain("confirmDelete({ force: Boolean(argv.force)");
 			expect(code).toContain("shortFlagAliases: { f:");
@@ -74,7 +74,7 @@ describe("command metadata force option", () => {
 			expect(meta.options.some((option) => option.name === "force")).toBe(
 				false
 			);
-			expect(code).not.toContain('.option("force"');
+			expect(code).not.toContain('"force": {');
 			expect(code).not.toContain("confirmDelete");
 			expect(code).not.toContain("shortFlagAliases");
 		}
@@ -83,7 +83,7 @@ describe("command metadata force option", () => {
 	it("ignores an empty confirmation annotation consistently", () => {
 		const { meta, code } = generate("put", "");
 		expect(meta.options.some((option) => option.name === "force")).toBe(false);
-		expect(code).not.toContain('.option("force"');
+		expect(code).not.toContain('"force": {');
 		expect(code).not.toContain("confirmDelete");
 		expect(code).not.toContain("shortFlagAliases");
 	});

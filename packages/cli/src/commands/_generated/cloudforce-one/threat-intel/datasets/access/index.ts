@@ -1,24 +1,19 @@
 import $groups from "./groups/index.js";
 import $permissions from "./permissions/index.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * access command group
  * @generated from apis/overlays/cloudforce-one.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "access",
 	describe: "Operations for threat-intel.datasets.access",
 
-	builder: (yargs) => {
-		return yargs
-			.command($groups)
-			.command($permissions)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		groups: $groups,
+		permissions: $permissions,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

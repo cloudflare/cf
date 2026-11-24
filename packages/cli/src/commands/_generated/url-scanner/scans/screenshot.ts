@@ -1,10 +1,9 @@
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * screenshot command
  * @generated from apis/overlays/url-scanner.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -17,47 +16,38 @@ import { withProgress } from "#lib/progress.js";
 import { fetchRawBytes, writeRawOutput } from "#lib/raw-fetch.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 url-scanner scans screenshot <scan-id>\n\nGet scan's screenshot by resolution (desktop/mobile/tablet)."
-		)
-		.positional("scan-id", {
-			type: "string",
-			description: "Scan UUID.",
-			demandOption: true,
-		})
-		.option("resolution", {
-			type: "string",
-			description: "Target device type.",
-			choices: ["desktop", "mobile", "tablet"],
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("text", {
-			type: "boolean",
-			description:
-				"Decode the response body as UTF-8 text instead of writing raw bytes",
-			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "screenshot <scan-id>",
 	describe: "Get screenshot",
-	builder,
+	usage:
+		"$0 url-scanner scans screenshot <scan-id>\n\nGet scan's screenshot by resolution (desktop/mobile/tablet).",
+	flags: {
+		resolution: {
+			kind: "enum",
+			brief: "Target device type.",
+			values: ["desktop", "mobile", "tablet"],
+			optional: true,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		text: {
+			kind: "boolean",
+			brief:
+				"Decode the response body as UTF-8 text instead of writing raw bytes",
+			default: false,
+		},
+	},
+	operands: [{ placeholder: "scan-id", brief: "Scan UUID.", parse: String }],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "url-scanner scans screenshot",
 				classification: {
 					safeFlags: ["resolution", "dry-run", "text"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -101,6 +91,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				return;
 			}
 		),
-};
+});
 
 export default command;

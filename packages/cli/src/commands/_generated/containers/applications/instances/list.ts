@@ -1,11 +1,10 @@
 import operation from "../../../_operations/containers/applications/instances/list.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * list command
  * @generated from apis/overlays/containers.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -17,58 +16,57 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 containers applications instances list\n\nLists container instances belonging to an application."
-		)
-		.option("application-id", {
-			type: "string",
-			description:
-				"An Application ID represents an identifier of an application.",
-			demandOption: true,
-		})
-		.option("per-page", {
-			type: "number",
-			description:
-				"Maximum number of instances to return per page. Defaults to 100.",
-		})
-		.option("page-token", {
-			type: "string",
-			description:
-				"Opaque token from a previous response to retrieve the next page.",
-		})
-		.option("state", {
-			type: "string",
-			description:
-				"Filters instances by lifecycle state. `active` includes provisioning, running, and stopping instances; `not-active` includes stopped and failed instances. When omitted, all instances are returned.",
-			choices: ["active", "not-active"],
-		})
-		.option("name-prefix", {
-			type: "string",
-			description:
-				"Filter instances by a case-sensitive name prefix, falling back to the actor ID when no name is known. Keep the same prefix when using a page token.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "list",
 	describe: "List container instances",
-	builder,
+	usage:
+		"$0 containers applications instances list\n\nLists container instances belonging to an application.",
+	flags: {
+		"application-id": {
+			kind: "parsed",
+			brief: "An Application ID represents an identifier of an application.",
+			parse: String,
+		},
+		"per-page": {
+			kind: "parsed",
+			brief: "Maximum number of instances to return per page. Defaults to 100.",
+			optional: true,
+			parse: Number,
+		},
+		"page-token": {
+			kind: "parsed",
+			brief: "Opaque token from a previous response to retrieve the next page.",
+			optional: true,
+			parse: String,
+		},
+		state: {
+			kind: "enum",
+			brief:
+				"Filters instances by lifecycle state. `active` includes provisioning, running, and stopping instances; `not-active` includes stopped and failed instances. When omitted, all instances are returned.",
+			values: ["active", "not-active"],
+			optional: true,
+		},
+		"name-prefix": {
+			kind: "parsed",
+			brief:
+				"Filter instances by a case-sensitive name prefix, falling back to the actor ID when no name is known. Keep the same prefix when using a page token.",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "containers applications instances list",
 				classification: {
 					safeFlags: ["state", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -106,6 +104,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Loaded` });
 			}
 		),
-};
+});
 
 export default command;

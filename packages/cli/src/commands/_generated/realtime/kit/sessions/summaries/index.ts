@@ -1,24 +1,19 @@
 import $export from "./export.js";
 import $generate from "./generate.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * summaries command group
  * @generated from apis/overlays/realtime.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "summaries",
 	describe: "Summaries of historical RealtimeKit sessions",
 
-	builder: (yargs) => {
-		return yargs
-			.command($export)
-			.command($generate)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		export: $export,
+		generate: $generate,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

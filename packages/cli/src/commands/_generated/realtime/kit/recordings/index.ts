@@ -4,29 +4,24 @@ import $get from "./get.js";
 import $list from "./list.js";
 import $start from "./start.js";
 import $tracks from "./tracks/index.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * recordings command group
  * @generated from apis/overlays/realtime.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "recordings",
 	describe: "Meeting and participant-track recordings and recording controls",
 
-	builder: (yargs) => {
-		return yargs
-			.command($control)
-			.command($get)
-			.command($list)
-			.command($start)
-			.command($active)
-			.command($tracks)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		control: $control,
+		get: $get,
+		list: $list,
+		start: $start,
+		active: $active,
+		tracks: $tracks,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

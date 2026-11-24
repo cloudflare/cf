@@ -1,20 +1,17 @@
 import $topn from "./top-n.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * content-findings command group
  * @generated from apis/overlays/analytics.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "content-findings",
 	describe: "Operations for query.data-security.content-findings",
 
-	builder: (yargs) => {
-		return yargs.command($topn).demandCommand(1, "Please specify a subcommand");
+	routes: {
+		"top-n": $topn,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

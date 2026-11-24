@@ -1,11 +1,10 @@
 import operation from "../_operations/agent-memory/list-memories.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * list-memories command
  * @generated from apis/overlays/agent-memory.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -17,58 +16,57 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 agent-memory list-memories <profile-name>\n\nList memories stored in a profile."
-		)
-		.positional("profile-name", {
-			type: "string",
-			description: "Profile name.",
-			demandOption: true,
-		})
-		.option("namespace-name", {
-			type: "string",
-			description: "Namespace name.",
-			demandOption: true,
-		})
-		.option("per-page", {
-			type: "number",
-			description: "Number of results per page.",
-		})
-		.option("cursor", {
-			type: "string",
-			description: "Continuation cursor for paginated results.",
-		})
-		.option("session-id", {
-			type: "string",
-			description: "Session identifier for filtering.",
-		})
-		.option("type", {
-			type: "string",
-			description: "Memory type for filtering.",
-			choices: ["fact", "event", "instruction", "task"],
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "list-memories <profile-name>",
 	describe: "List memories",
-	builder,
+	usage:
+		"$0 agent-memory list-memories <profile-name>\n\nList memories stored in a profile.",
+	flags: {
+		"namespace-name": {
+			kind: "parsed",
+			brief: "Namespace name.",
+			parse: String,
+		},
+		"per-page": {
+			kind: "parsed",
+			brief: "Number of results per page.",
+			optional: true,
+			parse: Number,
+		},
+		cursor: {
+			kind: "parsed",
+			brief: "Continuation cursor for paginated results.",
+			optional: true,
+			parse: String,
+		},
+		"session-id": {
+			kind: "parsed",
+			brief: "Session identifier for filtering.",
+			optional: true,
+			parse: String,
+		},
+		type: {
+			kind: "enum",
+			brief: "Memory type for filtering.",
+			values: ["fact", "event", "instruction", "task"],
+			optional: true,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+	},
+	operands: [
+		{ placeholder: "profile-name", brief: "Profile name.", parse: String },
+	],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "agent-memory list-memories",
 				classification: {
 					safeFlags: ["type", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -108,6 +106,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Loaded` });
 			}
 		),
-};
+});
 
 export default command;

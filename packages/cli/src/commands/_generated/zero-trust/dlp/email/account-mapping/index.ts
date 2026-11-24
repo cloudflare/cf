@@ -1,25 +1,20 @@
 import $create from "./create.js";
 import $get from "./get.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * account-mapping command group
  * @generated from apis/overlays/zero-trust.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "account-mapping",
 	describe:
 		"Data Loss Prevention - configure account mappings for outbound email scanning",
 
-	builder: (yargs) => {
-		return yargs
-			.command($create)
-			.command($get)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		create: $create,
+		get: $get,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

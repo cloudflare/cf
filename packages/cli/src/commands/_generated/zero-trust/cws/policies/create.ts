@@ -1,11 +1,10 @@
 import operation from "../../../_operations/zero-trust/cws/policies/create.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * create command
  * @generated from apis/overlays/zero-trust.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -20,60 +19,72 @@ import { withProgress } from "#lib/progress.js";
 import { promptForRequiredField } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 zero-trust cws policies create\n\nCreates a policy from inline Rego source, an entrypoint, and a filter expression."
-		)
-		.option("description", {
-			type: "string",
-			description: "Optional free-form description.",
-		})
-		.option("entrypoint", {
-			type: "string",
-			description:
-				"Non-function rule declared in rego_source. Evaluation uses data.<package_path>.<entrypoint>.",
-		})
-		.option("filter", {
-			type: "string",
-			description:
-				"Filter expression that determines whether this policy applies. Maximum 4096 UTF-8 bytes.",
-		})
-		.option("name", { type: "string", description: "Name of the policy" })
-		.option("rego-source", {
-			type: "string",
-			description:
-				'Inline Rego source with a package beginning with "policy." Maximum 16384 UTF-8 bytes.',
-		})
-		.option("tags", {
-			type: "string",
-			description:
-				'Tags to attach. Keys are limited to 256 UTF-8 bytes and values to 1024 UTF-8 bytes. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": string}.',
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "create",
 	describe: "Create a new policy",
-	builder,
+	usage:
+		"$0 zero-trust cws policies create\n\nCreates a policy from inline Rego source, an entrypoint, and a filter expression.",
+	flags: {
+		description: {
+			kind: "parsed",
+			brief: "Optional free-form description.",
+			optional: true,
+			parse: String,
+		},
+		entrypoint: {
+			kind: "parsed",
+			brief:
+				"Non-function rule declared in rego_source. Evaluation uses data.<package_path>.<entrypoint>.",
+			optional: true,
+			parse: String,
+		},
+		filter: {
+			kind: "parsed",
+			brief:
+				"Filter expression that determines whether this policy applies. Maximum 4096 UTF-8 bytes.",
+			optional: true,
+			parse: String,
+		},
+		name: {
+			kind: "parsed",
+			brief: "Name of the policy",
+			optional: true,
+			parse: String,
+		},
+		"rego-source": {
+			kind: "parsed",
+			brief:
+				'Inline Rego source with a package beginning with "policy." Maximum 16384 UTF-8 bytes.',
+			optional: true,
+			parse: String,
+		},
+		tags: {
+			kind: "parsed",
+			brief:
+				'Tags to attach. Keys are limited to 256 UTF-8 bytes and values to 1024 UTF-8 bytes. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": string}.',
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "zero-trust cws policies create",
-				classification: {
-					safeFlags: ["dry-run"],
-				} satisfies ArgClassification<Args>,
+				classification: { safeFlags: ["dry-run"] } satisfies ArgClassification<
+					typeof argv
+				>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -205,6 +216,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Created` });
 			}
 		),
-};
+});
 
 export default command;

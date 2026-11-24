@@ -1,11 +1,10 @@
 import operation from "../_operations/csam-scanner/edit.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * edit command
  * @generated from apis/overlays/csam-scanner.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import { createCommandClient, getZoneId } from "#lib/auth.js";
 import { compactBody, parseBody, parseJsonMap } from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
@@ -14,60 +13,65 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 csam-scanner edit\n\nUpdate the CSAM Scanner configuration for a zone. Allows enabling or disabling CSAM scanning, updating the notification email, and configuring scanning sources. This is a partial update: fields omitted from `value` keep their current setting, and `sources` is merged per source (`null` clears all sources). Send an empty `email` to clear the notification address. When a new email is provided, email verification is triggered automatically. The `enabled` field is a toggle; the server may adjust it based on whether the notification email is verified. Returns 403 if the zone or account is locked by Trust & Safety."
-		)
-		.option("id", {
-			type: "string",
-			description: "The feature identifier.",
-			choices: ["csam_scanner"],
-		})
-		.coerce("id", (value) => resolveFileToken(value, "id", "text"))
-		.option("value-email", {
-			type: "string",
-			description:
-				"Notification email address for CSAM scan results. When changed,\nemail verification is triggered automatically.\n",
-		})
-		.option("value-enabled", {
-			type: "boolean",
-			description: "Whether CSAM scanning is enabled for this zone.",
-		})
-		.option("value-resend-email", {
-			type: "boolean",
-			description:
-				"Set to true to trigger re-sending the email verification.\nWrite-only; never appears in responses (omitted when false).\n",
-		})
-		.option("value-sources", {
-			type: "string",
-			description:
-				'Map of scanning sources and their enabled state. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": boolean}.',
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Request body for updating CSAM Scanner configuration. ",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "edit",
 	describe: "Update CSAM Scanner setting",
-	builder,
+	usage:
+		"$0 csam-scanner edit\n\nUpdate the CSAM Scanner configuration for a zone. Allows enabling or disabling CSAM scanning, updating the notification email, and configuring scanning sources. This is a partial update: fields omitted from `value` keep their current setting, and `sources` is merged per source (`null` clears all sources). Send an empty `email` to clear the notification address. When a new email is provided, email verification is triggered automatically. The `enabled` field is a toggle; the server may adjust it based on whether the notification email is verified. Returns 403 if the zone or account is locked by Trust & Safety.",
+	flags: {
+		id: {
+			kind: "parsed",
+			brief: "The feature identifier.",
+			optional: true,
+			choices: ["csam_scanner"],
+			parse: String,
+			coerce: (value: string) => resolveFileToken(value, "id", "text"),
+		},
+		"value-email": {
+			kind: "parsed",
+			brief:
+				"Notification email address for CSAM scan results. When changed,\nemail verification is triggered automatically.\n",
+			optional: true,
+			parse: String,
+		},
+		"value-enabled": {
+			kind: "boolean",
+			brief: "Whether CSAM scanning is enabled for this zone.",
+			optional: true,
+		},
+		"value-resend-email": {
+			kind: "boolean",
+			brief:
+				"Set to true to trigger re-sending the email verification.\nWrite-only; never appears in responses (omitted when false).\n",
+			optional: true,
+		},
+		"value-sources": {
+			kind: "parsed",
+			brief:
+				'Map of scanning sources and their enabled state. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": boolean}.',
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Request body for updating CSAM Scanner configuration. ",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "csam-scanner edit",
 				classification: {
 					safeFlags: ["id", "value-enabled", "value-resend-email", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -145,6 +149,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Updated` });
 			}
 		),
-};
+});
 
 export default command;

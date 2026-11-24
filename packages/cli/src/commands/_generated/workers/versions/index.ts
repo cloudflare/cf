@@ -2,30 +2,25 @@ import $delete from "./delete.js";
 import $get from "./get.js";
 import $list from "./list.js";
 import $profile from "./profile.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
+import $create from "#commands/workers/versions/create/index.js";
 /**
  * versions command group
  * @generated from apis/overlays/workers.ts
  */
-import type { CommandModule } from "yargs";
-import $create from "#commands/workers/versions/create/index.js";
+import { apiGroup } from "#lib/api-command.js";
 import { withHandWrittenDryRun } from "#lib/hand-written-dry-run.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "versions",
 	describe: "Create, list, inspect, and manage Worker versions",
 
-	builder: (yargs) => {
-		return yargs
-			.command(withHandWrittenDryRun($create, "native"))
-			.command($delete)
-			.command($get)
-			.command($list)
-			.command($profile)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		create: withHandWrittenDryRun($create, "native"),
+		delete: $delete,
+		get: $get,
+		list: $list,
+		profile: $profile,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

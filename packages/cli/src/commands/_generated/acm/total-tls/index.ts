@@ -1,24 +1,19 @@
 import $edit from "./edit.js";
 import $get from "./get.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * total-tls command group
  * @generated from apis/overlays/acm.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "total-tls",
 	describe: "Operations for total-tls",
 
-	builder: (yargs) => {
-		return yargs
-			.command($edit)
-			.command($get)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		edit: $edit,
+		get: $get,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

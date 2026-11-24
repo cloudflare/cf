@@ -1,11 +1,10 @@
 import operation from "../../../../_operations/zero-trust/access/logs/jit-requests/list.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * list command
  * @generated from apis/overlays/zero-trust.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -17,57 +16,66 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 zero-trust access logs jit-requests list\n\nLists account-wide Access JIT request logs reconstructed from request lifecycle events."
-		)
-		.option("page", { type: "number", description: "Page number of results." })
-		.option("per-page", {
-			type: "number",
-			description: "Number of results per page.",
-		})
-		.option("status", {
-			type: "string",
-			description:
-				"JIT request status. `SPENT` is deprecated and interpreted as `APPROVED`.",
-			choices: ["PENDING", "APPROVED", "DENIED", "CANCELED", "SPENT"],
-		})
-		.option("search", {
-			type: "string",
-			description:
-				"Case-insensitive search over request ID, requester email, application audience, and application hostname.",
-		})
-		.option("since", {
-			type: "string",
-			description:
-				"The earliest request timestamp to query. Defaults to 366 days before the current time.",
-		})
-		.option("until", {
-			type: "string",
-			description:
-				"The latest request timestamp to query. Defaults to the current time.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "list",
 	describe: "List Access JIT request logs",
-	builder,
+	usage:
+		"$0 zero-trust access logs jit-requests list\n\nLists account-wide Access JIT request logs reconstructed from request lifecycle events.",
+	flags: {
+		page: {
+			kind: "parsed",
+			brief: "Page number of results.",
+			optional: true,
+			parse: Number,
+		},
+		"per-page": {
+			kind: "parsed",
+			brief: "Number of results per page.",
+			optional: true,
+			parse: Number,
+		},
+		status: {
+			kind: "enum",
+			brief:
+				"JIT request status. `SPENT` is deprecated and interpreted as `APPROVED`.",
+			values: ["PENDING", "APPROVED", "DENIED", "CANCELED", "SPENT"],
+			optional: true,
+		},
+		search: {
+			kind: "parsed",
+			brief:
+				"Case-insensitive search over request ID, requester email, application audience, and application hostname.",
+			optional: true,
+			parse: String,
+		},
+		since: {
+			kind: "parsed",
+			brief:
+				"The earliest request timestamp to query. Defaults to 366 days before the current time.",
+			optional: true,
+			parse: String,
+		},
+		until: {
+			kind: "parsed",
+			brief:
+				"The latest request timestamp to query. Defaults to the current time.",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "zero-trust access logs jit-requests list",
 				classification: {
 					safeFlags: ["status", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -101,6 +109,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Loaded` });
 			}
 		),
-};
+});
 
 export default command;

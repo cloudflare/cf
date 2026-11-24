@@ -1,11 +1,10 @@
 import operation from "../../../_operations/zero-trust/risk-scoring/integrations/update.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * update command
  * @generated from apis/overlays/zero-trust.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -20,55 +19,53 @@ import { withProgress } from "#lib/progress.js";
 import { promptForRequiredField } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 zero-trust risk-scoring integrations update <integration-id>\n\nOverwrite the reference_id, tenant_url, and active values with the ones provided."
-		)
-		.positional("integration-id", {
-			type: "string",
-			description: "Integration ID",
-			demandOption: true,
-		})
-		.option("active", {
-			type: "boolean",
-			description:
-				"Whether this integration is enabled. If disabled, no risk changes will be exported to the third-party.",
-		})
-		.option("reference-id", {
-			type: "string",
-			description:
-				"A reference id that can be supplied by the client. Currently this should be set to the Access-Okta IDP ID (a UUIDv4).\nhttps://developers.cloudflare.com/api/operations/access-identity-providers-get-an-access-identity-provider",
-		})
-		.option("tenant-url", {
-			type: "string",
-			description:
-				'The base url of the tenant, e.g. "https://tenant.okta.com".',
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "update <integration-id>",
 	describe: "Update a risk score integration.",
-	builder,
+	usage:
+		"$0 zero-trust risk-scoring integrations update <integration-id>\n\nOverwrite the reference_id, tenant_url, and active values with the ones provided.",
+	flags: {
+		active: {
+			kind: "boolean",
+			brief:
+				"Whether this integration is enabled. If disabled, no risk changes will be exported to the third-party.",
+			optional: true,
+		},
+		"reference-id": {
+			kind: "parsed",
+			brief:
+				"A reference id that can be supplied by the client. Currently this should be set to the Access-Okta IDP ID (a UUIDv4).\nhttps://developers.cloudflare.com/api/operations/access-identity-providers-get-an-access-identity-provider",
+			optional: true,
+			parse: String,
+		},
+		"tenant-url": {
+			kind: "parsed",
+			brief: 'The base url of the tenant, e.g. "https://tenant.okta.com".',
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [
+		{ placeholder: "integration-id", brief: "Integration ID", parse: String },
+	],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "zero-trust risk-scoring integrations update",
 				classification: {
 					safeFlags: ["active", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -161,6 +158,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Updated` });
 			}
 		),
-};
+});
 
 export default command;

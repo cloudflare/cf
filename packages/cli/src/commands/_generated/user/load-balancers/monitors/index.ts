@@ -6,32 +6,27 @@ import $list from "./list.js";
 import $preview from "./preview/index.js";
 import $references from "./references/index.js";
 import $update from "./update.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * monitors command group
  * @generated from apis/overlays/user.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "monitors",
 	describe:
 		"Health check configurations that probe origin servers and determine pool availability",
 
-	builder: (yargs) => {
-		return yargs
-			.command($create)
-			.command($delete)
-			.command($edit)
-			.command($get)
-			.command($list)
-			.command($update)
-			.command($preview)
-			.command($references)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		create: $create,
+		delete: $delete,
+		edit: $edit,
+		get: $get,
+		list: $list,
+		update: $update,
+		preview: $preview,
+		references: $references,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

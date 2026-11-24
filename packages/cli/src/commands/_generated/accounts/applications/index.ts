@@ -5,31 +5,26 @@ import $list from "./list.js";
 import $lookup from "./lookup.js";
 import $references from "./references.js";
 import $update from "./update.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * applications command group
  * @generated from apis/overlays/accounts.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "applications",
 	describe:
 		"List Cloudflare-curated and custom applications, and manage custom applications",
 
-	builder: (yargs) => {
-		return yargs
-			.command($create)
-			.command($delete)
-			.command($get)
-			.command($list)
-			.command($lookup)
-			.command($references)
-			.command($update)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		create: $create,
+		delete: $delete,
+		get: $get,
+		list: $list,
+		lookup: $lookup,
+		references: $references,
+		update: $update,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

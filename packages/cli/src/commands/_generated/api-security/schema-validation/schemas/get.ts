@@ -1,52 +1,48 @@
 import operation from "../../../_operations/api-security/schema-validation/schemas/get.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * get command
  * @generated from apis/overlays/api-security.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import { createCommandClient, getZoneId } from "#lib/auth.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 api-security schema-validation schemas get <schema-id>\n\nGets the contents and metadata of a specific OpenAPI schema uploaded to API Security."
-		)
-		.positional("schema-id", {
-			type: "string",
-			description: "The unique identifier of the schema",
-			demandOption: true,
-		})
-		.option("omit-source", {
-			type: "boolean",
-			description:
-				"Omit the source-files of schemas and only retrieve their meta-data.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "get <schema-id>",
 	describe: "Get details of a schema",
-	builder,
+	usage:
+		"$0 api-security schema-validation schemas get <schema-id>\n\nGets the contents and metadata of a specific OpenAPI schema uploaded to API Security.",
+	flags: {
+		"omit-source": {
+			kind: "boolean",
+			brief:
+				"Omit the source-files of schemas and only retrieve their meta-data.",
+			optional: true,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+	},
+	operands: [
+		{
+			placeholder: "schema-id",
+			brief: "The unique identifier of the schema",
+			parse: String,
+		},
+	],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "api-security schema-validation schemas get",
 				classification: {
 					safeFlags: ["omit-source", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -83,6 +79,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Loaded` });
 			}
 		),
-};
+});
 
 export default command;

@@ -1,11 +1,10 @@
 import operation from "../../../_operations/zero-trust/access/targets/list.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * list command
  * @generated from apis/overlays/zero-trust.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -17,129 +16,164 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 zero-trust access targets list\n\nLists and sorts an account's targets. Filters are optional and are ANDed together."
-		)
-		.option("hostname", { type: "string", description: "Hostname of a target" })
-		.option("hostname-contains", {
-			type: "string",
-			description: "Partial match to the hostname of a target",
-		})
-		.option("virtual-network-id", {
-			type: "string",
-			description: "Private virtual network identifier of the target",
-		})
-		.option("ip-v4", {
-			type: "string",
-			description: "IPv4 address of the target",
-		})
-		.option("ip-v6", {
-			type: "string",
-			description: "IPv6 address of the target",
-		})
-		.option("created-before", {
-			type: "string",
-			description:
-				"Date and time at which the target was created before (inclusive)",
-		})
-		.option("created-after", {
-			type: "string",
-			description:
-				"Date and time at which the target was created after (inclusive)",
-		})
-		.option("modified-before", {
-			type: "string",
-			description:
-				"Date and time at which the target was modified before (inclusive)",
-		})
-		.option("modified-after", {
-			type: "string",
-			description:
-				"Date and time at which the target was modified after (inclusive)",
-		})
-		.option("ips", {
-			type: "string",
-			array: true,
-			description:
-				"Filters for targets that have any of the following IP addresses. Specify\n`ips` multiple times in query parameter to build list of candidates.",
-		})
-		.option("target-ids", {
-			type: "string",
-			array: true,
-			description:
-				"Filters for targets that have any of the following UUIDs. Specify\n`target_ids` multiple times in query parameter to build list of\ncandidates.",
-		})
-		.option("ip-like", {
-			type: "string",
-			description:
-				"Filters for targets whose IP addresses look like the specified string.\nSupports `*` as a wildcard character",
-		})
-		.option("ipv4-start", {
-			type: "string",
-			description:
-				"Defines an IPv4 filter range's starting value (inclusive). Requires\n`ipv4_end` to be specified as well.",
-		})
-		.option("ipv4-end", {
-			type: "string",
-			description:
-				"Defines an IPv4 filter range's ending value (inclusive). Requires\n`ipv4_start` to be specified as well.",
-		})
-		.option("ipv6-start", {
-			type: "string",
-			description:
-				"Defines an IPv6 filter range's starting value (inclusive). Requires\n`ipv6_end` to be specified as well.",
-		})
-		.option("ipv6-end", {
-			type: "string",
-			description:
-				"Defines an IPv6 filter range's ending value (inclusive). Requires\n`ipv6_start` to be specified as well.",
-		})
-		.option("tag", {
-			type: "string",
-			array: true,
-			description:
-				"Filter by tag key:value pairs. Multiple `tag` params are AND'd.\nFormat: `tag=key:value` (e.g., `tag=environment:production`).\nKey and value must both be non-empty; `tag=:value` and `tag=key:` return 400.",
-		})
-		.option("page", {
-			type: "number",
-			description: "Current page in the response",
-		})
-		.option("per-page", {
-			type: "number",
-			description: "Max amount of entries returned per page",
-		})
-		.option("order", {
-			type: "string",
-			description: "The field to sort by.",
-			choices: ["hostname", "created_at"],
-		})
-		.option("direction", {
-			type: "string",
-			description: "The sorting direction.",
-			choices: ["asc", "desc"],
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "list",
 	describe: "List all targets",
-	builder,
+	usage:
+		"$0 zero-trust access targets list\n\nLists and sorts an account's targets. Filters are optional and are ANDed together.",
+	flags: {
+		hostname: {
+			kind: "parsed",
+			brief: "Hostname of a target",
+			optional: true,
+			parse: String,
+		},
+		"hostname-contains": {
+			kind: "parsed",
+			brief: "Partial match to the hostname of a target",
+			optional: true,
+			parse: String,
+		},
+		"virtual-network-id": {
+			kind: "parsed",
+			brief: "Private virtual network identifier of the target",
+			optional: true,
+			parse: String,
+		},
+		"ip-v4": {
+			kind: "parsed",
+			brief: "IPv4 address of the target",
+			optional: true,
+			parse: String,
+		},
+		"ip-v6": {
+			kind: "parsed",
+			brief: "IPv6 address of the target",
+			optional: true,
+			parse: String,
+		},
+		"created-before": {
+			kind: "parsed",
+			brief: "Date and time at which the target was created before (inclusive)",
+			optional: true,
+			parse: String,
+		},
+		"created-after": {
+			kind: "parsed",
+			brief: "Date and time at which the target was created after (inclusive)",
+			optional: true,
+			parse: String,
+		},
+		"modified-before": {
+			kind: "parsed",
+			brief:
+				"Date and time at which the target was modified before (inclusive)",
+			optional: true,
+			parse: String,
+		},
+		"modified-after": {
+			kind: "parsed",
+			brief: "Date and time at which the target was modified after (inclusive)",
+			optional: true,
+			parse: String,
+		},
+		ips: {
+			kind: "parsed",
+			brief:
+				"Filters for targets that have any of the following IP addresses. Specify\n`ips` multiple times in query parameter to build list of candidates.",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"target-ids": {
+			kind: "parsed",
+			brief:
+				"Filters for targets that have any of the following UUIDs. Specify\n`target_ids` multiple times in query parameter to build list of\ncandidates.",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"ip-like": {
+			kind: "parsed",
+			brief:
+				"Filters for targets whose IP addresses look like the specified string.\nSupports `*` as a wildcard character",
+			optional: true,
+			parse: String,
+		},
+		"ipv4-start": {
+			kind: "parsed",
+			brief:
+				"Defines an IPv4 filter range's starting value (inclusive). Requires\n`ipv4_end` to be specified as well.",
+			optional: true,
+			parse: String,
+		},
+		"ipv4-end": {
+			kind: "parsed",
+			brief:
+				"Defines an IPv4 filter range's ending value (inclusive). Requires\n`ipv4_start` to be specified as well.",
+			optional: true,
+			parse: String,
+		},
+		"ipv6-start": {
+			kind: "parsed",
+			brief:
+				"Defines an IPv6 filter range's starting value (inclusive). Requires\n`ipv6_end` to be specified as well.",
+			optional: true,
+			parse: String,
+		},
+		"ipv6-end": {
+			kind: "parsed",
+			brief:
+				"Defines an IPv6 filter range's ending value (inclusive). Requires\n`ipv6_start` to be specified as well.",
+			optional: true,
+			parse: String,
+		},
+		tag: {
+			kind: "parsed",
+			brief:
+				"Filter by tag key:value pairs. Multiple `tag` params are AND'd.\nFormat: `tag=key:value` (e.g., `tag=environment:production`).\nKey and value must both be non-empty; `tag=:value` and `tag=key:` return 400.",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		page: {
+			kind: "parsed",
+			brief: "Current page in the response",
+			optional: true,
+			parse: Number,
+		},
+		"per-page": {
+			kind: "parsed",
+			brief: "Max amount of entries returned per page",
+			optional: true,
+			parse: Number,
+		},
+		order: {
+			kind: "enum",
+			brief: "The field to sort by.",
+			values: ["hostname", "created_at"],
+			optional: true,
+		},
+		direction: {
+			kind: "enum",
+			brief: "The sorting direction.",
+			values: ["asc", "desc"],
+			optional: true,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "zero-trust access targets list",
 				classification: {
 					safeFlags: ["order", "direction", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -188,6 +222,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Loaded` });
 			}
 		),
-};
+});
 
 export default command;

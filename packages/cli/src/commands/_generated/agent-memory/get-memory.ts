@@ -1,11 +1,10 @@
 import operation from "../_operations/agent-memory/get-memory.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * get-memory command
  * @generated from apis/overlays/agent-memory.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -17,46 +16,33 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 agent-memory get-memory <memory-id>\n\nRetrieves a memory by ID."
-		)
-		.positional("memory-id", {
-			type: "string",
-			description: "Memory Identifier.",
-			demandOption: true,
-		})
-		.option("namespace-name", {
-			type: "string",
-			description: "Namespace name.",
-			demandOption: true,
-		})
-		.option("profile-name", {
-			type: "string",
-			description: "Profile name.",
-			demandOption: true,
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "get-memory <memory-id>",
 	describe: "Get a memory",
-	builder,
+	usage: "$0 agent-memory get-memory <memory-id>\n\nRetrieves a memory by ID.",
+	flags: {
+		"namespace-name": {
+			kind: "parsed",
+			brief: "Namespace name.",
+			parse: String,
+		},
+		"profile-name": { kind: "parsed", brief: "Profile name.", parse: String },
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+	},
+	operands: [
+		{ placeholder: "memory-id", brief: "Memory Identifier.", parse: String },
+	],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "agent-memory get-memory",
-				classification: {
-					safeFlags: ["dry-run"],
-				} satisfies ArgClassification<Args>,
+				classification: { safeFlags: ["dry-run"] } satisfies ArgClassification<
+					typeof argv
+				>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -90,6 +76,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Loaded` });
 			}
 		),
-};
+});
 
 export default command;

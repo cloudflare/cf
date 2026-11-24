@@ -1,11 +1,10 @@
 import operation from "../_operations/security-insights/classify.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * classify command
  * @generated from apis/overlays/security-insights.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -20,54 +19,49 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 security-insights classify <issue-id>\n\nUpdates the user classification for a Security Center insight. Valid values are 'false_positive' or 'accept_risk'. To reset, set classification to null. Cannot change directly between classification values - must reset to null first.\n\nRuns against your account. Pass --zone to run against a zone instead. CLOUDFLARE_ZONE_ID is ignored."
-		)
-		.positional("issue-id", {
-			type: "string",
-			description: "Issue ID",
-			demandOption: true,
-		})
-		.option("classification", {
-			type: "string",
-			description:
-				"User-defined classification for the insight. Can be 'false_positive', 'accept_risk', 'other', or null.",
-			choices: ["false_positive", "accept_risk", "other"],
-		})
-		.coerce("classification", (value) =>
-			resolveFileToken(value, "classification", "text")
-		)
-		.option("rationale", {
-			type: "string",
-			description:
-				"Rationale for the classification change. Required when classification is 'accept_risk' or 'other'.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "classify <issue-id>",
 	describe: "Updates Security Center Insight Classification",
-	builder,
+	usage:
+		"$0 security-insights classify <issue-id>\n\nUpdates the user classification for a Security Center insight. Valid values are 'false_positive' or 'accept_risk'. To reset, set classification to null. Cannot change directly between classification values - must reset to null first.\n\nRuns against your account. Pass --zone to run against a zone instead. CLOUDFLARE_ZONE_ID is ignored.",
+	flags: {
+		classification: {
+			kind: "parsed",
+			brief:
+				"User-defined classification for the insight. Can be 'false_positive', 'accept_risk', 'other', or null.",
+			optional: true,
+			choices: ["false_positive", "accept_risk", "other"],
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "classification", "text"),
+		},
+		rationale: {
+			kind: "parsed",
+			brief:
+				"Rationale for the classification change. Required when classification is 'accept_risk' or 'other'.",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [{ placeholder: "issue-id", brief: "Issue ID", parse: String }],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "security-insights classify",
 				classification: {
 					safeFlags: ["classification", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -155,6 +149,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Updated` });
 			}
 		),
-};
+});
 
 export default command;

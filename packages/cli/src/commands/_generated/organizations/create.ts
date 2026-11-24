@@ -1,11 +1,10 @@
 import operation from "../_operations/organizations/create.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * create command
  * @generated from apis/overlays/organizations.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import { createCommandClient } from "#lib/auth.js";
 import { compactBody, parseBody } from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
@@ -15,60 +14,74 @@ import { withProgress } from "#lib/progress.js";
 import { promptForRequiredField } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 organizations create\n\nCreate a new organization for a user. Sub-organization creation availability depends on the organization's capabilities. The optional `profile` object accepts partial profile details; its individual fields are not required. Organization names are limited to 65 UTF-8 bytes. Each profile field is limited to 1,000 UTF-8 bytes, and a non-empty business email must be valid. At least one of business name, address, phone, or email must be non-empty to persist a profile."
-		)
-		.option("name", {
-			type: "string",
-			description: "The Organization name, limited to 65 UTF-8 bytes.",
-		})
-		.option("parent-id", { type: "string", description: "Organization ID" })
-		.option("profile-business-address", {
-			type: "string",
-			description: "The profile.business_address field",
-		})
-		.option("profile-business-email", {
-			type: "string",
-			description: "The profile.business_email field",
-		})
-		.option("profile-business-name", {
-			type: "string",
-			description: "The profile.business_name field",
-		})
-		.option("profile-business-phone", {
-			type: "string",
-			description: "The profile.business_phone field",
-		})
-		.option("profile-external-metadata", {
-			type: "string",
-			description: "The profile.external_metadata field",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "create",
 	describe: "Create organization",
-	builder,
+	usage:
+		"$0 organizations create\n\nCreate a new organization for a user. Sub-organization creation availability depends on the organization's capabilities. The optional `profile` object accepts partial profile details; its individual fields are not required. Organization names are limited to 65 UTF-8 bytes. Each profile field is limited to 1,000 UTF-8 bytes, and a non-empty business email must be valid. At least one of business name, address, phone, or email must be non-empty to persist a profile.",
+	flags: {
+		name: {
+			kind: "parsed",
+			brief: "The Organization name, limited to 65 UTF-8 bytes.",
+			optional: true,
+			parse: String,
+		},
+		"parent-id": {
+			kind: "parsed",
+			brief: "Organization ID",
+			optional: true,
+			parse: String,
+		},
+		"profile-business-address": {
+			kind: "parsed",
+			brief: "The profile.business_address field",
+			optional: true,
+			parse: String,
+		},
+		"profile-business-email": {
+			kind: "parsed",
+			brief: "The profile.business_email field",
+			optional: true,
+			parse: String,
+		},
+		"profile-business-name": {
+			kind: "parsed",
+			brief: "The profile.business_name field",
+			optional: true,
+			parse: String,
+		},
+		"profile-business-phone": {
+			kind: "parsed",
+			brief: "The profile.business_phone field",
+			optional: true,
+			parse: String,
+		},
+		"profile-external-metadata": {
+			kind: "parsed",
+			brief: "The profile.external_metadata field",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "organizations create",
-				classification: {
-					safeFlags: ["dry-run"],
-				} satisfies ArgClassification<Args>,
+				classification: { safeFlags: ["dry-run"] } satisfies ArgClassification<
+					typeof argv
+				>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -199,6 +212,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Created` });
 			}
 		),
-};
+});
 
 export default command;

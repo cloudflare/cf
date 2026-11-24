@@ -1,11 +1,10 @@
 import operation from "../../_operations/ai-gateway/logs/delete.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * delete command
  * @generated from apis/overlays/ai-gateway.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -18,20 +17,16 @@ import { withProgress } from "#lib/progress.js";
 import { confirmDelete } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 ai-gateway logs delete <gateway-id>\n\nDeletes gateway log entries matching the specified criteria."
-		)
-		.positional("gateway-id", {
-			type: "string",
-			description: "Unique identifier of the AI Gateway within the account.",
-			demandOption: true,
-		})
-		.option("order-by", {
-			type: "string",
-			description: "Order by",
-			choices: [
+const command = apiCommand({
+	command: "delete <gateway-id>",
+	describe: "Delete Gateway Logs",
+	usage:
+		"$0 ai-gateway logs delete <gateway-id>\n\nDeletes gateway log entries matching the specified criteria.",
+	flags: {
+		"order-by": {
+			kind: "enum",
+			brief: "Order by",
+			values: [
 				"created_at",
 				"provider",
 				"model",
@@ -44,33 +39,41 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"duration",
 				"feedback",
 			],
-		})
-		.option("order-by-direction", {
-			type: "string",
-			description: "Order by direction",
-			choices: ["asc", "desc"],
-		})
-		.option("filters", { type: "string", array: true, description: "Filters" })
-		.option("limit", { type: "number", description: "Limit" })
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
+			optional: true,
+		},
+		"order-by-direction": {
+			kind: "enum",
+			brief: "Order by direction",
+			values: ["asc", "desc"],
+			optional: true,
+		},
+		filters: {
+			kind: "parsed",
+			brief: "Filters",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		limit: { kind: "parsed", brief: "Limit", optional: true, parse: Number },
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
 			default: false,
-		})
-		.option("force", {
-			type: "boolean",
+		},
+		force: {
+			kind: "boolean",
+			brief: "Skip confirmation (useful in scripts and CI)",
 			alias: "f",
-			description: "Skip confirmation (useful in scripts and CI)",
 			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "delete <gateway-id>",
-	describe: "Delete Gateway Logs",
-	builder,
+		},
+	},
+	operands: [
+		{
+			placeholder: "gateway-id",
+			brief: "Unique identifier of the AI Gateway within the account.",
+			parse: String,
+		},
+	],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
@@ -78,7 +81,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				classification: {
 					safeFlags: ["order-by", "order-by-direction", "dry-run", "force"],
 					shortFlagAliases: { f: { canonical: "force", type: "boolean" } },
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -123,6 +126,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Deleted` });
 			}
 		),
-};
+});
 
 export default command;

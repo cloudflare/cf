@@ -1,11 +1,10 @@
 import operation from "../_operations/user/edit.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * edit command
  * @generated from apis/overlays/user.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import { createCommandClient } from "#lib/auth.js";
 import { compactBody, parseBody } from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
@@ -14,47 +13,61 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage("$0 user edit\n\nEdit part of your user details.")
-		.option("country", {
-			type: "string",
-			description: "The country in which the user lives.",
-		})
-		.option("first-name", { type: "string", description: "User's first name" })
-		.option("last-name", { type: "string", description: "User's last name" })
-		.option("telephone", {
-			type: "string",
-			description: "User's telephone number",
-		})
-		.option("zipcode", {
-			type: "string",
-			description: "The zipcode or postal code where the user lives.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "edit",
 	describe: "Edit User",
-	builder,
+	usage: "$0 user edit\n\nEdit part of your user details.",
+	flags: {
+		country: {
+			kind: "parsed",
+			brief: "The country in which the user lives.",
+			optional: true,
+			parse: String,
+		},
+		"first-name": {
+			kind: "parsed",
+			brief: "User's first name",
+			optional: true,
+			parse: String,
+		},
+		"last-name": {
+			kind: "parsed",
+			brief: "User's last name",
+			optional: true,
+			parse: String,
+		},
+		telephone: {
+			kind: "parsed",
+			brief: "User's telephone number",
+			optional: true,
+			parse: String,
+		},
+		zipcode: {
+			kind: "parsed",
+			brief: "The zipcode or postal code where the user lives.",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "user edit",
-				classification: {
-					safeFlags: ["dry-run"],
-				} satisfies ArgClassification<Args>,
+				classification: { safeFlags: ["dry-run"] } satisfies ArgClassification<
+					typeof argv
+				>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -145,6 +158,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Updated` });
 			}
 		),
-};
+});
 
 export default command;

@@ -1,11 +1,10 @@
 import operation from "../_operations/d1/edit.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * edit command
  * @generated from apis/overlays/d1.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -19,49 +18,48 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 d1 edit <database-id>\n\nPartially update a D1 database's configuration."
-		)
-		.positional("database-id", {
-			type: "string",
-			description: "D1 database identifier (UUID).",
-			demandOption: true,
-		})
-		.option("read-replication-mode", {
-			type: "string",
-			description:
-				"The read replication mode for the database. Use 'auto' to create replicas and allow D1 automatically place them around the world, or 'disabled' to not use any database replicas (it can take a few hours for all replicas to be deleted).",
-			choices: ["auto", "disabled"],
-		})
-		.coerce("read-replication-mode", (value) =>
-			resolveFileToken(value, "read-replication-mode", "text")
-		)
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "edit <database-id>",
 	describe: "Update D1 Database partially",
-	builder,
+	usage:
+		"$0 d1 edit <database-id>\n\nPartially update a D1 database's configuration.",
+	flags: {
+		"read-replication-mode": {
+			kind: "parsed",
+			brief:
+				"The read replication mode for the database. Use 'auto' to create replicas and allow D1 automatically place them around the world, or 'disabled' to not use any database replicas (it can take a few hours for all replicas to be deleted).",
+			optional: true,
+			choices: ["auto", "disabled"],
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "read-replication-mode", "text"),
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [
+		{
+			placeholder: "database-id",
+			brief: "D1 database identifier (UUID).",
+			parse: String,
+		},
+	],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "d1 edit",
 				classification: {
 					safeFlags: ["read-replication-mode", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -119,6 +117,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Updated` });
 			}
 		),
-};
+});
 
 export default command;

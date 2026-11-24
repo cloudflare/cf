@@ -1,26 +1,21 @@
 import $edit from "./edit.js";
 import $get from "./get.js";
 import $update from "./update.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * settings command group
  * @generated from apis/overlays/waiting-rooms.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "settings",
 	describe: "Zone-level waiting room defaults and cookie configuration",
 
-	builder: (yargs) => {
-		return yargs
-			.command($edit)
-			.command($get)
-			.command($update)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		edit: $edit,
+		get: $get,
+		update: $update,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

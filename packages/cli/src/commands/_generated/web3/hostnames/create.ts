@@ -1,11 +1,10 @@
 import operation from "../../_operations/web3/hostnames/create.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * create command
  * @generated from apis/overlays/web3.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import { createCommandClient, getZoneId } from "#lib/auth.js";
 import { compactBody, parseBody } from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
@@ -18,54 +17,59 @@ import {
 } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 web3 hostnames create\n\nCreates a new Web3 hostname for serving decentralized web content."
-		)
-		.option("description", {
-			type: "string",
-			description: "Specify an optional description of the hostname.",
-		})
-		.option("dnslink", {
-			type: "string",
-			description: "Specify the DNSLink value used if the target is ipfs.",
-		})
-		.option("name", {
-			type: "string",
-			description:
-				"Specify the hostname that points to the target gateway via CNAME.",
-		})
-		.option("target", {
-			type: "string",
-			description: "Specify the target gateway of the hostname.",
-			choices: ["ethereum", "ipfs", "ipfs_universal_path"],
-		})
-		.coerce("target", (value) => resolveFileToken(value, "target", "text"))
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "create",
 	describe: "Create Web3 Hostname",
-	builder,
+	usage:
+		"$0 web3 hostnames create\n\nCreates a new Web3 hostname for serving decentralized web content.",
+	flags: {
+		description: {
+			kind: "parsed",
+			brief: "Specify an optional description of the hostname.",
+			optional: true,
+			parse: String,
+		},
+		dnslink: {
+			kind: "parsed",
+			brief: "Specify the DNSLink value used if the target is ipfs.",
+			optional: true,
+			parse: String,
+		},
+		name: {
+			kind: "parsed",
+			brief:
+				"Specify the hostname that points to the target gateway via CNAME.",
+			optional: true,
+			parse: String,
+		},
+		target: {
+			kind: "parsed",
+			brief: "Specify the target gateway of the hostname.",
+			optional: true,
+			choices: ["ethereum", "ipfs", "ipfs_universal_path"],
+			parse: String,
+			coerce: (value: string) => resolveFileToken(value, "target", "text"),
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "web3 hostnames create",
 				classification: {
 					safeFlags: ["target", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -163,6 +167,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Created` });
 			}
 		),
-};
+});
 
 export default command;

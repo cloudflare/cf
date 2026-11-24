@@ -1,11 +1,10 @@
 import operation from "../../../_operations/zero-trust/dex/tests/update.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * update command
  * @generated from apis/overlays/zero-trust.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -23,73 +22,83 @@ import {
 } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage("$0 zero-trust dex tests update <dex-test-id>\n\nUpdate a DEX test.")
-		.positional("dex-test-id", {
-			type: "string",
-			description: "Unique identifier for a DEX test.",
-			demandOption: true,
-		})
-		.option("data-host", {
-			type: "string",
-			description: "The desired endpoint to test.",
-		})
-		.option("data-kind", {
-			type: "string",
-			description: "The type of test.",
-			choices: ["http", "traceroute"],
-		})
-		.coerce("data-kind", (value) =>
-			resolveFileToken(value, "data-kind", "text")
-		)
-		.option("data-method", {
-			type: "string",
-			description: "The HTTP request method type.",
-			choices: ["GET"],
-		})
-		.coerce("data-method", (value) =>
-			resolveFileToken(value, "data-method", "text")
-		)
-		.option("description", {
-			type: "string",
-			description: "Additional details about the test.",
-		})
-		.option("enabled", {
-			type: "boolean",
-			description: "Determines whether or not the test is active.",
-		})
-		.option("interval", {
-			type: "string",
-			description: "How often the test will run.",
-		})
-		.option("name", {
-			type: "string",
-			description: "The name of the DEX test. Must be unique.",
-		})
-		.option("target-policies", {
-			type: "string",
-			description:
-				'DEX rules targeted by this test. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"id": string, "default"?: boolean, "name"?: string}]. ? marks optional keys.',
-		})
-		.option("targeted", { type: "boolean", description: "The targeted field" })
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "update <dex-test-id>",
 	describe: "Update Device DEX test",
-	builder,
+	usage: "$0 zero-trust dex tests update <dex-test-id>\n\nUpdate a DEX test.",
+	flags: {
+		"data-host": {
+			kind: "parsed",
+			brief: "The desired endpoint to test.",
+			optional: true,
+			parse: String,
+		},
+		"data-kind": {
+			kind: "parsed",
+			brief: "The type of test.",
+			optional: true,
+			choices: ["http", "traceroute"],
+			parse: String,
+			coerce: (value: string) => resolveFileToken(value, "data-kind", "text"),
+		},
+		"data-method": {
+			kind: "parsed",
+			brief: "The HTTP request method type.",
+			optional: true,
+			choices: ["GET"],
+			parse: String,
+			coerce: (value: string) => resolveFileToken(value, "data-method", "text"),
+		},
+		description: {
+			kind: "parsed",
+			brief: "Additional details about the test.",
+			optional: true,
+			parse: String,
+		},
+		enabled: {
+			kind: "boolean",
+			brief: "Determines whether or not the test is active.",
+			optional: true,
+		},
+		interval: {
+			kind: "parsed",
+			brief: "How often the test will run.",
+			optional: true,
+			parse: String,
+		},
+		name: {
+			kind: "parsed",
+			brief: "The name of the DEX test. Must be unique.",
+			optional: true,
+			parse: String,
+		},
+		"target-policies": {
+			kind: "parsed",
+			brief:
+				'DEX rules targeted by this test. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"id": string, "default"?: boolean, "name"?: string}]. ? marks optional keys.',
+			optional: true,
+			parse: String,
+		},
+		targeted: { kind: "boolean", brief: "The targeted field", optional: true },
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [
+		{
+			placeholder: "dex-test-id",
+			brief: "Unique identifier for a DEX test.",
+			parse: String,
+		},
+	],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
@@ -102,7 +111,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"targeted",
 						"dry-run",
 					],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -250,6 +259,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Updated` });
 			}
 		),
-};
+});
 
 export default command;

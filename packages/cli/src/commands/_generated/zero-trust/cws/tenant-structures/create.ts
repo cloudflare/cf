@@ -1,11 +1,10 @@
 import operation from "../../../_operations/zero-trust/cws/tenant-structures/create.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * create command
  * @generated from apis/overlays/zero-trust.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -23,52 +22,53 @@ import {
 } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 zero-trust cws tenant-structures create\n\nCreates an empty tenant hierarchy for the selected cloud application."
-		)
-		.option("application", {
-			type: "string",
-			description: "Platform this structure models. Immutable after creation.",
-			choices: ["aws", "cloudflare"],
-		})
-		.coerce("application", (value) =>
-			resolveFileToken(value, "application", "text")
-		)
-		.option("import-path", {
-			type: "string",
-			description:
-				"Optional unique Rego mount path in the form tenant.<application>.<name>; application must match. Omit to leave unmounted.",
-		})
-		.option("name", {
-			type: "string",
-			description: "Human-readable name; unique per account",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "create",
 	describe: "Create a tenant structure",
-	builder,
+	usage:
+		"$0 zero-trust cws tenant-structures create\n\nCreates an empty tenant hierarchy for the selected cloud application.",
+	flags: {
+		application: {
+			kind: "parsed",
+			brief: "Platform this structure models. Immutable after creation.",
+			optional: true,
+			choices: ["aws", "cloudflare"],
+			parse: String,
+			coerce: (value: string) => resolveFileToken(value, "application", "text"),
+		},
+		"import-path": {
+			kind: "parsed",
+			brief:
+				"Optional unique Rego mount path in the form tenant.<application>.<name>; application must match. Omit to leave unmounted.",
+			optional: true,
+			parse: String,
+		},
+		name: {
+			kind: "parsed",
+			brief: "Human-readable name; unique per account",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "zero-trust cws tenant-structures create",
 				classification: {
 					safeFlags: ["application", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -153,6 +153,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Created` });
 			}
 		),
-};
+});
 
 export default command;

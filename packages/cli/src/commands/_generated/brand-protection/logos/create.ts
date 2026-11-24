@@ -1,11 +1,10 @@
 import operation from "../../_operations/brand-protection/logos/create.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * create command
  * @generated from apis/overlays/brand-protection.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -20,55 +19,58 @@ import { withProgress } from "#lib/progress.js";
 import { promptForRequiredField } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 brand-protection logos create\n\nUploads a logo and creates a saved logo query that finds visually similar images on scanned websites. The tag must be unique among the account's logo queries. By default, the new query also searches previously scanned images (see `search_lookback`). Creation fails when the account has reached its Brand Protection query limit, which counts domain and logo queries together."
-		)
-		.option("image-data", {
-			type: "string",
-			description:
-				"Base64 encoded image data. Can include data URI prefix (e.g., 'data:image/png;base64,...') or just the base64 string. Supported formats: PNG, JPEG, GIF, WebP, BMP, and SVG. ICO is also accepted when the data includes a `data:image/x-icon;base64,` prefix.",
-		})
-		.option("search-lookback", {
-			type: "boolean",
-			description:
-				"If true, also search previously scanned images for matches above the similarity threshold. Defaults to `true`.",
-			default: true,
-		})
-		.option("similarity-threshold", {
-			type: "number",
-			description: "Minimum similarity score (0-1) required for visual matches",
-		})
-		.option("tag", {
-			type: "string",
-			description:
-				"Name of the logo query. Must be unique among the account's logo queries.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "create",
 	describe: "Create logo query",
-	builder,
+	usage:
+		"$0 brand-protection logos create\n\nUploads a logo and creates a saved logo query that finds visually similar images on scanned websites. The tag must be unique among the account's logo queries. By default, the new query also searches previously scanned images (see `search_lookback`). Creation fails when the account has reached its Brand Protection query limit, which counts domain and logo queries together.",
+	flags: {
+		"image-data": {
+			kind: "parsed",
+			brief:
+				"Base64 encoded image data. Can include data URI prefix (e.g., 'data:image/png;base64,...') or just the base64 string. Supported formats: PNG, JPEG, GIF, WebP, BMP, and SVG. ICO is also accepted when the data includes a `data:image/x-icon;base64,` prefix.",
+			optional: true,
+			parse: String,
+		},
+		"search-lookback": {
+			kind: "boolean",
+			brief:
+				"If true, also search previously scanned images for matches above the similarity threshold. Defaults to `true`.",
+			default: true,
+		},
+		"similarity-threshold": {
+			kind: "parsed",
+			brief: "Minimum similarity score (0-1) required for visual matches",
+			optional: true,
+			parse: Number,
+		},
+		tag: {
+			kind: "parsed",
+			brief:
+				"Name of the logo query. Must be unique among the account's logo queries.",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "brand-protection logos create",
 				classification: {
 					safeFlags: ["search-lookback", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -159,6 +161,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Created` });
 			}
 		),
-};
+});
 
 export default command;

@@ -1,11 +1,10 @@
 import operation from "../../../_operations/o11y/tracing/settings/update.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * update command
  * @generated from apis/overlays/o11y.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import { createCommandClient, getZoneId } from "#lib/auth.js";
 import { compactBody, parseBody } from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
@@ -14,60 +13,65 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 o11y tracing settings update\n\nUpdate the zone-level Cloudflare Traces settings."
-		)
-		.option("destinations", {
-			type: "string",
-			array: true,
-			description:
-				"Up to 100 OpenTelemetry destination identifiers that receive traces.",
-		})
-		.option("enabled", {
-			type: "boolean",
-			description: "Whether Cloudflare Traces is enabled for the zone.",
-		})
-		.option("forward-context", {
-			type: "boolean",
-			description:
-				"Whether trace context is sent externally or across a zone boundary.",
-		})
-		.option("persist", {
-			type: "boolean",
-			description: "Whether traces are persisted in Cloudflare.",
-		})
-		.option("propagation-policy", {
-			type: "string",
-			description:
-				"When inbound trace context may be continued. Authenticated propagation is not supported yet.",
-			choices: ["accept", "authenticated", "reject"],
-		})
-		.coerce("propagation-policy", (value) =>
-			resolveFileToken(value, "propagation-policy", "text")
-		)
-		.option("sampling-ratio", {
-			type: "number",
-			description: "The ratio of requests sampled for tracing, from 0 to 1.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Update zone tracing settings",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "update",
 	describe: "Update zone tracing settings",
-	builder,
+	usage:
+		"$0 o11y tracing settings update\n\nUpdate the zone-level Cloudflare Traces settings.",
+	flags: {
+		destinations: {
+			kind: "parsed",
+			brief:
+				"Up to 100 OpenTelemetry destination identifiers that receive traces.",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		enabled: {
+			kind: "boolean",
+			brief: "Whether Cloudflare Traces is enabled for the zone.",
+			optional: true,
+		},
+		"forward-context": {
+			kind: "boolean",
+			brief:
+				"Whether trace context is sent externally or across a zone boundary.",
+			optional: true,
+		},
+		persist: {
+			kind: "boolean",
+			brief: "Whether traces are persisted in Cloudflare.",
+			optional: true,
+		},
+		"propagation-policy": {
+			kind: "parsed",
+			brief:
+				"When inbound trace context may be continued. Authenticated propagation is not supported yet.",
+			optional: true,
+			choices: ["accept", "authenticated", "reject"],
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "propagation-policy", "text"),
+		},
+		"sampling-ratio": {
+			kind: "parsed",
+			brief: "The ratio of requests sampled for tracing, from 0 to 1.",
+			optional: true,
+			parse: Number,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Update zone tracing settings",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
@@ -80,7 +84,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"propagation-policy",
 						"dry-run",
 					],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -139,6 +143,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Updated` });
 			}
 		),
-};
+});
 
 export default command;

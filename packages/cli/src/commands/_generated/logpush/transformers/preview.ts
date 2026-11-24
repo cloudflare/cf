@@ -1,11 +1,10 @@
 import operation from "../../_operations/logpush/transformers/preview.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * preview command
  * @generated from apis/overlays/logpush.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -20,45 +19,46 @@ import { withProgress } from "#lib/progress.js";
 import { promptForRequiredField } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 logpush transformers preview\n\nExecutes a SQL transformer against a single input record and returns the transformed output. This is a stateless endpoint — nothing is persisted."
-		)
-		.option("input", {
-			type: "string",
-			description:
-				'A single log record to transform (JSON object). Provide as a JSON object or @path/to/file.json. Shape: {"<key>": unknown}.',
-		})
-		.option("sql", {
-			type: "string",
-			description:
-				"The SQL transformer query. Maximum 32 KB. The query must contain a FROM clause referencing a valid logpush dataset.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "preview",
 	describe: "Preview transformer",
-	builder,
+	usage:
+		"$0 logpush transformers preview\n\nExecutes a SQL transformer against a single input record and returns the transformed output. This is a stateless endpoint — nothing is persisted.",
+	flags: {
+		input: {
+			kind: "parsed",
+			brief:
+				'A single log record to transform (JSON object). Provide as a JSON object or @path/to/file.json. Shape: {"<key>": unknown}.',
+			optional: true,
+			parse: String,
+		},
+		sql: {
+			kind: "parsed",
+			brief:
+				"The SQL transformer query. Maximum 32 KB. The query must contain a FROM clause referencing a valid logpush dataset.",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "logpush transformers preview",
-				classification: {
-					safeFlags: ["dry-run"],
-				} satisfies ArgClassification<Args>,
+				classification: { safeFlags: ["dry-run"] } satisfies ArgClassification<
+					typeof argv
+				>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -139,6 +139,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Loaded` });
 			}
 		),
-};
+});
 
 export default command;

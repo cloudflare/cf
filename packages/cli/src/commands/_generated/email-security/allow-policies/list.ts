@@ -1,11 +1,10 @@
 import operation from "../../_operations/email-security/allow-policies/list.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * list command
  * @generated from apis/overlays/email-security.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -17,80 +16,91 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 email-security allow-policies list\n\nReturns a paginated list of email allow policies. These policies exempt matching emails from security detection, allowing them to bypass disposition actions. Supports filtering by pattern type and policy attributes."
-		)
-		.option("page", {
-			type: "number",
-			description: "Current page within paginated list of results.",
-		})
-		.option("per-page", {
-			type: "number",
-			description: "The number of results per page. Maximum value is 1000.",
-		})
-		.option("search", {
-			type: "string",
-			description: "Search term for filtering records. Behavior may change.",
-		})
-		.option("order", {
-			type: "string",
-			description: "Field to sort by.",
-			choices: ["pattern", "created_at"],
-		})
-		.option("direction", {
-			type: "string",
-			description: "The sorting direction.",
-			choices: ["asc", "desc"],
-		})
-		.option("is-exempt-recipient", {
-			type: "boolean",
-			description:
-				"Filter to show only policies where messages to the recipient bypass all detections.",
-		})
-		.option("is-trusted-sender", {
-			type: "boolean",
-			description:
-				"Filter to show only policies where messages from the sender bypass all detections and link following.",
-		})
-		.option("is-acceptable-sender", {
-			type: "boolean",
-			description:
-				"Filter to show only policies where messages from the sender are exempted from Spam, Spoof, and Bulk dispositions (not Malicious or Suspicious).",
-		})
-		.option("verify-sender", {
-			type: "boolean",
-			description:
-				"Filter to show only policies that enforce DMARC, SPF, or DKIM authentication.",
-		})
-		.option("pattern-type", {
-			type: "string",
-			description: "Filter by pattern type.",
-			choices: ["EMAIL", "DOMAIN", "IP", "UNKNOWN"],
-		})
-		.option("pattern", {
-			type: "string",
-			description: "Filter by exact pattern value.",
-		})
-		.option("expired", {
-			type: "boolean",
-			description:
-				"Filter to return only expired policies (`true`) or only policies that still apply (`false`). Omit to return both.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "list",
 	describe: "List email allow policies",
-	builder,
+	usage:
+		"$0 email-security allow-policies list\n\nReturns a paginated list of email allow policies. These policies exempt matching emails from security detection, allowing them to bypass disposition actions. Supports filtering by pattern type and policy attributes.",
+	flags: {
+		page: {
+			kind: "parsed",
+			brief: "Current page within paginated list of results.",
+			optional: true,
+			parse: Number,
+		},
+		"per-page": {
+			kind: "parsed",
+			brief: "The number of results per page. Maximum value is 1000.",
+			optional: true,
+			parse: Number,
+		},
+		search: {
+			kind: "parsed",
+			brief: "Search term for filtering records. Behavior may change.",
+			optional: true,
+			parse: String,
+		},
+		order: {
+			kind: "enum",
+			brief: "Field to sort by.",
+			values: ["pattern", "created_at"],
+			optional: true,
+		},
+		direction: {
+			kind: "enum",
+			brief: "The sorting direction.",
+			values: ["asc", "desc"],
+			optional: true,
+		},
+		"is-exempt-recipient": {
+			kind: "boolean",
+			brief:
+				"Filter to show only policies where messages to the recipient bypass all detections.",
+			optional: true,
+		},
+		"is-trusted-sender": {
+			kind: "boolean",
+			brief:
+				"Filter to show only policies where messages from the sender bypass all detections and link following.",
+			optional: true,
+		},
+		"is-acceptable-sender": {
+			kind: "boolean",
+			brief:
+				"Filter to show only policies where messages from the sender are exempted from Spam, Spoof, and Bulk dispositions (not Malicious or Suspicious).",
+			optional: true,
+		},
+		"verify-sender": {
+			kind: "boolean",
+			brief:
+				"Filter to show only policies that enforce DMARC, SPF, or DKIM authentication.",
+			optional: true,
+		},
+		"pattern-type": {
+			kind: "enum",
+			brief: "Filter by pattern type.",
+			values: ["EMAIL", "DOMAIN", "IP", "UNKNOWN"],
+			optional: true,
+		},
+		pattern: {
+			kind: "parsed",
+			brief: "Filter by exact pattern value.",
+			optional: true,
+			parse: String,
+		},
+		expired: {
+			kind: "boolean",
+			brief:
+				"Filter to return only expired policies (`true`) or only policies that still apply (`false`). Omit to return both.",
+			optional: true,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
@@ -107,7 +117,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"expired",
 						"dry-run",
 					],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -147,6 +157,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Loaded` });
 			}
 		),
-};
+});
 
 export default command;

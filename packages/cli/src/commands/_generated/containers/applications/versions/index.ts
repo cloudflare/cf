@@ -1,20 +1,17 @@
 import $list from "./list.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * versions command group
  * @generated from apis/overlays/containers.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "versions",
 	describe: "Inspect versions of scheduler-backed applications",
 
-	builder: (yargs) => {
-		return yargs.command($list).demandCommand(1, "Please specify a subcommand");
+	routes: {
+		list: $list,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

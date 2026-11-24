@@ -1,11 +1,10 @@
 import operation from "../../_operations/web3/hostnames/edit.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * edit command
  * @generated from apis/overlays/web3.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import { createCommandClient, getZoneId } from "#lib/auth.js";
 import { compactBody, parseBody } from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
@@ -14,48 +13,50 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 web3 hostnames edit <identifier>\n\nUpdates a Web3 hostname configuration."
-		)
-		.positional("identifier", {
-			type: "string",
-			description: "Specify the identifier of the hostname.",
-			demandOption: true,
-		})
-		.option("description", {
-			type: "string",
-			description: "Specify an optional description of the hostname.",
-		})
-		.option("dnslink", {
-			type: "string",
-			description: "Specify the DNSLink value used if the target is ipfs.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "edit <identifier>",
 	describe: "Edit Web3 Hostname",
-	builder,
+	usage:
+		"$0 web3 hostnames edit <identifier>\n\nUpdates a Web3 hostname configuration.",
+	flags: {
+		description: {
+			kind: "parsed",
+			brief: "Specify an optional description of the hostname.",
+			optional: true,
+			parse: String,
+		},
+		dnslink: {
+			kind: "parsed",
+			brief: "Specify the DNSLink value used if the target is ipfs.",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [
+		{
+			placeholder: "identifier",
+			brief: "Specify the identifier of the hostname.",
+			parse: String,
+		},
+	],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "web3 hostnames edit",
-				classification: {
-					safeFlags: ["dry-run"],
-				} satisfies ArgClassification<Args>,
+				classification: { safeFlags: ["dry-run"] } satisfies ArgClassification<
+					typeof argv
+				>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -131,6 +132,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Updated` });
 			}
 		),
-};
+});
 
 export default command;

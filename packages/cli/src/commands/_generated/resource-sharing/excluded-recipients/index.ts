@@ -3,28 +3,23 @@ import $delete from "./delete.js";
 import $get from "./get.js";
 import $list from "./list.js";
 import $replace from "./replace.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * excluded-recipients command group
  * @generated from apis/overlays/resource-sharing.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "excluded-recipients",
 	describe: "Accounts excluded from an organization-targeted share",
 
-	builder: (yargs) => {
-		return yargs
-			.command($create)
-			.command($delete)
-			.command($get)
-			.command($list)
-			.command($replace)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		create: $create,
+		delete: $delete,
+		get: $get,
+		list: $list,
+		replace: $replace,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

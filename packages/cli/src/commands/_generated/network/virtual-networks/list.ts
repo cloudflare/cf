@@ -1,11 +1,10 @@
 import operation from "../../_operations/network/virtual-networks/list.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * list command
  * @generated from apis/overlays/network.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -17,57 +16,62 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 network virtual-networks list\n\nLists and filters virtual networks in an account."
-		)
-		.option("page", {
-			type: "number",
-			description:
-				"Page number of paginated results, starting at 1. Defaults to 1.",
-		})
-		.option("per-page", {
-			type: "number",
-			description:
-				"Number of virtual networks per page, up to 1000. Defaults to 1000.",
-		})
-		.option("id", {
-			type: "string",
-			description: "UUID of the virtual network.",
-		})
-		.option("name", {
-			type: "string",
-			description: "A user-friendly name for the virtual network.",
-		})
-		.option("is-default", {
-			type: "boolean",
-			description:
-				"If `true`, only include the default virtual network. If `false`, exclude the default virtual network. If empty, all virtual networks will be included.",
-		})
-		.option("is-default-network", {
-			type: "boolean",
-			description:
-				"If `true`, only include the default virtual network. If `false`, exclude the default virtual network. If empty, all virtual networks will be included.",
-		})
-		.option("is-deleted", {
-			type: "boolean",
-			description:
-				"If `true`, only include deleted virtual networks. If `false`, exclude deleted virtual networks. If empty, all virtual networks will be included.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "list",
 	describe: "List virtual networks",
-	builder,
+	usage:
+		"$0 network virtual-networks list\n\nLists and filters virtual networks in an account.",
+	flags: {
+		page: {
+			kind: "parsed",
+			brief: "Page number of paginated results, starting at 1. Defaults to 1.",
+			optional: true,
+			parse: Number,
+		},
+		"per-page": {
+			kind: "parsed",
+			brief:
+				"Number of virtual networks per page, up to 1000. Defaults to 1000.",
+			optional: true,
+			parse: Number,
+		},
+		id: {
+			kind: "parsed",
+			brief: "UUID of the virtual network.",
+			optional: true,
+			parse: String,
+		},
+		name: {
+			kind: "parsed",
+			brief: "A user-friendly name for the virtual network.",
+			optional: true,
+			parse: String,
+		},
+		"is-default": {
+			kind: "boolean",
+			brief:
+				"If `true`, only include the default virtual network. If `false`, exclude the default virtual network. If empty, all virtual networks will be included.",
+			optional: true,
+		},
+		"is-default-network": {
+			kind: "boolean",
+			brief:
+				"If `true`, only include the default virtual network. If `false`, exclude the default virtual network. If empty, all virtual networks will be included.",
+			optional: true,
+		},
+		"is-deleted": {
+			kind: "boolean",
+			brief:
+				"If `true`, only include deleted virtual networks. If `false`, exclude deleted virtual networks. If empty, all virtual networks will be included.",
+			optional: true,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
@@ -79,7 +83,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"is-deleted",
 						"dry-run",
 					],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -114,6 +118,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Loaded` });
 			}
 		),
-};
+});
 
 export default command;

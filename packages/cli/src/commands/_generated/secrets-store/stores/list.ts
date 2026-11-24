@@ -1,11 +1,10 @@
 import operation from "../../_operations/secrets-store/stores/list.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * list command
  * @generated from apis/overlays/secrets-store.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -17,46 +16,50 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 secrets-store stores list\n\nLists account stores from an eventually consistent projection. Returns retryable HTTP 503 until initial backfill completes; empty accounts are ready immediately."
-		)
-		.option("direction", {
-			type: "string",
-			description: "Direction to sort objects.",
-			choices: ["asc", "desc"],
-		})
-		.option("page", { type: "number", description: "Page number." })
-		.option("per-page", {
-			type: "number",
-			description: "Number of objects to return per page.",
-		})
-		.option("order", {
-			type: "string",
-			description: "Order stores by values in the given field.",
-			choices: ["name", "created", "modified"],
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "list",
 	describe: "List account stores",
-	builder,
+	usage:
+		"$0 secrets-store stores list\n\nLists account stores from an eventually consistent projection. Returns retryable HTTP 503 until initial backfill completes; empty accounts are ready immediately.",
+	flags: {
+		direction: {
+			kind: "enum",
+			brief: "Direction to sort objects.",
+			values: ["asc", "desc"],
+			optional: true,
+		},
+		page: {
+			kind: "parsed",
+			brief: "Page number.",
+			optional: true,
+			parse: Number,
+		},
+		"per-page": {
+			kind: "parsed",
+			brief: "Number of objects to return per page.",
+			optional: true,
+			parse: Number,
+		},
+		order: {
+			kind: "enum",
+			brief: "Order stores by values in the given field.",
+			values: ["name", "created", "modified"],
+			optional: true,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "secrets-store stores list",
 				classification: {
 					safeFlags: ["direction", "order", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -88,6 +91,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Loaded` });
 			}
 		),
-};
+});
 
 export default command;

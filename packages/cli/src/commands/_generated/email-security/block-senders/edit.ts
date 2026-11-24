@@ -1,11 +1,10 @@
 import operation from "../../_operations/email-security/block-senders/edit.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * edit command
  * @generated from apis/overlays/email-security.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -19,65 +18,74 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 email-security block-senders edit <pattern-id>\n\nUpdates an existing blocked sender pattern. Only provided fields will be modified. The pattern will continue blocking emails until deleted."
-		)
-		.positional("pattern-id", {
-			type: "string",
-			description: "Blocked sender pattern identifier.",
-			demandOption: true,
-		})
-		.option("comments", { type: "string", description: "The comments field" })
-		.option("expires-at", {
-			type: "string",
-			description:
-				"Timestamp at which the pattern expires. After this time, Email Security ignores the pattern. The value must lie in the future. Send `null` to clear the expiration.",
-		})
-		.option("is-regex", {
-			type: "boolean",
-			description:
-				"Whether `pattern` is a regular expression instead of a literal value.",
-		})
-		.option("pattern", {
-			type: "string",
-			description:
-				"The pattern value to match. The format depends on `pattern_type`: a valid email address for EMAIL (e.g. `user@example.com`), a valid domain name for DOMAIN (e.g. `example.com`), or a plain IPv4 or IPv6 address or CIDR block for IP (e.g. `1.2.3.4`, `1.2.3.0/24`, `2606:4700:4700::1111`, or `2606:4700:4700::/48`); the API rejects private or unique-local, loopback, link-local, unspecified, and IPv4 broadcast addresses, including their IPv4-mapped IPv6 equivalents.",
-		})
-		.option("pattern-type", {
-			type: "string",
-			description:
-				"Type of pattern matching.\n- EMAIL: matches a full email address (e.g. `user@example.com`)\n- DOMAIN: matches a domain name (e.g. `example.com`)\n- IP: matches a plain IPv4 or IPv6 address (e.g. `1.2.3.4` or `2606:4700:4700::1111`) or CIDR block (e.g. `1.2.3.0/24` or `2606:4700:4700::/48`). The API rejects private or unique-local, loopback, link-local, unspecified, and IPv4 broadcast addresses, including their IPv4-mapped IPv6 equivalents.\n- UNKNOWN: deprecated; you cannot use this when creating or updating policies, but it may appear on existing entries.\n",
-			choices: ["EMAIL", "DOMAIN", "IP", "UNKNOWN"],
-		})
-		.coerce("pattern-type", (value) =>
-			resolveFileToken(value, "pattern-type", "text")
-		)
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Update a blocked sender pattern.",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "edit <pattern-id>",
 	describe: "Update a blocked email sender",
-	builder,
+	usage:
+		"$0 email-security block-senders edit <pattern-id>\n\nUpdates an existing blocked sender pattern. Only provided fields will be modified. The pattern will continue blocking emails until deleted.",
+	flags: {
+		comments: {
+			kind: "parsed",
+			brief: "The comments field",
+			optional: true,
+			parse: String,
+		},
+		"expires-at": {
+			kind: "parsed",
+			brief:
+				"Timestamp at which the pattern expires. After this time, Email Security ignores the pattern. The value must lie in the future. Send `null` to clear the expiration.",
+			optional: true,
+			parse: String,
+		},
+		"is-regex": {
+			kind: "boolean",
+			brief:
+				"Whether `pattern` is a regular expression instead of a literal value.",
+			optional: true,
+		},
+		pattern: {
+			kind: "parsed",
+			brief:
+				"The pattern value to match. The format depends on `pattern_type`: a valid email address for EMAIL (e.g. `user@example.com`), a valid domain name for DOMAIN (e.g. `example.com`), or a plain IPv4 or IPv6 address or CIDR block for IP (e.g. `1.2.3.4`, `1.2.3.0/24`, `2606:4700:4700::1111`, or `2606:4700:4700::/48`); the API rejects private or unique-local, loopback, link-local, unspecified, and IPv4 broadcast addresses, including their IPv4-mapped IPv6 equivalents.",
+			optional: true,
+			parse: String,
+		},
+		"pattern-type": {
+			kind: "parsed",
+			brief:
+				"Type of pattern matching.\n- EMAIL: matches a full email address (e.g. `user@example.com`)\n- DOMAIN: matches a domain name (e.g. `example.com`)\n- IP: matches a plain IPv4 or IPv6 address (e.g. `1.2.3.4` or `2606:4700:4700::1111`) or CIDR block (e.g. `1.2.3.0/24` or `2606:4700:4700::/48`). The API rejects private or unique-local, loopback, link-local, unspecified, and IPv4 broadcast addresses, including their IPv4-mapped IPv6 equivalents.\n- UNKNOWN: deprecated; you cannot use this when creating or updating policies, but it may appear on existing entries.\n",
+			optional: true,
+			choices: ["EMAIL", "DOMAIN", "IP", "UNKNOWN"],
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "pattern-type", "text"),
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Update a blocked sender pattern.",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [
+		{
+			placeholder: "pattern-id",
+			brief: "Blocked sender pattern identifier.",
+			parse: String,
+		},
+	],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "email-security block-senders edit",
 				classification: {
 					safeFlags: ["is-regex", "pattern-type", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -163,6 +171,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Updated` });
 			}
 		),
-};
+});
 
 export default command;

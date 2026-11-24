@@ -1,11 +1,10 @@
 import operation from "../../_operations/workers/secrets/update.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * update command
  * @generated from apis/overlays/workers.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -29,97 +28,116 @@ import {
 } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			'$0 workers secrets update <name>\n\nAdd a secret to a Worker script by creating a new version with that secret. When changing more than one secret at a time, prefer the "Patch multiple script secrets" API instead of changing many secrets individually.'
-		)
-		.positional("name", {
-			type: "string",
-			description: "A JavaScript variable name for the binding.",
-			demandOption: true,
-		})
-		.option("worker", {
-			type: "string",
+const command = apiCommand({
+	command: "update <name>",
+	describe: "Add a secret to a Worker script",
+	usage:
+		'$0 workers secrets update <name>\n\nAdd a secret to a Worker script by creating a new version with that secret. When changing more than one secret at a time, prefer the "Patch multiple script secrets" API instead of changing many secrets individually.',
+	flags: {
+		worker: {
+			kind: "parsed",
+			brief: "Name of the script.",
+			optional: true,
 			alias: ["script-name", "worker-id"],
-			description: "Name of the script.",
-		})
-		.option("text", { type: "string", description: "The secret value to use." })
-		.option("type", {
-			type: "string",
-			description: "The kind of resource that the binding provides.",
+			parse: String,
+		},
+		text: {
+			kind: "parsed",
+			brief: "The secret value to use.",
+			optional: true,
+			parse: String,
+		},
+		type: {
+			kind: "parsed",
+			brief: "The kind of resource that the binding provides.",
+			optional: true,
 			choices: ["secret_text", "secret_key"],
-		})
-		.coerce("type", (value) => resolveFileToken(value, "type", "text"))
-		.option("algorithm", {
-			type: "string",
-			description:
+			parse: String,
+			coerce: (value: string) => resolveFileToken(value, "type", "text"),
+		},
+		algorithm: {
+			kind: "parsed",
+			brief:
 				'Algorithm-specific key parameters. [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/importKey#algorithm). Provide as a JSON object or @path/to/file.json. Shape: {"<key>": unknown}.',
-		})
-		.option("format", {
-			type: "string",
-			description:
+			optional: true,
+			parse: String,
+		},
+		format: {
+			kind: "parsed",
+			brief:
 				"Data format of the key. [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/importKey#format).",
+			optional: true,
 			choices: ["raw", "pkcs8", "spki", "jwk"],
-		})
-		.coerce("format", (value) => resolveFileToken(value, "format", "text"))
-		.option("key-base64", {
-			type: "string",
-			description:
+			parse: String,
+			coerce: (value: string) => resolveFileToken(value, "format", "text"),
+		},
+		"key-base64": {
+			kind: "parsed",
+			brief:
 				'Base64-encoded key data. Required if `format` is "raw", "pkcs8", or "spki".',
-		})
-		.option("key-jwk", {
-			type: "string",
-			description:
+			optional: true,
+			parse: String,
+		},
+		"key-jwk": {
+			kind: "parsed",
+			brief:
 				'Key data in [JSON Web Key](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/importKey#json_web_key) format. Required if `format` is "jwk". Provide as a JSON object or @path/to/file.json. Shape: {"<key>": unknown}.',
-		})
-		.option("usages", {
-			type: "string",
-			array: true,
-			description:
+			optional: true,
+			parse: String,
+		},
+		usages: {
+			kind: "parsed",
+			brief:
 				"Allowed operations with the key. [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/importKey#keyUsages).",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
 			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "A secret value accessible through a binding.",
-		})
-		.conflicts("text", [
+		},
+		body: {
+			kind: "parsed",
+			brief: "A secret value accessible through a binding.",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [
+		{
+			placeholder: "name",
+			brief: "A JavaScript variable name for the binding.",
+			parse: String,
+		},
+	],
+	rules(rules) {
+		rules.conflicts("text", [
 			"algorithm",
 			"format",
 			"key-base64",
 			"key-jwk",
 			"usages",
-		])
-		.conflicts("algorithm", ["text"])
-		.implies("algorithm", ["format", "usages"])
-		.conflicts("format", ["text"])
-		.implies("format", ["algorithm", "usages"])
-		.conflicts("key-base64", ["text"])
-		.implies("key-base64", ["algorithm", "format", "usages"])
-		.conflicts("key-jwk", ["text"])
-		.implies("key-jwk", ["algorithm", "format", "usages"])
-		.conflicts("usages", ["text"])
-		.implies("usages", ["algorithm", "format"]);
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "update <name>",
-	describe: "Add a secret to a Worker script",
-	builder,
+		]);
+		rules.conflicts("algorithm", ["text"]);
+		rules.implies("algorithm", ["format", "usages"]);
+		rules.conflicts("format", ["text"]);
+		rules.implies("format", ["algorithm", "usages"]);
+		rules.conflicts("key-base64", ["text"]);
+		rules.implies("key-base64", ["algorithm", "format", "usages"]);
+		rules.conflicts("key-jwk", ["text"]);
+		rules.implies("key-jwk", ["algorithm", "format", "usages"]);
+		rules.conflicts("usages", ["text"]);
+		rules.implies("usages", ["algorithm", "format"]);
+	},
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "workers secrets update",
 				classification: {
 					safeFlags: ["type", "format", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -262,6 +280,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Updated` });
 			}
 		),
-};
+});
 
 export default command;

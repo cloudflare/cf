@@ -12,38 +12,33 @@ import $localuploads from "./local-uploads/index.js";
 import $locks from "./locks/index.js";
 import $metrics from "./metrics/index.js";
 import $sippy from "./sippy/index.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * buckets command group
  * @generated from apis/overlays/r2.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "buckets",
 	describe:
 		"Create and configure R2 buckets including CORS, lifecycle, custom domains, event notifications, and object locks",
 
-	builder: (yargs) => {
-		return yargs
-			.command($create)
-			.command($delete)
-			.command($edit)
-			.command($get)
-			.command($list)
-			.command($cors)
-			.command($domains)
-			.command($eventnotifications)
-			.command($jobs)
-			.command($lifecycle)
-			.command($localuploads)
-			.command($locks)
-			.command($metrics)
-			.command($sippy)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		create: $create,
+		delete: $delete,
+		edit: $edit,
+		get: $get,
+		list: $list,
+		cors: $cors,
+		domains: $domains,
+		"event-notifications": $eventnotifications,
+		jobs: $jobs,
+		lifecycle: $lifecycle,
+		"local-uploads": $localuploads,
+		locks: $locks,
+		metrics: $metrics,
+		sippy: $sippy,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

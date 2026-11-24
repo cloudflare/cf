@@ -1,10 +1,9 @@
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * create command
  * @generated from apis/overlays/accounts.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import { createCommandClient, requestApi } from "#lib/auth.js";
 import { compactBody, parseBody, setNestedValue } from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
@@ -14,58 +13,66 @@ import { withProgress } from "#lib/progress.js";
 import { promptForRequiredField } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 accounts create\n\nCreate an Account. To create the Account within an Organization, provide `unit.id` and omit `standalone`. To create a standalone Free Account, provide `standalone: true` and omit `unit`. Providing both fields is invalid. If you omit both fields, Cloudflare can determine the destination only when the User is an administrator of exactly one Organization. Cloudflare creates the Account in that Organization; otherwise, the request returns an error. Account names are limited to 65 UTF-8 bytes."
-		)
-		.option("idempotency-key", {
-			type: "string",
-			description:
-				"Optional key that identifies an Account-creation request. Free Account creation can require exactly one valid key, so API clients should send a key with every Account-creation request. Reuse the same key when retrying the same request.",
-		})
-		.option("name", {
-			type: "string",
-			description: "Account name, limited to 65 UTF-8 bytes.",
-		})
-		.option("standalone", {
-			type: "boolean",
-			description:
-				"Set to `true` and omit `unit` to create a standalone Free Account. If provided, this field must be `true`.",
-		})
-		.option("type", {
-			type: "string",
-			description:
-				"the type of account being created. For self-serve customers, use standard. for enterprise customers, use enterprise.",
-			choices: ["standard", "enterprise"],
-			default: "standard",
-		})
-		.coerce("type", (value) => resolveFileToken(value, "type", "text"))
-		.option("unit-id", { type: "string", description: "Tenant unit ID" })
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Parameters for account creation",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "create",
 	describe: "Create an Account",
-	builder,
+	usage:
+		"$0 accounts create\n\nCreate an Account. To create the Account within an Organization, provide `unit.id` and omit `standalone`. To create a standalone Free Account, provide `standalone: true` and omit `unit`. Providing both fields is invalid. If you omit both fields, Cloudflare can determine the destination only when the User is an administrator of exactly one Organization. Cloudflare creates the Account in that Organization; otherwise, the request returns an error. Account names are limited to 65 UTF-8 bytes.",
+	flags: {
+		"idempotency-key": {
+			kind: "parsed",
+			brief:
+				"Optional key that identifies an Account-creation request. Free Account creation can require exactly one valid key, so API clients should send a key with every Account-creation request. Reuse the same key when retrying the same request.",
+			optional: true,
+			parse: String,
+		},
+		name: {
+			kind: "parsed",
+			brief: "Account name, limited to 65 UTF-8 bytes.",
+			optional: true,
+			parse: String,
+		},
+		standalone: {
+			kind: "boolean",
+			brief:
+				"Set to `true` and omit `unit` to create a standalone Free Account. If provided, this field must be `true`.",
+			optional: true,
+		},
+		type: {
+			kind: "parsed",
+			brief:
+				"the type of account being created. For self-serve customers, use standard. for enterprise customers, use enterprise.",
+			default: "standard",
+			choices: ["standard", "enterprise"],
+			parse: String,
+			coerce: (value: string) => resolveFileToken(value, "type", "text"),
+		},
+		"unit-id": {
+			kind: "parsed",
+			brief: "Tenant unit ID",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Parameters for account creation",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "accounts create",
 				classification: {
 					safeFlags: ["standalone", "type", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -160,6 +167,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Created` });
 			}
 		),
-};
+});
 
 export default command;

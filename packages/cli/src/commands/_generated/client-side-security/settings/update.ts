@@ -1,11 +1,10 @@
 import operation from "../../_operations/client-side-security/settings/update.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * update command
  * @generated from apis/overlays/client-side-security.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import { createCommandClient, getZoneId } from "#lib/auth.js";
 import { compactBody, parseBody } from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
@@ -13,42 +12,42 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 client-side-security settings update\n\nUpdates client-side security enablement and reporting behaviors for the zone."
-		)
-		.option("enabled", {
-			type: "boolean",
-			description: "When true, indicates that Client-Side Security is enabled.",
-		})
-		.option("use-cloudflare-reporting-endpoint", {
-			type: "boolean",
-			description:
-				"When true, CSP reports will be sent to https://csp-reporting.cloudflare.com/cdn-cgi/script_monitor/report",
-		})
-		.option("use-connection-url-path", {
-			type: "boolean",
-			description:
-				"When true, the paths associated with connections URLs will also be analyzed.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "update",
 	describe: "Update client-side security settings",
-	builder,
+	usage:
+		"$0 client-side-security settings update\n\nUpdates client-side security enablement and reporting behaviors for the zone.",
+	flags: {
+		enabled: {
+			kind: "boolean",
+			brief: "When true, indicates that Client-Side Security is enabled.",
+			optional: true,
+		},
+		"use-cloudflare-reporting-endpoint": {
+			kind: "boolean",
+			brief:
+				"When true, CSP reports will be sent to https://csp-reporting.cloudflare.com/cdn-cgi/script_monitor/report",
+			optional: true,
+		},
+		"use-connection-url-path": {
+			kind: "boolean",
+			brief:
+				"When true, the paths associated with connections URLs will also be analyzed.",
+			optional: true,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
@@ -60,7 +59,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"use-connection-url-path",
 						"dry-run",
 					],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -115,6 +114,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Updated` });
 			}
 		),
-};
+});
 
 export default command;

@@ -1,22 +1,17 @@
 import $timeseries from "./timeseries.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * upstreams command group
  * @generated from apis/overlays/radar.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "upstreams",
 	describe: "Operations for bgp.routes.upstreams",
 
-	builder: (yargs) => {
-		return yargs
-			.command($timeseries)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		timeseries: $timeseries,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

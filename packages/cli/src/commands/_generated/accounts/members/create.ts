@@ -1,11 +1,10 @@
 import operation from "../../_operations/accounts/members/create.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * create command
  * @generated from apis/overlays/accounts.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -20,58 +19,65 @@ import { withProgress } from "#lib/progress.js";
 import { promptForRequiredField } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 accounts members create\n\nAdd a user to the list of members for this account."
-		)
-		.option("email", {
-			type: "string",
-			description: "The contact email address of the user.",
-		})
-		.option("roles", {
-			type: "string",
-			array: true,
-			description: "Array of roles associated with this member.",
-		})
-		.option("status", {
-			type: "string",
-			description:
-				"Status of the member invitation. If not provided during creation, defaults to 'pending'.\nChanging from 'accepted' back to 'pending' will trigger a replacement of the member resource in Terraform.",
-			choices: ["accepted", "pending"],
-		})
-		.coerce("status", (value) => resolveFileToken(value, "status", "text"))
-		.option("policies", {
-			type: "string",
-			description:
-				'Array of policies associated with this member. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"access": "allow" | "deny", "permission_groups": [{...}], "resource_groups": [{...}]}].',
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		})
-		.conflicts("roles", ["policies"])
-		.conflicts("policies", ["roles"]);
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "create",
 	describe: "Add Member",
-	builder,
+	usage:
+		"$0 accounts members create\n\nAdd a user to the list of members for this account.",
+	flags: {
+		email: {
+			kind: "parsed",
+			brief: "The contact email address of the user.",
+			optional: true,
+			parse: String,
+		},
+		roles: {
+			kind: "parsed",
+			brief: "Array of roles associated with this member.",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		status: {
+			kind: "parsed",
+			brief:
+				"Status of the member invitation. If not provided during creation, defaults to 'pending'.\nChanging from 'accepted' back to 'pending' will trigger a replacement of the member resource in Terraform.",
+			optional: true,
+			choices: ["accepted", "pending"],
+			parse: String,
+			coerce: (value: string) => resolveFileToken(value, "status", "text"),
+		},
+		policies: {
+			kind: "parsed",
+			brief:
+				'Array of policies associated with this member. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"access": "allow" | "deny", "permission_groups": [{...}], "resource_groups": [{...}]}].',
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [],
+	rules(rules) {
+		rules.conflicts("roles", ["policies"]);
+		rules.conflicts("policies", ["roles"]);
+	},
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "accounts members create",
 				classification: {
 					safeFlags: ["status", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -143,6 +149,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Created` });
 			}
 		),
-};
+});
 
 export default command;

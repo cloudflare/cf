@@ -1,23 +1,18 @@
 import $issuetypes from "./issue-types/index.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * attack-surface-report command group
  * @generated from apis/overlays/intel.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "attack-surface-report",
 	describe:
 		"Attack surface intelligence — exposed assets, vulnerabilities, and infrastructure mapping",
 
-	builder: (yargs) => {
-		return yargs
-			.command($issuetypes)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		"issue-types": $issuetypes,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

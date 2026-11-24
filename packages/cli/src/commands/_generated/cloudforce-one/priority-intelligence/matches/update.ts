@@ -1,11 +1,10 @@
 import operation from "../../../_operations/cloudforce-one/priority-intelligence/matches/update.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * update command
  * @generated from apis/overlays/cloudforce-one.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -20,53 +19,50 @@ import { withProgress } from "#lib/progress.js";
 import { promptForRequiredEnumField } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 cloudforce-one priority-intelligence matches update <priority-id>\n\nSets `triage_state` (`new`, `relevant`, or `not_relevant`) on up to 100 matches. Matches that do not exist, or are in datasets the account can no longer read, are returned in `not_found`. Setting `new` clears `triaged_at` and `triaged_by`. Requires the Threat Events entitlement."
-		)
-		.positional("priority-id", {
-			type: "string",
-			description: "Priority ID",
-			demandOption: true,
-		})
-		.option("matches", {
-			type: "string",
-			description:
-				'Up to 100 matches to set the triage state on. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"dataset_id": string, "event_id": string}].',
-		})
-		.option("triage-state", {
-			type: "string",
-			description: "The triage_state field",
-			choices: ["new", "relevant", "not_relevant"],
-		})
-		.coerce("triage-state", (value) =>
-			resolveFileToken(value, "triage-state", "text")
-		)
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "update <priority-id>",
 	describe: "Triage a priority intelligence requirement's matched events",
-	builder,
+	usage:
+		"$0 cloudforce-one priority-intelligence matches update <priority-id>\n\nSets `triage_state` (`new`, `relevant`, or `not_relevant`) on up to 100 matches. Matches that do not exist, or are in datasets the account can no longer read, are returned in `not_found`. Setting `new` clears `triaged_at` and `triaged_by`. Requires the Threat Events entitlement.",
+	flags: {
+		matches: {
+			kind: "parsed",
+			brief:
+				'Up to 100 matches to set the triage state on. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"dataset_id": string, "event_id": string}].',
+			optional: true,
+			parse: String,
+		},
+		"triage-state": {
+			kind: "parsed",
+			brief: "The triage_state field",
+			optional: true,
+			choices: ["new", "relevant", "not_relevant"],
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "triage-state", "text"),
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [
+		{ placeholder: "priority-id", brief: "Priority ID", parse: String },
+	],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "cloudforce-one priority-intelligence matches update",
 				classification: {
 					safeFlags: ["triage-state", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -140,6 +136,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Updated` });
 			}
 		),
-};
+});
 
 export default command;

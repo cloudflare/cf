@@ -1,11 +1,10 @@
 import operation from "../_operations/d1/raw.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * raw command
  * @generated from apis/overlays/d1.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -19,59 +18,65 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 d1 raw <database-id>\n\nExecute a SQL query against a D1 database and return result rows as arrays rather than objects. This is a performance-optimized version of the /query endpoint."
-		)
-		.positional("database-id", {
-			type: "string",
-			description: "D1 database identifier (UUID).",
-			demandOption: true,
-		})
-		.option("params", {
-			type: "string",
-			array: true,
-			description: "The params field",
-		})
-		.option("sql", {
-			type: "string",
-			description:
-				"Your SQL query. Supports multiple statements, joined by semicolons, which will be executed as a batch.",
-		})
-		.option("batch", {
-			type: "string",
-			description:
-				'The batch field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"sql": string, "params"?: [string]}]. ? marks optional keys.',
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "A single query object or a batch query object",
-		})
-		.conflicts("params", ["batch"])
-		.implies("params", ["sql"])
-		.conflicts("sql", ["batch"])
-		.conflicts("batch", ["params", "sql"]);
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "raw <database-id>",
 	describe: "Raw D1 Database query",
-	builder,
+	usage:
+		"$0 d1 raw <database-id>\n\nExecute a SQL query against a D1 database and return result rows as arrays rather than objects. This is a performance-optimized version of the /query endpoint.",
+	flags: {
+		params: {
+			kind: "parsed",
+			brief: "The params field",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		sql: {
+			kind: "parsed",
+			brief:
+				"Your SQL query. Supports multiple statements, joined by semicolons, which will be executed as a batch.",
+			optional: true,
+			parse: String,
+		},
+		batch: {
+			kind: "parsed",
+			brief:
+				'The batch field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"sql": string, "params"?: [string]}]. ? marks optional keys.',
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "A single query object or a batch query object",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [
+		{
+			placeholder: "database-id",
+			brief: "D1 database identifier (UUID).",
+			parse: String,
+		},
+	],
+	rules(rules) {
+		rules.conflicts("params", ["batch"]);
+		rules.implies("params", ["sql"]);
+		rules.conflicts("sql", ["batch"]);
+		rules.conflicts("batch", ["params", "sql"]);
+	},
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "d1 raw",
-				classification: {
-					safeFlags: ["dry-run"],
-				} satisfies ArgClassification<Args>,
+				classification: { safeFlags: ["dry-run"] } satisfies ArgClassification<
+					typeof argv
+				>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -137,6 +142,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Loaded` });
 			}
 		),
-};
+});
 
 export default command;

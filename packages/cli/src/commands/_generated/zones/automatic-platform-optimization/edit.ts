@@ -1,11 +1,10 @@
 import operation from "../../_operations/zones/automatic-platform-optimization/edit.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * edit command
  * @generated from apis/overlays/zones.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import { createCommandClient, getZoneId } from "#lib/auth.js";
 import { compactBody, parseBody } from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
@@ -13,58 +12,63 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			'$0 zones automatic-platform-optimization edit\n\nAutomatic Platform Optimization (APO) for WordPress is a performance feature that serves your WordPress site from Cloudflare\'s edge network, reducing load times for visitors. Refer to the APO documentation for more information. When an APO configuration already exists, fields omitted from an object `value` keep their current value, except `recheck`, which is false unless the request sends it. Setting `value` to `"off"` disables APO but keeps the detected zone/site/plugin facts. On the first write for a zone (no existing configuration) an object `value` must include `enabled`, `cf`, `wordpress` and `wp_plugin`; otherwise the request fails with error 1023. `"off"` is a no-op when no configuration exists.'
-		)
-		.option("value-cache-by-device-type", {
-			type: "boolean",
-			description: "Whether to cache by device type.",
-		})
-		.option("value-cf", {
-			type: "boolean",
-			description: "Whether the zone is proxied through Cloudflare.",
-		})
-		.option("value-enabled", {
-			type: "boolean",
-			description: "Whether APO is enabled.",
-		})
-		.option("value-hostnames", {
-			type: "string",
-			array: true,
-			description: "List of hostnames where APO is active.",
-		})
-		.option("value-recheck", {
-			type: "boolean",
-			description:
-				"Whether to recheck WordPress and plugin detection. When an APO configuration already exists, an omitted `recheck` is false, not its stored value.",
-		})
-		.option("value-wordpress", {
-			type: "boolean",
-			description: "Whether the site is a WordPress site.",
-		})
-		.option("value-wp-plugin", {
-			type: "boolean",
-			description: "Whether the Cloudflare WordPress plugin is installed.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "edit",
 	describe: "Change Automatic Platform Optimization setting",
-	builder,
+	usage:
+		'$0 zones automatic-platform-optimization edit\n\nAutomatic Platform Optimization (APO) for WordPress is a performance feature that serves your WordPress site from Cloudflare\'s edge network, reducing load times for visitors. Refer to the APO documentation for more information. When an APO configuration already exists, fields omitted from an object `value` keep their current value, except `recheck`, which is false unless the request sends it. Setting `value` to `"off"` disables APO but keeps the detected zone/site/plugin facts. On the first write for a zone (no existing configuration) an object `value` must include `enabled`, `cf`, `wordpress` and `wp_plugin`; otherwise the request fails with error 1023. `"off"` is a no-op when no configuration exists.',
+	flags: {
+		"value-cache-by-device-type": {
+			kind: "boolean",
+			brief: "Whether to cache by device type.",
+			optional: true,
+		},
+		"value-cf": {
+			kind: "boolean",
+			brief: "Whether the zone is proxied through Cloudflare.",
+			optional: true,
+		},
+		"value-enabled": {
+			kind: "boolean",
+			brief: "Whether APO is enabled.",
+			optional: true,
+		},
+		"value-hostnames": {
+			kind: "parsed",
+			brief: "List of hostnames where APO is active.",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"value-recheck": {
+			kind: "boolean",
+			brief:
+				"Whether to recheck WordPress and plugin detection. When an APO configuration already exists, an omitted `recheck` is false, not its stored value.",
+			optional: true,
+		},
+		"value-wordpress": {
+			kind: "boolean",
+			brief: "Whether the site is a WordPress site.",
+			optional: true,
+		},
+		"value-wp-plugin": {
+			kind: "boolean",
+			brief: "Whether the Cloudflare WordPress plugin is installed.",
+			optional: true,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
@@ -79,7 +83,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"value-wp-plugin",
 						"dry-run",
 					],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -144,6 +148,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Updated` });
 			}
 		),
-};
+});
 
 export default command;

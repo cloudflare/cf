@@ -4,30 +4,25 @@ import $dynamicrouting from "./dynamic-routing/index.js";
 import $gateways from "./gateways/index.js";
 import $logs from "./logs/index.js";
 import $modelaliases from "./model-aliases/index.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * ai-gateway command
  * @generated from apis/overlays/ai-gateway.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "ai-gateway",
 	describe:
 		"Proxy, cache, rate-limit, and observe requests to AI providers — OpenAI, Anthropic, Workers AI, and more",
 
-	builder: (yargs) => {
-		return yargs
-			.command($customdomains)
-			.command($customproviders)
-			.command($dynamicrouting)
-			.command($gateways)
-			.command($logs)
-			.command($modelaliases)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		"custom-domains": $customdomains,
+		"custom-providers": $customproviders,
+		"dynamic-routing": $dynamicrouting,
+		gateways: $gateways,
+		logs: $logs,
+		"model-aliases": $modelaliases,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

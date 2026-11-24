@@ -4,30 +4,25 @@ import $get from "./get.js";
 import $list from "./list.js";
 import $members from "./members/index.js";
 import $update from "./update.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * user-groups command group
  * @generated from apis/overlays/iam.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "user-groups",
 	describe:
 		"Organize account members into groups for easier permission assignment",
 
-	builder: (yargs) => {
-		return yargs
-			.command($create)
-			.command($delete)
-			.command($get)
-			.command($list)
-			.command($update)
-			.command($members)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		create: $create,
+		delete: $delete,
+		get: $get,
+		list: $list,
+		update: $update,
+		members: $members,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

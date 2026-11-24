@@ -1,22 +1,17 @@
 import $config from "./config/index.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * google-tag-gateway command
  * @generated from apis/overlays/google-tag-gateway.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "google-tag-gateway",
 	describe: "Google Tag Gateway operations",
 
-	builder: (yargs) => {
-		return yargs
-			.command($config)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		config: $config,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

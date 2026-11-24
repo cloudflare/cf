@@ -1,11 +1,10 @@
 import operation from "../../_operations/rules/lists/create.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * create command
  * @generated from apis/overlays/rules.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -23,49 +22,53 @@ import {
 } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage("$0 rules lists create\n\nCreates a new list of the specified kind.")
-		.option("description", {
-			type: "string",
-			description: "An informative summary of the list.",
-		})
-		.option("kind", {
-			type: "string",
-			description:
-				"The type of the list. Each type supports specific list items (IP addresses, ASNs, hostnames or redirects).",
-			choices: ["ip", "redirect", "hostname", "asn"],
-		})
-		.coerce("kind", (value) => resolveFileToken(value, "kind", "text"))
-		.option("name", {
-			type: "string",
-			description:
-				"An informative name for the list. Use this name in filter and rule expressions.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "create",
 	describe: "Create a list",
-	builder,
+	usage: "$0 rules lists create\n\nCreates a new list of the specified kind.",
+	flags: {
+		description: {
+			kind: "parsed",
+			brief: "An informative summary of the list.",
+			optional: true,
+			parse: String,
+		},
+		kind: {
+			kind: "parsed",
+			brief:
+				"The type of the list. Each type supports specific list items (IP addresses, ASNs, hostnames or redirects).",
+			optional: true,
+			choices: ["ip", "redirect", "hostname", "asn"],
+			parse: String,
+			coerce: (value: string) => resolveFileToken(value, "kind", "text"),
+		},
+		name: {
+			kind: "parsed",
+			brief:
+				"An informative name for the list. Use this name in filter and rule expressions.",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "rules lists create",
 				classification: {
 					safeFlags: ["kind", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -150,6 +153,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Created` });
 			}
 		),
-};
+});
 
 export default command;

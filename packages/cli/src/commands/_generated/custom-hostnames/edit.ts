@@ -1,11 +1,10 @@
 import operation from "../_operations/custom-hostnames/edit.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * edit command
  * @generated from apis/overlays/custom-hostnames.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import { createCommandClient, getZoneId } from "#lib/auth.js";
 import {
 	compactBody,
@@ -19,145 +18,168 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 custom-hostnames edit <custom-hostname-id>\n\nModify SSL configuration for a custom hostname. When sent with SSL config that matches existing config, used to indicate that hostname should pass domain control validation (DCV). Can also be used to change validation type, e.g., from 'http' to 'email'. Bundle an existing certificate with another certificate by using the \"custom_cert_bundle\" field. The bundling process supports combining certificates as long as the following condition is met. One certificate must use the RSA algorithm, and the other must use the ECDSA algorithm."
-		)
-		.positional("custom-hostname-id", {
-			type: "string",
-			description: "Custom hostname identifier tag.",
-			demandOption: true,
-		})
-		.option("custom-metadata", {
-			type: "string",
-			description:
-				'Unique key/value metadata for this hostname. These are per-hostname (customer) settings. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": string}.',
-		})
-		.option("custom-origin-server", {
-			type: "string",
-			description:
-				"a valid hostname that’s been added to your DNS zone as an A, AAAA, or CNAME record.",
-		})
-		.option("custom-origin-sni", {
-			type: "string",
-			description:
-				"A hostname that will be sent to your custom origin server as SNI for TLS handshake. This can be a valid subdomain of the zone or custom origin server name or the string ':request_host_header:' which will cause the host header in the request to be used as SNI. Not configurable with default/fallback origin server.",
-		})
-		.option("ssl-bundle-method", {
-			type: "string",
-			description:
-				"A ubiquitous bundle has the highest probability of being verified everywhere, even by clients using outdated or unusual trust stores. An optimal bundle uses the shortest chain and newest intermediates. And the force bundle verifies the chain, but does not otherwise modify it.",
-			choices: ["ubiquitous", "optimal", "force"],
-		})
-		.coerce("ssl-bundle-method", (value) =>
-			resolveFileToken(value, "ssl-bundle-method", "text")
-		)
-		.option("ssl-certificate-authority", {
-			type: "string",
-			description: "The Certificate Authority that will issue the certificate.",
-			choices: ["digicert", "google", "lets_encrypt", "ssl_com"],
-		})
-		.coerce("ssl-certificate-authority", (value) =>
-			resolveFileToken(value, "ssl-certificate-authority", "text")
-		)
-		.option("ssl-cloudflare-branding", {
-			type: "boolean",
-			description:
-				"Whether or not to add Cloudflare Branding for the order.  This will add a subdomain of sni.cloudflaressl.com as the Common Name if set to true.",
-		})
-		.option("ssl-custom-cert-bundle", {
-			type: "string",
-			description:
-				'Array of custom certificate and key pairs (1 or 2 pairs allowed). Provide as a JSON array of objects or @path/to/file.json. Shape: [{"custom_certificate": string, "custom_key": string}].',
-		})
-		.option("ssl-custom-certificate", {
-			type: "string",
-			description: "If a custom uploaded certificate is used.",
-		})
-		.option("ssl-custom-csr-id", {
-			type: "string",
-			description: "The identifier for the Custom CSR that was used.",
-		})
-		.option("ssl-custom-key", {
-			type: "string",
-			description: "The key for a custom uploaded certificate.",
-		})
-		.option("ssl-method", {
-			type: "string",
-			description:
-				"Domain control validation (DCV) method used for this hostname.",
-			choices: ["http", "txt", "email"],
-		})
-		.coerce("ssl-method", (value) =>
-			resolveFileToken(value, "ssl-method", "text")
-		)
-		.option("ssl-settings-ciphers", {
-			type: "string",
-			array: true,
-			description:
-				"An allowlist of ciphers for TLS termination. These ciphers must be in the BoringSSL format.",
-		})
-		.option("ssl-settings-early-hints", {
-			type: "string",
-			description: "Whether or not Early Hints is enabled.",
-			choices: ["on", "off"],
-		})
-		.coerce("ssl-settings-early-hints", (value) =>
-			resolveFileToken(value, "ssl-settings-early-hints", "text")
-		)
-		.option("ssl-settings-http2", {
-			type: "string",
-			description: "Whether or not HTTP2 is enabled.",
-			choices: ["on", "off"],
-		})
-		.coerce("ssl-settings-http2", (value) =>
-			resolveFileToken(value, "ssl-settings-http2", "text")
-		)
-		.option("ssl-settings-min-tls-version", {
-			type: "string",
-			description: "The minimum TLS version supported.",
-			choices: ["1.0", "1.1", "1.2", "1.3"],
-		})
-		.coerce("ssl-settings-min-tls-version", (value) =>
-			resolveFileToken(value, "ssl-settings-min-tls-version", "text")
-		)
-		.option("ssl-settings-tls-1-3", {
-			type: "string",
-			description: "Whether or not TLS 1.3 is enabled.",
-			choices: ["on", "off"],
-		})
-		.coerce("ssl-settings-tls-1-3", (value) =>
-			resolveFileToken(value, "ssl-settings-tls-1-3", "text")
-		)
-		.option("ssl-type", {
-			type: "string",
-			description:
-				"Level of validation to be used for this hostname. Domain validation (dv) must be used.",
-			choices: ["dv"],
-		})
-		.coerce("ssl-type", (value) => resolveFileToken(value, "ssl-type", "text"))
-		.option("ssl-wildcard", {
-			type: "boolean",
-			description: "Indicates whether the certificate covers a wildcard.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "edit <custom-hostname-id>",
 	describe: "Edit Custom Hostname",
-	builder,
+	usage:
+		"$0 custom-hostnames edit <custom-hostname-id>\n\nModify SSL configuration for a custom hostname. When sent with SSL config that matches existing config, used to indicate that hostname should pass domain control validation (DCV). Can also be used to change validation type, e.g., from 'http' to 'email'. Bundle an existing certificate with another certificate by using the \"custom_cert_bundle\" field. The bundling process supports combining certificates as long as the following condition is met. One certificate must use the RSA algorithm, and the other must use the ECDSA algorithm.",
+	flags: {
+		"custom-metadata": {
+			kind: "parsed",
+			brief:
+				'Unique key/value metadata for this hostname. These are per-hostname (customer) settings. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": string}.',
+			optional: true,
+			parse: String,
+		},
+		"custom-origin-server": {
+			kind: "parsed",
+			brief:
+				"a valid hostname that’s been added to your DNS zone as an A, AAAA, or CNAME record.",
+			optional: true,
+			parse: String,
+		},
+		"custom-origin-sni": {
+			kind: "parsed",
+			brief:
+				"A hostname that will be sent to your custom origin server as SNI for TLS handshake. This can be a valid subdomain of the zone or custom origin server name or the string ':request_host_header:' which will cause the host header in the request to be used as SNI. Not configurable with default/fallback origin server.",
+			optional: true,
+			parse: String,
+		},
+		"ssl-bundle-method": {
+			kind: "parsed",
+			brief:
+				"A ubiquitous bundle has the highest probability of being verified everywhere, even by clients using outdated or unusual trust stores. An optimal bundle uses the shortest chain and newest intermediates. And the force bundle verifies the chain, but does not otherwise modify it.",
+			optional: true,
+			choices: ["ubiquitous", "optimal", "force"],
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "ssl-bundle-method", "text"),
+		},
+		"ssl-certificate-authority": {
+			kind: "parsed",
+			brief: "The Certificate Authority that will issue the certificate.",
+			optional: true,
+			choices: ["digicert", "google", "lets_encrypt", "ssl_com"],
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "ssl-certificate-authority", "text"),
+		},
+		"ssl-cloudflare-branding": {
+			kind: "boolean",
+			brief:
+				"Whether or not to add Cloudflare Branding for the order.  This will add a subdomain of sni.cloudflaressl.com as the Common Name if set to true.",
+			optional: true,
+		},
+		"ssl-custom-cert-bundle": {
+			kind: "parsed",
+			brief:
+				'Array of custom certificate and key pairs (1 or 2 pairs allowed). Provide as a JSON array of objects or @path/to/file.json. Shape: [{"custom_certificate": string, "custom_key": string}].',
+			optional: true,
+			parse: String,
+		},
+		"ssl-custom-certificate": {
+			kind: "parsed",
+			brief: "If a custom uploaded certificate is used.",
+			optional: true,
+			parse: String,
+		},
+		"ssl-custom-csr-id": {
+			kind: "parsed",
+			brief: "The identifier for the Custom CSR that was used.",
+			optional: true,
+			parse: String,
+		},
+		"ssl-custom-key": {
+			kind: "parsed",
+			brief: "The key for a custom uploaded certificate.",
+			optional: true,
+			parse: String,
+		},
+		"ssl-method": {
+			kind: "parsed",
+			brief: "Domain control validation (DCV) method used for this hostname.",
+			optional: true,
+			choices: ["http", "txt", "email"],
+			parse: String,
+			coerce: (value: string) => resolveFileToken(value, "ssl-method", "text"),
+		},
+		"ssl-settings-ciphers": {
+			kind: "parsed",
+			brief:
+				"An allowlist of ciphers for TLS termination. These ciphers must be in the BoringSSL format.",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"ssl-settings-early-hints": {
+			kind: "parsed",
+			brief: "Whether or not Early Hints is enabled.",
+			optional: true,
+			choices: ["on", "off"],
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "ssl-settings-early-hints", "text"),
+		},
+		"ssl-settings-http2": {
+			kind: "parsed",
+			brief: "Whether or not HTTP2 is enabled.",
+			optional: true,
+			choices: ["on", "off"],
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "ssl-settings-http2", "text"),
+		},
+		"ssl-settings-min-tls-version": {
+			kind: "parsed",
+			brief: "The minimum TLS version supported.",
+			optional: true,
+			choices: ["1.0", "1.1", "1.2", "1.3"],
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "ssl-settings-min-tls-version", "text"),
+		},
+		"ssl-settings-tls-1-3": {
+			kind: "parsed",
+			brief: "Whether or not TLS 1.3 is enabled.",
+			optional: true,
+			choices: ["on", "off"],
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "ssl-settings-tls-1-3", "text"),
+		},
+		"ssl-type": {
+			kind: "parsed",
+			brief:
+				"Level of validation to be used for this hostname. Domain validation (dv) must be used.",
+			optional: true,
+			choices: ["dv"],
+			parse: String,
+			coerce: (value: string) => resolveFileToken(value, "ssl-type", "text"),
+		},
+		"ssl-wildcard": {
+			kind: "boolean",
+			brief: "Indicates whether the certificate covers a wildcard.",
+			optional: true,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [
+		{
+			placeholder: "custom-hostname-id",
+			brief: "Custom hostname identifier tag.",
+			parse: String,
+		},
+	],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
@@ -176,7 +198,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"ssl-wildcard",
 						"dry-run",
 					],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -336,6 +358,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Updated` });
 			}
 		),
-};
+});
 
 export default command;

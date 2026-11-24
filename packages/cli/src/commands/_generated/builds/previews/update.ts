@@ -1,10 +1,9 @@
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * update command
  * @generated from apis/overlays/builds.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -24,89 +23,100 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 builds previews update <preview>\n\nUpdate a single Preview of a Worker. Supports partial updates to the tracked branch, the automation flags, and the build settings."
-		)
-		.positional("preview", {
-			type: "string",
-			description: "ID of the Preview.",
-			demandOption: true,
-		})
-		.option("worker", {
-			type: "string",
-			description: "Script tag of the Worker.",
-			demandOption: true,
-		})
-		.option("auto-build", {
-			type: "boolean",
-			description:
-				"Whether pushes to the git branch build this Preview. Deploy hooks, manual builds, and retries run regardless of this setting.",
-		})
-		.option("auto-delete", {
-			type: "boolean",
-			description: "Whether deleting the git branch also deletes this Preview.",
-		})
-		.option("branch", {
-			type: "string",
-			description: "Git branch this Preview tracks",
-		})
-		.option("settings-build-caching-enabled", {
-			type: "boolean",
-			description:
-				"Whether builds reuse cached dependencies and build artifacts.",
-		})
-		.option("settings-build-command", {
-			type: "string",
-			description: "Command to build the Worker.",
-		})
-		.option("settings-build-token-uuid", {
-			type: "string",
-			description: "UUID of the build token used when deploying the Worker.",
-		})
-		.option("settings-deploy-command", {
-			type: "string",
-			description: "Command to deploy the Worker.",
-		})
-		.option("settings-environment-variables", {
-			type: "string",
-			description:
-				'Environment variable updates. Set the variable entry to null to delete it. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": ({...} | null)}.',
-		})
-		.option("settings-path-excludes", {
-			type: "string",
-			array: true,
-			description: "Path patterns that must not start builds.",
-		})
-		.option("settings-path-includes", {
-			type: "string",
-			array: true,
-			description: "Path patterns that can start builds.",
-		})
-		.option("settings-root-directory", {
-			type: "string",
-			description:
-				"Repository directory in which build and deploy commands run.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description:
-				"Request body for updating a Preview. At least one field must be provided, and omitted fields are left unchanged.",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "update <preview>",
 	describe: "Update preview",
-	builder,
+	usage:
+		"$0 builds previews update <preview>\n\nUpdate a single Preview of a Worker. Supports partial updates to the tracked branch, the automation flags, and the build settings.",
+	flags: {
+		worker: {
+			kind: "parsed",
+			brief: "Script tag of the Worker.",
+			parse: String,
+		},
+		"auto-build": {
+			kind: "boolean",
+			brief:
+				"Whether pushes to the git branch build this Preview. Deploy hooks, manual builds, and retries run regardless of this setting.",
+			optional: true,
+		},
+		"auto-delete": {
+			kind: "boolean",
+			brief: "Whether deleting the git branch also deletes this Preview.",
+			optional: true,
+		},
+		branch: {
+			kind: "parsed",
+			brief: "Git branch this Preview tracks",
+			optional: true,
+			parse: String,
+		},
+		"settings-build-caching-enabled": {
+			kind: "boolean",
+			brief: "Whether builds reuse cached dependencies and build artifacts.",
+			optional: true,
+		},
+		"settings-build-command": {
+			kind: "parsed",
+			brief: "Command to build the Worker.",
+			optional: true,
+			parse: String,
+		},
+		"settings-build-token-uuid": {
+			kind: "parsed",
+			brief: "UUID of the build token used when deploying the Worker.",
+			optional: true,
+			parse: String,
+		},
+		"settings-deploy-command": {
+			kind: "parsed",
+			brief: "Command to deploy the Worker.",
+			optional: true,
+			parse: String,
+		},
+		"settings-environment-variables": {
+			kind: "parsed",
+			brief:
+				'Environment variable updates. Set the variable entry to null to delete it. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": ({...} | null)}.',
+			optional: true,
+			parse: String,
+		},
+		"settings-path-excludes": {
+			kind: "parsed",
+			brief: "Path patterns that must not start builds.",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"settings-path-includes": {
+			kind: "parsed",
+			brief: "Path patterns that can start builds.",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"settings-root-directory": {
+			kind: "parsed",
+			brief: "Repository directory in which build and deploy commands run.",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief:
+				"Request body for updating a Preview. At least one field must be provided, and omitted fields are left unchanged.",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [
+		{ placeholder: "preview", brief: "ID of the Preview.", parse: String },
+	],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
@@ -118,7 +128,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"settings-build-caching-enabled",
 						"dry-run",
 					],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -297,6 +307,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Updated` });
 			}
 		),
-};
+});
 
 export default command;

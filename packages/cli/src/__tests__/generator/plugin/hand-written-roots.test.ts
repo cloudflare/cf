@@ -88,9 +88,9 @@ describe("created roots", () => {
 			previews()
 		);
 		const index = read(files, "previews/index.ts");
-		expect(index).toContain(".command($delete)");
+		expect(index).toContain("'delete': $delete,");
 		expect(index).toContain(
-			".command(withHandWrittenDryRun($deploy, 'preview'))"
+			"'deploy': withHandWrittenDryRun($deploy, 'preview'),"
 		);
 		const root = read(files, "index.ts");
 		expect(root.match(/lazyCommand<CommonYargsOptions>\('previews'/g)).toEqual([

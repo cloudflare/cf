@@ -5,31 +5,26 @@ import $events from "./events/index.js";
 import $get from "./get.js";
 import $list from "./list.js";
 import $replace from "./replace.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * webhooks command group
  * @generated from apis/overlays/realtime.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "webhooks",
 	describe:
 		"Webhook endpoints and supported events for RealtimeKit notifications",
 
-	builder: (yargs) => {
-		return yargs
-			.command($create)
-			.command($delete)
-			.command($edit)
-			.command($get)
-			.command($list)
-			.command($replace)
-			.command($events)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		create: $create,
+		delete: $delete,
+		edit: $edit,
+		get: $get,
+		list: $list,
+		replace: $replace,
+		events: $events,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

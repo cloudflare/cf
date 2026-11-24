@@ -1,11 +1,10 @@
 import operation from "../../../_operations/zero-trust/gateway/proxy-endpoints/edit.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * edit command
  * @generated from apis/overlays/zero-trust.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -19,49 +18,51 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 zero-trust gateway proxy-endpoints edit <proxy-endpoint-id>\n\nUpdate a configured Zero Trust Gateway proxy endpoint."
-		)
-		.positional("proxy-endpoint-id", {
-			type: "string",
-			description: "Proxy endpoint ID",
-			demandOption: true,
-		})
-		.option("ips", {
-			type: "string",
-			array: true,
-			description: "Specify the list of CIDRs to restrict ingress connections.",
-		})
-		.option("name", {
-			type: "string",
-			description: "Specify the name of the proxy endpoint.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "edit <proxy-endpoint-id>",
 	describe: "Update a proxy endpoint",
-	builder,
+	usage:
+		"$0 zero-trust gateway proxy-endpoints edit <proxy-endpoint-id>\n\nUpdate a configured Zero Trust Gateway proxy endpoint.",
+	flags: {
+		ips: {
+			kind: "parsed",
+			brief: "Specify the list of CIDRs to restrict ingress connections.",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		name: {
+			kind: "parsed",
+			brief: "Specify the name of the proxy endpoint.",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [
+		{
+			placeholder: "proxy-endpoint-id",
+			brief: "Proxy endpoint ID",
+			parse: String,
+		},
+	],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "zero-trust gateway proxy-endpoints edit",
-				classification: {
-					safeFlags: ["dry-run"],
-				} satisfies ArgClassification<Args>,
+				classification: { safeFlags: ["dry-run"] } satisfies ArgClassification<
+					typeof argv
+				>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -127,6 +128,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Updated` });
 			}
 		),
-};
+});
 
 export default command;

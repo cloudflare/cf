@@ -1,11 +1,10 @@
 import operation from "../../../_operations/realtime/kit/meetings/list.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * list command
  * @generated from apis/overlays/realtime.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -17,65 +16,71 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 realtime kit meetings list\n\nReturns all meetings for the given App ID."
-		)
-		.option("app-id", {
-			type: "string",
-			description: "The app identifier tag.",
-			demandOption: true,
-		})
-		.option("page-no", {
-			type: "number",
-			description:
-				"The page number from which you want your page search results to be displayed.",
-		})
-		.option("per-page", {
-			type: "number",
-			description: "Number of results per page",
-		})
-		.option("start-time", {
-			type: "string",
-			description:
-				"The start time range for which you want to retrieve the meetings. The time must be specified in ISO format.",
-		})
-		.option("end-time", {
-			type: "string",
-			description:
-				"The end time range for which you want to retrieve the meetings. The time must be specified in ISO format.",
-		})
-		.option("search", {
-			type: "string",
-			description:
-				"The search query string. You can search using the meeting ID or title.",
-		})
-		.option("status", {
-			type: "string",
-			description: "Filter meetings by status.",
-			choices: ["ACTIVE", "INACTIVE"],
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "list",
 	describe: "Fetch all meetings for an App",
-	builder,
+	usage:
+		"$0 realtime kit meetings list\n\nReturns all meetings for the given App ID.",
+	flags: {
+		"app-id": {
+			kind: "parsed",
+			brief: "The app identifier tag.",
+			parse: String,
+		},
+		"page-no": {
+			kind: "parsed",
+			brief:
+				"The page number from which you want your page search results to be displayed.",
+			optional: true,
+			parse: Number,
+		},
+		"per-page": {
+			kind: "parsed",
+			brief: "Number of results per page",
+			optional: true,
+			parse: Number,
+		},
+		"start-time": {
+			kind: "parsed",
+			brief:
+				"The start time range for which you want to retrieve the meetings. The time must be specified in ISO format.",
+			optional: true,
+			parse: String,
+		},
+		"end-time": {
+			kind: "parsed",
+			brief:
+				"The end time range for which you want to retrieve the meetings. The time must be specified in ISO format.",
+			optional: true,
+			parse: String,
+		},
+		search: {
+			kind: "parsed",
+			brief:
+				"The search query string. You can search using the meeting ID or title.",
+			optional: true,
+			parse: String,
+		},
+		status: {
+			kind: "enum",
+			brief: "Filter meetings by status.",
+			values: ["ACTIVE", "INACTIVE"],
+			optional: true,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "realtime kit meetings list",
 				classification: {
 					safeFlags: ["status", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -113,6 +118,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Loaded` });
 			}
 		),
-};
+});
 
 export default command;

@@ -1,11 +1,10 @@
 import operation from "../../../../_operations/zero-trust/dex/tests/network-path/get.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * get command
  * @generated from apis/overlays/zero-trust.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -17,57 +16,52 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 zero-trust dex tests network-path get <test-id>\n\nGet a breakdown of metrics by hop for individual traceroute test runs."
-		)
-		.positional("test-id", {
-			type: "string",
-			description: "Unique identifier for a specific test.",
-			demandOption: true,
-		})
-		.option("device-id", {
-			type: "string",
-			description: "Device to filter traceroute result runs to.",
-			demandOption: true,
-		})
-		.option("from", {
-			type: "string",
-			description: "Start time for aggregate metrics in ISO ms.",
-			demandOption: true,
-		})
-		.option("to", {
-			type: "string",
-			description: "End time for aggregate metrics in ISO ms.",
-			demandOption: true,
-		})
-		.option("interval", {
-			type: "string",
-			description: "Time interval for aggregate time slots.",
-			choices: ["minute", "hour"],
-			demandOption: true,
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "get <test-id>",
 	describe: "Get network path breakdown for a traceroute test",
-	builder,
+	usage:
+		"$0 zero-trust dex tests network-path get <test-id>\n\nGet a breakdown of metrics by hop for individual traceroute test runs.",
+	flags: {
+		"device-id": {
+			kind: "parsed",
+			brief: "Device to filter traceroute result runs to.",
+			parse: String,
+		},
+		from: {
+			kind: "parsed",
+			brief: "Start time for aggregate metrics in ISO ms.",
+			parse: String,
+		},
+		to: {
+			kind: "parsed",
+			brief: "End time for aggregate metrics in ISO ms.",
+			parse: String,
+		},
+		interval: {
+			kind: "enum",
+			brief: "Time interval for aggregate time slots.",
+			values: ["minute", "hour"],
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+	},
+	operands: [
+		{
+			placeholder: "test-id",
+			brief: "Unique identifier for a specific test.",
+			parse: String,
+		},
+	],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "zero-trust dex tests network-path get",
 				classification: {
 					safeFlags: ["interval", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -103,6 +97,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Loaded` });
 			}
 		),
-};
+});
 
 export default command;

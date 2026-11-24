@@ -1,11 +1,10 @@
 import operation from "../../../_operations/zero-trust/devices/override-codes/create.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * create command
  * @generated from apis/overlays/zero-trust.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -20,58 +19,62 @@ import { withProgress } from "#lib/progress.js";
 import { promptForRequiredEnumField } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 zero-trust devices override-codes create\n\nGenerates an account-wide or device-specific uninstall protection override code."
-		)
-		.option("device-id", {
-			type: "string",
-			description:
-				"Physical device ID. Required when scope is device and forbidden when scope is account.",
-		})
-		.option("duration-hours", {
-			type: "number",
-			description:
-				"Number of hours for which the override code should remain valid.",
-		})
-		.option("scope", {
-			type: "string",
-			description:
-				"Whether the code applies to every device in the account or one physical device.",
-			choices: ["account", "device"],
-		})
-		.coerce("scope", (value) => resolveFileToken(value, "scope", "text"))
-		.option("type", {
-			type: "string",
-			description: "The feature that the override code applies to.",
-			choices: ["uninstall_protection"],
-		})
-		.coerce("type", (value) => resolveFileToken(value, "type", "text"))
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "create",
 	describe: "Generate an uninstall protection override code",
-	builder,
+	usage:
+		"$0 zero-trust devices override-codes create\n\nGenerates an account-wide or device-specific uninstall protection override code.",
+	flags: {
+		"device-id": {
+			kind: "parsed",
+			brief:
+				"Physical device ID. Required when scope is device and forbidden when scope is account.",
+			optional: true,
+			parse: String,
+		},
+		"duration-hours": {
+			kind: "parsed",
+			brief: "Number of hours for which the override code should remain valid.",
+			optional: true,
+			parse: Number,
+		},
+		scope: {
+			kind: "parsed",
+			brief:
+				"Whether the code applies to every device in the account or one physical device.",
+			optional: true,
+			choices: ["account", "device"],
+			parse: String,
+			coerce: (value: string) => resolveFileToken(value, "scope", "text"),
+		},
+		type: {
+			kind: "parsed",
+			brief: "The feature that the override code applies to.",
+			optional: true,
+			choices: ["uninstall_protection"],
+			parse: String,
+			coerce: (value: string) => resolveFileToken(value, "type", "text"),
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "zero-trust devices override-codes create",
 				classification: {
 					safeFlags: ["scope", "type", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -156,6 +159,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Created` });
 			}
 		),
-};
+});
 
 export default command;

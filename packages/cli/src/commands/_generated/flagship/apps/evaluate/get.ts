@@ -1,11 +1,10 @@
 import operation from "../../../_operations/flagship/apps/evaluate/get.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * get command
  * @generated from apis/overlays/flagship.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -17,46 +16,44 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 flagship apps evaluate get <app-id>\n\nEvaluates a flag against the provided context. Pass context attributes as query parameters; values are coerced to numbers or booleans where unambiguous. For low-latency in-Worker evaluation, prefer the Flagship binding over this endpoint."
-		)
-		.positional("app-id", {
-			type: "string",
-			description: "Flagship app ID returned when the app was created.",
-			demandOption: true,
-		})
-		.option("flag-key", {
-			type: "string",
-			description: "The flag key to evaluate.",
-			demandOption: true,
-		})
-		.option("targeting-key", {
-			type: "string",
-			description:
-				"Context targeting key (per OpenFeature spec); used for percentage rollout bucketing.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "get <app-id>",
 	describe: "Evaluate flag from query context",
-	builder,
+	usage:
+		"$0 flagship apps evaluate get <app-id>\n\nEvaluates a flag against the provided context. Pass context attributes as query parameters; values are coerced to numbers or booleans where unambiguous. For low-latency in-Worker evaluation, prefer the Flagship binding over this endpoint.",
+	flags: {
+		"flag-key": {
+			kind: "parsed",
+			brief: "The flag key to evaluate.",
+			parse: String,
+		},
+		"targeting-key": {
+			kind: "parsed",
+			brief:
+				"Context targeting key (per OpenFeature spec); used for percentage rollout bucketing.",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+	},
+	operands: [
+		{
+			placeholder: "app-id",
+			brief: "Flagship app ID returned when the app was created.",
+			parse: String,
+		},
+	],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "flagship apps evaluate get",
-				classification: {
-					safeFlags: ["dry-run"],
-				} satisfies ArgClassification<Args>,
+				classification: { safeFlags: ["dry-run"] } satisfies ArgClassification<
+					typeof argv
+				>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -90,6 +87,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Loaded` });
 			}
 		),
-};
+});
 
 export default command;

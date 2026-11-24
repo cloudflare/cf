@@ -1,11 +1,10 @@
 import operation from "../_operations/images/create.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * create command
  * @generated from apis/overlays/images.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -19,62 +18,70 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 images create\n\nUpload an image to CF Images. Images up to 10 Megabytes can be uploaded using a single HTTP POST (multipart/form-data) request by sending an image file or passing a URL accessible to the API."
-		)
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		})
-		.option("file", {
-			type: "string",
-			description: "Path to a file to upload as the request body",
-		})
-		.option("creator", {
-			type: "string",
-			description: "Can set the creator field with an internal user ID.",
-		})
-		.option("id", {
-			type: "string",
-			description: "An optional custom unique identifier for your image.",
-		})
-		.option("metadata", {
-			type: "string",
-			description:
-				"User modifiable key-value store. Can use used for keeping references to another system of record for managing images.",
-		})
-		.option("require-signed-urls", {
-			type: "boolean",
-			description:
-				"Indicates whether the image requires a signature token for the access.",
-		})
-		.option("url", {
-			type: "string",
-			description:
-				"A URL to fetch an image from origin. Only needed when type is uploading from a URL.",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "create",
 	describe: "Upload an image",
-	builder,
+	usage:
+		"$0 images create\n\nUpload an image to CF Images. Images up to 10 Megabytes can be uploaded using a single HTTP POST (multipart/form-data) request by sending an image file or passing a URL accessible to the API.",
+	flags: {
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+		file: {
+			kind: "parsed",
+			brief: "Path to a file to upload as the request body",
+			optional: true,
+			parse: String,
+		},
+		creator: {
+			kind: "parsed",
+			brief: "Can set the creator field with an internal user ID.",
+			optional: true,
+			parse: String,
+		},
+		id: {
+			kind: "parsed",
+			brief: "An optional custom unique identifier for your image.",
+			optional: true,
+			parse: String,
+		},
+		metadata: {
+			kind: "parsed",
+			brief:
+				"User modifiable key-value store. Can use used for keeping references to another system of record for managing images.",
+			optional: true,
+			parse: String,
+		},
+		"require-signed-urls": {
+			kind: "boolean",
+			brief:
+				"Indicates whether the image requires a signature token for the access.",
+			optional: true,
+		},
+		url: {
+			kind: "parsed",
+			brief:
+				"A URL to fetch an image from origin. Only needed when type is uploading from a URL.",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "images create",
-				classification: {
-					safeFlags: ["dry-run"],
-				} satisfies ArgClassification<Args>,
+				classification: { safeFlags: ["dry-run"] } satisfies ArgClassification<
+					typeof argv
+				>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -207,6 +214,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Created` });
 			}
 		),
-};
+});
 
 export default command;

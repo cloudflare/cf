@@ -1,22 +1,17 @@
 import $accessrules from "./access-rules/index.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * firewall command group
  * @generated from apis/overlays/user.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "firewall",
 	describe: "Firewall operations",
 
-	builder: (yargs) => {
-		return yargs
-			.command($accessrules)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		"access-rules": $accessrules,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

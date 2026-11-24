@@ -4,30 +4,25 @@ import $edit from "./edit.js";
 import $get from "./get.js";
 import $import from "./import.js";
 import $list from "./list.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * suppressions command group
  * @generated from apis/overlays/email-sending.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "suppressions",
 	describe:
 		"Prevent delivery to suppressed addresses and manage the account suppression list",
 
-	builder: (yargs) => {
-		return yargs
-			.command($create)
-			.command($delete)
-			.command($edit)
-			.command($get)
-			.command($import)
-			.command($list)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		create: $create,
+		delete: $delete,
+		edit: $edit,
+		get: $get,
+		import: $import,
+		list: $list,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

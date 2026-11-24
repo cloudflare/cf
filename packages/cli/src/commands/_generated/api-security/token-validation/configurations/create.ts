@@ -1,11 +1,10 @@
 import operation from "../../../_operations/api-security/token-validation/configurations/create.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * create command
  * @generated from apis/overlays/api-security.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import { createCommandClient, getZoneId } from "#lib/auth.js";
 import { compactBody, parseBody, parseObjectArray } from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
@@ -18,53 +17,59 @@ import {
 } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 api-security token-validation configurations create\n\nCreates a JWT validation configuration for the zone."
-		)
-		.option("credentials-keys", {
-			type: "string",
-			description:
-				'The credentials.keys field. Provide as a JSON array of objects or @path/to/file.json. Shape: [(({"kid": string} & {"alg": "RS256" | "RS384" | "RS512" | ...more, "e": string, "kty": "RSA", "n": string}) | ({"kid": string} & {"kty": "EC", "x": string, "y": string} & {"alg": "ES256", "crv": "P-256"}) | ...more)].',
-		})
-		.option("description", {
-			type: "string",
-			description: "The description field",
-		})
-		.option("title", { type: "string", description: "The title field" })
-		.option("token-type", {
-			type: "string",
-			description: "The token_type field",
-			choices: ["JWT"],
-		})
-		.coerce("token-type", (value) =>
-			resolveFileToken(value, "token-type", "text")
-		)
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "create",
 	describe: "Create a token validation configuration",
-	builder,
+	usage:
+		"$0 api-security token-validation configurations create\n\nCreates a JWT validation configuration for the zone.",
+	flags: {
+		"credentials-keys": {
+			kind: "parsed",
+			brief:
+				'The credentials.keys field. Provide as a JSON array of objects or @path/to/file.json. Shape: [(({"kid": string} & {"alg": "RS256" | "RS384" | "RS512" | ...more, "e": string, "kty": "RSA", "n": string}) | ({"kid": string} & {"kty": "EC", "x": string, "y": string} & {"alg": "ES256", "crv": "P-256"}) | ...more)].',
+			optional: true,
+			parse: String,
+		},
+		description: {
+			kind: "parsed",
+			brief: "The description field",
+			optional: true,
+			parse: String,
+		},
+		title: {
+			kind: "parsed",
+			brief: "The title field",
+			optional: true,
+			parse: String,
+		},
+		"token-type": {
+			kind: "parsed",
+			brief: "The token_type field",
+			optional: true,
+			choices: ["JWT"],
+			parse: String,
+			coerce: (value: string) => resolveFileToken(value, "token-type", "text"),
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "api-security token-validation configurations create",
 				classification: {
 					safeFlags: ["token-type", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -175,6 +180,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Created` });
 			}
 		),
-};
+});
 
 export default command;

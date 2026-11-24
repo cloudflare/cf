@@ -1,11 +1,10 @@
 import operation from "../../_operations/workers/secrets/delete.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * delete command
  * @generated from apis/overlays/workers.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -19,45 +18,43 @@ import { withProgress } from "#lib/progress.js";
 import { confirmDelete } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			'$0 workers secrets delete <secret-name>\n\nRemove a secret from a Worker script by creating a new version without that secret. When changing more than one secret at a time, prefer the "Patch multiple script secrets" API instead of changing many secrets individually.'
-		)
-		.positional("secret-name", {
-			type: "string",
-			description: "A JavaScript variable name for the secret binding.",
-			demandOption: true,
-		})
-		.option("worker", {
-			type: "string",
-			alias: ["script-name", "worker-id"],
-			description: "Name of the script.",
-		})
-		.option("url-encoded", {
-			type: "boolean",
-			description:
-				"Flag that indicates whether the secret name is URL encoded.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("force", {
-			type: "boolean",
-			alias: "f",
-			description: "Skip confirmation (useful in scripts and CI)",
-			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "delete <secret-name>",
 	describe: "Delete Worker script secret",
-	builder,
+	usage:
+		'$0 workers secrets delete <secret-name>\n\nRemove a secret from a Worker script by creating a new version without that secret. When changing more than one secret at a time, prefer the "Patch multiple script secrets" API instead of changing many secrets individually.',
+	flags: {
+		worker: {
+			kind: "parsed",
+			brief: "Name of the script.",
+			optional: true,
+			alias: ["script-name", "worker-id"],
+			parse: String,
+		},
+		"url-encoded": {
+			kind: "boolean",
+			brief: "Flag that indicates whether the secret name is URL encoded.",
+			optional: true,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		force: {
+			kind: "boolean",
+			brief: "Skip confirmation (useful in scripts and CI)",
+			alias: "f",
+			default: false,
+		},
+	},
+	operands: [
+		{
+			placeholder: "secret-name",
+			brief: "A JavaScript variable name for the secret binding.",
+			parse: String,
+		},
+	],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
@@ -65,7 +62,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				classification: {
 					safeFlags: ["url-encoded", "dry-run", "force"],
 					shortFlagAliases: { f: { canonical: "force", type: "boolean" } },
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -117,6 +114,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Deleted` });
 			}
 		),
-};
+});
 
 export default command;

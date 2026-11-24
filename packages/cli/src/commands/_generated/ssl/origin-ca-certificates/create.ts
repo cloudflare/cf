@@ -1,11 +1,10 @@
 import operation from "../../_operations/ssl/origin-ca-certificates/create.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * create command
  * @generated from apis/overlays/ssl.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import { createCommandClient } from "#lib/auth.js";
 import { compactBody, parseBody } from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
@@ -18,66 +17,69 @@ import {
 } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 ssl origin-ca-certificates create\n\nCreate an Origin CA certificate. For `keyless-certificate` requests, `zone_id` is required and the response contains only `id`, `certificate`, and `expires_on`. You can use an Origin CA Key as your User Service Key or an API token when calling this endpoint ([see above](#requests))."
-		)
-		.option("csr", {
-			type: "string",
-			description:
-				"The Certificate Signing Request (CSR). Must be newline-encoded.",
-		})
-		.option("hostnames", {
-			type: "string",
-			array: true,
-			description:
-				"Array of hostnames or wildcard names bound to the certificate.\nHostnames must be fully qualified domain names (FQDNs) belonging to zones on your account (e.g., `example.com` or `sub.example.com`). Wildcards are supported only as a `*.` prefix for a single level (e.g., `*.example.com`). Double wildcards (`*.*.example.com`) and interior wildcards (`foo.*.example.com`) are not allowed. The wildcard suffix must be a multi-label domain (`*.example.com` is valid, but `*.com` is not). Unicode/IDN hostnames are accepted and automatically converted to punycode.",
-		})
-		.option("request-type", {
-			type: "string",
-			description:
-				'Signature type desired on certificate ("origin-rsa" (rsa), "origin-ecc" (ecdsa), or "keyless-certificate" (for Keyless SSL servers).',
-			choices: ["origin-rsa", "origin-ecc", "keyless-certificate"],
-		})
-		.coerce("request-type", (value) =>
-			resolveFileToken(value, "request-type", "text")
-		)
-		.option("requested-validity", {
-			type: "number",
-			description:
-				"The number of days for which the certificate should be valid.",
-			default: 5475,
-		})
-		.option("zone-id", {
-			type: "string",
-			description:
-				"Identifier of the zone whose keyless servers the certificate is for. Required when `request_type` is `keyless-certificate`; ignored otherwise.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "create",
 	describe: "Create Certificate",
-	builder,
+	usage:
+		"$0 ssl origin-ca-certificates create\n\nCreate an Origin CA certificate. For `keyless-certificate` requests, `zone_id` is required and the response contains only `id`, `certificate`, and `expires_on`. You can use an Origin CA Key as your User Service Key or an API token when calling this endpoint ([see above](#requests)).",
+	flags: {
+		csr: {
+			kind: "parsed",
+			brief: "The Certificate Signing Request (CSR). Must be newline-encoded.",
+			optional: true,
+			parse: String,
+		},
+		hostnames: {
+			kind: "parsed",
+			brief:
+				"Array of hostnames or wildcard names bound to the certificate.\nHostnames must be fully qualified domain names (FQDNs) belonging to zones on your account (e.g., `example.com` or `sub.example.com`). Wildcards are supported only as a `*.` prefix for a single level (e.g., `*.example.com`). Double wildcards (`*.*.example.com`) and interior wildcards (`foo.*.example.com`) are not allowed. The wildcard suffix must be a multi-label domain (`*.example.com` is valid, but `*.com` is not). Unicode/IDN hostnames are accepted and automatically converted to punycode.",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"request-type": {
+			kind: "parsed",
+			brief:
+				'Signature type desired on certificate ("origin-rsa" (rsa), "origin-ecc" (ecdsa), or "keyless-certificate" (for Keyless SSL servers).',
+			optional: true,
+			choices: ["origin-rsa", "origin-ecc", "keyless-certificate"],
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "request-type", "text"),
+		},
+		"requested-validity": {
+			kind: "parsed",
+			brief: "The number of days for which the certificate should be valid.",
+			default: "5475",
+			parse: Number,
+		},
+		"zone-id": {
+			kind: "parsed",
+			brief:
+				"Identifier of the zone whose keyless servers the certificate is for. Required when `request_type` is `keyless-certificate`; ignored otherwise.",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "ssl origin-ca-certificates create",
 				classification: {
 					safeFlags: ["request-type", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -168,6 +170,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Created` });
 			}
 		),
-};
+});
 
 export default command;

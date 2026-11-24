@@ -1,11 +1,10 @@
 import operation from "../../../_operations/durable-objects/namespaces/objects/list.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * list command
  * @generated from apis/overlays/durable-objects.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -17,46 +16,41 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 durable-objects namespaces objects list\n\nReturns the Durable Objects in a given Durable Object namespace."
-		)
-		.option("id", {
-			type: "string",
-			description: "ID of the namespace.",
-			demandOption: true,
-		})
-		.option("limit", {
-			type: "number",
-			description:
-				"The number of objects to return. The cursor attribute may be used to iterate over the next batch of objects if there are more than the limit.",
-		})
-		.option("cursor", {
-			type: "string",
-			description:
-				"Opaque token indicating the position from which to continue when requesting the next set of records. A valid value for the cursor can be obtained from the cursors object in the result_info structure.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "list",
 	describe: "List Objects in a Durable Object namespace",
-	builder,
+	usage:
+		"$0 durable-objects namespaces objects list\n\nReturns the Durable Objects in a given Durable Object namespace.",
+	flags: {
+		id: { kind: "parsed", brief: "ID of the namespace.", parse: String },
+		limit: {
+			kind: "parsed",
+			brief:
+				"The number of objects to return. The cursor attribute may be used to iterate over the next batch of objects if there are more than the limit.",
+			optional: true,
+			parse: Number,
+		},
+		cursor: {
+			kind: "parsed",
+			brief:
+				"Opaque token indicating the position from which to continue when requesting the next set of records. A valid value for the cursor can be obtained from the cursors object in the result_info structure.",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "durable-objects namespaces objects list",
-				classification: {
-					safeFlags: ["dry-run"],
-				} satisfies ArgClassification<Args>,
+				classification: { safeFlags: ["dry-run"] } satisfies ArgClassification<
+					typeof argv
+				>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -90,6 +84,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Loaded` });
 			}
 		),
-};
+});
 
 export default command;

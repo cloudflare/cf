@@ -1,11 +1,10 @@
 import operation from "../../../_operations/stream/videos/audio-tracks/edit.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * edit command
  * @generated from apis/overlays/stream.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -19,55 +18,56 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 stream videos audio-tracks edit <audio-identifier>\n\nEdits additional audio tracks on a video. Editing the default status of an audio track to `true` will mark all other audio tracks on the video default status to `false`."
-		)
-		.positional("audio-identifier", {
-			type: "string",
-			description: "The unique identifier for an additional audio track.",
-			demandOption: true,
-		})
-		.option("identifier", {
-			type: "string",
-			description: "A Cloudflare-generated unique identifier for a media item.",
-			demandOption: true,
-		})
-		.option("default", {
-			type: "boolean",
-			description:
-				"Denotes whether the audio track will be played by default in a player.",
-		})
-		.option("label", {
-			type: "string",
-			description:
-				"A string to uniquely identify the track amongst other audio track labels for the specified video.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "edit <audio-identifier>",
 	describe: "Edit additional audio tracks on a video",
-	builder,
+	usage:
+		"$0 stream videos audio-tracks edit <audio-identifier>\n\nEdits additional audio tracks on a video. Editing the default status of an audio track to `true` will mark all other audio tracks on the video default status to `false`.",
+	flags: {
+		identifier: {
+			kind: "parsed",
+			brief: "A Cloudflare-generated unique identifier for a media item.",
+			parse: String,
+		},
+		default: {
+			kind: "boolean",
+			brief:
+				"Denotes whether the audio track will be played by default in a player.",
+			optional: true,
+		},
+		label: {
+			kind: "parsed",
+			brief:
+				"A string to uniquely identify the track amongst other audio track labels for the specified video.",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [
+		{
+			placeholder: "audio-identifier",
+			brief: "The unique identifier for an additional audio track.",
+			parse: String,
+		},
+	],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "stream videos audio-tracks edit",
 				classification: {
 					safeFlags: ["default", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -136,6 +136,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Updated` });
 			}
 		),
-};
+});
 
 export default command;

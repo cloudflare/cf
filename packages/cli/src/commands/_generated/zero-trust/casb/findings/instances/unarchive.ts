@@ -1,11 +1,10 @@
 import operation from "../../../../_operations/zero-trust/casb/findings/instances/unarchive.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * unarchive command
  * @generated from apis/overlays/zero-trust.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -18,46 +17,46 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 zero-trust casb findings instances unarchive <finding-id>\n\nRemove the archive marking from one or more finding instances."
-		)
-		.positional("finding-id", {
-			type: "string",
-			description:
-				"The \`id\` of a finding, as returned in each item of the List posture findings response. It is a base64-encoded identifier.",
-			demandOption: true,
-		})
-		.option("check-instances", {
-			type: "string",
-			array: true,
-			description: "A list of finding instance IDs to pass along.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Request body for bulk actions on finding instances.",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "unarchive <finding-id>",
 	describe: "Remove the archive marking from a finding instance",
-	builder,
+	usage:
+		"$0 zero-trust casb findings instances unarchive <finding-id>\n\nRemove the archive marking from one or more finding instances.",
+	flags: {
+		"check-instances": {
+			kind: "parsed",
+			brief: "A list of finding instance IDs to pass along.",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Request body for bulk actions on finding instances.",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [
+		{
+			placeholder: "finding-id",
+			brief:
+				"The \`id\` of a finding, as returned in each item of the List posture findings response. It is a base64-encoded identifier.",
+			parse: String,
+		},
+	],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "zero-trust casb findings instances unarchive",
-				classification: {
-					safeFlags: ["dry-run"],
-				} satisfies ArgClassification<Args>,
+				classification: { safeFlags: ["dry-run"] } satisfies ArgClassification<
+					typeof argv
+				>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -122,6 +121,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Created` });
 			}
 		),
-};
+});
 
 export default command;

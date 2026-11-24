@@ -1,11 +1,10 @@
 import operation from "../../_operations/addressing/address-maps/create.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * create command
  * @generated from apis/overlays/addressing.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -19,56 +18,59 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 addressing address-maps create\n\nCreate a new address map under the account."
-		)
-		.option("description", {
-			type: "string",
-			description:
-				"An optional description field which may be used to describe the types of IPs or zones on the map.",
-		})
-		.option("enabled", {
-			type: "boolean",
-			description:
-				"Whether the Address Map is enabled or not. Cloudflare's DNS will not respond with IP addresses on an Address Map until the map is enabled.",
-			default: false,
-		})
-		.option("ips", {
-			type: "string",
-			array: true,
-			description: "The ips field",
-		})
-		.option("memberships", {
-			type: "string",
-			description:
-				'Zones and Accounts which will be assigned IPs on this Address Map. A zone membership will take priority over an account membership. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"identifier"?: string, "kind"?: "zone" | "account"}]. ? marks optional keys.',
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "create",
 	describe: "Create Address Map",
-	builder,
+	usage:
+		"$0 addressing address-maps create\n\nCreate a new address map under the account.",
+	flags: {
+		description: {
+			kind: "parsed",
+			brief:
+				"An optional description field which may be used to describe the types of IPs or zones on the map.",
+			optional: true,
+			parse: String,
+		},
+		enabled: {
+			kind: "boolean",
+			brief:
+				"Whether the Address Map is enabled or not. Cloudflare's DNS will not respond with IP addresses on an Address Map until the map is enabled.",
+			default: false,
+		},
+		ips: {
+			kind: "parsed",
+			brief: "The ips field",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		memberships: {
+			kind: "parsed",
+			brief:
+				'Zones and Accounts which will be assigned IPs on this Address Map. A zone membership will take priority over an account membership. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"identifier"?: string, "kind"?: "zone" | "account"}]. ? marks optional keys.',
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "addressing address-maps create",
 				classification: {
 					safeFlags: ["enabled", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -131,6 +133,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Created` });
 			}
 		),
-};
+});
 
 export default command;

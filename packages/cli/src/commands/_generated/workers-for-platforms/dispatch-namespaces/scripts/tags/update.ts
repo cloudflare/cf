@@ -1,11 +1,10 @@
 import operation from "../../../../_operations/workers-for-platforms/dispatch-namespaces/scripts/tags/update.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * update command
  * @generated from apis/overlays/workers-for-platforms.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -18,46 +17,40 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 workers-for-platforms dispatch-namespaces scripts tags update <script-name>\n\nReplace tags for a script uploaded to a Workers for Platforms dispatch namespace."
-		)
-		.positional("script-name", {
-			type: "string",
-			description: "Name of the script.",
-			demandOption: true,
-		})
-		.option("dispatch-namespace", {
-			type: "string",
-			description: "Name of the Workers for Platforms dispatch namespace.",
-			demandOption: true,
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Tags associated with the Worker.",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "update <script-name>",
 	describe: "Replace Workers for Platforms Script Tags",
-	builder,
+	usage:
+		"$0 workers-for-platforms dispatch-namespaces scripts tags update <script-name>\n\nReplace tags for a script uploaded to a Workers for Platforms dispatch namespace.",
+	flags: {
+		"dispatch-namespace": {
+			kind: "parsed",
+			brief: "Name of the Workers for Platforms dispatch namespace.",
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Tags associated with the Worker.",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [
+		{ placeholder: "script-name", brief: "Name of the script.", parse: String },
+	],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command:
 					"workers-for-platforms dispatch-namespaces scripts tags update",
-				classification: {
-					safeFlags: ["dry-run"],
-				} satisfies ArgClassification<Args>,
+				classification: { safeFlags: ["dry-run"] } satisfies ArgClassification<
+					typeof argv
+				>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -106,6 +99,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 			}
 		),
-};
+});
 
 export default command;

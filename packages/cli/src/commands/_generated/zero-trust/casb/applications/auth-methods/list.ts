@@ -1,11 +1,10 @@
 import operation from "../../../../_operations/zero-trust/casb/applications/auth-methods/list.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * list command
  * @generated from apis/overlays/zero-trust.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -17,50 +16,50 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 zero-trust casb applications auth-methods list\n\nReturns available auth methods for the specified vendor, including credential schema, instructions, and example payloads. Use this to understand what credentials are required before calling POST /v2/integrations."
-		)
-		.option("application-id", {
-			type: "string",
-			description: "Application/vendor identifier.",
-			demandOption: true,
-		})
-		.option("environment", {
-			type: "string",
-			description:
-				"Environment to request (standard, fedramp). The result follows the account's FedRAMP entitlement: FedRAMP-enabled accounts always receive FedRAMP applications and other accounts receive standard applications. Any other non-empty value returns 400.",
-			choices: ["fedramp", "standard"],
-		})
-		.option("page", {
-			type: "number",
-			description: "A page number within the paginated result set.",
-		})
-		.option("page-size", {
-			type: "number",
-			description: "Number of results to return per page.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "list",
 	describe: "Get auth methods",
-	builder,
+	usage:
+		"$0 zero-trust casb applications auth-methods list\n\nReturns available auth methods for the specified vendor, including credential schema, instructions, and example payloads. Use this to understand what credentials are required before calling POST /v2/integrations.",
+	flags: {
+		"application-id": {
+			kind: "parsed",
+			brief: "Application/vendor identifier.",
+			parse: String,
+		},
+		environment: {
+			kind: "enum",
+			brief:
+				"Environment to request (standard, fedramp). The result follows the account's FedRAMP entitlement: FedRAMP-enabled accounts always receive FedRAMP applications and other accounts receive standard applications. Any other non-empty value returns 400.",
+			values: ["fedramp", "standard"],
+			optional: true,
+		},
+		page: {
+			kind: "parsed",
+			brief: "A page number within the paginated result set.",
+			optional: true,
+			parse: Number,
+		},
+		"page-size": {
+			kind: "parsed",
+			brief: "Number of results to return per page.",
+			optional: true,
+			parse: Number,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "zero-trust casb applications auth-methods list",
 				classification: {
 					safeFlags: ["environment", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -97,6 +96,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Loaded` });
 			}
 		),
-};
+});
 
 export default command;

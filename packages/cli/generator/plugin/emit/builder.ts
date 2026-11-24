@@ -1,4 +1,3 @@
-/** Emits a command's yargs builder: a port of cf's `emit/builder.ts`. */
 import {
 	fileFormat,
 	hasChoices,
@@ -11,16 +10,6 @@ import {
 } from "../args.js";
 import { kebab, obj, stringify, type Value } from "../js.js";
 import { type Ctx, escapeSingle } from "./index.js";
-
-function option(name: string, fields: [string, Value | undefined][]): string {
-	const map = obj();
-	for (const [k, v] of fields) {
-		if (v !== undefined) {
-			map[k] = v;
-		}
-	}
-	return `.option('${name}', ${stringify(map)})`;
-}
 
 const quoted = (v: readonly string[]) => v.map((c) => `'${c}'`).join(", ");
 
@@ -44,29 +33,51 @@ export function bodyOptionDescription(op: Ctx["op"]): string {
 		: JSON_BODY_DESCRIPTION;
 }
 
-/** `generateBuilderLines`. */
-export function builderLines(ctx: Ctx): string[] {
+export function parameterSource(ctx: Ctx) {
 	const d = ctx.derived;
 	const op = ctx.op;
 	const positional = positionals(d);
 	const options = optionArgs(d);
 	const defaults = optionDefaults(d, op);
-	const lines: string[] = [];
+	const flags = new Map<string, string>();
+	const operands: string[] = [];
+	const rules: string[] = [];
+	function emitFlag(
+		name: string,
+		type: string,
+		description: string,
+		extras: Record<string, Value | undefined> = {},
+		coerce?: string
+	) {
+		const { choices, array, required, ...rest } = extras;
+		const nativeEnum =
+			type === "string" && Array.isArray(choices) && choices.length && !coerce;
+		const kind =
+			type === "boolean" ? "boolean" : nativeEnum ? "enum" : "parsed";
+		const spec = obj([
+			["kind", kind],
+			["brief", description],
+		]);
+		if (nativeEnum) spec.values = choices;
+		if (array) spec.variadic = true;
+		if (!required && rest.default === undefined) spec.optional = true;
+		for (const [key, value] of Object.entries(rest))
+			if (value !== undefined) spec[key] = value;
+		if (!nativeEnum && choices !== undefined) spec.choices = choices;
+		if (kind === "parsed" && spec.default !== undefined)
+			spec.default = String(spec.default);
+		const properties = [stringify(spec).slice(1, -1)];
+		if (kind === "parsed")
+			properties.push(`parse: ${type === "number" ? "Number" : "String"}`);
+		if (coerce) properties.push(`coerce: ${coerce}`);
+		flags.set(name, `${stringify(name)}: {${properties.join(", ")}},`);
+	}
 	for (const arg of positional) {
-		lines.push(`      .positional('${kebab(arg.name)}', {`);
-		lines.push(
-			`        type: '${arg.type === "number" || arg.type === "boolean" ? arg.type : "string"}',`
-		);
-		if (arg.type === "array") {
-			lines.push("        array: true,");
-		}
 		const base = escapeSingle(arg.description);
 		const desc = arg.isZone ? `${base} (or use --zone flag)` : base;
-		lines.push(`        description: '${desc}',`);
-		if (arg.required && !arg.isZone && !arg.isWorkerName) {
-			lines.push("        demandOption: true,");
-		}
-		lines.push("      })");
+		operands.push(
+			`{placeholder: '${kebab(arg.name)}', brief: '${desc}', parse: ${arg.type === "number" ? "Number" : "String"}, ${arg.required && !arg.isZone && !arg.isWorkerName ? "" : "optional: true,"} ${arg.type === "array" ? "rest: true," : ""}${arg.type === "boolean" ? "booleanLabel: true," : ""}},`
+		);
 	}
 	for (const arg of options) {
 		const name = kebab(arg.name);
@@ -84,17 +95,7 @@ export function builderLines(ctx: Ctx): string[] {
 					: "string";
 		const demand =
 			arg.required && !arg.isZone && !arg.isWorkerName && !skipDemand;
-		lines.push(
-			option(name, [
-				["type", type],
-				["array", scalarArray ? true : undefined],
-				["alias", arg.isWorkerName ? WORKER_ALIASES : undefined],
-				["description", arg.description],
-				["choices", arg.choices],
-				["default", defaults.get(arg.name)],
-				["demandOption", demand ? true : undefined],
-			])
-		);
+		let coerce: string | undefined;
 		if (scalarArray && arg.origin.in === "query" && hasChoices(arg)) {
 			const commaChoices =
 				arg.choices?.filter((value) => value.includes(",")) ?? [];
@@ -102,45 +103,59 @@ export function builderLines(ctx: Ctx): string[] {
 				commaChoices.length > 0
 					? `${stringify(commaChoices)}.includes(value) ? [value] : value.split(",")`
 					: 'value.split(",")';
-			lines.push(
-				`.coerce(${stringify(name)}, (values: string[]) => values.flatMap((value) => ${split}))`
-			);
+			coerce = `(values: string[]) => values.flatMap((value) => ${split})`;
 		}
-		if (arg.isWorkerName && arg.positional) {
-			lines.push(`.group(${stringify(name)}, theme.brand('Options'))`);
-		}
-		// Resolve `@file` before yargs validates `choices` against the value,
+		// Resolve `@file` before cf validates `choices` against the value,
 		// so the handler gets the file's contents without reading it twice.
 		if (arg.fromFile !== undefined && hasChoices(arg)) {
-			lines.push(
-				`.coerce(${stringify(name)}, (value) => resolveFileToken(value, ${stringify(name)}, ${fileFormat(arg)}))`
-			);
+			coerce = `(value: string) => resolveFileToken(value, ${stringify(name)}, ${fileFormat(arg)})`;
 		}
+		emitFlag(
+			name,
+			type,
+			arg.description,
+			{
+				array: scalarArray,
+				required: demand,
+				choices: arg.choices,
+				default: defaults.get(arg.name),
+				alias: arg.isWorkerName ? WORKER_ALIASES : undefined,
+				grouped: (arg.isWorkerName && arg.positional) || undefined,
+			},
+			coerce
+		);
 	}
-	lines.push(
-		`.option("dry-run", {"type":"boolean","description":"Validate and show what would happen without executing","default":false})`
+	emitFlag(
+		"dry-run",
+		"boolean",
+		"Validate and show what would happen without executing",
+		{ default: false }
 	);
 	if (ctx.isDelete) {
-		lines.push(
-			`.option("force", {"type":"boolean","alias":"f","description":"Skip confirmation (useful in scripts and CI)","default":false})`
+		emitFlag(
+			"force",
+			"boolean",
+			"Skip confirmation (useful in scripts and CI)",
+			{ alias: "f", default: false }
 		);
 	}
 	if (d.hasBody) {
-		const desc = bodyOptionDescription(op);
-		lines.push("      .option('body', {");
-		lines.push("        type: 'string',");
-		lines.push(`        description: '${escapeSingle(desc)}',`);
-		lines.push("      })");
+		emitFlag(
+			"body",
+			"string",
+			bodyOptionDescription(op).replace(/[\r\n\u2028\u2029]/g, " ")
+		);
 	}
 	if (ctx.outputKind === "binary") {
-		lines.push(
-			`.option("text", {"type":"boolean","description":"Decode the response body as UTF-8 text instead of writing raw bytes","default":false})`
+		emitFlag(
+			"text",
+			"boolean",
+			"Decode the response body as UTF-8 text instead of writing raw bytes",
+			{ default: false }
 		);
 	}
 	if (d.hasFileUpload) {
-		lines.push(
-			`.option("file", {"type":"string","description":"Path to a file to upload as the request body"})`
-		);
+		emitFlag("file", "string", "Path to a file to upload as the request body");
 	}
 	for (const { field, flag } of d.multipartFlagFields) {
 		if ([...options, ...positional].some((a) => kebab(a.name) === flag)) {
@@ -152,20 +167,13 @@ export function builderLines(ctx: Ctx): string[] {
 				: field.type === "boolean"
 					? "boolean"
 					: "string";
-		lines.push(`      .option('${flag}', {`);
-		lines.push(`        type: '${type}',`);
-		lines.push(`        description: '${escapeSingle(field.description)}',`);
-		lines.push("      })");
+		emitFlag(flag, type, field.description.replace(/[\r\n\u2028\u2029]/g, " "));
 	}
 	for (const { field, flag } of d.multipartFileFields) {
-		lines.push(
-			option(flag, [
-				["type", "string"],
-				["array", field.type === "array" ? true : undefined],
-				["requiresArg", field.type === "array" ? true : undefined],
-				["description", multipartFileFlagDescription(field)],
-			])
-		);
+		emitFlag(flag, "string", multipartFileFlagDescription(field), {
+			array: field.type === "array",
+			requiresArg: field.type === "array" || undefined,
+		});
 	}
 	for (const arg of d.args) {
 		if (!isBody(arg) || arg.positional) {
@@ -173,13 +181,13 @@ export function builderLines(ctx: Ctx): string[] {
 		}
 		const me = kebab(arg.name);
 		if (arg.conflicts !== undefined && arg.conflicts.length > 0) {
-			lines.push(
-				`      .conflicts('${me}', [${quoted(arg.conflicts.map(kebab))}])`
+			rules.push(
+				`rules.conflicts('${me}', [${quoted(arg.conflicts.map(kebab))}]);`
 			);
 		}
 		if (arg.implies !== undefined && arg.implies.length > 0) {
-			lines.push(
-				`      .implies('${me}', [${quoted(arg.implies.map(kebab))}])`
+			rules.push(
+				`rules.implies('${me}', [${quoted(arg.implies.map(kebab))}]);`
 			);
 		}
 	}
@@ -222,32 +230,38 @@ export function builderLines(ctx: Ctx): string[] {
 				conflictsByFlag.find(([k]) => k === f)?.[1] ?? [],
 			])
 			.filter(([, c]) => c.length > 0);
-		lines.push("      .check((argv) => {");
-		lines.push(
+		rules.push("rules.check((argv) => {");
+		rules.push(
 			`        const groupSet = ${set}.some((k) => argv[k] !== undefined);`
 		);
-		lines.push("        if (!argv.body && groupSet) {");
+		rules.push("        if (!argv.body && groupSet) {");
 		if (pairs.length === 0) {
-			lines.push(
+			rules.push(
 				`          const missing = ${required}.filter((k) => argv[k] === undefined);`
 			);
 		} else {
 			const map = pairs.map(([f, c]) => `'${f}': [${quoted(c)}]`).join(", ");
-			lines.push(
+			rules.push(
 				`          const requiredConflicts: Record<string, string[]> = { ${map} };`
 			);
-			lines.push(
+			rules.push(
 				`          const missing = ${required}.filter((k) => argv[k] === undefined && !(requiredConflicts[k] ?? []).some((x) => argv[x] !== undefined));`
 			);
 		}
-		lines.push("          if (missing.length > 0) {");
-		lines.push(
+		rules.push("          if (missing.length > 0) {");
+		rules.push(
 			`            throw new Error(\`\${missing.map((m) => '--' + m).join(', ')} \${missing.length === 1 ? 'is' : 'are'} required when ${groupFlags} is set\`);`
 		);
-		lines.push("          }");
-		lines.push("        }");
-		lines.push("        return true;");
-		lines.push("      })");
+		rules.push("          }");
+		rules.push("        }");
+		rules.push("        return true;");
+		rules.push("});");
 	}
-	return lines;
+	return [
+		`flags: {`,
+		...flags.values(),
+		`},`,
+		`operands: [${operands.join("\n")}],`,
+		...(rules.length ? [`rules(rules) {`, ...rules, `},`] : []),
+	];
 }

@@ -1,10 +1,9 @@
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * update command
  * @generated from apis/overlays/ai-gateway.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -24,381 +23,456 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 ai-gateway gateways update <gateway-id>\n\nUpdates the configuration of an AI Gateway, such as its caching, rate limiting, spend limits, logging, and authentication settings."
-		)
-		.positional("gateway-id", {
-			type: "string",
-			description: "Unique identifier of the AI Gateway within the account.",
-			demandOption: true,
-		})
-		.option("authentication", {
-			type: "boolean",
-			description:
+const command = apiCommand({
+	command: "update <gateway-id>",
+	describe: "Update a gateway",
+	usage:
+		"$0 ai-gateway gateways update <gateway-id>\n\nUpdates the configuration of an AI Gateway, such as its caching, rate limiting, spend limits, logging, and authentication settings.",
+	flags: {
+		authentication: {
+			kind: "boolean",
+			brief:
 				"Require authentication for gateway access. New gateways must have authentication enabled. Once enabled, authentication cannot be disabled.",
-		})
-		.option("byok-only", {
-			type: "boolean",
-			description:
+			optional: true,
+		},
+		"byok-only": {
+			kind: "boolean",
+			brief:
 				"Requires customer-provided provider credentials and prevents fallback to Unified Billing.",
-		})
-		.option("cache-invalidate-on-update", {
-			type: "boolean",
-			description: "The cache_invalidate_on_update field",
-		})
-		.option("cache-ttl", { type: "number", description: "The cache_ttl field" })
-		.option("collect-logs", {
-			type: "boolean",
-			description: "The collect_logs field",
-		})
-		.option("guardrails-prompt-p1", {
-			type: "string",
-			description: "The guardrails.prompt.P1 field",
+			optional: true,
+		},
+		"cache-invalidate-on-update": {
+			kind: "boolean",
+			brief: "The cache_invalidate_on_update field",
+			optional: true,
+		},
+		"cache-ttl": {
+			kind: "parsed",
+			brief: "The cache_ttl field",
+			optional: true,
+			parse: Number,
+		},
+		"collect-logs": {
+			kind: "boolean",
+			brief: "The collect_logs field",
+			optional: true,
+		},
+		"guardrails-prompt-p1": {
+			kind: "parsed",
+			brief: "The guardrails.prompt.P1 field",
+			optional: true,
 			choices: ["FLAG", "BLOCK"],
-		})
-		.coerce("guardrails-prompt-p1", (value) =>
-			resolveFileToken(value, "guardrails-prompt-p1", "text")
-		)
-		.option("guardrails-prompt-s1", {
-			type: "string",
-			description: "The guardrails.prompt.S1 field",
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "guardrails-prompt-p1", "text"),
+		},
+		"guardrails-prompt-s1": {
+			kind: "parsed",
+			brief: "The guardrails.prompt.S1 field",
+			optional: true,
 			choices: ["FLAG", "BLOCK"],
-		})
-		.coerce("guardrails-prompt-s1", (value) =>
-			resolveFileToken(value, "guardrails-prompt-s1", "text")
-		)
-		.option("guardrails-prompt-s10", {
-			type: "string",
-			description: "The guardrails.prompt.S10 field",
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "guardrails-prompt-s1", "text"),
+		},
+		"guardrails-prompt-s10": {
+			kind: "parsed",
+			brief: "The guardrails.prompt.S10 field",
+			optional: true,
 			choices: ["FLAG", "BLOCK"],
-		})
-		.coerce("guardrails-prompt-s10", (value) =>
-			resolveFileToken(value, "guardrails-prompt-s10", "text")
-		)
-		.option("guardrails-prompt-s11", {
-			type: "string",
-			description: "The guardrails.prompt.S11 field",
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "guardrails-prompt-s10", "text"),
+		},
+		"guardrails-prompt-s11": {
+			kind: "parsed",
+			brief: "The guardrails.prompt.S11 field",
+			optional: true,
 			choices: ["FLAG", "BLOCK"],
-		})
-		.coerce("guardrails-prompt-s11", (value) =>
-			resolveFileToken(value, "guardrails-prompt-s11", "text")
-		)
-		.option("guardrails-prompt-s12", {
-			type: "string",
-			description: "The guardrails.prompt.S12 field",
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "guardrails-prompt-s11", "text"),
+		},
+		"guardrails-prompt-s12": {
+			kind: "parsed",
+			brief: "The guardrails.prompt.S12 field",
+			optional: true,
 			choices: ["FLAG", "BLOCK"],
-		})
-		.coerce("guardrails-prompt-s12", (value) =>
-			resolveFileToken(value, "guardrails-prompt-s12", "text")
-		)
-		.option("guardrails-prompt-s13", {
-			type: "string",
-			description: "The guardrails.prompt.S13 field",
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "guardrails-prompt-s12", "text"),
+		},
+		"guardrails-prompt-s13": {
+			kind: "parsed",
+			brief: "The guardrails.prompt.S13 field",
+			optional: true,
 			choices: ["FLAG", "BLOCK"],
-		})
-		.coerce("guardrails-prompt-s13", (value) =>
-			resolveFileToken(value, "guardrails-prompt-s13", "text")
-		)
-		.option("guardrails-prompt-s14", {
-			type: "string",
-			description: "The guardrails.prompt.S14 field",
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "guardrails-prompt-s13", "text"),
+		},
+		"guardrails-prompt-s14": {
+			kind: "parsed",
+			brief: "The guardrails.prompt.S14 field",
+			optional: true,
 			choices: ["FLAG", "BLOCK"],
-		})
-		.coerce("guardrails-prompt-s14", (value) =>
-			resolveFileToken(value, "guardrails-prompt-s14", "text")
-		)
-		.option("guardrails-prompt-s2", {
-			type: "string",
-			description: "The guardrails.prompt.S2 field",
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "guardrails-prompt-s14", "text"),
+		},
+		"guardrails-prompt-s2": {
+			kind: "parsed",
+			brief: "The guardrails.prompt.S2 field",
+			optional: true,
 			choices: ["FLAG", "BLOCK"],
-		})
-		.coerce("guardrails-prompt-s2", (value) =>
-			resolveFileToken(value, "guardrails-prompt-s2", "text")
-		)
-		.option("guardrails-prompt-s3", {
-			type: "string",
-			description: "The guardrails.prompt.S3 field",
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "guardrails-prompt-s2", "text"),
+		},
+		"guardrails-prompt-s3": {
+			kind: "parsed",
+			brief: "The guardrails.prompt.S3 field",
+			optional: true,
 			choices: ["FLAG", "BLOCK"],
-		})
-		.coerce("guardrails-prompt-s3", (value) =>
-			resolveFileToken(value, "guardrails-prompt-s3", "text")
-		)
-		.option("guardrails-prompt-s4", {
-			type: "string",
-			description: "The guardrails.prompt.S4 field",
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "guardrails-prompt-s3", "text"),
+		},
+		"guardrails-prompt-s4": {
+			kind: "parsed",
+			brief: "The guardrails.prompt.S4 field",
+			optional: true,
 			choices: ["FLAG", "BLOCK"],
-		})
-		.coerce("guardrails-prompt-s4", (value) =>
-			resolveFileToken(value, "guardrails-prompt-s4", "text")
-		)
-		.option("guardrails-prompt-s5", {
-			type: "string",
-			description: "The guardrails.prompt.S5 field",
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "guardrails-prompt-s4", "text"),
+		},
+		"guardrails-prompt-s5": {
+			kind: "parsed",
+			brief: "The guardrails.prompt.S5 field",
+			optional: true,
 			choices: ["FLAG", "BLOCK"],
-		})
-		.coerce("guardrails-prompt-s5", (value) =>
-			resolveFileToken(value, "guardrails-prompt-s5", "text")
-		)
-		.option("guardrails-prompt-s6", {
-			type: "string",
-			description: "The guardrails.prompt.S6 field",
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "guardrails-prompt-s5", "text"),
+		},
+		"guardrails-prompt-s6": {
+			kind: "parsed",
+			brief: "The guardrails.prompt.S6 field",
+			optional: true,
 			choices: ["FLAG", "BLOCK"],
-		})
-		.coerce("guardrails-prompt-s6", (value) =>
-			resolveFileToken(value, "guardrails-prompt-s6", "text")
-		)
-		.option("guardrails-prompt-s7", {
-			type: "string",
-			description: "The guardrails.prompt.S7 field",
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "guardrails-prompt-s6", "text"),
+		},
+		"guardrails-prompt-s7": {
+			kind: "parsed",
+			brief: "The guardrails.prompt.S7 field",
+			optional: true,
 			choices: ["FLAG", "BLOCK"],
-		})
-		.coerce("guardrails-prompt-s7", (value) =>
-			resolveFileToken(value, "guardrails-prompt-s7", "text")
-		)
-		.option("guardrails-prompt-s8", {
-			type: "string",
-			description: "The guardrails.prompt.S8 field",
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "guardrails-prompt-s7", "text"),
+		},
+		"guardrails-prompt-s8": {
+			kind: "parsed",
+			brief: "The guardrails.prompt.S8 field",
+			optional: true,
 			choices: ["FLAG", "BLOCK"],
-		})
-		.coerce("guardrails-prompt-s8", (value) =>
-			resolveFileToken(value, "guardrails-prompt-s8", "text")
-		)
-		.option("guardrails-prompt-s9", {
-			type: "string",
-			description: "The guardrails.prompt.S9 field",
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "guardrails-prompt-s8", "text"),
+		},
+		"guardrails-prompt-s9": {
+			kind: "parsed",
+			brief: "The guardrails.prompt.S9 field",
+			optional: true,
 			choices: ["FLAG", "BLOCK"],
-		})
-		.coerce("guardrails-prompt-s9", (value) =>
-			resolveFileToken(value, "guardrails-prompt-s9", "text")
-		)
-		.option("guardrails-response-p1", {
-			type: "string",
-			description: "The guardrails.response.P1 field",
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "guardrails-prompt-s9", "text"),
+		},
+		"guardrails-response-p1": {
+			kind: "parsed",
+			brief: "The guardrails.response.P1 field",
+			optional: true,
 			choices: ["FLAG", "BLOCK"],
-		})
-		.coerce("guardrails-response-p1", (value) =>
-			resolveFileToken(value, "guardrails-response-p1", "text")
-		)
-		.option("guardrails-response-s1", {
-			type: "string",
-			description: "The guardrails.response.S1 field",
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "guardrails-response-p1", "text"),
+		},
+		"guardrails-response-s1": {
+			kind: "parsed",
+			brief: "The guardrails.response.S1 field",
+			optional: true,
 			choices: ["FLAG", "BLOCK"],
-		})
-		.coerce("guardrails-response-s1", (value) =>
-			resolveFileToken(value, "guardrails-response-s1", "text")
-		)
-		.option("guardrails-response-s10", {
-			type: "string",
-			description: "The guardrails.response.S10 field",
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "guardrails-response-s1", "text"),
+		},
+		"guardrails-response-s10": {
+			kind: "parsed",
+			brief: "The guardrails.response.S10 field",
+			optional: true,
 			choices: ["FLAG", "BLOCK"],
-		})
-		.coerce("guardrails-response-s10", (value) =>
-			resolveFileToken(value, "guardrails-response-s10", "text")
-		)
-		.option("guardrails-response-s11", {
-			type: "string",
-			description: "The guardrails.response.S11 field",
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "guardrails-response-s10", "text"),
+		},
+		"guardrails-response-s11": {
+			kind: "parsed",
+			brief: "The guardrails.response.S11 field",
+			optional: true,
 			choices: ["FLAG", "BLOCK"],
-		})
-		.coerce("guardrails-response-s11", (value) =>
-			resolveFileToken(value, "guardrails-response-s11", "text")
-		)
-		.option("guardrails-response-s12", {
-			type: "string",
-			description: "The guardrails.response.S12 field",
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "guardrails-response-s11", "text"),
+		},
+		"guardrails-response-s12": {
+			kind: "parsed",
+			brief: "The guardrails.response.S12 field",
+			optional: true,
 			choices: ["FLAG", "BLOCK"],
-		})
-		.coerce("guardrails-response-s12", (value) =>
-			resolveFileToken(value, "guardrails-response-s12", "text")
-		)
-		.option("guardrails-response-s13", {
-			type: "string",
-			description: "The guardrails.response.S13 field",
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "guardrails-response-s12", "text"),
+		},
+		"guardrails-response-s13": {
+			kind: "parsed",
+			brief: "The guardrails.response.S13 field",
+			optional: true,
 			choices: ["FLAG", "BLOCK"],
-		})
-		.coerce("guardrails-response-s13", (value) =>
-			resolveFileToken(value, "guardrails-response-s13", "text")
-		)
-		.option("guardrails-response-s14", {
-			type: "string",
-			description: "The guardrails.response.S14 field",
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "guardrails-response-s13", "text"),
+		},
+		"guardrails-response-s14": {
+			kind: "parsed",
+			brief: "The guardrails.response.S14 field",
+			optional: true,
 			choices: ["FLAG", "BLOCK"],
-		})
-		.coerce("guardrails-response-s14", (value) =>
-			resolveFileToken(value, "guardrails-response-s14", "text")
-		)
-		.option("guardrails-response-s2", {
-			type: "string",
-			description: "The guardrails.response.S2 field",
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "guardrails-response-s14", "text"),
+		},
+		"guardrails-response-s2": {
+			kind: "parsed",
+			brief: "The guardrails.response.S2 field",
+			optional: true,
 			choices: ["FLAG", "BLOCK"],
-		})
-		.coerce("guardrails-response-s2", (value) =>
-			resolveFileToken(value, "guardrails-response-s2", "text")
-		)
-		.option("guardrails-response-s3", {
-			type: "string",
-			description: "The guardrails.response.S3 field",
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "guardrails-response-s2", "text"),
+		},
+		"guardrails-response-s3": {
+			kind: "parsed",
+			brief: "The guardrails.response.S3 field",
+			optional: true,
 			choices: ["FLAG", "BLOCK"],
-		})
-		.coerce("guardrails-response-s3", (value) =>
-			resolveFileToken(value, "guardrails-response-s3", "text")
-		)
-		.option("guardrails-response-s4", {
-			type: "string",
-			description: "The guardrails.response.S4 field",
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "guardrails-response-s3", "text"),
+		},
+		"guardrails-response-s4": {
+			kind: "parsed",
+			brief: "The guardrails.response.S4 field",
+			optional: true,
 			choices: ["FLAG", "BLOCK"],
-		})
-		.coerce("guardrails-response-s4", (value) =>
-			resolveFileToken(value, "guardrails-response-s4", "text")
-		)
-		.option("guardrails-response-s5", {
-			type: "string",
-			description: "The guardrails.response.S5 field",
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "guardrails-response-s4", "text"),
+		},
+		"guardrails-response-s5": {
+			kind: "parsed",
+			brief: "The guardrails.response.S5 field",
+			optional: true,
 			choices: ["FLAG", "BLOCK"],
-		})
-		.coerce("guardrails-response-s5", (value) =>
-			resolveFileToken(value, "guardrails-response-s5", "text")
-		)
-		.option("guardrails-response-s6", {
-			type: "string",
-			description: "The guardrails.response.S6 field",
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "guardrails-response-s5", "text"),
+		},
+		"guardrails-response-s6": {
+			kind: "parsed",
+			brief: "The guardrails.response.S6 field",
+			optional: true,
 			choices: ["FLAG", "BLOCK"],
-		})
-		.coerce("guardrails-response-s6", (value) =>
-			resolveFileToken(value, "guardrails-response-s6", "text")
-		)
-		.option("guardrails-response-s7", {
-			type: "string",
-			description: "The guardrails.response.S7 field",
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "guardrails-response-s6", "text"),
+		},
+		"guardrails-response-s7": {
+			kind: "parsed",
+			brief: "The guardrails.response.S7 field",
+			optional: true,
 			choices: ["FLAG", "BLOCK"],
-		})
-		.coerce("guardrails-response-s7", (value) =>
-			resolveFileToken(value, "guardrails-response-s7", "text")
-		)
-		.option("guardrails-response-s8", {
-			type: "string",
-			description: "The guardrails.response.S8 field",
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "guardrails-response-s7", "text"),
+		},
+		"guardrails-response-s8": {
+			kind: "parsed",
+			brief: "The guardrails.response.S8 field",
+			optional: true,
 			choices: ["FLAG", "BLOCK"],
-		})
-		.coerce("guardrails-response-s8", (value) =>
-			resolveFileToken(value, "guardrails-response-s8", "text")
-		)
-		.option("guardrails-response-s9", {
-			type: "string",
-			description: "The guardrails.response.S9 field",
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "guardrails-response-s8", "text"),
+		},
+		"guardrails-response-s9": {
+			kind: "parsed",
+			brief: "The guardrails.response.S9 field",
+			optional: true,
 			choices: ["FLAG", "BLOCK"],
-		})
-		.coerce("guardrails-response-s9", (value) =>
-			resolveFileToken(value, "guardrails-response-s9", "text")
-		)
-		.option("log-classification", {
-			type: "boolean",
-			description: "The log_classification field",
-		})
-		.option("log-management", {
-			type: "number",
-			description: "The log_management field",
-		})
-		.option("log-management-strategy", {
-			type: "string",
-			description: "The log_management_strategy field",
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "guardrails-response-s9", "text"),
+		},
+		"log-classification": {
+			kind: "boolean",
+			brief: "The log_classification field",
+			optional: true,
+		},
+		"log-management": {
+			kind: "parsed",
+			brief: "The log_management field",
+			optional: true,
+			parse: Number,
+		},
+		"log-management-strategy": {
+			kind: "parsed",
+			brief: "The log_management_strategy field",
+			optional: true,
 			choices: ["STOP_INSERTING", "DELETE_OLDEST"],
-		})
-		.coerce("log-management-strategy", (value) =>
-			resolveFileToken(value, "log-management-strategy", "text")
-		)
-		.option("logpush", { type: "boolean", description: "The logpush field" })
-		.option("logpush-public-key", {
-			type: "string",
-			description: "The logpush_public_key field",
-		})
-		.option("multiprovider-enabled", {
-			type: "boolean",
-			description:
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "log-management-strategy", "text"),
+		},
+		logpush: { kind: "boolean", brief: "The logpush field", optional: true },
+		"logpush-public-key": {
+			kind: "parsed",
+			brief: "The logpush_public_key field",
+			optional: true,
+			parse: String,
+		},
+		"multiprovider-enabled": {
+			kind: "boolean",
+			brief:
 				"Lets requests to a model use every provider that serves it. When off, a model uses only the providers it launched with, so a provider added later receives none of its traffic. A request that names providers (the cf-aig-allowed-providers header or routing.allowedProviders) can still use any of them. Model aliases (custom/) are not restricted.",
-		})
-		.option("otel", {
-			type: "string",
-			description:
+			optional: true,
+		},
+		otel: {
+			kind: "parsed",
+			brief:
 				'The otel field. Provide as a JSON array of objects, null, or @path/to/file.json. Shape: [{"headers": {...}, "url": string, "authorization"?: string, "content_type"?: "json" | "protobuf"}]. ? marks optional keys.',
-		})
-		.option("rate-limiting-interval", {
-			type: "number",
-			description: "The rate_limiting_interval field",
-		})
-		.option("rate-limiting-limit", {
-			type: "number",
-			description: "The rate_limiting_limit field",
-		})
-		.option("rate-limiting-technique", {
-			type: "string",
-			description: "The rate_limiting_technique field",
+			optional: true,
+			parse: String,
+		},
+		"rate-limiting-interval": {
+			kind: "parsed",
+			brief: "The rate_limiting_interval field",
+			optional: true,
+			parse: Number,
+		},
+		"rate-limiting-limit": {
+			kind: "parsed",
+			brief: "The rate_limiting_limit field",
+			optional: true,
+			parse: Number,
+		},
+		"rate-limiting-technique": {
+			kind: "parsed",
+			brief: "The rate_limiting_technique field",
+			optional: true,
 			choices: ["fixed", "sliding"],
-		})
-		.coerce("rate-limiting-technique", (value) =>
-			resolveFileToken(value, "rate-limiting-technique", "text")
-		)
-		.option("retry-backoff", {
-			type: "string",
-			description: "Backoff strategy for retry delays",
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "rate-limiting-technique", "text"),
+		},
+		"retry-backoff": {
+			kind: "parsed",
+			brief: "Backoff strategy for retry delays",
+			optional: true,
 			choices: ["constant", "linear", "exponential"],
-		})
-		.coerce("retry-backoff", (value) =>
-			resolveFileToken(value, "retry-backoff", "text")
-		)
-		.option("retry-delay", {
-			type: "number",
-			description: "Delay between retry attempts in milliseconds (0-60000)",
-		})
-		.option("retry-max-attempts", {
-			type: "number",
-			description: "Maximum number of retry attempts for failed requests (1-5)",
-		})
-		.option("spend-limits-enabled", {
-			type: "boolean",
-			description: "The spend_limits.enabled field",
-		})
-		.option("spend-limits-rules", {
-			type: "string",
-			description:
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "retry-backoff", "text"),
+		},
+		"retry-delay": {
+			kind: "parsed",
+			brief: "Delay between retry attempts in milliseconds (0-60000)",
+			optional: true,
+			parse: Number,
+		},
+		"retry-max-attempts": {
+			kind: "parsed",
+			brief: "Maximum number of retry attempts for failed requests (1-5)",
+			optional: true,
+			parse: Number,
+		},
+		"spend-limits-enabled": {
+			kind: "boolean",
+			brief: "The spend_limits.enabled field",
+			optional: true,
+		},
+		"spend-limits-rules": {
+			kind: "parsed",
+			brief:
 				'The spend_limits.rules field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"limit": number, "limitType": "cost", "window": number, "enabled"?: boolean, "id"?: string, ...more}]. ? marks optional keys.',
-		})
-		.option("store-id", {
-			type: "string",
-			description:
+			optional: true,
+			parse: String,
+		},
+		"store-id": {
+			kind: "parsed",
+			brief:
 				"Secrets Store used by this gateway. Omit on update to keep the current store. Cannot be cleared while stored keys or secret references depend on it.",
-		})
-		.option("stripe-authorization", {
-			type: "string",
-			description: "The stripe.authorization field",
-		})
-		.option("stripe-usage-events", {
-			type: "string",
-			description:
+			optional: true,
+			parse: String,
+		},
+		"stripe-authorization": {
+			kind: "parsed",
+			brief: "The stripe.authorization field",
+			optional: true,
+			parse: String,
+		},
+		"stripe-usage-events": {
+			kind: "parsed",
+			brief:
 				'The stripe.usage_events field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"payload": string}].',
-		})
-		.option("workers-ai-billing-mode", {
-			type: "string",
-			description:
+			optional: true,
+			parse: String,
+		},
+		"workers-ai-billing-mode": {
+			kind: "parsed",
+			brief:
 				"Controls how Workers AI inference calls routed through this gateway are billed. 'postpaid' bills the account directly through Workers AI; 'unified' deducts credits via AI Gateway using neuron-based pricing and delegates billing to AI Gateway.",
+			optional: true,
 			choices: ["postpaid", "unified"],
-		})
-		.coerce("workers-ai-billing-mode", (value) =>
-			resolveFileToken(value, "workers-ai-billing-mode", "text")
-		)
-		.option("zdr", { type: "boolean", description: "The zdr field" })
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "workers-ai-billing-mode", "text"),
+		},
+		zdr: { kind: "boolean", brief: "The zdr field", optional: true },
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
 			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		})
-		.check((argv) => {
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [
+		{
+			placeholder: "gateway-id",
+			brief: "Unique identifier of the AI Gateway within the account.",
+			parse: String,
+		},
+	],
+	rules(rules) {
+		rules.check((argv) => {
 			const groupSet = ["stripe-authorization", "stripe-usage-events"].some(
 				(k) => argv[k] !== undefined
 			);
@@ -414,14 +488,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			}
 			return true;
 		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "update <gateway-id>",
-	describe: "Update a gateway",
-	builder,
+	},
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
@@ -473,7 +540,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"zdr",
 						"dry-run",
 					],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -947,6 +1014,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Updated` });
 			}
 		),
-};
+});
 
 export default command;

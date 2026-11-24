@@ -1,11 +1,10 @@
 import operation from "../../_operations/k2/streams/update.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * update command
  * @generated from apis/overlays/k2.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -18,51 +17,65 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 k2 streams update <stream-id>\n\nUpdate a K2 stream. Omitted `http` settings, such as `authentication` and `cors`, keep their current values. Disabling HTTP keeps them, so enabling HTTP again restores them. At least one input must remain enabled."
-		)
-		.positional("stream-id", {
-			type: "string",
-			description: "Specifies the public ID of the K2 stream.",
-			demandOption: true,
-		})
-		.option("http-authentication", {
-			type: "boolean",
-			description:
+const command = apiCommand({
+	command: "update <stream-id>",
+	describe: "Update K2 stream",
+	usage:
+		"$0 k2 streams update <stream-id>\n\nUpdate a K2 stream. Omitted `http` settings, such as `authentication` and `cors`, keep their current values. Disabling HTTP keeps them, so enabling HTTP again restores them. At least one input must remain enabled.",
+	flags: {
+		"http-authentication": {
+			kind: "boolean",
+			brief:
 				"Indicates whether the HTTP endpoint requires an API token with K2 produce permission. When false, the endpoint accepts unauthenticated records. Defaults to true when HTTP is enabled without a stored value.",
-		})
-		.option("http-cors-origins", {
-			type: "string",
-			array: true,
-			description:
+			optional: true,
+		},
+		"http-cors-origins": {
+			kind: "parsed",
+			brief:
 				"Allows browser requests from these HTTP or HTTPS origins. Use a wildcard only as the sole origin. An empty list blocks cross-origin browser requests. Defaults to `['*']` when HTTP is enabled without stored origins.",
-		})
-		.option("http-enabled", {
-			type: "boolean",
-			description: "Indicates whether the HTTP endpoint accepts records.",
-		})
-		.option("retention-seconds", {
-			type: "number",
-			description:
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"http-enabled": {
+			kind: "boolean",
+			brief: "Indicates whether the HTTP endpoint accepts records.",
+			optional: true,
+		},
+		"retention-seconds": {
+			kind: "parsed",
+			brief:
 				"Sets the record retention period from 1 hour (3600 seconds) to 30 days (2592000 seconds), inclusive.",
-		})
-		.option("worker-binding-enabled", {
-			type: "boolean",
-			description:
+			optional: true,
+			parse: Number,
+		},
+		"worker-binding-enabled": {
+			kind: "boolean",
+			brief:
 				"Indicates whether Workers bindings can produce records to the stream.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
+			optional: true,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
 			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		})
-		.check((argv) => {
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [
+		{
+			placeholder: "stream-id",
+			brief: "Specifies the public ID of the K2 stream.",
+			parse: String,
+		},
+	],
+	rules(rules) {
+		rules.check((argv) => {
 			const groupSet = [
 				"http-authentication",
 				"http-cors-origins",
@@ -78,14 +91,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			}
 			return true;
 		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "update <stream-id>",
-	describe: "Update K2 stream",
-	builder,
+	},
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
@@ -97,7 +103,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"worker-binding-enabled",
 						"dry-run",
 					],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -171,6 +177,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Updated` });
 			}
 		),
-};
+});
 
 export default command;

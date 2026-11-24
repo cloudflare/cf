@@ -1,11 +1,10 @@
 import operation from "../../_operations/firewall/ua-rules/create.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * create command
  * @generated from apis/overlays/firewall.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import { createCommandClient, getZoneId } from "#lib/auth.js";
 import { compactBody, parseBody } from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
@@ -15,32 +14,39 @@ import { withProgress } from "#lib/progress.js";
 import { promptForRequiredEnumField } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 firewall ua-rules create\n\nCreates a new User Agent Blocking rule in a zone."
-		)
-		.option("configuration-target", {
-			type: "string",
-			description:
+const command = apiCommand({
+	command: "create",
+	describe: "Create a User Agent Blocking rule",
+	usage:
+		"$0 firewall ua-rules create\n\nCreates a new User Agent Blocking rule in a zone.",
+	flags: {
+		"configuration-target": {
+			kind: "parsed",
+			brief:
 				"The configuration target. You must set the target to `ua` when specifying a user agent in the rule.",
+			optional: true,
 			choices: ["ua"],
-		})
-		.coerce("configuration-target", (value) =>
-			resolveFileToken(value, "configuration-target", "text")
-		)
-		.option("configuration-value", {
-			type: "string",
-			description: "the user agent to exactly match",
-		})
-		.option("description", {
-			type: "string",
-			description:
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "configuration-target", "text"),
+		},
+		"configuration-value": {
+			kind: "parsed",
+			brief: "the user agent to exactly match",
+			optional: true,
+			parse: String,
+		},
+		description: {
+			kind: "parsed",
+			brief:
 				"An informative summary of the rule. This value is sanitized and any tags will be removed.",
-		})
-		.option("access-rule-mode", {
-			type: "string",
-			description: "The action to apply to a matched request.",
+			optional: true,
+			parse: String,
+		},
+		"access-rule-mode": {
+			kind: "parsed",
+			brief: "The action to apply to a matched request.",
+			optional: true,
 			choices: [
 				"block",
 				"challenge",
@@ -48,31 +54,28 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"js_challenge",
 				"managed_challenge",
 			],
-		})
-		.coerce("access-rule-mode", (value) =>
-			resolveFileToken(value, "access-rule-mode", "text")
-		)
-		.option("paused", {
-			type: "boolean",
-			description: "When true, indicates that the rule is currently paused.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "access-rule-mode", "text"),
+		},
+		paused: {
+			kind: "boolean",
+			brief: "When true, indicates that the rule is currently paused.",
+			optional: true,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
 			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "create",
-	describe: "Create a User Agent Blocking rule",
-	builder,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
@@ -84,7 +87,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"paused",
 						"dry-run",
 					],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -180,6 +183,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Created` });
 			}
 		),
-};
+});
 
 export default command;

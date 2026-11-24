@@ -1,11 +1,10 @@
 import operation from "../../_operations/iam/sso/create.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * create command
  * @generated from apis/overlays/iam.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -20,50 +19,49 @@ import { withProgress } from "#lib/progress.js";
 import { promptForRequiredField } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 iam sso create\n\nCreates a new SSO connector for logging into Cloudflare through an identity provider."
-		)
-		.option("begin-verification", {
-			type: "boolean",
-			description: "Begin the verification process after creation",
-			default: true,
-		})
-		.option("email-domain", {
-			type: "string",
-			description: "Email domain of the new SSO connector",
-		})
-		.option("use-fedramp-language", {
-			type: "boolean",
-			description:
-				"Controls the display of FedRAMP language to the user during SSO login",
-			default: false,
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "create",
 	describe: "Initialize new SSO connector",
-	builder,
+	usage:
+		"$0 iam sso create\n\nCreates a new SSO connector for logging into Cloudflare through an identity provider.",
+	flags: {
+		"begin-verification": {
+			kind: "boolean",
+			brief: "Begin the verification process after creation",
+			default: true,
+		},
+		"email-domain": {
+			kind: "parsed",
+			brief: "Email domain of the new SSO connector",
+			optional: true,
+			parse: String,
+		},
+		"use-fedramp-language": {
+			kind: "boolean",
+			brief:
+				"Controls the display of FedRAMP language to the user during SSO login",
+			default: false,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "iam sso create",
 				classification: {
 					safeFlags: ["begin-verification", "use-fedramp-language", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -133,6 +131,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Created` });
 			}
 		),
-};
+});
 
 export default command;

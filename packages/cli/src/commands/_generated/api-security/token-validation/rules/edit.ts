@@ -1,11 +1,10 @@
 import operation from "../../../_operations/api-security/token-validation/rules/edit.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * edit command
  * @generated from apis/overlays/api-security.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import { createCommandClient, getZoneId } from "#lib/auth.js";
 import { compactBody, parseBody, parseObjectArray } from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
@@ -14,90 +13,109 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 api-security token-validation rules edit <rule-id>\n\nUpdates only the supplied fields on a token validation rule."
-		)
-		.positional("rule-id", {
-			type: "string",
-			description: "Token Validation Rule ID",
-			demandOption: true,
-		})
-		.option("action", {
-			type: "string",
-			description:
-				"Action to take on requests that match operations included in `selector` and fail `expression`.",
-			choices: ["log", "block"],
-		})
-		.coerce("action", (value) => resolveFileToken(value, "action", "text"))
-		.option("description", {
-			type: "string",
-			description:
-				"A human-readable description that gives more details than `title`.",
-		})
-		.option("enabled", {
-			type: "boolean",
-			description: "Toggle rule on or off.",
-		})
-		.option("expression", {
-			type: "string",
-			description:
-				"Rule expression. Requests that fail to match this expression will be subject to `action`.\n\nFor details on expressions, see the [Cloudflare Docs](https://developers.cloudflare.com/api-shield/security/jwt-validation/).\n",
-		})
-		.option("selector-exclude", {
-			type: "string",
-			description:
-				'Ignore operations that were otherwise included by `include`. Provide as a JSON array of objects, null, or @path/to/file.json. Shape: [{"operation_ids"?: [string]}]. ? marks optional keys.',
-		})
-		.option("selector-include", {
-			type: "string",
-			description:
-				'Select all matching operations. Provide as a JSON array of objects, null, or @path/to/file.json. Shape: [{"host"?: [string]}]. ? marks optional keys.',
-		})
-		.option("title", {
-			type: "string",
-			description: "A human-readable name for the rule.",
-		})
-		.option("position-index", {
-			type: "number",
-			description: "Move rule to this position",
-		})
-		.option("position-before", {
-			type: "string",
-			description: "Move rule to before rule with this ID.",
-		})
-		.option("position-after", {
-			type: "string",
-			description: "Move rule to after rule with this ID.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		})
-		.conflicts("position-index", ["position-before", "position-after"])
-		.conflicts("position-before", ["position-index", "position-after"])
-		.conflicts("position-after", ["position-index", "position-before"]);
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "edit <rule-id>",
 	describe: "Edit a token validation rule",
-	builder,
+	usage:
+		"$0 api-security token-validation rules edit <rule-id>\n\nUpdates only the supplied fields on a token validation rule.",
+	flags: {
+		action: {
+			kind: "parsed",
+			brief:
+				"Action to take on requests that match operations included in `selector` and fail `expression`.",
+			optional: true,
+			choices: ["log", "block"],
+			parse: String,
+			coerce: (value: string) => resolveFileToken(value, "action", "text"),
+		},
+		description: {
+			kind: "parsed",
+			brief:
+				"A human-readable description that gives more details than `title`.",
+			optional: true,
+			parse: String,
+		},
+		enabled: {
+			kind: "boolean",
+			brief: "Toggle rule on or off.",
+			optional: true,
+		},
+		expression: {
+			kind: "parsed",
+			brief:
+				"Rule expression. Requests that fail to match this expression will be subject to `action`.\n\nFor details on expressions, see the [Cloudflare Docs](https://developers.cloudflare.com/api-shield/security/jwt-validation/).\n",
+			optional: true,
+			parse: String,
+		},
+		"selector-exclude": {
+			kind: "parsed",
+			brief:
+				'Ignore operations that were otherwise included by `include`. Provide as a JSON array of objects, null, or @path/to/file.json. Shape: [{"operation_ids"?: [string]}]. ? marks optional keys.',
+			optional: true,
+			parse: String,
+		},
+		"selector-include": {
+			kind: "parsed",
+			brief:
+				'Select all matching operations. Provide as a JSON array of objects, null, or @path/to/file.json. Shape: [{"host"?: [string]}]. ? marks optional keys.',
+			optional: true,
+			parse: String,
+		},
+		title: {
+			kind: "parsed",
+			brief: "A human-readable name for the rule.",
+			optional: true,
+			parse: String,
+		},
+		"position-index": {
+			kind: "parsed",
+			brief: "Move rule to this position",
+			optional: true,
+			parse: Number,
+		},
+		"position-before": {
+			kind: "parsed",
+			brief: "Move rule to before rule with this ID.",
+			optional: true,
+			parse: String,
+		},
+		"position-after": {
+			kind: "parsed",
+			brief: "Move rule to after rule with this ID.",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [
+		{
+			placeholder: "rule-id",
+			brief: "Token Validation Rule ID",
+			parse: String,
+		},
+	],
+	rules(rules) {
+		rules.conflicts("position-index", ["position-before", "position-after"]);
+		rules.conflicts("position-before", ["position-index", "position-after"]);
+		rules.conflicts("position-after", ["position-index", "position-before"]);
+	},
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "api-security token-validation rules edit",
 				classification: {
 					safeFlags: ["action", "enabled", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -237,6 +255,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Updated` });
 			}
 		),
-};
+});
 
 export default command;

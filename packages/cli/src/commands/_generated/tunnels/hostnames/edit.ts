@@ -1,11 +1,10 @@
 import operation from "../../_operations/tunnels/hostnames/edit.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * edit command
  * @generated from apis/overlays/tunnels.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -19,55 +18,56 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 tunnels hostnames edit <hostname-id>\n\nUpdates the hostname value or makes it canonical. To unset a canonical hostname, make a different hostname canonical instead."
-		)
-		.positional("hostname-id", {
-			type: "string",
-			description: "UUID of the tunnel hostname.",
-			demandOption: true,
-		})
-		.option("tunnel-id", {
-			type: "string",
-			description: "UUID of the tunnel.",
-			demandOption: true,
-		})
-		.option("canonical", {
-			type: "boolean",
-			description:
-				"Makes this hostname canonical. `false` is not accepted; make a different hostname canonical to unset this one.",
-		})
-		.option("hostname", {
-			type: "string",
-			description:
-				"A single DNS label assigned to the tunnel. The value is normalized to lowercase and may contain only letters, digits, and internal hyphens.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "edit <hostname-id>",
 	describe: "Update a tunnel hostname",
-	builder,
+	usage:
+		"$0 tunnels hostnames edit <hostname-id>\n\nUpdates the hostname value or makes it canonical. To unset a canonical hostname, make a different hostname canonical instead.",
+	flags: {
+		"tunnel-id": {
+			kind: "parsed",
+			brief: "UUID of the tunnel.",
+			parse: String,
+		},
+		canonical: {
+			kind: "boolean",
+			brief:
+				"Makes this hostname canonical. `false` is not accepted; make a different hostname canonical to unset this one.",
+			optional: true,
+		},
+		hostname: {
+			kind: "parsed",
+			brief:
+				"A single DNS label assigned to the tunnel. The value is normalized to lowercase and may contain only letters, digits, and internal hyphens.",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [
+		{
+			placeholder: "hostname-id",
+			brief: "UUID of the tunnel hostname.",
+			parse: String,
+		},
+	],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "tunnels hostnames edit",
 				classification: {
 					safeFlags: ["canonical", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -136,6 +136,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Updated` });
 			}
 		),
-};
+});
 
 export default command;

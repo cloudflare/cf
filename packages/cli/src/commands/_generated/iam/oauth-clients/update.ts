@@ -1,11 +1,10 @@
 import operation from "../../_operations/iam/oauth-clients/update.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * update command
  * @generated from apis/overlays/iam.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -19,118 +18,139 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 iam oauth-clients update <oauth-client-id>\n\nUpdate an existing OAuth client. Only include fields you want to update."
-		)
-		.positional("oauth-client-id", {
-			type: "string",
-			description: "The unique identifier for an OAuth client.",
-			demandOption: true,
-		})
-		.option("allowed-cors-origins", {
-			type: "string",
-			array: true,
-			description: "Array of allowed CORS origins.",
-		})
-		.option("client-name", {
-			type: "string",
-			description: "Human-readable name of the OAuth client.",
-		})
-		.option("client-uri", {
-			type: "string",
-			description: "URL of the home page of the client.",
-		})
-		.option("grant-types", {
-			type: "string",
-			array: true,
-			description:
-				"Array of OAuth grant types the client is allowed to use. `authorization_code` is required; `refresh_token` may be included optionally.",
-		})
-		.option("logo-uri", {
-			type: "string",
-			description: "URL of the client's logo.",
-		})
-		.option("optional-scopes", {
-			type: "string",
-			array: true,
-			description:
-				"Scopes that the authorizing user may decline during consent. Each value must also appear in `scopes`. The scopes `openid`, `offline`, and `offline_access` cannot be optional.",
-		})
-		.option("policy-uri", {
-			type: "string",
-			description: "URL that points to a privacy policy document.",
-		})
-		.option("post-logout-redirect-uris", {
-			type: "string",
-			array: true,
-			description: "Array of allowed post-logout redirect URIs.",
-		})
-		.option("redirect-uris", {
-			type: "string",
-			array: true,
-			description: "Array of allowed redirect URIs for the client.",
-		})
-		.option("response-types", {
-			type: "string",
-			array: true,
-			description:
-				"Array of OAuth response types the client is allowed to use.",
-		})
-		.option("scopes", {
-			type: "string",
-			array: true,
-			description:
-				"Array of OAuth scopes the client is allowed to request. Colon-delimited scopes are not accepted. Dot-delimited scopes are validated against available OAuth API scopes; simple identity scopes are allowed. Protocol scopes `offline_access` and `openid` are added or removed automatically based on `grant_types` and `response_types`.",
-		})
-		.option("token-endpoint-auth-method", {
-			type: "string",
-			description:
-				"The authentication method the client uses at the token endpoint.",
-			choices: ["none", "client_secret_basic", "client_secret_post"],
-		})
-		.coerce("token-endpoint-auth-method", (value) =>
-			resolveFileToken(value, "token-endpoint-auth-method", "text")
-		)
-		.option("tos-uri", {
-			type: "string",
-			description: "URL that points to a terms of service document.",
-		})
-		.option("visibility", {
-			type: "string",
-			description:
-				"Promote the OAuth client from private to public visibility. Only `public` is accepted; demotion to `private` is not supported. Promotion requires a non-empty client name, logo URI, verified client URI host, and at least one non-identity scope.",
-			choices: ["public"],
-		})
-		.coerce("visibility", (value) =>
-			resolveFileToken(value, "visibility", "text")
-		)
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description:
-				"Partial update request for an OAuth client. Only include fields you want to update.",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "update <oauth-client-id>",
 	describe: "Update OAuth Client",
-	builder,
+	usage:
+		"$0 iam oauth-clients update <oauth-client-id>\n\nUpdate an existing OAuth client. Only include fields you want to update.",
+	flags: {
+		"allowed-cors-origins": {
+			kind: "parsed",
+			brief: "Array of allowed CORS origins.",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"client-name": {
+			kind: "parsed",
+			brief: "Human-readable name of the OAuth client.",
+			optional: true,
+			parse: String,
+		},
+		"client-uri": {
+			kind: "parsed",
+			brief: "URL of the home page of the client.",
+			optional: true,
+			parse: String,
+		},
+		"grant-types": {
+			kind: "parsed",
+			brief:
+				"Array of OAuth grant types the client is allowed to use. `authorization_code` is required; `refresh_token` may be included optionally.",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"logo-uri": {
+			kind: "parsed",
+			brief: "URL of the client's logo.",
+			optional: true,
+			parse: String,
+		},
+		"optional-scopes": {
+			kind: "parsed",
+			brief:
+				"Scopes that the authorizing user may decline during consent. Each value must also appear in `scopes`. The scopes `openid`, `offline`, and `offline_access` cannot be optional.",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"policy-uri": {
+			kind: "parsed",
+			brief: "URL that points to a privacy policy document.",
+			optional: true,
+			parse: String,
+		},
+		"post-logout-redirect-uris": {
+			kind: "parsed",
+			brief: "Array of allowed post-logout redirect URIs.",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"redirect-uris": {
+			kind: "parsed",
+			brief: "Array of allowed redirect URIs for the client.",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"response-types": {
+			kind: "parsed",
+			brief: "Array of OAuth response types the client is allowed to use.",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		scopes: {
+			kind: "parsed",
+			brief:
+				"Array of OAuth scopes the client is allowed to request. Colon-delimited scopes are not accepted. Dot-delimited scopes are validated against available OAuth API scopes; simple identity scopes are allowed. Protocol scopes `offline_access` and `openid` are added or removed automatically based on `grant_types` and `response_types`.",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"token-endpoint-auth-method": {
+			kind: "parsed",
+			brief: "The authentication method the client uses at the token endpoint.",
+			optional: true,
+			choices: ["none", "client_secret_basic", "client_secret_post"],
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "token-endpoint-auth-method", "text"),
+		},
+		"tos-uri": {
+			kind: "parsed",
+			brief: "URL that points to a terms of service document.",
+			optional: true,
+			parse: String,
+		},
+		visibility: {
+			kind: "parsed",
+			brief:
+				"Promote the OAuth client from private to public visibility. Only `public` is accepted; demotion to `private` is not supported. Promotion requires a non-empty client name, logo URI, verified client URI host, and at least one non-identity scope.",
+			optional: true,
+			choices: ["public"],
+			parse: String,
+			coerce: (value: string) => resolveFileToken(value, "visibility", "text"),
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief:
+				"Partial update request for an OAuth client. Only include fields you want to update.",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [
+		{
+			placeholder: "oauth-client-id",
+			brief: "The unique identifier for an OAuth client.",
+			parse: String,
+		},
+	],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "iam oauth-clients update",
 				classification: {
 					safeFlags: ["token-endpoint-auth-method", "visibility", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -254,6 +274,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Updated` });
 			}
 		),
-};
+});
 
 export default command;

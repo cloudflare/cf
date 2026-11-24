@@ -1,10 +1,9 @@
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * list command
  * @generated from apis/overlays/security-insights.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -17,46 +16,45 @@ import { withProgress } from "#lib/progress.js";
 import { fetchRawBytes, writeRawOutput } from "#lib/raw-fetch.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 security-insights partners shadow-zones list\n\nLists domains discovered by the selected partner that are not in the account. Baseline accounts receive the total count only; premium accounts receive paginated items and may request CSV output."
-		)
-		.option("partner", {
-			type: "string",
-			description: "The partner integration identifier.",
-			demandOption: true,
-		})
-		.option("cursor", {
-			type: "string",
-			description:
-				"Opaque cursor from the previous response's `result_info.cursor`. Omit for the first page.",
-		})
-		.option("per-page", {
-			type: "number",
-			description:
-				"Number of premium partner asset results per page. Values other than 1 must be a multiple of 5.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "list",
 	describe: "Lists Partner-Discovered Shadow Zones",
-	builder,
+	usage:
+		"$0 security-insights partners shadow-zones list\n\nLists domains discovered by the selected partner that are not in the account. Baseline accounts receive the total count only; premium accounts receive paginated items and may request CSV output.",
+	flags: {
+		partner: {
+			kind: "parsed",
+			brief: "The partner integration identifier.",
+			parse: String,
+		},
+		cursor: {
+			kind: "parsed",
+			brief:
+				"Opaque cursor from the previous response's `result_info.cursor`. Omit for the first page.",
+			optional: true,
+			parse: String,
+		},
+		"per-page": {
+			kind: "parsed",
+			brief:
+				"Number of premium partner asset results per page. Values other than 1 must be a multiple of 5.",
+			optional: true,
+			parse: Number,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "security-insights partners shadow-zones list",
-				classification: {
-					safeFlags: ["dry-run"],
-				} satisfies ArgClassification<Args>,
+				classification: { safeFlags: ["dry-run"] } satisfies ArgClassification<
+					typeof argv
+				>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -99,6 +97,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				return;
 			}
 		),
-};
+});
 
 export default command;

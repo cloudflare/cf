@@ -4,30 +4,25 @@ import $export from "./export/index.js";
 import $history from "./history/index.js";
 import $publish from "./publish/index.js";
 import $workflow from "./workflow/index.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * zaraz command
  * @generated from apis/overlays/zaraz.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "zaraz",
 	describe:
 		"Server-side tag manager — load third-party tools (analytics, pixels, etc.) from Cloudflare's edge without client-side JS",
 
-	builder: (yargs) => {
-		return yargs
-			.command($config)
-			.command($default)
-			.command($export)
-			.command($history)
-			.command($publish)
-			.command($workflow)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		config: $config,
+		default: $default,
+		export: $export,
+		history: $history,
+		publish: $publish,
+		workflow: $workflow,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

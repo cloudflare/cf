@@ -1,11 +1,10 @@
 import operation from "../../../_operations/zero-trust/dex/devices/list.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * list command
  * @generated from apis/overlays/zero-trust.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -17,37 +16,38 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 zero-trust dex devices list\n\nList details of devices using WARP."
-		)
-		.option("to", {
-			type: "string",
-			description:
+const command = apiCommand({
+	command: "list",
+	describe: "List details of devices using WARP.",
+	usage:
+		"$0 zero-trust dex devices list\n\nList details of devices using WARP.",
+	flags: {
+		to: {
+			kind: "parsed",
+			brief:
 				"End of the time range to query. Timestamp can be provided in ISO 8601 datetime format or milliseconds since epoch.",
-			demandOption: true,
-		})
-		.option("from", {
-			type: "string",
-			description:
+			parse: String,
+		},
+		from: {
+			kind: "parsed",
+			brief:
 				"Start of the time range to query. Timestamp can be provided in ISO 8601 datetime format or milliseconds since epoch.",
-			demandOption: true,
-		})
-		.option("page", {
-			type: "number",
-			description: "Page number of paginated results.",
-			demandOption: true,
-		})
-		.option("per-page", {
-			type: "number",
-			description: "Number of results per page.",
-			demandOption: true,
-		})
-		.option("sort-by", {
-			type: "string",
-			description: "Dimension to sort results by.",
-			choices: [
+			parse: String,
+		},
+		page: {
+			kind: "parsed",
+			brief: "Page number of paginated results.",
+			parse: Number,
+		},
+		"per-page": {
+			kind: "parsed",
+			brief: "Number of results per page.",
+			parse: Number,
+		},
+		"sort-by": {
+			kind: "enum",
+			brief: "Dimension to sort results by.",
+			values: [
 				"colo",
 				"device_id",
 				"mode",
@@ -56,51 +56,65 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"timestamp",
 				"version",
 			],
-		})
-		.option("colo", {
-			type: "string",
-			description: "Cloudflare colo airport code.",
-		})
-		.option("device-id", {
-			type: "string",
-			description: "Device-specific ID, given as UUID.",
-		})
-		.option("device-mode", {
-			type: "string",
-			description: "The mode under which the WARP client is run.",
-		})
-		.option("status", { type: "string", description: "Network status." })
-		.option("platform", { type: "string", description: "Operating system." })
-		.option("warp-version", {
-			type: "string",
-			description: "WARP client version.",
-		})
-		.option("source", {
-			type: "string",
-			description:
+			optional: true,
+		},
+		colo: {
+			kind: "parsed",
+			brief: "Cloudflare colo airport code.",
+			optional: true,
+			parse: String,
+		},
+		"device-id": {
+			kind: "parsed",
+			brief: "Device-specific ID, given as UUID.",
+			optional: true,
+			parse: String,
+		},
+		"device-mode": {
+			kind: "parsed",
+			brief: "The mode under which the WARP client is run.",
+			optional: true,
+			parse: String,
+		},
+		status: {
+			kind: "parsed",
+			brief: "Network status.",
+			optional: true,
+			parse: String,
+		},
+		platform: {
+			kind: "parsed",
+			brief: "Operating system.",
+			optional: true,
+			parse: String,
+		},
+		"warp-version": {
+			kind: "parsed",
+			brief: "WARP client version.",
+			optional: true,
+			parse: String,
+		},
+		source: {
+			kind: "enum",
+			brief:
 				"Source:\n  * `hourly` - device details aggregated hourly, up to 7 days prior\n  * `last_seen` - device details, up to 60 minutes prior. Time windows exceeding 60 minutes will be rejected from June 1st, 2026. Please use 'hourly' or 'raw' instead for longer time ranges.\n  * `raw` - device details, up to 7 days prior",
-			choices: ["last_seen", "hourly", "raw"],
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
+			values: ["last_seen", "hourly", "raw"],
+			optional: true,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
 			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "list",
-	describe: "List details of devices using WARP.",
-	builder,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "zero-trust dex devices list",
 				classification: {
 					safeFlags: ["sort-by", "source", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -140,6 +154,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Loaded` });
 			}
 		),
-};
+});
 
 export default command;

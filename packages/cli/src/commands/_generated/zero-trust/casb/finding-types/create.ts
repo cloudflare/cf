@@ -1,11 +1,10 @@
 import operation from "../../../_operations/zero-trust/casb/finding-types/create.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * create command
  * @generated from apis/overlays/zero-trust.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -23,24 +22,29 @@ import {
 } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 zero-trust casb finding-types create\n\nCreate a new custom finding type with policy definition."
-		)
-		.option("applies-to-all-integrations", {
-			type: "boolean",
-			description:
+const command = apiCommand({
+	command: "create",
+	describe: "Create a custom finding type",
+	usage:
+		"$0 zero-trust casb finding-types create\n\nCreate a new custom finding type with policy definition.",
+	flags: {
+		"applies-to-all-integrations": {
+			kind: "boolean",
+			brief:
 				"When true, this finding type applies to every current and future integration of the vendor.",
-		})
-		.option("asset-class", {
-			type: "string",
-			description:
+			optional: true,
+		},
+		"asset-class": {
+			kind: "parsed",
+			brief:
 				"Asset class this finding type applies to (PascalCase, e.g. GoogleWorkspaceFile)",
-		})
-		.option("asset-vendor", {
-			type: "string",
-			description: "Vendors whose assets a finding type can evaluate.",
+			optional: true,
+			parse: String,
+		},
+		"asset-vendor": {
+			kind: "parsed",
+			brief: "Vendors whose assets a finding type can evaluate.",
+			optional: true,
 			choices: [
 				"ANTHROPIC",
 				"AWS",
@@ -59,54 +63,60 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"SLACK",
 				"ZOOM",
 			],
-		})
-		.coerce("asset-vendor", (value) =>
-			resolveFileToken(value, "asset-vendor", "text")
-		)
-		.option("description", {
-			type: "string",
-			description:
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "asset-vendor", "text"),
+		},
+		description: {
+			kind: "parsed",
+			brief:
 				"Human-readable description of the finding type. Cannot be empty. Maximum 4096 characters.",
-		})
-		.option("expression", {
-			type: "string",
-			description:
+			optional: true,
+			parse: String,
+		},
+		expression: {
+			kind: "parsed",
+			brief:
 				"Rego expression body for the policy. `package cloudflare.casb.custom` and `import rego.v1` are added automatically. Do not include package or import declarations. This field cannot be changed after creation. Maximum 4096 characters.",
-		})
-		.option("integration-ids", {
-			type: "string",
-			array: true,
-			description:
+			optional: true,
+			parse: String,
+		},
+		"integration-ids": {
+			kind: "parsed",
+			brief:
 				"Required and non-empty when applies_to_all_integrations is false; omit when it is true.",
-		})
-		.option("name", {
-			type: "string",
-			description:
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		name: {
+			kind: "parsed",
+			brief:
 				"Human-readable name for the finding type. Maximum 256 characters.",
-		})
-		.option("severity", {
-			type: "string",
-			description: "The severity level of a finding.",
+			optional: true,
+			parse: String,
+		},
+		severity: {
+			kind: "parsed",
+			brief: "The severity level of a finding.",
+			optional: true,
 			choices: ["Critical", "High", "Medium", "Low"],
-		})
-		.coerce("severity", (value) => resolveFileToken(value, "severity", "text"))
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
+			parse: String,
+			coerce: (value: string) => resolveFileToken(value, "severity", "text"),
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
 			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "create",
-	describe: "Create a custom finding type",
-	builder,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
@@ -118,7 +128,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"severity",
 						"dry-run",
 					],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -277,6 +287,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Created` });
 			}
 		),
-};
+});
 
 export default command;

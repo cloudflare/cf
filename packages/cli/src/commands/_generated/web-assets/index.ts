@@ -2,27 +2,22 @@ import $discovery from "./discovery/index.js";
 import $labels from "./labels/index.js";
 import $operations from "./operations/index.js";
 import $schemas from "./schemas/index.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * web-assets command
  * @generated from apis/overlays/web-assets.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "web-assets",
 	describe: "web-assets",
 
-	builder: (yargs) => {
-		return yargs
-			.command($discovery)
-			.command($labels)
-			.command($operations)
-			.command($schemas)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		discovery: $discovery,
+		labels: $labels,
+		operations: $operations,
+		schemas: $schemas,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

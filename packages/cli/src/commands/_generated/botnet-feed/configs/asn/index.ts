@@ -1,24 +1,19 @@
 import $delete from "./delete.js";
 import $get from "./get.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * asn command group
  * @generated from apis/overlays/botnet-feed.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "asn",
 	describe: "Operations for configs.asn",
 
-	builder: (yargs) => {
-		return yargs
-			.command($delete)
-			.command($get)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		delete: $delete,
+		get: $get,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

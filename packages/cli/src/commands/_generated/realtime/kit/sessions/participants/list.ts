@@ -1,11 +1,10 @@
 import operation from "../../../../_operations/realtime/kit/sessions/participants/list.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * list command
  * @generated from apis/overlays/realtime.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -17,69 +16,69 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 realtime kit sessions participants list\n\nReturns a list of participants for the given session ID."
-		)
-		.option("app-id", {
-			type: "string",
-			description: "The app identifier tag.",
-			demandOption: true,
-		})
-		.option("session-id", {
-			type: "string",
-			description: "ID of the session",
-			demandOption: true,
-		})
-		.option("search", {
-			type: "string",
-			description:
-				"The search query string. You can search using participant ID, custom participant ID, or display name.",
-		})
-		.option("page-no", {
-			type: "number",
-			description:
-				"The page number from which you want your page search results to be displayed.",
-		})
-		.option("per-page", {
-			type: "number",
-			description: "Number of results per page.",
-		})
-		.option("sort-order", {
-			type: "string",
-			description: "Sort order",
-			choices: ["ASC", "DESC"],
-		})
-		.option("sort-by", {
-			type: "string",
-			description: "Sort by",
-			choices: ["joinedAt", "duration"],
-		})
-		.option("include-peer-events", {
-			type: "boolean",
-			description:
-				"if true, response includes all the peer events of participants.",
-		})
-		.option("view", {
-			type: "string",
-			description:
-				"In breakout room sessions, the view parameter can be set to `raw` for session specific duration for participants or `consolidated` to accumulate breakout room durations.",
-			choices: ["raw", "consolidated"],
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "list",
 	describe: "Fetch participants list of a session",
-	builder,
+	usage:
+		"$0 realtime kit sessions participants list\n\nReturns a list of participants for the given session ID.",
+	flags: {
+		"app-id": {
+			kind: "parsed",
+			brief: "The app identifier tag.",
+			parse: String,
+		},
+		"session-id": { kind: "parsed", brief: "ID of the session", parse: String },
+		search: {
+			kind: "parsed",
+			brief:
+				"The search query string. You can search using participant ID, custom participant ID, or display name.",
+			optional: true,
+			parse: String,
+		},
+		"page-no": {
+			kind: "parsed",
+			brief:
+				"The page number from which you want your page search results to be displayed.",
+			optional: true,
+			parse: Number,
+		},
+		"per-page": {
+			kind: "parsed",
+			brief: "Number of results per page.",
+			optional: true,
+			parse: Number,
+		},
+		"sort-order": {
+			kind: "enum",
+			brief: "Sort order",
+			values: ["ASC", "DESC"],
+			optional: true,
+		},
+		"sort-by": {
+			kind: "enum",
+			brief: "Sort by",
+			values: ["joinedAt", "duration"],
+			optional: true,
+		},
+		"include-peer-events": {
+			kind: "boolean",
+			brief: "if true, response includes all the peer events of participants.",
+			optional: true,
+		},
+		view: {
+			kind: "enum",
+			brief:
+				"In breakout room sessions, the view parameter can be set to `raw` for session specific duration for participants or `consolidated` to accumulate breakout room durations.",
+			values: ["raw", "consolidated"],
+			optional: true,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
@@ -92,7 +91,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"view",
 						"dry-run",
 					],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -135,6 +134,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Loaded` });
 			}
 		),
-};
+});
 
 export default command;

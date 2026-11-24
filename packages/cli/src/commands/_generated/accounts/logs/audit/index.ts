@@ -1,26 +1,21 @@
 import $history from "./history.js";
 import $list from "./list.js";
 import $productcategories from "./product-categories.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * audit command group
  * @generated from apis/overlays/accounts.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "audit",
 	describe: "Operations for logs.audit",
 
-	builder: (yargs) => {
-		return yargs
-			.command($history)
-			.command($list)
-			.command($productcategories)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		history: $history,
+		list: $list,
+		"product-categories": $productcategories,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

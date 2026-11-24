@@ -1,11 +1,10 @@
 import operation from "../../../_operations/network/subnets/cloudflare-source/edit.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * edit command
  * @generated from apis/overlays/network.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -19,53 +18,57 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 network subnets cloudflare-source edit <address-family>\n\nUpdates the Cloudflare Source subnet of the given address family"
-		)
-		.positional("address-family", {
-			type: "string",
-			description: "IP address family, either \`v4\` (IPv4) or \`v6\` (IPv6)",
-			demandOption: true,
-		})
-		.option("comment", {
-			type: "string",
-			description: "An optional description of the subnet.",
-		})
-		.option("name", {
-			type: "string",
-			description: "A user-friendly name for the subnet.",
-		})
-		.option("network", {
-			type: "string",
-			description:
-				"The private IPv4 or IPv6 range defining the subnet, in CIDR notation.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "edit <address-family>",
 	describe: "Update Cloudflare Source Subnet",
-	builder,
+	usage:
+		"$0 network subnets cloudflare-source edit <address-family>\n\nUpdates the Cloudflare Source subnet of the given address family",
+	flags: {
+		comment: {
+			kind: "parsed",
+			brief: "An optional description of the subnet.",
+			optional: true,
+			parse: String,
+		},
+		name: {
+			kind: "parsed",
+			brief: "A user-friendly name for the subnet.",
+			optional: true,
+			parse: String,
+		},
+		network: {
+			kind: "parsed",
+			brief:
+				"The private IPv4 or IPv6 range defining the subnet, in CIDR notation.",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [
+		{
+			placeholder: "address-family",
+			brief: "IP address family, either \`v4\` (IPv4) or \`v6\` (IPv6)",
+			parse: String,
+		},
+	],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "network subnets cloudflare-source edit",
-				classification: {
-					safeFlags: ["dry-run"],
-				} satisfies ArgClassification<Args>,
+				classification: { safeFlags: ["dry-run"] } satisfies ArgClassification<
+					typeof argv
+				>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -149,6 +152,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Updated` });
 			}
 		),
-};
+});
 
 export default command;

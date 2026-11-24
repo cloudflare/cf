@@ -1,11 +1,10 @@
 import operation from "../../../../_operations/basin-catalog/namespaces/tables/maintenance-configs/queue.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * queue command
  * @generated from apis/overlays/basin-catalog.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -19,59 +18,51 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 basin-catalog namespaces tables maintenance-configs queue <configuration-type>\n\nQueue maintenance for normal polling. This request does not start a run."
-		)
-		.positional("configuration-type", {
-			type: "string",
-			description: "Configuration type",
-			demandOption: true,
-		})
-		.option("bucket-name", {
-			type: "string",
-			description: "Specifies the R2 bucket name.",
-			demandOption: true,
-		})
-		.option("namespace", {
-			type: "string",
-			description: "Namespace",
-			demandOption: true,
-		})
-		.option("table-name", {
-			type: "string",
-			description: "Table name",
-			demandOption: true,
-		})
-		.option("request-id", {
-			type: "string",
-			description: "The request_id field",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "queue <configuration-type>",
 	describe: "Queue table maintenance",
-	builder,
+	usage:
+		"$0 basin-catalog namespaces tables maintenance-configs queue <configuration-type>\n\nQueue maintenance for normal polling. This request does not start a run.",
+	flags: {
+		"bucket-name": {
+			kind: "parsed",
+			brief: "Specifies the R2 bucket name.",
+			parse: String,
+		},
+		namespace: { kind: "parsed", brief: "Namespace", parse: String },
+		"table-name": { kind: "parsed", brief: "Table name", parse: String },
+		"request-id": {
+			kind: "parsed",
+			brief: "The request_id field",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [
+		{
+			placeholder: "configuration-type",
+			brief: "Configuration type",
+			parse: String,
+		},
+	],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "basin-catalog namespaces tables maintenance-configs queue",
-				classification: {
-					safeFlags: ["dry-run"],
-				} satisfies ArgClassification<Args>,
+				classification: { safeFlags: ["dry-run"] } satisfies ArgClassification<
+					typeof argv
+				>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -145,6 +136,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Created` });
 			}
 		),
-};
+});
 
 export default command;

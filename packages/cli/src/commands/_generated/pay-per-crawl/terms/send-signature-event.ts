@@ -1,11 +1,10 @@
 import operation from "../../_operations/pay-per-crawl/terms/send-signature-event.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * send-signature-event command
  * @generated from apis/overlays/pay-per-crawl.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -17,42 +16,36 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 pay-per-crawl terms send-signature-event\n\nRecords that an account displayed or agreed to the pay-per-crawl terms."
-		)
-		.option("event-type", {
-			type: "string",
-			description: "The terms activity to record.",
-			choices: ["agreed", "displayed"],
-			demandOption: true,
-		})
-		.option("vid", {
-			type: "string",
-			description: "Ironclad contract version ID.",
-			demandOption: true,
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "send-signature-event",
 	describe: "Record pay-per-crawl terms activity",
-	builder,
+	usage:
+		"$0 pay-per-crawl terms send-signature-event\n\nRecords that an account displayed or agreed to the pay-per-crawl terms.",
+	flags: {
+		"event-type": {
+			kind: "enum",
+			brief: "The terms activity to record.",
+			values: ["agreed", "displayed"],
+		},
+		vid: {
+			kind: "parsed",
+			brief: "Ironclad contract version ID.",
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "pay-per-crawl terms send-signature-event",
 				classification: {
 					safeFlags: ["event-type", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -82,6 +75,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Created` });
 			}
 		),
-};
+});
 
 export default command;

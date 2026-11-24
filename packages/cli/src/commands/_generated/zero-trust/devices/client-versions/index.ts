@@ -1,24 +1,19 @@
 import $list from "./list.js";
 import $targetenvironments from "./target-environments/index.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * client-versions command group
  * @generated from apis/overlays/zero-trust.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "client-versions",
 	describe: "Operations for devices.client-versions",
 
-	builder: (yargs) => {
-		return yargs
-			.command($list)
-			.command($targetenvironments)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		list: $list,
+		"target-environments": $targetenvironments,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

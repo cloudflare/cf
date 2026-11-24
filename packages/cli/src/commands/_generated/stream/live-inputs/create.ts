@@ -1,10 +1,9 @@
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * create command
  * @generated from apis/overlays/stream.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -24,89 +23,101 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 stream live-inputs create\n\nCreates a live input, and returns credentials that you or your users can use to stream live video to Cloudflare Stream."
-		)
-		.option("idempotency-key", {
-			type: "string",
-			description:
-				"Prevents duplicate live inputs from being created when retrying this request. The key is scoped to the account, may contain up to 255 bytes, and expires six hours after the live input is created. Reusing a key for a deleted input before expiry returns a 409 Conflict response.",
-		})
-		.option("default-creator", {
-			type: "string",
-			description: "Sets the creator ID asssociated with this live input.",
-		})
-		.option("delete-recording-after-days", {
-			type: "number",
-			description:
-				"Indicates the number of days after which the live inputs recordings will be deleted. When a stream completes and the recording is ready, the value is used to calculate a scheduled deletion date for that recording. Omit the field to indicate no change, or include with a `null` value to remove an existing scheduled deletion.",
-		})
-		.option("enabled", {
-			type: "boolean",
-			description:
-				"Indicates whether the live input is enabled and can accept streams.",
-			default: true,
-		})
-		.option("meta", {
-			type: "string",
-			description:
-				'A user modifiable key-value store used to reference other systems of record for managing live inputs. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": unknown}.',
-		})
-		.option("prefer-low-latency", {
-			type: "boolean",
-			description:
-				"When enabled, the live stream is delivered using Low-Latency HLS (LL-HLS), reducing glass-to-glass latency for viewers at the cost of reduced player compatibility.",
-			default: false,
-		})
-		.option("recording-allowed-origins", {
-			type: "string",
-			array: true,
-			description:
-				"Lists the origins allowed to display videos created with this input. Enter allowed origin domains in an array and use `*` for wildcard subdomains. An empty array allows videos to be viewed on any origin.",
-		})
-		.option("recording-hide-live-viewer-count", {
-			type: "boolean",
-			description:
-				"Disables reporting the number of live viewers when this property is set to `true`.",
-		})
-		.option("recording-mode", {
-			type: "string",
-			description:
-				"Specifies the recording behavior for the live input. Set this value to `off` to prevent a recording. Set the value to `automatic` to begin a recording and transition to on-demand after Stream Live stops receiving input.",
-			choices: ["off", "automatic"],
-		})
-		.coerce("recording-mode", (value) =>
-			resolveFileToken(value, "recording-mode", "text")
-		)
-		.option("recording-require-signed-urls", {
-			type: "boolean",
-			description:
-				"Indicates if a video using the live input has the `requireSignedURLs` property set. Also enforces access controls on any video recording of the livestream with the live input.",
-		})
-		.option("recording-timeout-seconds", {
-			type: "number",
-			description:
-				"Determines the amount of time a live input configured in `automatic` mode should wait before a recording transitions from live to on-demand. `0` is recommended for most use cases and indicates the platform default should be used.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "create",
 	describe: "Create a live input",
-	builder,
+	usage:
+		"$0 stream live-inputs create\n\nCreates a live input, and returns credentials that you or your users can use to stream live video to Cloudflare Stream.",
+	flags: {
+		"idempotency-key": {
+			kind: "parsed",
+			brief:
+				"Prevents duplicate live inputs from being created when retrying this request. The key is scoped to the account, may contain up to 255 bytes, and expires six hours after the live input is created. Reusing a key for a deleted input before expiry returns a 409 Conflict response.",
+			optional: true,
+			parse: String,
+		},
+		"default-creator": {
+			kind: "parsed",
+			brief: "Sets the creator ID asssociated with this live input.",
+			optional: true,
+			parse: String,
+		},
+		"delete-recording-after-days": {
+			kind: "parsed",
+			brief:
+				"Indicates the number of days after which the live inputs recordings will be deleted. When a stream completes and the recording is ready, the value is used to calculate a scheduled deletion date for that recording. Omit the field to indicate no change, or include with a `null` value to remove an existing scheduled deletion.",
+			optional: true,
+			parse: Number,
+		},
+		enabled: {
+			kind: "boolean",
+			brief:
+				"Indicates whether the live input is enabled and can accept streams.",
+			default: true,
+		},
+		meta: {
+			kind: "parsed",
+			brief:
+				'A user modifiable key-value store used to reference other systems of record for managing live inputs. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": unknown}.',
+			optional: true,
+			parse: String,
+		},
+		"prefer-low-latency": {
+			kind: "boolean",
+			brief:
+				"When enabled, the live stream is delivered using Low-Latency HLS (LL-HLS), reducing glass-to-glass latency for viewers at the cost of reduced player compatibility.",
+			default: false,
+		},
+		"recording-allowed-origins": {
+			kind: "parsed",
+			brief:
+				"Lists the origins allowed to display videos created with this input. Enter allowed origin domains in an array and use `*` for wildcard subdomains. An empty array allows videos to be viewed on any origin.",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"recording-hide-live-viewer-count": {
+			kind: "boolean",
+			brief:
+				"Disables reporting the number of live viewers when this property is set to `true`.",
+			optional: true,
+		},
+		"recording-mode": {
+			kind: "parsed",
+			brief:
+				"Specifies the recording behavior for the live input. Set this value to `off` to prevent a recording. Set the value to `automatic` to begin a recording and transition to on-demand after Stream Live stops receiving input.",
+			optional: true,
+			choices: ["off", "automatic"],
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "recording-mode", "text"),
+		},
+		"recording-require-signed-urls": {
+			kind: "boolean",
+			brief:
+				"Indicates if a video using the live input has the `requireSignedURLs` property set. Also enforces access controls on any video recording of the livestream with the live input.",
+			optional: true,
+		},
+		"recording-timeout-seconds": {
+			kind: "parsed",
+			brief:
+				"Determines the amount of time a live input configured in `automatic` mode should wait before a recording transitions from live to on-demand. `0` is recommended for most use cases and indicates the platform default should be used.",
+			optional: true,
+			parse: Number,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
@@ -120,7 +131,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"recording-require-signed-urls",
 						"dry-run",
 					],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -264,6 +275,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Created` });
 			}
 		),
-};
+});
 
 export default command;

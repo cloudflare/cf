@@ -1,10 +1,9 @@
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * edit command
  * @generated from apis/overlays/r2.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -17,47 +16,41 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 r2 buckets edit <bucket-name>\n\nChanges the default storage class for newly uploaded objects in an existing R2 bucket. Existing objects retain their storage class, and individual uploads can override the bucket default."
-		)
-		.positional("bucket-name", {
-			type: "string",
-			description: "Name of the bucket.",
-			demandOption: true,
-		})
-		.option("cf-r2-jurisdiction", {
-			type: "string",
-			description:
-				"Jurisdiction where objects in this bucket are guaranteed to be stored.",
-		})
-		.option("cf-r2-storage-class", {
-			type: "string",
-			description:
-				"Storage class for newly uploaded objects, unless specified otherwise.",
-			demandOption: true,
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "edit <bucket-name>",
 	describe: "Patch Bucket",
-	builder,
+	usage:
+		"$0 r2 buckets edit <bucket-name>\n\nChanges the default storage class for newly uploaded objects in an existing R2 bucket. Existing objects retain their storage class, and individual uploads can override the bucket default.",
+	flags: {
+		"cf-r2-jurisdiction": {
+			kind: "parsed",
+			brief:
+				"Jurisdiction where objects in this bucket are guaranteed to be stored.",
+			optional: true,
+			parse: String,
+		},
+		"cf-r2-storage-class": {
+			kind: "parsed",
+			brief:
+				"Storage class for newly uploaded objects, unless specified otherwise.",
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+	},
+	operands: [
+		{ placeholder: "bucket-name", brief: "Name of the bucket.", parse: String },
+	],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "r2 buckets edit",
-				classification: {
-					safeFlags: ["dry-run"],
-				} satisfies ArgClassification<Args>,
+				classification: { safeFlags: ["dry-run"] } satisfies ArgClassification<
+					typeof argv
+				>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -92,6 +85,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Updated` });
 			}
 		),
-};
+});
 
 export default command;

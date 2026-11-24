@@ -1,26 +1,21 @@
 import $fix from "./fix.js";
 import $get from "./get.js";
 import $status from "./status.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * dns command group
  * @generated from apis/overlays/email-sending.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "dns",
 	describe: "Operations for subdomains.dns",
 
-	builder: (yargs) => {
-		return yargs
-			.command($fix)
-			.command($get)
-			.command($status)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		fix: $fix,
+		get: $get,
+		status: $status,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

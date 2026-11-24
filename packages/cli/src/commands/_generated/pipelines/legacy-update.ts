@@ -1,11 +1,10 @@
 import operation from "../_operations/pipelines/legacy-update.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * legacy-update command
  * @generated from apis/overlays/pipelines.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -23,99 +22,133 @@ import {
 } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 pipelines legacy-update <pipeline-name>\n\n[DEPRECATED] Update an existing pipeline. Use the new /pipelines/v1/pipelines endpoint instead."
-		)
-		.positional("pipeline-name", {
-			type: "string",
-			description: "Defines the name of the pipeline.",
-			demandOption: true,
-		})
-		.option("destination-batch-max-bytes", {
-			type: "number",
-			description: "Specifies rough maximum size of files.",
-		})
-		.option("destination-batch-max-duration-s", {
-			type: "number",
-			description: "Specifies duration to wait to aggregate batches files.",
-		})
-		.option("destination-batch-max-rows", {
-			type: "number",
-			description: "Specifies rough maximum number of rows per file.",
-		})
-		.option("destination-compression-type", {
-			type: "string",
-			description: "Specifies the desired compression algorithm and format.",
+const command = apiCommand({
+	command: "legacy-update <pipeline-name>",
+	describe: "[DEPRECATED] Update Pipeline",
+	usage:
+		"$0 pipelines legacy-update <pipeline-name>\n\n[DEPRECATED] Update an existing pipeline. Use the new /pipelines/v1/pipelines endpoint instead.",
+	flags: {
+		"destination-batch-max-bytes": {
+			kind: "parsed",
+			brief: "Specifies rough maximum size of files.",
+			optional: true,
+			parse: Number,
+		},
+		"destination-batch-max-duration-s": {
+			kind: "parsed",
+			brief: "Specifies duration to wait to aggregate batches files.",
+			optional: true,
+			parse: Number,
+		},
+		"destination-batch-max-rows": {
+			kind: "parsed",
+			brief: "Specifies rough maximum number of rows per file.",
+			optional: true,
+			parse: Number,
+		},
+		"destination-compression-type": {
+			kind: "parsed",
+			brief: "Specifies the desired compression algorithm and format.",
+			optional: true,
 			choices: ["none", "gzip", "deflate"],
-		})
-		.coerce("destination-compression-type", (value) =>
-			resolveFileToken(value, "destination-compression-type", "text")
-		)
-		.option("destination-credentials-access-key-id", {
-			type: "string",
-			description: "Specifies the R2 Bucket Access Key Id.",
-		})
-		.option("destination-credentials-endpoint", {
-			type: "string",
-			description: "Specifies the R2 Endpoint.",
-		})
-		.option("destination-credentials-secret-access-key", {
-			type: "string",
-			description: "Specifies the R2 Bucket Secret Access Key.",
-		})
-		.option("destination-format", {
-			type: "string",
-			description: "Specifies the format of data to deliver.",
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "destination-compression-type", "text"),
+		},
+		"destination-credentials-access-key-id": {
+			kind: "parsed",
+			brief: "Specifies the R2 Bucket Access Key Id.",
+			optional: true,
+			parse: String,
+		},
+		"destination-credentials-endpoint": {
+			kind: "parsed",
+			brief: "Specifies the R2 Endpoint.",
+			optional: true,
+			parse: String,
+		},
+		"destination-credentials-secret-access-key": {
+			kind: "parsed",
+			brief: "Specifies the R2 Bucket Secret Access Key.",
+			optional: true,
+			parse: String,
+		},
+		"destination-format": {
+			kind: "parsed",
+			brief: "Specifies the format of data to deliver.",
+			optional: true,
 			choices: ["json"],
-		})
-		.coerce("destination-format", (value) =>
-			resolveFileToken(value, "destination-format", "text")
-		)
-		.option("destination-path-bucket", {
-			type: "string",
-			description: "Specifies the R2 Bucket to store files.",
-		})
-		.option("destination-path-filename", {
-			type: "string",
-			description: "Specifies the name pattern to for individual data files.",
-		})
-		.option("destination-path-filepath", {
-			type: "string",
-			description: "Specifies the name pattern for directory.",
-		})
-		.option("destination-path-prefix", {
-			type: "string",
-			description: "Specifies the base directory within the bucket.",
-		})
-		.option("destination-type", {
-			type: "string",
-			description: "Specifies the type of destination.",
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "destination-format", "text"),
+		},
+		"destination-path-bucket": {
+			kind: "parsed",
+			brief: "Specifies the R2 Bucket to store files.",
+			optional: true,
+			parse: String,
+		},
+		"destination-path-filename": {
+			kind: "parsed",
+			brief: "Specifies the name pattern to for individual data files.",
+			optional: true,
+			parse: String,
+		},
+		"destination-path-filepath": {
+			kind: "parsed",
+			brief: "Specifies the name pattern for directory.",
+			optional: true,
+			parse: String,
+		},
+		"destination-path-prefix": {
+			kind: "parsed",
+			brief: "Specifies the base directory within the bucket.",
+			optional: true,
+			parse: String,
+		},
+		"destination-type": {
+			kind: "parsed",
+			brief: "Specifies the type of destination.",
+			optional: true,
 			choices: ["r2"],
-		})
-		.coerce("destination-type", (value) =>
-			resolveFileToken(value, "destination-type", "text")
-		)
-		.option("name", {
-			type: "string",
-			description: "Defines the name of the pipeline.",
-		})
-		.option("source", {
-			type: "string",
-			description:
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "destination-type", "text"),
+		},
+		name: {
+			kind: "parsed",
+			brief: "Defines the name of the pipeline.",
+			optional: true,
+			parse: String,
+		},
+		source: {
+			kind: "parsed",
+			brief:
 				'The source field. Provide as a JSON array of objects or @path/to/file.json. Shape: [({"format": "json", "type": string, "authentication"?: boolean, "cors"?: {...}} | {"format": "json", "type": string})]. ? marks optional keys.',
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
 			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		})
-		.check((argv) => {
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [
+		{
+			placeholder: "pipeline-name",
+			brief: "Defines the name of the pipeline.",
+			parse: String,
+		},
+	],
+	rules(rules) {
+		rules.check((argv) => {
 			const groupSet = [
 				"destination-credentials-access-key-id",
 				"destination-credentials-endpoint",
@@ -135,14 +168,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			}
 			return true;
 		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "legacy-update <pipeline-name>",
-	describe: "[DEPRECATED] Update Pipeline",
-	builder,
+	},
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
@@ -154,7 +180,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"destination-type",
 						"dry-run",
 					],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -374,6 +400,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Updated` });
 			}
 		),
-};
+});
 
 export default command;

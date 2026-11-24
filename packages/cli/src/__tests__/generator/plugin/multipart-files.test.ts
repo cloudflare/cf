@@ -2,7 +2,7 @@ import { stripTypeScriptTypes } from "node:module";
 import { Script } from "node:vm";
 import { describe, expect, it, vi } from "vite-plus/test";
 import { derive } from "../../../../generator/plugin/args.js";
-import { builderLines } from "../../../../generator/plugin/emit/builder.js";
+import { parameterSource } from "../../../../generator/plugin/emit/builder.js";
 import { dryRun, handler } from "../../../../generator/plugin/emit/handler.js";
 import {
 	bodyParam,
@@ -244,7 +244,7 @@ describe("multipart field flag names", () => {
 			"example",
 			op
 		);
-		expect(builderLines(ctx).join("\n")).toContain(".option('form-label', {");
+		expect(parameterSource(ctx).join("\n")).toContain('"form-label": {');
 		const code = handler(ctx).join("\n");
 		expect(code).toContain(
 			"if (argv[\"form-label\"] !== undefined) formData.append('label'"
@@ -261,8 +261,8 @@ describe("multipart field flag names", () => {
 			"example",
 			op
 		);
-		const builder = builderLines(ctx).join("\n");
-		expect(builder.match(/\.option\('display-label'/g)).toHaveLength(1);
+		const builder = parameterSource(ctx).join("\n");
+		expect(builder.match(/"display-label": \{/g)).toHaveLength(1);
 		expect(builder).not.toContain("'label'");
 		expect(handler(ctx).join("\n")).toContain(
 			"if (argv[\"display-label\"] !== undefined) formData.append('label'"

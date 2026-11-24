@@ -1,11 +1,10 @@
 import operation from "../../_operations/email-security/trusted-domains/update.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * update command
  * @generated from apis/overlays/email-security.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -20,60 +19,68 @@ import { withProgress } from "#lib/progress.js";
 import { promptForRequiredField } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 email-security trusted-domains update <trusted-domain-id>\n\nReplaces an existing trusted domain in full. Unlike PATCH, every field is taken from the request body, so optional fields that are omitted are reset rather than left untouched. Use this when managing trusted domains declaratively."
-		)
-		.positional("trusted-domain-id", {
-			type: "string",
-			description: "Trusted domain identifier.",
-			demandOption: true,
-		})
-		.option("comments", { type: "string", description: "The comments field" })
-		.option("is-recent", {
-			type: "boolean",
-			description:
-				"Select to prevent recently registered domains from triggering a Suspicious or Malicious disposition.",
-		})
-		.option("is-regex", {
-			type: "boolean",
-			description:
-				"Whether `pattern` is a regular expression instead of a literal domain.",
-		})
-		.option("is-similarity", {
-			type: "boolean",
-			description:
-				"Select for partner or other approved domains that have similar spelling to your connected domains. Prevents listed domains from triggering a Spoof disposition.",
-		})
-		.option("pattern", {
-			type: "string",
-			description: "The domain pattern to trust, e.g. `example.com`.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Create a trusted domain.",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "update <trusted-domain-id>",
 	describe: "Replace a trusted email domain",
-	builder,
+	usage:
+		"$0 email-security trusted-domains update <trusted-domain-id>\n\nReplaces an existing trusted domain in full. Unlike PATCH, every field is taken from the request body, so optional fields that are omitted are reset rather than left untouched. Use this when managing trusted domains declaratively.",
+	flags: {
+		comments: {
+			kind: "parsed",
+			brief: "The comments field",
+			optional: true,
+			parse: String,
+		},
+		"is-recent": {
+			kind: "boolean",
+			brief:
+				"Select to prevent recently registered domains from triggering a Suspicious or Malicious disposition.",
+			optional: true,
+		},
+		"is-regex": {
+			kind: "boolean",
+			brief:
+				"Whether `pattern` is a regular expression instead of a literal domain.",
+			optional: true,
+		},
+		"is-similarity": {
+			kind: "boolean",
+			brief:
+				"Select for partner or other approved domains that have similar spelling to your connected domains. Prevents listed domains from triggering a Spoof disposition.",
+			optional: true,
+		},
+		pattern: {
+			kind: "parsed",
+			brief: "The domain pattern to trust, e.g. `example.com`.",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Create a trusted domain.",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [
+		{
+			placeholder: "trusted-domain-id",
+			brief: "Trusted domain identifier.",
+			parse: String,
+		},
+	],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "email-security trusted-domains update",
 				classification: {
 					safeFlags: ["is-recent", "is-regex", "is-similarity", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -180,6 +187,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Updated` });
 			}
 		),
-};
+});
 
 export default command;

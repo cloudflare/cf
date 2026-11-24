@@ -11,37 +11,32 @@ import $keys from "./keys/index.js";
 import $list from "./list.js";
 import $stats from "./stats.js";
 import $variants from "./variants/index.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * images command
  * @generated from apis/overlays/images.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "images",
 	describe:
 		"Store, resize, and deliver optimized images globally - variants, signing keys, and direct uploads",
 
-	builder: (yargs) => {
-		return yargs
-			.command($create)
-			.command($delete)
-			.command($directupload)
-			.command($edit)
-			.command($get)
-			.command($getblob)
-			.command($list)
-			.command($stats)
-			.command($config)
-			.command($flows)
-			.command($import)
-			.command($keys)
-			.command($variants)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		create: $create,
+		delete: $delete,
+		"direct-upload": $directupload,
+		edit: $edit,
+		get: $get,
+		"get-blob": $getblob,
+		list: $list,
+		stats: $stats,
+		config: $config,
+		flows: $flows,
+		import: $import,
+		keys: $keys,
+		variants: $variants,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

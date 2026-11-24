@@ -1,11 +1,10 @@
 import operation from "../../_operations/tunnels/config/update.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * update command
  * @generated from apis/overlays/tunnels.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -19,115 +18,146 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 tunnels config update <tunnel-id>\n\nReplaces the configuration for a remotely managed Cloudflare Tunnel, including its ingress rules and origin request settings."
-		)
-		.positional("tunnel-id", {
-			type: "string",
-			description: "UUID of the tunnel.",
-			demandOption: true,
-		})
-		.option("tunnel-config-ingress", {
-			type: "string",
-			description:
+const command = apiCommand({
+	command: "update <tunnel-id>",
+	describe: "Update Tunnel configuration",
+	usage:
+		"$0 tunnels config update <tunnel-id>\n\nReplaces the configuration for a remotely managed Cloudflare Tunnel, including its ingress rules and origin request settings.",
+	flags: {
+		"tunnel-config-ingress": {
+			kind: "parsed",
+			brief:
 				'List of public hostname definitions. At least one ingress rule needs to be defined for the tunnel. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"hostname": string, "service": string, "originRequest"?: {...}, "path"?: string}]. ? marks optional keys.',
-		})
-		.option("tunnel-config-origin-request-access-aud-tag", {
-			type: "string",
-			array: true,
-			description:
+			optional: true,
+			parse: String,
+		},
+		"tunnel-config-origin-request-access-aud-tag": {
+			kind: "parsed",
+			brief:
 				"Access applications that are allowed to reach this hostname for this Tunnel. Audience tags can be identified in the dashboard or via the List Access policies API.",
-		})
-		.option("tunnel-config-origin-request-access-required", {
-			type: "boolean",
-			description: "Deny traffic that has not fulfilled Access authorization.",
-		})
-		.option("tunnel-config-origin-request-access-team-name", {
-			type: "string",
-			description: "The config.originRequest.access.teamName field",
-		})
-		.option("tunnel-config-origin-request-ca-pool", {
-			type: "string",
-			description:
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"tunnel-config-origin-request-access-required": {
+			kind: "boolean",
+			brief: "Deny traffic that has not fulfilled Access authorization.",
+			optional: true,
+		},
+		"tunnel-config-origin-request-access-team-name": {
+			kind: "parsed",
+			brief: "The config.originRequest.access.teamName field",
+			optional: true,
+			parse: String,
+		},
+		"tunnel-config-origin-request-ca-pool": {
+			kind: "parsed",
+			brief:
 				"Path to the certificate authority (CA) for the certificate of your origin. This option should be used only if your certificate is not signed by Cloudflare.",
-		})
-		.option("tunnel-config-origin-request-connect-timeout", {
-			type: "number",
-			description:
+			optional: true,
+			parse: String,
+		},
+		"tunnel-config-origin-request-connect-timeout": {
+			kind: "parsed",
+			brief:
 				"Timeout for establishing a new TCP connection to your origin server. This excludes the time taken to establish TLS, which is controlled by tlsTimeout.",
-		})
-		.option("tunnel-config-origin-request-disable-chunked-encoding", {
-			type: "boolean",
-			description:
+			optional: true,
+			parse: Number,
+		},
+		"tunnel-config-origin-request-disable-chunked-encoding": {
+			kind: "boolean",
+			brief:
 				"Disables chunked transfer encoding. Useful if you are running a WSGI server.",
-		})
-		.option("tunnel-config-origin-request-http2origin", {
-			type: "boolean",
-			description:
+			optional: true,
+		},
+		"tunnel-config-origin-request-http2origin": {
+			kind: "boolean",
+			brief:
 				"Attempt to connect to origin using HTTP2. Origin must be configured as https.",
-		})
-		.option("tunnel-config-origin-request-http-host-header", {
-			type: "string",
-			description:
-				"Sets the HTTP Host header on requests sent to the local service.",
-		})
-		.option("tunnel-config-origin-request-keep-alive-connections", {
-			type: "number",
-			description:
+			optional: true,
+		},
+		"tunnel-config-origin-request-http-host-header": {
+			kind: "parsed",
+			brief: "Sets the HTTP Host header on requests sent to the local service.",
+			optional: true,
+			parse: String,
+		},
+		"tunnel-config-origin-request-keep-alive-connections": {
+			kind: "parsed",
+			brief:
 				"Maximum number of idle keepalive connections between Tunnel and your origin. This does not restrict the total number of concurrent connections.",
-		})
-		.option("tunnel-config-origin-request-keep-alive-timeout", {
-			type: "number",
-			description:
+			optional: true,
+			parse: Number,
+		},
+		"tunnel-config-origin-request-keep-alive-timeout": {
+			kind: "parsed",
+			brief:
 				"Timeout after which an idle keepalive connection can be discarded.",
-		})
-		.option("tunnel-config-origin-request-match-snito-host", {
-			type: "boolean",
-			description:
-				"Auto configure the Hostname on the origin server certificate.",
-		})
-		.option("tunnel-config-origin-request-no-happy-eyeballs", {
-			type: "boolean",
-			description:
+			optional: true,
+			parse: Number,
+		},
+		"tunnel-config-origin-request-match-snito-host": {
+			kind: "boolean",
+			brief: "Auto configure the Hostname on the origin server certificate.",
+			optional: true,
+		},
+		"tunnel-config-origin-request-no-happy-eyeballs": {
+			kind: "boolean",
+			brief:
 				"Disable the “happy eyeballs” algorithm for IPv4/IPv6 fallback if your local network has misconfigured one of the protocols.",
-		})
-		.option("tunnel-config-origin-request-no-tlsverify", {
-			type: "boolean",
-			description:
+			optional: true,
+		},
+		"tunnel-config-origin-request-no-tlsverify": {
+			kind: "boolean",
+			brief:
 				"Disables TLS verification of the certificate presented by your origin. Will allow any certificate from the origin to be accepted.",
-		})
-		.option("tunnel-config-origin-request-origin-server-name", {
-			type: "string",
-			description:
+			optional: true,
+		},
+		"tunnel-config-origin-request-origin-server-name": {
+			kind: "parsed",
+			brief:
 				"Hostname that cloudflared should expect from your origin server certificate.",
-		})
-		.option("tunnel-config-origin-request-proxy-type", {
-			type: "string",
-			description:
+			optional: true,
+			parse: String,
+		},
+		"tunnel-config-origin-request-proxy-type": {
+			kind: "parsed",
+			brief:
 				'cloudflared starts a proxy server to translate HTTP traffic into TCP when proxying, for example, SSH or RDP. This configures what type of proxy will be started. Valid options are: "" for the regular proxy and "socks" for a SOCKS5 proxy.\n',
-		})
-		.option("tunnel-config-origin-request-tcp-keep-alive", {
-			type: "number",
-			description:
+			optional: true,
+			parse: String,
+		},
+		"tunnel-config-origin-request-tcp-keep-alive": {
+			kind: "parsed",
+			brief:
 				"The timeout after which a TCP keepalive packet is sent on a connection between Tunnel and the origin server.",
-		})
-		.option("tunnel-config-origin-request-tls-timeout", {
-			type: "number",
-			description:
+			optional: true,
+			parse: Number,
+		},
+		"tunnel-config-origin-request-tls-timeout": {
+			kind: "parsed",
+			brief:
 				"Timeout for completing a TLS handshake to your origin server, if you have chosen to connect Tunnel to an HTTPS server.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
+			optional: true,
+			parse: Number,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
 			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		})
-		.check((argv) => {
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [
+		{ placeholder: "tunnel-id", brief: "UUID of the tunnel.", parse: String },
+	],
+	rules(rules) {
+		rules.check((argv) => {
 			const groupSet = [
 				"tunnel-config-origin-request-access-aud-tag",
 				"tunnel-config-origin-request-access-required",
@@ -146,14 +176,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			}
 			return true;
 		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "update <tunnel-id>",
-	describe: "Update Tunnel configuration",
-	builder,
+	},
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
@@ -168,7 +191,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"tunnel-config-origin-request-no-tlsverify",
 						"dry-run",
 					],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -362,6 +385,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Updated` });
 			}
 		),
-};
+});
 
 export default command;

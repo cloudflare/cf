@@ -1,11 +1,10 @@
 import operation from "../../../../_operations/flagship/apps/flags/changelog/list.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * list command
  * @generated from apis/overlays/flagship.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -17,49 +16,48 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 flagship apps flags changelog list\n\nReturns the audit history for a flag, newest first. Each entry includes the event type and full flag state after the change; `update` entries include a field-level diff. Capped at 200 entries per flag."
-		)
-		.option("app-id", {
-			type: "string",
-			description: "Flagship app ID returned when the app was created.",
-			demandOption: true,
-		})
-		.option("flag-key", {
-			type: "string",
-			description: "Case-sensitive key identifying the flag within the app.",
-			demandOption: true,
-		})
-		.option("limit", {
-			type: "number",
-			description: "Max items to return (1–200).",
-		})
-		.option("cursor", {
-			type: "string",
-			description: "Pagination cursor from a previous response.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "list",
 	describe: "List flag changelog entries",
-	builder,
+	usage:
+		"$0 flagship apps flags changelog list\n\nReturns the audit history for a flag, newest first. Each entry includes the event type and full flag state after the change; `update` entries include a field-level diff. Capped at 200 entries per flag.",
+	flags: {
+		"app-id": {
+			kind: "parsed",
+			brief: "Flagship app ID returned when the app was created.",
+			parse: String,
+		},
+		"flag-key": {
+			kind: "parsed",
+			brief: "Case-sensitive key identifying the flag within the app.",
+			parse: String,
+		},
+		limit: {
+			kind: "parsed",
+			brief: "Max items to return (1–200).",
+			optional: true,
+			parse: Number,
+		},
+		cursor: {
+			kind: "parsed",
+			brief: "Pagination cursor from a previous response.",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "flagship apps flags changelog list",
-				classification: {
-					safeFlags: ["dry-run"],
-				} satisfies ArgClassification<Args>,
+				classification: { safeFlags: ["dry-run"] } satisfies ArgClassification<
+					typeof argv
+				>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -97,6 +95,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Loaded` });
 			}
 		),
-};
+});
 
 export default command;

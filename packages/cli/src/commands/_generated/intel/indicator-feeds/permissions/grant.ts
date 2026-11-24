@@ -1,11 +1,10 @@
 import operation from "../../../_operations/intel/indicator-feeds/permissions/grant.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * grant command
  * @generated from apis/overlays/intel.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -19,44 +18,45 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 intel indicator-feeds permissions grant\n\nGrants access permissions for a custom threat indicator feed to other accounts."
-		)
-		.option("account-tag", {
-			type: "string",
-			description:
-				"The Cloudflare account tag of the account to change permissions on",
-		})
-		.option("feed-id", {
-			type: "number",
-			description: "The ID of the feed to add/remove permissions on",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "grant",
 	describe: "Grant permission to indicator feed",
-	builder,
+	usage:
+		"$0 intel indicator-feeds permissions grant\n\nGrants access permissions for a custom threat indicator feed to other accounts.",
+	flags: {
+		"account-tag": {
+			kind: "parsed",
+			brief:
+				"The Cloudflare account tag of the account to change permissions on",
+			optional: true,
+			parse: String,
+		},
+		"feed-id": {
+			kind: "parsed",
+			brief: "The ID of the feed to add/remove permissions on",
+			optional: true,
+			parse: Number,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "intel indicator-feeds permissions grant",
-				classification: {
-					safeFlags: ["dry-run"],
-				} satisfies ArgClassification<Args>,
+				classification: { safeFlags: ["dry-run"] } satisfies ArgClassification<
+					typeof argv
+				>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -112,6 +112,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Updated` });
 			}
 		),
-};
+});
 
 export default command;

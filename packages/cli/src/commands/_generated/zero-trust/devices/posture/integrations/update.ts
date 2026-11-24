@@ -1,11 +1,10 @@
 import operation from "../../../../_operations/zero-trust/devices/posture/integrations/update.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * update command
  * @generated from apis/overlays/zero-trust.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -19,67 +18,83 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 zero-trust devices posture integrations update <integration-id>\n\nUpdates a configured device posture integration."
-		)
-		.positional("integration-id", {
-			type: "string",
-			description: "API UUID.",
-			demandOption: true,
-		})
-		.option("integration-config-api-url", {
-			type: "string",
-			description:
+const command = apiCommand({
+	command: "update <integration-id>",
+	describe: "Update posture integration",
+	usage:
+		"$0 zero-trust devices posture integrations update <integration-id>\n\nUpdates a configured device posture integration.",
+	flags: {
+		"integration-config-api-url": {
+			kind: "parsed",
+			brief:
 				"Variant descriptions:\n- The Workspace One API URL provided in the Workspace One Admin Dashboard.\n- The Crowdstrike API URL.\n- The Uptycs API URL.\n- The Tanium API URL.\n- The SentinelOne S2S API URL.\n- The Custom Device Posture Integration  API URL.",
-		})
-		.option("integration-config-auth-url", {
-			type: "string",
-			description:
-				"The Workspace One Authorization URL depending on your region.",
-		})
-		.option("integration-config-client-id", {
-			type: "string",
-			description:
+			optional: true,
+			parse: String,
+		},
+		"integration-config-auth-url": {
+			kind: "parsed",
+			brief: "The Workspace One Authorization URL depending on your region.",
+			optional: true,
+			parse: String,
+		},
+		"integration-config-client-id": {
+			kind: "parsed",
+			brief:
 				"Variant descriptions:\n- The Workspace One client ID provided in the Workspace One Admin Dashboard.\n- The Crowdstrike client ID.\n- The Intune client ID.\n- The Kolide client ID.",
-		})
-		.option("integration-config-client-secret", {
-			type: "string",
-			description:
+			optional: true,
+			parse: String,
+		},
+		"integration-config-client-secret": {
+			kind: "parsed",
+			brief:
 				"Variant descriptions:\n- The Workspace One client secret provided in the Workspace One Admin Dashboard.\n- The Crowdstrike client secret.\n- The Uptycs client secret.\n- The Intune client secret.\n- The Kolide client secret.\n- The Tanium client secret.\n- The SentinelOne S2S client secret.",
-		})
-		.option("integration-config-customer-id", {
-			type: "string",
-			description:
+			optional: true,
+			parse: String,
+		},
+		"integration-config-customer-id": {
+			kind: "parsed",
+			brief:
 				"Variant descriptions:\n- The Crowdstrike customer ID.\n- The Uptycs customer ID.\n- The Intune customer ID.",
-		})
-		.option("integration-config-client-key", {
-			type: "string",
-			description: "The Uptycs client secret.",
-		})
-		.option("integration-config-access-client-id", {
-			type: "string",
-			description:
+			optional: true,
+			parse: String,
+		},
+		"integration-config-client-key": {
+			kind: "parsed",
+			brief: "The Uptycs client secret.",
+			optional: true,
+			parse: String,
+		},
+		"integration-config-access-client-id": {
+			kind: "parsed",
+			brief:
 				"Variant descriptions:\n- If present, this id will be passed in the `CF-Access-Client-ID` header when hitting the `api_url`.\n- This id will be passed in the `CF-Access-Client-ID` header when hitting the `api_url`.",
-		})
-		.option("integration-config-access-client-secret", {
-			type: "string",
-			description:
+			optional: true,
+			parse: String,
+		},
+		"integration-config-access-client-secret": {
+			kind: "parsed",
+			brief:
 				"Variant descriptions:\n- If present, this secret will be passed in the `CF-Access-Client-Secret` header when hitting the `api_url`.\n- This secret will be passed in the `CF-Access-Client-Secret` header when hitting the `api_url`.",
-		})
-		.option("interval", {
-			type: "string",
-			description:
+			optional: true,
+			parse: String,
+		},
+		interval: {
+			kind: "parsed",
+			brief:
 				"The interval between each posture check with the third-party API. Use `m` for minutes (e.g. `5m`) and `h` for hours (e.g. `12h`).",
-		})
-		.option("name", {
-			type: "string",
-			description: "The name of the device posture integration.",
-		})
-		.option("type", {
-			type: "string",
-			description: "The type of device posture integration.",
+			optional: true,
+			parse: String,
+		},
+		name: {
+			kind: "parsed",
+			brief: "The name of the device posture integration.",
+			optional: true,
+			parse: String,
+		},
+		type: {
+			kind: "parsed",
+			brief: "The type of device posture integration.",
+			optional: true,
 			choices: [
 				"workspace_one",
 				"crowdstrike_s2s",
@@ -90,88 +105,89 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"sentinelone_s2s",
 				"custom_s2s",
 			],
-		})
-		.coerce("type", (value) => resolveFileToken(value, "type", "text"))
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
+			parse: String,
+			coerce: (value: string) => resolveFileToken(value, "type", "text"),
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
 			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		})
-		.conflicts("integration-config-auth-url", [
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [
+		{ placeholder: "integration-id", brief: "API UUID.", parse: String },
+	],
+	rules(rules) {
+		rules.conflicts("integration-config-auth-url", [
 			"integration-config-customer-id",
 			"integration-config-client-key",
 			"integration-config-access-client-id",
 			"integration-config-access-client-secret",
-		])
-		.implies("integration-config-auth-url", [
+		]);
+		rules.implies("integration-config-auth-url", [
 			"integration-config-api-url",
 			"integration-config-client-id",
 			"integration-config-client-secret",
-		])
-		.conflicts("integration-config-client-id", [
+		]);
+		rules.conflicts("integration-config-client-id", [
 			"integration-config-client-key",
 			"integration-config-access-client-id",
 			"integration-config-access-client-secret",
-		])
-		.implies("integration-config-client-id", [
+		]);
+		rules.implies("integration-config-client-id", [
 			"integration-config-client-secret",
-		])
-		.conflicts("integration-config-customer-id", [
+		]);
+		rules.conflicts("integration-config-customer-id", [
 			"integration-config-auth-url",
 			"integration-config-access-client-id",
 			"integration-config-access-client-secret",
-		])
-		.implies("integration-config-customer-id", [
+		]);
+		rules.implies("integration-config-customer-id", [
 			"integration-config-client-secret",
-		])
-		.conflicts("integration-config-client-key", [
+		]);
+		rules.conflicts("integration-config-client-key", [
 			"integration-config-auth-url",
 			"integration-config-client-id",
 			"integration-config-access-client-id",
 			"integration-config-access-client-secret",
-		])
-		.implies("integration-config-client-key", [
+		]);
+		rules.implies("integration-config-client-key", [
 			"integration-config-api-url",
 			"integration-config-client-secret",
 			"integration-config-customer-id",
-		])
-		.conflicts("integration-config-access-client-id", [
+		]);
+		rules.conflicts("integration-config-access-client-id", [
 			"integration-config-auth-url",
 			"integration-config-client-id",
 			"integration-config-customer-id",
 			"integration-config-client-key",
-		])
-		.implies("integration-config-access-client-id", [
-			"integration-config-api-url",
-		])
-		.conflicts("integration-config-access-client-secret", [
-			"integration-config-auth-url",
-			"integration-config-client-id",
-			"integration-config-customer-id",
-			"integration-config-client-key",
-		])
-		.implies("integration-config-access-client-secret", [
+		]);
+		rules.implies("integration-config-access-client-id", [
 			"integration-config-api-url",
 		]);
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "update <integration-id>",
-	describe: "Update posture integration",
-	builder,
+		rules.conflicts("integration-config-access-client-secret", [
+			"integration-config-auth-url",
+			"integration-config-client-id",
+			"integration-config-customer-id",
+			"integration-config-client-key",
+		]);
+		rules.implies("integration-config-access-client-secret", [
+			"integration-config-api-url",
+		]);
+	},
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "zero-trust devices posture integrations update",
 				classification: {
 					safeFlags: ["type", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -354,6 +370,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Updated` });
 			}
 		),
-};
+});
 
 export default command;

@@ -1,10 +1,9 @@
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * create command
  * @generated from apis/overlays/cloudforce-one.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -20,73 +19,74 @@ import { withProgress } from "#lib/progress.js";
 import { promptForRequiredField } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 cloudforce-one requests messages create <request-id>\n\nCreates a customer dashboard message on an RFI request. Messages are always published on send. Workflow-enabled projects require Idempotency-Key and atomically record message activity and any policy transition. For token-billed project types, substantive follow-on messages consume message tokens and are subject to quarterly quota enforcement."
-		)
-		.positional("request-id", {
-			type: "string",
-			description: "Request ID",
-			demandOption: true,
-		})
-		.option("project-type", {
-			type: "string",
-			description: "Project type",
-			demandOption: true,
-		})
-		.option("idempotency-key", {
-			type: "string",
-			description:
-				"Client command key. Required when publishing a message for a workflow-enabled project; trimmed and limited to 255 characters.",
-		})
-		.option("attachment-asset-ids", {
-			type: "string",
-			array: true,
-			description: "The attachment_asset_ids field",
-		})
-		.option("author-id", { type: "string", description: "The author_id field" })
-		.option("author-name", {
-			type: "string",
-			description: "The author_name field",
-		})
-		.option("content", { type: "string", description: "The content field" })
-		.option("publish", {
-			type: "boolean",
-			description: "The publish field",
-			default: false,
-		})
-		.option("tlp", {
-			type: "string",
-			description: "The tlp field",
-			choices: ["clear", "green", "amber", "amber-strict", "red", "white"],
-			default: "red",
-		})
-		.coerce("tlp", (value) => resolveFileToken(value, "tlp", "text"))
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "create <request-id>",
 	describe: "Create a customer follow-on message on an RFI request",
-	builder,
+	usage:
+		"$0 cloudforce-one requests messages create <request-id>\n\nCreates a customer dashboard message on an RFI request. Messages are always published on send. Workflow-enabled projects require Idempotency-Key and atomically record message activity and any policy transition. For token-billed project types, substantive follow-on messages consume message tokens and are subject to quarterly quota enforcement.",
+	flags: {
+		"project-type": { kind: "parsed", brief: "Project type", parse: String },
+		"idempotency-key": {
+			kind: "parsed",
+			brief:
+				"Client command key. Required when publishing a message for a workflow-enabled project; trimmed and limited to 255 characters.",
+			optional: true,
+			parse: String,
+		},
+		"attachment-asset-ids": {
+			kind: "parsed",
+			brief: "The attachment_asset_ids field",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"author-id": {
+			kind: "parsed",
+			brief: "The author_id field",
+			optional: true,
+			parse: String,
+		},
+		"author-name": {
+			kind: "parsed",
+			brief: "The author_name field",
+			optional: true,
+			parse: String,
+		},
+		content: {
+			kind: "parsed",
+			brief: "The content field",
+			optional: true,
+			parse: String,
+		},
+		publish: { kind: "boolean", brief: "The publish field", default: false },
+		tlp: {
+			kind: "parsed",
+			brief: "The tlp field",
+			default: "red",
+			choices: ["clear", "green", "amber", "amber-strict", "red", "white"],
+			parse: String,
+			coerce: (value: string) => resolveFileToken(value, "tlp", "text"),
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [{ placeholder: "request-id", brief: "Request ID", parse: String }],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "cloudforce-one requests messages create",
 				classification: {
 					safeFlags: ["publish", "tlp", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -221,6 +221,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Created` });
 			}
 		),
-};
+});
 
 export default command;

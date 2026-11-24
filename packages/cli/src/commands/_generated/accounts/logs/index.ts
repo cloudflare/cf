@@ -1,22 +1,17 @@
 import $audit from "./audit/index.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * logs command group
  * @generated from apis/overlays/accounts.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "logs",
 	describe: "Operations for logs",
 
-	builder: (yargs) => {
-		return yargs
-			.command($audit)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		audit: $audit,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

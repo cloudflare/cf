@@ -1,11 +1,10 @@
 import operation from "../../../_operations/zero-trust/access/users/revoke.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * revoke command
  * @generated from apis/overlays/zero-trust.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -21,52 +20,55 @@ import { withProgress } from "#lib/progress.js";
 import { confirmDelete, promptForRequiredField } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 zero-trust access users revoke\n\nRevokes a user's access across all applications.\n\nRuns against your account. Pass --zone to run against a zone instead. CLOUDFLARE_ZONE_ID is ignored."
-		)
-		.option("devices", {
-			type: "boolean",
-			description:
-				"When set to `true`, all devices associated with the user will be revoked.",
-		})
-		.option("email", {
-			type: "string",
-			description: "The email of the user to revoke.",
-		})
-		.option("user-uid", {
-			type: "string",
-			description: "The uuid of the user to revoke.",
-		})
-		.option("warp-session-reauth", {
-			type: "boolean",
-			description:
-				"When set to `true`, the user will be required to re-authenticate to WARP for all Gateway policies that enforce a WARP client session duration. When `false`, the user’s WARP session will remain active",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("force", {
-			type: "boolean",
-			alias: "f",
-			description: "Skip confirmation (useful in scripts and CI)",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "revoke",
 	describe: "Revoke all Access tokens for a user",
-	builder,
+	usage:
+		"$0 zero-trust access users revoke\n\nRevokes a user's access across all applications.\n\nRuns against your account. Pass --zone to run against a zone instead. CLOUDFLARE_ZONE_ID is ignored.",
+	flags: {
+		devices: {
+			kind: "boolean",
+			brief:
+				"When set to `true`, all devices associated with the user will be revoked.",
+			optional: true,
+		},
+		email: {
+			kind: "parsed",
+			brief: "The email of the user to revoke.",
+			optional: true,
+			parse: String,
+		},
+		"user-uid": {
+			kind: "parsed",
+			brief: "The uuid of the user to revoke.",
+			optional: true,
+			parse: String,
+		},
+		"warp-session-reauth": {
+			kind: "boolean",
+			brief:
+				"When set to `true`, the user will be required to re-authenticate to WARP for all Gateway policies that enforce a WARP client session duration. When `false`, the user’s WARP session will remain active",
+			optional: true,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		force: {
+			kind: "boolean",
+			brief: "Skip confirmation (useful in scripts and CI)",
+			alias: "f",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
@@ -74,7 +76,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				classification: {
 					safeFlags: ["devices", "warp-session-reauth", "dry-run", "force"],
 					shortFlagAliases: { f: { canonical: "force", type: "boolean" } },
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -206,6 +208,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Done` });
 			}
 		),
-};
+});
 
 export default command;

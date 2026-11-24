@@ -1,11 +1,10 @@
 import operation from "../../_operations/alerting/policies/test.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * test command
  * @generated from apis/overlays/alerting.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -19,60 +18,66 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 alerting policies test <policy-id>\n\nSend a test notification for a policy to verify delivery mechanisms are working as expected."
-		)
-		.positional("policy-id", {
-			type: "string",
-			description: "The unique identifier of a notification policy",
-			demandOption: true,
-		})
-		.option("severity", {
-			type: "number",
-			description:
-				"Severity level for the test alert. Defaults to INFO (1) if omitted.",
-		})
-		.option("source", {
-			type: "string",
-			description: "Source identifier for the test alert.",
-		})
-		.option("state-correlation-id", {
-			type: "string",
-			description:
-				"Correlation ID for stateful test alerts. Required when state_event is set.",
-		})
-		.option("state-event", {
-			type: "number",
-			description:
-				"State event type for stateful test alerts. Use with state_correlation_id.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description:
-				"Optional configuration for the test notification. When omitted, a default INFO-severity test alert is sent.",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "test <policy-id>",
 	describe: "Test a Notification policy",
-	builder,
+	usage:
+		"$0 alerting policies test <policy-id>\n\nSend a test notification for a policy to verify delivery mechanisms are working as expected.",
+	flags: {
+		severity: {
+			kind: "parsed",
+			brief:
+				"Severity level for the test alert. Defaults to INFO (1) if omitted.",
+			optional: true,
+			parse: Number,
+		},
+		source: {
+			kind: "parsed",
+			brief: "Source identifier for the test alert.",
+			optional: true,
+			parse: String,
+		},
+		"state-correlation-id": {
+			kind: "parsed",
+			brief:
+				"Correlation ID for stateful test alerts. Required when state_event is set.",
+			optional: true,
+			parse: String,
+		},
+		"state-event": {
+			kind: "parsed",
+			brief:
+				"State event type for stateful test alerts. Use with state_correlation_id.",
+			optional: true,
+			parse: Number,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief:
+				"Optional configuration for the test notification. When omitted, a default INFO-severity test alert is sent.",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [
+		{
+			placeholder: "policy-id",
+			brief: "The unique identifier of a notification policy",
+			parse: String,
+		},
+	],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "alerting policies test",
-				classification: {
-					safeFlags: ["dry-run"],
-				} satisfies ArgClassification<Args>,
+				classification: { safeFlags: ["dry-run"] } satisfies ArgClassification<
+					typeof argv
+				>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -148,6 +153,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Created` });
 			}
 		),
-};
+});
 
 export default command;

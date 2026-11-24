@@ -1,26 +1,21 @@
 import $cidr from "./cidr/index.js";
 import $hostname from "./hostname/index.js";
 import $resolve from "./resolve.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * routes command group
  * @generated from apis/overlays/network.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "routes",
 	describe: "Operations for routes",
 
-	builder: (yargs) => {
-		return yargs
-			.command($resolve)
-			.command($cidr)
-			.command($hostname)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		resolve: $resolve,
+		cidr: $cidr,
+		hostname: $hostname,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

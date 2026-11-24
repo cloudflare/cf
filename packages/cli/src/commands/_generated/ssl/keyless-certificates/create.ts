@@ -1,11 +1,10 @@
 import operation from "../../_operations/ssl/keyless-certificates/create.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * create command
  * @generated from apis/overlays/ssl.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import { createCommandClient, getZoneId } from "#lib/auth.js";
 import { compactBody, parseBody } from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
@@ -15,52 +14,75 @@ import { withProgress } from "#lib/progress.js";
 import { promptForRequiredField } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 ssl keyless-certificates create\n\nCreates a Keyless SSL configuration that allows SSL/TLS termination without exposing private keys to Cloudflare. Keys remain on your infrastructure."
-		)
-		.option("bundle-method", {
-			type: "string",
-			description:
+const command = apiCommand({
+	command: "create",
+	describe: "Create Keyless SSL Configuration",
+	usage:
+		"$0 ssl keyless-certificates create\n\nCreates a Keyless SSL configuration that allows SSL/TLS termination without exposing private keys to Cloudflare. Keys remain on your infrastructure.",
+	flags: {
+		"bundle-method": {
+			kind: "parsed",
+			brief:
 				"A ubiquitous bundle has the highest probability of being verified everywhere, even by clients using outdated or unusual trust stores. An optimal bundle uses the shortest chain and newest intermediates. And the force bundle verifies the chain, but does not otherwise modify it.",
-			choices: ["ubiquitous", "optimal", "force"],
 			default: "ubiquitous",
-		})
-		.coerce("bundle-method", (value) =>
-			resolveFileToken(value, "bundle-method", "text")
-		)
-		.option("certificate", {
-			type: "string",
-			description:
+			choices: ["ubiquitous", "optimal", "force"],
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "bundle-method", "text"),
+		},
+		certificate: {
+			kind: "parsed",
+			brief:
 				"The zone's SSL certificate or SSL certificate and intermediate(s).",
-		})
-		.option("host", { type: "string", description: "The keyless SSL name." })
-		.option("name", { type: "string", description: "The keyless SSL name." })
-		.option("port", {
-			type: "number",
-			description:
+			optional: true,
+			parse: String,
+		},
+		host: {
+			kind: "parsed",
+			brief: "The keyless SSL name.",
+			optional: true,
+			parse: String,
+		},
+		name: {
+			kind: "parsed",
+			brief: "The keyless SSL name.",
+			optional: true,
+			parse: String,
+		},
+		port: {
+			kind: "parsed",
+			brief:
 				"The keyless SSL port used to communicate between Cloudflare and the client's Keyless SSL server.",
-			default: 24008,
-		})
-		.option("tunnel-private-ip", {
-			type: "string",
-			description: "Private IP of the Key Server Host.",
-		})
-		.option("tunnel-vnet-id", {
-			type: "string",
-			description: "Cloudflare Tunnel Virtual Network ID.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
+			default: "24008",
+			parse: Number,
+		},
+		"tunnel-private-ip": {
+			kind: "parsed",
+			brief: "Private IP of the Key Server Host.",
+			optional: true,
+			parse: String,
+		},
+		"tunnel-vnet-id": {
+			kind: "parsed",
+			brief: "Cloudflare Tunnel Virtual Network ID.",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
 			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		})
-		.check((argv) => {
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [],
+	rules(rules) {
+		rules.check((argv) => {
 			const groupSet = ["tunnel-private-ip", "tunnel-vnet-id"].some(
 				(k) => argv[k] !== undefined
 			);
@@ -76,21 +98,14 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			}
 			return true;
 		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "create",
-	describe: "Create Keyless SSL Configuration",
-	builder,
+	},
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "ssl keyless-certificates create",
 				classification: {
 					safeFlags: ["bundle-method", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -218,6 +233,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Created` });
 			}
 		),
-};
+});
 
 export default command;

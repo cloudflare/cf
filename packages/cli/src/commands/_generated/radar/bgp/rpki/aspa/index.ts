@@ -1,26 +1,21 @@
 import $changes from "./changes.js";
 import $snapshot from "./snapshot.js";
 import $timeseries from "./timeseries.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * aspa command group
  * @generated from apis/overlays/radar.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "aspa",
 	describe: "Operations for bgp.rpki.aspa",
 
-	builder: (yargs) => {
-		return yargs
-			.command($changes)
-			.command($snapshot)
-			.command($timeseries)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		changes: $changes,
+		snapshot: $snapshot,
+		timeseries: $timeseries,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

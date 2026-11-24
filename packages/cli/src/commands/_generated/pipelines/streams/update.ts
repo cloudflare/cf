@@ -1,11 +1,10 @@
 import operation from "../../_operations/pipelines/streams/update.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * update command
  * @generated from apis/overlays/pipelines.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -18,42 +17,54 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage("$0 pipelines streams update <stream-id>\n\nUpdate a Stream.")
-		.positional("stream-id", {
-			type: "string",
-			description: "Specifies the public ID of the stream.",
-			demandOption: true,
-		})
-		.option("http-authentication", {
-			type: "boolean",
-			description:
-				"Indicates that authentication is required for the HTTP endpoint.",
-		})
-		.option("http-cors-origins", {
-			type: "string",
-			array: true,
-			description: "The http.cors.origins field",
-		})
-		.option("http-enabled", {
-			type: "boolean",
-			description: "Indicates that the HTTP endpoint is enabled.",
-		})
-		.option("worker-binding-enabled", {
-			type: "boolean",
-			description: "Indicates that the worker binding is enabled.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
+const command = apiCommand({
+	command: "update <stream-id>",
+	describe: "Update Stream",
+	usage: "$0 pipelines streams update <stream-id>\n\nUpdate a Stream.",
+	flags: {
+		"http-authentication": {
+			kind: "boolean",
+			brief: "Indicates that authentication is required for the HTTP endpoint.",
+			optional: true,
+		},
+		"http-cors-origins": {
+			kind: "parsed",
+			brief: "The http.cors.origins field",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"http-enabled": {
+			kind: "boolean",
+			brief: "Indicates that the HTTP endpoint is enabled.",
+			optional: true,
+		},
+		"worker-binding-enabled": {
+			kind: "boolean",
+			brief: "Indicates that the worker binding is enabled.",
+			optional: true,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
 			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		})
-		.check((argv) => {
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [
+		{
+			placeholder: "stream-id",
+			brief: "Specifies the public ID of the stream.",
+			parse: String,
+		},
+	],
+	rules(rules) {
+		rules.check((argv) => {
 			const groupSet = [
 				"http-authentication",
 				"http-cors-origins",
@@ -71,14 +82,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			}
 			return true;
 		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "update <stream-id>",
-	describe: "Update Stream",
-	builder,
+	},
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
@@ -90,7 +94,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"worker-binding-enabled",
 						"dry-run",
 					],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -162,6 +166,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Updated` });
 			}
 		),
-};
+});
 
 export default command;

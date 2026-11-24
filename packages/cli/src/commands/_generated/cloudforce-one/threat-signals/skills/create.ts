@@ -1,11 +1,10 @@
 import operation from "../../../_operations/cloudforce-one/threat-signals/skills/create.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * create command
  * @generated from apis/overlays/cloudforce-one.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -20,56 +19,59 @@ import { withProgress } from "#lib/progress.js";
 import { promptForRequiredField } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 cloudforce-one threat-signals skills create\n\nCreates a Custom Skill for the account. Free Threat Signals accounts cannot create Custom Skills."
-		)
-		.option("name", {
-			type: "string",
-			description: "Custom Skill name (1–100 characters).",
-		})
-		.option("output-schema", {
-			type: "string",
-			description: "JSON Schema serialized as a string (max 4096 characters).",
-		})
-		.option("prompt", {
-			type: "string",
-			description:
-				"AI prompt (1–4000 characters) defining the skill's instructions.",
-		})
-		.option("type", {
-			type: "string",
-			description:
-				'Optional label; does not affect execution. Defaults to "summary".',
-			choices: ["summary", "tags"],
-			default: "summary",
-		})
-		.coerce("type", (value) => resolveFileToken(value, "type", "text"))
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "create",
 	describe: "Create Threat Signals skill",
-	builder,
+	usage:
+		"$0 cloudforce-one threat-signals skills create\n\nCreates a Custom Skill for the account. Free Threat Signals accounts cannot create Custom Skills.",
+	flags: {
+		name: {
+			kind: "parsed",
+			brief: "Custom Skill name (1–100 characters).",
+			optional: true,
+			parse: String,
+		},
+		"output-schema": {
+			kind: "parsed",
+			brief: "JSON Schema serialized as a string (max 4096 characters).",
+			optional: true,
+			parse: String,
+		},
+		prompt: {
+			kind: "parsed",
+			brief: "AI prompt (1–4000 characters) defining the skill's instructions.",
+			optional: true,
+			parse: String,
+		},
+		type: {
+			kind: "parsed",
+			brief:
+				'Optional label; does not affect execution. Defaults to "summary".',
+			default: "summary",
+			choices: ["summary", "tags"],
+			parse: String,
+			coerce: (value: string) => resolveFileToken(value, "type", "text"),
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "cloudforce-one threat-signals skills create",
 				classification: {
 					safeFlags: ["type", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -169,6 +171,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Created` });
 			}
 		),
-};
+});
 
 export default command;

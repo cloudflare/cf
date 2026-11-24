@@ -1,11 +1,10 @@
 import operation from "../../_operations/queues/consumers/update.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * update command
  * @generated from apis/overlays/queues.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -23,94 +22,119 @@ import {
 } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 queues consumers update <consumer-id>\n\nReplaces a Queue consumer, or creates it if it does not exist."
-		)
-		.positional("consumer-id", {
-			type: "string",
-			description: "A Resource identifier.",
-			demandOption: true,
-		})
-		.option("queue-id", {
-			type: "string",
-			description: "A Resource identifier.",
-			demandOption: true,
-		})
-		.option("dead-letter-queue", {
-			type: "string",
-			description: "The dead_letter_queue field",
-		})
-		.option("script-name", { type: "string", description: "Name of a Worker" })
-		.option("settings-batch-size", {
-			type: "number",
-			description: "The maximum number of messages to include in a batch.",
-		})
-		.option("settings-max-concurrency", {
-			type: "number",
-			description:
+const command = apiCommand({
+	command: "update <consumer-id>",
+	describe: "Update Queue Consumer",
+	usage:
+		"$0 queues consumers update <consumer-id>\n\nReplaces a Queue consumer, or creates it if it does not exist.",
+	flags: {
+		"queue-id": {
+			kind: "parsed",
+			brief: "A Resource identifier.",
+			parse: String,
+		},
+		"dead-letter-queue": {
+			kind: "parsed",
+			brief: "The dead_letter_queue field",
+			optional: true,
+			parse: String,
+		},
+		"script-name": {
+			kind: "parsed",
+			brief: "Name of a Worker",
+			optional: true,
+			parse: String,
+		},
+		"settings-batch-size": {
+			kind: "parsed",
+			brief: "The maximum number of messages to include in a batch.",
+			optional: true,
+			parse: Number,
+		},
+		"settings-max-concurrency": {
+			kind: "parsed",
+			brief:
 				"Maximum number of concurrent consumers that may consume from this Queue. Set to `null` to automatically opt in to the platform's maximum (recommended).",
-		})
-		.option("settings-max-retries", {
-			type: "number",
-			description: "The maximum number of retries",
-		})
-		.option("settings-max-wait-time-ms", {
-			type: "number",
-			description:
+			optional: true,
+			parse: Number,
+		},
+		"settings-max-retries": {
+			kind: "parsed",
+			brief: "The maximum number of retries",
+			optional: true,
+			parse: Number,
+		},
+		"settings-max-wait-time-ms": {
+			kind: "parsed",
+			brief:
 				"The number of milliseconds to wait for a batch to fill up before attempting to deliver it",
-		})
-		.option("settings-retry-delay", {
-			type: "number",
-			description:
+			optional: true,
+			parse: Number,
+		},
+		"settings-retry-delay": {
+			kind: "parsed",
+			brief:
 				"The number of seconds to delay before making the message available for another attempt.",
-		})
-		.option("settings-visibility-timeout-ms", {
-			type: "number",
-			description:
+			optional: true,
+			parse: Number,
+		},
+		"settings-visibility-timeout-ms": {
+			kind: "parsed",
+			brief:
 				"The number of milliseconds that a message is exclusively leased. After the timeout, the message becomes available for another attempt.",
-		})
-		.option("type", {
-			type: "string",
-			description: "The type field",
+			optional: true,
+			parse: Number,
+		},
+		type: {
+			kind: "parsed",
+			brief: "The type field",
+			optional: true,
 			choices: ["worker", "http_pull"],
-		})
-		.coerce("type", (value) => resolveFileToken(value, "type", "text"))
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
+			parse: String,
+			coerce: (value: string) => resolveFileToken(value, "type", "text"),
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
 			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Request body for creating or updating a consumer",
-		})
-		.conflicts("script-name", ["settings-visibility-timeout-ms"])
-		.conflicts("settings-max-concurrency", ["settings-visibility-timeout-ms"])
-		.implies("settings-max-concurrency", ["script-name"])
-		.conflicts("settings-max-wait-time-ms", ["settings-visibility-timeout-ms"])
-		.implies("settings-max-wait-time-ms", ["script-name"])
-		.conflicts("settings-visibility-timeout-ms", [
+		},
+		body: {
+			kind: "parsed",
+			brief: "Request body for creating or updating a consumer",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [
+		{
+			placeholder: "consumer-id",
+			brief: "A Resource identifier.",
+			parse: String,
+		},
+	],
+	rules(rules) {
+		rules.conflicts("script-name", ["settings-visibility-timeout-ms"]);
+		rules.conflicts("settings-max-concurrency", [
+			"settings-visibility-timeout-ms",
+		]);
+		rules.implies("settings-max-concurrency", ["script-name"]);
+		rules.conflicts("settings-max-wait-time-ms", [
+			"settings-visibility-timeout-ms",
+		]);
+		rules.implies("settings-max-wait-time-ms", ["script-name"]);
+		rules.conflicts("settings-visibility-timeout-ms", [
 			"script-name",
 			"settings-max-concurrency",
 			"settings-max-wait-time-ms",
 		]);
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "update <consumer-id>",
-	describe: "Update Queue Consumer",
-	builder,
+	},
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "queues consumers update",
 				classification: {
 					safeFlags: ["type", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -227,6 +251,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Updated` });
 			}
 		),
-};
+});
 
 export default command;

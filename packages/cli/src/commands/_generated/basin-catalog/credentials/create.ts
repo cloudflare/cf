@@ -1,11 +1,10 @@
 import operation from "../../_operations/basin-catalog/credentials/create.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * create command
  * @generated from apis/overlays/basin-catalog.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -20,44 +19,44 @@ import { withProgress } from "#lib/progress.js";
 import { promptForRequiredField } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 basin-catalog credentials create <bucket-name>\n\nStore authentication credentials for a catalog. These credentials are used to authenticate with R2 storage when performing catalog operations."
-		)
-		.positional("bucket-name", {
-			type: "string",
-			description: "Specifies the R2 bucket name.",
-			demandOption: true,
-		})
-		.option("token", {
-			type: "string",
-			description: "Provides the Cloudflare API token for accessing R2.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Contains request to store catalog credentials.",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "create <bucket-name>",
 	describe: "Store catalog credentials",
-	builder,
+	usage:
+		"$0 basin-catalog credentials create <bucket-name>\n\nStore authentication credentials for a catalog. These credentials are used to authenticate with R2 storage when performing catalog operations.",
+	flags: {
+		token: {
+			kind: "parsed",
+			brief: "Provides the Cloudflare API token for accessing R2.",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Contains request to store catalog credentials.",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [
+		{
+			placeholder: "bucket-name",
+			brief: "Specifies the R2 bucket name.",
+			parse: String,
+		},
+	],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "basin-catalog credentials create",
-				classification: {
-					safeFlags: ["dry-run"],
-				} satisfies ArgClassification<Args>,
+				classification: { safeFlags: ["dry-run"] } satisfies ArgClassification<
+					typeof argv
+				>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -133,6 +132,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Created` });
 			}
 		),
-};
+});
 
 export default command;

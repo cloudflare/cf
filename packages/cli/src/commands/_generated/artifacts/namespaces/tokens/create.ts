@@ -1,11 +1,10 @@
 import operation from "../../../_operations/artifacts/namespaces/tokens/create.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * create command
  * @generated from apis/overlays/artifacts.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -20,48 +19,58 @@ import { withProgress } from "#lib/progress.js";
 import { promptForRequiredField } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 artifacts namespaces tokens create <namespace>\n\nCreates a scoped Git token for a repository."
-		)
-		.positional("namespace", {
-			type: "string",
-			description: "Artifacts namespace name.",
-			demandOption: true,
-		})
-		.option("repo", { type: "string", description: "The repo field" })
-		.option("scope", {
-			type: "string",
-			description: "The scope field",
-			choices: ["read", "write"],
-		})
-		.coerce("scope", (value) => resolveFileToken(value, "scope", "text"))
-		.option("ttl", { type: "number", description: "The ttl field" })
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "create <namespace>",
 	describe: "Create a repository token",
-	builder,
+	usage:
+		"$0 artifacts namespaces tokens create <namespace>\n\nCreates a scoped Git token for a repository.",
+	flags: {
+		repo: {
+			kind: "parsed",
+			brief: "The repo field",
+			optional: true,
+			parse: String,
+		},
+		scope: {
+			kind: "parsed",
+			brief: "The scope field",
+			optional: true,
+			choices: ["read", "write"],
+			parse: String,
+			coerce: (value: string) => resolveFileToken(value, "scope", "text"),
+		},
+		ttl: {
+			kind: "parsed",
+			brief: "The ttl field",
+			optional: true,
+			parse: Number,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [
+		{
+			placeholder: "namespace",
+			brief: "Artifacts namespace name.",
+			parse: String,
+		},
+	],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "artifacts namespaces tokens create",
 				classification: {
 					safeFlags: ["scope", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -139,6 +148,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Created` });
 			}
 		),
-};
+});
 
 export default command;

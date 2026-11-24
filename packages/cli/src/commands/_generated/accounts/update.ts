@@ -1,11 +1,10 @@
 import operation from "../_operations/accounts/update.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * update command
  * @generated from apis/overlays/accounts.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -20,50 +19,52 @@ import { withProgress } from "#lib/progress.js";
 import { promptForRequiredField } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 accounts update\n\nUpdate an existing account. Account names are limited to 65 UTF-8 bytes."
-		)
-		.option("id", { type: "string", description: "Identifier" })
-		.option("name", {
-			type: "string",
-			description:
-				"Account name. When creating or updating an account, the name is limited to 65 UTF-8 bytes.",
-		})
-		.option("settings-abuse-contact-email", {
-			type: "string",
-			description: "Sets an abuse contact email to notify for abuse reports.",
-		})
-		.option("settings-enforce-twofactor", {
-			type: "boolean",
-			description:
-				"Indicates whether membership in this account requires that\nTwo-Factor Authentication is enabled",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "update",
 	describe: "Update Account",
-	builder,
+	usage:
+		"$0 accounts update\n\nUpdate an existing account. Account names are limited to 65 UTF-8 bytes.",
+	flags: {
+		id: { kind: "parsed", brief: "Identifier", optional: true, parse: String },
+		name: {
+			kind: "parsed",
+			brief:
+				"Account name. When creating or updating an account, the name is limited to 65 UTF-8 bytes.",
+			optional: true,
+			parse: String,
+		},
+		"settings-abuse-contact-email": {
+			kind: "parsed",
+			brief: "Sets an abuse contact email to notify for abuse reports.",
+			optional: true,
+			parse: String,
+		},
+		"settings-enforce-twofactor": {
+			kind: "boolean",
+			brief:
+				"Indicates whether membership in this account requires that\nTwo-Factor Authentication is enabled",
+			optional: true,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "accounts update",
 				classification: {
 					safeFlags: ["settings-enforce-twofactor", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -156,6 +157,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Updated` });
 			}
 		),
-};
+});
 
 export default command;

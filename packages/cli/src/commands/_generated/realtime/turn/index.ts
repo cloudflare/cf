@@ -1,20 +1,17 @@
 import $keys from "./keys/index.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * turn command group
  * @generated from apis/overlays/realtime.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "turn",
 	describe: "TURN keys that help clients traverse NATs and firewalls",
 
-	builder: (yargs) => {
-		return yargs.command($keys).demandCommand(1, "Please specify a subcommand");
+	routes: {
+		keys: $keys,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

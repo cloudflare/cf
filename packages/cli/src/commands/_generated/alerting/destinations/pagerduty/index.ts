@@ -2,27 +2,22 @@ import $create from "./create.js";
 import $delete from "./delete.js";
 import $get from "./get.js";
 import $link from "./link.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * pagerduty command group
  * @generated from apis/overlays/alerting.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "pagerduty",
 	describe: "Operations for destinations.pagerduty",
 
-	builder: (yargs) => {
-		return yargs
-			.command($create)
-			.command($delete)
-			.command($get)
-			.command($link)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		create: $create,
+		delete: $delete,
+		get: $get,
+		link: $link,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

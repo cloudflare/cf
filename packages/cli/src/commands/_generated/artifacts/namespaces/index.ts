@@ -4,29 +4,24 @@ import $get from "./get.js";
 import $list from "./list.js";
 import $repos from "./repos/index.js";
 import $tokens from "./tokens/index.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * namespaces command group
  * @generated from apis/overlays/artifacts.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "namespaces",
 	describe: "Operations for namespaces",
 
-	builder: (yargs) => {
-		return yargs
-			.command($create)
-			.command($delete)
-			.command($get)
-			.command($list)
-			.command($repos)
-			.command($tokens)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		create: $create,
+		delete: $delete,
+		get: $get,
+		list: $list,
+		repos: $repos,
+		tokens: $tokens,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

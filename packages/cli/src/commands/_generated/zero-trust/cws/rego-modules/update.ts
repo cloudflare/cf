@@ -1,11 +1,10 @@
 import operation from "../../../_operations/zero-trust/cws/rego-modules/update.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * update command
  * @generated from apis/overlays/zero-trust.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -20,49 +19,51 @@ import { withProgress } from "#lib/progress.js";
 import { promptForRequiredField } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 zero-trust cws rego-modules update <rego-module-id>\n\nReplaces the module and validates policies and libraries that depend on it."
-		)
-		.positional("rego-module-id", {
-			type: "string",
-			description: "ID of the Rego module to update",
-			demandOption: true,
-		})
-		.option("name", {
-			type: "string",
-			description: "Name of the Rego module (unique per account)",
-		})
-		.option("rego-source", {
-			type: "string",
-			description:
-				'Library Rego source with a package beginning with "lib." Maximum 16384 UTF-8 bytes.',
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "update <rego-module-id>",
 	describe: "Update a Rego module",
-	builder,
+	usage:
+		"$0 zero-trust cws rego-modules update <rego-module-id>\n\nReplaces the module and validates policies and libraries that depend on it.",
+	flags: {
+		name: {
+			kind: "parsed",
+			brief: "Name of the Rego module (unique per account)",
+			optional: true,
+			parse: String,
+		},
+		"rego-source": {
+			kind: "parsed",
+			brief:
+				'Library Rego source with a package beginning with "lib." Maximum 16384 UTF-8 bytes.',
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [
+		{
+			placeholder: "rego-module-id",
+			brief: "ID of the Rego module to update",
+			parse: String,
+		},
+	],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "zero-trust cws rego-modules update",
-				classification: {
-					safeFlags: ["dry-run"],
-				} satisfies ArgClassification<Args>,
+				classification: { safeFlags: ["dry-run"] } satisfies ArgClassification<
+					typeof argv
+				>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -154,6 +155,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Updated` });
 			}
 		),
-};
+});
 
 export default command;

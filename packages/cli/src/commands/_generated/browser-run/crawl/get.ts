@@ -1,11 +1,10 @@
 import operation from "../../_operations/browser-run/crawl/get.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * get command
  * @generated from apis/overlays/browser-run.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -17,24 +16,22 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 browser-run crawl get <job-id>\n\nReturns the result of a crawl job."
-		)
-		.positional("job-id", {
-			type: "string",
-			description: "Crawl job ID.",
-			demandOption: true,
-		})
-		.option("cache-ttl", {
-			type: "number",
-			description: "Cache TTL default is 5s. Set to 0 to disable.",
-		})
-		.option("status", {
-			type: "string",
-			description: "Filter by URL status.",
-			choices: [
+const command = apiCommand({
+	command: "get <job-id>",
+	describe: "Get crawl result.",
+	usage:
+		"$0 browser-run crawl get <job-id>\n\nReturns the result of a crawl job.",
+	flags: {
+		"cache-ttl": {
+			kind: "parsed",
+			brief: "Cache TTL default is 5s. Set to 0 to disable.",
+			optional: true,
+			parse: Number,
+		},
+		status: {
+			kind: "enum",
+			brief: "Filter by URL status.",
+			values: [
 				"queued",
 				"errored",
 				"completed",
@@ -42,29 +39,34 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"skipped",
 				"cancelled",
 			],
-		})
-		.option("cursor", { type: "number", description: "Cursor for pagination." })
-		.option("limit", { type: "number", description: "Limit for pagination." })
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
+			optional: true,
+		},
+		cursor: {
+			kind: "parsed",
+			brief: "Cursor for pagination.",
+			optional: true,
+			parse: Number,
+		},
+		limit: {
+			kind: "parsed",
+			brief: "Limit for pagination.",
+			optional: true,
+			parse: Number,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
 			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "get <job-id>",
-	describe: "Get crawl result.",
-	builder,
+		},
+	},
+	operands: [{ placeholder: "job-id", brief: "Crawl job ID.", parse: String }],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "browser-run crawl get",
 				classification: {
 					safeFlags: ["status", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -100,6 +102,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Loaded` });
 			}
 		),
-};
+});
 
 export default command;

@@ -1,11 +1,10 @@
 import operation from "../../../../_operations/browser-run/devtools/browser/targets/create.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * create command
  * @generated from apis/overlays/browser-run.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -17,42 +16,36 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 browser-run devtools browser targets create <session-id>\n\nOpens a new tab in the browser. Optionally specify a URL to navigate to."
-		)
-		.positional("session-id", {
-			type: "string",
-			description: "Browser session ID.",
-			demandOption: true,
-		})
-		.option("url", { type: "string", description: "Url" })
-		.option("live-view-url-expires-in-ms", {
-			type: "number",
-			description:
-				"How long the live view URL remains valid, in milliseconds (max 60 minutes)",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "create <session-id>",
 	describe: "Open a new browser tab.",
-	builder,
+	usage:
+		"$0 browser-run devtools browser targets create <session-id>\n\nOpens a new tab in the browser. Optionally specify a URL to navigate to.",
+	flags: {
+		url: { kind: "parsed", brief: "Url", optional: true, parse: String },
+		"live-view-url-expires-in-ms": {
+			kind: "parsed",
+			brief:
+				"How long the live view URL remains valid, in milliseconds (max 60 minutes)",
+			optional: true,
+			parse: Number,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+	},
+	operands: [
+		{ placeholder: "session-id", brief: "Browser session ID.", parse: String },
+	],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "browser-run devtools browser targets create",
-				classification: {
-					safeFlags: ["dry-run"],
-				} satisfies ArgClassification<Args>,
+				classification: { safeFlags: ["dry-run"] } satisfies ArgClassification<
+					typeof argv
+				>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -86,6 +79,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Updated` });
 			}
 		),
-};
+});
 
 export default command;

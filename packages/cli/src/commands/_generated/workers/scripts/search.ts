@@ -1,11 +1,10 @@
 import operation from "../../_operations/workers/scripts/search.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * search command
  * @generated from apis/overlays/workers.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -17,49 +16,59 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 workers scripts search\n\nSearch for Worker scripts in an account."
-		)
-		.option("name", {
-			type: "string",
-			description:
-				"Worker name to search for. Both exact and partial matches are returned.",
-		})
-		.option("id", {
-			type: "string",
-			description:
-				"Worker ID (also called tag) to search for. Only exact matches are returned.",
-		})
-		.option("order-by", {
-			type: "string",
-			description:
-				"Property to sort results by. Results are sorted in ascending order.",
-			choices: ["created_on", "modified_on", "name"],
-		})
-		.option("page", { type: "number", description: "Current page." })
-		.option("per-page", { type: "number", description: "Items per page." })
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "search",
 	describe: "Search Worker Scripts",
-	builder,
+	usage:
+		"$0 workers scripts search\n\nSearch for Worker scripts in an account.",
+	flags: {
+		name: {
+			kind: "parsed",
+			brief:
+				"Worker name to search for. Both exact and partial matches are returned.",
+			optional: true,
+			parse: String,
+		},
+		id: {
+			kind: "parsed",
+			brief:
+				"Worker ID (also called tag) to search for. Only exact matches are returned.",
+			optional: true,
+			parse: String,
+		},
+		"order-by": {
+			kind: "enum",
+			brief:
+				"Property to sort results by. Results are sorted in ascending order.",
+			values: ["created_on", "modified_on", "name"],
+			optional: true,
+		},
+		page: {
+			kind: "parsed",
+			brief: "Current page.",
+			optional: true,
+			parse: Number,
+		},
+		"per-page": {
+			kind: "parsed",
+			brief: "Items per page.",
+			optional: true,
+			parse: Number,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "workers scripts search",
 				classification: {
 					safeFlags: ["order-by", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -92,6 +101,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Loaded` });
 			}
 		),
-};
+});
 
 export default command;

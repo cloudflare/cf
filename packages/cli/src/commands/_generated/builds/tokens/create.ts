@@ -1,11 +1,10 @@
 import operation from "../../_operations/builds/tokens/create.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * create command
  * @generated from apis/overlays/builds.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -20,45 +19,49 @@ import { withProgress } from "#lib/progress.js";
 import { promptForRequiredField } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage("$0 builds tokens create\n\nCreate a new build authentication token")
-		.option("build-token-name", {
-			type: "string",
-			description: "The build_token_name field",
-		})
-		.option("build-token-secret", {
-			type: "string",
-			description: "The build_token_secret field",
-		})
-		.option("cloudflare-token-id", {
-			type: "string",
-			description: "The cloudflare_token_id field",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "create",
 	describe: "Create build token",
-	builder,
+	usage: "$0 builds tokens create\n\nCreate a new build authentication token",
+	flags: {
+		"build-token-name": {
+			kind: "parsed",
+			brief: "The build_token_name field",
+			optional: true,
+			parse: String,
+		},
+		"build-token-secret": {
+			kind: "parsed",
+			brief: "The build_token_secret field",
+			optional: true,
+			parse: String,
+		},
+		"cloudflare-token-id": {
+			kind: "parsed",
+			brief: "The cloudflare_token_id field",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "builds tokens create",
-				classification: {
-					safeFlags: ["dry-run"],
-				} satisfies ArgClassification<Args>,
+				classification: { safeFlags: ["dry-run"] } satisfies ArgClassification<
+					typeof argv
+				>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -156,6 +159,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Created` });
 			}
 		),
-};
+});
 
 export default command;

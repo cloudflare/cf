@@ -1,11 +1,10 @@
 import operation from "../../_operations/stream/videos/clip.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * clip command
  * @generated from apis/overlays/stream.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -20,92 +19,115 @@ import { withProgress } from "#lib/progress.js";
 import { promptForRequiredField } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 stream videos clip\n\nClips a video based on the specified start and end times provided in seconds."
-		)
-		.option("allowed-origins", {
-			type: "string",
-			array: true,
-			description:
-				"Lists the origins allowed to display the video. Enter allowed origin domains in an array and use `*` for wildcard subdomains. Empty arrays allow the video to be viewed on any origin.",
-		})
-		.option("clipped-from-video-uid", {
-			type: "string",
-			description: "The unique video identifier (UID).",
-		})
-		.option("creator", {
-			type: "string",
-			description: "A user-defined identifier for the media creator.",
-		})
-		.option("end-time-seconds", {
-			type: "number",
-			description: "Specifies the end time for the video clip in seconds.",
-		})
-		.option("input", {
-			type: "string",
-			description: "A video's URL. Preferred over 'url'.",
-		})
-		.option("meta", {
-			type: "string",
-			description:
-				'A user modifiable key-value store used to reference other systems of record for managing videos. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": unknown}.',
-		})
-		.option("name", { type: "string", description: "A name for the video." })
-		.option("require-signed-urls", {
-			type: "boolean",
-			description:
-				"Indicates whether the video can be a accessed using the UID. When set to `true`, a signed token must be generated with a signing key to view the video.",
-			default: false,
-		})
-		.option("scheduled-deletion", {
-			type: "string",
-			description:
-				"Indicates the date and time at which the video will be deleted. Omit the field to indicate no change, or include with a `null` value to remove an existing scheduled deletion. If specified, must be at least 30 days from upload time.",
-		})
-		.option("start-time-seconds", {
-			type: "number",
-			description: "Specifies the start time for the video clip in seconds.",
-		})
-		.option("thumbnail-timestamp-pct", {
-			type: "number",
-			description:
-				"The timestamp for a thumbnail image calculated as a percentage value of the video's duration. To convert from a second-wise timestamp to a percentage, divide the desired timestamp by the total duration of the video.  If this value is not set, the default thumbnail image is taken from 0s of the video.",
-			default: 0,
-		})
-		.option("url", {
-			type: "string",
-			description: "A video's URL (legacy field, use 'input' instead).",
-		})
-		.option("watermark-uid", {
-			type: "string",
-			description: "The unique identifier for the watermark profile.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "clip",
 	describe: "Clip videos given a start and end time",
-	builder,
+	usage:
+		"$0 stream videos clip\n\nClips a video based on the specified start and end times provided in seconds.",
+	flags: {
+		"allowed-origins": {
+			kind: "parsed",
+			brief:
+				"Lists the origins allowed to display the video. Enter allowed origin domains in an array and use `*` for wildcard subdomains. Empty arrays allow the video to be viewed on any origin.",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"clipped-from-video-uid": {
+			kind: "parsed",
+			brief: "The unique video identifier (UID).",
+			optional: true,
+			parse: String,
+		},
+		creator: {
+			kind: "parsed",
+			brief: "A user-defined identifier for the media creator.",
+			optional: true,
+			parse: String,
+		},
+		"end-time-seconds": {
+			kind: "parsed",
+			brief: "Specifies the end time for the video clip in seconds.",
+			optional: true,
+			parse: Number,
+		},
+		input: {
+			kind: "parsed",
+			brief: "A video's URL. Preferred over 'url'.",
+			optional: true,
+			parse: String,
+		},
+		meta: {
+			kind: "parsed",
+			brief:
+				'A user modifiable key-value store used to reference other systems of record for managing videos. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": unknown}.',
+			optional: true,
+			parse: String,
+		},
+		name: {
+			kind: "parsed",
+			brief: "A name for the video.",
+			optional: true,
+			parse: String,
+		},
+		"require-signed-urls": {
+			kind: "boolean",
+			brief:
+				"Indicates whether the video can be a accessed using the UID. When set to `true`, a signed token must be generated with a signing key to view the video.",
+			default: false,
+		},
+		"scheduled-deletion": {
+			kind: "parsed",
+			brief:
+				"Indicates the date and time at which the video will be deleted. Omit the field to indicate no change, or include with a `null` value to remove an existing scheduled deletion. If specified, must be at least 30 days from upload time.",
+			optional: true,
+			parse: String,
+		},
+		"start-time-seconds": {
+			kind: "parsed",
+			brief: "Specifies the start time for the video clip in seconds.",
+			optional: true,
+			parse: Number,
+		},
+		"thumbnail-timestamp-pct": {
+			kind: "parsed",
+			brief:
+				"The timestamp for a thumbnail image calculated as a percentage value of the video's duration. To convert from a second-wise timestamp to a percentage, divide the desired timestamp by the total duration of the video.  If this value is not set, the default thumbnail image is taken from 0s of the video.",
+			default: "0",
+			parse: Number,
+		},
+		url: {
+			kind: "parsed",
+			brief: "A video's URL (legacy field, use 'input' instead).",
+			optional: true,
+			parse: String,
+		},
+		"watermark-uid": {
+			kind: "parsed",
+			brief: "The unique identifier for the watermark profile.",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "stream videos clip",
 				classification: {
 					safeFlags: ["require-signed-urls", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -263,6 +285,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Created` });
 			}
 		),
-};
+});
 
 export default command;

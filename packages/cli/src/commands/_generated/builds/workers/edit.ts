@@ -1,10 +1,9 @@
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * edit command
  * @generated from apis/overlays/builds.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -24,123 +23,151 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 builds workers edit <worker>\n\nUpdate the build configuration for a Worker script. Supports partial updates to git repository settings, production build settings, and Preview settings."
-		)
-		.positional("worker", {
-			type: "string",
-			description: "Script tag of the Worker.",
-			demandOption: true,
-		})
-		.option("patch-existing-previews", {
-			type: "string",
-			description:
-				"Apply a previews_base_config patch to every existing Preview of the Worker as well as to the base config.",
-			choices: ["true", "false"],
-		})
-		.option("git-repository-branch", {
-			type: "string",
-			description: "New git branch to watch for builds",
-		})
-		.option("previews-base-config-build-caching-enabled", {
-			type: "boolean",
-			description:
-				"Whether builds reuse cached dependencies and build artifacts.",
-		})
-		.option("previews-base-config-build-command", {
-			type: "string",
-			description: "Command to build the Worker.",
-		})
-		.option("previews-base-config-build-token-uuid", {
-			type: "string",
-			description: "UUID of the build token used when deploying the Worker.",
-		})
-		.option("previews-base-config-deploy-command", {
-			type: "string",
-			description: "Command to deploy the Worker.",
-		})
-		.option("previews-base-config-environment-variables", {
-			type: "string",
-			description:
-				'Environment variable updates. Set the variable entry to null to delete it. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": ({...} | null)}.',
-		})
-		.option("previews-base-config-path-excludes", {
-			type: "string",
-			array: true,
-			description: "Path patterns that must not start builds.",
-		})
-		.option("previews-base-config-path-includes", {
-			type: "string",
-			array: true,
-			description: "Path patterns that can start builds.",
-		})
-		.option("previews-base-config-root-directory", {
-			type: "string",
-			description:
-				"Repository directory in which build and deploy commands run.",
-		})
-		.option("previews-enabled", {
-			type: "boolean",
-			description:
-				"Enable or disable Previews for this Worker. Enabling requires previews_base_config to already exist or to be sent in the same request.",
-		})
-		.option("production-settings-build-caching-enabled", {
-			type: "boolean",
-			description:
-				"Whether builds reuse cached dependencies and build artifacts.",
-		})
-		.option("production-settings-build-command", {
-			type: "string",
-			description: "Command to build the Worker.",
-		})
-		.option("production-settings-build-token-uuid", {
-			type: "string",
-			description: "UUID of the build token used when deploying the Worker.",
-		})
-		.option("production-settings-deploy-command", {
-			type: "string",
-			description: "Command to deploy the Worker.",
-		})
-		.option("production-settings-environment-variables", {
-			type: "string",
-			description:
-				'Environment variable updates. Set the variable entry to null to delete it. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": ({...} | null)}.',
-		})
-		.option("production-settings-path-excludes", {
-			type: "string",
-			array: true,
-			description: "Path patterns that must not start builds.",
-		})
-		.option("production-settings-path-includes", {
-			type: "string",
-			array: true,
-			description: "Path patterns that can start builds.",
-		})
-		.option("production-settings-root-directory", {
-			type: "string",
-			description:
-				"Repository directory in which build and deploy commands run.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description:
-				"Request body for updating a Worker build configuration. At least one field must be provided.",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "edit <worker>",
 	describe: "Update Worker build configuration",
-	builder,
+	usage:
+		"$0 builds workers edit <worker>\n\nUpdate the build configuration for a Worker script. Supports partial updates to git repository settings, production build settings, and Preview settings.",
+	flags: {
+		"patch-existing-previews": {
+			kind: "enum",
+			brief:
+				"Apply a previews_base_config patch to every existing Preview of the Worker as well as to the base config.",
+			values: ["true", "false"],
+			optional: true,
+		},
+		"git-repository-branch": {
+			kind: "parsed",
+			brief: "New git branch to watch for builds",
+			optional: true,
+			parse: String,
+		},
+		"previews-base-config-build-caching-enabled": {
+			kind: "boolean",
+			brief: "Whether builds reuse cached dependencies and build artifacts.",
+			optional: true,
+		},
+		"previews-base-config-build-command": {
+			kind: "parsed",
+			brief: "Command to build the Worker.",
+			optional: true,
+			parse: String,
+		},
+		"previews-base-config-build-token-uuid": {
+			kind: "parsed",
+			brief: "UUID of the build token used when deploying the Worker.",
+			optional: true,
+			parse: String,
+		},
+		"previews-base-config-deploy-command": {
+			kind: "parsed",
+			brief: "Command to deploy the Worker.",
+			optional: true,
+			parse: String,
+		},
+		"previews-base-config-environment-variables": {
+			kind: "parsed",
+			brief:
+				'Environment variable updates. Set the variable entry to null to delete it. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": ({...} | null)}.',
+			optional: true,
+			parse: String,
+		},
+		"previews-base-config-path-excludes": {
+			kind: "parsed",
+			brief: "Path patterns that must not start builds.",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"previews-base-config-path-includes": {
+			kind: "parsed",
+			brief: "Path patterns that can start builds.",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"previews-base-config-root-directory": {
+			kind: "parsed",
+			brief: "Repository directory in which build and deploy commands run.",
+			optional: true,
+			parse: String,
+		},
+		"previews-enabled": {
+			kind: "boolean",
+			brief:
+				"Enable or disable Previews for this Worker. Enabling requires previews_base_config to already exist or to be sent in the same request.",
+			optional: true,
+		},
+		"production-settings-build-caching-enabled": {
+			kind: "boolean",
+			brief: "Whether builds reuse cached dependencies and build artifacts.",
+			optional: true,
+		},
+		"production-settings-build-command": {
+			kind: "parsed",
+			brief: "Command to build the Worker.",
+			optional: true,
+			parse: String,
+		},
+		"production-settings-build-token-uuid": {
+			kind: "parsed",
+			brief: "UUID of the build token used when deploying the Worker.",
+			optional: true,
+			parse: String,
+		},
+		"production-settings-deploy-command": {
+			kind: "parsed",
+			brief: "Command to deploy the Worker.",
+			optional: true,
+			parse: String,
+		},
+		"production-settings-environment-variables": {
+			kind: "parsed",
+			brief:
+				'Environment variable updates. Set the variable entry to null to delete it. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": ({...} | null)}.',
+			optional: true,
+			parse: String,
+		},
+		"production-settings-path-excludes": {
+			kind: "parsed",
+			brief: "Path patterns that must not start builds.",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"production-settings-path-includes": {
+			kind: "parsed",
+			brief: "Path patterns that can start builds.",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"production-settings-root-directory": {
+			kind: "parsed",
+			brief: "Repository directory in which build and deploy commands run.",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief:
+				"Request body for updating a Worker build configuration. At least one field must be provided.",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [
+		{
+			placeholder: "worker",
+			brief: "Script tag of the Worker.",
+			parse: String,
+		},
+	],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
@@ -153,7 +180,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"production-settings-build-caching-enabled",
 						"dry-run",
 					],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -468,6 +495,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Updated` });
 			}
 		),
-};
+});
 
 export default command;

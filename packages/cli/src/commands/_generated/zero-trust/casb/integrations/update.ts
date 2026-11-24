@@ -1,10 +1,9 @@
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * update command
  * @generated from apis/overlays/zero-trust.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -24,78 +23,88 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 zero-trust casb integrations update <id>\n\nUpdates an integration's name, permissions, DLP profiles, use cases, credentials, or GitLab resources."
-		)
-		.positional("id", {
-			type: "string",
-			description: "Integration ID.",
-			demandOption: true,
-		})
-		.option("integration-config-gitlab-group-ids", {
-			type: "string",
-			array: true,
-			description:
-				"Selected top-level GitLab group IDs as string-encoded positive integers.",
-		})
-		.option("integration-config-gitlab-project-ids", {
-			type: "string",
-			array: true,
-			description:
-				"Selected GitLab project IDs as string-encoded positive integers.",
-		})
-		.option("credentials", {
-			type: "string",
-			description:
-				'Partial credential fields to merge with existing. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": unknown}.',
-		})
-		.option("dlp-profiles", {
-			type: "string",
-			array: true,
-			description: "List of DLP profile IDs to associate with the integration.",
-		})
-		.option("name", { type: "string", description: "Name of the integration." })
-		.option("permissions", {
-			type: "string",
-			array: true,
-			description: "List of permission scopes granted to the integration.",
-		})
-		.option("use-cases", {
-			type: "string",
-			array: true,
-			description:
-				"List of use case or feature slugs to enroll (e.g., ['casb', 'ces', 'auto_remediation']).",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Serializer for v2 integration PATCH requests.",
-		})
-		.option("file", {
-			type: "string",
-			description: "Path to a file to upload as the request body",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "update <id>",
 	describe: "Update integration",
-	builder,
+	usage:
+		"$0 zero-trust casb integrations update <id>\n\nUpdates an integration's name, permissions, DLP profiles, use cases, credentials, or GitLab resources.",
+	flags: {
+		"integration-config-gitlab-group-ids": {
+			kind: "parsed",
+			brief:
+				"Selected top-level GitLab group IDs as string-encoded positive integers.",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"integration-config-gitlab-project-ids": {
+			kind: "parsed",
+			brief: "Selected GitLab project IDs as string-encoded positive integers.",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		credentials: {
+			kind: "parsed",
+			brief:
+				'Partial credential fields to merge with existing. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": unknown}.',
+			optional: true,
+			parse: String,
+		},
+		"dlp-profiles": {
+			kind: "parsed",
+			brief: "List of DLP profile IDs to associate with the integration.",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		name: {
+			kind: "parsed",
+			brief: "Name of the integration.",
+			optional: true,
+			parse: String,
+		},
+		permissions: {
+			kind: "parsed",
+			brief: "List of permission scopes granted to the integration.",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"use-cases": {
+			kind: "parsed",
+			brief:
+				"List of use case or feature slugs to enroll (e.g., ['casb', 'ces', 'auto_remediation']).",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Serializer for v2 integration PATCH requests.",
+			optional: true,
+			parse: String,
+		},
+		file: {
+			kind: "parsed",
+			brief: "Path to a file to upload as the request body",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [{ placeholder: "id", brief: "Integration ID.", parse: String }],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "zero-trust casb integrations update",
-				classification: {
-					safeFlags: ["dry-run"],
-				} satisfies ArgClassification<Args>,
+				classification: { safeFlags: ["dry-run"] } satisfies ArgClassification<
+					typeof argv
+				>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -224,6 +233,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Updated` });
 			}
 		),
-};
+});
 
 export default command;

@@ -1,11 +1,10 @@
 import operation from "../../_operations/google-tag-gateway/config/update.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * update command
  * @generated from apis/overlays/google-tag-gateway.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import { createCommandClient, getZoneId } from "#lib/auth.js";
 import { compactBody, parseBody } from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
@@ -15,59 +14,63 @@ import { withProgress } from "#lib/progress.js";
 import { promptForRequiredField } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 google-tag-gateway config update\n\nUpdates the Google Tag Gateway configuration for a zone."
-		)
-		.option("enabled", {
-			type: "boolean",
-			description: "Enables or disables Google Tag Gateway for this zone.",
-		})
-		.option("endpoint", {
-			type: "string",
-			description:
-				"Specifies the endpoint path for proxying Google Tag Manager requests. Use an absolute path starting with '/', with no nested paths and alphanumeric characters only (e.g. /metrics).",
-		})
-		.option("hide-original-ip", {
-			type: "boolean",
-			description:
-				"Deprecated. This value is stored but has no effect on traffic. Optional in requests: if omitted, the previously stored value is kept. Responses always include it.",
-		})
-		.option("measurement-id", {
-			type: "string",
-			description:
-				"Specify the Google Tag Manager container or measurement ID (e.g. GTM-XXXXXXX or G-XXXXXXXXXX).",
-		})
-		.option("set-up-tag", {
-			type: "boolean",
-			description:
-				"Set up the associated Google Tag on the zone automatically when enabled.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Google Tag Gateway configuration for a zone.",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "update",
 	describe: "Update Google Tag Gateway configuration",
-	builder,
+	usage:
+		"$0 google-tag-gateway config update\n\nUpdates the Google Tag Gateway configuration for a zone.",
+	flags: {
+		enabled: {
+			kind: "boolean",
+			brief: "Enables or disables Google Tag Gateway for this zone.",
+			optional: true,
+		},
+		endpoint: {
+			kind: "parsed",
+			brief:
+				"Specifies the endpoint path for proxying Google Tag Manager requests. Use an absolute path starting with '/', with no nested paths and alphanumeric characters only (e.g. /metrics).",
+			optional: true,
+			parse: String,
+		},
+		"hide-original-ip": {
+			kind: "boolean",
+			brief:
+				"Deprecated. This value is stored but has no effect on traffic. Optional in requests: if omitted, the previously stored value is kept. Responses always include it.",
+			optional: true,
+		},
+		"measurement-id": {
+			kind: "parsed",
+			brief:
+				"Specify the Google Tag Manager container or measurement ID (e.g. GTM-XXXXXXX or G-XXXXXXXXXX).",
+			optional: true,
+			parse: String,
+		},
+		"set-up-tag": {
+			kind: "boolean",
+			brief:
+				"Set up the associated Google Tag on the zone automatically when enabled.",
+			optional: true,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Google Tag Gateway configuration for a zone.",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "google-tag-gateway config update",
 				classification: {
 					safeFlags: ["enabled", "hide-original-ip", "set-up-tag", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -163,6 +166,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Updated` });
 			}
 		),
-};
+});
 
 export default command;

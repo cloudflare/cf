@@ -1,11 +1,10 @@
 import operation from "../../../../../_operations/realtime/kit/analytics/livestreams/daily/get.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * get command
  * @generated from apis/overlays/realtime.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -17,50 +16,48 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 realtime kit analytics livestreams daily get <app-id>\n\nReturns day-wise livestream analytics for the specified time range."
-		)
-		.positional("app-id", {
-			type: "string",
-			description: "The app identifier tag.",
-			demandOption: true,
-		})
-		.option("start-time", {
-			type: "number",
-			description:
-				"Specify the start time as a Unix timestamp in seconds to access the livestream analytics.",
-		})
-		.option("end-time", {
-			type: "number",
-			description:
-				"Specify the end time as a Unix timestamp in seconds to access the livestream analytics.",
-		})
-		.option("filters", {
-			type: "string",
-			description: "Optional filters for livestream analytics.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "get <app-id>",
 	describe: "Fetch day-wise analytics data for your livestreams",
-	builder,
+	usage:
+		"$0 realtime kit analytics livestreams daily get <app-id>\n\nReturns day-wise livestream analytics for the specified time range.",
+	flags: {
+		"start-time": {
+			kind: "parsed",
+			brief:
+				"Specify the start time as a Unix timestamp in seconds to access the livestream analytics.",
+			optional: true,
+			parse: Number,
+		},
+		"end-time": {
+			kind: "parsed",
+			brief:
+				"Specify the end time as a Unix timestamp in seconds to access the livestream analytics.",
+			optional: true,
+			parse: Number,
+		},
+		filters: {
+			kind: "parsed",
+			brief: "Optional filters for livestream analytics.",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+	},
+	operands: [
+		{ placeholder: "app-id", brief: "The app identifier tag.", parse: String },
+	],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "realtime kit analytics livestreams daily get",
-				classification: {
-					safeFlags: ["dry-run"],
-				} satisfies ArgClassification<Args>,
+				classification: { safeFlags: ["dry-run"] } satisfies ArgClassification<
+					typeof argv
+				>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -95,6 +92,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Loaded` });
 			}
 		),
-};
+});
 
 export default command;

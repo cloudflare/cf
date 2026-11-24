@@ -1,71 +1,80 @@
 import operation from "../../../_operations/user/load-balancing-analytics/events/list.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * list command
  * @generated from apis/overlays/user.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import { createCommandClient } from "#lib/auth.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 user load-balancing-analytics events list\n\nList origin health changes."
-		)
-		.option("until", {
-			type: "string",
-			description:
-				"End date and time of requesting data period in the ISO8601 format.",
-		})
-		.option("pool-name", {
-			type: "string",
-			description: "The name for the pool to filter.",
-		})
-		.option("origin-healthy", {
-			type: "boolean",
-			description:
-				"If true, filter events where the origin status is healthy. If false, filter events where the origin status is unhealthy.",
-		})
-		.option("pool-id", { type: "string", description: "Pool ID" })
-		.option("since", {
-			type: "string",
-			description:
-				"Start date and time of requesting data period in the ISO8601 format.",
-		})
-		.option("origin-name", {
-			type: "string",
-			description: "The name for the origin to filter.",
-		})
-		.option("pool-healthy", {
-			type: "boolean",
-			description:
-				"If true, filter events where the pool status is healthy. If false, filter events where the pool status is unhealthy.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "list",
 	describe: "List Healthcheck Events",
-	builder,
+	usage:
+		"$0 user load-balancing-analytics events list\n\nList origin health changes.",
+	flags: {
+		until: {
+			kind: "parsed",
+			brief:
+				"End date and time of requesting data period in the ISO8601 format.",
+			optional: true,
+			parse: String,
+		},
+		"pool-name": {
+			kind: "parsed",
+			brief: "The name for the pool to filter.",
+			optional: true,
+			parse: String,
+		},
+		"origin-healthy": {
+			kind: "boolean",
+			brief:
+				"If true, filter events where the origin status is healthy. If false, filter events where the origin status is unhealthy.",
+			optional: true,
+		},
+		"pool-id": {
+			kind: "parsed",
+			brief: "Pool ID",
+			optional: true,
+			parse: String,
+		},
+		since: {
+			kind: "parsed",
+			brief:
+				"Start date and time of requesting data period in the ISO8601 format.",
+			optional: true,
+			parse: String,
+		},
+		"origin-name": {
+			kind: "parsed",
+			brief: "The name for the origin to filter.",
+			optional: true,
+			parse: String,
+		},
+		"pool-healthy": {
+			kind: "boolean",
+			brief:
+				"If true, filter events where the pool status is healthy. If false, filter events where the pool status is unhealthy.",
+			optional: true,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "user load-balancing-analytics events list",
 				classification: {
 					safeFlags: ["origin-healthy", "pool-healthy", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -97,6 +106,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Loaded` });
 			}
 		),
-};
+});
 
 export default command;

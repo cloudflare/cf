@@ -1,11 +1,10 @@
 import operation from "../../../_operations/zero-trust/devices/settings/update.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * update command
  * @generated from apis/overlays/zero-trust.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -19,70 +18,79 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 zero-trust devices settings update\n\nUpdates the device settings for a Zero Trust account."
-		)
-		.option("disable-for-time", {
-			type: "number",
-			description:
-				"Sets the time limit, in seconds, that a user can use an override code to bypass WARP.",
-		})
-		.option("external-emergency-signal-enabled", {
-			type: "boolean",
-			description:
-				"Controls whether the external emergency disconnect feature is enabled.",
-		})
-		.option("external-emergency-signal-fingerprint", {
-			type: "string",
-			description:
-				"The SHA256 fingerprint (64 hexadecimal characters) of the HTTPS server certificate for the external_emergency_signal_url. If provided, the WARP client will use this value to verify the server's identity. The device will ignore any response if the server's certificate fingerprint does not exactly match this value.",
-		})
-		.option("external-emergency-signal-interval", {
-			type: "string",
-			description:
-				'The interval at which the WARP client fetches the emergency disconnect signal, formatted as a duration string (e.g., "5m", "2m30s", "1h"). Minimum 30 seconds.',
-		})
-		.option("external-emergency-signal-url", {
-			type: "string",
-			description:
-				"The HTTPS URL from which to fetch the emergency disconnect signal. Must use HTTPS and have an IPv4 or IPv6 address as the host.",
-		})
-		.option("gateway-proxy-enabled", {
-			type: "boolean",
-			description: "Enable gateway proxy filtering on TCP.",
-		})
-		.option("gateway-udp-proxy-enabled", {
-			type: "boolean",
-			description: "Enable gateway proxy filtering on UDP.",
-		})
-		.option("root-certificate-installation-enabled", {
-			type: "boolean",
-			description:
-				"Enable installation of cloudflare managed root certificate.",
-		})
-		.option("use-zt-virtual-ip", {
-			type: "boolean",
-			description: "Enable using CGNAT virtual IPv4.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "update",
 	describe: "Update device settings",
-	builder,
+	usage:
+		"$0 zero-trust devices settings update\n\nUpdates the device settings for a Zero Trust account.",
+	flags: {
+		"disable-for-time": {
+			kind: "parsed",
+			brief:
+				"Sets the time limit, in seconds, that a user can use an override code to bypass WARP.",
+			optional: true,
+			parse: Number,
+		},
+		"external-emergency-signal-enabled": {
+			kind: "boolean",
+			brief:
+				"Controls whether the external emergency disconnect feature is enabled.",
+			optional: true,
+		},
+		"external-emergency-signal-fingerprint": {
+			kind: "parsed",
+			brief:
+				"The SHA256 fingerprint (64 hexadecimal characters) of the HTTPS server certificate for the external_emergency_signal_url. If provided, the WARP client will use this value to verify the server's identity. The device will ignore any response if the server's certificate fingerprint does not exactly match this value.",
+			optional: true,
+			parse: String,
+		},
+		"external-emergency-signal-interval": {
+			kind: "parsed",
+			brief:
+				'The interval at which the WARP client fetches the emergency disconnect signal, formatted as a duration string (e.g., "5m", "2m30s", "1h"). Minimum 30 seconds.',
+			optional: true,
+			parse: String,
+		},
+		"external-emergency-signal-url": {
+			kind: "parsed",
+			brief:
+				"The HTTPS URL from which to fetch the emergency disconnect signal. Must use HTTPS and have an IPv4 or IPv6 address as the host.",
+			optional: true,
+			parse: String,
+		},
+		"gateway-proxy-enabled": {
+			kind: "boolean",
+			brief: "Enable gateway proxy filtering on TCP.",
+			optional: true,
+		},
+		"gateway-udp-proxy-enabled": {
+			kind: "boolean",
+			brief: "Enable gateway proxy filtering on UDP.",
+			optional: true,
+		},
+		"root-certificate-installation-enabled": {
+			kind: "boolean",
+			brief: "Enable installation of cloudflare managed root certificate.",
+			optional: true,
+		},
+		"use-zt-virtual-ip": {
+			kind: "boolean",
+			brief: "Enable using CGNAT virtual IPv4.",
+			optional: true,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
@@ -96,7 +104,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"use-zt-virtual-ip",
 						"dry-run",
 					],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -193,6 +201,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Updated` });
 			}
 		),
-};
+});
 
 export default command;

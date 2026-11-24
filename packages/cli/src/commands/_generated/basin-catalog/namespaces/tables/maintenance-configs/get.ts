@@ -1,11 +1,10 @@
 import operation from "../../../../_operations/basin-catalog/namespaces/tables/maintenance-configs/get.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * get command
  * @generated from apis/overlays/basin-catalog.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -17,47 +16,39 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 basin-catalog namespaces tables maintenance-configs get <table-name>\n\nRetrieve the maintenance configuration for a specific table, including compaction settings."
-		)
-		.positional("table-name", {
-			type: "string",
-			description: "The table name.",
-			demandOption: true,
-		})
-		.option("bucket-name", {
-			type: "string",
-			description: "Specifies the R2 bucket name.",
-			demandOption: true,
-		})
-		.option("namespace", {
-			type: "string",
-			description:
-				"The namespace identifier (use %1F as separator for nested namespaces).",
-			demandOption: true,
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "get <table-name>",
 	describe: "Get table maintenance configuration",
-	builder,
+	usage:
+		"$0 basin-catalog namespaces tables maintenance-configs get <table-name>\n\nRetrieve the maintenance configuration for a specific table, including compaction settings.",
+	flags: {
+		"bucket-name": {
+			kind: "parsed",
+			brief: "Specifies the R2 bucket name.",
+			parse: String,
+		},
+		namespace: {
+			kind: "parsed",
+			brief:
+				"The namespace identifier (use %1F as separator for nested namespaces).",
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+	},
+	operands: [
+		{ placeholder: "table-name", brief: "The table name.", parse: String },
+	],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "basin-catalog namespaces tables maintenance-configs get",
-				classification: {
-					safeFlags: ["dry-run"],
-				} satisfies ArgClassification<Args>,
+				classification: { safeFlags: ["dry-run"] } satisfies ArgClassification<
+					typeof argv
+				>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -92,6 +83,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Loaded` });
 			}
 		),
-};
+});
 
 export default command;

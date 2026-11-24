@@ -11,37 +11,32 @@ import $sendingdomainrestrictions from "./sending-domain-restrictions/index.js";
 import $submissions from "./submissions/index.js";
 import $trusteddomains from "./trusted-domains/index.js";
 import $urlignorepatterns from "./url-ignore-patterns/index.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * email-security command
  * @generated from apis/overlays/email-security.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "email-security",
 	describe:
 		"Cloud email security — investigate threats, manage allow/block policies, and detect phishing",
 
-	builder: (yargs) => {
-		return yargs
-			.command($allowpolicies)
-			.command($analytics)
-			.command($blocksenders)
-			.command($bulkactions)
-			.command($contentpolicies)
-			.command($domains)
-			.command($impersonationregistry)
-			.command($investigate)
-			.command($phishguard)
-			.command($sendingdomainrestrictions)
-			.command($submissions)
-			.command($trusteddomains)
-			.command($urlignorepatterns)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		"allow-policies": $allowpolicies,
+		analytics: $analytics,
+		"block-senders": $blocksenders,
+		"bulk-actions": $bulkactions,
+		"content-policies": $contentpolicies,
+		domains: $domains,
+		"impersonation-registry": $impersonationregistry,
+		investigate: $investigate,
+		phishguard: $phishguard,
+		"sending-domain-restrictions": $sendingdomainrestrictions,
+		submissions: $submissions,
+		"trusted-domains": $trusteddomains,
+		"url-ignore-patterns": $urlignorepatterns,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

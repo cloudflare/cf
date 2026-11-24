@@ -1,11 +1,10 @@
 import operation from "../../_operations/accounts/profile/update.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * update command
  * @generated from apis/overlays/accounts.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -19,56 +18,63 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 accounts profile update\n\nPartially updates the business profile (name, email, phone, address, and external metadata) associated with this account's parent organization customer record, creating the profile if it does not exist. Changes apply to every account and organization sharing that profile. Omitted, empty, or null fields are left unchanged. Each profile field is limited to 1,000 UTF-8 bytes. Only available to members of an organization that contains the account."
-		)
-		.option("business-address", {
-			type: "string",
-			description: "The business_address field",
-		})
-		.option("business-email", {
-			type: "string",
-			description: "The business_email field",
-		})
-		.option("business-name", {
-			type: "string",
-			description: "The business_name field",
-		})
-		.option("business-phone", {
-			type: "string",
-			description: "The business_phone field",
-		})
-		.option("external-metadata", {
-			type: "string",
-			description: "The external_metadata field",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description:
-				"Partial business profile update. Omitted, empty, or null fields remain unchanged. At least one of business name, address, phone, or email must be non-empty.",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "update",
 	describe: "Update account profile",
-	builder,
+	usage:
+		"$0 accounts profile update\n\nPartially updates the business profile (name, email, phone, address, and external metadata) associated with this account's parent organization customer record, creating the profile if it does not exist. Changes apply to every account and organization sharing that profile. Omitted, empty, or null fields are left unchanged. Each profile field is limited to 1,000 UTF-8 bytes. Only available to members of an organization that contains the account.",
+	flags: {
+		"business-address": {
+			kind: "parsed",
+			brief: "The business_address field",
+			optional: true,
+			parse: String,
+		},
+		"business-email": {
+			kind: "parsed",
+			brief: "The business_email field",
+			optional: true,
+			parse: String,
+		},
+		"business-name": {
+			kind: "parsed",
+			brief: "The business_name field",
+			optional: true,
+			parse: String,
+		},
+		"business-phone": {
+			kind: "parsed",
+			brief: "The business_phone field",
+			optional: true,
+			parse: String,
+		},
+		"external-metadata": {
+			kind: "parsed",
+			brief: "The external_metadata field",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief:
+				"Partial business profile update. Omitted, empty, or null fields remain unchanged. At least one of business name, address, phone, or email must be non-empty.",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "accounts profile update",
-				classification: {
-					safeFlags: ["dry-run"],
-				} satisfies ArgClassification<Args>,
+				classification: { safeFlags: ["dry-run"] } satisfies ArgClassification<
+					typeof argv
+				>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -162,6 +168,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Updated` });
 			}
 		),
-};
+});
 
 export default command;

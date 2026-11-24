@@ -4,29 +4,24 @@ import $kick from "./kick.js";
 import $muteall from "./mute-all.js";
 import $mute from "./mute.js";
 import $polls from "./polls/index.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * active command group
  * @generated from apis/overlays/realtime.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "active",
 	describe: "Live meeting state and participant controls",
 
-	builder: (yargs) => {
-		return yargs
-			.command($get)
-			.command($kick)
-			.command($kickall)
-			.command($mute)
-			.command($muteall)
-			.command($polls)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		get: $get,
+		kick: $kick,
+		"kick-all": $kickall,
+		mute: $mute,
+		"mute-all": $muteall,
+		polls: $polls,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

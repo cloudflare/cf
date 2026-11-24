@@ -1,11 +1,10 @@
 import operation from "../../../_operations/o11y/issues/automations/create.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * create command
  * @generated from apis/overlays/o11y.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -20,47 +19,63 @@ import { withProgress } from "#lib/progress.js";
 import { promptForRequiredField } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 o11y issues automations create\n\nCreate an account or service issue automation."
-		)
-		.option("after-inactivity-seconds", {
-			type: "number",
-			description: "The afterInactivitySeconds field",
-		})
-		.option("after-occurrences", {
-			type: "number",
-			description: "The afterOccurrences field",
-		})
-		.option("enabled", { type: "boolean", description: "The enabled field" })
-		.option("name", { type: "string", description: "The name field" })
-		.option("policy-id", { type: "string", description: "The policyId field" })
-		.option("service", { type: "string", description: "The service field" })
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "create",
 	describe: "Create an issue automation",
-	builder,
+	usage:
+		"$0 o11y issues automations create\n\nCreate an account or service issue automation.",
+	flags: {
+		"after-inactivity-seconds": {
+			kind: "parsed",
+			brief: "The afterInactivitySeconds field",
+			optional: true,
+			parse: Number,
+		},
+		"after-occurrences": {
+			kind: "parsed",
+			brief: "The afterOccurrences field",
+			optional: true,
+			parse: Number,
+		},
+		enabled: { kind: "boolean", brief: "The enabled field", optional: true },
+		name: {
+			kind: "parsed",
+			brief: "The name field",
+			optional: true,
+			parse: String,
+		},
+		"policy-id": {
+			kind: "parsed",
+			brief: "The policyId field",
+			optional: true,
+			parse: String,
+		},
+		service: {
+			kind: "parsed",
+			brief: "The service field",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "o11y issues automations create",
 				classification: {
 					safeFlags: ["enabled", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -152,6 +167,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Created` });
 			}
 		),
-};
+});
 
 export default command;

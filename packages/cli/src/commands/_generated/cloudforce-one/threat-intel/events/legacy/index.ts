@@ -3,28 +3,23 @@ import $graphql from "./graphql.js";
 import $raw from "./raw/index.js";
 import $references from "./references/index.js";
 import $tags from "./tags/index.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * legacy command group
  * @generated from apis/overlays/cloudforce-one.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "legacy",
 	describe: "Operations for threat-intel.events.legacy",
 
-	builder: (yargs) => {
-		return yargs
-			.command($get)
-			.command($graphql)
-			.command($raw)
-			.command($references)
-			.command($tags)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		get: $get,
+		graphql: $graphql,
+		raw: $raw,
+		references: $references,
+		tags: $tags,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

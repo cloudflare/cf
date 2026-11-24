@@ -1,11 +1,10 @@
 import operation from "../../_operations/pages/deployments/delete.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * delete command
  * @generated from apis/overlays/pages.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -18,47 +17,44 @@ import { withProgress } from "#lib/progress.js";
 import { confirmDelete } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 pages deployments delete <deployment-id>\n\nRemove a deployment from a Cloudflare Pages project."
-		)
-		.positional("deployment-id", {
-			type: "string",
-			description:
-				"UUID of the Pages deployment, as returned by deployment list or create operations.",
-			demandOption: true,
-		})
-		.option("project-name", {
-			type: "string",
-			description:
-				"Name of the Pages project. Must begin with a lowercase letter or digit and contain only lowercase letters, digits, and hyphens.",
-			demandOption: true,
-		})
-		.option("allow-aliased", {
-			type: "boolean",
-			description:
-				"Allow deletion when a non-production deployment has an active alias.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("force", {
-			type: "boolean",
-			alias: "f",
-			description: "Skip confirmation (useful in scripts and CI)",
-			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "delete <deployment-id>",
 	describe: "Delete a Pages deployment",
-	builder,
+	usage:
+		"$0 pages deployments delete <deployment-id>\n\nRemove a deployment from a Cloudflare Pages project.",
+	flags: {
+		"project-name": {
+			kind: "parsed",
+			brief:
+				"Name of the Pages project. Must begin with a lowercase letter or digit and contain only lowercase letters, digits, and hyphens.",
+			parse: String,
+		},
+		"allow-aliased": {
+			kind: "boolean",
+			brief:
+				"Allow deletion when a non-production deployment has an active alias.",
+			optional: true,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		force: {
+			kind: "boolean",
+			brief: "Skip confirmation (useful in scripts and CI)",
+			alias: "f",
+			default: false,
+		},
+	},
+	operands: [
+		{
+			placeholder: "deployment-id",
+			brief:
+				"UUID of the Pages deployment, as returned by deployment list or create operations.",
+			parse: String,
+		},
+	],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
@@ -66,7 +62,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				classification: {
 					safeFlags: ["allow-aliased", "dry-run", "force"],
 					shortFlagAliases: { f: { canonical: "force", type: "boolean" } },
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -107,6 +103,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Deleted` });
 			}
 		),
-};
+});
 
 export default command;

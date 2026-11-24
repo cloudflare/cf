@@ -8,33 +8,28 @@ import $markread from "./mark-read.js";
 import $reprocess from "./reprocess.js";
 import $skills from "./skills/index.js";
 import $tags from "./tags/index.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * articles command group
  * @generated from apis/overlays/cloudforce-one.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "articles",
 	describe: "Operations for threat-signals.articles",
 
-	builder: (yargs) => {
-		return yargs
-			.command($aggregaterelevance)
-			.command($aggregateseverity)
-			.command($bulkmarkread)
-			.command($get)
-			.command($getcontent)
-			.command($list)
-			.command($markread)
-			.command($reprocess)
-			.command($skills)
-			.command($tags)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		"aggregate-relevance": $aggregaterelevance,
+		"aggregate-severity": $aggregateseverity,
+		"bulk-mark-read": $bulkmarkread,
+		get: $get,
+		"get-content": $getcontent,
+		list: $list,
+		"mark-read": $markread,
+		reprocess: $reprocess,
+		skills: $skills,
+		tags: $tags,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

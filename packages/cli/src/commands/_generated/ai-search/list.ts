@@ -1,11 +1,10 @@
 import operation from "../_operations/ai-search/list.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * list command
  * @generated from apis/overlays/ai-search.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -17,59 +16,69 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage("$0 ai-search list\n\nLists all AI Search instances in the account.")
-		.option("namespace", {
-			type: "string",
-			description: "Namespace to use for this operation.",
-			default: "default",
-		})
-		.option("page", { type: "number", description: "Page number (1-indexed)." })
-		.option("per-page", {
-			type: "number",
-			description: "Number of results per page.",
-		})
-		.option("search", {
-			type: "string",
-			description:
-				"Filter instances whose id contains this string (case-insensitive).",
-		})
-		.option("hostname", {
-			type: "string",
-			description:
-				"Return only instances with this exact Search for Agents hostname (case-insensitive).",
-		})
-		.option("order-by", {
-			type: "string",
-			description: "Field to order results by.",
-			choices: ["created_at"],
-		})
-		.option("order-by-direction", {
-			type: "string",
-			description: "Order direction.",
-			choices: ["asc", "desc"],
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "list",
 	describe: "List AI Search instances.",
-	builder,
+	usage: "$0 ai-search list\n\nLists all AI Search instances in the account.",
+	flags: {
+		namespace: {
+			kind: "parsed",
+			brief: "Namespace to use for this operation.",
+			default: "default",
+			parse: String,
+		},
+		page: {
+			kind: "parsed",
+			brief: "Page number (1-indexed).",
+			optional: true,
+			parse: Number,
+		},
+		"per-page": {
+			kind: "parsed",
+			brief: "Number of results per page.",
+			optional: true,
+			parse: Number,
+		},
+		search: {
+			kind: "parsed",
+			brief:
+				"Filter instances whose id contains this string (case-insensitive).",
+			optional: true,
+			parse: String,
+		},
+		hostname: {
+			kind: "parsed",
+			brief:
+				"Return only instances with this exact Search for Agents hostname (case-insensitive).",
+			optional: true,
+			parse: String,
+		},
+		"order-by": {
+			kind: "enum",
+			brief: "Field to order results by.",
+			values: ["created_at"],
+			optional: true,
+		},
+		"order-by-direction": {
+			kind: "enum",
+			brief: "Order direction.",
+			values: ["asc", "desc"],
+			optional: true,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "ai-search list",
 				classification: {
 					safeFlags: ["order-by", "order-by-direction", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -107,6 +116,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Loaded` });
 			}
 		),
-};
+});
 
 export default command;

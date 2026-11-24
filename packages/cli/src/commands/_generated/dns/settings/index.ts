@@ -1,22 +1,17 @@
 import $account from "./account/index.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * settings command group
  * @generated from apis/overlays/dns.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "settings",
 	describe: "Operations for settings",
 
-	builder: (yargs) => {
-		return yargs
-			.command($account)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		account: $account,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

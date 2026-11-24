@@ -7,32 +7,27 @@ import $schema from "./schema/index.js";
 import $test from "./test.js";
 import $update from "./update.js";
 import $validate from "./validate.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * email command group
  * @generated from apis/overlays/cloudforce-one.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "email",
 	describe: "Email rule operations",
 
-	builder: (yargs) => {
-		return yargs
-			.command($create)
-			.command($delete)
-			.command($get)
-			.command($list)
-			.command($test)
-			.command($update)
-			.command($validate)
-			.command($approvals)
-			.command($schema)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		create: $create,
+		delete: $delete,
+		get: $get,
+		list: $list,
+		test: $test,
+		update: $update,
+		validate: $validate,
+		approvals: $approvals,
+		schema: $schema,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

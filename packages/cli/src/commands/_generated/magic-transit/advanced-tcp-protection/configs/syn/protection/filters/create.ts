@@ -1,11 +1,10 @@
 import operation from "../../../../../../_operations/magic-transit/advanced-tcp-protection/configs/syn/protection/filters/create.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * create command
  * @generated from apis/overlays/magic-transit.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -20,45 +19,46 @@ import { withProgress } from "#lib/progress.js";
 import { promptForRequiredField } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 magic-transit advanced-tcp-protection configs syn protection filters create\n\nCreate a SYN Protection filter for an account."
-		)
-		.option("expression", {
-			type: "string",
-			description: "The filter expression.",
-		})
-		.option("filter-mode", {
-			type: "string",
-			description:
-				"The filter's mode. Must be one of 'enabled', 'disabled', 'monitoring'.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "The new filter to create.",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "create",
 	describe: "Create a SYN Protection filter.",
-	builder,
+	usage:
+		"$0 magic-transit advanced-tcp-protection configs syn protection filters create\n\nCreate a SYN Protection filter for an account.",
+	flags: {
+		expression: {
+			kind: "parsed",
+			brief: "The filter expression.",
+			optional: true,
+			parse: String,
+		},
+		"filter-mode": {
+			kind: "parsed",
+			brief:
+				"The filter's mode. Must be one of 'enabled', 'disabled', 'monitoring'.",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "The new filter to create.",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command:
 					"magic-transit advanced-tcp-protection configs syn protection filters create",
-				classification: {
-					safeFlags: ["dry-run"],
-				} satisfies ArgClassification<Args>,
+				classification: { safeFlags: ["dry-run"] } satisfies ArgClassification<
+					typeof argv
+				>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -141,6 +141,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Created` });
 			}
 		),
-};
+});
 
 export default command;

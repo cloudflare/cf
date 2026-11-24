@@ -7,32 +7,27 @@ import $sharedqueries from "./shared-queries/index.js";
 import $telemetry from "./telemetry/index.js";
 import $tracing from "./tracing/index.js";
 import $usage from "./usage.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * o11y command
  * @generated from apis/overlays/o11y.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "o11y",
 	describe: "o11y",
 
-	builder: (yargs) => {
-		return yargs
-			.command($usage)
-			.command($agents)
-			.command($destinations)
-			.command($issues)
-			.command($metricsexport)
-			.command($queries)
-			.command($sharedqueries)
-			.command($telemetry)
-			.command($tracing)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		usage: $usage,
+		agents: $agents,
+		destinations: $destinations,
+		issues: $issues,
+		"metrics-export": $metricsexport,
+		queries: $queries,
+		"shared-queries": $sharedqueries,
+		telemetry: $telemetry,
+		tracing: $tracing,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

@@ -1,11 +1,10 @@
 import operation from "../../../../_operations/zero-trust/identity-providers/scim/groups/list.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * list command
  * @generated from apis/overlays/zero-trust.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -17,57 +16,61 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 zero-trust identity-providers scim groups list\n\nLists SCIM Group resources synced to Cloudflare via the System for Cross-domain Identity Management (SCIM)."
-		)
-		.option("identity-provider-id", {
-			type: "string",
-			description: "UUID.",
-			demandOption: true,
-		})
-		.option("cf-resource-id", {
-			type: "string",
-			array: true,
-			description:
-				'The unique Cloudflare-generated Id of the SCIM Group resource; also known as the "Id".\nPass once for a single lookup (`?cf_resource_id=A`) or repeat the parameter\n(`?cf_resource_id=A&cf_resource_id=B`) to look up multiple groups in one request,\nup to 50 values. Mutually exclusive with `idp_resource_id`, `name`,\n`search_contains`, and `search_starts_with`.',
-		})
-		.option("idp-resource-id", {
-			type: "string",
-			array: true,
-			description:
-				'The IdP-generated Id of the SCIM Group resource; also known as the "external Id".\nPass once for a single lookup (`?idp_resource_id=A`) or repeat the parameter\n(`?idp_resource_id=A&idp_resource_id=B`) to look up multiple groups in one request,\nup to 50 values. Mutually exclusive with `cf_resource_id`, `name`,\n`search_contains`, and `search_starts_with`.',
-		})
-		.option("name", {
-			type: "string",
-			description: "The display name of the SCIM Group resource.",
-		})
-		.option("page", { type: "number", description: "Page number of results." })
-		.option("per-page", {
-			type: "number",
-			description: "Number of results per page.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "list",
 	describe: "List SCIM Group resources",
-	builder,
+	usage:
+		"$0 zero-trust identity-providers scim groups list\n\nLists SCIM Group resources synced to Cloudflare via the System for Cross-domain Identity Management (SCIM).",
+	flags: {
+		"identity-provider-id": { kind: "parsed", brief: "UUID.", parse: String },
+		"cf-resource-id": {
+			kind: "parsed",
+			brief:
+				'The unique Cloudflare-generated Id of the SCIM Group resource; also known as the "Id".\nPass once for a single lookup (`?cf_resource_id=A`) or repeat the parameter\n(`?cf_resource_id=A&cf_resource_id=B`) to look up multiple groups in one request,\nup to 50 values. Mutually exclusive with `idp_resource_id`, `name`,\n`search_contains`, and `search_starts_with`.',
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"idp-resource-id": {
+			kind: "parsed",
+			brief:
+				'The IdP-generated Id of the SCIM Group resource; also known as the "external Id".\nPass once for a single lookup (`?idp_resource_id=A`) or repeat the parameter\n(`?idp_resource_id=A&idp_resource_id=B`) to look up multiple groups in one request,\nup to 50 values. Mutually exclusive with `cf_resource_id`, `name`,\n`search_contains`, and `search_starts_with`.',
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		name: {
+			kind: "parsed",
+			brief: "The display name of the SCIM Group resource.",
+			optional: true,
+			parse: String,
+		},
+		page: {
+			kind: "parsed",
+			brief: "Page number of results.",
+			optional: true,
+			parse: Number,
+		},
+		"per-page": {
+			kind: "parsed",
+			brief: "Number of results per page.",
+			optional: true,
+			parse: Number,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "zero-trust identity-providers scim groups list",
-				classification: {
-					safeFlags: ["dry-run"],
-				} satisfies ArgClassification<Args>,
+				classification: { safeFlags: ["dry-run"] } satisfies ArgClassification<
+					typeof argv
+				>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -108,6 +111,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Loaded` });
 			}
 		),
-};
+});
 
 export default command;

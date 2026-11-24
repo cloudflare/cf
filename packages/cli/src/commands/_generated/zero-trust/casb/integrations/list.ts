@@ -1,11 +1,10 @@
 import operation from "../../../_operations/zero-trust/casb/integrations/list.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * list command
  * @generated from apis/overlays/zero-trust.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -17,72 +16,81 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 zero-trust casb integrations list\n\nReturns a paginated list of integrations for the account."
-		)
-		.option("application", {
-			type: "string",
-			description:
-				"Filter by application/vendor (e.g., GOOGLE_WORKSPACE, MICROSOFT_INTERNAL).",
-		})
-		.option("direction", {
-			type: "string",
-			description: "Direction to order results.",
-			choices: ["asc", "desc"],
-		})
-		.option("dlp-enabled", {
-			type: "boolean",
-			description: "Filter by DLP enabled status (true/false).",
-		})
-		.option("order", {
-			type: "string",
-			description: "Field to order results by.",
-			choices: ["application", "created", "name", "status"],
-		})
-		.option("page", {
-			type: "number",
-			description: "Page number within the paginated result set.",
-		})
-		.option("page-size", {
-			type: "number",
-			description: "Number of results per page.",
-		})
-		.option("search", {
-			type: "string",
-			description: "Search integrations by name or application.",
-		})
-		.option("status", {
-			type: "string",
-			description: "Filter by integration status.",
-			choices: ["Healthy", "Initializing", "Offline", "Unhealthy"],
-		})
-		.option("use-cases", {
-			type: "string",
-			description:
-				"Filter by enabled use cases (e.g., casb, ces). Matches integrations enrolled in any of the specified values. Can be specified multiple times.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "list",
 	describe: "List integrations",
-	builder,
+	usage:
+		"$0 zero-trust casb integrations list\n\nReturns a paginated list of integrations for the account.",
+	flags: {
+		application: {
+			kind: "parsed",
+			brief:
+				"Filter by application/vendor (e.g., GOOGLE_WORKSPACE, MICROSOFT_INTERNAL).",
+			optional: true,
+			parse: String,
+		},
+		direction: {
+			kind: "enum",
+			brief: "Direction to order results.",
+			values: ["asc", "desc"],
+			optional: true,
+		},
+		"dlp-enabled": {
+			kind: "boolean",
+			brief: "Filter by DLP enabled status (true/false).",
+			optional: true,
+		},
+		order: {
+			kind: "enum",
+			brief: "Field to order results by.",
+			values: ["application", "created", "name", "status"],
+			optional: true,
+		},
+		page: {
+			kind: "parsed",
+			brief: "Page number within the paginated result set.",
+			optional: true,
+			parse: Number,
+		},
+		"page-size": {
+			kind: "parsed",
+			brief: "Number of results per page.",
+			optional: true,
+			parse: Number,
+		},
+		search: {
+			kind: "parsed",
+			brief: "Search integrations by name or application.",
+			optional: true,
+			parse: String,
+		},
+		status: {
+			kind: "enum",
+			brief: "Filter by integration status.",
+			values: ["Healthy", "Initializing", "Offline", "Unhealthy"],
+			optional: true,
+		},
+		"use-cases": {
+			kind: "parsed",
+			brief:
+				"Filter by enabled use cases (e.g., casb, ces). Matches integrations enrolled in any of the specified values. Can be specified multiple times.",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "zero-trust casb integrations list",
 				classification: {
 					safeFlags: ["direction", "dlp-enabled", "order", "status", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -119,6 +127,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Loaded` });
 			}
 		),
-};
+});
 
 export default command;

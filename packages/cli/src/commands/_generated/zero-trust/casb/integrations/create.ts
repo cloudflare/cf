@@ -1,10 +1,9 @@
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * create command
  * @generated from apis/overlays/zero-trust.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -28,15 +27,17 @@ import {
 } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 zero-trust casb integrations create\n\nCreates a new integration for the specified application. For other auth methods, use `GET /v2/applications/{application_id}/credential-guide` to see the required credential structure and example payloads for each vendor."
-		)
-		.option("application", {
-			type: "string",
-			description:
+const command = apiCommand({
+	command: "create",
+	describe: "Create integration",
+	usage:
+		"$0 zero-trust casb integrations create\n\nCreates a new integration for the specified application. For other auth methods, use `GET /v2/applications/{application_id}/credential-guide` to see the required credential structure and example payloads for each vendor.",
+	flags: {
+		application: {
+			kind: "parsed",
+			brief:
 				"Vendor/application slug (e.g., GOOGLE_WORKSPACE).\n\n* `ANTHROPIC` - ANTHROPIC\n* `AWS` - AWS\n* `BITBUCKET` - BITBUCKET\n* `BOX` - BOX\n* `CONFLUENCE` - CONFLUENCE\n* `DROPBOX` - DROPBOX\n* `GITHUB` - GITHUB\n* `GOOGLE_CLOUD_PLATFORM` - GOOGLE_CLOUD_PLATFORM\n* `GOOGLE_WORKSPACE` - GOOGLE_WORKSPACE\n* `JIRA` - JIRA\n* `MICROSOFT_INTERNAL` - MICROSOFT_INTERNAL\n* `OPENAI` - OPENAI\n* `SALESFORCE` - SALESFORCE\n* `SERVICENOW` - SERVICENOW\n* `SLACK` - SLACK\n* `ZOOM` - ZOOM",
+			optional: true,
 			choices: [
 				"ANTHROPIC",
 				"AWS",
@@ -55,64 +56,76 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"SLACK",
 				"ZOOM",
 			],
-		})
-		.coerce("application", (value) =>
-			resolveFileToken(value, "application", "text")
-		)
-		.option("auth-method", {
-			type: "string",
-			description: "Authentication method slug (uses default if omitted).",
-		})
-		.option("credentials", {
-			type: "string",
-			description:
+			parse: String,
+			coerce: (value: string) => resolveFileToken(value, "application", "text"),
+		},
+		"auth-method": {
+			kind: "parsed",
+			brief: "Authentication method slug (uses default if omitted).",
+			optional: true,
+			parse: String,
+		},
+		credentials: {
+			kind: "parsed",
+			brief:
 				'Credentials for the integration. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": unknown}.',
-		})
-		.option("dlp-profiles", {
-			type: "string",
-			array: true,
-			description: "List of DLP profile IDs to associate.",
-		})
-		.option("name", { type: "string", description: "Name of the integration." })
-		.option("permissions", {
-			type: "string",
-			array: true,
-			description: "List of permission scopes (uses policy defaults if empty).",
-		})
-		.option("use-cases", {
-			type: "string",
-			array: true,
-			description:
+			optional: true,
+			parse: String,
+		},
+		"dlp-profiles": {
+			kind: "parsed",
+			brief: "List of DLP profile IDs to associate.",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		name: {
+			kind: "parsed",
+			brief: "Name of the integration.",
+			optional: true,
+			parse: String,
+		},
+		permissions: {
+			kind: "parsed",
+			brief: "List of permission scopes (uses policy defaults if empty).",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"use-cases": {
+			kind: "parsed",
+			brief:
 				"List of use case or feature slugs to enroll. At least one use case (casb, ces) is required; auto_remediation may be added alongside casb (e.g., ['casb', 'ces', 'auto_remediation']).",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
 			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Serializer for v2 integration create requests.",
-		})
-		.option("file", {
-			type: "string",
-			description: "Path to a file to upload as the request body",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "create",
-	describe: "Create integration",
-	builder,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Serializer for v2 integration create requests.",
+			optional: true,
+			parse: String,
+		},
+		file: {
+			kind: "parsed",
+			brief: "Path to a file to upload as the request body",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "zero-trust casb integrations create",
 				classification: {
 					safeFlags: ["application", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -290,6 +303,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Created` });
 			}
 		),
-};
+});
 
 export default command;

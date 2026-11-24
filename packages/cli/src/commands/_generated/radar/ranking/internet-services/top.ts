@@ -1,66 +1,69 @@
 import operation from "../../../_operations/radar/ranking/internet-services/top.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * top command
  * @generated from apis/overlays/radar.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import { createCommandClient } from "#lib/auth.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 radar ranking internet-services top\n\nRetrieves top Internet services based on their rank."
-		)
-		.option("service-category", {
-			type: "string",
-			array: true,
-			description: "Filters results by Internet service category.",
-		})
-		.option("limit", {
-			type: "number",
-			description: "Limits the number of objects returned in the response.",
-		})
-		.option("name", {
-			type: "string",
-			array: true,
-			description: "Array of names used to label the series in the response.",
-		})
-		.option("date", {
-			type: "string",
-			array: true,
-			description: "Filters results by the specified array of dates.",
-		})
-		.option("format", {
-			type: "string",
-			description: "Format in which results will be returned.",
-			choices: ["JSON", "CSV"],
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "top",
 	describe: "Get top Internet services",
-	builder,
+	usage:
+		"$0 radar ranking internet-services top\n\nRetrieves top Internet services based on their rank.",
+	flags: {
+		"service-category": {
+			kind: "parsed",
+			brief: "Filters results by Internet service category.",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		limit: {
+			kind: "parsed",
+			brief: "Limits the number of objects returned in the response.",
+			optional: true,
+			parse: Number,
+		},
+		name: {
+			kind: "parsed",
+			brief: "Array of names used to label the series in the response.",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		date: {
+			kind: "parsed",
+			brief: "Filters results by the specified array of dates.",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		format: {
+			kind: "enum",
+			brief: "Format in which results will be returned.",
+			values: ["JSON", "CSV"],
+			optional: true,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "radar ranking internet-services top",
 				classification: {
 					safeFlags: ["format", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -90,6 +93,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Loaded` });
 			}
 		),
-};
+});
 
 export default command;

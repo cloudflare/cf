@@ -1,68 +1,66 @@
 import operation from "../../../_operations/radar/ranking/domain/get.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * get command
  * @generated from apis/overlays/radar.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import { createCommandClient } from "#lib/auth.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 radar ranking domain get <domain>\n\nRetrieves domain rank details. Cloudflare provides an ordered rank for the top 100 domains, but for the remainder it only provides ranking buckets like top 200 thousand, top one million, etc.. These are available through Radar datasets endpoints."
-		)
-		.positional("domain", {
-			type: "string",
-			description: "Domain name.",
-			demandOption: true,
-		})
-		.option("limit", {
-			type: "number",
-			description: "Limits the number of objects returned in the response.",
-		})
-		.option("ranking-type", {
-			type: "string",
-			description: "The ranking type.",
-			choices: ["POPULAR", "TRENDING_RISE", "TRENDING_STEADY"],
-		})
-		.option("name", {
-			type: "string",
-			array: true,
-			description: "Array of names used to label the series in the response.",
-		})
-		.option("include-top-locations", {
-			type: "boolean",
-			description: "Includes top locations in the response.",
-		})
-		.option("date", {
-			type: "string",
-			array: true,
-			description: "Filters results by the specified array of dates.",
-		})
-		.option("format", {
-			type: "string",
-			description: "Format in which results will be returned.",
-			choices: ["JSON", "CSV"],
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "get <domain>",
 	describe: "Get domain rank details",
-	builder,
+	usage:
+		"$0 radar ranking domain get <domain>\n\nRetrieves domain rank details. Cloudflare provides an ordered rank for the top 100 domains, but for the remainder it only provides ranking buckets like top 200 thousand, top one million, etc.. These are available through Radar datasets endpoints.",
+	flags: {
+		limit: {
+			kind: "parsed",
+			brief: "Limits the number of objects returned in the response.",
+			optional: true,
+			parse: Number,
+		},
+		"ranking-type": {
+			kind: "enum",
+			brief: "The ranking type.",
+			values: ["POPULAR", "TRENDING_RISE", "TRENDING_STEADY"],
+			optional: true,
+		},
+		name: {
+			kind: "parsed",
+			brief: "Array of names used to label the series in the response.",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"include-top-locations": {
+			kind: "boolean",
+			brief: "Includes top locations in the response.",
+			optional: true,
+		},
+		date: {
+			kind: "parsed",
+			brief: "Filters results by the specified array of dates.",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		format: {
+			kind: "enum",
+			brief: "Format in which results will be returned.",
+			values: ["JSON", "CSV"],
+			optional: true,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+	},
+	operands: [{ placeholder: "domain", brief: "Domain name.", parse: String }],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
@@ -74,7 +72,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"format",
 						"dry-run",
 					],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -105,6 +103,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Loaded` });
 			}
 		),
-};
+});
 
 export default command;

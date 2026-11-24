@@ -1,11 +1,10 @@
 import operation from "../../../_operations/images/import/sources/pre-check.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * pre-check command
  * @generated from apis/overlays/images.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -23,59 +22,65 @@ import {
 } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 images import sources pre-check\n\nCheck S3 credentials without saving a source."
-		)
-		.option("account", {
-			type: "string",
-			description:
-				"Account identifier for the bucket (required for R2 vendor).",
-		})
-		.option("bucket", {
-			type: "string",
-			description: "The name of the storage bucket.",
-		})
-		.option("region", {
-			type: "string",
-			description: "The region hint for the bucket (S3 only).",
-		})
-		.option("secret", {
-			type: "string",
-			description:
-				'Storage credentials for accessing the bucket. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": unknown}.',
-		})
-		.option("vendor", {
-			type: "string",
-			description: "The cloud storage vendor of the source bucket.",
-			choices: ["s3", "r2"],
-		})
-		.coerce("vendor", (value) => resolveFileToken(value, "vendor", "text"))
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "pre-check",
 	describe: "Precheck source connectivity",
-	builder,
+	usage:
+		"$0 images import sources pre-check\n\nCheck S3 credentials without saving a source.",
+	flags: {
+		account: {
+			kind: "parsed",
+			brief: "Account identifier for the bucket (required for R2 vendor).",
+			optional: true,
+			parse: String,
+		},
+		bucket: {
+			kind: "parsed",
+			brief: "The name of the storage bucket.",
+			optional: true,
+			parse: String,
+		},
+		region: {
+			kind: "parsed",
+			brief: "The region hint for the bucket (S3 only).",
+			optional: true,
+			parse: String,
+		},
+		secret: {
+			kind: "parsed",
+			brief:
+				'Storage credentials for accessing the bucket. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": unknown}.',
+			optional: true,
+			parse: String,
+		},
+		vendor: {
+			kind: "parsed",
+			brief: "The cloud storage vendor of the source bucket.",
+			optional: true,
+			choices: ["s3", "r2"],
+			parse: String,
+			coerce: (value: string) => resolveFileToken(value, "vendor", "text"),
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "images import sources pre-check",
 				classification: {
 					safeFlags: ["vendor", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -185,6 +190,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Created` });
 			}
 		),
-};
+});
 
 export default command;

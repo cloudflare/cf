@@ -1,72 +1,75 @@
 import operation from "../../../../_operations/radar/bgp/routes/upstreams/timeseries.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * timeseries command
  * @generated from apis/overlays/radar.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import { createCommandClient } from "#lib/auth.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			'$0 radar bgp routes upstreams timeseries <asn>\n\nRetrieves the share of an AS’s observed paths carried by each direct upstream over time, derived from RouteViews RIB snapshots across all collectors (the combined product). Each upstream ASN is returned as its own series of shares (0–1); the least-significant upstreams beyond the requested limit are grouped into an "OTHER" series. Series share a common set of timestamps.'
-		)
-		.positional("asn", {
-			type: "string",
-			description: "Single Autonomous System Number (ASN) as integer.",
-			demandOption: true,
-		})
-		.option("ip-version", {
-			type: "string",
-			description: "Address family of the observed paths. Defaults to IPv4.",
-			choices: ["IPv4", "IPv6"],
-		})
-		.option("date-start", {
-			type: "string",
-			description:
-				"Start of the date range (inclusive). Alternative to `dateRange`; provide together with `dateEnd`.",
-		})
-		.option("date-end", {
-			type: "string",
-			description:
-				"End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`.",
-		})
-		.option("limit", {
-			type: "number",
-			description:
-				'Number of upstream ASNs to return as separate series, ranked by the first bucket. Remaining upstreams are grouped into an "OTHER" series. Defaults to 5.',
-		})
-		.option("format", {
-			type: "string",
-			description: "Format in which results will be returned.",
-			choices: ["JSON", "CSV"],
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "timeseries <asn>",
 	describe: "Get upstream composition time series for an AS",
-	builder,
+	usage:
+		'$0 radar bgp routes upstreams timeseries <asn>\n\nRetrieves the share of an AS’s observed paths carried by each direct upstream over time, derived from RouteViews RIB snapshots across all collectors (the combined product). Each upstream ASN is returned as its own series of shares (0–1); the least-significant upstreams beyond the requested limit are grouped into an "OTHER" series. Series share a common set of timestamps.',
+	flags: {
+		"ip-version": {
+			kind: "enum",
+			brief: "Address family of the observed paths. Defaults to IPv4.",
+			values: ["IPv4", "IPv6"],
+			optional: true,
+		},
+		"date-start": {
+			kind: "parsed",
+			brief:
+				"Start of the date range (inclusive). Alternative to `dateRange`; provide together with `dateEnd`.",
+			optional: true,
+			parse: String,
+		},
+		"date-end": {
+			kind: "parsed",
+			brief:
+				"End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`.",
+			optional: true,
+			parse: String,
+		},
+		limit: {
+			kind: "parsed",
+			brief:
+				'Number of upstream ASNs to return as separate series, ranked by the first bucket. Remaining upstreams are grouped into an "OTHER" series. Defaults to 5.',
+			optional: true,
+			parse: Number,
+		},
+		format: {
+			kind: "enum",
+			brief: "Format in which results will be returned.",
+			values: ["JSON", "CSV"],
+			optional: true,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+	},
+	operands: [
+		{
+			placeholder: "asn",
+			brief: "Single Autonomous System Number (ASN) as integer.",
+			parse: String,
+		},
+	],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "radar bgp routes upstreams timeseries",
 				classification: {
 					safeFlags: ["ip-version", "format", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -96,6 +99,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Loaded` });
 			}
 		),
-};
+});
 
 export default command;

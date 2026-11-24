@@ -1,10 +1,9 @@
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * get-raw command
  * @generated from apis/overlays/cloudforce-one.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -17,42 +16,39 @@ import { withProgress } from "#lib/progress.js";
 import { fetchRawBytes, writeRawOutput } from "#lib/raw-fetch.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 cloudforce-one threat-signals feeds get-raw <feed-id>\n\nRetrieves the feed document fetched by the most recent poll as text/plain by default or application/xml when format is xml."
-		)
-		.positional("feed-id", {
-			type: "string",
-			description: "UUID of the Threat Signals feed",
-			demandOption: true,
-		})
-		.option("format", {
-			type: "string",
-			description:
-				"Response format. Use xml for application/xml; omit it for the default text/plain response.",
-			choices: ["xml"],
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "get-raw <feed-id>",
 	describe: "Get Threat Signals feed XML",
-	builder,
+	usage:
+		"$0 cloudforce-one threat-signals feeds get-raw <feed-id>\n\nRetrieves the feed document fetched by the most recent poll as text/plain by default or application/xml when format is xml.",
+	flags: {
+		format: {
+			kind: "enum",
+			brief:
+				"Response format. Use xml for application/xml; omit it for the default text/plain response.",
+			values: ["xml"],
+			optional: true,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+	},
+	operands: [
+		{
+			placeholder: "feed-id",
+			brief: "UUID of the Threat Signals feed",
+			parse: String,
+		},
+	],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "cloudforce-one threat-signals feeds get-raw",
 				classification: {
 					safeFlags: ["format", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -94,6 +90,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				return;
 			}
 		),
-};
+});
 
 export default command;

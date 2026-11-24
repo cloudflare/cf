@@ -1,11 +1,10 @@
 import operation from "../../../../_operations/cloudforce-one/threat-intel/events/categories/create.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * create command
  * @generated from apis/overlays/cloudforce-one.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -20,51 +19,64 @@ import { withProgress } from "#lib/progress.js";
 import { promptForRequiredField } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 cloudforce-one threat-intel events categories create\n\nCreates an event category for classifying events. `name` and `killChain` are required."
-		)
-		.option("kill-chain", {
-			type: "number",
-			description: "The killChain field",
-		})
-		.option("mitre-attack", {
-			type: "string",
-			array: true,
-			description: "The mitreAttack field",
-		})
-		.option("mitre-capec", {
-			type: "string",
-			array: true,
-			description: "The mitreCapec field",
-		})
-		.option("name", { type: "string", description: "The name field" })
-		.option("shortname", { type: "string", description: "The shortname field" })
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "create",
 	describe: "Create an event category",
-	builder,
+	usage:
+		"$0 cloudforce-one threat-intel events categories create\n\nCreates an event category for classifying events. `name` and `killChain` are required.",
+	flags: {
+		"kill-chain": {
+			kind: "parsed",
+			brief: "The killChain field",
+			optional: true,
+			parse: Number,
+		},
+		"mitre-attack": {
+			kind: "parsed",
+			brief: "The mitreAttack field",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"mitre-capec": {
+			kind: "parsed",
+			brief: "The mitreCapec field",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		name: {
+			kind: "parsed",
+			brief: "The name field",
+			optional: true,
+			parse: String,
+		},
+		shortname: {
+			kind: "parsed",
+			brief: "The shortname field",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "cloudforce-one threat-intel events categories create",
-				classification: {
-					safeFlags: ["dry-run"],
-				} satisfies ArgClassification<Args>,
+				classification: { safeFlags: ["dry-run"] } satisfies ArgClassification<
+					typeof argv
+				>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -151,6 +163,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Created` });
 			}
 		),
-};
+});
 
 export default command;

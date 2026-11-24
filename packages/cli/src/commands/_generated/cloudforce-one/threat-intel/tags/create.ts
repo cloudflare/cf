@@ -1,11 +1,10 @@
 import operation from "../../../_operations/cloudforce-one/threat-intel/tags/create.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * create command
  * @generated from apis/overlays/cloudforce-one.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -25,72 +24,103 @@ import { withProgress } from "#lib/progress.js";
 import { promptForRequiredField } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 cloudforce-one threat-intel tags create\n\nCreates a tag in the account and returns the complete tag."
-		)
-		.option("alias-group-names", {
-			type: "string",
-			array: true,
-			description: "The aliasGroupNames field",
-		})
-		.option("alias-group-names-internal", {
-			type: "string",
-			array: true,
-			description: "The aliasGroupNamesInternal field",
-		})
-		.option("aliases", {
-			type: "string",
-			description:
+const command = apiCommand({
+	command: "create",
+	describe: "Create a tag",
+	usage:
+		"$0 cloudforce-one threat-intel tags create\n\nCreates a tag in the account and returns the complete tag.",
+	flags: {
+		"alias-group-names": {
+			kind: "parsed",
+			brief: "The aliasGroupNames field",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"alias-group-names-internal": {
+			kind: "parsed",
+			brief: "The aliasGroupNamesInternal field",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		aliases: {
+			kind: "parsed",
+			brief:
 				'Structured aliases ({ value, confidence 1-10, tlp }). Public: returned to all accounts with per-entry TLP filtering (entries with tlp: purple are removed for non-CFONE accounts). Provide as a JSON array of objects or @path/to/file.json. Shape: [{"value": string, "confidence"?: (number | null), "tlp"?: ("red" | "amber" | "amber-strict" | ...more | null)}]. ? marks optional keys.',
-		})
-		.option("category-uuid", {
-			type: "string",
-			description:
+			optional: true,
+			parse: String,
+		},
+		"category-uuid": {
+			kind: "parsed",
+			brief:
 				"Tag type (category) UUID. Optional — when present, `properties` is validated against this category's schema. When absent, the tag is typeless and properties are accepted free-form.",
-		})
-		.option("confidence", {
-			type: "number",
-			description: "Overall tag confidence (1-10). Optional.",
-		})
-		.option("date-of-discovery", {
-			type: "string",
-			description: "Date of discovery (ISO YYYY-MM-DD). Optional.",
-		})
-		.option("description", {
-			type: "string",
-			description: "The description field",
-		})
-		.option("external-reference-links", {
-			type: "string",
-			array: true,
-			description: "The externalReferenceLinks field",
-		})
-		.option("external-references", {
-			type: "string",
-			description:
+			optional: true,
+			parse: String,
+		},
+		confidence: {
+			kind: "parsed",
+			brief: "Overall tag confidence (1-10). Optional.",
+			optional: true,
+			parse: Number,
+		},
+		"date-of-discovery": {
+			kind: "parsed",
+			brief: "Date of discovery (ISO YYYY-MM-DD). Optional.",
+			optional: true,
+			parse: String,
+		},
+		description: {
+			kind: "parsed",
+			brief: "The description field",
+			optional: true,
+			parse: String,
+		},
+		"external-reference-links": {
+			kind: "parsed",
+			brief: "The externalReferenceLinks field",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"external-references": {
+			kind: "parsed",
+			brief:
 				'Structured external references ({ url, description }). Public: returned to all accounts. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"url": string, "description"?: (string | null)}]. ? marks optional keys.',
-		})
-		.option("internal-aliases", {
-			type: "string",
-			description:
+			optional: true,
+			parse: String,
+		},
+		"internal-aliases": {
+			kind: "parsed",
+			brief:
 				'Owner-private structured aliases ({ value, confidence 1-10, tlp }). Returned to the owning account and omitted from shared-catalog non-owner responses. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"value": string, "confidence"?: (number | null), "tlp"?: ("red" | "amber" | "amber-strict" | ...more | null)}]. ? marks optional keys.',
-		})
-		.option("internal-description", {
-			type: "string",
-			description: "The internalDescription field",
-		})
-		.option("last-seen", { type: "string", description: "The lastSeen field" })
-		.option("properties", {
-			type: "string",
-			description:
+			optional: true,
+			parse: String,
+		},
+		"internal-description": {
+			kind: "parsed",
+			brief: "The internalDescription field",
+			optional: true,
+			parse: String,
+		},
+		"last-seen": {
+			kind: "parsed",
+			brief: "The lastSeen field",
+			optional: true,
+			parse: String,
+		},
+		properties: {
+			kind: "parsed",
+			brief:
 				'Structured metadata blob. Optional. When `categoryUuid` is given, validated against this category\'s schema on write. When typeless, accepted free-form. Use `{}` for a tag with no custom data. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": unknown}.',
-		})
-		.option("tlp", {
-			type: "string",
-			description:
+			optional: true,
+			parse: String,
+		},
+		tlp: {
+			kind: "parsed",
+			brief:
 				"Tag-level TLP handling marking. Optional. Allowed values: red, amber, amber-strict, green, clear, purple, amber+strict.",
+			optional: true,
 			choices: [
 				"red",
 				"amber",
@@ -100,33 +130,35 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"purple",
 				"amber+strict",
 			],
-		})
-		.coerce("tlp", (value) => resolveFileToken(value, "tlp", "text"))
-		.option("value", { type: "string", description: "The value field" })
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
+			parse: String,
+			coerce: (value: string) => resolveFileToken(value, "tlp", "text"),
+		},
+		value: {
+			kind: "parsed",
+			brief: "The value field",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
 			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "create",
-	describe: "Create a tag",
-	builder,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "cloudforce-one threat-intel tags create",
 				classification: {
 					safeFlags: ["tlp", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -282,6 +314,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Created` });
 			}
 		),
-};
+});
 
 export default command;

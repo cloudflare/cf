@@ -1,11 +1,10 @@
 import operation from "../../../_operations/api-security/schema-validation/schemas/set-validation.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * set-validation command
  * @generated from apis/overlays/api-security.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import { createCommandClient, getZoneId } from "#lib/auth.js";
 import { compactBody, parseBody } from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
@@ -13,44 +12,43 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 api-security schema-validation schemas set-validation <schema-id>\n\nEnables or disables validation for an uploaded OpenAPI schema without changing the schema document."
-		)
-		.positional("schema-id", {
-			type: "string",
-			description: "The unique identifier of the schema",
-			demandOption: true,
-		})
-		.option("validation-enabled", {
-			type: "boolean",
-			description: "Flag whether schema is enabled for validation.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "set-validation <schema-id>",
 	describe: "Set schema validation state",
-	builder,
+	usage:
+		"$0 api-security schema-validation schemas set-validation <schema-id>\n\nEnables or disables validation for an uploaded OpenAPI schema without changing the schema document.",
+	flags: {
+		"validation-enabled": {
+			kind: "boolean",
+			brief: "Flag whether schema is enabled for validation.",
+			optional: true,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [
+		{
+			placeholder: "schema-id",
+			brief: "The unique identifier of the schema",
+			parse: String,
+		},
+	],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "api-security schema-validation schemas set-validation",
 				classification: {
 					safeFlags: ["validation-enabled", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -108,6 +106,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Updated` });
 			}
 		),
-};
+});
 
 export default command;

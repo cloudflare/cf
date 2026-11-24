@@ -1,11 +1,10 @@
 import operation from "../../../../_operations/realtime/kit/meetings/participants/edit.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * edit command
  * @generated from apis/overlays/realtime.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -19,66 +18,68 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 realtime kit meetings participants edit <participant-id>\n\nUpdates a participant's details for the given meeting and participant ID."
-		)
-		.positional("participant-id", {
-			type: "string",
-			description:
-				"ID of the participant. You can fetch the participant ID using the add a participant API.",
-			demandOption: true,
-		})
-		.option("app-id", {
-			type: "string",
-			description: "The app identifier tag.",
-			demandOption: true,
-		})
-		.option("meeting-id", {
-			type: "string",
-			description:
-				"ID of the meeting. You can fetch the meeting ID using the create a meeting API.",
-			demandOption: true,
-		})
-		.option("name", {
-			type: "string",
-			description: "(Optional) Name of the participant.",
-		})
-		.option("picture", {
-			type: "string",
-			description:
-				"(Optional) A URL to a picture to be used for the participant.",
-		})
-		.option("preset-name", {
-			type: "string",
-			description:
-				"(Optional) Name of the preset to apply to this participant.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "edit <participant-id>",
 	describe: "Edit a participant's detail",
-	builder,
+	usage:
+		"$0 realtime kit meetings participants edit <participant-id>\n\nUpdates a participant's details for the given meeting and participant ID.",
+	flags: {
+		"app-id": {
+			kind: "parsed",
+			brief: "The app identifier tag.",
+			parse: String,
+		},
+		"meeting-id": {
+			kind: "parsed",
+			brief:
+				"ID of the meeting. You can fetch the meeting ID using the create a meeting API.",
+			parse: String,
+		},
+		name: {
+			kind: "parsed",
+			brief: "(Optional) Name of the participant.",
+			optional: true,
+			parse: String,
+		},
+		picture: {
+			kind: "parsed",
+			brief: "(Optional) A URL to a picture to be used for the participant.",
+			optional: true,
+			parse: String,
+		},
+		"preset-name": {
+			kind: "parsed",
+			brief: "(Optional) Name of the preset to apply to this participant.",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [
+		{
+			placeholder: "participant-id",
+			brief:
+				"ID of the participant. You can fetch the participant ID using the add a participant API.",
+			parse: String,
+		},
+	],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "realtime kit meetings participants edit",
-				classification: {
-					safeFlags: ["dry-run"],
-				} satisfies ArgClassification<Args>,
+				classification: { safeFlags: ["dry-run"] } satisfies ArgClassification<
+					typeof argv
+				>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -168,6 +169,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Updated` });
 			}
 		),
-};
+});
 
 export default command;

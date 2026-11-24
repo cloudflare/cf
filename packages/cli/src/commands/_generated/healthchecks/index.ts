@@ -5,31 +5,26 @@ import $get from "./get.js";
 import $list from "./list.js";
 import $previews from "./previews/index.js";
 import $update from "./update.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * healthchecks command
  * @generated from apis/overlays/healthchecks.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "healthchecks",
 	describe:
 		"Standalone health checks that monitor origin server availability from Cloudflare's edge",
 
-	builder: (yargs) => {
-		return yargs
-			.command($create)
-			.command($delete)
-			.command($edit)
-			.command($get)
-			.command($list)
-			.command($update)
-			.command($previews)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		create: $create,
+		delete: $delete,
+		edit: $edit,
+		get: $get,
+		list: $list,
+		update: $update,
+		previews: $previews,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

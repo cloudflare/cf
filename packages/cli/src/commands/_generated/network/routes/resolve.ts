@@ -1,11 +1,10 @@
 import operation from "../../_operations/network/routes/resolve.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * resolve command
  * @generated from apis/overlays/network.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -17,45 +16,38 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 network routes resolve <ip>\n\nFetches routes that contain the given IP address."
-		)
-		.positional("ip", {
-			type: "string",
-			description: "Ip",
-			demandOption: true,
-		})
-		.option("virtual-network-id", {
-			type: "string",
-			description: "UUID of the virtual network.",
-		})
-		.option("default-virtual-network-fallback", {
-			type: "boolean",
-			description:
-				"When the virtual_network_id parameter is not provided the request filter will default search routes that are in the default virtual network for the account. If this parameter is set to false, the search will include routes that do not have a virtual network.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "resolve <ip>",
 	describe: "Get tunnel route by IP",
-	builder,
+	usage:
+		"$0 network routes resolve <ip>\n\nFetches routes that contain the given IP address.",
+	flags: {
+		"virtual-network-id": {
+			kind: "parsed",
+			brief: "UUID of the virtual network.",
+			optional: true,
+			parse: String,
+		},
+		"default-virtual-network-fallback": {
+			kind: "boolean",
+			brief:
+				"When the virtual_network_id parameter is not provided the request filter will default search routes that are in the default virtual network for the account. If this parameter is set to false, the search will include routes that do not have a virtual network.",
+			optional: true,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+	},
+	operands: [{ placeholder: "ip", brief: "Ip", parse: String }],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "network routes resolve",
 				classification: {
 					safeFlags: ["default-virtual-network-fallback", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -90,6 +82,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Loaded` });
 			}
 		),
-};
+});
 
 export default command;

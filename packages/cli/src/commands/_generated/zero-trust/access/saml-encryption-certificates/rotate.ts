@@ -1,11 +1,10 @@
 import operation from "../../../_operations/zero-trust/access/saml-encryption-certificates/rotate.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * rotate command
  * @generated from apis/overlays/zero-trust.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -17,36 +16,32 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 zero-trust access saml-encryption-certificates rotate <saml-cert-set-id>\n\nRotates the SAML encryption certificates within the specified certificate set. This generates a new certificate and moves the current certificate to the previous slot. If a previous certificate exists, it will be deactivated and removed. This endpoint ensures zero-downtime rotation by maintaining both current and previous certificates during the transition period, allowing IdPs time to update their configurations. Automated rotation happens 30 days before a current certificate's expiration."
-		)
-		.positional("saml-cert-set-id", {
-			type: "string",
-			description: "UID of the SAML certificate set to rotate.",
-			demandOption: true,
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "rotate <saml-cert-set-id>",
 	describe: "Rotate SAML certificate",
-	builder,
+	usage:
+		"$0 zero-trust access saml-encryption-certificates rotate <saml-cert-set-id>\n\nRotates the SAML encryption certificates within the specified certificate set. This generates a new certificate and moves the current certificate to the previous slot. If a previous certificate exists, it will be deactivated and removed. This endpoint ensures zero-downtime rotation by maintaining both current and previous certificates during the transition period, allowing IdPs time to update their configurations. Automated rotation happens 30 days before a current certificate's expiration.",
+	flags: {
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+	},
+	operands: [
+		{
+			placeholder: "saml-cert-set-id",
+			brief: "UID of the SAML certificate set to rotate.",
+			parse: String,
+		},
+	],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "zero-trust access saml-encryption-certificates rotate",
-				classification: {
-					safeFlags: ["dry-run"],
-				} satisfies ArgClassification<Args>,
+				classification: { safeFlags: ["dry-run"] } satisfies ArgClassification<
+					typeof argv
+				>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -76,6 +71,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Created` });
 			}
 		),
-};
+});
 
 export default command;

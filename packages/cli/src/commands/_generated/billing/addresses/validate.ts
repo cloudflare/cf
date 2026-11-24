@@ -1,11 +1,10 @@
 import operation from "../../_operations/billing/addresses/validate.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * validate command
  * @generated from apis/overlays/billing.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import { createCommandClient } from "#lib/auth.js";
 import { compactBody, parseBody } from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
@@ -14,41 +13,63 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 billing addresses validate\n\nValidates a billing address and returns validated address suggestions. Authentication is not enforced to support pre-signup address validation flows, so credentials are accepted but not required."
-		)
-		.option("address", { type: "string", description: "Address line 1." })
-		.option("address2", { type: "string", description: "Address line 2." })
-		.option("city", { type: "string", description: "City." })
-		.option("country", { type: "string", description: "Country code." })
-		.option("state", { type: "string", description: "State or province." })
-		.option("zipcode", { type: "string", description: "Postal or zip code." })
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "validate",
 	describe: "Validate Billing Address",
-	builder,
+	usage:
+		"$0 billing addresses validate\n\nValidates a billing address and returns validated address suggestions. Authentication is not enforced to support pre-signup address validation flows, so credentials are accepted but not required.",
+	flags: {
+		address: {
+			kind: "parsed",
+			brief: "Address line 1.",
+			optional: true,
+			parse: String,
+		},
+		address2: {
+			kind: "parsed",
+			brief: "Address line 2.",
+			optional: true,
+			parse: String,
+		},
+		city: { kind: "parsed", brief: "City.", optional: true, parse: String },
+		country: {
+			kind: "parsed",
+			brief: "Country code.",
+			optional: true,
+			parse: String,
+		},
+		state: {
+			kind: "parsed",
+			brief: "State or province.",
+			optional: true,
+			parse: String,
+		},
+		zipcode: {
+			kind: "parsed",
+			brief: "Postal or zip code.",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "billing addresses validate",
-				classification: {
-					safeFlags: ["dry-run"],
-				} satisfies ArgClassification<Args>,
+				classification: { safeFlags: ["dry-run"] } satisfies ArgClassification<
+					typeof argv
+				>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -149,6 +170,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Validated` });
 			}
 		),
-};
+});
 
 export default command;

@@ -1,11 +1,10 @@
 import operation from "../../_operations/diagnostics/endpoint-healthchecks/create.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * create command
  * @generated from apis/overlays/diagnostics.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -23,52 +22,52 @@ import {
 } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 diagnostics endpoint-healthchecks create\n\nCreate Endpoint Health Check."
-		)
-		.option("check-type", {
-			type: "string",
-			description: "type of check to perform",
-			choices: ["icmp"],
-			default: "icmp",
-		})
-		.coerce("check-type", (value) =>
-			resolveFileToken(value, "check-type", "text")
-		)
-		.option("endpoint", {
-			type: "string",
-			description: "the IP address of the host to perform checks against",
-		})
-		.option("name", {
-			type: "string",
-			description: "Optional name associated with this check",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "create",
 	describe: "Endpoint Health Check",
-	builder,
+	usage:
+		"$0 diagnostics endpoint-healthchecks create\n\nCreate Endpoint Health Check.",
+	flags: {
+		"check-type": {
+			kind: "parsed",
+			brief: "type of check to perform",
+			default: "icmp",
+			choices: ["icmp"],
+			parse: String,
+			coerce: (value: string) => resolveFileToken(value, "check-type", "text"),
+		},
+		endpoint: {
+			kind: "parsed",
+			brief: "the IP address of the host to perform checks against",
+			optional: true,
+			parse: String,
+		},
+		name: {
+			kind: "parsed",
+			brief: "Optional name associated with this check",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "diagnostics endpoint-healthchecks create",
 				classification: {
 					safeFlags: ["check-type", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -153,6 +152,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Created` });
 			}
 		),
-};
+});
 
 export default command;

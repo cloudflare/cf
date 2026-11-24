@@ -1,57 +1,44 @@
 import operation from "../../../_operations/email-sending/subdomains/reputation/get-complaints.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * get-complaints command
  * @generated from apis/overlays/email-sending.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import { createCommandClient, getZoneId } from "#lib/auth.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 email-sending subdomains reputation get-complaints <subdomain-id>\n\nReturns the matched complaint count for a sending subdomain in a half-open time window of up to seven days."
-		)
-		.positional("subdomain-id", {
-			type: "string",
-			description: "Sending subdomain identifier.",
-			demandOption: true,
-		})
-		.option("start-at", {
-			type: "string",
-			description: "Start at",
-			demandOption: true,
-		})
-		.option("end-at", {
-			type: "string",
-			description: "End at",
-			demandOption: true,
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "get-complaints <subdomain-id>",
 	describe: "Get sending subdomain complaint count",
-	builder,
+	usage:
+		"$0 email-sending subdomains reputation get-complaints <subdomain-id>\n\nReturns the matched complaint count for a sending subdomain in a half-open time window of up to seven days.",
+	flags: {
+		"start-at": { kind: "parsed", brief: "Start at", parse: String },
+		"end-at": { kind: "parsed", brief: "End at", parse: String },
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+	},
+	operands: [
+		{
+			placeholder: "subdomain-id",
+			brief: "Sending subdomain identifier.",
+			parse: String,
+		},
+	],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "email-sending subdomains reputation get-complaints",
-				classification: {
-					safeFlags: ["dry-run"],
-				} satisfies ArgClassification<Args>,
+				classification: { safeFlags: ["dry-run"] } satisfies ArgClassification<
+					typeof argv
+				>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -89,6 +76,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Loaded` });
 			}
 		),
-};
+});
 
 export default command;

@@ -1,11 +1,10 @@
 import operation from "../../../_operations/zero-trust/access/custom-pages/update.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * update command
  * @generated from apis/overlays/zero-trust.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -23,66 +22,78 @@ import {
 } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 zero-trust access custom-pages update <custom-page-id>\n\nUpdate a custom page"
-		)
-		.positional("custom-page-id", {
-			type: "string",
-			description: "UUID.",
-			demandOption: true,
-		})
-		.option("app-count", {
-			type: "number",
-			description: "Number of apps the custom page is assigned to.",
-		})
-		.option("contract-version", {
-			type: "number",
-			description:
-				"Contract version of the page's Liquid template. Present (>= 1) marks a sanitized template; absent or 0 marks a legacy page served verbatim.",
-		})
-		.option("created-at", {
-			type: "string",
-			description: "The created_at field",
-		})
-		.option("custom-html", { type: "string", description: "Custom page HTML." })
-		.option("name", { type: "string", description: "Custom page name." })
-		.option("type", {
-			type: "string",
-			description: "Custom page type.",
-			choices: ["identity_denied", "forbidden", "login", "interstitial"],
-		})
-		.coerce("type", (value) => resolveFileToken(value, "type", "text"))
-		.option("uid", { type: "string", description: "UUID." })
-		.option("updated-at", {
-			type: "string",
-			description: "The updated_at field",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "update <custom-page-id>",
 	describe: "Update a custom page",
-	builder,
+	usage:
+		"$0 zero-trust access custom-pages update <custom-page-id>\n\nUpdate a custom page",
+	flags: {
+		"app-count": {
+			kind: "parsed",
+			brief: "Number of apps the custom page is assigned to.",
+			optional: true,
+			parse: Number,
+		},
+		"contract-version": {
+			kind: "parsed",
+			brief:
+				"Contract version of the page's Liquid template. Present (>= 1) marks a sanitized template; absent or 0 marks a legacy page served verbatim.",
+			optional: true,
+			parse: Number,
+		},
+		"created-at": {
+			kind: "parsed",
+			brief: "The created_at field",
+			optional: true,
+			parse: String,
+		},
+		"custom-html": {
+			kind: "parsed",
+			brief: "Custom page HTML.",
+			optional: true,
+			parse: String,
+		},
+		name: {
+			kind: "parsed",
+			brief: "Custom page name.",
+			optional: true,
+			parse: String,
+		},
+		type: {
+			kind: "parsed",
+			brief: "Custom page type.",
+			optional: true,
+			choices: ["identity_denied", "forbidden", "login", "interstitial"],
+			parse: String,
+			coerce: (value: string) => resolveFileToken(value, "type", "text"),
+		},
+		uid: { kind: "parsed", brief: "UUID.", optional: true, parse: String },
+		"updated-at": {
+			kind: "parsed",
+			brief: "The updated_at field",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [{ placeholder: "custom-page-id", brief: "UUID.", parse: String }],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "zero-trust access custom-pages update",
 				classification: {
 					safeFlags: ["type", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -217,6 +228,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Updated` });
 			}
 		),
-};
+});
 
 export default command;

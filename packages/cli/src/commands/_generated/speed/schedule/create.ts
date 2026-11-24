@@ -1,31 +1,26 @@
 import operation from "../../_operations/speed/schedule/create.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * create command
  * @generated from apis/overlays/speed.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import { createCommandClient, getZoneId } from "#lib/auth.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 speed schedule create <url>\n\nCreates a scheduled test for a page."
-		)
-		.positional("url", {
-			type: "string",
-			description: "A URL.",
-			demandOption: true,
-		})
-		.option("region", {
-			type: "string",
-			description: "A test region.",
-			choices: [
+const command = apiCommand({
+	command: "create <url>",
+	describe: "Create scheduled page test",
+	usage:
+		"$0 speed schedule create <url>\n\nCreates a scheduled test for a page.",
+	flags: {
+		region: {
+			kind: "enum",
+			brief: "A test region.",
+			values: [
 				"asia-east1",
 				"asia-northeast1",
 				"asia-northeast2",
@@ -48,33 +43,29 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"us-south1",
 				"us-west1",
 			],
-		})
-		.option("frequency", {
-			type: "string",
-			description:
+			optional: true,
+		},
+		frequency: {
+			kind: "enum",
+			brief:
 				"The frequency of the scheduled test. Defaults to WEEKLY for free plans, DAILY for paid plans.",
-			choices: ["DAILY", "WEEKLY"],
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
+			values: ["DAILY", "WEEKLY"],
+			optional: true,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
 			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "create <url>",
-	describe: "Create scheduled page test",
-	builder,
+		},
+	},
+	operands: [{ placeholder: "url", brief: "A URL.", parse: String }],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "speed schedule create",
 				classification: {
 					safeFlags: ["region", "frequency", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -112,6 +103,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Created` });
 			}
 		),
-};
+});
 
 export default command;

@@ -1,11 +1,10 @@
 import operation from "../../../../_operations/analytics/query/data-security/content-findings/top-n.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * top-n command
  * @generated from apis/overlays/analytics.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -20,52 +19,57 @@ import { withProgress } from "#lib/progress.js";
 import { promptForRequiredField } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 analytics query data-security content-findings top-n\n\nReturns the top N integrations ranked by total content findings."
-		)
-		.option("filters", {
-			type: "string",
-			description:
-				'Filters to apply. `findingType = content` is applied automatically for CASB data. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"name": string, "op": string, "values": [(string | boolean | number)]}].',
-		})
-		.option("from", {
-			type: "string",
-			description: "Start of the query time range (inclusive). RFC3339.",
-		})
-		.option("limit", {
-			type: "number",
-			description: "Maximum number of integrations to return.",
-		})
-		.option("to", {
-			type: "string",
-			description: "End of the query time range (exclusive). RFC3339.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Returns the top N integrations for content findings.",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "top-n",
 	describe: "Top integrations by content findings",
-	builder,
+	usage:
+		"$0 analytics query data-security content-findings top-n\n\nReturns the top N integrations ranked by total content findings.",
+	flags: {
+		filters: {
+			kind: "parsed",
+			brief:
+				'Filters to apply. `findingType = content` is applied automatically for CASB data. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"name": string, "op": string, "values": [(string | boolean | number)]}].',
+			optional: true,
+			parse: String,
+		},
+		from: {
+			kind: "parsed",
+			brief: "Start of the query time range (inclusive). RFC3339.",
+			optional: true,
+			parse: String,
+		},
+		limit: {
+			kind: "parsed",
+			brief: "Maximum number of integrations to return.",
+			optional: true,
+			parse: Number,
+		},
+		to: {
+			kind: "parsed",
+			brief: "End of the query time range (exclusive). RFC3339.",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Returns the top N integrations for content findings.",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "analytics query data-security content-findings top-n",
-				classification: {
-					safeFlags: ["dry-run"],
-				} satisfies ArgClassification<Args>,
+				classification: { safeFlags: ["dry-run"] } satisfies ArgClassification<
+					typeof argv
+				>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -157,6 +161,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Created` });
 			}
 		),
-};
+});
 
 export default command;

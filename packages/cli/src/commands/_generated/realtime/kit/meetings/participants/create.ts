@@ -1,11 +1,10 @@
 import operation from "../../../../_operations/realtime/kit/meetings/participants/create.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * create command
  * @generated from apis/overlays/realtime.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -20,75 +19,83 @@ import { withProgress } from "#lib/progress.js";
 import { promptForRequiredField } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 realtime kit meetings participants create <meeting-id>\n\nAdds a participant to the given meeting ID."
-		)
-		.positional("meeting-id", {
-			type: "string",
-			description:
-				"ID of the meeting. Fetch the meeting ID using the create a meeting API.",
-			demandOption: true,
-		})
-		.option("app-id", {
-			type: "string",
-			description: "The app identifier tag.",
-			demandOption: true,
-		})
-		.option("custom-participant-id", {
-			type: "string",
-			description:
-				"A unique participant ID. You must specify a unique ID for the participant, for example, UUID, email address, and so on. ",
-		})
-		.option("name", {
-			type: "string",
-			description: "(Optional) Name of the participant. ",
-		})
-		.option("picture", {
-			type: "string",
-			description:
-				"(Optional) A URL to a picture to be used for the participant. ",
-		})
-		.option("preset-name", {
-			type: "string",
-			description: "Name of the preset to apply to this participant.",
-			default: "group_call_host",
-		})
-		.option("token-expires-on", {
-			type: "string",
-			description:
-				"RFC 3339 timestamp with a timezone at or after which the token cannot be used. Must be in the future. Defaults to not_before plus 100 days.",
-		})
-		.option("token-not-before", {
-			type: "string",
-			description:
-				"RFC 3339 timestamp with a timezone before which the token cannot be used. Defaults to the current time. May be in the past.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "create <meeting-id>",
 	describe: "Add a participant",
-	builder,
+	usage:
+		"$0 realtime kit meetings participants create <meeting-id>\n\nAdds a participant to the given meeting ID.",
+	flags: {
+		"app-id": {
+			kind: "parsed",
+			brief: "The app identifier tag.",
+			parse: String,
+		},
+		"custom-participant-id": {
+			kind: "parsed",
+			brief:
+				"A unique participant ID. You must specify a unique ID for the participant, for example, UUID, email address, and so on. ",
+			optional: true,
+			parse: String,
+		},
+		name: {
+			kind: "parsed",
+			brief: "(Optional) Name of the participant. ",
+			optional: true,
+			parse: String,
+		},
+		picture: {
+			kind: "parsed",
+			brief: "(Optional) A URL to a picture to be used for the participant. ",
+			optional: true,
+			parse: String,
+		},
+		"preset-name": {
+			kind: "parsed",
+			brief: "Name of the preset to apply to this participant.",
+			default: "group_call_host",
+			parse: String,
+		},
+		"token-expires-on": {
+			kind: "parsed",
+			brief:
+				"RFC 3339 timestamp with a timezone at or after which the token cannot be used. Must be in the future. Defaults to not_before plus 100 days.",
+			optional: true,
+			parse: String,
+		},
+		"token-not-before": {
+			kind: "parsed",
+			brief:
+				"RFC 3339 timestamp with a timezone before which the token cannot be used. Defaults to the current time. May be in the past.",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [
+		{
+			placeholder: "meeting-id",
+			brief:
+				"ID of the meeting. Fetch the meeting ID using the create a meeting API.",
+			parse: String,
+		},
+	],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "realtime kit meetings participants create",
-				classification: {
-					safeFlags: ["dry-run"],
-				} satisfies ArgClassification<Args>,
+				classification: { safeFlags: ["dry-run"] } satisfies ArgClassification<
+					typeof argv
+				>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -227,6 +234,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Created` });
 			}
 		),
-};
+});
 
 export default command;

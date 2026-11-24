@@ -1,11 +1,10 @@
 import operation from "../../_operations/pages/deployments/list.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * list command
  * @generated from apis/overlays/pages.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -17,51 +16,51 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 pages deployments list\n\nList the production or preview deployments for a Cloudflare Pages project."
-		)
-		.option("project-name", {
-			type: "string",
-			description:
-				"Name of the Pages project. Must begin with a lowercase letter or digit and contain only lowercase letters, digits, and hyphens.",
-			demandOption: true,
-		})
-		.option("env", {
-			type: "string",
-			description:
-				"Deployment environment to return. Valid values are `production` and `preview`.",
-			choices: ["production", "preview"],
-		})
-		.option("page", {
-			type: "number",
-			description: "Page number of results to return.",
-		})
-		.option("per-page", {
-			type: "number",
-			description: "Number of results to return per page.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "list",
 	describe: "List Pages deployments",
-	builder,
+	usage:
+		"$0 pages deployments list\n\nList the production or preview deployments for a Cloudflare Pages project.",
+	flags: {
+		"project-name": {
+			kind: "parsed",
+			brief:
+				"Name of the Pages project. Must begin with a lowercase letter or digit and contain only lowercase letters, digits, and hyphens.",
+			parse: String,
+		},
+		env: {
+			kind: "enum",
+			brief:
+				"Deployment environment to return. Valid values are `production` and `preview`.",
+			values: ["production", "preview"],
+			optional: true,
+		},
+		page: {
+			kind: "parsed",
+			brief: "Page number of results to return.",
+			optional: true,
+			parse: Number,
+		},
+		"per-page": {
+			kind: "parsed",
+			brief: "Number of results to return per page.",
+			optional: true,
+			parse: Number,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "pages deployments list",
 				classification: {
 					safeFlags: ["env", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -96,6 +95,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Loaded` });
 			}
 		),
-};
+});
 
 export default command;

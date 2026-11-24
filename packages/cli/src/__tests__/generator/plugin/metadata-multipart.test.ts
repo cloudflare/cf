@@ -5,6 +5,7 @@ import {
 } from "../../../../generator/plugin/files.js";
 import { HandWritten } from "../../../../generator/plugin/hand-written.js";
 import { bodyParam, method, operation } from "../../helpers/cli-plugin.js";
+import { generatedOptions } from "../../helpers/command-parser.js";
 import type { Command } from "../../../../generator/plugin/commands.js";
 import type { MultipartField } from "../../../../generator/plugin/operation.js";
 import type { CommandMeta } from "../../../lib/command-meta.js";
@@ -73,11 +74,9 @@ function generate() {
 describe("command metadata multipart form options", () => {
 	it("lists the same flags as the runtime builder", () => {
 		const { meta, code } = generate();
-		const runtime = [
-			...code.matchAll(
-				/\.option\(['"]([^'"]+)['"], \{\s*(?:"type":"|type: ')(\w+)/g
-			),
-		].map(([, name, type]) => ({ name, type }));
+		const runtime = Object.entries(generatedOptions(code)).map(
+			([name, { type }]) => ({ name, type })
+		);
 		expect(meta.options.map(({ name, type }) => ({ name, type }))).toEqual(
 			runtime
 		);

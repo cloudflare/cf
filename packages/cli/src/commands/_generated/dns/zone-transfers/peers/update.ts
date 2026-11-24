@@ -1,11 +1,10 @@
 import operation from "../../../_operations/dns/zone-transfers/peers/update.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * update command
  * @generated from apis/overlays/dns.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -20,59 +19,64 @@ import { withProgress } from "#lib/progress.js";
 import { promptForRequiredField } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage("$0 dns zone-transfers peers update <peer-id>\n\nModify Peer.")
-		.positional("peer-id", {
-			type: "string",
-			description: "Peer ID",
-			demandOption: true,
-		})
-		.option("ip", {
-			type: "string",
-			description:
-				"IPv4/IPv6 address of primary or secondary nameserver, depending on what zone this peer is linked to. For primary zones this IP defines the IP of the secondary nameserver Cloudflare will NOTIFY upon zone changes. For secondary zones this IP defines the IP of the primary nameserver Cloudflare will send AXFR/IXFR requests to.",
-		})
-		.option("ixfr-enable", {
-			type: "boolean",
-			description:
-				"Enable IXFR transfer protocol, default is AXFR. Only applicable to secondary zones.",
-		})
-		.option("name", { type: "string", description: "The name of the peer." })
-		.option("port", {
-			type: "number",
-			description:
-				"DNS port of primary or secondary nameserver, depending on what zone this peer is linked to.",
-		})
-		.option("tsig-id", {
-			type: "string",
-			description:
-				"TSIG authentication will be used for zone transfer if configured.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "update <peer-id>",
 	describe: "Update Peer",
-	builder,
+	usage: "$0 dns zone-transfers peers update <peer-id>\n\nModify Peer.",
+	flags: {
+		ip: {
+			kind: "parsed",
+			brief:
+				"IPv4/IPv6 address of primary or secondary nameserver, depending on what zone this peer is linked to. For primary zones this IP defines the IP of the secondary nameserver Cloudflare will NOTIFY upon zone changes. For secondary zones this IP defines the IP of the primary nameserver Cloudflare will send AXFR/IXFR requests to.",
+			optional: true,
+			parse: String,
+		},
+		"ixfr-enable": {
+			kind: "boolean",
+			brief:
+				"Enable IXFR transfer protocol, default is AXFR. Only applicable to secondary zones.",
+			optional: true,
+		},
+		name: {
+			kind: "parsed",
+			brief: "The name of the peer.",
+			optional: true,
+			parse: String,
+		},
+		port: {
+			kind: "parsed",
+			brief:
+				"DNS port of primary or secondary nameserver, depending on what zone this peer is linked to.",
+			optional: true,
+			parse: Number,
+		},
+		"tsig-id": {
+			kind: "parsed",
+			brief:
+				"TSIG authentication will be used for zone transfer if configured.",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [{ placeholder: "peer-id", brief: "Peer ID", parse: String }],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "dns zone-transfers peers update",
 				classification: {
 					safeFlags: ["ixfr-enable", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -166,6 +170,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Updated` });
 			}
 		),
-};
+});
 
 export default command;

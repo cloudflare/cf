@@ -1,11 +1,10 @@
 import operation from "../../../_operations/zero-trust/dlp/entries/create.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * create command
  * @generated from apis/overlays/zero-trust.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -20,61 +19,72 @@ import { withProgress } from "#lib/progress.js";
 import { promptForRequiredField } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage("$0 zero-trust dlp entries create\n\nCreates a DLP custom entry.")
-		.option("description", {
-			type: "string",
-			description: "The description field",
-		})
-		.option("enabled", { type: "boolean", description: "The enabled field" })
-		.option("name", { type: "string", description: "The name field" })
-		.option("pattern-regex", {
-			type: "string",
-			description: "The pattern.regex field",
-		})
-		.option("pattern-validation", {
-			type: "string",
-			description: "The pattern.validation field",
-			choices: ["luhn"],
-		})
-		.coerce("pattern-validation", (value) =>
-			resolveFileToken(value, "pattern-validation", "text")
-		)
-		.option("profile-id", {
-			type: "string",
-			description: "The profile_id field",
-		})
-		.option("validator-ids", {
-			type: "string",
-			array: true,
-			description:
-				"Validators the new entry should reference, by id, at most 10.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "A new entry to create.",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "create",
 	describe: "Create custom entry",
-	builder,
+	usage: "$0 zero-trust dlp entries create\n\nCreates a DLP custom entry.",
+	flags: {
+		description: {
+			kind: "parsed",
+			brief: "The description field",
+			optional: true,
+			parse: String,
+		},
+		enabled: { kind: "boolean", brief: "The enabled field", optional: true },
+		name: {
+			kind: "parsed",
+			brief: "The name field",
+			optional: true,
+			parse: String,
+		},
+		"pattern-regex": {
+			kind: "parsed",
+			brief: "The pattern.regex field",
+			optional: true,
+			parse: String,
+		},
+		"pattern-validation": {
+			kind: "parsed",
+			brief: "The pattern.validation field",
+			optional: true,
+			choices: ["luhn"],
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "pattern-validation", "text"),
+		},
+		"profile-id": {
+			kind: "parsed",
+			brief: "The profile_id field",
+			optional: true,
+			parse: String,
+		},
+		"validator-ids": {
+			kind: "parsed",
+			brief: "Validators the new entry should reference, by id, at most 10.",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "A new entry to create.",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "zero-trust dlp entries create",
 				classification: {
 					safeFlags: ["enabled", "pattern-validation", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -191,6 +201,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Created` });
 			}
 		),
-};
+});
 
 export default command;

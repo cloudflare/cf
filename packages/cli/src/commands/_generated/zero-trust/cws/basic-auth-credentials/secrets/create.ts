@@ -1,11 +1,10 @@
 import operation from "../../../../_operations/zero-trust/cws/basic-auth-credentials/secrets/create.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * create command
  * @generated from apis/overlays/zero-trust.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -20,50 +19,52 @@ import { withProgress } from "#lib/progress.js";
 import { promptForRequiredField } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 zero-trust cws basic-auth-credentials secrets create <credential-id>\n\nAdds a password secret to the credential."
-		)
-		.positional("credential-id", {
-			type: "string",
-			description: "ID of the parent credential",
-			demandOption: true,
-		})
-		.option("expires-at", {
-			type: "string",
-			description:
-				"Optional deactivation deadline (RFC 3339). Omit or null for no expiry.",
-		})
-		.option("password", {
-			type: "string",
-			description:
-				"Password stored only as a one-way hash and never returned. Maximum 72 UTF-8 bytes.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "create <credential-id>",
 	describe: "Add a secret to a basic-auth credential",
-	builder,
+	usage:
+		"$0 zero-trust cws basic-auth-credentials secrets create <credential-id>\n\nAdds a password secret to the credential.",
+	flags: {
+		"expires-at": {
+			kind: "parsed",
+			brief:
+				"Optional deactivation deadline (RFC 3339). Omit or null for no expiry.",
+			optional: true,
+			parse: String,
+		},
+		password: {
+			kind: "parsed",
+			brief:
+				"Password stored only as a one-way hash and never returned. Maximum 72 UTF-8 bytes.",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [
+		{
+			placeholder: "credential-id",
+			brief: "ID of the parent credential",
+			parse: String,
+		},
+	],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "zero-trust cws basic-auth-credentials secrets create",
-				classification: {
-					safeFlags: ["dry-run"],
-				} satisfies ArgClassification<Args>,
+				classification: { safeFlags: ["dry-run"] } satisfies ArgClassification<
+					typeof argv
+				>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -151,6 +152,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Created` });
 			}
 		),
-};
+});
 
 export default command;

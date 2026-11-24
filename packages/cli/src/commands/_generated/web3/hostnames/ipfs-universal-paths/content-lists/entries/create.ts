@@ -1,11 +1,10 @@
 import operation from "../../../../../_operations/web3/hostnames/ipfs-universal-paths/content-lists/entries/create.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * create command
  * @generated from apis/overlays/web3.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import { createCommandClient, getZoneId } from "#lib/auth.js";
 import { compactBody, parseBody } from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
@@ -18,47 +17,51 @@ import {
 } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 web3 hostnames ipfs-universal-paths content-lists entries create <identifier>\n\nCreates a new entry in an IPFS Universal Path Gateway content list."
-		)
-		.positional("identifier", {
-			type: "string",
-			description: "Specify the identifier of the hostname.",
-			demandOption: true,
-		})
-		.option("content", {
-			type: "string",
-			description: "Specify the CID or content path of content to block.",
-		})
-		.option("description", {
-			type: "string",
-			description: "Specify an optional description of the content list entry.",
-		})
-		.option("type", {
-			type: "string",
-			description: "Specify the type of content list entry to block.",
-			choices: ["cid", "content_path"],
-		})
-		.coerce("type", (value) => resolveFileToken(value, "type", "text"))
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "create <identifier>",
 	describe: "Create IPFS Universal Path Gateway Content List Entry",
-	builder,
+	usage:
+		"$0 web3 hostnames ipfs-universal-paths content-lists entries create <identifier>\n\nCreates a new entry in an IPFS Universal Path Gateway content list.",
+	flags: {
+		content: {
+			kind: "parsed",
+			brief: "Specify the CID or content path of content to block.",
+			optional: true,
+			parse: String,
+		},
+		description: {
+			kind: "parsed",
+			brief: "Specify an optional description of the content list entry.",
+			optional: true,
+			parse: String,
+		},
+		type: {
+			kind: "parsed",
+			brief: "Specify the type of content list entry to block.",
+			optional: true,
+			choices: ["cid", "content_path"],
+			parse: String,
+			coerce: (value: string) => resolveFileToken(value, "type", "text"),
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [
+		{
+			placeholder: "identifier",
+			brief: "Specify the identifier of the hostname.",
+			parse: String,
+		},
+	],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
@@ -66,7 +69,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					"web3 hostnames ipfs-universal-paths content-lists entries create",
 				classification: {
 					safeFlags: ["type", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -164,6 +167,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Created` });
 			}
 		),
-};
+});
 
 export default command;

@@ -5,31 +5,26 @@ import $get from "./get.js";
 import $items from "./items/index.js";
 import $list from "./list.js";
 import $update from "./update.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * lists command group
  * @generated from apis/overlays/rules.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "lists",
 	describe:
 		"Custom account-level lists of IPs, hostnames, ASNs, or redirects used in rule expressions",
 
-	builder: (yargs) => {
-		return yargs
-			.command($create)
-			.command($delete)
-			.command($get)
-			.command($list)
-			.command($update)
-			.command($bulkoperations)
-			.command($items)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		create: $create,
+		delete: $delete,
+		get: $get,
+		list: $list,
+		update: $update,
+		"bulk-operations": $bulkoperations,
+		items: $items,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

@@ -1,91 +1,97 @@
 import operation from "../../_operations/web-assets/operations/list.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * list command
  * @generated from apis/overlays/web-assets.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import { createCommandClient, getZoneId } from "#lib/auth.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 web-assets operations list\n\nLists web and API operations tracked for the zone, including each operation's method, path, and feature configuration."
-		)
-		.option("page", {
-			type: "number",
-			description: "Page number of paginated results.",
-		})
-		.option("per-page", {
-			type: "number",
-			description: "Maximum number of results per page.",
-		})
-		.option("order", {
-			type: "string",
-			description:
+const command = apiCommand({
+	command: "list",
+	describe: "List web and API operations",
+	usage:
+		"$0 web-assets operations list\n\nLists web and API operations tracked for the zone, including each operation's method, path, and feature configuration.",
+	flags: {
+		page: {
+			kind: "parsed",
+			brief: "Page number of paginated results.",
+			optional: true,
+			parse: Number,
+		},
+		"per-page": {
+			kind: "parsed",
+			brief: "Maximum number of results per page.",
+			optional: true,
+			parse: Number,
+		},
+		order: {
+			kind: "enum",
+			brief:
 				"Field to order by. When requesting a feature, the feature keys are available for ordering as well, e.g., `thresholds.suggested_threshold`.",
-			choices: ["method", "host", "endpoint", "thresholds.$key"],
-		})
-		.option("direction", {
-			type: "string",
-			description: "Direction to order results.",
-			choices: ["asc", "desc"],
-		})
-		.option("host", {
-			type: "string",
-			array: true,
-			description: "Filter results to only include the specified hosts.",
-		})
-		.option("method", {
-			type: "string",
-			array: true,
-			description: "Filter results to only include the specified HTTP methods.",
-		})
-		.option("endpoint", {
-			type: "string",
-			description:
+			values: ["method", "host", "endpoint", "thresholds.$key"],
+			optional: true,
+		},
+		direction: {
+			kind: "enum",
+			brief: "Direction to order results.",
+			values: ["asc", "desc"],
+			optional: true,
+		},
+		host: {
+			kind: "parsed",
+			brief: "Filter results to only include the specified hosts.",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		method: {
+			kind: "parsed",
+			brief: "Filter results to only include the specified HTTP methods.",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		endpoint: {
+			kind: "parsed",
+			brief:
 				"Filter results to only include endpoints containing this pattern.",
-		})
-		.option("feature", {
-			type: "string",
-			array: true,
-			description:
+			optional: true,
+			parse: String,
+		},
+		feature: {
+			kind: "parsed",
+			brief:
 				"Add feature(s) to the results. The feature name that is given here corresponds to the resulting feature object. Have a look at the top-level object description for more details on the specific meaning.",
+			variadic: true,
+			optional: true,
 			choices: [
 				"thresholds",
 				"parameter_schemas",
 				"schema_info",
 				"confidence_intervals",
 			],
-		})
-		.coerce("feature", (values: string[]) =>
-			values.flatMap((value) => value.split(","))
-		)
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
+			parse: String,
+			coerce: (values: string[]) => values.flatMap((value) => value.split(",")),
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
 			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "list",
-	describe: "List web and API operations",
-	builder,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "web-assets operations list",
 				classification: {
 					safeFlags: ["order", "direction", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -124,6 +130,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Loaded` });
 			}
 		),
-};
+});
 
 export default command;

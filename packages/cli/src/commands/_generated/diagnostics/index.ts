@@ -1,25 +1,20 @@
 import $endpointhealthchecks from "./endpoint-healthchecks/index.js";
 import $traceroutes from "./traceroutes/index.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * diagnostics command
  * @generated from apis/overlays/diagnostics.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "diagnostics",
 	describe:
 		"Network diagnostic tools — traceroutes from Cloudflare's edge and endpoint health checks",
 
-	builder: (yargs) => {
-		return yargs
-			.command($endpointhealthchecks)
-			.command($traceroutes)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		"endpoint-healthchecks": $endpointhealthchecks,
+		traceroutes: $traceroutes,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

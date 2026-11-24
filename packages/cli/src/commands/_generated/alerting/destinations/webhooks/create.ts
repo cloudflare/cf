@@ -1,11 +1,10 @@
 import operation from "../../../_operations/alerting/destinations/webhooks/create.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * create command
  * @generated from apis/overlays/alerting.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -20,49 +19,52 @@ import { withProgress } from "#lib/progress.js";
 import { promptForRequiredField } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 alerting destinations webhooks create\n\nCreates a new webhook destination."
-		)
-		.option("name", {
-			type: "string",
-			description:
-				"The name of the webhook destination. This will be included in the request body when you receive a webhook notification.",
-		})
-		.option("secret", {
-			type: "string",
-			description:
-				"Optional secret that will be passed in the `cf-webhook-auth` header when dispatching generic webhook notifications or formatted for supported destinations. Secrets are not returned in any API response body.",
-		})
-		.option("url", {
-			type: "string",
-			description: "The POST endpoint to call when dispatching a notification.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "create",
 	describe: "Create a webhook",
-	builder,
+	usage:
+		"$0 alerting destinations webhooks create\n\nCreates a new webhook destination.",
+	flags: {
+		name: {
+			kind: "parsed",
+			brief:
+				"The name of the webhook destination. This will be included in the request body when you receive a webhook notification.",
+			optional: true,
+			parse: String,
+		},
+		secret: {
+			kind: "parsed",
+			brief:
+				"Optional secret that will be passed in the `cf-webhook-auth` header when dispatching generic webhook notifications or formatted for supported destinations. Secrets are not returned in any API response body.",
+			optional: true,
+			parse: String,
+		},
+		url: {
+			kind: "parsed",
+			brief: "The POST endpoint to call when dispatching a notification.",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "alerting destinations webhooks create",
-				classification: {
-					safeFlags: ["dry-run"],
-				} satisfies ArgClassification<Args>,
+				classification: { safeFlags: ["dry-run"] } satisfies ArgClassification<
+					typeof argv
+				>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -155,6 +157,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Created` });
 			}
 		),
-};
+});
 
 export default command;

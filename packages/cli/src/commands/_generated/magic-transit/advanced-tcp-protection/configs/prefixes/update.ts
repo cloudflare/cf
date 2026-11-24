@@ -1,11 +1,10 @@
 import operation from "../../../../_operations/magic-transit/advanced-tcp-protection/configs/prefixes/update.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * update command
  * @generated from apis/overlays/magic-transit.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -19,41 +18,42 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 magic-transit advanced-tcp-protection configs prefixes update <prefix-id>\n\nUpdate a prefix specified by the given UUID."
-		)
-		.positional("prefix-id", {
-			type: "string",
-			description: "The UUID of the prefix to update.",
-			demandOption: true,
-		})
-		.option("comment", {
-			type: "string",
-			description: "A new comment for the prefix. Optional.",
-		})
-		.option("excluded", {
-			type: "boolean",
-			description: "Whether to exclude the prefix from protection. Optional.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "The updates to apply to the prefix.",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "update <prefix-id>",
 	describe: "Update prefix.",
-	builder,
+	usage:
+		"$0 magic-transit advanced-tcp-protection configs prefixes update <prefix-id>\n\nUpdate a prefix specified by the given UUID.",
+	flags: {
+		comment: {
+			kind: "parsed",
+			brief: "A new comment for the prefix. Optional.",
+			optional: true,
+			parse: String,
+		},
+		excluded: {
+			kind: "boolean",
+			brief: "Whether to exclude the prefix from protection. Optional.",
+			optional: true,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "The updates to apply to the prefix.",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [
+		{
+			placeholder: "prefix-id",
+			brief: "The UUID of the prefix to update.",
+			parse: String,
+		},
+	],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
@@ -61,7 +61,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					"magic-transit advanced-tcp-protection configs prefixes update",
 				classification: {
 					safeFlags: ["excluded", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -126,6 +126,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Updated` });
 			}
 		),
-};
+});
 
 export default command;

@@ -1,11 +1,10 @@
 import operation from "../../_operations/images/import/create.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * create command
  * @generated from apis/overlays/images.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -20,63 +19,66 @@ import { withProgress } from "#lib/progress.js";
 import { promptForRequiredField } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 images import create\n\nCreate a pending CF Images import from a configured source."
-		)
-		.option("conflict-behaviour", {
-			type: "string",
-			description:
-				"How to handle objects that already exist at the destination.",
-			choices: ["skip", "overwrite"],
-			default: "skip",
-		})
-		.coerce("conflict-behaviour", (value) =>
-			resolveFileToken(value, "conflict-behaviour", "text")
-		)
-		.option("excluded-content-types", {
-			type: "string",
-			array: true,
-			description: "Content types to skip during migration.",
-		})
-		.option("path-prefix", {
-			type: "string",
-			description: "Prefix to prepend to image custom IDs.",
-		})
-		.option("root-directory", {
-			type: "string",
-			description:
-				"Only import objects under this prefix in the source bucket.",
-		})
-		.option("source-id", {
-			type: "string",
-			description: "The identifier of the source to migrate from.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "create",
 	describe: "Create a sourcing kit migration",
-	builder,
+	usage:
+		"$0 images import create\n\nCreate a pending CF Images import from a configured source.",
+	flags: {
+		"conflict-behaviour": {
+			kind: "parsed",
+			brief: "How to handle objects that already exist at the destination.",
+			default: "skip",
+			choices: ["skip", "overwrite"],
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "conflict-behaviour", "text"),
+		},
+		"excluded-content-types": {
+			kind: "parsed",
+			brief: "Content types to skip during migration.",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"path-prefix": {
+			kind: "parsed",
+			brief: "Prefix to prepend to image custom IDs.",
+			optional: true,
+			parse: String,
+		},
+		"root-directory": {
+			kind: "parsed",
+			brief: "Only import objects under this prefix in the source bucket.",
+			optional: true,
+			parse: String,
+		},
+		"source-id": {
+			kind: "parsed",
+			brief: "The identifier of the source to migrate from.",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "images import create",
 				classification: {
 					safeFlags: ["conflict-behaviour", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -166,6 +168,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Created` });
 			}
 		),
-};
+});
 
 export default command;

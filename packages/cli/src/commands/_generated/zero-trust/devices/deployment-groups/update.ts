@@ -1,11 +1,10 @@
 import operation from "../../../_operations/zero-trust/devices/deployment-groups/update.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * update command
  * @generated from apis/overlays/zero-trust.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -19,54 +18,52 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 zero-trust devices deployment-groups update <group-id>\n\nUpdates a deployment group. Returns 409 if any newly added policy IDs already belong to another deployment group. This endpoint is in Beta."
-		)
-		.positional("group-id", {
-			type: "string",
-			description: "Group ID",
-			demandOption: true,
-		})
-		.option("name", {
-			type: "string",
-			description: "A user-friendly name for the deployment group.",
-		})
-		.option("policy-ids", {
-			type: "string",
-			array: true,
-			description: "Replaces the entire list of policy IDs.",
-		})
-		.option("version-config", {
-			type: "string",
-			description:
-				'Replaces the entire version_config array. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"target_environment": (string | null), "version": string}].',
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "update <group-id>",
 	describe: "Update deployment group",
-	builder,
+	usage:
+		"$0 zero-trust devices deployment-groups update <group-id>\n\nUpdates a deployment group. Returns 409 if any newly added policy IDs already belong to another deployment group. This endpoint is in Beta.",
+	flags: {
+		name: {
+			kind: "parsed",
+			brief: "A user-friendly name for the deployment group.",
+			optional: true,
+			parse: String,
+		},
+		"policy-ids": {
+			kind: "parsed",
+			brief: "Replaces the entire list of policy IDs.",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"version-config": {
+			kind: "parsed",
+			brief:
+				'Replaces the entire version_config array. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"target_environment": (string | null), "version": string}].',
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [{ placeholder: "group-id", brief: "Group ID", parse: String }],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "zero-trust devices deployment-groups update",
-				classification: {
-					safeFlags: ["dry-run"],
-				} satisfies ArgClassification<Args>,
+				classification: { safeFlags: ["dry-run"] } satisfies ArgClassification<
+					typeof argv
+				>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -138,6 +135,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Updated` });
 			}
 		),
-};
+});
 
 export default command;

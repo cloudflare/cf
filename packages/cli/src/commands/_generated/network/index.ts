@@ -1,26 +1,21 @@
 import $routes from "./routes/index.js";
 import $subnets from "./subnets/index.js";
 import $virtualnetworks from "./virtual-networks/index.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * network command
  * @generated from apis/overlays/network.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "network",
 	describe: "network",
 
-	builder: (yargs) => {
-		return yargs
-			.command($routes)
-			.command($subnets)
-			.command($virtualnetworks)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		routes: $routes,
+		subnets: $subnets,
+		"virtual-networks": $virtualnetworks,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

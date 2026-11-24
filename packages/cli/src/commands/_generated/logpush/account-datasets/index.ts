@@ -1,24 +1,19 @@
 import $fields from "./fields/index.js";
 import $jobs from "./jobs/index.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * account-datasets command group
  * @generated from apis/overlays/logpush.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "account-datasets",
 	describe: "Operations for account-datasets",
 
-	builder: (yargs) => {
-		return yargs
-			.command($fields)
-			.command($jobs)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		fields: $fields,
+		jobs: $jobs,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

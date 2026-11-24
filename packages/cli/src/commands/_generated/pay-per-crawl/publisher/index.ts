@@ -1,22 +1,17 @@
 import $stripe from "./stripe/index.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * publisher command group
  * @generated from apis/overlays/pay-per-crawl.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "publisher",
 	describe: "Operations for publisher",
 
-	builder: (yargs) => {
-		return yargs
-			.command($stripe)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		stripe: $stripe,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

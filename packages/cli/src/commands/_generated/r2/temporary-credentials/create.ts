@@ -1,11 +1,10 @@
 import operation from "../../_operations/r2/temporary-credentials/create.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * create command
  * @generated from apis/overlays/r2.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -20,77 +19,88 @@ import { withProgress } from "#lib/progress.js";
 import { promptForRequiredField } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 r2 temporary-credentials create\n\nCreates temporary access credentials on a bucket that can be optionally scoped to prefixes or objects. The credentials grant either a permission level or an explicit list of S3 actions."
-		)
-		.option("actions", {
-			type: "string",
-			array: true,
-			description:
+const command = apiCommand({
+	command: "create",
+	describe: "Create Temporary Access Credentials",
+	usage:
+		"$0 r2 temporary-credentials create\n\nCreates temporary access credentials on a bucket that can be optionally scoped to prefixes or objects. The credentials grant either a permission level or an explicit list of S3 actions.",
+	flags: {
+		actions: {
+			kind: "parsed",
+			brief:
 				'S3 actions allowed on the credentials; requests for any other action are denied. For example, `["GetObject", "HeadObject"]` allows reading objects without listing them. Exactly one of `permission` or `actions` must be provided. The parent token must have Object Read & Write permission if any action writes, and Object Read otherwise.',
-		})
-		.option("bucket", { type: "string", description: "Name of the R2 bucket." })
-		.option("objects", {
-			type: "string",
-			array: true,
-			description: "Optional object paths to scope the credentials to.",
-		})
-		.option("parent-access-key-id", {
-			type: "string",
-			description:
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		bucket: {
+			kind: "parsed",
+			brief: "Name of the R2 bucket.",
+			optional: true,
+			parse: String,
+		},
+		objects: {
+			kind: "parsed",
+			brief: "Optional object paths to scope the credentials to.",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"parent-access-key-id": {
+			kind: "parsed",
+			brief:
 				"Access key ID of the parent R2 API token. The temporary credentials cannot exceed this token's permissions.",
-		})
-		.option("permission", {
-			type: "string",
-			description:
+			optional: true,
+			parse: String,
+		},
+		permission: {
+			kind: "parsed",
+			brief:
 				"Permissions allowed on the credentials. Exactly one of `permission` or `actions` must be provided.",
+			optional: true,
 			choices: [
 				"admin-read-write",
 				"admin-read-only",
 				"object-read-write",
 				"object-read-only",
 			],
-		})
-		.coerce("permission", (value) =>
-			resolveFileToken(value, "permission", "text")
-		)
-		.option("prefixes", {
-			type: "string",
-			array: true,
-			description: "Optional prefix paths to scope the credentials to.",
-		})
-		.option("ttl-seconds", {
-			type: "number",
-			description:
+			parse: String,
+			coerce: (value: string) => resolveFileToken(value, "permission", "text"),
+		},
+		prefixes: {
+			kind: "parsed",
+			brief: "Optional prefix paths to scope the credentials to.",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"ttl-seconds": {
+			kind: "parsed",
+			brief:
 				"Lifetime of the temporary credentials in seconds, up to 604800 seconds (7 days).",
-			default: 900,
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
+			default: "900",
+			parse: Number,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
 			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "create",
-	describe: "Create Temporary Access Credentials",
-	builder,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "r2 temporary-credentials create",
 				classification: {
 					safeFlags: ["permission", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -187,6 +197,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Created` });
 			}
 		),
-};
+});
 
 export default command;

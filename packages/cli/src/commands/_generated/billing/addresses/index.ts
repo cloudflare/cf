@@ -1,22 +1,17 @@
 import $validate from "./validate.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * addresses command group
  * @generated from apis/overlays/billing.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "addresses",
 	describe: "Operations for addresses",
 
-	builder: (yargs) => {
-		return yargs
-			.command($validate)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		validate: $validate,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

@@ -6,32 +6,27 @@ import $rules from "./rules/index.js";
 import $scans from "./scans/index.js";
 import $threatintel from "./threat-intel/index.js";
 import $threatsignals from "./threat-signals/index.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * cloudforce-one command
  * @generated from apis/overlays/cloudforce-one.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "cloudforce-one",
 	describe:
 		"Threat intelligence platform — request investigations, scan indicators, and track threat events",
 
-	builder: (yargs) => {
-		return yargs
-			.command($binarystorage)
-			.command($credentialmonitor)
-			.command($priorityintelligence)
-			.command($requests)
-			.command($rules)
-			.command($scans)
-			.command($threatintel)
-			.command($threatsignals)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		"binary-storage": $binarystorage,
+		"credential-monitor": $credentialmonitor,
+		"priority-intelligence": $priorityintelligence,
+		requests: $requests,
+		rules: $rules,
+		scans: $scans,
+		"threat-intel": $threatintel,
+		"threat-signals": $threatsignals,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

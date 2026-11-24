@@ -1,11 +1,10 @@
 import operation from "../../../_operations/stream/videos/audio-tracks/copy.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * copy command
  * @generated from apis/overlays/stream.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -20,50 +19,52 @@ import { withProgress } from "#lib/progress.js";
 import { promptForRequiredField } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 stream videos audio-tracks copy <identifier>\n\nAdds an additional audio track to a video using the provided audio track URL."
-		)
-		.positional("identifier", {
-			type: "string",
-			description: "A Cloudflare-generated unique identifier for a media item.",
-			demandOption: true,
-		})
-		.option("label", {
-			type: "string",
-			description:
-				"A string to uniquely identify the track amongst other audio track labels for the specified video.",
-		})
-		.option("url", {
-			type: "string",
-			description:
-				"An audio track URL. The server must be publicly routable and support `HTTP HEAD` requests and `HTTP GET` range requests. The server should respond to `HTTP HEAD` requests with a `content-range` header that includes the size of the file.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "copy <identifier>",
 	describe: "Add audio tracks to a video",
-	builder,
+	usage:
+		"$0 stream videos audio-tracks copy <identifier>\n\nAdds an additional audio track to a video using the provided audio track URL.",
+	flags: {
+		label: {
+			kind: "parsed",
+			brief:
+				"A string to uniquely identify the track amongst other audio track labels for the specified video.",
+			optional: true,
+			parse: String,
+		},
+		url: {
+			kind: "parsed",
+			brief:
+				"An audio track URL. The server must be publicly routable and support `HTTP HEAD` requests and `HTTP GET` range requests. The server should respond to `HTTP HEAD` requests with a `content-range` header that includes the size of the file.",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [
+		{
+			placeholder: "identifier",
+			brief: "A Cloudflare-generated unique identifier for a media item.",
+			parse: String,
+		},
+	],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "stream videos audio-tracks copy",
-				classification: {
-					safeFlags: ["dry-run"],
-				} satisfies ArgClassification<Args>,
+				classification: { safeFlags: ["dry-run"] } satisfies ArgClassification<
+					typeof argv
+				>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -147,6 +148,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Created` });
 			}
 		),
-};
+});
 
 export default command;

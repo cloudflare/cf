@@ -11,36 +11,31 @@ import $logs from "./logs/index.js";
 import $raw from "./raw/index.js";
 import $tokens from "./tokens/index.js";
 import $trees from "./trees/index.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * repos command group
  * @generated from apis/overlays/artifacts.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "repos",
 	describe: "Operations for namespaces.repos",
 
-	builder: (yargs) => {
-		return yargs
-			.command($create)
-			.command($delete)
-			.command($fork)
-			.command($get)
-			.command($import)
-			.command($list)
-			.command($blobs)
-			.command($commits)
-			.command($files)
-			.command($logs)
-			.command($raw)
-			.command($tokens)
-			.command($trees)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		create: $create,
+		delete: $delete,
+		fork: $fork,
+		get: $get,
+		import: $import,
+		list: $list,
+		blobs: $blobs,
+		commits: $commits,
+		files: $files,
+		logs: $logs,
+		raw: $raw,
+		tokens: $tokens,
+		trees: $trees,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

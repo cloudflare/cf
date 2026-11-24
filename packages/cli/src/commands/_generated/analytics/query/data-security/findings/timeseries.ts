@@ -1,11 +1,10 @@
 import operation from "../../../../_operations/analytics/query/data-security/findings/timeseries.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * timeseries command
  * @generated from apis/overlays/analytics.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -20,48 +19,51 @@ import { withProgress } from "#lib/progress.js";
 import { promptForRequiredField } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 analytics query data-security findings timeseries\n\nReturns merged time-bucketed CASB findings."
-		)
-		.option("filters", {
-			type: "string",
-			description:
-				'Filters to apply. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"name": string, "op": string, "values": [(string | boolean | number)]}].',
-		})
-		.option("from", {
-			type: "string",
-			description: "Start of the query time range (inclusive). RFC3339.",
-		})
-		.option("to", {
-			type: "string",
-			description: "End of the query time range (exclusive). RFC3339.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Query for findings timeseries.",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "timeseries",
 	describe: "Data security findings timeseries",
-	builder,
+	usage:
+		"$0 analytics query data-security findings timeseries\n\nReturns merged time-bucketed CASB findings.",
+	flags: {
+		filters: {
+			kind: "parsed",
+			brief:
+				'Filters to apply. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"name": string, "op": string, "values": [(string | boolean | number)]}].',
+			optional: true,
+			parse: String,
+		},
+		from: {
+			kind: "parsed",
+			brief: "Start of the query time range (inclusive). RFC3339.",
+			optional: true,
+			parse: String,
+		},
+		to: {
+			kind: "parsed",
+			brief: "End of the query time range (exclusive). RFC3339.",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Query for findings timeseries.",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "analytics query data-security findings timeseries",
-				classification: {
-					safeFlags: ["dry-run"],
-				} satisfies ArgClassification<Args>,
+				classification: { safeFlags: ["dry-run"] } satisfies ArgClassification<
+					typeof argv
+				>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -146,6 +148,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Created` });
 			}
 		),
-};
+});
 
 export default command;

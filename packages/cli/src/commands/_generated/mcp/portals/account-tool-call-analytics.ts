@@ -1,11 +1,10 @@
 import operation from "../../_operations/mcp/portals/account-tool-call-analytics.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * account-tool-call-analytics command
  * @generated from apis/overlays/mcp.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -17,52 +16,52 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 mcp portals account-tool-call-analytics\n\nReturns daily or monthly tool-call counts across the account."
-		)
-		.option("granularity", {
-			type: "string",
-			description: "Granularity",
-			choices: ["daily", "monthly"],
-		})
-		.option("aggregate", {
-			type: "string",
-			description: "Aggregate",
-			choices: ["true", "false"],
-		})
-		.option("tz", { type: "string", description: "Tz" })
-		.option("days", {
-			type: "number",
-			description:
-				"Daily trailing-window size; defaults to 7 and is ignored for monthly",
-		})
-		.option("response-status", {
-			type: "string",
-			description: "Response status to count; 'all' counts every status",
-			choices: ["success", "error", "cached", "all"],
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "account-tool-call-analytics",
 	describe: "Account-global MCP tool-call timeseries",
-	builder,
+	usage:
+		"$0 mcp portals account-tool-call-analytics\n\nReturns daily or monthly tool-call counts across the account.",
+	flags: {
+		granularity: {
+			kind: "enum",
+			brief: "Granularity",
+			values: ["daily", "monthly"],
+			optional: true,
+		},
+		aggregate: {
+			kind: "enum",
+			brief: "Aggregate",
+			values: ["true", "false"],
+			optional: true,
+		},
+		tz: { kind: "parsed", brief: "Tz", optional: true, parse: String },
+		days: {
+			kind: "parsed",
+			brief:
+				"Daily trailing-window size; defaults to 7 and is ignored for monthly",
+			optional: true,
+			parse: Number,
+		},
+		"response-status": {
+			kind: "enum",
+			brief: "Response status to count; 'all' counts every status",
+			values: ["success", "error", "cached", "all"],
+			optional: true,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "mcp portals account-tool-call-analytics",
 				classification: {
 					safeFlags: ["granularity", "aggregate", "response-status", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -95,6 +94,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Loaded` });
 			}
 		),
-};
+});
 
 export default command;

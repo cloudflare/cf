@@ -1,11 +1,10 @@
 import operation from "../../../_operations/zero-trust/devices/ip-profiles/update.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * update command
  * @generated from apis/overlays/zero-trust.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -19,66 +18,69 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 zero-trust devices ip-profiles update <profile-id>\n\nUpdates a WARP Device IP profile. Currently, only IPv4 Device subnets can be associated."
-		)
-		.positional("profile-id", {
-			type: "string",
-			description: "Profile ID",
-			demandOption: true,
-		})
-		.option("description", {
-			type: "string",
-			description: "An optional description of the Device IP profile.",
-		})
-		.option("enabled", {
-			type: "boolean",
-			description: "Whether the Device IP profile is enabled.",
-		})
-		.option("match", {
-			type: "string",
-			description:
-				'The wirefilter expression to match registrations. Available values: "identity.name", "identity.email", "identity.groups.id", "identity.groups.name", "identity.groups.email", "identity.saml_attributes".',
-		})
-		.option("name", {
-			type: "string",
-			description: "A user-friendly name for the Device IP profile.",
-		})
-		.option("precedence", {
-			type: "number",
-			description:
-				"The precedence of the Device IP profile. Lower values indicate higher precedence. Device IP profile will be evaluated in ascending order of this field.",
-		})
-		.option("subnet-id", {
-			type: "string",
-			description: "The ID of the Subnet.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "update <profile-id>",
 	describe: "Update IP profile",
-	builder,
+	usage:
+		"$0 zero-trust devices ip-profiles update <profile-id>\n\nUpdates a WARP Device IP profile. Currently, only IPv4 Device subnets can be associated.",
+	flags: {
+		description: {
+			kind: "parsed",
+			brief: "An optional description of the Device IP profile.",
+			optional: true,
+			parse: String,
+		},
+		enabled: {
+			kind: "boolean",
+			brief: "Whether the Device IP profile is enabled.",
+			optional: true,
+		},
+		match: {
+			kind: "parsed",
+			brief:
+				'The wirefilter expression to match registrations. Available values: "identity.name", "identity.email", "identity.groups.id", "identity.groups.name", "identity.groups.email", "identity.saml_attributes".',
+			optional: true,
+			parse: String,
+		},
+		name: {
+			kind: "parsed",
+			brief: "A user-friendly name for the Device IP profile.",
+			optional: true,
+			parse: String,
+		},
+		precedence: {
+			kind: "parsed",
+			brief:
+				"The precedence of the Device IP profile. Lower values indicate higher precedence. Device IP profile will be evaluated in ascending order of this field.",
+			optional: true,
+			parse: Number,
+		},
+		"subnet-id": {
+			kind: "parsed",
+			brief: "The ID of the Subnet.",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [{ placeholder: "profile-id", brief: "Profile ID", parse: String }],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "zero-trust devices ip-profiles update",
 				classification: {
 					safeFlags: ["enabled", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -174,6 +176,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Updated` });
 			}
 		),
-};
+});
 
 export default command;

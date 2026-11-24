@@ -1,11 +1,10 @@
 import operation from "../../_operations/email-security/block-senders/list.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * list command
  * @generated from apis/overlays/email-security.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -17,60 +16,67 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 email-security block-senders list\n\nReturns a paginated list of blocked email sender patterns. These patterns prevent emails from matching senders from being delivered. Supports filtering by pattern type and searching across patterns."
-		)
-		.option("page", {
-			type: "number",
-			description: "Current page within paginated list of results.",
-		})
-		.option("per-page", {
-			type: "number",
-			description: "The number of results per page. Maximum value is 1000.",
-		})
-		.option("search", {
-			type: "string",
-			description: "Search term for filtering records. Behavior may change.",
-		})
-		.option("order", {
-			type: "string",
-			description: "Field to sort by.",
-			choices: ["pattern", "created_at"],
-		})
-		.option("direction", {
-			type: "string",
-			description: "The sorting direction.",
-			choices: ["asc", "desc"],
-		})
-		.option("pattern-type", {
-			type: "string",
-			description: "Filter by pattern type.",
-			choices: ["EMAIL", "DOMAIN", "IP", "UNKNOWN"],
-		})
-		.option("pattern", {
-			type: "string",
-			description: "Filter by pattern value.",
-		})
-		.option("expired", {
-			type: "boolean",
-			description:
-				"Filter to return only expired patterns (`true`) or only patterns that still apply (`false`). Omit to return both.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "list",
 	describe: "List blocked email senders",
-	builder,
+	usage:
+		"$0 email-security block-senders list\n\nReturns a paginated list of blocked email sender patterns. These patterns prevent emails from matching senders from being delivered. Supports filtering by pattern type and searching across patterns.",
+	flags: {
+		page: {
+			kind: "parsed",
+			brief: "Current page within paginated list of results.",
+			optional: true,
+			parse: Number,
+		},
+		"per-page": {
+			kind: "parsed",
+			brief: "The number of results per page. Maximum value is 1000.",
+			optional: true,
+			parse: Number,
+		},
+		search: {
+			kind: "parsed",
+			brief: "Search term for filtering records. Behavior may change.",
+			optional: true,
+			parse: String,
+		},
+		order: {
+			kind: "enum",
+			brief: "Field to sort by.",
+			values: ["pattern", "created_at"],
+			optional: true,
+		},
+		direction: {
+			kind: "enum",
+			brief: "The sorting direction.",
+			values: ["asc", "desc"],
+			optional: true,
+		},
+		"pattern-type": {
+			kind: "enum",
+			brief: "Filter by pattern type.",
+			values: ["EMAIL", "DOMAIN", "IP", "UNKNOWN"],
+			optional: true,
+		},
+		pattern: {
+			kind: "parsed",
+			brief: "Filter by pattern value.",
+			optional: true,
+			parse: String,
+		},
+		expired: {
+			kind: "boolean",
+			brief:
+				"Filter to return only expired patterns (`true`) or only patterns that still apply (`false`). Omit to return both.",
+			optional: true,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
@@ -83,7 +89,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"expired",
 						"dry-run",
 					],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -119,6 +125,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Loaded` });
 			}
 		),
-};
+});
 
 export default command;

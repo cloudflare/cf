@@ -1,11 +1,10 @@
 import operation from "../../_operations/accounts/tokens/update.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * update command
  * @generated from apis/overlays/accounts.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -20,70 +19,82 @@ import { withProgress } from "#lib/progress.js";
 import { promptForRequiredField } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage("$0 accounts tokens update <token-id>\n\nUpdate an existing token.")
-		.positional("token-id", {
-			type: "string",
-			description: "Token identifier tag.",
-			demandOption: true,
-		})
-		.option("condition-request-ip-in", {
-			type: "string",
-			array: true,
-			description: "List of IPv4/IPv6 CIDR addresses.",
-		})
-		.option("condition-request-ip-not-in", {
-			type: "string",
-			array: true,
-			description: "List of IPv4/IPv6 CIDR addresses.",
-		})
-		.option("expires-on", {
-			type: "string",
-			description:
-				"The expiration time on or after which the JWT MUST NOT be accepted for processing.",
-		})
-		.option("name", { type: "string", description: "Token name." })
-		.option("not-before", {
-			type: "string",
-			description:
-				"The time before which the token MUST NOT be accepted for processing.",
-		})
-		.option("policies", {
-			type: "string",
-			description:
-				'List of access policies assigned to the token. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"effect": "allow" | "deny", "permission_groups": [{...}], "resources": {...}}].',
-		})
-		.option("status", {
-			type: "string",
-			description: "Status of the token.",
-			choices: ["active", "disabled", "expired"],
-		})
-		.coerce("status", (value) => resolveFileToken(value, "status", "text"))
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "update <token-id>",
 	describe: "Update Token",
-	builder,
+	usage: "$0 accounts tokens update <token-id>\n\nUpdate an existing token.",
+	flags: {
+		"condition-request-ip-in": {
+			kind: "parsed",
+			brief: "List of IPv4/IPv6 CIDR addresses.",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"condition-request-ip-not-in": {
+			kind: "parsed",
+			brief: "List of IPv4/IPv6 CIDR addresses.",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"expires-on": {
+			kind: "parsed",
+			brief:
+				"The expiration time on or after which the JWT MUST NOT be accepted for processing.",
+			optional: true,
+			parse: String,
+		},
+		name: {
+			kind: "parsed",
+			brief: "Token name.",
+			optional: true,
+			parse: String,
+		},
+		"not-before": {
+			kind: "parsed",
+			brief:
+				"The time before which the token MUST NOT be accepted for processing.",
+			optional: true,
+			parse: String,
+		},
+		policies: {
+			kind: "parsed",
+			brief:
+				'List of access policies assigned to the token. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"effect": "allow" | "deny", "permission_groups": [{...}], "resources": {...}}].',
+			optional: true,
+			parse: String,
+		},
+		status: {
+			kind: "parsed",
+			brief: "Status of the token.",
+			optional: true,
+			choices: ["active", "disabled", "expired"],
+			parse: String,
+			coerce: (value: string) => resolveFileToken(value, "status", "text"),
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [
+		{ placeholder: "token-id", brief: "Token identifier tag.", parse: String },
+	],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "accounts tokens update",
 				classification: {
 					safeFlags: ["status", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -195,6 +206,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Updated` });
 			}
 		),
-};
+});
 
 export default command;

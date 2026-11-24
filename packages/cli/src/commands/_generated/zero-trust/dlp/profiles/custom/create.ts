@@ -1,11 +1,10 @@
 import operation from "../../../../_operations/zero-trust/dlp/profiles/custom/create.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * create command
  * @generated from apis/overlays/zero-trust.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -20,82 +19,109 @@ import { withProgress } from "#lib/progress.js";
 import { promptForRequiredField } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 zero-trust dlp profiles custom create\n\nCreates a DLP custom profile."
-		)
-		.option("ai-context-enabled", {
-			type: "boolean",
-			description: "The ai_context_enabled field",
+const command = apiCommand({
+	command: "create",
+	describe: "Create custom profile",
+	usage:
+		"$0 zero-trust dlp profiles custom create\n\nCreates a DLP custom profile.",
+	flags: {
+		"ai-context-enabled": {
+			kind: "boolean",
+			brief: "The ai_context_enabled field",
 			default: false,
-		})
-		.option("allowed-match-count", {
-			type: "number",
-			description:
+		},
+		"allowed-match-count": {
+			kind: "parsed",
+			brief:
 				"Related DLP policies will trigger when the match count exceeds the number set.",
-			default: 0,
-		})
-		.option("confidence-threshold", {
-			type: "string",
-			description: "The confidence_threshold field",
+			default: "0",
+			parse: Number,
+		},
+		"confidence-threshold": {
+			kind: "parsed",
+			brief: "The confidence_threshold field",
 			default: "low",
-		})
-		.option("context-awareness-enabled", {
-			type: "boolean",
-			description:
+			parse: String,
+		},
+		"context-awareness-enabled": {
+			kind: "boolean",
+			brief:
 				"If true, scan the context of predefined entries to only return matches surrounded by keywords.",
-		})
-		.option("context-awareness-skip-files", {
-			type: "boolean",
-			description:
+			optional: true,
+		},
+		"context-awareness-skip-files": {
+			kind: "boolean",
+			brief:
 				"If the content type is a file, skip context analysis and return all matches.",
-		})
-		.option("data-classes", {
-			type: "string",
-			array: true,
-			description: "Data class IDs to associate with the profile.",
-		})
-		.option("data-tags", {
-			type: "string",
-			array: true,
-			description: "Data tag IDs to associate with the profile.",
-		})
-		.option("description", {
-			type: "string",
-			description: "The description of the profile.",
-		})
-		.option("entries", {
-			type: "string",
-			description:
+			optional: true,
+		},
+		"data-classes": {
+			kind: "parsed",
+			brief: "Data class IDs to associate with the profile.",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"data-tags": {
+			kind: "parsed",
+			brief: "Data tag IDs to associate with the profile.",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		description: {
+			kind: "parsed",
+			brief: "The description of the profile.",
+			optional: true,
+			parse: String,
+		},
+		entries: {
+			kind: "parsed",
+			brief:
 				'The entries field. Provide as a JSON array of objects or @path/to/file.json. Shape: [({"enabled": boolean, "name": string, "pattern": {...}, "description"?: (string | null)} | {"enabled": boolean, "name": string, "words": [string]})]. ? marks optional keys.',
-		})
-		.option("name", { type: "string", description: "The name field" })
-		.option("ocr-enabled", {
-			type: "boolean",
-			description: "The ocr_enabled field",
+			optional: true,
+			parse: String,
+		},
+		name: {
+			kind: "parsed",
+			brief: "The name field",
+			optional: true,
+			parse: String,
+		},
+		"ocr-enabled": {
+			kind: "boolean",
+			brief: "The ocr_enabled field",
 			default: false,
-		})
-		.option("sensitivity-levels", {
-			type: "string",
-			description:
+		},
+		"sensitivity-levels": {
+			kind: "parsed",
+			brief:
 				'Sensitivity levels to associate with the profile. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"group_id": string, "level_id": string}].',
-		})
-		.option("shared-entries", {
-			type: "string",
-			description:
+			optional: true,
+			parse: String,
+		},
+		"shared-entries": {
+			kind: "parsed",
+			brief:
 				'Entries from other profiles (e.g. pre-defined Cloudflare profiles, or your Microsoft Information Protection profiles). Provide as a JSON array of objects or @path/to/file.json. Shape: [{"enabled": boolean, "entry_id": string}].',
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
 			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "A new profile to create.",
-		})
-		.check((argv) => {
+		},
+		body: {
+			kind: "parsed",
+			brief: "A new profile to create.",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [],
+	rules(rules) {
+		rules.check((argv) => {
 			const groupSet = [
 				"context-awareness-enabled",
 				"context-awareness-skip-files",
@@ -113,14 +139,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			}
 			return true;
 		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "create",
-	describe: "Create custom profile",
-	builder,
+	},
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
@@ -133,7 +152,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"ocr-enabled",
 						"dry-run",
 					],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -259,6 +278,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Created` });
 			}
 		),
-};
+});
 
 export default command;

@@ -1,24 +1,19 @@
 import $accountmapping from "./account-mapping/index.js";
 import $rules from "./rules/index.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * email command group
  * @generated from apis/overlays/zero-trust.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "email",
 	describe: "Operations for dlp.email",
 
-	builder: (yargs) => {
-		return yargs
-			.command($accountmapping)
-			.command($rules)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		"account-mapping": $accountmapping,
+		rules: $rules,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

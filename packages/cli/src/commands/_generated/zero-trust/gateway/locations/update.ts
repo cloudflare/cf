@@ -1,11 +1,10 @@
 import operation from "../../../_operations/zero-trust/gateway/locations/update.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * update command
  * @generated from apis/overlays/zero-trust.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -20,107 +19,129 @@ import { withProgress } from "#lib/progress.js";
 import { promptForRequiredField } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 zero-trust gateway locations update <location-id>\n\nUpdate a configured Zero Trust Gateway location."
-		)
-		.positional("location-id", {
-			type: "string",
-			description: "Location ID",
-			demandOption: true,
-		})
-		.option("client-default", {
-			type: "boolean",
-			description: "Indicate whether this location is the default location.",
-		})
-		.option("dns64-enabled", {
-			type: "boolean",
-			description:
+const command = apiCommand({
+	command: "update <location-id>",
+	describe: "Update a Zero Trust Gateway location",
+	usage:
+		"$0 zero-trust gateway locations update <location-id>\n\nUpdate a configured Zero Trust Gateway location.",
+	flags: {
+		"client-default": {
+			kind: "boolean",
+			brief: "Indicate whether this location is the default location.",
+			optional: true,
+		},
+		"dns64-enabled": {
+			kind: "boolean",
+			brief:
 				"Enable DNS64 synthesis for DNS queries matched to this location. When updating a location, omitting this field resets it to false.",
-		})
-		.option("dns-destination-ips-id", {
-			type: "string",
-			description:
+			optional: true,
+		},
+		"dns-destination-ips-id": {
+			kind: "parsed",
+			brief:
 				"Specify the identifier of the pair of IPv4 addresses assigned to this location. When creating a location, if this field is absent or set to null, the pair of shared IPv4 addresses (0e4a32c6-6fb8-4858-9296-98f51631e8e6) is auto-assigned. When updating a location, if this field is absent or set to null, the pre-assigned pair remains unchanged.",
-		})
-		.option("ecs-support", {
-			type: "boolean",
-			description: "Indicate whether the location must resolve EDNS queries.",
-		})
-		.option("endpoints-doh-enabled", {
-			type: "boolean",
-			description:
-				"Indicate whether the DOH endpoint is enabled for this location.",
-		})
-		.option("endpoints-doh-networks", {
-			type: "string",
-			description:
+			optional: true,
+			parse: String,
+		},
+		"ecs-support": {
+			kind: "boolean",
+			brief: "Indicate whether the location must resolve EDNS queries.",
+			optional: true,
+		},
+		"endpoints-doh-enabled": {
+			kind: "boolean",
+			brief: "Indicate whether the DOH endpoint is enabled for this location.",
+			optional: true,
+		},
+		"endpoints-doh-networks": {
+			kind: "parsed",
+			brief:
 				'Specify the list of allowed source IP network ranges for this endpoint. When the list is empty, the endpoint allows all source IPs. The list takes effect only if the endpoint is enabled for this location. Provide as a JSON array of objects, null, or @path/to/file.json. Shape: [{"network": string}].',
-		})
-		.option("endpoints-doh-require-token", {
-			type: "boolean",
-			description:
+			optional: true,
+			parse: String,
+		},
+		"endpoints-doh-require-token": {
+			kind: "boolean",
+			brief:
 				"Specify whether the DOH endpoint requires user identity authentication.",
-		})
-		.option("endpoints-dot-enabled", {
-			type: "boolean",
-			description:
-				"Indicate whether the DOT endpoint is enabled for this location.",
-		})
-		.option("endpoints-dot-networks", {
-			type: "string",
-			description:
+			optional: true,
+		},
+		"endpoints-dot-enabled": {
+			kind: "boolean",
+			brief: "Indicate whether the DOT endpoint is enabled for this location.",
+			optional: true,
+		},
+		"endpoints-dot-networks": {
+			kind: "parsed",
+			brief:
 				'Specify the list of allowed source IP network ranges for this endpoint. When the list is empty, the endpoint allows all source IPs. The list takes effect only if the endpoint is enabled for this location. Provide as a JSON array of objects, null, or @path/to/file.json. Shape: [{"network": string}].',
-		})
-		.option("endpoints-ipv4-enabled", {
-			type: "boolean",
-			description:
-				"Indicate whether the IPv4 endpoint is enabled for this location.",
-		})
-		.option("endpoints-ipv6-enabled", {
-			type: "boolean",
-			description:
-				"Indicate whether the IPV6 endpoint is enabled for this location.",
-		})
-		.option("endpoints-ipv6-networks", {
-			type: "string",
-			description:
+			optional: true,
+			parse: String,
+		},
+		"endpoints-ipv4-enabled": {
+			kind: "boolean",
+			brief: "Indicate whether the IPv4 endpoint is enabled for this location.",
+			optional: true,
+		},
+		"endpoints-ipv6-enabled": {
+			kind: "boolean",
+			brief: "Indicate whether the IPV6 endpoint is enabled for this location.",
+			optional: true,
+		},
+		"endpoints-ipv6-networks": {
+			kind: "parsed",
+			brief:
 				'Specify the list of allowed source IPv6 network ranges for this endpoint. When the list is empty, the endpoint allows all source IPs. The list takes effect only if the endpoint is enabled for this location. Provide as a JSON array of objects, null, or @path/to/file.json. Shape: [{"network": string}].',
-		})
-		.option("max-ttl-mode", {
-			type: "string",
-			description:
+			optional: true,
+			parse: String,
+		},
+		"max-ttl-mode": {
+			kind: "parsed",
+			brief:
 				"`inherit` uses the account `max_ttl_secs`. `override` uses this location's `ttl_secs`. `disabled` leaves returned TTLs unchanged.",
+			optional: true,
 			choices: ["inherit", "override", "disabled"],
-		})
-		.coerce("max-ttl-mode", (value) =>
-			resolveFileToken(value, "max-ttl-mode", "text")
-		)
-		.option("max-ttl-ttl-secs", {
-			type: "number",
-			description:
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "max-ttl-mode", "text"),
+		},
+		"max-ttl-ttl-secs": {
+			kind: "parsed",
+			brief:
 				"Location-specific cap on DNS response TTLs, in seconds. Required when `mode` is `override`. Must be omitted when `mode` is `inherit` or `disabled`.",
-		})
-		.option("name", {
-			type: "string",
-			description: "Specify the location name.",
-		})
-		.option("networks", {
-			type: "string",
-			description:
+			optional: true,
+			parse: Number,
+		},
+		name: {
+			kind: "parsed",
+			brief: "Specify the location name.",
+			optional: true,
+			parse: String,
+		},
+		networks: {
+			kind: "parsed",
+			brief:
 				'Specify the list of network ranges from which requests at this location originate. The list takes effect only if it is non-empty and the IPv4 endpoint is enabled for this location. Provide as a JSON array of objects, null, or @path/to/file.json. Shape: [{"network": string}].',
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
 			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		})
-		.check((argv) => {
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [
+		{ placeholder: "location-id", brief: "Location ID", parse: String },
+	],
+	rules(rules) {
+		rules.check((argv) => {
 			const groupSet = ["max-ttl-mode", "max-ttl-ttl-secs"].some(
 				(k) => argv[k] !== undefined
 			);
@@ -134,14 +155,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			}
 			return true;
 		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "update <location-id>",
-	describe: "Update a Zero Trust Gateway location",
-	builder,
+	},
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
@@ -159,7 +173,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"max-ttl-mode",
 						"dry-run",
 					],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -323,6 +337,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Updated` });
 			}
 		),
-};
+});
 
 export default command;

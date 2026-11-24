@@ -6,31 +6,26 @@ import $list from "./list.js";
 import $populate from "./populate.js";
 import $preferences from "./preferences/index.js";
 import $update from "./update.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * datasets command group
  * @generated from apis/overlays/cloudforce-one.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "datasets",
 	describe: "Operations for threat-intel.datasets",
 
-	builder: (yargs) => {
-		return yargs
-			.command($create)
-			.command($delete)
-			.command($get)
-			.command($list)
-			.command($populate)
-			.command($update)
-			.command($access)
-			.command($preferences)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		create: $create,
+		delete: $delete,
+		get: $get,
+		list: $list,
+		populate: $populate,
+		update: $update,
+		access: $access,
+		preferences: $preferences,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

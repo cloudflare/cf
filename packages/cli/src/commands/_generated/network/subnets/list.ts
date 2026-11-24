@@ -1,11 +1,10 @@
 import operation from "../../_operations/network/subnets/list.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * list command
  * @generated from apis/overlays/network.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -17,78 +16,88 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 network subnets list\n\nLists and filters subnets in an account."
-		)
-		.option("name", {
-			type: "string",
-			description: "If set, only list subnets with the given name",
-		})
-		.option("comment", {
-			type: "string",
-			description: "If set, only list subnets with the given comment.",
-		})
-		.option("network", {
-			type: "string",
-			description:
-				"If set, only list the subnet whose network exactly matches the given CIDR.",
-		})
-		.option("existed-at", {
-			type: "string",
-			description:
-				"If provided, include only resources that were created (and not deleted) before this time. URL encoded.",
-		})
-		.option("address-family", {
-			type: "string",
-			description:
-				"If set, only include subnets in the given address family - `v4` or `v6`",
-			choices: ["v4", "v6"],
-		})
-		.option("is-default-network", {
-			type: "boolean",
-			description:
-				"If `true`, only include default subnets. If `false`, exclude default subnets subnets. If not set, all subnets will be included.",
-		})
-		.option("is-deleted", {
-			type: "boolean",
-			description:
-				"If `true`, only include deleted subnets. If `false`, exclude deleted subnets. If not set, all subnets will be included.",
-		})
-		.option("sort-order", {
-			type: "string",
-			description:
-				"Sort order of the results. `asc` means oldest to newest, `desc` means newest to oldest. If not set, they will not be in any particular order.",
-			choices: ["asc", "desc"],
-		})
-		.option("subnet-types", {
-			type: "string",
-			description:
-				"If set, the types of subnets to include, separated by comma.",
-			choices: ["cloudflare_source", "initial_resolved_ip", "warp"],
-		})
-		.option("per-page", {
-			type: "number",
-			description: "Number of results to display.",
-		})
-		.option("page", {
-			type: "number",
-			description: "Page number of paginated results.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "list",
 	describe: "List Subnets",
-	builder,
+	usage: "$0 network subnets list\n\nLists and filters subnets in an account.",
+	flags: {
+		name: {
+			kind: "parsed",
+			brief: "If set, only list subnets with the given name",
+			optional: true,
+			parse: String,
+		},
+		comment: {
+			kind: "parsed",
+			brief: "If set, only list subnets with the given comment.",
+			optional: true,
+			parse: String,
+		},
+		network: {
+			kind: "parsed",
+			brief:
+				"If set, only list the subnet whose network exactly matches the given CIDR.",
+			optional: true,
+			parse: String,
+		},
+		"existed-at": {
+			kind: "parsed",
+			brief:
+				"If provided, include only resources that were created (and not deleted) before this time. URL encoded.",
+			optional: true,
+			parse: String,
+		},
+		"address-family": {
+			kind: "enum",
+			brief:
+				"If set, only include subnets in the given address family - `v4` or `v6`",
+			values: ["v4", "v6"],
+			optional: true,
+		},
+		"is-default-network": {
+			kind: "boolean",
+			brief:
+				"If `true`, only include default subnets. If `false`, exclude default subnets subnets. If not set, all subnets will be included.",
+			optional: true,
+		},
+		"is-deleted": {
+			kind: "boolean",
+			brief:
+				"If `true`, only include deleted subnets. If `false`, exclude deleted subnets. If not set, all subnets will be included.",
+			optional: true,
+		},
+		"sort-order": {
+			kind: "enum",
+			brief:
+				"Sort order of the results. `asc` means oldest to newest, `desc` means newest to oldest. If not set, they will not be in any particular order.",
+			values: ["asc", "desc"],
+			optional: true,
+		},
+		"subnet-types": {
+			kind: "enum",
+			brief: "If set, the types of subnets to include, separated by comma.",
+			values: ["cloudflare_source", "initial_resolved_ip", "warp"],
+			optional: true,
+		},
+		"per-page": {
+			kind: "parsed",
+			brief: "Number of results to display.",
+			optional: true,
+			parse: Number,
+		},
+		page: {
+			kind: "parsed",
+			brief: "Page number of paginated results.",
+			optional: true,
+			parse: Number,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
@@ -102,7 +111,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"subnet-types",
 						"dry-run",
 					],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -141,6 +150,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Loaded` });
 			}
 		),
-};
+});
 
 export default command;

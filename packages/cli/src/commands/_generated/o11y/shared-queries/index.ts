@@ -1,24 +1,19 @@
 import $create from "./create.js";
 import $get from "./get.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * shared-queries command group
  * @generated from apis/overlays/o11y.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "shared-queries",
 	describe: "Operations for shared-queries",
 
-	builder: (yargs) => {
-		return yargs
-			.command($create)
-			.command($get)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		create: $create,
+		get: $get,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

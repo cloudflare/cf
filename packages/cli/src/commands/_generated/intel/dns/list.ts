@@ -1,11 +1,10 @@
 import operation from "../../_operations/intel/dns/list.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * list command
  * @generated from apis/overlays/intel.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -17,44 +16,45 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 intel dns list\n\nGets a list of all the domains that have resolved to a specific IP address."
-		)
-		.option("start-end-params", {
-			type: "string",
-			description: "Start end params",
-		})
-		.option("ipv4", { type: "string", description: "Ipv4" })
-		.option("page", {
-			type: "number",
-			description: "Requested page within paginated list of results.",
-		})
-		.option("per-page", {
-			type: "number",
-			description: "Maximum number of results requested.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "list",
 	describe: "Get Passive DNS by IP",
-	builder,
+	usage:
+		"$0 intel dns list\n\nGets a list of all the domains that have resolved to a specific IP address.",
+	flags: {
+		"start-end-params": {
+			kind: "parsed",
+			brief: "Start end params",
+			optional: true,
+			parse: String,
+		},
+		ipv4: { kind: "parsed", brief: "Ipv4", optional: true, parse: String },
+		page: {
+			kind: "parsed",
+			brief: "Requested page within paginated list of results.",
+			optional: true,
+			parse: Number,
+		},
+		"per-page": {
+			kind: "parsed",
+			brief: "Maximum number of results requested.",
+			optional: true,
+			parse: Number,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "intel dns list",
-				classification: {
-					safeFlags: ["dry-run"],
-				} satisfies ArgClassification<Args>,
+				classification: { safeFlags: ["dry-run"] } satisfies ArgClassification<
+					typeof argv
+				>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -86,6 +86,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Loaded` });
 			}
 		),
-};
+});
 
 export default command;

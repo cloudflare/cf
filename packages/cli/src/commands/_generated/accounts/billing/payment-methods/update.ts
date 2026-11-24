@@ -1,11 +1,10 @@
 import operation from "../../../_operations/accounts/billing/payment-methods/update.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * update command
  * @generated from apis/overlays/accounts.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -19,81 +18,135 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 accounts billing payment-methods update <payment-method-id>\n\nUpdates a payment method for an account."
-		)
-		.positional("payment-method-id", {
-			type: "string",
-			description: "Payment method identifier.",
-			demandOption: true,
-		})
-		.option("address", {
-			type: "string",
-			description: "Billing address line 1.",
-		})
-		.option("address2", {
-			type: "string",
-			description: "Billing address line 2.",
-		})
-		.option("bank-account-type", {
-			type: "string",
-			description: "Bank account type.",
-		})
-		.option("bank-code", { type: "string", description: "Bank code." })
-		.option("bank-country", { type: "string", description: "Bank country." })
-		.option("bank-name", {
-			type: "string",
-			description: "Bank name for bank-based payment methods.",
-		})
-		.option("bank-routing-number", {
-			type: "string",
-			description: "Bank routing number.",
-		})
-		.option("cashapp-cash-tag", {
-			type: "string",
-			description: "Cash App cash tag.",
-		})
-		.option("city", { type: "string", description: "Billing city." })
-		.option("country", { type: "string", description: "Billing country." })
-		.option("default", {
-			type: "boolean",
-			description: "Whether this is the default payment method.",
-		})
-		.option("device-data", {
-			type: "string",
-			description: "Device data for fraud prevention.",
-		})
-		.option("first-name", {
-			type: "string",
-			description: "Billing first name.",
-		})
-		.option("last-name", { type: "string", description: "Billing last name." })
-		.option("nick-name", {
-			type: "string",
-			description: "A nickname for the payment method.",
-		})
-		.option("payment-account-email", {
-			type: "string",
-			description: "Email associated with the payment account.",
-		})
-		.option("payment-email", {
-			type: "string",
-			description: "Payment email address.",
-		})
-		.option("payment-gateway", {
-			type: "string",
-			description: "The payment gateway used.",
-		})
-		.option("payment-nonce", {
-			type: "string",
-			description: "Payment nonce for tokenized payments.",
-		})
-		.option("state", { type: "string", description: "Billing state." })
-		.option("type", {
-			type: "string",
-			description: "The payment method type.",
+const command = apiCommand({
+	command: "update <payment-method-id>",
+	describe: "Update Payment Method",
+	usage:
+		"$0 accounts billing payment-methods update <payment-method-id>\n\nUpdates a payment method for an account.",
+	flags: {
+		address: {
+			kind: "parsed",
+			brief: "Billing address line 1.",
+			optional: true,
+			parse: String,
+		},
+		address2: {
+			kind: "parsed",
+			brief: "Billing address line 2.",
+			optional: true,
+			parse: String,
+		},
+		"bank-account-type": {
+			kind: "parsed",
+			brief: "Bank account type.",
+			optional: true,
+			parse: String,
+		},
+		"bank-code": {
+			kind: "parsed",
+			brief: "Bank code.",
+			optional: true,
+			parse: String,
+		},
+		"bank-country": {
+			kind: "parsed",
+			brief: "Bank country.",
+			optional: true,
+			parse: String,
+		},
+		"bank-name": {
+			kind: "parsed",
+			brief: "Bank name for bank-based payment methods.",
+			optional: true,
+			parse: String,
+		},
+		"bank-routing-number": {
+			kind: "parsed",
+			brief: "Bank routing number.",
+			optional: true,
+			parse: String,
+		},
+		"cashapp-cash-tag": {
+			kind: "parsed",
+			brief: "Cash App cash tag.",
+			optional: true,
+			parse: String,
+		},
+		city: {
+			kind: "parsed",
+			brief: "Billing city.",
+			optional: true,
+			parse: String,
+		},
+		country: {
+			kind: "parsed",
+			brief: "Billing country.",
+			optional: true,
+			parse: String,
+		},
+		default: {
+			kind: "boolean",
+			brief: "Whether this is the default payment method.",
+			optional: true,
+		},
+		"device-data": {
+			kind: "parsed",
+			brief: "Device data for fraud prevention.",
+			optional: true,
+			parse: String,
+		},
+		"first-name": {
+			kind: "parsed",
+			brief: "Billing first name.",
+			optional: true,
+			parse: String,
+		},
+		"last-name": {
+			kind: "parsed",
+			brief: "Billing last name.",
+			optional: true,
+			parse: String,
+		},
+		"nick-name": {
+			kind: "parsed",
+			brief: "A nickname for the payment method.",
+			optional: true,
+			parse: String,
+		},
+		"payment-account-email": {
+			kind: "parsed",
+			brief: "Email associated with the payment account.",
+			optional: true,
+			parse: String,
+		},
+		"payment-email": {
+			kind: "parsed",
+			brief: "Payment email address.",
+			optional: true,
+			parse: String,
+		},
+		"payment-gateway": {
+			kind: "parsed",
+			brief: "The payment gateway used.",
+			optional: true,
+			parse: String,
+		},
+		"payment-nonce": {
+			kind: "parsed",
+			brief: "Payment nonce for tokenized payments.",
+			optional: true,
+			parse: String,
+		},
+		state: {
+			kind: "parsed",
+			brief: "Billing state.",
+			optional: true,
+			parse: String,
+		},
+		type: {
+			kind: "parsed",
+			brief: "The payment method type.",
+			optional: true,
 			choices: [
 				"CREDIT_CARD",
 				"PAYPAL",
@@ -102,33 +155,41 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"LINK",
 				"ACH_DIRECT_DEBIT",
 			],
-		})
-		.coerce("type", (value) => resolveFileToken(value, "type", "text"))
-		.option("zipcode", { type: "string", description: "Billing zip code." })
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
+			parse: String,
+			coerce: (value: string) => resolveFileToken(value, "type", "text"),
+		},
+		zipcode: {
+			kind: "parsed",
+			brief: "Billing zip code.",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
 			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "update <payment-method-id>",
-	describe: "Update Payment Method",
-	builder,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [
+		{
+			placeholder: "payment-method-id",
+			brief: "Payment method identifier.",
+			parse: String,
+		},
+	],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "accounts billing payment-methods update",
 				classification: {
 					safeFlags: ["default", "type", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -386,6 +447,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Updated` });
 			}
 		),
-};
+});
 
 export default command;

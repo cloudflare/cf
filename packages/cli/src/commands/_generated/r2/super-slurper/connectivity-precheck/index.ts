@@ -1,24 +1,19 @@
 import $source from "./source.js";
 import $target from "./target.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * connectivity-precheck command group
  * @generated from apis/overlays/r2.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "connectivity-precheck",
 	describe: "Operations for super-slurper.connectivity-precheck",
 
-	builder: (yargs) => {
-		return yargs
-			.command($source)
-			.command($target)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		source: $source,
+		target: $target,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

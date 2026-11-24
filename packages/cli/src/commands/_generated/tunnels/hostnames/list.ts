@@ -1,11 +1,10 @@
 import operation from "../../_operations/tunnels/hostnames/list.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * list command
  * @generated from apis/overlays/tunnels.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -17,57 +16,63 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 tunnels hostnames list\n\nLists and filters the hostnames assigned to a tunnel."
-		)
-		.option("tunnel-id", {
-			type: "string",
-			description: "UUID of the tunnel.",
-			demandOption: true,
-		})
-		.option("hostname", {
-			type: "string",
-			description:
-				"If set, only list tunnel hostnames that contain this value. The filter is case-insensitive.",
-		})
-		.option("canonical", {
-			type: "boolean",
-			description:
-				"If set, only list tunnel hostnames with the specified canonical status.",
-		})
-		.option("is-deleted", {
-			type: "boolean",
-			description:
-				"If `true`, only return deleted tunnel hostnames. If `false` or omitted, exclude deleted tunnel hostnames.",
-		})
-		.option("per-page", {
-			type: "number",
-			description:
-				"Number of results to display, up to 1000. The server caps larger values at 1000.",
-		})
-		.option("page", { type: "number", description: "Page number to return." })
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "list",
 	describe: "List tunnel hostnames",
-	builder,
+	usage:
+		"$0 tunnels hostnames list\n\nLists and filters the hostnames assigned to a tunnel.",
+	flags: {
+		"tunnel-id": {
+			kind: "parsed",
+			brief: "UUID of the tunnel.",
+			parse: String,
+		},
+		hostname: {
+			kind: "parsed",
+			brief:
+				"If set, only list tunnel hostnames that contain this value. The filter is case-insensitive.",
+			optional: true,
+			parse: String,
+		},
+		canonical: {
+			kind: "boolean",
+			brief:
+				"If set, only list tunnel hostnames with the specified canonical status.",
+			optional: true,
+		},
+		"is-deleted": {
+			kind: "boolean",
+			brief:
+				"If `true`, only return deleted tunnel hostnames. If `false` or omitted, exclude deleted tunnel hostnames.",
+			optional: true,
+		},
+		"per-page": {
+			kind: "parsed",
+			brief:
+				"Number of results to display, up to 1000. The server caps larger values at 1000.",
+			optional: true,
+			parse: Number,
+		},
+		page: {
+			kind: "parsed",
+			brief: "Page number to return.",
+			optional: true,
+			parse: Number,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "tunnels hostnames list",
 				classification: {
 					safeFlags: ["canonical", "is-deleted", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -104,6 +109,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Loaded` });
 			}
 		),
-};
+});
 
 export default command;

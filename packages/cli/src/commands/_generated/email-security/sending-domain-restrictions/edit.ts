@@ -1,11 +1,10 @@
 import operation from "../../_operations/email-security/sending-domain-restrictions/edit.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * edit command
  * @generated from apis/overlays/email-security.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -19,50 +18,57 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 email-security sending-domain-restrictions edit <sending-domain-restriction-id>\n\nUpdates an existing sending domain restriction. Only provided fields will be modified. Changes affect which domains require TLS and which subdomains are excluded."
-		)
-		.positional("sending-domain-restriction-id", {
-			type: "string",
-			description: "Sending domain restriction identifier.",
-			demandOption: true,
-		})
-		.option("comments", { type: "string", description: "The comments field" })
-		.option("domain", {
-			type: "string",
-			description: "Domain that requires TLS enforcement.",
-		})
-		.option("exclude", {
-			type: "string",
-			array: true,
-			description: "Subdomains to exempt from TLS requirements.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Update a sending domain restriction.",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "edit <sending-domain-restriction-id>",
 	describe: "Update a sending domain restriction",
-	builder,
+	usage:
+		"$0 email-security sending-domain-restrictions edit <sending-domain-restriction-id>\n\nUpdates an existing sending domain restriction. Only provided fields will be modified. Changes affect which domains require TLS and which subdomains are excluded.",
+	flags: {
+		comments: {
+			kind: "parsed",
+			brief: "The comments field",
+			optional: true,
+			parse: String,
+		},
+		domain: {
+			kind: "parsed",
+			brief: "Domain that requires TLS enforcement.",
+			optional: true,
+			parse: String,
+		},
+		exclude: {
+			kind: "parsed",
+			brief: "Subdomains to exempt from TLS requirements.",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Update a sending domain restriction.",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [
+		{
+			placeholder: "sending-domain-restriction-id",
+			brief: "Sending domain restriction identifier.",
+			parse: String,
+		},
+	],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "email-security sending-domain-restrictions edit",
-				classification: {
-					safeFlags: ["dry-run"],
-				} satisfies ArgClassification<Args>,
+				classification: { safeFlags: ["dry-run"] } satisfies ArgClassification<
+					typeof argv
+				>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -142,6 +148,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Updated` });
 			}
 		),
-};
+});
 
 export default command;

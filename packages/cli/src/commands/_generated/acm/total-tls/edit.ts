@@ -1,11 +1,10 @@
 import operation from "../../_operations/acm/total-tls/edit.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * edit command
  * @generated from apis/overlays/acm.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import { createCommandClient, getZoneId } from "#lib/auth.js";
 import { compactBody, parseBody } from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
@@ -14,49 +13,48 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 acm total-tls edit\n\nSet Total TLS Settings or disable the feature for a Zone."
-		)
-		.option("certificate-authority", {
-			type: "string",
-			description:
-				"The Certificate Authority that Total TLS certificates will be issued through. Not returned in responses when Total TLS is disabled.",
-			choices: ["google", "lets_encrypt", "ssl_com"],
-		})
-		.coerce("certificate-authority", (value) =>
-			resolveFileToken(value, "certificate-authority", "text")
-		)
-		.option("enabled", {
-			type: "boolean",
-			description:
-				"If enabled, Total TLS will order a hostname specific TLS certificate for any proxied A, AAAA, or CNAME record in your zone.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "edit",
 	describe: "Enable or Disable Total TLS",
-	builder,
+	usage:
+		"$0 acm total-tls edit\n\nSet Total TLS Settings or disable the feature for a Zone.",
+	flags: {
+		"certificate-authority": {
+			kind: "parsed",
+			brief:
+				"The Certificate Authority that Total TLS certificates will be issued through. Not returned in responses when Total TLS is disabled.",
+			optional: true,
+			choices: ["google", "lets_encrypt", "ssl_com"],
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "certificate-authority", "text"),
+		},
+		enabled: {
+			kind: "boolean",
+			brief:
+				"If enabled, Total TLS will order a hostname specific TLS certificate for any proxied A, AAAA, or CNAME record in your zone.",
+			optional: true,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "acm total-tls edit",
 				classification: {
 					safeFlags: ["certificate-authority", "enabled", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -118,6 +116,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Created` });
 			}
 		),
-};
+});
 
 export default command;

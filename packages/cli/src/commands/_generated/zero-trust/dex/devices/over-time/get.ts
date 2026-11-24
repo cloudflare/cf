@@ -1,11 +1,10 @@
 import operation from "../../../../_operations/zero-trust/dex/devices/over-time/get.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * get command
  * @generated from apis/overlays/zero-trust.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -17,58 +16,55 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 zero-trust dex devices over-time get <device-id>\n\nGet time-bucketed status metrics for a specific device."
-		)
-		.positional("device-id", {
-			type: "string",
-			description: "Device-specific ID, given as UUID.",
-			demandOption: true,
-		})
-		.option("from", {
-			type: "string",
-			description:
-				"Start of the time range to query. Timestamp can be provided in ISO 8601 datetime format or milliseconds since epoch.",
-			demandOption: true,
-		})
-		.option("to", {
-			type: "string",
-			description:
-				"End of the time range to query. Timestamp can be provided in ISO 8601 datetime format or milliseconds since epoch.",
-			demandOption: true,
-		})
-		.option("interval", {
-			type: "string",
-			description: "Time interval for aggregate time slots.",
-			choices: ["minute", "hour"],
-			demandOption: true,
-		})
-		.option("colo", {
-			type: "string",
-			description: "List of data centers to filter results.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "get <device-id>",
 	describe: "Get the status over time for a device",
-	builder,
+	usage:
+		"$0 zero-trust dex devices over-time get <device-id>\n\nGet time-bucketed status metrics for a specific device.",
+	flags: {
+		from: {
+			kind: "parsed",
+			brief:
+				"Start of the time range to query. Timestamp can be provided in ISO 8601 datetime format or milliseconds since epoch.",
+			parse: String,
+		},
+		to: {
+			kind: "parsed",
+			brief:
+				"End of the time range to query. Timestamp can be provided in ISO 8601 datetime format or milliseconds since epoch.",
+			parse: String,
+		},
+		interval: {
+			kind: "enum",
+			brief: "Time interval for aggregate time slots.",
+			values: ["minute", "hour"],
+		},
+		colo: {
+			kind: "parsed",
+			brief: "List of data centers to filter results.",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+	},
+	operands: [
+		{
+			placeholder: "device-id",
+			brief: "Device-specific ID, given as UUID.",
+			parse: String,
+		},
+	],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "zero-trust dex devices over-time get",
 				classification: {
 					safeFlags: ["interval", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -104,6 +100,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Loaded` });
 			}
 		),
-};
+});
 
 export default command;

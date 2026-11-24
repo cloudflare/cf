@@ -1,11 +1,10 @@
 import operation from "../../_operations/logs/datasets/update.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * update command
  * @generated from apis/overlays/logs.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -20,56 +19,61 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 logs datasets update <dataset-id>\n\nUpdates the enabled state and/or field configuration of an account or zone dataset.\n\nRuns against your account. Pass --zone to run against a zone instead. CLOUDFLARE_ZONE_ID is ignored."
-		)
-		.positional("dataset-id", {
-			type: "string",
-			description: "Log Explorer dataset ID.",
-			demandOption: true,
-		})
-		.option("deletion-protection", {
-			type: "boolean",
-			description: "Set to `false` to allow deletion of this dataset.",
-		})
-		.option("enabled", {
-			type: "boolean",
-			description: "Whether to enable or disable log ingest for this dataset.",
-		})
-		.option("fields", {
-			type: "string",
-			description:
-				'Controls which fields the API ingests after the update. Defaults\nto all available fields when absent. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"enabled": boolean, "name": string}].',
-		})
-		.option("filter", {
-			type: "string",
-			description:
-				'Optional Logpush filter predicate to restrict which events are\ningested. If omitted, the existing filter is left unchanged. Set\nto an empty string (`""`) to clear the filter. Otherwise,\nreplaces the dataset\'s filter entirely.\nSee [Logpush filters](https://developers.cloudflare.com/logs/reference/filters/)\nfor syntax and examples.\n',
-		})
-		.option("filter-attack-traffic", {
-			type: "boolean",
-			description:
-				"Whether to filter attack traffic from the Logpush job. If omitted,\nthe existing setting is left unchanged. Supported datasets are\n`http_requests`, `firewall_events`, and `network_analytics_logs`.\n",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "update <dataset-id>",
 	describe: "Update an account or zone dataset",
-	builder,
+	usage:
+		"$0 logs datasets update <dataset-id>\n\nUpdates the enabled state and/or field configuration of an account or zone dataset.\n\nRuns against your account. Pass --zone to run against a zone instead. CLOUDFLARE_ZONE_ID is ignored.",
+	flags: {
+		"deletion-protection": {
+			kind: "boolean",
+			brief: "Set to `false` to allow deletion of this dataset.",
+			optional: true,
+		},
+		enabled: {
+			kind: "boolean",
+			brief: "Whether to enable or disable log ingest for this dataset.",
+			optional: true,
+		},
+		fields: {
+			kind: "parsed",
+			brief:
+				'Controls which fields the API ingests after the update. Defaults\nto all available fields when absent. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"enabled": boolean, "name": string}].',
+			optional: true,
+			parse: String,
+		},
+		filter: {
+			kind: "parsed",
+			brief:
+				'Optional Logpush filter predicate to restrict which events are\ningested. If omitted, the existing filter is left unchanged. Set\nto an empty string (`""`) to clear the filter. Otherwise,\nreplaces the dataset\'s filter entirely.\nSee [Logpush filters](https://developers.cloudflare.com/logs/reference/filters/)\nfor syntax and examples.\n',
+			optional: true,
+			parse: String,
+		},
+		"filter-attack-traffic": {
+			kind: "boolean",
+			brief:
+				"Whether to filter attack traffic from the Logpush job. If omitted,\nthe existing setting is left unchanged. Supported datasets are\n`http_requests`, `firewall_events`, and `network_analytics_logs`.\n",
+			optional: true,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [
+		{
+			placeholder: "dataset-id",
+			brief: "Log Explorer dataset ID.",
+			parse: String,
+		},
+	],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
@@ -81,7 +85,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"filter-attack-traffic",
 						"dry-run",
 					],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -186,6 +190,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Updated` });
 			}
 		),
-};
+});
 
 export default command;

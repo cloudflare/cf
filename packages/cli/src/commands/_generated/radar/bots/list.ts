@@ -1,34 +1,39 @@
 import operation from "../../_operations/radar/bots/list.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * list command
  * @generated from apis/overlays/radar.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import { createCommandClient } from "#lib/auth.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage("$0 radar bots list\n\nRetrieves a list of bots.")
-		.option("limit", {
-			type: "number",
-			description: "Limits the number of objects returned in the response.",
-		})
-		.option("offset", {
-			type: "number",
-			description:
+const command = apiCommand({
+	command: "list",
+	describe: "List bots",
+	usage: "$0 radar bots list\n\nRetrieves a list of bots.",
+	flags: {
+		limit: {
+			kind: "parsed",
+			brief: "Limits the number of objects returned in the response.",
+			optional: true,
+			parse: Number,
+		},
+		offset: {
+			kind: "parsed",
+			brief:
 				"Skips the specified number of objects before fetching the results.",
-		})
-		.option("bot-category", {
-			type: "string",
-			description:
+			optional: true,
+			parse: Number,
+		},
+		"bot-category": {
+			kind: "enum",
+			brief:
 				"Filters results by bot category. `ACCESSIBILITY`, `AGGREGATOR`, `AI_SEARCH`, `ARCHIVER`, `SOCIAL_MEDIA_MARKETING` and `WEBHOOKS` are deprecated legacy categories that match only that exact category.",
-			choices: [
+			values: [
 				"ACADEMIC_RESEARCH",
 				"ADVERTISING_AND_MARKETING",
 				"AI_ASSISTANT",
@@ -48,40 +53,40 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"SOCIAL_MEDIA_MARKETING",
 				"WEBHOOKS",
 			],
-		})
-		.option("bot-operator", {
-			type: "string",
-			description: "Filters results by bot operator.",
-		})
-		.option("kind", {
-			type: "string",
-			description:
+			optional: true,
+		},
+		"bot-operator": {
+			kind: "parsed",
+			brief: "Filters results by bot operator.",
+			optional: true,
+			parse: String,
+		},
+		kind: {
+			kind: "enum",
+			brief:
 				"Filters results by bot kind. Deprecated: the Verified Bot / Signed Agent distinction is being removed.",
-			choices: ["AGENT", "BOT"],
-		})
-		.option("bot-verification-status", {
-			type: "string",
-			description: "Filters results by bot verification status.",
-			choices: ["VERIFIED"],
-		})
-		.option("format", {
-			type: "string",
-			description: "Format in which results will be returned.",
-			choices: ["JSON", "CSV"],
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
+			values: ["AGENT", "BOT"],
+			optional: true,
+		},
+		"bot-verification-status": {
+			kind: "enum",
+			brief: "Filters results by bot verification status.",
+			values: ["VERIFIED"],
+			optional: true,
+		},
+		format: {
+			kind: "enum",
+			brief: "Format in which results will be returned.",
+			values: ["JSON", "CSV"],
+			optional: true,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
 			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "list",
-	describe: "List bots",
-	builder,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
@@ -94,7 +99,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"format",
 						"dry-run",
 					],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -126,6 +131,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Loaded` });
 			}
 		),
-};
+});
 
 export default command;

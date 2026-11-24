@@ -1,11 +1,10 @@
 import operation from "../../_operations/pipelines/streams/create.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * create command
  * @generated from apis/overlays/pipelines.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -20,112 +19,134 @@ import { withProgress } from "#lib/progress.js";
 import { promptForRequiredField } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage("$0 pipelines streams create\n\nCreate a new Stream.")
-		.option("format-decimal-encoding", {
-			type: "string",
-			description: "The format.decimal_encoding field",
+const command = apiCommand({
+	command: "create",
+	describe: "Create Stream",
+	usage: "$0 pipelines streams create\n\nCreate a new Stream.",
+	flags: {
+		"format-decimal-encoding": {
+			kind: "parsed",
+			brief: "The format.decimal_encoding field",
+			optional: true,
 			choices: ["number", "string", "bytes"],
-		})
-		.coerce("format-decimal-encoding", (value) =>
-			resolveFileToken(value, "format-decimal-encoding", "text")
-		)
-		.option("format-timestamp-format", {
-			type: "string",
-			description: "The format.timestamp_format field",
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "format-decimal-encoding", "text"),
+		},
+		"format-timestamp-format": {
+			kind: "parsed",
+			brief: "The format.timestamp_format field",
+			optional: true,
 			choices: ["rfc3339", "unix_millis"],
-		})
-		.coerce("format-timestamp-format", (value) =>
-			resolveFileToken(value, "format-timestamp-format", "text")
-		)
-		.option("format-unstructured", {
-			type: "boolean",
-			description: "The format.unstructured field",
-		})
-		.option("format-type", {
-			type: "string",
-			description: "The format.type field",
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "format-timestamp-format", "text"),
+		},
+		"format-unstructured": {
+			kind: "boolean",
+			brief: "The format.unstructured field",
+			optional: true,
+		},
+		"format-type": {
+			kind: "parsed",
+			brief: "The format.type field",
+			optional: true,
 			choices: ["json", "parquet"],
-		})
-		.coerce("format-type", (value) =>
-			resolveFileToken(value, "format-type", "text")
-		)
-		.option("format-compression", {
-			type: "string",
-			description: "The format.compression field",
+			parse: String,
+			coerce: (value: string) => resolveFileToken(value, "format-type", "text"),
+		},
+		"format-compression": {
+			kind: "parsed",
+			brief: "The format.compression field",
+			optional: true,
 			choices: ["uncompressed", "snappy", "gzip", "zstd", "lz4"],
-		})
-		.coerce("format-compression", (value) =>
-			resolveFileToken(value, "format-compression", "text")
-		)
-		.option("format-row-group-bytes", {
-			type: "number",
-			description: "The format.row_group_bytes field",
-		})
-		.option("http-authentication", {
-			type: "boolean",
-			description:
-				"Indicates that authentication is required for the HTTP endpoint.",
-		})
-		.option("http-cors-origins", {
-			type: "string",
-			array: true,
-			description: "The http.cors.origins field",
-		})
-		.option("http-enabled", {
-			type: "boolean",
-			description: "Indicates that the HTTP endpoint is enabled.",
-		})
-		.option("name", {
-			type: "string",
-			description: "Specifies the name of the Stream.",
-		})
-		.option("schema-fields", {
-			type: "string",
-			description:
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "format-compression", "text"),
+		},
+		"format-row-group-bytes": {
+			kind: "parsed",
+			brief: "The format.row_group_bytes field",
+			optional: true,
+			parse: Number,
+		},
+		"http-authentication": {
+			kind: "boolean",
+			brief: "Indicates that authentication is required for the HTTP endpoint.",
+			optional: true,
+		},
+		"http-cors-origins": {
+			kind: "parsed",
+			brief: "The http.cors.origins field",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"http-enabled": {
+			kind: "boolean",
+			brief: "Indicates that the HTTP endpoint is enabled.",
+			optional: true,
+		},
+		name: {
+			kind: "parsed",
+			brief: "Specifies the name of the Stream.",
+			optional: true,
+			parse: String,
+		},
+		"schema-fields": {
+			kind: "parsed",
+			brief:
 				'The schema.fields field. Provide as a JSON array of objects or @path/to/file.json. Shape: [(({"type": "int32"} | {"type": "int64"} | {"type": "float32"} | ...more) & {"name": string, "metadata_key"?: (string | null), "required"?: boolean, "sql_name"?: string})]. ? marks optional keys.',
-		})
-		.option("schema-inferred", {
-			type: "boolean",
-			description: "The schema.inferred field",
-		})
-		.option("worker-binding-enabled", {
-			type: "boolean",
-			description: "Indicates that the worker binding is enabled.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
+			optional: true,
+			parse: String,
+		},
+		"schema-inferred": {
+			kind: "boolean",
+			brief: "The schema.inferred field",
+			optional: true,
+		},
+		"worker-binding-enabled": {
+			kind: "boolean",
+			brief: "Indicates that the worker binding is enabled.",
+			optional: true,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
 			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		})
-		.conflicts("format-decimal-encoding", [
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [],
+	rules(rules) {
+		rules.conflicts("format-decimal-encoding", [
 			"format-compression",
 			"format-row-group-bytes",
-		])
-		.conflicts("format-timestamp-format", [
+		]);
+		rules.conflicts("format-timestamp-format", [
 			"format-compression",
 			"format-row-group-bytes",
-		])
-		.conflicts("format-unstructured", [
+		]);
+		rules.conflicts("format-unstructured", [
 			"format-compression",
 			"format-row-group-bytes",
-		])
-		.conflicts("format-compression", [
+		]);
+		rules.conflicts("format-compression", [
 			"format-decimal-encoding",
 			"format-timestamp-format",
 			"format-unstructured",
-		])
-		.conflicts("format-row-group-bytes", [
+		]);
+		rules.conflicts("format-row-group-bytes", [
 			"format-decimal-encoding",
 			"format-timestamp-format",
 			"format-unstructured",
-		])
-		.check((argv) => {
+		]);
+		rules.check((argv) => {
 			const groupSet = [
 				"format-decimal-encoding",
 				"format-timestamp-format",
@@ -143,8 +164,8 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				}
 			}
 			return true;
-		})
-		.check((argv) => {
+		});
+		rules.check((argv) => {
 			const groupSet = [
 				"http-authentication",
 				"http-cors-origins",
@@ -162,14 +183,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			}
 			return true;
 		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "create",
-	describe: "Create Stream",
-	builder,
+	},
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
@@ -187,7 +201,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"worker-binding-enabled",
 						"dry-run",
 					],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -300,6 +314,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Created` });
 			}
 		),
-};
+});
 
 export default command;

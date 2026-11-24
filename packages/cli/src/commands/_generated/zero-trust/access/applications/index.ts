@@ -9,34 +9,29 @@ import $settings from "./settings/index.js";
 import $shortlivedcertificates from "./short-lived-certificates/index.js";
 import $update from "./update.js";
 import $userpolicychecks from "./user-policy-checks/index.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * applications command group
  * @generated from apis/overlays/zero-trust.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "applications",
 	describe: "Operations for access.applications",
 
-	builder: (yargs) => {
-		return yargs
-			.command($create)
-			.command($delete)
-			.command($get)
-			.command($list)
-			.command($revoketokens)
-			.command($update)
-			.command($policies)
-			.command($policytests)
-			.command($settings)
-			.command($shortlivedcertificates)
-			.command($userpolicychecks)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		create: $create,
+		delete: $delete,
+		get: $get,
+		list: $list,
+		"revoke-tokens": $revoketokens,
+		update: $update,
+		policies: $policies,
+		"policy-tests": $policytests,
+		settings: $settings,
+		"short-lived-certificates": $shortlivedcertificates,
+		"user-policy-checks": $userpolicychecks,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

@@ -1,11 +1,10 @@
 import operation from "../../_operations/smart-shield/health-checks/update.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * update command
  * @generated from apis/overlays/smart-shield.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import { createCommandClient, getZoneId } from "#lib/auth.js";
 import {
 	compactBody,
@@ -19,156 +18,191 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 smart-shield health-checks update <healthcheck-id>\n\nUpdate a configured health check."
-		)
-		.positional("healthcheck-id", {
-			type: "string",
-			description: "Identifier.",
-			demandOption: true,
-		})
-		.option("errors", {
-			type: "string",
-			description:
-				'The errors field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"code": number, "message": string}].',
-		})
-		.option("messages", {
-			type: "string",
-			description:
-				'The messages field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"code": number, "message": string}].',
-		})
-		.option("result-address", {
-			type: "string",
-			description:
-				"The hostname or IP address of the origin server to run health checks on.",
-		})
-		.option("result-check-regions", {
-			type: "string",
-			array: true,
-			description:
-				"A list of regions from which to run health checks. Null means Cloudflare will pick a default region.",
-		})
-		.option("result-consecutive-fails", {
-			type: "number",
-			description:
-				"The number of consecutive fails required from a health check before changing the health to unhealthy.",
-		})
-		.option("result-consecutive-successes", {
-			type: "number",
-			description:
-				"The number of consecutive successes required from a health check before changing the health to healthy.",
-		})
-		.option("result-description", {
-			type: "string",
-			description: "A human-readable description of the health check.",
-		})
-		.option("result-http-config-allow-insecure", {
-			type: "boolean",
-			description:
-				"Do not validate the certificate when the health check uses HTTPS.",
-		})
-		.option("result-http-config-expected-body", {
-			type: "string",
-			description:
-				"A case-insensitive sub-string to look for in the response body. If this string is not found, the origin will be marked as unhealthy.",
-		})
-		.option("result-http-config-expected-codes", {
-			type: "string",
-			array: true,
-			description:
-				'The expected HTTP response codes (e.g. "200") or code ranges (e.g. "2xx" for all codes starting with 2) of the health check.',
-		})
-		.option("result-http-config-follow-redirects", {
-			type: "boolean",
-			description: "Follow redirects if the origin returns a 3xx status code.",
-		})
-		.option("result-http-config-header", {
-			type: "string",
-			description:
-				'The HTTP request headers to send in the health check. It is recommended you set a Host header by default. The User-Agent header cannot be overridden. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": [string]}.',
-		})
-		.option("result-http-config-method", {
-			type: "string",
-			description: "The HTTP method to use for the health check.",
-			choices: ["GET", "HEAD"],
-		})
-		.coerce("result-http-config-method", (value) =>
-			resolveFileToken(value, "result-http-config-method", "text")
-		)
-		.option("result-http-config-path", {
-			type: "string",
-			description: "The endpoint path to health check against.",
-		})
-		.option("result-http-config-port", {
-			type: "number",
-			description:
-				"Port number to connect to for the health check. Defaults to 80 if type is HTTP or 443 if type is HTTPS.",
-		})
-		.option("result-interval", {
-			type: "number",
-			description:
-				"The interval between each health check. Shorter intervals may give quicker notifications if the origin status changes, but will increase load on the origin as we check from multiple locations.",
-		})
-		.option("result-name", {
-			type: "string",
-			description:
-				"A short name to identify the health check. Only alphanumeric characters, hyphens and underscores are allowed.",
-		})
-		.option("result-retries", {
-			type: "number",
-			description:
-				"The number of retries to attempt in case of a timeout before marking the origin as unhealthy. Retries are attempted immediately.",
-		})
-		.option("result-suspended", {
-			type: "boolean",
-			description: "If suspended, no health checks are sent to the origin.",
-		})
-		.option("result-tcp-config-method", {
-			type: "string",
-			description: "The TCP connection method to use for the health check.",
-			choices: ["connection_established"],
-		})
-		.coerce("result-tcp-config-method", (value) =>
-			resolveFileToken(value, "result-tcp-config-method", "text")
-		)
-		.option("result-tcp-config-port", {
-			type: "number",
-			description:
-				"Port number to connect to for the health check. Defaults to 80.",
-		})
-		.option("result-timeout", {
-			type: "number",
-			description:
-				"The timeout (in seconds) before marking the health check as failed.",
-		})
-		.option("result-type", {
-			type: "string",
-			description:
-				"The protocol to use for the health check. Currently supported protocols are 'HTTP', 'HTTPS' and 'TCP'.",
-		})
-		.option("success", {
-			type: "boolean",
-			description: "Whether the API call was successful.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "update <healthcheck-id>",
 	describe: "Update Health Check",
-	builder,
+	usage:
+		"$0 smart-shield health-checks update <healthcheck-id>\n\nUpdate a configured health check.",
+	flags: {
+		errors: {
+			kind: "parsed",
+			brief:
+				'The errors field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"code": number, "message": string}].',
+			optional: true,
+			parse: String,
+		},
+		messages: {
+			kind: "parsed",
+			brief:
+				'The messages field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"code": number, "message": string}].',
+			optional: true,
+			parse: String,
+		},
+		"result-address": {
+			kind: "parsed",
+			brief:
+				"The hostname or IP address of the origin server to run health checks on.",
+			optional: true,
+			parse: String,
+		},
+		"result-check-regions": {
+			kind: "parsed",
+			brief:
+				"A list of regions from which to run health checks. Null means Cloudflare will pick a default region.",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"result-consecutive-fails": {
+			kind: "parsed",
+			brief:
+				"The number of consecutive fails required from a health check before changing the health to unhealthy.",
+			optional: true,
+			parse: Number,
+		},
+		"result-consecutive-successes": {
+			kind: "parsed",
+			brief:
+				"The number of consecutive successes required from a health check before changing the health to healthy.",
+			optional: true,
+			parse: Number,
+		},
+		"result-description": {
+			kind: "parsed",
+			brief: "A human-readable description of the health check.",
+			optional: true,
+			parse: String,
+		},
+		"result-http-config-allow-insecure": {
+			kind: "boolean",
+			brief:
+				"Do not validate the certificate when the health check uses HTTPS.",
+			optional: true,
+		},
+		"result-http-config-expected-body": {
+			kind: "parsed",
+			brief:
+				"A case-insensitive sub-string to look for in the response body. If this string is not found, the origin will be marked as unhealthy.",
+			optional: true,
+			parse: String,
+		},
+		"result-http-config-expected-codes": {
+			kind: "parsed",
+			brief:
+				'The expected HTTP response codes (e.g. "200") or code ranges (e.g. "2xx" for all codes starting with 2) of the health check.',
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"result-http-config-follow-redirects": {
+			kind: "boolean",
+			brief: "Follow redirects if the origin returns a 3xx status code.",
+			optional: true,
+		},
+		"result-http-config-header": {
+			kind: "parsed",
+			brief:
+				'The HTTP request headers to send in the health check. It is recommended you set a Host header by default. The User-Agent header cannot be overridden. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": [string]}.',
+			optional: true,
+			parse: String,
+		},
+		"result-http-config-method": {
+			kind: "parsed",
+			brief: "The HTTP method to use for the health check.",
+			optional: true,
+			choices: ["GET", "HEAD"],
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "result-http-config-method", "text"),
+		},
+		"result-http-config-path": {
+			kind: "parsed",
+			brief: "The endpoint path to health check against.",
+			optional: true,
+			parse: String,
+		},
+		"result-http-config-port": {
+			kind: "parsed",
+			brief:
+				"Port number to connect to for the health check. Defaults to 80 if type is HTTP or 443 if type is HTTPS.",
+			optional: true,
+			parse: Number,
+		},
+		"result-interval": {
+			kind: "parsed",
+			brief:
+				"The interval between each health check. Shorter intervals may give quicker notifications if the origin status changes, but will increase load on the origin as we check from multiple locations.",
+			optional: true,
+			parse: Number,
+		},
+		"result-name": {
+			kind: "parsed",
+			brief:
+				"A short name to identify the health check. Only alphanumeric characters, hyphens and underscores are allowed.",
+			optional: true,
+			parse: String,
+		},
+		"result-retries": {
+			kind: "parsed",
+			brief:
+				"The number of retries to attempt in case of a timeout before marking the origin as unhealthy. Retries are attempted immediately.",
+			optional: true,
+			parse: Number,
+		},
+		"result-suspended": {
+			kind: "boolean",
+			brief: "If suspended, no health checks are sent to the origin.",
+			optional: true,
+		},
+		"result-tcp-config-method": {
+			kind: "parsed",
+			brief: "The TCP connection method to use for the health check.",
+			optional: true,
+			choices: ["connection_established"],
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "result-tcp-config-method", "text"),
+		},
+		"result-tcp-config-port": {
+			kind: "parsed",
+			brief: "Port number to connect to for the health check. Defaults to 80.",
+			optional: true,
+			parse: Number,
+		},
+		"result-timeout": {
+			kind: "parsed",
+			brief:
+				"The timeout (in seconds) before marking the health check as failed.",
+			optional: true,
+			parse: Number,
+		},
+		"result-type": {
+			kind: "parsed",
+			brief:
+				"The protocol to use for the health check. Currently supported protocols are 'HTTP', 'HTTPS' and 'TCP'.",
+			optional: true,
+			parse: String,
+		},
+		success: {
+			kind: "boolean",
+			brief: "Whether the API call was successful.",
+			optional: true,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [
+		{ placeholder: "healthcheck-id", brief: "Identifier.", parse: String },
+	],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
@@ -183,7 +217,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"success",
 						"dry-run",
 					],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -390,6 +424,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Updated` });
 			}
 		),
-};
+});
 
 export default command;

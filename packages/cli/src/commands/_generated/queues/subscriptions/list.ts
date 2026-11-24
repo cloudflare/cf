@@ -1,11 +1,10 @@
 import operation from "../../_operations/queues/subscriptions/list.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * list command
  * @generated from apis/overlays/queues.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -17,53 +16,56 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 queues subscriptions list\n\nReturns a paginated list of Queue event subscriptions with optional sorting and filtering."
-		)
-		.option("queue-id", {
-			type: "string",
-			description: "Filter event subscriptions by destination queue ID.",
-		})
-		.option("page", {
-			type: "number",
-			description: "Page number for pagination",
-		})
-		.option("per-page", {
-			type: "number",
-			description: "Number of items per page",
-		})
-		.option("order", {
-			type: "string",
-			description: "Field to sort by",
-			choices: ["created_at", "name", "enabled", "source"],
-		})
-		.option("direction", {
-			type: "string",
-			description: "Sort direction",
-			choices: ["asc", "desc"],
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "list",
 	describe: "List Event Subscriptions",
-	builder,
+	usage:
+		"$0 queues subscriptions list\n\nReturns a paginated list of Queue event subscriptions with optional sorting and filtering.",
+	flags: {
+		"queue-id": {
+			kind: "parsed",
+			brief: "Filter event subscriptions by destination queue ID.",
+			optional: true,
+			parse: String,
+		},
+		page: {
+			kind: "parsed",
+			brief: "Page number for pagination",
+			optional: true,
+			parse: Number,
+		},
+		"per-page": {
+			kind: "parsed",
+			brief: "Number of items per page",
+			optional: true,
+			parse: Number,
+		},
+		order: {
+			kind: "enum",
+			brief: "Field to sort by",
+			values: ["created_at", "name", "enabled", "source"],
+			optional: true,
+		},
+		direction: {
+			kind: "enum",
+			brief: "Sort direction",
+			values: ["asc", "desc"],
+			optional: true,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "queues subscriptions list",
 				classification: {
 					safeFlags: ["order", "direction", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -96,6 +98,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Loaded` });
 			}
 		),
-};
+});
 
 export default command;

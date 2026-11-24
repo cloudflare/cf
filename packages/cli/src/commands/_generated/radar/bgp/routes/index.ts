@@ -5,30 +5,25 @@ import $pfx2as from "./pfx2as.js";
 import $realtime from "./realtime.js";
 import $stats from "./stats.js";
 import $upstreams from "./upstreams/index.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * routes command group
  * @generated from apis/overlays/radar.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "routes",
 	describe: "Operations for bgp.routes",
 
-	builder: (yargs) => {
-		return yargs
-			.command($ases)
-			.command($moas)
-			.command($pfx2as)
-			.command($realtime)
-			.command($stats)
-			.command($paths)
-			.command($upstreams)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		ases: $ases,
+		moas: $moas,
+		pfx2as: $pfx2as,
+		realtime: $realtime,
+		stats: $stats,
+		paths: $paths,
+		upstreams: $upstreams,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

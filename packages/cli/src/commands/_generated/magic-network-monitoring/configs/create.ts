@@ -1,11 +1,10 @@
 import operation from "../../_operations/magic-network-monitoring/configs/create.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * create command
  * @generated from apis/overlays/magic-network-monitoring.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -20,52 +19,59 @@ import { withProgress } from "#lib/progress.js";
 import { promptForRequiredField } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 magic-network-monitoring configs create\n\nCreate a new network monitoring configuration."
-		)
-		.option("default-sampling", {
-			type: "number",
-			description:
-				"Fallback sampling rate of flow messages being sent in packets per second. This should match the packet sampling rate configured on the router.",
-			default: 1,
-		})
-		.option("name", { type: "string", description: "The account name." })
-		.option("router-ips", {
-			type: "string",
-			array: true,
-			description: "The router_ips field",
-		})
-		.option("warp-devices", {
-			type: "string",
-			description:
-				'The warp_devices field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"id": string, "name": string, "router_ip": string}].',
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "create",
 	describe: "Create account configuration",
-	builder,
+	usage:
+		"$0 magic-network-monitoring configs create\n\nCreate a new network monitoring configuration.",
+	flags: {
+		"default-sampling": {
+			kind: "parsed",
+			brief:
+				"Fallback sampling rate of flow messages being sent in packets per second. This should match the packet sampling rate configured on the router.",
+			default: "1",
+			parse: Number,
+		},
+		name: {
+			kind: "parsed",
+			brief: "The account name.",
+			optional: true,
+			parse: String,
+		},
+		"router-ips": {
+			kind: "parsed",
+			brief: "The router_ips field",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"warp-devices": {
+			kind: "parsed",
+			brief:
+				'The warp_devices field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"id": string, "name": string, "router_ip": string}].',
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "magic-network-monitoring configs create",
-				classification: {
-					safeFlags: ["dry-run"],
-				} satisfies ArgClassification<Args>,
+				classification: { safeFlags: ["dry-run"] } satisfies ArgClassification<
+					typeof argv
+				>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -145,6 +151,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Created` });
 			}
 		),
-};
+});
 
 export default command;

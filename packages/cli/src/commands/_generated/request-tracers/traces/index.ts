@@ -1,23 +1,18 @@
 import $create from "./create.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * traces command group
  * @generated from apis/overlays/request-tracers.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "traces",
 	describe:
 		"Simulate request processing to debug rule matches, transforms, and routing decisions",
 
-	builder: (yargs) => {
-		return yargs
-			.command($create)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		create: $create,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

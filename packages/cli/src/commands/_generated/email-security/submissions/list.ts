@@ -1,11 +1,10 @@
 import operation from "../../_operations/email-security/submissions/list.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * list command
  * @generated from apis/overlays/email-security.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -17,63 +16,79 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 email-security submissions list\n\nReturns information for submissions made to reclassify emails. Shows the status, outcome, and disposition changes for reclassification requests made by users or the security team. Useful for tracking false positive/negative reports."
-		)
-		.option("start", {
-			type: "string",
-			description:
+const command = apiCommand({
+	command: "list",
+	describe: "List reclassify submissions",
+	usage:
+		"$0 email-security submissions list\n\nReturns information for submissions made to reclassify emails. Shows the status, outcome, and disposition changes for reclassification requests made by users or the security team. Useful for tracking false positive/negative reports.",
+	flags: {
+		start: {
+			kind: "parsed",
+			brief:
 				"The beginning of the search date range. Defaults to `now - 30 days`.",
-		})
-		.option("end", {
-			type: "string",
-			description: "The end of the search date range. Defaults to `now`.",
-		})
-		.option("type", {
-			type: "string",
-			description:
+			optional: true,
+			parse: String,
+		},
+		end: {
+			kind: "parsed",
+			brief: "The end of the search date range. Defaults to `now`.",
+			optional: true,
+			parse: String,
+		},
+		type: {
+			kind: "enum",
+			brief:
 				"Filter by who created the submission — `TEAM` for security team members or `USER` for end users.",
-			choices: ["TEAM", "USER"],
-		})
-		.option("submission-id", {
-			type: "string",
-			description: "Filter by a specific submission ID.",
-		})
-		.option("original-disposition", {
-			type: "string",
-			description: "The disposition a message is submitted to have.",
-			choices: ["MALICIOUS", "SUSPICIOUS", "SPOOF", "SPAM", "BULK", "NONE"],
-		})
-		.option("requested-disposition", {
-			type: "string",
-			description: "The disposition a message is submitted to have.",
-			choices: ["MALICIOUS", "SUSPICIOUS", "SPOOF", "SPAM", "BULK", "NONE"],
-		})
-		.option("outcome-disposition", {
-			type: "string",
-			description: "The disposition a message is submitted to have.",
-			choices: ["MALICIOUS", "SUSPICIOUS", "SPOOF", "SPAM", "BULK", "NONE"],
-		})
-		.option("status", {
-			type: "string",
-			description:
+			values: ["TEAM", "USER"],
+			optional: true,
+		},
+		"submission-id": {
+			kind: "parsed",
+			brief: "Filter by a specific submission ID.",
+			optional: true,
+			parse: String,
+		},
+		"original-disposition": {
+			kind: "enum",
+			brief: "The disposition a message is submitted to have.",
+			values: ["MALICIOUS", "SUSPICIOUS", "SPOOF", "SPAM", "BULK", "NONE"],
+			optional: true,
+		},
+		"requested-disposition": {
+			kind: "enum",
+			brief: "The disposition a message is submitted to have.",
+			values: ["MALICIOUS", "SUSPICIOUS", "SPOOF", "SPAM", "BULK", "NONE"],
+			optional: true,
+		},
+		"outcome-disposition": {
+			kind: "enum",
+			brief: "The disposition a message is submitted to have.",
+			values: ["MALICIOUS", "SUSPICIOUS", "SPOOF", "SPAM", "BULK", "NONE"],
+			optional: true,
+		},
+		status: {
+			kind: "parsed",
+			brief:
 				"Filter by review status — `escalated`, `reviewed`, or `unreviewed`.",
-		})
-		.option("query", {
-			type: "string",
-			description: "Search term for filtering submissions.",
-		})
-		.option("escalated-from-user", {
-			type: "boolean",
-			description:
+			optional: true,
+			parse: String,
+		},
+		query: {
+			kind: "parsed",
+			brief: "Search term for filtering submissions.",
+			optional: true,
+			parse: String,
+		},
+		"escalated-from-user": {
+			kind: "boolean",
+			brief:
 				"When true, return only submissions that were escalated by an end user (vs. by the security team). When false, return only submissions that were not escalated by an end user. When omitted, no filter is applied.",
-		})
-		.option("order", {
-			type: "string",
-			description: "Field to sort by.",
-			choices: [
+			optional: true,
+		},
+		order: {
+			kind: "enum",
+			brief: "Field to sort by.",
+			values: [
 				"submission_id",
 				"subject",
 				"original_disposition",
@@ -81,33 +96,33 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"outcome_disposition",
 				"requested_at",
 			],
-		})
-		.option("direction", {
-			type: "string",
-			description: "The sorting direction.",
-			choices: ["asc", "desc"],
-		})
-		.option("page", {
-			type: "number",
-			description: "Current page within paginated list of results.",
-		})
-		.option("per-page", {
-			type: "number",
-			description: "The number of results per page. Maximum value is 1000.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
+			optional: true,
+		},
+		direction: {
+			kind: "enum",
+			brief: "The sorting direction.",
+			values: ["asc", "desc"],
+			optional: true,
+		},
+		page: {
+			kind: "parsed",
+			brief: "Current page within paginated list of results.",
+			optional: true,
+			parse: Number,
+		},
+		"per-page": {
+			kind: "parsed",
+			brief: "The number of results per page. Maximum value is 1000.",
+			optional: true,
+			parse: Number,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
 			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "list",
-	describe: "List reclassify submissions",
-	builder,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
@@ -123,7 +138,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"direction",
 						"dry-run",
 					],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -165,6 +180,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Loaded` });
 			}
 		),
-};
+});
 
 export default command;

@@ -1,11 +1,10 @@
 import operation from "../../_operations/waiting-rooms/rules/create.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * create command
  * @generated from apis/overlays/waiting-rooms.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import { createCommandClient, getZoneId } from "#lib/auth.js";
 import { compactBody, parseBody } from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
@@ -18,61 +17,59 @@ import {
 } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 waiting-rooms rules create <waiting-room-id>\n\nOnly available for the Waiting Room Advanced subscription. Creates a rule for a waiting room."
-		)
-		.positional("waiting-room-id", {
-			type: "string",
-			description: "Waiting room ID",
-			demandOption: true,
-		})
-		.option("action", {
-			type: "string",
-			description: "The action to take when the expression matches.",
-			choices: ["bypass_waiting_room"],
-		})
-		.coerce("action", (value) => resolveFileToken(value, "action", "text"))
-		.option("description", {
-			type: "string",
-			description: "The description of the rule.",
-			default: "",
-		})
-		.option("enabled", {
-			type: "boolean",
-			description: "When set to true, the rule is enabled.",
-			default: true,
-		})
-		.option("expression", {
-			type: "string",
-			description:
-				"Criteria defining when there is a match for the current rule.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "create <waiting-room-id>",
 	describe: "Create Waiting Room Rule",
-	builder,
+	usage:
+		"$0 waiting-rooms rules create <waiting-room-id>\n\nOnly available for the Waiting Room Advanced subscription. Creates a rule for a waiting room.",
+	flags: {
+		action: {
+			kind: "parsed",
+			brief: "The action to take when the expression matches.",
+			optional: true,
+			choices: ["bypass_waiting_room"],
+			parse: String,
+			coerce: (value: string) => resolveFileToken(value, "action", "text"),
+		},
+		description: {
+			kind: "parsed",
+			brief: "The description of the rule.",
+			default: "",
+			parse: String,
+		},
+		enabled: {
+			kind: "boolean",
+			brief: "When set to true, the rule is enabled.",
+			default: true,
+		},
+		expression: {
+			kind: "parsed",
+			brief: "Criteria defining when there is a match for the current rule.",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [
+		{ placeholder: "waiting-room-id", brief: "Waiting room ID", parse: String },
+	],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "waiting-rooms rules create",
 				classification: {
 					safeFlags: ["action", "enabled", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -171,6 +168,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Created` });
 			}
 		),
-};
+});
 
 export default command;

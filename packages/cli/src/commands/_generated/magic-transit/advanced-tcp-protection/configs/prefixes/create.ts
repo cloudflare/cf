@@ -1,11 +1,10 @@
 import operation from "../../../../_operations/magic-transit/advanced-tcp-protection/configs/prefixes/create.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * create command
  * @generated from apis/overlays/magic-transit.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -20,40 +19,42 @@ import { withProgress } from "#lib/progress.js";
 import { promptForRequiredField } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 magic-transit advanced-tcp-protection configs prefixes create\n\nCreate a prefix for an account."
-		)
-		.option("comment", {
-			type: "string",
-			description: "A comment describing the prefix.",
-		})
-		.option("excluded", {
-			type: "boolean",
-			description: "Whether to exclude the prefix from protection.",
-		})
-		.option("prefix", {
-			type: "string",
-			description: "The prefix to add in CIDR format.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "The new prefix to create.",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "create",
 	describe: "Create prefix.",
-	builder,
+	usage:
+		"$0 magic-transit advanced-tcp-protection configs prefixes create\n\nCreate a prefix for an account.",
+	flags: {
+		comment: {
+			kind: "parsed",
+			brief: "A comment describing the prefix.",
+			optional: true,
+			parse: String,
+		},
+		excluded: {
+			kind: "boolean",
+			brief: "Whether to exclude the prefix from protection.",
+			optional: true,
+		},
+		prefix: {
+			kind: "parsed",
+			brief: "The prefix to add in CIDR format.",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "The new prefix to create.",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
@@ -61,7 +62,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					"magic-transit advanced-tcp-protection configs prefixes create",
 				classification: {
 					safeFlags: ["excluded", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -151,6 +152,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Created` });
 			}
 		),
-};
+});
 
 export default command;

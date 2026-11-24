@@ -1,11 +1,10 @@
 import operation from "../../_operations/tags/resources/list.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * list command
  * @generated from apis/overlays/tags.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -17,21 +16,23 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 tags resources list\n\nLists all tagged resources for an account."
-		)
-		.option("include-navigation", {
-			type: "boolean",
-			description:
+const command = apiCommand({
+	command: "list",
+	describe: "List tagged resources",
+	usage: "$0 tags resources list\n\nLists all tagged resources for an account.",
+	flags: {
+		"include-navigation": {
+			kind: "boolean",
+			brief:
 				"Resolve current namespace Worker navigation by immutable child tag. Optional read-only navigation is omitted for deleted or unresolved children. Lookups are limited to this page, at most five concurrently, with a shared two-second budget. Tag identity, ETag, filters and pagination are unchanged; name filtering still uses the stored resource name. Defaults to false.",
-		})
-		.option("type", {
-			type: "string",
-			array: true,
-			description:
+			optional: true,
+		},
+		type: {
+			kind: "parsed",
+			brief:
 				"Filter by resource type. Can be repeated to filter by multiple types (OR logic). Example: ?type=zone&type=worker",
+			variadic: true,
+			optional: true,
 			choices: [
 				"access_application",
 				"access_application_policy",
@@ -81,53 +82,58 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"zone",
 				"zone_ruleset",
 			],
-		})
-		.coerce("type", (values: string[]) =>
-			values.flatMap((value) => value.split(","))
-		)
-		.option("name", {
-			type: "string",
-			description:
+			parse: String,
+			coerce: (values: string[]) => values.flatMap((value) => value.split(",")),
+		},
+		name: {
+			kind: "parsed",
+			brief:
 				"Filter by resource name. Performs a case-insensitive substring match. Example: ?name=my-zone",
-		})
-		.option("id", {
-			type: "string",
-			array: true,
-			description:
+			optional: true,
+			parse: String,
+		},
+		id: {
+			kind: "parsed",
+			brief:
 				"Filter by resource ID. Can be repeated up to 50 times to filter by multiple IDs. Example: ?id=abc&id=def",
-		})
-		.option("case-insensitive", {
-			type: "boolean",
-			description:
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"case-insensitive": {
+			kind: "boolean",
+			brief:
 				"Match `tag` keys and values case-insensitively. Stored casing is unchanged. Example: ?tag=environment=production&case_insensitive=true",
-		})
-		.option("tag", {
-			type: "string",
-			array: true,
-			description:
+			optional: true,
+		},
+		tag: {
+			kind: "parsed",
+			brief:
 				"Filter resources by tag criteria. This parameter can be repeated multiple times, with AND logic between parameters.\n\nSupported syntax:\n- **Key-only**: `tag=<key>` - Resource must have the tag key (e.g., `tag=production`)\n- **Key-value**: `tag=<key>=<value>` - Resource must have the tag with specific value (e.g., `tag=env=prod`)\n- **Multiple values (OR)**: `tag=<key>=<v1>,<v2>` - Resource must have tag with any of the values (e.g., `tag=env=prod,staging`)\n- **Negate key-only**: `tag=!<key>` - Resource must not have the tag key (e.g., `tag=!archived`)\n- **Negate key-value**: `tag=<key>!=<value>` - Resource must not have the tag with specific value (e.g., `tag=region!=us-west-1`)\n\nMultiple tag parameters are combined with AND logic.",
-		})
-		.option("cursor", { type: "string", description: "Cursor for pagination." })
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		cursor: {
+			kind: "parsed",
+			brief: "Cursor for pagination.",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
 			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "list",
-	describe: "List tagged resources",
-	builder,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "tags resources list",
 				classification: {
 					safeFlags: ["include-navigation", "case-insensitive", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -162,6 +168,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Loaded` });
 			}
 		),
-};
+});
 
 export default command;

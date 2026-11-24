@@ -1,11 +1,10 @@
 import operation from "../../../_operations/zero-trust/devices/client-versions/list.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * list command
  * @generated from apis/overlays/zero-trust.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -17,52 +16,50 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 zero-trust devices client-versions list\n\nLists available WARP client versions for a specific target environment and release track. This endpoint is in Beta."
-		)
-		.option("target-environment", {
-			type: "string",
-			description:
-				"The target environment for the client version (e.g., windows, macos).",
-			demandOption: true,
-		})
-		.option("release-track", {
-			type: "string",
-			description:
-				"The release track (ga for General Availability, beta for Beta releases).",
-			choices: ["ga", "beta"],
-			demandOption: true,
-		})
-		.option("page", {
-			type: "number",
-			description: "The page number to return.",
-		})
-		.option("per-page", {
-			type: "number",
-			description: "The maximum number of versions to return per page.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "list",
 	describe: "List client versions",
-	builder,
+	usage:
+		"$0 zero-trust devices client-versions list\n\nLists available WARP client versions for a specific target environment and release track. This endpoint is in Beta.",
+	flags: {
+		"target-environment": {
+			kind: "parsed",
+			brief:
+				"The target environment for the client version (e.g., windows, macos).",
+			parse: String,
+		},
+		"release-track": {
+			kind: "enum",
+			brief:
+				"The release track (ga for General Availability, beta for Beta releases).",
+			values: ["ga", "beta"],
+		},
+		page: {
+			kind: "parsed",
+			brief: "The page number to return.",
+			optional: true,
+			parse: Number,
+		},
+		"per-page": {
+			kind: "parsed",
+			brief: "The maximum number of versions to return per page.",
+			optional: true,
+			parse: Number,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "zero-trust devices client-versions list",
 				classification: {
 					safeFlags: ["release-track", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -94,6 +91,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Loaded` });
 			}
 		),
-};
+});
 
 export default command;

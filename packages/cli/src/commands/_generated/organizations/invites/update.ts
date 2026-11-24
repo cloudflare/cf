@@ -1,11 +1,10 @@
 import operation from "../../_operations/organizations/invites/update.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * update command
  * @generated from apis/overlays/organizations.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import { createCommandClient } from "#lib/auth.js";
 import { compactBody, parseBody } from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
@@ -15,52 +14,52 @@ import { withProgress } from "#lib/progress.js";
 import { promptForRequiredEnumField } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 organizations invites update <member-code>\n\nAccept or reject an invitation to a specific organization. The credential must belong to the invited user. No additional API token permission is required."
-		)
-		.positional("member-code", {
-			type: "string",
-			description: "The invitation code to accept or reject.",
-			demandOption: true,
-		})
-		.option("organization-id", {
-			type: "string",
-			description: "The ID of the organization associated with the invitation.",
-			demandOption: true,
-		})
-		.option("status", {
-			type: "string",
-			description: "The status field",
-			choices: ["accept", "reject"],
-		})
-		.coerce("status", (value) => resolveFileToken(value, "status", "text"))
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description:
-				"The invitation action. Use \`accept\` to join the organization or \`reject\` to decline the invitation.",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "update <member-code>",
 	describe: "Handle organization invite",
-	builder,
+	usage:
+		"$0 organizations invites update <member-code>\n\nAccept or reject an invitation to a specific organization. The credential must belong to the invited user. No additional API token permission is required.",
+	flags: {
+		"organization-id": {
+			kind: "parsed",
+			brief: "The ID of the organization associated with the invitation.",
+			parse: String,
+		},
+		status: {
+			kind: "parsed",
+			brief: "The status field",
+			optional: true,
+			choices: ["accept", "reject"],
+			parse: String,
+			coerce: (value: string) => resolveFileToken(value, "status", "text"),
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief:
+				"The invitation action. Use `accept` to join the organization or `reject` to decline the invitation.",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [
+		{
+			placeholder: "member-code",
+			brief: "The invitation code to accept or reject.",
+			parse: String,
+		},
+	],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "organizations invites update",
 				classification: {
 					safeFlags: ["status", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -127,6 +126,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Updated` });
 			}
 		),
-};
+});
 
 export default command;

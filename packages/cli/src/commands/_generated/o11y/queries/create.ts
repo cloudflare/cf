@@ -1,11 +1,10 @@
 import operation from "../../_operations/o11y/queries/create.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * create command
  * @generated from apis/overlays/o11y.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -20,84 +19,115 @@ import { withProgress } from "#lib/progress.js";
 import { promptForRequiredField } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage("$0 o11y queries create\n\nPersist query for later use.")
-		.option("description", {
-			type: "string",
-			description: "The description field",
-		})
-		.option("name", { type: "string", description: "Query name" })
-		.option("parameters-calculations", {
-			type: "string",
-			description:
+const command = apiCommand({
+	command: "create",
+	describe: "Save query",
+	usage: "$0 o11y queries create\n\nPersist query for later use.",
+	flags: {
+		description: {
+			kind: "parsed",
+			brief: "The description field",
+			optional: true,
+			parse: String,
+		},
+		name: {
+			kind: "parsed",
+			brief: "Query name",
+			optional: true,
+			parse: String,
+		},
+		"parameters-calculations": {
+			kind: "parsed",
+			brief:
 				'Create Calculations to compute as part of the query. Provide as a JSON array of objects or @path/to/file.json. Shape: [({"operator": "count" | "COUNT", "alias"?: string, "key"?: string, "keyType"?: "string" | "number" | "boolean"} | ...more)]. ? marks optional keys.',
-		})
-		.option("parameters-datasets", {
-			type: "string",
-			array: true,
-			description:
+			optional: true,
+			parse: String,
+		},
+		"parameters-datasets": {
+			kind: "parsed",
+			brief:
 				"Set the Datasets to query. Leave it empty to query all the datasets.",
-		})
-		.option("parameters-filter-combination", {
-			type: "string",
-			description:
-				"Set a Flag to describe how to combine the filters on the query.",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"parameters-filter-combination": {
+			kind: "parsed",
+			brief: "Set a Flag to describe how to combine the filters on the query.",
+			optional: true,
 			choices: ["and", "or", "AND", "OR"],
-		})
-		.coerce("parameters-filter-combination", (value) =>
-			resolveFileToken(value, "parameters-filter-combination", "text")
-		)
-		.option("parameters-filters", {
-			type: "string",
-			description:
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "parameters-filter-combination", "text"),
+		},
+		"parameters-filters": {
+			kind: "parsed",
+			brief:
 				'Configure the Filters to apply to the query. Supports nested groups via kind: \'group\'. Provide as a JSON array of objects or @path/to/file.json. Shape: [({"filterCombination": "and" | "or" | "AND" | ...more, "filters": [{...}], "kind": "group"} | ...more)].',
-		})
-		.option("parameters-group-bys", {
-			type: "string",
-			description:
+			optional: true,
+			parse: String,
+		},
+		"parameters-group-bys": {
+			kind: "parsed",
+			brief:
 				'Define how to group the results of the query. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"type": "string" | "number" | "boolean", "value": string}].',
-		})
-		.option("parameters-havings", {
-			type: "string",
-			description:
+			optional: true,
+			parse: String,
+		},
+		"parameters-havings": {
+			kind: "parsed",
+			brief:
 				'Configure the Having clauses that filter on calculations in the query result. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"key": string, "operation": "eq" | "neq" | "gt" | ...more, "value": number}].',
-		})
-		.option("parameters-limit", {
-			type: "number",
-			description:
+			optional: true,
+			parse: String,
+		},
+		"parameters-limit": {
+			kind: "parsed",
+			brief:
 				"Set a limit on the number of results / records returned by the query",
-		})
-		.option("parameters-needle-is-regex", {
-			type: "boolean",
-			description: "The parameters.needle.isRegex field",
-		})
-		.option("parameters-needle-match-case", {
-			type: "boolean",
-			description: "The parameters.needle.matchCase field",
-		})
-		.option("parameters-order-by-order", {
-			type: "string",
-			description: "Set the order of the results",
+			optional: true,
+			parse: Number,
+		},
+		"parameters-needle-is-regex": {
+			kind: "boolean",
+			brief: "The parameters.needle.isRegex field",
+			optional: true,
+		},
+		"parameters-needle-match-case": {
+			kind: "boolean",
+			brief: "The parameters.needle.matchCase field",
+			optional: true,
+		},
+		"parameters-order-by-order": {
+			kind: "parsed",
+			brief: "Set the order of the results",
+			optional: true,
 			choices: ["asc", "desc"],
-		})
-		.coerce("parameters-order-by-order", (value) =>
-			resolveFileToken(value, "parameters-order-by-order", "text")
-		)
-		.option("parameters-order-by-value", {
-			type: "string",
-			description: "Configure which Calculation to order the results by.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "parameters-order-by-order", "text"),
+		},
+		"parameters-order-by-value": {
+			kind: "parsed",
+			brief: "Configure which Calculation to order the results by.",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
 			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Specify the new contents of the query.",
-		})
-		.check((argv) => {
+		},
+		body: {
+			kind: "parsed",
+			brief: "Specify the new contents of the query.",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [],
+	rules(rules) {
+		rules.check((argv) => {
 			const groupSet = [
 				"parameters-order-by-order",
 				"parameters-order-by-value",
@@ -114,14 +144,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			}
 			return true;
 		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "create",
-	describe: "Save query",
-	builder,
+	},
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
@@ -134,7 +157,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"parameters-order-by-order",
 						"dry-run",
 					],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -281,6 +304,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Created` });
 			}
 		),
-};
+});
 
 export default command;

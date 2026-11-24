@@ -1,11 +1,10 @@
 import operation from "../../_operations/load-balancers/searches/list.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * list command
  * @generated from apis/overlays/load-balancers.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -17,40 +16,46 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 load-balancers searches list\n\nSearch for Load Balancing resources."
-		)
-		.option("query", { type: "string", description: "Search query term." })
-		.option("references", {
-			type: "string",
-			description:
-				'The type of references to include. "*" to include both referral and referrer references. "" to not include any reference information.',
-			choices: ["", "*", "referral", "referrer"],
-		})
-		.option("page", { type: "number", description: "Page" })
-		.option("per-page", { type: "number", description: "Per page" })
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "list",
 	describe: "Search Resources",
-	builder,
+	usage:
+		"$0 load-balancers searches list\n\nSearch for Load Balancing resources.",
+	flags: {
+		query: {
+			kind: "parsed",
+			brief: "Search query term.",
+			optional: true,
+			parse: String,
+		},
+		references: {
+			kind: "enum",
+			brief:
+				'The type of references to include. "*" to include both referral and referrer references. "" to not include any reference information.',
+			values: ["", "*", "referral", "referrer"],
+			optional: true,
+		},
+		page: { kind: "parsed", brief: "Page", optional: true, parse: Number },
+		"per-page": {
+			kind: "parsed",
+			brief: "Per page",
+			optional: true,
+			parse: Number,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "load-balancers searches list",
 				classification: {
 					safeFlags: ["references", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -82,6 +87,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Loaded` });
 			}
 		),
-};
+});
 
 export default command;

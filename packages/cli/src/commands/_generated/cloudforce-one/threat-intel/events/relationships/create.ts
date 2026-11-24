@@ -1,11 +1,10 @@
 import operation from "../../../../_operations/cloudforce-one/threat-intel/events/relationships/create.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * create command
  * @generated from apis/overlays/cloudforce-one.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -23,59 +22,62 @@ import {
 } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 cloudforce-one threat-intel events relationships create\n\nCreates directed relationships of type `relationshipType` from a parent event to one or more child events in the same dataset."
-		)
-		.option("child-ids", {
-			type: "string",
-			array: true,
-			description:
-				"Array of UUIDs for child events. Single child = 1:1 relationship, multiple = 1:many relationships",
-		})
-		.option("dataset-id", {
-			type: "string",
-			description: "Dataset identifier where the events are stored",
-		})
-		.option("parent-id", {
-			type: "string",
-			description:
-				"UUID of the parent event that will be the source of the relationship",
-		})
-		.option("relationship-type", {
-			type: "string",
-			description:
-				"Type of relationship to create between parent and child events",
-			choices: ["related_to", "caused_by", "attributed_to"],
-		})
-		.coerce("relationship-type", (value) =>
-			resolveFileToken(value, "relationship-type", "text")
-		)
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "create",
 	describe: "Create event relationships",
-	builder,
+	usage:
+		"$0 cloudforce-one threat-intel events relationships create\n\nCreates directed relationships of type `relationshipType` from a parent event to one or more child events in the same dataset.",
+	flags: {
+		"child-ids": {
+			kind: "parsed",
+			brief:
+				"Array of UUIDs for child events. Single child = 1:1 relationship, multiple = 1:many relationships",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"dataset-id": {
+			kind: "parsed",
+			brief: "Dataset identifier where the events are stored",
+			optional: true,
+			parse: String,
+		},
+		"parent-id": {
+			kind: "parsed",
+			brief:
+				"UUID of the parent event that will be the source of the relationship",
+			optional: true,
+			parse: String,
+		},
+		"relationship-type": {
+			kind: "parsed",
+			brief: "Type of relationship to create between parent and child events",
+			optional: true,
+			choices: ["related_to", "caused_by", "attributed_to"],
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "relationship-type", "text"),
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "cloudforce-one threat-intel events relationships create",
 				classification: {
 					safeFlags: ["relationship-type", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -174,6 +176,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Created` });
 			}
 		),
-};
+});
 
 export default command;

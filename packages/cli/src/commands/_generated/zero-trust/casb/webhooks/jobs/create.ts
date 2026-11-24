@@ -1,11 +1,10 @@
 import operation from "../../../../_operations/zero-trust/casb/webhooks/jobs/create.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * create command
  * @generated from apis/overlays/zero-trust.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -18,46 +17,47 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 zero-trust casb webhooks jobs create\n\nCreates webhook jobs to send a finding instance to one or more configured webhooks."
-		)
-		.option("finding-instance-ids", {
-			type: "string",
-			array: true,
-			description: "Array of finding instance IDs to send to the webhooks.",
-		})
-		.option("webhook-ids", {
-			type: "string",
-			array: true,
-			description: "Array of webhook IDs to trigger jobs for.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description:
-				"Request body for creating up to 100 webhook jobs. The number of jobs is the product of webhook_ids and finding_instance_ids.",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "create",
 	describe: "Create webhook jobs",
-	builder,
+	usage:
+		"$0 zero-trust casb webhooks jobs create\n\nCreates webhook jobs to send a finding instance to one or more configured webhooks.",
+	flags: {
+		"finding-instance-ids": {
+			kind: "parsed",
+			brief: "Array of finding instance IDs to send to the webhooks.",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"webhook-ids": {
+			kind: "parsed",
+			brief: "Array of webhook IDs to trigger jobs for.",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief:
+				"Request body for creating up to 100 webhook jobs. The number of jobs is the product of webhook_ids and finding_instance_ids.",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "zero-trust casb webhooks jobs create",
-				classification: {
-					safeFlags: ["dry-run"],
-				} satisfies ArgClassification<Args>,
+				classification: { safeFlags: ["dry-run"] } satisfies ArgClassification<
+					typeof argv
+				>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -121,6 +121,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Created` });
 			}
 		),
-};
+});
 
 export default command;

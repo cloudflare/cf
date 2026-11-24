@@ -1,10 +1,9 @@
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * unsubscribe command
  * @generated from apis/overlays/alerting.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -17,46 +16,34 @@ import { withProgress } from "#lib/progress.js";
 import { fetchRawBytes, writeRawOutput } from "#lib/raw-fetch.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 alerting policies email unsubscribe <policy-id>\n\nUnsubscribes an email address from a notification policy."
-		)
-		.positional("policy-id", {
-			type: "string",
-			description: "The unique identifier of a notification policy",
-			demandOption: true,
-		})
-		.option("email", {
-			type: "string",
-			description: "Email",
-			demandOption: true,
-		})
-		.option("token", {
-			type: "string",
-			description: "Token",
-			demandOption: true,
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "unsubscribe <policy-id>",
 	describe: "Unsubscribe email from a Notification policy",
-	builder,
+	usage:
+		"$0 alerting policies email unsubscribe <policy-id>\n\nUnsubscribes an email address from a notification policy.",
+	flags: {
+		email: { kind: "parsed", brief: "Email", parse: String },
+		token: { kind: "parsed", brief: "Token", parse: String },
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+	},
+	operands: [
+		{
+			placeholder: "policy-id",
+			brief: "The unique identifier of a notification policy",
+			parse: String,
+		},
+	],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "alerting policies email unsubscribe",
-				classification: {
-					safeFlags: ["dry-run"],
-				} satisfies ArgClassification<Args>,
+				classification: { safeFlags: ["dry-run"] } satisfies ArgClassification<
+					typeof argv
+				>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -99,6 +86,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				return;
 			}
 		),
-};
+});
 
 export default command;

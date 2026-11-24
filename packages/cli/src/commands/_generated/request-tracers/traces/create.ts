@@ -1,11 +1,10 @@
 import operation from "../../_operations/request-tracers/traces/create.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * create command
  * @generated from apis/overlays/request-tracers.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -20,122 +19,159 @@ import { withProgress } from "#lib/progress.js";
 import { promptForRequiredField } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 request-tracers traces create\n\nTraces a simulated HTTP request through Cloudflare's edge to analyze how rules, settings, and configurations would process the request. Useful for debugging firewall rules, page rules, and other request transformations without sending actual traffic. Supports custom headers, cookies, body content, and geolocation context."
-		)
-		.option("body-base64", {
-			type: "string",
-			description: "Base64 encoded request body",
-		})
-		.option("body-json", {
-			type: "string",
-			description:
-				'Arbitrary json as request body. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": unknown}.',
-		})
-		.option("body-plain-text", {
-			type: "string",
-			description: "Request body as plain text",
-		})
-		.option("context-bot-score", {
-			type: "number",
-			description: "Bot score used for evaluating tracing request processing",
-		})
-		.option("context-geoloc-city", {
-			type: "string",
-			description: "The context.geoloc.city field",
-		})
-		.option("context-geoloc-continent", {
-			type: "string",
-			description: "The context.geoloc.continent field",
-		})
-		.option("context-geoloc-is-eu-country", {
-			type: "boolean",
-			description: "The context.geoloc.is_eu_country field",
-		})
-		.option("context-geoloc-iso-code", {
-			type: "string",
-			description: "The context.geoloc.iso_code field",
-		})
-		.option("context-geoloc-latitude", {
-			type: "number",
-			description: "The context.geoloc.latitude field",
-		})
-		.option("context-geoloc-longitude", {
-			type: "number",
-			description: "The context.geoloc.longitude field",
-		})
-		.option("context-geoloc-postal-code", {
-			type: "string",
-			description: "The context.geoloc.postal_code field",
-		})
-		.option("context-geoloc-region-code", {
-			type: "string",
-			description: "The context.geoloc.region_code field",
-		})
-		.option("context-geoloc-subdivision-2-iso-code", {
-			type: "string",
-			description: "The context.geoloc.subdivision_2_iso_code field",
-		})
-		.option("context-geoloc-timezone", {
-			type: "string",
-			description: "The context.geoloc.timezone field",
-		})
-		.option("context-skip-challenge", {
-			type: "boolean",
-			description:
-				"Whether to skip any challenges for tracing request (e.g.: captcha)",
-		})
-		.option("context-threat-score", {
-			type: "number",
-			description:
-				"Threat score used for evaluating tracing request processing",
-		})
-		.option("cookies", {
-			type: "string",
-			description:
-				'Cookies added to tracing request. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": string}.',
-		})
-		.option("headers", {
-			type: "string",
-			description:
-				'Headers added to tracing request. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": string}.',
-		})
-		.option("method", {
-			type: "string",
-			description: "HTTP Method of tracing request",
-		})
-		.option("protocol", {
-			type: "string",
-			description: "HTTP Protocol of tracing request",
-		})
-		.option("skip-response", {
-			type: "boolean",
-			description:
-				"Skip sending the request to the Origin server after all rules evaluation",
-		})
-		.option("url", {
-			type: "string",
-			description: "URL to which perform tracing request",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "create",
 	describe: "Request Trace",
-	builder,
+	usage:
+		"$0 request-tracers traces create\n\nTraces a simulated HTTP request through Cloudflare's edge to analyze how rules, settings, and configurations would process the request. Useful for debugging firewall rules, page rules, and other request transformations without sending actual traffic. Supports custom headers, cookies, body content, and geolocation context.",
+	flags: {
+		"body-base64": {
+			kind: "parsed",
+			brief: "Base64 encoded request body",
+			optional: true,
+			parse: String,
+		},
+		"body-json": {
+			kind: "parsed",
+			brief:
+				'Arbitrary json as request body. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": unknown}.',
+			optional: true,
+			parse: String,
+		},
+		"body-plain-text": {
+			kind: "parsed",
+			brief: "Request body as plain text",
+			optional: true,
+			parse: String,
+		},
+		"context-bot-score": {
+			kind: "parsed",
+			brief: "Bot score used for evaluating tracing request processing",
+			optional: true,
+			parse: Number,
+		},
+		"context-geoloc-city": {
+			kind: "parsed",
+			brief: "The context.geoloc.city field",
+			optional: true,
+			parse: String,
+		},
+		"context-geoloc-continent": {
+			kind: "parsed",
+			brief: "The context.geoloc.continent field",
+			optional: true,
+			parse: String,
+		},
+		"context-geoloc-is-eu-country": {
+			kind: "boolean",
+			brief: "The context.geoloc.is_eu_country field",
+			optional: true,
+		},
+		"context-geoloc-iso-code": {
+			kind: "parsed",
+			brief: "The context.geoloc.iso_code field",
+			optional: true,
+			parse: String,
+		},
+		"context-geoloc-latitude": {
+			kind: "parsed",
+			brief: "The context.geoloc.latitude field",
+			optional: true,
+			parse: Number,
+		},
+		"context-geoloc-longitude": {
+			kind: "parsed",
+			brief: "The context.geoloc.longitude field",
+			optional: true,
+			parse: Number,
+		},
+		"context-geoloc-postal-code": {
+			kind: "parsed",
+			brief: "The context.geoloc.postal_code field",
+			optional: true,
+			parse: String,
+		},
+		"context-geoloc-region-code": {
+			kind: "parsed",
+			brief: "The context.geoloc.region_code field",
+			optional: true,
+			parse: String,
+		},
+		"context-geoloc-subdivision-2-iso-code": {
+			kind: "parsed",
+			brief: "The context.geoloc.subdivision_2_iso_code field",
+			optional: true,
+			parse: String,
+		},
+		"context-geoloc-timezone": {
+			kind: "parsed",
+			brief: "The context.geoloc.timezone field",
+			optional: true,
+			parse: String,
+		},
+		"context-skip-challenge": {
+			kind: "boolean",
+			brief:
+				"Whether to skip any challenges for tracing request (e.g.: captcha)",
+			optional: true,
+		},
+		"context-threat-score": {
+			kind: "parsed",
+			brief: "Threat score used for evaluating tracing request processing",
+			optional: true,
+			parse: Number,
+		},
+		cookies: {
+			kind: "parsed",
+			brief:
+				'Cookies added to tracing request. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": string}.',
+			optional: true,
+			parse: String,
+		},
+		headers: {
+			kind: "parsed",
+			brief:
+				'Headers added to tracing request. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": string}.',
+			optional: true,
+			parse: String,
+		},
+		method: {
+			kind: "parsed",
+			brief: "HTTP Method of tracing request",
+			optional: true,
+			parse: String,
+		},
+		protocol: {
+			kind: "parsed",
+			brief: "HTTP Protocol of tracing request",
+			optional: true,
+			parse: String,
+		},
+		"skip-response": {
+			kind: "boolean",
+			brief:
+				"Skip sending the request to the Origin server after all rules evaluation",
+			optional: true,
+		},
+		url: {
+			kind: "parsed",
+			brief: "URL to which perform tracing request",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
@@ -147,7 +183,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"skip-response",
 						"dry-run",
 					],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -381,6 +417,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Created` });
 			}
 		),
-};
+});
 
 export default command;

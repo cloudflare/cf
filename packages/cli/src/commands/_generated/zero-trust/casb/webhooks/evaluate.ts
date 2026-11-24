@@ -1,11 +1,10 @@
 import operation from "../../../_operations/zero-trust/casb/webhooks/evaluate.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * evaluate command
  * @generated from apis/overlays/zero-trust.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -23,15 +22,16 @@ import {
 } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			'$0 zero-trust casb webhooks evaluate\n\nSends a test webhook event to the specified destination URL to verify the webhook endpoint is reachable and properly configured. This allows customers to validate their webhook configuration before creating the actual webhook resource. The test payload includes: - event_type: "webhook.test" - timestamp: Current UTC timestamp - message: Test message indicating this is from Cloudflare CASB - data: Object with test: true'
-		)
-		.option("authentication-type", {
-			type: "string",
-			description:
-				"Type of authentication to use for the test webhook request.",
+const command = apiCommand({
+	command: "evaluate",
+	describe: "Test a webhook configuration before creating it",
+	usage:
+		'$0 zero-trust casb webhooks evaluate\n\nSends a test webhook event to the specified destination URL to verify the webhook endpoint is reachable and properly configured. This allows customers to validate their webhook configuration before creating the actual webhook resource. The test payload includes: - event_type: "webhook.test" - timestamp: Current UTC timestamp - message: Test message indicating this is from Cloudflare CASB - data: Object with test: true',
+	flags: {
+		"authentication-type": {
+			kind: "parsed",
+			brief: "Type of authentication to use for the test webhook request.",
+			optional: true,
 			choices: [
 				"Basic Auth",
 				"None",
@@ -39,49 +39,51 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Static Headers",
 				"HMAC-Signing",
 			],
-		})
-		.coerce("authentication-type", (value) =>
-			resolveFileToken(value, "authentication-type", "text")
-		)
-		.option("destination-url", {
-			type: "string",
-			description: "Target URL to send the test webhook event to.",
-		})
-		.option("headers", {
-			type: "string",
-			description:
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "authentication-type", "text"),
+		},
+		"destination-url": {
+			kind: "parsed",
+			brief: "Target URL to send the test webhook event to.",
+			optional: true,
+			parse: String,
+		},
+		headers: {
+			kind: "parsed",
+			brief:
 				'List of custom headers to include in the test webhook request. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"key": string, "value"?: (string | null)}]. ? marks optional keys.',
-		})
-		.option("signing-secret", {
-			type: "string",
-			description:
+			optional: true,
+			parse: String,
+		},
+		"signing-secret": {
+			kind: "parsed",
+			brief:
 				'Secret key used for HMAC signing when authentication_type is "HMAC-Signing".',
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
 			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description:
+		},
+		body: {
+			kind: "parsed",
+			brief:
 				"Request body for testing a webhook configuration before creating it.",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "evaluate",
-	describe: "Test a webhook configuration before creating it",
-	builder,
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "zero-trust casb webhooks evaluate",
 				classification: {
 					safeFlags: ["authentication-type", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -175,6 +177,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Created` });
 			}
 		),
-};
+});
 
 export default command;

@@ -1,10 +1,9 @@
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * create command
  * @generated from apis/overlays/abuse-reports.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -23,19 +22,16 @@ import {
 } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 abuse-reports create <report-type>\n\nSubmit an abuse report of a particular type. Requires the abuse-reports entitlement on the account (Enterprise accounts have it by default; other accounts must request access) and an API token with the `Trust and Safety Write` permission. If the account is not entitled, the request is rejected with an HTTP `401` response (see below). Delegated reports: In limited circumstances, Cloudflare delegates processing of abuse reports to select customers who have established abuse-handling programs. For these customers, Cloudflare may forward abuse reports directly and in full—including reporter contact information, comments, and supporting evidence—without redaction or preprocessing by Cloudflare. This allows the customer to investigate and respond using their own policies and processes. For delegated reports, the report—including contact information and comments—will be forwarded to the customer in full regardless of the `host_notification` and `owner_notification` values."
-		)
-		.positional("report-type", {
-			type: "string",
-			description: "The report type to be submitted. Example: abuse_general",
-			demandOption: true,
-		})
-		.option("act", {
-			type: "string",
-			description: "The act field",
+const command = apiCommand({
+	command: "create <report-type>",
+	describe: "Submit an abuse report",
+	usage:
+		"$0 abuse-reports create <report-type>\n\nSubmit an abuse report of a particular type. Requires the abuse-reports entitlement on the account (Enterprise accounts have it by default; other accounts must request access) and an API token with the `Trust and Safety Write` permission. If the account is not entitled, the request is rejected with an HTTP `401` response (see below). Delegated reports: In limited circumstances, Cloudflare delegates processing of abuse reports to select customers who have established abuse-handling programs. For these customers, Cloudflare may forward abuse reports directly and in full—including reporter contact information, comments, and supporting evidence—without redaction or preprocessing by Cloudflare. This allows the customer to investigate and respond using their own policies and processes. For delegated reports, the report—including contact information and comments—will be forwarded to the customer in full regardless of the `host_notification` and `owner_notification` values.",
+	flags: {
+		act: {
+			kind: "parsed",
+			brief: "The act field",
+			optional: true,
 			choices: [
 				"abuse_dmca",
 				"abuse_trademark",
@@ -46,210 +42,289 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"abuse_registrar_whois",
 				"abuse_ncsei",
 			],
-		})
-		.coerce("act", (value) => resolveFileToken(value, "act", "text"))
-		.option("comments", {
-			type: "string",
-			description:
+			parse: String,
+			coerce: (value: string) => resolveFileToken(value, "act", "text"),
+		},
+		comments: {
+			kind: "parsed",
+			brief:
 				"Any additional comments about the infringement not exceeding 2000 characters. With the exception of delegated reports, comments are kept internal to Cloudflare and not shared with the host or customer as part of regular processing. For the limited circumstances where we delegate reports to customers with established abuse-handling programs, comments may be shared in full.",
-		})
-		.option("company", {
-			type: "string",
-			description:
+			optional: true,
+			parse: String,
+		},
+		company: {
+			kind: "parsed",
+			brief:
 				"Text not exceeding 100 characters. This field may be released by Cloudflare to third parties such as the Lumen Database (https://lumendatabase.org/).",
-		})
-		.option("email", {
-			type: "string",
-			description:
+			optional: true,
+			parse: String,
+		},
+		email: {
+			kind: "parsed",
+			brief:
 				"A valid email of the abuse reporter. This field may be released by Cloudflare to third parties such as the Lumen Database (https://lumendatabase.org/).",
-		})
-		.option("email2", {
-			type: "string",
-			description: "Should match the value provided in `email`",
-		})
-		.option("name", {
-			type: "string",
-			description:
+			optional: true,
+			parse: String,
+		},
+		email2: {
+			kind: "parsed",
+			brief: "Should match the value provided in `email`",
+			optional: true,
+			parse: String,
+		},
+		name: {
+			kind: "parsed",
+			brief:
 				"Text not exceeding 255 characters. This field may be released by Cloudflare to third parties such as the Lumen Database (https://lumendatabase.org/).",
-		})
-		.option("reported-country", {
-			type: "string",
-			description: "Text containing 2 characters",
-		})
-		.option("reported-user-agent", {
-			type: "string",
-			description: "Text not exceeding 255 characters",
-		})
-		.option("tele", {
-			type: "string",
-			description:
+			optional: true,
+			parse: String,
+		},
+		"reported-country": {
+			kind: "parsed",
+			brief: "Text containing 2 characters",
+			optional: true,
+			parse: String,
+		},
+		"reported-user-agent": {
+			kind: "parsed",
+			brief: "Text not exceeding 255 characters",
+			optional: true,
+			parse: String,
+		},
+		tele: {
+			kind: "parsed",
+			brief:
 				"Text not exceeding 20 characters. This field may be released by Cloudflare to third parties such as the Lumen Database (https://lumendatabase.org/).",
-		})
-		.option("title", {
-			type: "string",
-			description: "Text not exceeding 255 characters",
-		})
-		.option("urls", {
-			type: "string",
-			description:
+			optional: true,
+			parse: String,
+		},
+		title: {
+			kind: "parsed",
+			brief: "Text not exceeding 255 characters",
+			optional: true,
+			parse: String,
+		},
+		urls: {
+			kind: "parsed",
+			brief:
 				"A list of valid URLs separated by ‘\\n’ (new line character). The list of the URLs should not exceed 250 URLs. All URLs should have the same hostname. Each URL should be unique. This field may be released by Cloudflare to third parties such as the Lumen Database (https://lumendatabase.org/).",
-		})
-		.option("address1", {
-			type: "string",
-			description:
+			optional: true,
+			parse: String,
+		},
+		address1: {
+			kind: "parsed",
+			brief:
 				"Text not exceeding 100 characters. This field may be released by Cloudflare to third parties such as the Lumen Database (https://lumendatabase.org/).",
-		})
-		.option("agent-name", {
-			type: "string",
-			description:
+			optional: true,
+			parse: String,
+		},
+		"agent-name": {
+			kind: "parsed",
+			brief:
 				"The name of the copyright holder. Text not exceeding 60 characters. This field may be released by Cloudflare to third parties such as the Lumen Database (https://lumendatabase.org/).",
-		})
-		.option("agree", {
-			type: "number",
-			description:
+			optional: true,
+			parse: String,
+		},
+		agree: {
+			kind: "parsed",
+			brief:
 				"Can be `0` for false or `1` for true. Must be value: 1 for DMCA reports",
-		})
-		.option("city", {
-			type: "string",
-			description:
+			optional: true,
+			parse: Number,
+		},
+		city: {
+			kind: "parsed",
+			brief:
 				"Text not exceeding 255 characters. This field may be released by Cloudflare to third parties such as the Lumen Database (https://lumendatabase.org/).",
-		})
-		.option("country", {
-			type: "string",
-			description:
+			optional: true,
+			parse: String,
+		},
+		country: {
+			kind: "parsed",
+			brief:
 				"Text not exceeding 255 characters. This field may be released by Cloudflare to third parties such as the Lumen Database (https://lumendatabase.org/).",
-		})
-		.option("host-notification", {
-			type: "string",
-			description:
+			optional: true,
+			parse: String,
+		},
+		"host-notification": {
+			kind: "parsed",
+			brief:
 				"Notification type based on the abuse type. For delegated reports, the report—including contact information and comments—will be forwarded to the customer in full regardless of this value. NOTE: Copyright (DMCA) and Trademark reports cannot be anonymous.",
+			optional: true,
 			choices: ["send", "send-anon"],
-		})
-		.coerce("host-notification", (value) =>
-			resolveFileToken(value, "host-notification", "text")
-		)
-		.option("original-work", {
-			type: "string",
-			description:
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "host-notification", "text"),
+		},
+		"original-work": {
+			kind: "parsed",
+			brief:
 				"Text not exceeding 255 characters. This field may be released by Cloudflare to third parties such as the Lumen Database (https://lumendatabase.org/).",
-		})
-		.option("owner-notification", {
-			type: "string",
-			description:
+			optional: true,
+			parse: String,
+		},
+		"owner-notification": {
+			kind: "parsed",
+			brief:
 				"Notification type based on the abuse type. For delegated reports, the report—including contact information and comments—will be forwarded to the customer in full regardless of this value. NOTE: Copyright (DMCA) and Trademark reports cannot be anonymous.",
+			optional: true,
 			choices: ["send", "send-anon", "none"],
-		})
-		.coerce("owner-notification", (value) =>
-			resolveFileToken(value, "owner-notification", "text")
-		)
-		.option("signature", {
-			type: "string",
-			description:
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "owner-notification", "text"),
+		},
+		signature: {
+			kind: "parsed",
+			brief:
 				"Required for DMCA reports, should be same as Name. An affirmation that all information in the report is true and accurate while agreeing to the policies of Cloudflare's abuse reports",
-		})
-		.option("state", {
-			type: "string",
-			description:
+			optional: true,
+			parse: String,
+		},
+		state: {
+			kind: "parsed",
+			brief:
 				"Text not exceeding 255 characters. This field may be released by Cloudflare to third parties such as the Lumen Database (https://lumendatabase.org/).",
-		})
-		.option("justification", {
-			type: "string",
-			description:
+			optional: true,
+			parse: String,
+		},
+		justification: {
+			kind: "parsed",
+			brief:
 				"A detailed description of the infringement, including any necessary access details and the exact steps needed to view the content, not exceeding 5000 characters.",
-		})
-		.option("trademark-number", {
-			type: "string",
-			description: "Text not exceeding 1000 characters",
-		})
-		.option("trademark-office", {
-			type: "string",
-			description: "Text not exceeding 1000 characters",
-		})
-		.option("trademark-symbol", {
-			type: "string",
-			description: "Text not exceeding 1000 characters",
-		})
-		.option("destination-ips", {
-			type: "string",
-			description:
+			optional: true,
+			parse: String,
+		},
+		"trademark-number": {
+			kind: "parsed",
+			brief: "Text not exceeding 1000 characters",
+			optional: true,
+			parse: String,
+		},
+		"trademark-office": {
+			kind: "parsed",
+			brief: "Text not exceeding 1000 characters",
+			optional: true,
+			parse: String,
+		},
+		"trademark-symbol": {
+			kind: "parsed",
+			brief: "Text not exceeding 1000 characters",
+			optional: true,
+			parse: String,
+		},
+		"destination-ips": {
+			kind: "parsed",
+			brief:
 				"A list of IP addresses separated by ‘\\n’ (new line character). The list of destination IPs should not exceed 30 IP addresses. Each one of the IP addresses ought to be unique.",
-		})
-		.option("ports-protocols", {
-			type: "string",
-			description:
+			optional: true,
+			parse: String,
+		},
+		"ports-protocols": {
+			kind: "parsed",
+			brief:
 				"A comma separated list of ports and protocols e.g. 80/TCP, 22/UDP. The total size of the field should not exceed 2000 characters. Each individual port/protocol should not exceed 100 characters. The list should not have more than 30 unique ports and protocols.",
-		})
-		.option("source-ips", {
-			type: "string",
-			description:
+			optional: true,
+			parse: String,
+		},
+		"source-ips": {
+			kind: "parsed",
+			brief:
 				"A list of IP addresses separated by ‘\\n’ (new line character). The list of source IPs should not exceed 30 IP addresses. Each one of the IP addresses ought to be unique.",
-		})
-		.option("ncmec-notification", {
-			type: "string",
-			description:
+			optional: true,
+			parse: String,
+		},
+		"ncmec-notification": {
+			kind: "parsed",
+			brief:
 				"Notification type based on the abuse type. NOTE: Copyright (DMCA) and Trademark reports cannot be anonymous.\n",
+			optional: true,
 			choices: ["send", "send-anon"],
-		})
-		.coerce("ncmec-notification", (value) =>
-			resolveFileToken(value, "ncmec-notification", "text")
-		)
-		.option("reg-who-request-reg-who-authorization-statement", {
-			type: "string",
-			description:
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "ncmec-notification", "text"),
+		},
+		"reg-who-request-reg-who-authorization-statement": {
+			kind: "parsed",
+			brief:
 				"Optional authorization statement or power of attorney per RDP 10.2.1.3.",
-		})
-		.option("reg-who-request-reg-who-good-faith-affirmation", {
-			type: "boolean",
-			description:
+			optional: true,
+			parse: String,
+		},
+		"reg-who-request-reg-who-good-faith-affirmation": {
+			kind: "boolean",
+			brief:
 				"Affirmation that the request is made in good faith per RDP 10.2.4. Must be true.",
-		})
-		.option("reg-who-request-reg-who-lawful-processing-agreement", {
-			type: "boolean",
-			description:
-				"Agreement to process data lawfully per RDP 10.2.5. Must be true.",
-		})
-		.option("reg-who-request-reg-who-legal-basis", {
-			type: "string",
-			description:
+			optional: true,
+		},
+		"reg-who-request-reg-who-lawful-processing-agreement": {
+			kind: "boolean",
+			brief: "Agreement to process data lawfully per RDP 10.2.5. Must be true.",
+			optional: true,
+		},
+		"reg-who-request-reg-who-legal-basis": {
+			kind: "parsed",
+			brief:
 				"Legal rights and rationale for the request per RDP 10.2.3. Required for all WHOIS requests.",
-		})
-		.option("reg-who-request-reg-who-request-type", {
-			type: "string",
-			description: "The type of WHOIS data request per RDP procedure.",
+			optional: true,
+			parse: String,
+		},
+		"reg-who-request-reg-who-request-type": {
+			kind: "parsed",
+			brief: "The type of WHOIS data request per RDP procedure.",
+			optional: true,
 			choices: ["disclosure", "invalid_whois"],
-		})
-		.coerce("reg-who-request-reg-who-request-type", (value) =>
-			resolveFileToken(value, "reg-who-request-reg-who-request-type", "text")
-		)
-		.option("reg-who-request-reg-who-requested-data-elements", {
-			type: "string",
-			array: true,
-			description:
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "reg-who-request-reg-who-request-type", "text"),
+		},
+		"reg-who-request-reg-who-requested-data-elements": {
+			kind: "parsed",
+			brief:
 				"The specific WHOIS data elements being requested per RDP 10.2.2. Required for all WHOIS requests.",
-		})
-		.option("reg-who-request-reg-who-requestor-type", {
-			type: "string",
-			description: "The nature of the requestor per RDP 10.2.1.2.",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"reg-who-request-reg-who-requestor-type": {
+			kind: "parsed",
+			brief: "The nature of the requestor per RDP 10.2.1.2.",
+			optional: true,
 			choices: ["government", "corporation", "individual"],
-		})
-		.coerce("reg-who-request-reg-who-requestor-type", (value) =>
-			resolveFileToken(value, "reg-who-request-reg-who-requestor-type", "text")
-		)
-		.option("ncsei-subject-representation", {
-			type: "boolean",
-			description:
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(
+					value,
+					"reg-who-request-reg-who-requestor-type",
+					"text"
+				),
+		},
+		"ncsei-subject-representation": {
+			kind: "boolean",
+			brief:
 				"If the submitter is the target of NCSEI in the URLs of the abuse report.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
+			optional: true,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
 			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		})
-		.conflicts("address1", [
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [
+		{
+			placeholder: "report-type",
+			brief: "The report type to be submitted. Example: abuse_general",
+			parse: String,
+		},
+	],
+	rules(rules) {
+		rules.conflicts("address1", [
 			"justification",
 			"trademark-number",
 			"trademark-office",
@@ -266,8 +341,8 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"reg-who-request-reg-who-requested-data-elements",
 			"reg-who-request-reg-who-requestor-type",
 			"ncsei-subject-representation",
-		])
-		.implies("address1", [
+		]);
+		rules.implies("address1", [
 			"agent-name",
 			"agree",
 			"city",
@@ -276,8 +351,8 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"original-work",
 			"signature",
 			"state",
-		])
-		.conflicts("agent-name", [
+		]);
+		rules.conflicts("agent-name", [
 			"justification",
 			"trademark-number",
 			"trademark-office",
@@ -294,8 +369,8 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"reg-who-request-reg-who-requested-data-elements",
 			"reg-who-request-reg-who-requestor-type",
 			"ncsei-subject-representation",
-		])
-		.implies("agent-name", [
+		]);
+		rules.implies("agent-name", [
 			"address1",
 			"agree",
 			"city",
@@ -304,8 +379,8 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"original-work",
 			"signature",
 			"state",
-		])
-		.conflicts("agree", [
+		]);
+		rules.conflicts("agree", [
 			"justification",
 			"trademark-number",
 			"trademark-office",
@@ -322,8 +397,8 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"reg-who-request-reg-who-requested-data-elements",
 			"reg-who-request-reg-who-requestor-type",
 			"ncsei-subject-representation",
-		])
-		.implies("agree", [
+		]);
+		rules.implies("agree", [
 			"address1",
 			"agent-name",
 			"city",
@@ -332,8 +407,8 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"original-work",
 			"signature",
 			"state",
-		])
-		.conflicts("city", [
+		]);
+		rules.conflicts("city", [
 			"justification",
 			"trademark-number",
 			"trademark-office",
@@ -350,8 +425,8 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"reg-who-request-reg-who-requested-data-elements",
 			"reg-who-request-reg-who-requestor-type",
 			"ncsei-subject-representation",
-		])
-		.implies("city", [
+		]);
+		rules.implies("city", [
 			"address1",
 			"agent-name",
 			"agree",
@@ -360,8 +435,8 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"original-work",
 			"signature",
 			"state",
-		])
-		.conflicts("country", [
+		]);
+		rules.conflicts("country", [
 			"trademark-number",
 			"trademark-office",
 			"trademark-symbol",
@@ -375,9 +450,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"reg-who-request-reg-who-request-type",
 			"reg-who-request-reg-who-requested-data-elements",
 			"reg-who-request-reg-who-requestor-type",
-		])
-		.implies("country", ["host-notification"])
-		.conflicts("host-notification", [
+		]);
+		rules.implies("country", ["host-notification"]);
+		rules.conflicts("host-notification", [
 			"reg-who-request-reg-who-authorization-statement",
 			"reg-who-request-reg-who-good-faith-affirmation",
 			"reg-who-request-reg-who-lawful-processing-agreement",
@@ -385,8 +460,8 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"reg-who-request-reg-who-request-type",
 			"reg-who-request-reg-who-requested-data-elements",
 			"reg-who-request-reg-who-requestor-type",
-		])
-		.conflicts("original-work", [
+		]);
+		rules.conflicts("original-work", [
 			"trademark-number",
 			"trademark-office",
 			"trademark-symbol",
@@ -402,9 +477,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"reg-who-request-reg-who-requested-data-elements",
 			"reg-who-request-reg-who-requestor-type",
 			"ncsei-subject-representation",
-		])
-		.implies("original-work", ["host-notification"])
-		.conflicts("signature", [
+		]);
+		rules.implies("original-work", ["host-notification"]);
+		rules.conflicts("signature", [
 			"justification",
 			"trademark-number",
 			"trademark-office",
@@ -421,8 +496,8 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"reg-who-request-reg-who-requested-data-elements",
 			"reg-who-request-reg-who-requestor-type",
 			"ncsei-subject-representation",
-		])
-		.implies("signature", [
+		]);
+		rules.implies("signature", [
 			"address1",
 			"agent-name",
 			"agree",
@@ -431,8 +506,8 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"host-notification",
 			"original-work",
 			"state",
-		])
-		.conflicts("state", [
+		]);
+		rules.conflicts("state", [
 			"justification",
 			"trademark-number",
 			"trademark-office",
@@ -449,8 +524,8 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"reg-who-request-reg-who-requested-data-elements",
 			"reg-who-request-reg-who-requestor-type",
 			"ncsei-subject-representation",
-		])
-		.implies("state", [
+		]);
+		rules.implies("state", [
 			"address1",
 			"agent-name",
 			"agree",
@@ -459,8 +534,8 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"host-notification",
 			"original-work",
 			"signature",
-		])
-		.conflicts("justification", [
+		]);
+		rules.conflicts("justification", [
 			"address1",
 			"agent-name",
 			"agree",
@@ -475,9 +550,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"reg-who-request-reg-who-requested-data-elements",
 			"reg-who-request-reg-who-requestor-type",
 			"ncsei-subject-representation",
-		])
-		.implies("justification", ["host-notification"])
-		.conflicts("trademark-number", [
+		]);
+		rules.implies("justification", ["host-notification"]);
+		rules.conflicts("trademark-number", [
 			"address1",
 			"agent-name",
 			"agree",
@@ -498,14 +573,14 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"reg-who-request-reg-who-requested-data-elements",
 			"reg-who-request-reg-who-requestor-type",
 			"ncsei-subject-representation",
-		])
-		.implies("trademark-number", [
+		]);
+		rules.implies("trademark-number", [
 			"host-notification",
 			"justification",
 			"trademark-office",
 			"trademark-symbol",
-		])
-		.conflicts("trademark-office", [
+		]);
+		rules.conflicts("trademark-office", [
 			"address1",
 			"agent-name",
 			"agree",
@@ -526,42 +601,14 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"reg-who-request-reg-who-requested-data-elements",
 			"reg-who-request-reg-who-requestor-type",
 			"ncsei-subject-representation",
-		])
-		.implies("trademark-office", [
-			"host-notification",
-			"justification",
-			"trademark-number",
-			"trademark-symbol",
-		])
-		.conflicts("trademark-symbol", [
-			"address1",
-			"agent-name",
-			"agree",
-			"city",
-			"country",
-			"original-work",
-			"signature",
-			"state",
-			"destination-ips",
-			"ports-protocols",
-			"source-ips",
-			"ncmec-notification",
-			"reg-who-request-reg-who-authorization-statement",
-			"reg-who-request-reg-who-good-faith-affirmation",
-			"reg-who-request-reg-who-lawful-processing-agreement",
-			"reg-who-request-reg-who-legal-basis",
-			"reg-who-request-reg-who-request-type",
-			"reg-who-request-reg-who-requested-data-elements",
-			"reg-who-request-reg-who-requestor-type",
-			"ncsei-subject-representation",
-		])
-		.implies("trademark-symbol", [
+		]);
+		rules.implies("trademark-office", [
 			"host-notification",
 			"justification",
 			"trademark-number",
-			"trademark-office",
-		])
-		.conflicts("destination-ips", [
+			"trademark-symbol",
+		]);
+		rules.conflicts("trademark-symbol", [
 			"address1",
 			"agent-name",
 			"agree",
@@ -570,80 +617,10 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"original-work",
 			"signature",
 			"state",
-			"trademark-number",
-			"trademark-office",
-			"trademark-symbol",
-			"ncmec-notification",
-			"reg-who-request-reg-who-authorization-statement",
-			"reg-who-request-reg-who-good-faith-affirmation",
-			"reg-who-request-reg-who-lawful-processing-agreement",
-			"reg-who-request-reg-who-legal-basis",
-			"reg-who-request-reg-who-request-type",
-			"reg-who-request-reg-who-requested-data-elements",
-			"reg-who-request-reg-who-requestor-type",
-			"ncsei-subject-representation",
-		])
-		.implies("destination-ips", ["host-notification", "justification"])
-		.conflicts("ports-protocols", [
-			"address1",
-			"agent-name",
-			"agree",
-			"city",
-			"country",
-			"original-work",
-			"signature",
-			"state",
-			"trademark-number",
-			"trademark-office",
-			"trademark-symbol",
-			"ncmec-notification",
-			"reg-who-request-reg-who-authorization-statement",
-			"reg-who-request-reg-who-good-faith-affirmation",
-			"reg-who-request-reg-who-lawful-processing-agreement",
-			"reg-who-request-reg-who-legal-basis",
-			"reg-who-request-reg-who-request-type",
-			"reg-who-request-reg-who-requested-data-elements",
-			"reg-who-request-reg-who-requestor-type",
-			"ncsei-subject-representation",
-		])
-		.implies("ports-protocols", ["host-notification", "justification"])
-		.conflicts("source-ips", [
-			"address1",
-			"agent-name",
-			"agree",
-			"city",
-			"country",
-			"original-work",
-			"signature",
-			"state",
-			"trademark-number",
-			"trademark-office",
-			"trademark-symbol",
-			"ncmec-notification",
-			"reg-who-request-reg-who-authorization-statement",
-			"reg-who-request-reg-who-good-faith-affirmation",
-			"reg-who-request-reg-who-lawful-processing-agreement",
-			"reg-who-request-reg-who-legal-basis",
-			"reg-who-request-reg-who-request-type",
-			"reg-who-request-reg-who-requested-data-elements",
-			"reg-who-request-reg-who-requestor-type",
-			"ncsei-subject-representation",
-		])
-		.implies("source-ips", ["host-notification", "justification"])
-		.conflicts("ncmec-notification", [
-			"address1",
-			"agent-name",
-			"agree",
-			"city",
-			"original-work",
-			"signature",
-			"state",
-			"trademark-number",
-			"trademark-office",
-			"trademark-symbol",
 			"destination-ips",
 			"ports-protocols",
 			"source-ips",
+			"ncmec-notification",
 			"reg-who-request-reg-who-authorization-statement",
 			"reg-who-request-reg-who-good-faith-affirmation",
 			"reg-who-request-reg-who-lawful-processing-agreement",
@@ -652,36 +629,107 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"reg-who-request-reg-who-requested-data-elements",
 			"reg-who-request-reg-who-requestor-type",
 			"ncsei-subject-representation",
-		])
-		.implies("ncmec-notification", ["host-notification", "justification"])
-		.conflicts("reg-who-request-reg-who-authorization-statement", [
-			"address1",
-			"agent-name",
-			"agree",
-			"city",
-			"country",
+		]);
+		rules.implies("trademark-symbol", [
 			"host-notification",
-			"original-work",
-			"signature",
-			"state",
 			"justification",
 			"trademark-number",
 			"trademark-office",
+		]);
+		rules.conflicts("destination-ips", [
+			"address1",
+			"agent-name",
+			"agree",
+			"city",
+			"country",
+			"original-work",
+			"signature",
+			"state",
+			"trademark-number",
+			"trademark-office",
 			"trademark-symbol",
-			"destination-ips",
-			"ports-protocols",
-			"source-ips",
 			"ncmec-notification",
-			"ncsei-subject-representation",
-		])
-		.implies("reg-who-request-reg-who-authorization-statement", [
+			"reg-who-request-reg-who-authorization-statement",
 			"reg-who-request-reg-who-good-faith-affirmation",
 			"reg-who-request-reg-who-lawful-processing-agreement",
 			"reg-who-request-reg-who-legal-basis",
 			"reg-who-request-reg-who-request-type",
 			"reg-who-request-reg-who-requested-data-elements",
-		])
-		.conflicts("reg-who-request-reg-who-good-faith-affirmation", [
+			"reg-who-request-reg-who-requestor-type",
+			"ncsei-subject-representation",
+		]);
+		rules.implies("destination-ips", ["host-notification", "justification"]);
+		rules.conflicts("ports-protocols", [
+			"address1",
+			"agent-name",
+			"agree",
+			"city",
+			"country",
+			"original-work",
+			"signature",
+			"state",
+			"trademark-number",
+			"trademark-office",
+			"trademark-symbol",
+			"ncmec-notification",
+			"reg-who-request-reg-who-authorization-statement",
+			"reg-who-request-reg-who-good-faith-affirmation",
+			"reg-who-request-reg-who-lawful-processing-agreement",
+			"reg-who-request-reg-who-legal-basis",
+			"reg-who-request-reg-who-request-type",
+			"reg-who-request-reg-who-requested-data-elements",
+			"reg-who-request-reg-who-requestor-type",
+			"ncsei-subject-representation",
+		]);
+		rules.implies("ports-protocols", ["host-notification", "justification"]);
+		rules.conflicts("source-ips", [
+			"address1",
+			"agent-name",
+			"agree",
+			"city",
+			"country",
+			"original-work",
+			"signature",
+			"state",
+			"trademark-number",
+			"trademark-office",
+			"trademark-symbol",
+			"ncmec-notification",
+			"reg-who-request-reg-who-authorization-statement",
+			"reg-who-request-reg-who-good-faith-affirmation",
+			"reg-who-request-reg-who-lawful-processing-agreement",
+			"reg-who-request-reg-who-legal-basis",
+			"reg-who-request-reg-who-request-type",
+			"reg-who-request-reg-who-requested-data-elements",
+			"reg-who-request-reg-who-requestor-type",
+			"ncsei-subject-representation",
+		]);
+		rules.implies("source-ips", ["host-notification", "justification"]);
+		rules.conflicts("ncmec-notification", [
+			"address1",
+			"agent-name",
+			"agree",
+			"city",
+			"original-work",
+			"signature",
+			"state",
+			"trademark-number",
+			"trademark-office",
+			"trademark-symbol",
+			"destination-ips",
+			"ports-protocols",
+			"source-ips",
+			"reg-who-request-reg-who-authorization-statement",
+			"reg-who-request-reg-who-good-faith-affirmation",
+			"reg-who-request-reg-who-lawful-processing-agreement",
+			"reg-who-request-reg-who-legal-basis",
+			"reg-who-request-reg-who-request-type",
+			"reg-who-request-reg-who-requested-data-elements",
+			"reg-who-request-reg-who-requestor-type",
+			"ncsei-subject-representation",
+		]);
+		rules.implies("ncmec-notification", ["host-notification", "justification"]);
+		rules.conflicts("reg-who-request-reg-who-authorization-statement", [
 			"address1",
 			"agent-name",
 			"agree",
@@ -700,14 +748,15 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"source-ips",
 			"ncmec-notification",
 			"ncsei-subject-representation",
-		])
-		.implies("reg-who-request-reg-who-good-faith-affirmation", [
+		]);
+		rules.implies("reg-who-request-reg-who-authorization-statement", [
+			"reg-who-request-reg-who-good-faith-affirmation",
 			"reg-who-request-reg-who-lawful-processing-agreement",
 			"reg-who-request-reg-who-legal-basis",
 			"reg-who-request-reg-who-request-type",
 			"reg-who-request-reg-who-requested-data-elements",
-		])
-		.conflicts("reg-who-request-reg-who-lawful-processing-agreement", [
+		]);
+		rules.conflicts("reg-who-request-reg-who-good-faith-affirmation", [
 			"address1",
 			"agent-name",
 			"agree",
@@ -726,14 +775,14 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"source-ips",
 			"ncmec-notification",
 			"ncsei-subject-representation",
-		])
-		.implies("reg-who-request-reg-who-lawful-processing-agreement", [
-			"reg-who-request-reg-who-good-faith-affirmation",
+		]);
+		rules.implies("reg-who-request-reg-who-good-faith-affirmation", [
+			"reg-who-request-reg-who-lawful-processing-agreement",
 			"reg-who-request-reg-who-legal-basis",
 			"reg-who-request-reg-who-request-type",
 			"reg-who-request-reg-who-requested-data-elements",
-		])
-		.conflicts("reg-who-request-reg-who-legal-basis", [
+		]);
+		rules.conflicts("reg-who-request-reg-who-lawful-processing-agreement", [
 			"address1",
 			"agent-name",
 			"agree",
@@ -752,14 +801,14 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"source-ips",
 			"ncmec-notification",
 			"ncsei-subject-representation",
-		])
-		.implies("reg-who-request-reg-who-legal-basis", [
+		]);
+		rules.implies("reg-who-request-reg-who-lawful-processing-agreement", [
 			"reg-who-request-reg-who-good-faith-affirmation",
-			"reg-who-request-reg-who-lawful-processing-agreement",
+			"reg-who-request-reg-who-legal-basis",
 			"reg-who-request-reg-who-request-type",
 			"reg-who-request-reg-who-requested-data-elements",
-		])
-		.conflicts("reg-who-request-reg-who-request-type", [
+		]);
+		rules.conflicts("reg-who-request-reg-who-legal-basis", [
 			"address1",
 			"agent-name",
 			"agree",
@@ -778,14 +827,14 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"source-ips",
 			"ncmec-notification",
 			"ncsei-subject-representation",
-		])
-		.implies("reg-who-request-reg-who-request-type", [
+		]);
+		rules.implies("reg-who-request-reg-who-legal-basis", [
 			"reg-who-request-reg-who-good-faith-affirmation",
 			"reg-who-request-reg-who-lawful-processing-agreement",
-			"reg-who-request-reg-who-legal-basis",
+			"reg-who-request-reg-who-request-type",
 			"reg-who-request-reg-who-requested-data-elements",
-		])
-		.conflicts("reg-who-request-reg-who-requested-data-elements", [
+		]);
+		rules.conflicts("reg-who-request-reg-who-request-type", [
 			"address1",
 			"agent-name",
 			"agree",
@@ -804,14 +853,14 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"source-ips",
 			"ncmec-notification",
 			"ncsei-subject-representation",
-		])
-		.implies("reg-who-request-reg-who-requested-data-elements", [
+		]);
+		rules.implies("reg-who-request-reg-who-request-type", [
 			"reg-who-request-reg-who-good-faith-affirmation",
 			"reg-who-request-reg-who-lawful-processing-agreement",
 			"reg-who-request-reg-who-legal-basis",
-			"reg-who-request-reg-who-request-type",
-		])
-		.conflicts("reg-who-request-reg-who-requestor-type", [
+			"reg-who-request-reg-who-requested-data-elements",
+		]);
+		rules.conflicts("reg-who-request-reg-who-requested-data-elements", [
 			"address1",
 			"agent-name",
 			"agree",
@@ -830,15 +879,41 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"source-ips",
 			"ncmec-notification",
 			"ncsei-subject-representation",
-		])
-		.implies("reg-who-request-reg-who-requestor-type", [
+		]);
+		rules.implies("reg-who-request-reg-who-requested-data-elements", [
+			"reg-who-request-reg-who-good-faith-affirmation",
+			"reg-who-request-reg-who-lawful-processing-agreement",
+			"reg-who-request-reg-who-legal-basis",
+			"reg-who-request-reg-who-request-type",
+		]);
+		rules.conflicts("reg-who-request-reg-who-requestor-type", [
+			"address1",
+			"agent-name",
+			"agree",
+			"city",
+			"country",
+			"host-notification",
+			"original-work",
+			"signature",
+			"state",
+			"justification",
+			"trademark-number",
+			"trademark-office",
+			"trademark-symbol",
+			"destination-ips",
+			"ports-protocols",
+			"source-ips",
+			"ncmec-notification",
+			"ncsei-subject-representation",
+		]);
+		rules.implies("reg-who-request-reg-who-requestor-type", [
 			"reg-who-request-reg-who-good-faith-affirmation",
 			"reg-who-request-reg-who-lawful-processing-agreement",
 			"reg-who-request-reg-who-legal-basis",
 			"reg-who-request-reg-who-request-type",
 			"reg-who-request-reg-who-requested-data-elements",
-		])
-		.conflicts("ncsei-subject-representation", [
+		]);
+		rules.conflicts("ncsei-subject-representation", [
 			"address1",
 			"agent-name",
 			"agree",
@@ -861,16 +936,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"reg-who-request-reg-who-request-type",
 			"reg-who-request-reg-who-requested-data-elements",
 			"reg-who-request-reg-who-requestor-type",
-		])
-		.implies("ncsei-subject-representation", ["host-notification"]);
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "create <report-type>",
-	describe: "Submit an abuse report",
-	builder,
+		]);
+		rules.implies("ncsei-subject-representation", ["host-notification"]);
+	},
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
@@ -888,7 +956,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"ncsei-subject-representation",
 						"dry-run",
 					],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -1462,6 +1530,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Created` });
 			}
 		),
-};
+});
 
 export default command;

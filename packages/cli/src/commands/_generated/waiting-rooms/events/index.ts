@@ -5,31 +5,26 @@ import $edit from "./edit.js";
 import $get from "./get.js";
 import $list from "./list.js";
 import $update from "./update.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * events command group
  * @generated from apis/overlays/waiting-rooms.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "events",
 	describe:
 		"Scheduled events that temporarily override waiting room settings for sales, launches, etc.",
 
-	builder: (yargs) => {
-		return yargs
-			.command($create)
-			.command($delete)
-			.command($edit)
-			.command($get)
-			.command($list)
-			.command($update)
-			.command($details)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		create: $create,
+		delete: $delete,
+		edit: $edit,
+		get: $get,
+		list: $list,
+		update: $update,
+		details: $details,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

@@ -1,11 +1,10 @@
 import operation from "../../_operations/cloudforce-one/priority-intelligence/resolve.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * resolve command
  * @generated from apis/overlays/cloudforce-one.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -21,291 +20,6 @@ import { withProgress } from "#lib/progress.js";
 import { promptForRequiredEnumField } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 cloudforce-one priority-intelligence resolve\n\nReturns the requirement and event query that saving `definition` would generate, using the account's current organization profile and topic. `resolved.issues` lists problems that would block saving, and `resolved.notices` inputs that would be ignored. Search events with `resolved.event_plan.branches`: a beta value for running searches, not a stable contract, which changes whenever a topic's event rules change. Show `resolved.event_plan.rules[].explanation` to explain matches. Send `resolved.based_on` with the save so it fails with 409 if the profile or topic changes in between. Nothing is saved, and no model is called."
-		)
-		.option("definition-additional-criteria", {
-			type: "string",
-			description:
-				'The definition.additional_criteria field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"band": "highly" | "somewhat" | "not", "id": string, "text": string}].',
-		})
-		.option("definition-criterion-selections-add", {
-			type: "string",
-			array: true,
-			description: "The definition.criterion_selections.add field",
-		})
-		.option("definition-criterion-selections-remove", {
-			type: "string",
-			array: true,
-			description: "The definition.criterion_selections.remove field",
-		})
-		.option("definition-mode", {
-			type: "string",
-			description: "The definition.mode field",
-			choices: ["managed", "custom"],
-		})
-		.coerce("definition-mode", (value) =>
-			resolveFileToken(value, "definition-mode", "text")
-		)
-		.option("definition-question-mode", {
-			type: "string",
-			description: "The definition.question.mode field",
-			choices: ["inherit", "replace"],
-		})
-		.coerce("definition-question-mode", (value) =>
-			resolveFileToken(value, "definition-question-mode", "text")
-		)
-		.option("definition-question-value", {
-			type: "string",
-			description: "The definition.question.value field",
-		})
-		.option("definition-schema-version", {
-			type: "number",
-			description: "The definition.schema_version field",
-		})
-		.option("definition-selections-actor-notes", {
-			type: "string",
-			description: "The definition.selections.actor_notes field",
-		})
-		.option("definition-selections-actor-types-mode", {
-			type: "string",
-			description: "The definition.selections.actor_types.mode field",
-			choices: ["inherit", "replace"],
-		})
-		.coerce("definition-selections-actor-types-mode", (value) =>
-			resolveFileToken(value, "definition-selections-actor-types-mode", "text")
-		)
-		.option("definition-selections-actor-types-value", {
-			type: "string",
-			array: true,
-			description: "The definition.selections.actor_types.value field",
-		})
-		.option("definition-selections-actors-add", {
-			type: "string",
-			array: true,
-			description: "The definition.selections.actors.add field",
-		})
-		.option("definition-selections-actors-remove", {
-			type: "string",
-			array: true,
-			description: "The definition.selections.actors.remove field",
-		})
-		.option("definition-selections-attributed-countries", {
-			type: "string",
-			array: true,
-			description: "The definition.selections.attributed_countries field",
-		})
-		.option("definition-selections-countries-mode", {
-			type: "string",
-			description: "The definition.selections.countries.mode field",
-			choices: ["inherit", "replace"],
-		})
-		.coerce("definition-selections-countries-mode", (value) =>
-			resolveFileToken(value, "definition-selections-countries-mode", "text")
-		)
-		.option("definition-selections-countries-value", {
-			type: "string",
-			array: true,
-			description: "The definition.selections.countries.value field",
-		})
-		.option("definition-selections-cves", {
-			type: "string",
-			array: true,
-			description: "The definition.selections.cves field",
-		})
-		.option("definition-selections-excluded-actors", {
-			type: "string",
-			array: true,
-			description: "The definition.selections.excluded_actors field",
-		})
-		.option("definition-selections-key-suppliers-mode", {
-			type: "string",
-			description: "The definition.selections.key_suppliers.mode field",
-			choices: ["inherit", "replace"],
-		})
-		.coerce("definition-selections-key-suppliers-mode", (value) =>
-			resolveFileToken(
-				value,
-				"definition-selections-key-suppliers-mode",
-				"text"
-			)
-		)
-		.option("definition-selections-key-suppliers-value", {
-			type: "string",
-			description:
-				'The definition.selections.key_suppliers.value field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"name": string, "domains"?: [string]}]. ? marks optional keys.',
-		})
-		.option("definition-selections-malware-tools", {
-			type: "string",
-			array: true,
-			description: "The definition.selections.malware_tools field",
-		})
-		.option("definition-selections-motivations-mode", {
-			type: "string",
-			description: "The definition.selections.motivations.mode field",
-			choices: ["inherit", "replace"],
-		})
-		.coerce("definition-selections-motivations-mode", (value) =>
-			resolveFileToken(value, "definition-selections-motivations-mode", "text")
-		)
-		.option("definition-selections-motivations-value", {
-			type: "string",
-			array: true,
-			description: "The definition.selections.motivations.value field",
-		})
-		.option("definition-selections-peers-mode", {
-			type: "string",
-			description: "The definition.selections.peers.mode field",
-			choices: ["inherit", "replace"],
-		})
-		.coerce("definition-selections-peers-mode", (value) =>
-			resolveFileToken(value, "definition-selections-peers-mode", "text")
-		)
-		.option("definition-selections-peers-value", {
-			type: "string",
-			description:
-				'The definition.selections.peers.value field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"name": string, "domains"?: [string]}]. ? marks optional keys.',
-		})
-		.option("definition-selections-sectors-mode", {
-			type: "string",
-			description: "The definition.selections.sectors.mode field",
-			choices: ["inherit", "replace"],
-		})
-		.coerce("definition-selections-sectors-mode", (value) =>
-			resolveFileToken(value, "definition-selections-sectors-mode", "text")
-		)
-		.option("definition-selections-sectors-value", {
-			type: "string",
-			array: true,
-			description: "The definition.selections.sectors.value field",
-		})
-		.option("definition-selections-targets-mode", {
-			type: "string",
-			description: "The definition.selections.targets.mode field",
-			choices: ["inherit", "replace"],
-		})
-		.coerce("definition-selections-targets-mode", (value) =>
-			resolveFileToken(value, "definition-selections-targets-mode", "text")
-		)
-		.option("definition-selections-targets-value", {
-			type: "string",
-			array: true,
-			description: "The definition.selections.targets.value field",
-		})
-		.option("definition-selections-technique-ids", {
-			type: "string",
-			array: true,
-			description: "The definition.selections.technique_ids field",
-		})
-		.option("definition-selections-technologies-mode", {
-			type: "string",
-			description: "The definition.selections.technologies.mode field",
-			choices: ["inherit", "replace"],
-		})
-		.coerce("definition-selections-technologies-mode", (value) =>
-			resolveFileToken(value, "definition-selections-technologies-mode", "text")
-		)
-		.option("definition-selections-technologies-value", {
-			type: "string",
-			array: true,
-			description: "The definition.selections.technologies.value field",
-		})
-		.option("definition-title-mode", {
-			type: "string",
-			description: "The definition.title.mode field",
-			choices: ["inherit", "replace"],
-		})
-		.coerce("definition-title-mode", (value) =>
-			resolveFileToken(value, "definition-title-mode", "text")
-		)
-		.option("definition-title-value", {
-			type: "string",
-			description: "The definition.title.value field",
-		})
-		.option("definition-topic-id", {
-			type: "string",
-			description: "The definition.topic_id field",
-		})
-		.option("definition-relevance-criteria", {
-			type: "string",
-			description:
-				'The definition.relevance_criteria field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"band": "highly" | "somewhat" | "not", "id": string, "text": string}].',
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		})
-		.conflicts("definition-additional-criteria", [
-			"definition-relevance-criteria",
-		])
-		.implies("definition-additional-criteria", ["definition-topic-id"])
-		.conflicts("definition-criterion-selections-add", [
-			"definition-relevance-criteria",
-		])
-		.implies("definition-criterion-selections-add", ["definition-topic-id"])
-		.conflicts("definition-criterion-selections-remove", [
-			"definition-relevance-criteria",
-		])
-		.implies("definition-criterion-selections-remove", ["definition-topic-id"])
-		.conflicts("definition-question-mode", ["definition-relevance-criteria"])
-		.implies("definition-question-mode", ["definition-topic-id"])
-		.conflicts("definition-question-value", ["definition-relevance-criteria"])
-		.implies("definition-question-value", [
-			"definition-question-mode",
-			"definition-topic-id",
-		])
-		.implies("definition-selections-actor-types-value", [
-			"definition-selections-actor-types-mode",
-		])
-		.implies("definition-selections-countries-value", [
-			"definition-selections-countries-mode",
-		])
-		.implies("definition-selections-key-suppliers-value", [
-			"definition-selections-key-suppliers-mode",
-		])
-		.implies("definition-selections-motivations-value", [
-			"definition-selections-motivations-mode",
-		])
-		.implies("definition-selections-peers-value", [
-			"definition-selections-peers-mode",
-		])
-		.implies("definition-selections-sectors-value", [
-			"definition-selections-sectors-mode",
-		])
-		.implies("definition-selections-targets-value", [
-			"definition-selections-targets-mode",
-		])
-		.implies("definition-selections-technologies-value", [
-			"definition-selections-technologies-mode",
-		])
-		.conflicts("definition-title-mode", ["definition-relevance-criteria"])
-		.implies("definition-title-mode", ["definition-topic-id"])
-		.conflicts("definition-title-value", ["definition-relevance-criteria"])
-		.implies("definition-title-value", [
-			"definition-title-mode",
-			"definition-topic-id",
-		])
-		.conflicts("definition-topic-id", ["definition-relevance-criteria"])
-		.conflicts("definition-relevance-criteria", [
-			"definition-additional-criteria",
-			"definition-criterion-selections-add",
-			"definition-criterion-selections-remove",
-			"definition-question-mode",
-			"definition-question-value",
-			"definition-title-mode",
-			"definition-title-value",
-			"definition-topic-id",
-		]);
-}
-
-type Args = InferArgs<typeof builder>;
 const bodyUnions: Parameters<typeof validateBodyUnions>[1] = [
 	{
 		path: ["definition"],
@@ -1077,10 +791,376 @@ const bodyUnions: Parameters<typeof validateBodyUnions>[1] = [
 	},
 ];
 
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "resolve",
 	describe: "Resolve structured PIR answers without saving",
-	builder,
+	usage:
+		"$0 cloudforce-one priority-intelligence resolve\n\nReturns the requirement and event query that saving `definition` would generate, using the account's current organization profile and topic. `resolved.issues` lists problems that would block saving, and `resolved.notices` inputs that would be ignored. Search events with `resolved.event_plan.branches`: a beta value for running searches, not a stable contract, which changes whenever a topic's event rules change. Show `resolved.event_plan.rules[].explanation` to explain matches. Send `resolved.based_on` with the save so it fails with 409 if the profile or topic changes in between. Nothing is saved, and no model is called.",
+	flags: {
+		"definition-additional-criteria": {
+			kind: "parsed",
+			brief:
+				'The definition.additional_criteria field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"band": "highly" | "somewhat" | "not", "id": string, "text": string}].',
+			optional: true,
+			parse: String,
+		},
+		"definition-criterion-selections-add": {
+			kind: "parsed",
+			brief: "The definition.criterion_selections.add field",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"definition-criterion-selections-remove": {
+			kind: "parsed",
+			brief: "The definition.criterion_selections.remove field",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"definition-mode": {
+			kind: "parsed",
+			brief: "The definition.mode field",
+			optional: true,
+			choices: ["managed", "custom"],
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "definition-mode", "text"),
+		},
+		"definition-question-mode": {
+			kind: "parsed",
+			brief: "The definition.question.mode field",
+			optional: true,
+			choices: ["inherit", "replace"],
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "definition-question-mode", "text"),
+		},
+		"definition-question-value": {
+			kind: "parsed",
+			brief: "The definition.question.value field",
+			optional: true,
+			parse: String,
+		},
+		"definition-schema-version": {
+			kind: "parsed",
+			brief: "The definition.schema_version field",
+			optional: true,
+			parse: Number,
+		},
+		"definition-selections-actor-notes": {
+			kind: "parsed",
+			brief: "The definition.selections.actor_notes field",
+			optional: true,
+			parse: String,
+		},
+		"definition-selections-actor-types-mode": {
+			kind: "parsed",
+			brief: "The definition.selections.actor_types.mode field",
+			optional: true,
+			choices: ["inherit", "replace"],
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(
+					value,
+					"definition-selections-actor-types-mode",
+					"text"
+				),
+		},
+		"definition-selections-actor-types-value": {
+			kind: "parsed",
+			brief: "The definition.selections.actor_types.value field",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"definition-selections-actors-add": {
+			kind: "parsed",
+			brief: "The definition.selections.actors.add field",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"definition-selections-actors-remove": {
+			kind: "parsed",
+			brief: "The definition.selections.actors.remove field",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"definition-selections-attributed-countries": {
+			kind: "parsed",
+			brief: "The definition.selections.attributed_countries field",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"definition-selections-countries-mode": {
+			kind: "parsed",
+			brief: "The definition.selections.countries.mode field",
+			optional: true,
+			choices: ["inherit", "replace"],
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "definition-selections-countries-mode", "text"),
+		},
+		"definition-selections-countries-value": {
+			kind: "parsed",
+			brief: "The definition.selections.countries.value field",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"definition-selections-cves": {
+			kind: "parsed",
+			brief: "The definition.selections.cves field",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"definition-selections-excluded-actors": {
+			kind: "parsed",
+			brief: "The definition.selections.excluded_actors field",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"definition-selections-key-suppliers-mode": {
+			kind: "parsed",
+			brief: "The definition.selections.key_suppliers.mode field",
+			optional: true,
+			choices: ["inherit", "replace"],
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(
+					value,
+					"definition-selections-key-suppliers-mode",
+					"text"
+				),
+		},
+		"definition-selections-key-suppliers-value": {
+			kind: "parsed",
+			brief:
+				'The definition.selections.key_suppliers.value field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"name": string, "domains"?: [string]}]. ? marks optional keys.',
+			optional: true,
+			parse: String,
+		},
+		"definition-selections-malware-tools": {
+			kind: "parsed",
+			brief: "The definition.selections.malware_tools field",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"definition-selections-motivations-mode": {
+			kind: "parsed",
+			brief: "The definition.selections.motivations.mode field",
+			optional: true,
+			choices: ["inherit", "replace"],
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(
+					value,
+					"definition-selections-motivations-mode",
+					"text"
+				),
+		},
+		"definition-selections-motivations-value": {
+			kind: "parsed",
+			brief: "The definition.selections.motivations.value field",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"definition-selections-peers-mode": {
+			kind: "parsed",
+			brief: "The definition.selections.peers.mode field",
+			optional: true,
+			choices: ["inherit", "replace"],
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "definition-selections-peers-mode", "text"),
+		},
+		"definition-selections-peers-value": {
+			kind: "parsed",
+			brief:
+				'The definition.selections.peers.value field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"name": string, "domains"?: [string]}]. ? marks optional keys.',
+			optional: true,
+			parse: String,
+		},
+		"definition-selections-sectors-mode": {
+			kind: "parsed",
+			brief: "The definition.selections.sectors.mode field",
+			optional: true,
+			choices: ["inherit", "replace"],
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "definition-selections-sectors-mode", "text"),
+		},
+		"definition-selections-sectors-value": {
+			kind: "parsed",
+			brief: "The definition.selections.sectors.value field",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"definition-selections-targets-mode": {
+			kind: "parsed",
+			brief: "The definition.selections.targets.mode field",
+			optional: true,
+			choices: ["inherit", "replace"],
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "definition-selections-targets-mode", "text"),
+		},
+		"definition-selections-targets-value": {
+			kind: "parsed",
+			brief: "The definition.selections.targets.value field",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"definition-selections-technique-ids": {
+			kind: "parsed",
+			brief: "The definition.selections.technique_ids field",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"definition-selections-technologies-mode": {
+			kind: "parsed",
+			brief: "The definition.selections.technologies.mode field",
+			optional: true,
+			choices: ["inherit", "replace"],
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(
+					value,
+					"definition-selections-technologies-mode",
+					"text"
+				),
+		},
+		"definition-selections-technologies-value": {
+			kind: "parsed",
+			brief: "The definition.selections.technologies.value field",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"definition-title-mode": {
+			kind: "parsed",
+			brief: "The definition.title.mode field",
+			optional: true,
+			choices: ["inherit", "replace"],
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "definition-title-mode", "text"),
+		},
+		"definition-title-value": {
+			kind: "parsed",
+			brief: "The definition.title.value field",
+			optional: true,
+			parse: String,
+		},
+		"definition-topic-id": {
+			kind: "parsed",
+			brief: "The definition.topic_id field",
+			optional: true,
+			parse: String,
+		},
+		"definition-relevance-criteria": {
+			kind: "parsed",
+			brief:
+				'The definition.relevance_criteria field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"band": "highly" | "somewhat" | "not", "id": string, "text": string}].',
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [],
+	rules(rules) {
+		rules.conflicts("definition-additional-criteria", [
+			"definition-relevance-criteria",
+		]);
+		rules.implies("definition-additional-criteria", ["definition-topic-id"]);
+		rules.conflicts("definition-criterion-selections-add", [
+			"definition-relevance-criteria",
+		]);
+		rules.implies("definition-criterion-selections-add", [
+			"definition-topic-id",
+		]);
+		rules.conflicts("definition-criterion-selections-remove", [
+			"definition-relevance-criteria",
+		]);
+		rules.implies("definition-criterion-selections-remove", [
+			"definition-topic-id",
+		]);
+		rules.conflicts("definition-question-mode", [
+			"definition-relevance-criteria",
+		]);
+		rules.implies("definition-question-mode", ["definition-topic-id"]);
+		rules.conflicts("definition-question-value", [
+			"definition-relevance-criteria",
+		]);
+		rules.implies("definition-question-value", [
+			"definition-question-mode",
+			"definition-topic-id",
+		]);
+		rules.implies("definition-selections-actor-types-value", [
+			"definition-selections-actor-types-mode",
+		]);
+		rules.implies("definition-selections-countries-value", [
+			"definition-selections-countries-mode",
+		]);
+		rules.implies("definition-selections-key-suppliers-value", [
+			"definition-selections-key-suppliers-mode",
+		]);
+		rules.implies("definition-selections-motivations-value", [
+			"definition-selections-motivations-mode",
+		]);
+		rules.implies("definition-selections-peers-value", [
+			"definition-selections-peers-mode",
+		]);
+		rules.implies("definition-selections-sectors-value", [
+			"definition-selections-sectors-mode",
+		]);
+		rules.implies("definition-selections-targets-value", [
+			"definition-selections-targets-mode",
+		]);
+		rules.implies("definition-selections-technologies-value", [
+			"definition-selections-technologies-mode",
+		]);
+		rules.conflicts("definition-title-mode", ["definition-relevance-criteria"]);
+		rules.implies("definition-title-mode", ["definition-topic-id"]);
+		rules.conflicts("definition-title-value", [
+			"definition-relevance-criteria",
+		]);
+		rules.implies("definition-title-value", [
+			"definition-title-mode",
+			"definition-topic-id",
+		]);
+		rules.conflicts("definition-topic-id", ["definition-relevance-criteria"]);
+		rules.conflicts("definition-relevance-criteria", [
+			"definition-additional-criteria",
+			"definition-criterion-selections-add",
+			"definition-criterion-selections-remove",
+			"definition-question-mode",
+			"definition-question-value",
+			"definition-title-mode",
+			"definition-title-value",
+			"definition-topic-id",
+		]);
+	},
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
@@ -1100,7 +1180,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"definition-title-mode",
 						"dry-run",
 					],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -1372,6 +1452,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Created` });
 			}
 		),
-};
+});
 
 export default command;

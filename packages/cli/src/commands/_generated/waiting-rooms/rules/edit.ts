@@ -1,11 +1,10 @@
 import operation from "../../_operations/waiting-rooms/rules/edit.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * edit command
  * @generated from apis/overlays/waiting-rooms.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import { createCommandClient, getZoneId } from "#lib/auth.js";
 import { compactBody, parseBody } from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
@@ -18,79 +17,85 @@ import {
 } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 waiting-rooms rules edit <rule-id>\n\nPatches a rule for a waiting room."
-		)
-		.positional("rule-id", {
-			type: "string",
-			description: "The ID of the rule.",
-			demandOption: true,
-		})
-		.option("waiting-room-id", {
-			type: "string",
-			description: "Waiting room ID",
-			demandOption: true,
-		})
-		.option("action", {
-			type: "string",
-			description: "The action to take when the expression matches.",
-			choices: ["bypass_waiting_room"],
-		})
-		.coerce("action", (value) => resolveFileToken(value, "action", "text"))
-		.option("description", {
-			type: "string",
-			description: "The description of the rule.",
-		})
-		.option("enabled", {
-			type: "boolean",
-			description: "When set to true, the rule is enabled.",
-		})
-		.option("expression", {
-			type: "string",
-			description:
-				"Criteria defining when there is a match for the current rule.",
-		})
-		.option("position-index", {
-			type: "number",
-			description:
-				"Places the rule in the exact position specified by the integer number <POSITION_NUMBER>. Position numbers start with 1. Existing rules in the ruleset from the specified position number onward are shifted one position (no rule is overwritten).",
-		})
-		.option("position-before", {
-			type: "string",
-			description:
-				'Places the rule before rule <RULE_ID>. Use this argument with an empty rule ID value ("") to set the rule as the first rule in the ruleset.',
-		})
-		.option("position-after", {
-			type: "string",
-			description:
-				'Places the rule after rule <RULE_ID>. Use this argument with an empty rule ID value ("") to set the rule as the last rule in the ruleset.',
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "edit <rule-id>",
 	describe: "Patch Waiting Room Rule",
-	builder,
+	usage:
+		"$0 waiting-rooms rules edit <rule-id>\n\nPatches a rule for a waiting room.",
+	flags: {
+		"waiting-room-id": {
+			kind: "parsed",
+			brief: "Waiting room ID",
+			parse: String,
+		},
+		action: {
+			kind: "parsed",
+			brief: "The action to take when the expression matches.",
+			optional: true,
+			choices: ["bypass_waiting_room"],
+			parse: String,
+			coerce: (value: string) => resolveFileToken(value, "action", "text"),
+		},
+		description: {
+			kind: "parsed",
+			brief: "The description of the rule.",
+			optional: true,
+			parse: String,
+		},
+		enabled: {
+			kind: "boolean",
+			brief: "When set to true, the rule is enabled.",
+			optional: true,
+		},
+		expression: {
+			kind: "parsed",
+			brief: "Criteria defining when there is a match for the current rule.",
+			optional: true,
+			parse: String,
+		},
+		"position-index": {
+			kind: "parsed",
+			brief:
+				"Places the rule in the exact position specified by the integer number <POSITION_NUMBER>. Position numbers start with 1. Existing rules in the ruleset from the specified position number onward are shifted one position (no rule is overwritten).",
+			optional: true,
+			parse: Number,
+		},
+		"position-before": {
+			kind: "parsed",
+			brief:
+				'Places the rule before rule <RULE_ID>. Use this argument with an empty rule ID value ("") to set the rule as the first rule in the ruleset.',
+			optional: true,
+			parse: String,
+		},
+		"position-after": {
+			kind: "parsed",
+			brief:
+				'Places the rule after rule <RULE_ID>. Use this argument with an empty rule ID value ("") to set the rule as the last rule in the ruleset.',
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [
+		{ placeholder: "rule-id", brief: "The ID of the rule.", parse: String },
+	],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "waiting-rooms rules edit",
 				classification: {
 					safeFlags: ["action", "enabled", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -218,6 +223,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Updated` });
 			}
 		),
-};
+});
 
 export default command;

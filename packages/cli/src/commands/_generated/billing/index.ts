@@ -3,29 +3,24 @@ import $profiles from "./profiles/index.js";
 import $rateplans from "./rate-plans/index.js";
 import $spendpolicies from "./spend-policies/index.js";
 import $usage from "./usage/index.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * billing command
  * @generated from apis/overlays/billing.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "billing",
 	describe:
 		"Account billing profiles and usage data for Cloudflare subscriptions and add-on services",
 
-	builder: (yargs) => {
-		return yargs
-			.command($addresses)
-			.command($profiles)
-			.command($rateplans)
-			.command($spendpolicies)
-			.command($usage)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		addresses: $addresses,
+		profiles: $profiles,
+		"rate-plans": $rateplans,
+		"spend-policies": $spendpolicies,
+		usage: $usage,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

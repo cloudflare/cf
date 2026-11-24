@@ -1,11 +1,10 @@
 import operation from "../../../_operations/zero-trust/casb/findings/export.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * export command
  * @generated from apis/overlays/zero-trust.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -19,77 +18,94 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 zero-trust casb findings export\n\nCreates a CSV export for findings and accepts optional filters in the payload."
-		)
-		.option("ignored", {
-			type: "boolean",
-			description:
-				"Filter for only the ignored findings. Set to false to only see active items.",
-		})
-		.option("integration-id", {
-			type: "string",
-			array: true,
-			description: "Filter by multiple integration IDs.",
-		})
-		.option("max-affliction-date", {
-			type: "string",
-			description:
-				"Filter to view findings that occurred on or before the affliction date. Can be a date-time in ISO 8601 format or an epoch timestamp.",
-		})
-		.option("min-affliction-date", {
-			type: "string",
-			description:
-				"Filter to view findings that occurred on or after the affliction date. Can be a date-time in ISO 8601 format or an epoch timestamp.",
-		})
-		.option("orders", {
-			type: "string",
-			description:
-				'Which fields to use when ordering the findings. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"direction": "asc" | "desc", "name": "instance_count" | "finding.name" | "integration.name" | ...more}].',
-		})
-		.option("product", {
-			type: "string",
-			description: "Filter by finding's category product.",
-			choices: ["SaaS", "Cloud"],
-		})
-		.coerce("product", (value) => resolveFileToken(value, "product", "text"))
-		.option("search", { type: "string", description: "A search term." })
-		.option("severities", {
-			type: "string",
-			array: true,
-			description: "Filter by severity levels.",
-		})
-		.option("vendors", {
-			type: "string",
-			array: true,
-			description: "Filter by vendor types.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Filter specification for findings export jobs.",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "export",
 	describe: "Create new findings export request",
-	builder,
+	usage:
+		"$0 zero-trust casb findings export\n\nCreates a CSV export for findings and accepts optional filters in the payload.",
+	flags: {
+		ignored: {
+			kind: "boolean",
+			brief:
+				"Filter for only the ignored findings. Set to false to only see active items.",
+			optional: true,
+		},
+		"integration-id": {
+			kind: "parsed",
+			brief: "Filter by multiple integration IDs.",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"max-affliction-date": {
+			kind: "parsed",
+			brief:
+				"Filter to view findings that occurred on or before the affliction date. Can be a date-time in ISO 8601 format or an epoch timestamp.",
+			optional: true,
+			parse: String,
+		},
+		"min-affliction-date": {
+			kind: "parsed",
+			brief:
+				"Filter to view findings that occurred on or after the affliction date. Can be a date-time in ISO 8601 format or an epoch timestamp.",
+			optional: true,
+			parse: String,
+		},
+		orders: {
+			kind: "parsed",
+			brief:
+				'Which fields to use when ordering the findings. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"direction": "asc" | "desc", "name": "instance_count" | "finding.name" | "integration.name" | ...more}].',
+			optional: true,
+			parse: String,
+		},
+		product: {
+			kind: "parsed",
+			brief: "Filter by finding's category product.",
+			optional: true,
+			choices: ["SaaS", "Cloud"],
+			parse: String,
+			coerce: (value: string) => resolveFileToken(value, "product", "text"),
+		},
+		search: {
+			kind: "parsed",
+			brief: "A search term.",
+			optional: true,
+			parse: String,
+		},
+		severities: {
+			kind: "parsed",
+			brief: "Filter by severity levels.",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		vendors: {
+			kind: "parsed",
+			brief: "Filter by vendor types.",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Filter specification for findings export jobs.",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "zero-trust casb findings export",
 				classification: {
 					safeFlags: ["ignored", "product", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -175,6 +191,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Loaded` });
 			}
 		),
-};
+});
 
 export default command;

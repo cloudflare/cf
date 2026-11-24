@@ -1,88 +1,97 @@
 import operation from "../../_operations/user/audit-logs/list.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * list command
  * @generated from apis/overlays/user.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import { createCommandClient } from "#lib/auth.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 user audit-logs list\n\nGets a list of audit logs for a user account. Can be filtered by who made the change, on which zone, and the timeframe of the change."
-		)
-		.option("id", {
-			type: "string",
-			description: "Finds a specific log by its ID.",
-		})
-		.option("export", {
-			type: "boolean",
-			description:
-				"Indicates that this request is an export of logs in CSV format.",
-		})
-		.option("action-type", {
-			type: "string",
-			description: "Filters by the action type.",
-		})
-		.option("actor-ip", {
-			type: "string",
-			description:
-				"Filters by the IP address of the request that made the change by specific IP address or valid CIDR Range.",
-		})
-		.option("actor-email", {
-			type: "string",
-			description:
-				"Filters by the email address of the actor that made the change.",
-		})
-		.option("since", { type: "string", description: "Since" })
-		.option("before", { type: "string", description: "Before" })
-		.option("zone-name", {
-			type: "string",
-			description: "Filters by the name of the zone associated to the change.",
-		})
-		.option("direction", {
-			type: "string",
-			description: "Changes the direction of the chronological sorting.",
-			choices: ["desc", "asc"],
-		})
-		.option("per-page", {
-			type: "number",
-			description: "Sets the number of results to return per page.",
-		})
-		.option("page", {
-			type: "number",
-			description: "Defines which page of results to return.",
-		})
-		.option("hide-user-logs", {
-			type: "boolean",
-			description: "Indicates whether or not to hide user level audit logs.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "list",
 	describe: "Get user audit logs",
-	builder,
+	usage:
+		"$0 user audit-logs list\n\nGets a list of audit logs for a user account. Can be filtered by who made the change, on which zone, and the timeframe of the change.",
+	flags: {
+		id: {
+			kind: "parsed",
+			brief: "Finds a specific log by its ID.",
+			optional: true,
+			parse: String,
+		},
+		export: {
+			kind: "boolean",
+			brief: "Indicates that this request is an export of logs in CSV format.",
+			optional: true,
+		},
+		"action-type": {
+			kind: "parsed",
+			brief: "Filters by the action type.",
+			optional: true,
+			parse: String,
+		},
+		"actor-ip": {
+			kind: "parsed",
+			brief:
+				"Filters by the IP address of the request that made the change by specific IP address or valid CIDR Range.",
+			optional: true,
+			parse: String,
+		},
+		"actor-email": {
+			kind: "parsed",
+			brief: "Filters by the email address of the actor that made the change.",
+			optional: true,
+			parse: String,
+		},
+		since: { kind: "parsed", brief: "Since", optional: true, parse: String },
+		before: { kind: "parsed", brief: "Before", optional: true, parse: String },
+		"zone-name": {
+			kind: "parsed",
+			brief: "Filters by the name of the zone associated to the change.",
+			optional: true,
+			parse: String,
+		},
+		direction: {
+			kind: "enum",
+			brief: "Changes the direction of the chronological sorting.",
+			values: ["desc", "asc"],
+			optional: true,
+		},
+		"per-page": {
+			kind: "parsed",
+			brief: "Sets the number of results to return per page.",
+			optional: true,
+			parse: Number,
+		},
+		page: {
+			kind: "parsed",
+			brief: "Defines which page of results to return.",
+			optional: true,
+			parse: Number,
+		},
+		"hide-user-logs": {
+			kind: "boolean",
+			brief: "Indicates whether or not to hide user level audit logs.",
+			optional: true,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "user audit-logs list",
 				classification: {
 					safeFlags: ["export", "direction", "hide-user-logs", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -119,6 +128,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Loaded` });
 			}
 		),
-};
+});
 
 export default command;

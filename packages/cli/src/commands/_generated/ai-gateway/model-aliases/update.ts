@@ -1,11 +1,10 @@
 import operation from "../../_operations/ai-gateway/model-aliases/update.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * update command
  * @generated from apis/overlays/ai-gateway.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -20,67 +19,64 @@ import { withProgress } from "#lib/progress.js";
 import { promptForRequiredField } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 ai-gateway model-aliases update <id>\n\nReplaces a model alias. Omitting `routing` clears any previously stored routing options."
-		)
-		.positional("id", {
-			type: "string",
-			description: "ID",
-			demandOption: true,
-		})
-		.option("gateway-id", {
-			type: "string",
-			description: "Gateway ID",
-			demandOption: true,
-		})
-		.option("models", {
-			type: "string",
-			description:
-				'The models field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"model": string, "providers"?: [string]}]. ? marks optional keys.',
-		})
-		.option("name", { type: "string", description: "The name field" })
-		.option("routing-algorithm", {
-			type: "string",
-			description: "The routing.algorithm field",
-			choices: ["preferred", "smart"],
-		})
-		.coerce("routing-algorithm", (value) =>
-			resolveFileToken(value, "routing-algorithm", "text")
-		)
-		.option("routing-mode", {
-			type: "string",
-			description: "The routing.mode field",
-			choices: ["cost", "best"],
-		})
-		.coerce("routing-mode", (value) =>
-			resolveFileToken(value, "routing-mode", "text")
-		)
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "update <id>",
 	describe: "Update a model alias",
-	builder,
+	usage:
+		"$0 ai-gateway model-aliases update <id>\n\nReplaces a model alias. Omitting `routing` clears any previously stored routing options.",
+	flags: {
+		"gateway-id": { kind: "parsed", brief: "Gateway ID", parse: String },
+		models: {
+			kind: "parsed",
+			brief:
+				'The models field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"model": string, "providers"?: [string]}]. ? marks optional keys.',
+			optional: true,
+			parse: String,
+		},
+		name: {
+			kind: "parsed",
+			brief: "The name field",
+			optional: true,
+			parse: String,
+		},
+		"routing-algorithm": {
+			kind: "parsed",
+			brief: "The routing.algorithm field",
+			optional: true,
+			choices: ["preferred", "smart"],
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "routing-algorithm", "text"),
+		},
+		"routing-mode": {
+			kind: "parsed",
+			brief: "The routing.mode field",
+			optional: true,
+			choices: ["cost", "best"],
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "routing-mode", "text"),
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [{ placeholder: "id", brief: "ID", parse: String }],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "ai-gateway model-aliases update",
 				classification: {
 					safeFlags: ["routing-algorithm", "routing-mode", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -174,6 +170,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Updated` });
 			}
 		),
-};
+});
 
 export default command;

@@ -1,11 +1,10 @@
 import operation from "../../../_operations/realtime/kit/meetings/edit.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * edit command
  * @generated from apis/overlays/realtime.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -19,26 +18,22 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 realtime kit meetings edit <meeting-id>\n\nUpdates a meeting in an App for the given meeting ID."
-		)
-		.positional("meeting-id", {
-			type: "string",
-			description:
-				"ID of the meeting. Fetch the meeting ID using the create a meeting API.",
-			demandOption: true,
-		})
-		.option("app-id", {
-			type: "string",
-			description: "The app identifier tag.",
-			demandOption: true,
-		})
-		.option("ai-config-summarization-summary-type", {
-			type: "string",
-			description:
+const command = apiCommand({
+	command: "edit <meeting-id>",
+	describe: "Update a meeting",
+	usage:
+		"$0 realtime kit meetings edit <meeting-id>\n\nUpdates a meeting in an App for the given meeting ID.",
+	flags: {
+		"app-id": {
+			kind: "parsed",
+			brief: "The app identifier tag.",
+			parse: String,
+		},
+		"ai-config-summarization-summary-type": {
+			kind: "parsed",
+			brief:
 				"Defines the style of the summary, such as general, team meeting, or sales call.",
+			optional: true,
 			choices: [
 				"general",
 				"team_meeting",
@@ -50,33 +45,39 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"lecture",
 				"code_review",
 			],
-		})
-		.coerce("ai-config-summarization-summary-type", (value) =>
-			resolveFileToken(value, "ai-config-summarization-summary-type", "text")
-		)
-		.option("ai-config-summarization-text-format", {
-			type: "string",
-			description:
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "ai-config-summarization-summary-type", "text"),
+		},
+		"ai-config-summarization-text-format": {
+			kind: "parsed",
+			brief:
 				"Determines the text format of the summary, such as plain text or markdown.",
+			optional: true,
 			choices: ["plain_text", "markdown"],
-		})
-		.coerce("ai-config-summarization-text-format", (value) =>
-			resolveFileToken(value, "ai-config-summarization-text-format", "text")
-		)
-		.option("ai-config-summarization-word-limit", {
-			type: "number",
-			description: "Sets the maximum number of words in the meeting summary.",
-		})
-		.option("ai-config-transcription-keywords", {
-			type: "string",
-			array: true,
-			description:
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "ai-config-summarization-text-format", "text"),
+		},
+		"ai-config-summarization-word-limit": {
+			kind: "parsed",
+			brief: "Sets the maximum number of words in the meeting summary.",
+			optional: true,
+			parse: Number,
+		},
+		"ai-config-transcription-keywords": {
+			kind: "parsed",
+			brief:
 				"Adds specific terms to improve accurate detection during transcription.",
-		})
-		.option("ai-config-transcription-language", {
-			type: "string",
-			description:
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"ai-config-transcription-language": {
+			kind: "parsed",
+			brief:
 				"Specifies the language code for transcription to ensure accurate results. If omitted, the language is auto-detected for post-meeting (Whisper) transcription.",
+			optional: true,
 			choices: [
 				"en-US",
 				"en-IN",
@@ -89,159 +90,201 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"fr",
 				"nl",
 			],
-		})
-		.coerce("ai-config-transcription-language", (value) =>
-			resolveFileToken(value, "ai-config-transcription-language", "text")
-		)
-		.option("ai-config-transcription-profanity-filter", {
-			type: "boolean",
-			description:
-				"Control the inclusion of offensive language in transcriptions.",
-		})
-		.option("enable-sip", {
-			type: "boolean",
-			description:
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "ai-config-transcription-language", "text"),
+		},
+		"ai-config-transcription-profanity-filter": {
+			kind: "boolean",
+			brief: "Control the inclusion of offensive language in transcriptions.",
+			optional: true,
+		},
+		"enable-sip": {
+			kind: "boolean",
+			brief:
 				"Turns SIP dial-in on or off. Turning it off deletes the SIP URI and credentials; calls already in progress continue. Turning it on again creates a new SIP URI and credentials.",
-		})
-		.option("live-stream-on-start", {
-			type: "boolean",
-			description:
+			optional: true,
+		},
+		"live-stream-on-start": {
+			kind: "boolean",
+			brief:
 				"Specifies if the meeting should start getting livestreamed on start.",
-		})
-		.option("persist-chat", {
-			type: "boolean",
-			description:
+			optional: true,
+		},
+		"persist-chat": {
+			kind: "boolean",
+			brief:
 				"If a meeting is updated to persist_chat, meeting chat would remain for a week within the meeting space.",
-		})
-		.option("record-on-start", {
-			type: "boolean",
-			description:
+			optional: true,
+		},
+		"record-on-start": {
+			kind: "boolean",
+			brief:
 				"Specifies if the meeting should start getting recorded as soon as someone joins the meeting.",
-		})
-		.option("recording-config-audio-config-channel", {
-			type: "string",
-			description:
+			optional: true,
+		},
+		"recording-config-audio-config-channel": {
+			kind: "parsed",
+			brief:
 				"Audio signal pathway within an audio file that carries a specific sound source.",
+			optional: true,
 			choices: ["mono", "stereo"],
-		})
-		.coerce("recording-config-audio-config-channel", (value) =>
-			resolveFileToken(value, "recording-config-audio-config-channel", "text")
-		)
-		.option("recording-config-audio-config-codec", {
-			type: "string",
-			description:
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(
+					value,
+					"recording-config-audio-config-channel",
+					"text"
+				),
+		},
+		"recording-config-audio-config-codec": {
+			kind: "parsed",
+			brief:
 				"Codec using which the recording will be encoded. If VP8/VP9 is selected for videoConfig, changing audioConfig is not allowed. In this case, the codec in the audioConfig is automatically set to vorbis.",
+			optional: true,
 			choices: ["MP3", "AAC"],
-		})
-		.coerce("recording-config-audio-config-codec", (value) =>
-			resolveFileToken(value, "recording-config-audio-config-codec", "text")
-		)
-		.option("recording-config-audio-config-export-file", {
-			type: "boolean",
-			description: "Controls whether to export audio file seperately",
-		})
-		.option("recording-config-file-name-prefix", {
-			type: "string",
-			description:
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "recording-config-audio-config-codec", "text"),
+		},
+		"recording-config-audio-config-export-file": {
+			kind: "boolean",
+			brief: "Controls whether to export audio file seperately",
+			optional: true,
+		},
+		"recording-config-file-name-prefix": {
+			kind: "parsed",
+			brief:
 				"Adds a prefix to the beginning of the file name of the recording.",
-		})
-		.option("recording-config-live-streaming-config-rtmp-url", {
-			type: "string",
-			description: "RTMP URL to stream to",
-		})
-		.option("recording-config-max-seconds", {
-			type: "number",
-			description:
+			optional: true,
+			parse: String,
+		},
+		"recording-config-live-streaming-config-rtmp-url": {
+			kind: "parsed",
+			brief: "RTMP URL to stream to",
+			optional: true,
+			parse: String,
+		},
+		"recording-config-max-seconds": {
+			kind: "parsed",
+			brief:
 				"Specifies the maximum duration for recording in seconds, ranging from a minimum of 60 seconds to a maximum of 24 hours.",
-		})
-		.option("recording-config-realtimekit-bucket-config-enabled", {
-			type: "boolean",
-			description:
+			optional: true,
+			parse: Number,
+		},
+		"recording-config-realtimekit-bucket-config-enabled": {
+			kind: "boolean",
+			brief:
 				"Controls whether recordings are uploaded to RealtimeKit's bucket. If set to false, `download_url`, `audio_download_url`, `download_url_expiry` won't be generated for a recording.",
-		})
-		.option("recording-config-storage-config-type", {
-			type: "string",
-			description: "The recording_config.storage_config.type field",
+			optional: true,
+		},
+		"recording-config-storage-config-type": {
+			kind: "parsed",
+			brief: "The recording_config.storage_config.type field",
+			optional: true,
 			choices: ["gcs", "aws", "azure", "digitalocean", "sftp"],
-		})
-		.coerce("recording-config-storage-config-type", (value) =>
-			resolveFileToken(value, "recording-config-storage-config-type", "text")
-		)
-		.option("recording-config-video-config-codec", {
-			type: "string",
-			description: "Codec using which the recording will be encoded.",
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "recording-config-storage-config-type", "text"),
+		},
+		"recording-config-video-config-codec": {
+			kind: "parsed",
+			brief: "Codec using which the recording will be encoded.",
+			optional: true,
 			choices: ["H264", "VP8", "VP9"],
-		})
-		.coerce("recording-config-video-config-codec", (value) =>
-			resolveFileToken(value, "recording-config-video-config-codec", "text")
-		)
-		.option("recording-config-video-config-export-file", {
-			type: "boolean",
-			description: "Controls whether to export video file seperately",
-		})
-		.option("recording-config-video-config-height", {
-			type: "number",
-			description: "Height of the recording video in pixels",
-		})
-		.option("recording-config-video-config-watermark-position", {
-			type: "string",
-			description: "Position of the watermark",
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "recording-config-video-config-codec", "text"),
+		},
+		"recording-config-video-config-export-file": {
+			kind: "boolean",
+			brief: "Controls whether to export video file seperately",
+			optional: true,
+		},
+		"recording-config-video-config-height": {
+			kind: "parsed",
+			brief: "Height of the recording video in pixels",
+			optional: true,
+			parse: Number,
+		},
+		"recording-config-video-config-watermark-position": {
+			kind: "parsed",
+			brief: "Position of the watermark",
+			optional: true,
 			choices: ["left top", "right top", "left bottom", "right bottom"],
-		})
-		.coerce("recording-config-video-config-watermark-position", (value) =>
-			resolveFileToken(
-				value,
-				"recording-config-video-config-watermark-position",
-				"text"
-			)
-		)
-		.option("recording-config-video-config-watermark-url", {
-			type: "string",
-			description: "URL of the watermark image",
-		})
-		.option("recording-config-video-config-width", {
-			type: "number",
-			description: "Width of the recording video in pixels",
-		})
-		.option("session-keep-alive-time-in-secs", {
-			type: "number",
-			description:
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(
+					value,
+					"recording-config-video-config-watermark-position",
+					"text"
+				),
+		},
+		"recording-config-video-config-watermark-url": {
+			kind: "parsed",
+			brief: "URL of the watermark image",
+			optional: true,
+			parse: String,
+		},
+		"recording-config-video-config-width": {
+			kind: "parsed",
+			brief: "Width of the recording video in pixels",
+			optional: true,
+			parse: Number,
+		},
+		"session-keep-alive-time-in-secs": {
+			kind: "parsed",
+			brief:
 				"Time in seconds, for which a session remains active, after the last participant has left the meeting.",
-		})
-		.option("status", {
-			type: "string",
-			description:
+			optional: true,
+			parse: Number,
+		},
+		status: {
+			kind: "parsed",
+			brief:
 				"Whether the meeting is `ACTIVE` or `INACTIVE`. Users will not be able to join an `INACTIVE` meeting.",
+			optional: true,
 			choices: ["ACTIVE", "INACTIVE"],
-		})
-		.coerce("status", (value) => resolveFileToken(value, "status", "text"))
-		.option("summarize-on-end", {
-			type: "boolean",
-			description:
+			parse: String,
+			coerce: (value: string) => resolveFileToken(value, "status", "text"),
+		},
+		"summarize-on-end": {
+			kind: "boolean",
+			brief:
 				"Automatically generate summary of meetings using transcripts. Requires Transcriptions to be enabled, and can be retrieved via Webhooks or summary API.",
-		})
-		.option("title", { type: "string", description: "Title of the meeting" })
-		.option("transcribe-on-end", {
-			type: "boolean",
-			description: "Automatically generate transcripts when the meeting ends.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
+			optional: true,
+		},
+		title: {
+			kind: "parsed",
+			brief: "Title of the meeting",
+			optional: true,
+			parse: String,
+		},
+		"transcribe-on-end": {
+			kind: "boolean",
+			brief: "Automatically generate transcripts when the meeting ends.",
+			optional: true,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
 			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Update meeting body",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "edit <meeting-id>",
-	describe: "Update a meeting",
-	builder,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Update meeting body",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [
+		{
+			placeholder: "meeting-id",
+			brief:
+				"ID of the meeting. Fetch the meeting ID using the create a meeting API.",
+			parse: String,
+		},
+	],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
@@ -269,7 +312,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"transcribe-on-end",
 						"dry-run",
 					],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -482,6 +525,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Updated` });
 			}
 		),
-};
+});
 
 export default command;

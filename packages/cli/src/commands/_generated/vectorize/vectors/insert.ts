@@ -1,10 +1,9 @@
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * insert command
  * @generated from apis/overlays/vectorize.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -18,49 +17,44 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 vectorize vectors insert <index-name>\n\nInserts vectors into the specified index and returns a mutation id corresponding to the vectors enqueued for insertion."
-		)
-		.positional("index-name", {
-			type: "string",
-			description: "Index name",
-			demandOption: true,
-		})
-		.option("unparsable-behavior", {
-			type: "string",
-			description: "Behavior for ndjson parse failures.",
-			choices: ["error", "discard"],
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		})
-		.option("file", {
-			type: "string",
-			description: "Path to a file to upload as the request body",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "insert <index-name>",
 	describe: "Insert Vectors",
-	builder,
+	usage:
+		"$0 vectorize vectors insert <index-name>\n\nInserts vectors into the specified index and returns a mutation id corresponding to the vectors enqueued for insertion.",
+	flags: {
+		"unparsable-behavior": {
+			kind: "enum",
+			brief: "Behavior for ndjson parse failures.",
+			values: ["error", "discard"],
+			optional: true,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+		file: {
+			kind: "parsed",
+			brief: "Path to a file to upload as the request body",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [{ placeholder: "index-name", brief: "Index name", parse: String }],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "vectorize vectors insert",
 				classification: {
 					safeFlags: ["unparsable-behavior", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -133,6 +127,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 			}
 		),
-};
+});
 
 export default command;

@@ -1,11 +1,10 @@
 import operation from "../../_operations/queues/messages/pull.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * pull command
  * @generated from apis/overlays/queues.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -18,49 +17,47 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 queues messages pull <queue-id>\n\nPulls a batch of messages from a Queue for an HTTP pull consumer."
-		)
-		.positional("queue-id", {
-			type: "string",
-			description: "A Resource identifier.",
-			demandOption: true,
-		})
-		.option("batch-size", {
-			type: "number",
-			description: "The maximum number of messages to include in a batch.",
-		})
-		.option("visibility-timeout-ms", {
-			type: "number",
-			description:
-				"The number of milliseconds that a message is exclusively leased. After the timeout, the message becomes available for another attempt.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "pull <queue-id>",
 	describe: "Pull Queue Messages",
-	builder,
+	usage:
+		"$0 queues messages pull <queue-id>\n\nPulls a batch of messages from a Queue for an HTTP pull consumer.",
+	flags: {
+		"batch-size": {
+			kind: "parsed",
+			brief: "The maximum number of messages to include in a batch.",
+			optional: true,
+			parse: Number,
+		},
+		"visibility-timeout-ms": {
+			kind: "parsed",
+			brief:
+				"The number of milliseconds that a message is exclusively leased. After the timeout, the message becomes available for another attempt.",
+			optional: true,
+			parse: Number,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [
+		{ placeholder: "queue-id", brief: "A Resource identifier.", parse: String },
+	],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "queues messages pull",
-				classification: {
-					safeFlags: ["dry-run"],
-				} satisfies ArgClassification<Args>,
+				classification: { safeFlags: ["dry-run"] } satisfies ArgClassification<
+					typeof argv
+				>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -116,6 +113,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Created` });
 			}
 		),
-};
+});
 
 export default command;

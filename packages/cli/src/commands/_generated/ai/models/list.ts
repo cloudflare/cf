@@ -1,11 +1,10 @@
 import operation from "../../_operations/ai/models/list.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * list command
  * @generated from apis/overlays/ai.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -17,45 +16,63 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 ai models list\n\nSearches Workers AI models by name or description."
-		)
-		.option("per-page", { type: "number", description: "Per page" })
-		.option("page", { type: "number", description: "Page" })
-		.option("task", { type: "string", description: "Filter by Task Name." })
-		.option("author", { type: "string", description: "Filter by Author." })
-		.option("source", { type: "number", description: "Filter by Source Id." })
-		.option("hide-experimental", {
-			type: "boolean",
-			description: "Filter to hide experimental models.",
-		})
-		.option("search", { type: "string", description: "Search." })
-		.option("include-deprecated", {
-			type: "boolean",
-			description:
-				"If true, include models for up to three months after their deprecation date. Defaults to false.",
-		})
-		.option("format", {
-			type: "string",
-			description:
-				"If set, return models in the requested marketplace format instead of the default response.",
-			choices: ["openrouter"],
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "list",
 	describe: "Model Search",
-	builder,
+	usage:
+		"$0 ai models list\n\nSearches Workers AI models by name or description.",
+	flags: {
+		"per-page": {
+			kind: "parsed",
+			brief: "Per page",
+			optional: true,
+			parse: Number,
+		},
+		page: { kind: "parsed", brief: "Page", optional: true, parse: Number },
+		task: {
+			kind: "parsed",
+			brief: "Filter by Task Name.",
+			optional: true,
+			parse: String,
+		},
+		author: {
+			kind: "parsed",
+			brief: "Filter by Author.",
+			optional: true,
+			parse: String,
+		},
+		source: {
+			kind: "parsed",
+			brief: "Filter by Source Id.",
+			optional: true,
+			parse: Number,
+		},
+		"hide-experimental": {
+			kind: "boolean",
+			brief: "Filter to hide experimental models.",
+			optional: true,
+		},
+		search: { kind: "parsed", brief: "Search.", optional: true, parse: String },
+		"include-deprecated": {
+			kind: "boolean",
+			brief:
+				"If true, include models for up to three months after their deprecation date. Defaults to false.",
+			optional: true,
+		},
+		format: {
+			kind: "enum",
+			brief:
+				"If set, return models in the requested marketplace format instead of the default response.",
+			values: ["openrouter"],
+			optional: true,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
@@ -67,7 +84,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"format",
 						"dry-run",
 					],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -104,6 +121,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Loaded` });
 			}
 		),
-};
+});
 
 export default command;

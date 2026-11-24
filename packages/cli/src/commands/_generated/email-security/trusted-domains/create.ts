@@ -1,11 +1,10 @@
 import operation from "../../_operations/email-security/trusted-domains/create.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * create command
  * @generated from apis/overlays/email-security.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -20,55 +19,62 @@ import { withProgress } from "#lib/progress.js";
 import { promptForRequiredField } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 email-security trusted-domains create\n\nCreates a new trusted domain pattern. Use for partner domains or approved senders that should bypass recent domain registration and similarity checks. Configure whether it prevents recent domain or spoof dispositions."
-		)
-		.option("comments", { type: "string", description: "The comments field" })
-		.option("is-recent", {
-			type: "boolean",
-			description:
-				"Select to prevent recently registered domains from triggering a Suspicious or Malicious disposition.",
-		})
-		.option("is-regex", {
-			type: "boolean",
-			description:
-				"Whether `pattern` is a regular expression instead of a literal domain.",
-		})
-		.option("is-similarity", {
-			type: "boolean",
-			description:
-				"Select for partner or other approved domains that have similar spelling to your connected domains. Prevents listed domains from triggering a Spoof disposition.",
-		})
-		.option("pattern", {
-			type: "string",
-			description: "The domain pattern to trust, e.g. `example.com`.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Create a trusted domain.",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "create",
 	describe: "Create trusted email domain",
-	builder,
+	usage:
+		"$0 email-security trusted-domains create\n\nCreates a new trusted domain pattern. Use for partner domains or approved senders that should bypass recent domain registration and similarity checks. Configure whether it prevents recent domain or spoof dispositions.",
+	flags: {
+		comments: {
+			kind: "parsed",
+			brief: "The comments field",
+			optional: true,
+			parse: String,
+		},
+		"is-recent": {
+			kind: "boolean",
+			brief:
+				"Select to prevent recently registered domains from triggering a Suspicious or Malicious disposition.",
+			optional: true,
+		},
+		"is-regex": {
+			kind: "boolean",
+			brief:
+				"Whether `pattern` is a regular expression instead of a literal domain.",
+			optional: true,
+		},
+		"is-similarity": {
+			kind: "boolean",
+			brief:
+				"Select for partner or other approved domains that have similar spelling to your connected domains. Prevents listed domains from triggering a Spoof disposition.",
+			optional: true,
+		},
+		pattern: {
+			kind: "parsed",
+			brief: "The domain pattern to trust, e.g. `example.com`.",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Create a trusted domain.",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "email-security trusted-domains create",
 				classification: {
 					safeFlags: ["is-recent", "is-regex", "is-similarity", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -165,6 +171,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Created` });
 			}
 		),
-};
+});
 
 export default command;

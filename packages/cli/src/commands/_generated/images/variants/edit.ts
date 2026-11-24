@@ -1,11 +1,10 @@
 import operation from "../../_operations/images/variants/edit.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * edit command
  * @generated from apis/overlays/images.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -20,63 +19,61 @@ import { withProgress } from "#lib/progress.js";
 import { promptForRequiredEnumField } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 images variants edit <variant-id>\n\nUpdate a CF Images variant. This will purge the cache for all images associated with the variant."
-		)
-		.positional("variant-id", {
-			type: "string",
-			description: "Variant ID",
-			demandOption: true,
-		})
-		.option("never-require-signed-urls", {
-			type: "boolean",
-			description:
-				"Indicates whether the variant can access an image without a signature, regardless of image access control.",
-		})
-		.option("options-fit", {
-			type: "string",
-			description:
-				"The fit property describes how the width and height dimensions should be interpreted.",
-			choices: ["scale-down", "contain", "cover", "crop", "pad"],
-		})
-		.coerce("options-fit", (value) =>
-			resolveFileToken(value, "options-fit", "text")
-		)
-		.option("options-height", {
-			type: "number",
-			description: "Maximum height in image pixels.",
-		})
-		.option("options-metadata", {
-			type: "string",
-			description: "What EXIF data should be preserved in the output image.",
-			choices: ["keep", "copyright", "none"],
-		})
-		.coerce("options-metadata", (value) =>
-			resolveFileToken(value, "options-metadata", "text")
-		)
-		.option("options-width", {
-			type: "number",
-			description: "Maximum width in image pixels.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "edit <variant-id>",
 	describe: "Update a variant",
-	builder,
+	usage:
+		"$0 images variants edit <variant-id>\n\nUpdate a CF Images variant. This will purge the cache for all images associated with the variant.",
+	flags: {
+		"never-require-signed-urls": {
+			kind: "boolean",
+			brief:
+				"Indicates whether the variant can access an image without a signature, regardless of image access control.",
+			optional: true,
+		},
+		"options-fit": {
+			kind: "parsed",
+			brief:
+				"The fit property describes how the width and height dimensions should be interpreted.",
+			optional: true,
+			choices: ["scale-down", "contain", "cover", "crop", "pad"],
+			parse: String,
+			coerce: (value: string) => resolveFileToken(value, "options-fit", "text"),
+		},
+		"options-height": {
+			kind: "parsed",
+			brief: "Maximum height in image pixels.",
+			optional: true,
+			parse: Number,
+		},
+		"options-metadata": {
+			kind: "parsed",
+			brief: "What EXIF data should be preserved in the output image.",
+			optional: true,
+			choices: ["keep", "copyright", "none"],
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "options-metadata", "text"),
+		},
+		"options-width": {
+			kind: "parsed",
+			brief: "Maximum width in image pixels.",
+			optional: true,
+			parse: Number,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [{ placeholder: "variant-id", brief: "Variant ID", parse: String }],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
@@ -88,7 +85,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"options-metadata",
 						"dry-run",
 					],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -184,6 +181,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Updated` });
 			}
 		),
-};
+});
 
 export default command;

@@ -1,11 +1,10 @@
 import operation from "../../../_operations/zero-trust/access/tags/update.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * update command
  * @generated from apis/overlays/zero-trust.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -20,47 +19,46 @@ import { withProgress } from "#lib/progress.js";
 import { promptForRequiredField } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage("$0 zero-trust access tags update <tag-name>\n\nUpdate a tag")
-		.positional("tag-name", {
-			type: "string",
-			description: "The name of the tag",
-			demandOption: true,
-		})
-		.option("created-at", {
-			type: "string",
-			description: "The created_at field",
-		})
-		.option("name", { type: "string", description: "The name of the tag" })
-		.option("updated-at", {
-			type: "string",
-			description: "The updated_at field",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "A tag",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "update <tag-name>",
 	describe: "Update a tag",
-	builder,
+	usage: "$0 zero-trust access tags update <tag-name>\n\nUpdate a tag",
+	flags: {
+		"created-at": {
+			kind: "parsed",
+			brief: "The created_at field",
+			optional: true,
+			parse: String,
+		},
+		name: {
+			kind: "parsed",
+			brief: "The name of the tag",
+			optional: true,
+			parse: String,
+		},
+		"updated-at": {
+			kind: "parsed",
+			brief: "The updated_at field",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: { kind: "parsed", brief: "A tag", optional: true, parse: String },
+	},
+	operands: [
+		{ placeholder: "tag-name", brief: "The name of the tag", parse: String },
+	],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "zero-trust access tags update",
-				classification: {
-					safeFlags: ["dry-run"],
-				} satisfies ArgClassification<Args>,
+				classification: { safeFlags: ["dry-run"] } satisfies ArgClassification<
+					typeof argv
+				>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -154,6 +152,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Updated` });
 			}
 		),
-};
+});
 
 export default command;

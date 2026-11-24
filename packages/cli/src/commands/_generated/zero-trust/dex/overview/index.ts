@@ -1,22 +1,17 @@
 import $tests from "./tests/index.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * overview command group
  * @generated from apis/overlays/zero-trust.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "overview",
 	describe: "Operations for dex.overview",
 
-	builder: (yargs) => {
-		return yargs
-			.command($tests)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		tests: $tests,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

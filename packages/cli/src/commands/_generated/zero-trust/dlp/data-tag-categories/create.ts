@@ -1,11 +1,10 @@
 import operation from "../../../_operations/zero-trust/dlp/data-tag-categories/create.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * create command
  * @generated from apis/overlays/zero-trust.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -20,49 +19,57 @@ import { withProgress } from "#lib/progress.js";
 import { promptForRequiredField } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 zero-trust dlp data-tag-categories create\n\nCreates a data tag category, optionally from a template."
-		)
-		.option("description", {
-			type: "string",
-			description: "The description field",
-		})
-		.option("name", { type: "string", description: "The name field" })
-		.option("tags", {
-			type: "string",
-			description:
-				'Tags to create with the category. Mutually exclusive with `template_id`. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"name": string, "description"?: (string | null)}]. ? marks optional keys.',
-		})
-		.option("template-id", {
-			type: "string",
-			description: "The template_id field",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Attributes of the new data tag category.",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "create",
 	describe: "Creates a new data tag category.",
-	builder,
+	usage:
+		"$0 zero-trust dlp data-tag-categories create\n\nCreates a data tag category, optionally from a template.",
+	flags: {
+		description: {
+			kind: "parsed",
+			brief: "The description field",
+			optional: true,
+			parse: String,
+		},
+		name: {
+			kind: "parsed",
+			brief: "The name field",
+			optional: true,
+			parse: String,
+		},
+		tags: {
+			kind: "parsed",
+			brief:
+				'Tags to create with the category. Mutually exclusive with `template_id`. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"name": string, "description"?: (string | null)}]. ? marks optional keys.',
+			optional: true,
+			parse: String,
+		},
+		"template-id": {
+			kind: "parsed",
+			brief: "The template_id field",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Attributes of the new data tag category.",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "zero-trust dlp data-tag-categories create",
-				classification: {
-					safeFlags: ["dry-run"],
-				} satisfies ArgClassification<Args>,
+				classification: { safeFlags: ["dry-run"] } satisfies ArgClassification<
+					typeof argv
+				>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -150,6 +157,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Created` });
 			}
 		),
-};
+});
 
 export default command;

@@ -1,6 +1,6 @@
 # cf (`packages/cli`)
 
-Cloudflare CLI. Stricli runtime with yargs-compatible command declarations, TypeScript, ESM, Node ≥ 22.
+Cloudflare CLI. Native Stricli declarations for generated commands, a compatibility builder for hand-written commands, TypeScript, ESM, Node ≥ 22.
 
 This package IS the CLI. It also owns the generator that produces its
 per-API command surface: the forge plugin in `generator/plugin/`, which
@@ -181,7 +181,7 @@ cf resolves account parameters itself.
 
 ## Generated (DO NOT EDIT)
 
-- `src/commands/_generated/` — yargs command files, `_operations/` operation
+- `src/commands/_generated/` — Stricli command and route-map files, `_operations/` operation
   literals, and `_meta/*.json`
 
 The output is tracked in git, owned by `pnpm generate`, and must not be hand-edited. Shell-completion scripts are no longer generated — `cf complete` (backed by `@bomb.sh/tab`) reads the complete generated and hand-written command tree from `_meta/commands.json`. `_meta/hand-written-commands.json` republishes the hand-written subset with root/leaf/subgroup/override provenance.

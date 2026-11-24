@@ -155,7 +155,7 @@ the document; the command generator is a forge plugin that lives here, in
 WebAssembly component that forge runs. It walks forge's model of the
 operations, each top-level group's commands in turn, and emits:
 
-- `src/commands/_generated/<resource>/<sub>/<op>.ts` — yargs command modules
+- `src/commands/_generated/<resource>/<sub>/<op>.ts` — Stricli API command declarations
 - `src/commands/_generated/_operations/<resource>/<group>/<op>.ts` — one
   module per method, at its path in the group tree, whose default export is
   its `Operation` (`d1.database.query` in `_operations/d1/database/query.ts`);
@@ -363,7 +363,7 @@ Vite+ Pack preserves those dynamic root imports as code-split chunks (and may fa
 
 ### Generator output (DO NOT EDIT)
 
-- `packages/cli/src/commands/_generated/` — yargs modules, `_operations/`
+- `packages/cli/src/commands/_generated/` — Stricli command and route-map modules, `_operations/`
   operation literals, and `_meta/` JSON
 
 Tracked in git and never safe to patch by hand. Every `pnpm generate` cleans, rewrites, and Vite+-formats `_generated/`. Make changes in Forge's OpenAPI or in the generator plugin (`packages/cli/generator/plugin/`), then regenerate and commit the resulting artifacts.
@@ -757,7 +757,7 @@ break at sunset; surfacing them encourages users to adopt doomed paths.
 
 ### Argument parsing
 
-`src/lib/stricli.ts` collects the selected command’s builder declarations, resolves aliases, and constructs a Stricli command for the flags and positionals. Unknown options are rejected before startup unless the command explicitly accepts dynamic flags or forwards arguments. Keep the declarations authoritative; do not add product-specific allowlists to the parser. Generated and hand-written modules retain the yargs builder **types**, not the runtime dependency.
+`src/lib/api-command.ts` builds Stricli commands and route maps from generated declarations. Flag kinds, parsers, defaults, variadic flags, and named operands determine generated handler input types. `src/lib/stricli.ts` preserves cf help, error messages, aliases, and token spellings that Stricli does not accept natively. Hand-written commands can still use builder declarations and yargs types; neither path loads the yargs runtime. Unknown options are rejected before startup unless a command explicitly accepts or forwards them.
 
 ### Output
 

@@ -1,11 +1,10 @@
 import operation from "../../_operations/artifacts/namespaces/create.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * create command
  * @generated from apis/overlays/artifacts.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -20,45 +19,47 @@ import { withProgress } from "#lib/progress.js";
 import { promptForRequiredField } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 artifacts namespaces create\n\nCreates an empty Artifacts namespace for an account."
-		)
-		.option("jurisdiction", {
-			type: "string",
-			description: "The jurisdiction field",
-			choices: ["unrestricted", "us", "eu", "fedramp"],
-			default: "unrestricted",
-		})
-		.coerce("jurisdiction", (value) =>
-			resolveFileToken(value, "jurisdiction", "text")
-		)
-		.option("namespace", { type: "string", description: "The namespace field" })
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "create",
 	describe: "Create a namespace",
-	builder,
+	usage:
+		"$0 artifacts namespaces create\n\nCreates an empty Artifacts namespace for an account.",
+	flags: {
+		jurisdiction: {
+			kind: "parsed",
+			brief: "The jurisdiction field",
+			default: "unrestricted",
+			choices: ["unrestricted", "us", "eu", "fedramp"],
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "jurisdiction", "text"),
+		},
+		namespace: {
+			kind: "parsed",
+			brief: "The namespace field",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "artifacts namespaces create",
 				classification: {
 					safeFlags: ["jurisdiction", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -126,6 +127,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Created` });
 			}
 		),
-};
+});
 
 export default command;

@@ -1,27 +1,22 @@
 import $list from "./list.js";
 import $tests from "./tests/index.js";
 import $trend from "./trend.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * pages command group
  * @generated from apis/overlays/speed.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "pages",
 	describe:
 		"Tested pages with their performance history, trends, and individual test results",
 
-	builder: (yargs) => {
-		return yargs
-			.command($list)
-			.command($trend)
-			.command($tests)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		list: $list,
+		trend: $trend,
+		tests: $tests,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

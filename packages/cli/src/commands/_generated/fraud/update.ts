@@ -1,11 +1,10 @@
 import operation from "../_operations/fraud/update.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * update command
  * @generated from apis/overlays/fraud.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import { createCommandClient, getZoneId } from "#lib/auth.js";
 import { compactBody, parseBody } from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
@@ -14,73 +13,88 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 fraud update\n\nUpdate Fraud Detection settings for a zone. Notes on `username_expressions` behavior: - If omitted or set to null, expressions are not modified. - If provided as an empty array `[]`, all expressions will be cleared."
-		)
-		.option("authentication-settings-failure-criteria-kind", {
-			type: "string",
-			description:
+const command = apiCommand({
+	command: "update",
+	describe: "Update Fraud Detection Settings",
+	usage:
+		"$0 fraud update\n\nUpdate Fraud Detection settings for a zone. Notes on `username_expressions` behavior: - If omitted or set to null, expressions are not modified. - If provided as an empty array `[]`, all expressions will be cleared.",
+	flags: {
+		"authentication-settings-failure-criteria-kind": {
+			kind: "parsed",
+			brief:
 				"The type of criterion. Currently only `status_code` is supported.",
+			optional: true,
 			choices: ["status_code"],
-		})
-		.coerce("authentication-settings-failure-criteria-kind", (value) =>
-			resolveFileToken(
-				value,
-				"authentication-settings-failure-criteria-kind",
-				"text"
-			)
-		)
-		.option("authentication-settings-failure-criteria-status-codes", {
-			type: "string",
-			array: true,
-			description:
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(
+					value,
+					"authentication-settings-failure-criteria-kind",
+					"text"
+				),
+		},
+		"authentication-settings-failure-criteria-status-codes": {
+			kind: "parsed",
+			brief:
 				"HTTP status codes to match against the origin response.\n- Maximum of 10 codes per criterion.\n- Each code must be a valid HTTP status code (100-599).\n- Codes are deduplicated and sorted on save.\n- Omit to leave unchanged on update.\n- Provide an empty array `[]` to clear codes on update.\n",
-		})
-		.option("authentication-settings-success-criteria-kind", {
-			type: "string",
-			description:
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"authentication-settings-success-criteria-kind": {
+			kind: "parsed",
+			brief:
 				"The type of criterion. Currently only `status_code` is supported.",
+			optional: true,
 			choices: ["status_code"],
-		})
-		.coerce("authentication-settings-success-criteria-kind", (value) =>
-			resolveFileToken(
-				value,
-				"authentication-settings-success-criteria-kind",
-				"text"
-			)
-		)
-		.option("authentication-settings-success-criteria-status-codes", {
-			type: "string",
-			array: true,
-			description:
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(
+					value,
+					"authentication-settings-success-criteria-kind",
+					"text"
+				),
+		},
+		"authentication-settings-success-criteria-status-codes": {
+			kind: "parsed",
+			brief:
 				"HTTP status codes to match against the origin response.\n- Maximum of 10 codes per criterion.\n- Each code must be a valid HTTP status code (100-599).\n- Codes are deduplicated and sorted on save.\n- Omit to leave unchanged on update.\n- Provide an empty array `[]` to clear codes on update.\n",
-		})
-		.option("user-profiles", {
-			type: "string",
-			description: "Whether Fraud User Profiles is enabled for the zone.",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"user-profiles": {
+			kind: "parsed",
+			brief: "Whether Fraud User Profiles is enabled for the zone.",
+			optional: true,
 			choices: ["enabled", "disabled"],
-		})
-		.coerce("user-profiles", (value) =>
-			resolveFileToken(value, "user-profiles", "text")
-		)
-		.option("username-expressions", {
-			type: "string",
-			array: true,
-			description:
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "user-profiles", "text"),
+		},
+		"username-expressions": {
+			kind: "parsed",
+			brief:
 				"List of expressions to detect usernames in write HTTP requests.\n\n- Maximum of 10 expressions.\n- Omit or set to null to leave unchanged on update.\n- Provide an empty array `[]` to clear all expressions on update.\n- Invalid expressions will result in a 10400 Bad Request with details in the `messages` array.\n",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
 			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		})
-		.check((argv) => {
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [],
+	rules(rules) {
+		rules.check((argv) => {
 			const groupSet = [
 				"authentication-settings-failure-criteria-kind",
 				"authentication-settings-failure-criteria-status-codes",
@@ -96,8 +110,8 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				}
 			}
 			return true;
-		})
-		.check((argv) => {
+		});
+		rules.check((argv) => {
 			const groupSet = [
 				"authentication-settings-success-criteria-kind",
 				"authentication-settings-success-criteria-status-codes",
@@ -114,14 +128,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			}
 			return true;
 		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "update",
-	describe: "Update Fraud Detection Settings",
-	builder,
+	},
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
@@ -133,7 +140,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"user-profiles",
 						"dry-run",
 					],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -216,6 +223,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Updated` });
 			}
 		),
-};
+});
 
 export default command;

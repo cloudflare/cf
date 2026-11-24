@@ -5,31 +5,26 @@ import $peek from "./peek.js";
 import $pull from "./pull.js";
 import $purge from "./purge.js";
 import $push from "./push.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * messages command group
  * @generated from apis/overlays/queues.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "messages",
 	describe:
 		"Push messages to a queue and pull or acknowledge them from consumers",
 
-	builder: (yargs) => {
-		return yargs
-			.command($ack)
-			.command($bulkpush)
-			.command($extendleases)
-			.command($peek)
-			.command($pull)
-			.command($purge)
-			.command($push)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		ack: $ack,
+		"bulk-push": $bulkpush,
+		"extend-leases": $extendleases,
+		peek: $peek,
+		pull: $pull,
+		purge: $purge,
+		push: $push,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

@@ -1,11 +1,10 @@
 import operation from "../../_operations/reporting/industry/update.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * update command
  * @generated from apis/overlays/reporting.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -20,14 +19,16 @@ import { withProgress } from "#lib/progress.js";
 import { promptForRequiredEnumField } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 reporting industry update\n\nUpdates the industry classification for an account."
-		)
-		.option("industry", {
-			type: "string",
-			description: "The industry of the account",
+const command = apiCommand({
+	command: "update",
+	describe: "Update an account industry",
+	usage:
+		"$0 reporting industry update\n\nUpdates the industry classification for an account.",
+	flags: {
+		industry: {
+			kind: "parsed",
+			brief: "The industry of the account",
+			optional: true,
 			choices: [
 				"accounting",
 				"adult_entertainment",
@@ -114,32 +115,29 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"travel_lodging_hospitality",
 				"wholesale",
 			],
-		})
-		.coerce("industry", (value) => resolveFileToken(value, "industry", "text"))
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
+			parse: String,
+			coerce: (value: string) => resolveFileToken(value, "industry", "text"),
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
 			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "update",
-	describe: "Update an account industry",
-	builder,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "reporting industry update",
 				classification: {
 					safeFlags: ["industry", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -283,6 +281,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Updated` });
 			}
 		),
-};
+});
 
 export default command;

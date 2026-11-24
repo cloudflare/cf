@@ -9,35 +9,30 @@ import $list from "./list.js";
 import $netflowconfig from "./netflow-config/index.js";
 import $update from "./update.js";
 import $wans from "./wans/index.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * sites command group
  * @generated from apis/overlays/magic-transit.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "sites",
 	describe:
 		"Magic WAN branch sites — base CRUD, LAN/WAN interface configuration, ACLs, connectors, app configuration, and NetFlow config",
 
-	builder: (yargs) => {
-		return yargs
-			.command($create)
-			.command($delete)
-			.command($edit)
-			.command($get)
-			.command($list)
-			.command($update)
-			.command($acls)
-			.command($appconfiguration)
-			.command($lans)
-			.command($netflowconfig)
-			.command($wans)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		create: $create,
+		delete: $delete,
+		edit: $edit,
+		get: $get,
+		list: $list,
+		update: $update,
+		acls: $acls,
+		"app-configuration": $appconfiguration,
+		lans: $lans,
+		"netflow-config": $netflowconfig,
+		wans: $wans,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

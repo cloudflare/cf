@@ -1,11 +1,10 @@
 import operation from "../../../_operations/zero-trust/risk-scoring/integrations/create.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * create command
  * @generated from apis/overlays/zero-trust.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -23,53 +22,54 @@ import {
 } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 zero-trust risk-scoring integrations create\n\nCreates a new Zero Trust risk score integration, connecting external risk signals to Cloudflare's risk scoring system."
-		)
-		.option("integration-type", {
-			type: "string",
-			description: "The integration_type field",
-			choices: ["Okta"],
-		})
-		.coerce("integration-type", (value) =>
-			resolveFileToken(value, "integration-type", "text")
-		)
-		.option("reference-id", {
-			type: "string",
-			description:
-				"A reference id that can be supplied by the client. Currently this should be set to the Access-Okta IDP ID (a UUIDv4).\nhttps://developers.cloudflare.com/api/operations/access-identity-providers-get-an-access-identity-provider",
-		})
-		.option("tenant-url", {
-			type: "string",
-			description:
-				'The base url of the tenant, e.g. "https://tenant.okta.com".',
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "create",
 	describe: "Create new risk score integration.",
-	builder,
+	usage:
+		"$0 zero-trust risk-scoring integrations create\n\nCreates a new Zero Trust risk score integration, connecting external risk signals to Cloudflare's risk scoring system.",
+	flags: {
+		"integration-type": {
+			kind: "parsed",
+			brief: "The integration_type field",
+			optional: true,
+			choices: ["Okta"],
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "integration-type", "text"),
+		},
+		"reference-id": {
+			kind: "parsed",
+			brief:
+				"A reference id that can be supplied by the client. Currently this should be set to the Access-Okta IDP ID (a UUIDv4).\nhttps://developers.cloudflare.com/api/operations/access-identity-providers-get-an-access-identity-provider",
+			optional: true,
+			parse: String,
+		},
+		"tenant-url": {
+			kind: "parsed",
+			brief: 'The base url of the tenant, e.g. "https://tenant.okta.com".',
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "zero-trust risk-scoring integrations create",
 				classification: {
 					safeFlags: ["integration-type", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -154,6 +154,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Created` });
 			}
 		),
-};
+});
 
 export default command;

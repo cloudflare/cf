@@ -1,11 +1,10 @@
 import operation from "../../../../_operations/cloudforce-one/threat-intel/events/queries/update.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * update command
  * @generated from apis/overlays/cloudforce-one.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -19,61 +18,64 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 cloudforce-one threat-intel events queries update <query-id>\n\nUpdates the given fields of a saved event query."
-		)
-		.positional("query-id", {
-			type: "string",
-			description: "Event query ID",
-			demandOption: true,
-		})
-		.option("alert-enabled", {
-			type: "boolean",
-			description:
-				"Deprecated and ignored: saved-query alerting and rules were removed.",
-		})
-		.option("alert-rollup-enabled", {
-			type: "boolean",
-			description:
-				"Deprecated and ignored: saved-query alerting and rules were removed.",
-		})
-		.option("name", {
-			type: "string",
-			description: "Unique name for the saved query",
-		})
-		.option("query-json", {
-			type: "string",
-			description: "JSON string containing the query parameters",
-		})
-		.option("rule-enabled", {
-			type: "boolean",
-			description:
-				"Deprecated and ignored: saved-query alerting and rules were removed.",
-		})
-		.option("rule-scope", {
-			type: "string",
-			description:
-				"Deprecated and ignored: saved-query alerting and rules were removed.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "update <query-id>",
 	describe: "Update a saved event query",
-	builder,
+	usage:
+		"$0 cloudforce-one threat-intel events queries update <query-id>\n\nUpdates the given fields of a saved event query.",
+	flags: {
+		"alert-enabled": {
+			kind: "boolean",
+			brief:
+				"Deprecated and ignored: saved-query alerting and rules were removed.",
+			optional: true,
+		},
+		"alert-rollup-enabled": {
+			kind: "boolean",
+			brief:
+				"Deprecated and ignored: saved-query alerting and rules were removed.",
+			optional: true,
+		},
+		name: {
+			kind: "parsed",
+			brief: "Unique name for the saved query",
+			optional: true,
+			parse: String,
+		},
+		"query-json": {
+			kind: "parsed",
+			brief: "JSON string containing the query parameters",
+			optional: true,
+			parse: String,
+		},
+		"rule-enabled": {
+			kind: "boolean",
+			brief:
+				"Deprecated and ignored: saved-query alerting and rules were removed.",
+			optional: true,
+		},
+		"rule-scope": {
+			kind: "parsed",
+			brief:
+				"Deprecated and ignored: saved-query alerting and rules were removed.",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [
+		{ placeholder: "query-id", brief: "Event query ID", parse: String },
+	],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
@@ -85,7 +87,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"rule-enabled",
 						"dry-run",
 					],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -173,6 +175,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Updated` });
 			}
 		),
-};
+});
 
 export default command;

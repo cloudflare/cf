@@ -11,6 +11,7 @@ import { resolveFileToken } from "../../../lib/input-validation.js";
 import { generateFiles } from "../../helpers/cli-plugin.js";
 import { commandParser } from "../../helpers/command-parser.js";
 import type { CommandModule } from "yargs";
+import { apiCommand } from "#lib/api-command.js";
 
 type Json = Record<string, unknown>;
 const id = "b07a1f7c-1b34-4fba-9c57-f8033b913973";
@@ -84,10 +85,11 @@ function command(code: string) {
 	const preview = vi.fn((_detail: { body: unknown }) => {});
 	const source = stripTypeScriptTypes(
 		code
-			.slice(code.indexOf("function builder"))
+			.replace(/^import[\s\S]*?;\n/gm, "")
 			.replace("export default command;", "command;")
 	);
 	const module = new Script(source).runInNewContext({
+		apiCommand,
 		compactBody,
 		parseBody,
 		setNestedValue,
@@ -254,7 +256,7 @@ describe("read-only request properties", () => {
 		});
 		const code = files.get("things/create.ts") ?? "";
 		expect(code).not.toContain("server_top");
-		expect(code).not.toContain(".option('settings-scope-server-id'");
+		expect(code).not.toContain('"settings-scope-server-id": {');
 		const start = code.indexOf("const bodyUnions:");
 		const definition = code.slice(start, code.indexOf(";\n", start) + 1);
 		const constraints = new Script(
@@ -302,7 +304,7 @@ describe("read-only request properties", () => {
 		});
 		const code = files.get("things/create.ts") ?? "";
 		expect(code).not.toContain("validateBodyUnions");
-		expect(code).not.toContain(".option('settings-scope-kind'");
+		expect(code).not.toContain('"settings-scope-kind": {');
 		const c = command(code);
 		await c.run([
 			"create",

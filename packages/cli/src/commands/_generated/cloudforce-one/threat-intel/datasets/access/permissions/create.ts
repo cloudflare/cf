@@ -1,11 +1,10 @@
 import operation from "../../../../../_operations/cloudforce-one/threat-intel/datasets/access/permissions/create.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * create command
  * @generated from apis/overlays/cloudforce-one.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -23,51 +22,50 @@ import {
 } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 cloudforce-one threat-intel datasets access permissions create <dataset-id>\n\nGives an account or account group (`subjectType` and `subjectId`) `read` or `write` access to a dataset."
-		)
-		.positional("dataset-id", {
-			type: "string",
-			description: "Dataset UUID.",
-			demandOption: true,
-		})
-		.option("role", {
-			type: "string",
-			description: "The role field",
-			choices: ["read", "write"],
-		})
-		.coerce("role", (value) => resolveFileToken(value, "role", "text"))
-		.option("subject-id", {
-			type: "string",
-			description: "The subjectId field",
-		})
-		.option("subject-type", {
-			type: "string",
-			description: "The subjectType field",
-			choices: ["account", "group"],
-		})
-		.coerce("subject-type", (value) =>
-			resolveFileToken(value, "subject-type", "text")
-		)
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "create <dataset-id>",
 	describe: "Grant access to a dataset",
-	builder,
+	usage:
+		"$0 cloudforce-one threat-intel datasets access permissions create <dataset-id>\n\nGives an account or account group (`subjectType` and `subjectId`) `read` or `write` access to a dataset.",
+	flags: {
+		role: {
+			kind: "parsed",
+			brief: "The role field",
+			optional: true,
+			choices: ["read", "write"],
+			parse: String,
+			coerce: (value: string) => resolveFileToken(value, "role", "text"),
+		},
+		"subject-id": {
+			kind: "parsed",
+			brief: "The subjectId field",
+			optional: true,
+			parse: String,
+		},
+		"subject-type": {
+			kind: "parsed",
+			brief: "The subjectType field",
+			optional: true,
+			choices: ["account", "group"],
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "subject-type", "text"),
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [
+		{ placeholder: "dataset-id", brief: "Dataset UUID.", parse: String },
+	],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
@@ -75,7 +73,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					"cloudforce-one threat-intel datasets access permissions create",
 				classification: {
 					safeFlags: ["role", "subject-type", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -168,6 +166,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Created` });
 			}
 		),
-};
+});
 
 export default command;

@@ -1,11 +1,10 @@
 import operation from "../../../../_operations/zero-trust/dlp/email/account-mapping/create.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * create command
  * @generated from apis/overlays/zero-trust.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -21,37 +20,6 @@ import { withProgress } from "#lib/progress.js";
 import { promptForRequiredEnumField } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 zero-trust dlp email account-mapping create\n\nCreates a mapping between a Cloudflare account and an email provider for DLP email scanning integration."
-		)
-		.option("auth-requirements-allowed-microsoft-organizations", {
-			type: "string",
-			array: true,
-			description:
-				"The auth_requirements.allowed_microsoft_organizations field",
-		})
-		.option("auth-requirements-type", {
-			type: "string",
-			description: "The auth_requirements.type field",
-			choices: ["Org", "NoAuth"],
-		})
-		.coerce("auth-requirements-type", (value) =>
-			resolveFileToken(value, "auth-requirements-type", "text")
-		)
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Account mapping.",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
 const bodyUnions: Parameters<typeof validateBodyUnions>[1] = [
 	{
 		path: ["auth_requirements"],
@@ -85,17 +53,48 @@ const bodyUnions: Parameters<typeof validateBodyUnions>[1] = [
 	},
 ];
 
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "create",
 	describe: "Create mapping",
-	builder,
+	usage:
+		"$0 zero-trust dlp email account-mapping create\n\nCreates a mapping between a Cloudflare account and an email provider for DLP email scanning integration.",
+	flags: {
+		"auth-requirements-allowed-microsoft-organizations": {
+			kind: "parsed",
+			brief: "The auth_requirements.allowed_microsoft_organizations field",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"auth-requirements-type": {
+			kind: "parsed",
+			brief: "The auth_requirements.type field",
+			optional: true,
+			choices: ["Org", "NoAuth"],
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "auth-requirements-type", "text"),
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Account mapping.",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "zero-trust dlp email account-mapping create",
 				classification: {
 					safeFlags: ["auth-requirements-type", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -168,6 +167,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Created` });
 			}
 		),
-};
+});
 
 export default command;

@@ -2,27 +2,22 @@ import $regionaltieredcache from "./regional-tiered-cache/index.js";
 import $reserve from "./reserve/index.js";
 import $smarttieredcache from "./smart-tiered-cache/index.js";
 import $variants from "./variants/index.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * settings command group
  * @generated from apis/overlays/cache.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "settings",
 	describe: "Configure Cache Reserve, tiered caching, and variant serving",
 
-	builder: (yargs) => {
-		return yargs
-			.command($regionaltieredcache)
-			.command($reserve)
-			.command($smarttieredcache)
-			.command($variants)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		"regional-tiered-cache": $regionaltieredcache,
+		reserve: $reserve,
+		"smart-tiered-cache": $smarttieredcache,
+		variants: $variants,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

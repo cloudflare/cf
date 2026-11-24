@@ -21,7 +21,7 @@ import {
 import { requiresConfirmation } from "./confirmation.js";
 import {
 	bodyOptionDescription,
-	builderLines,
+	parameterSource,
 	isPlainTextBody,
 	JSON_BODY_DESCRIPTION,
 } from "./emit/builder.js";
@@ -475,7 +475,7 @@ class Walk {
 		);
 		const handlerLines = handler(ctx);
 		const importSet = imports(ctx);
-		const builder = builderLines(ctx);
+		const parameters = parameterSource(ctx);
 		const usage = leafUsage(
 			method,
 			resource,
@@ -483,12 +483,10 @@ class Walk {
 			command,
 			ctx.hasAccountOrZoneScope
 		);
-		const builderBody = `return yargs\n      .usage(${quote(usage)})\n${builder.join("\n")};`;
 		const declarations =
-			"type Args = InferArgs<typeof builder>;\n" +
-			((op.bodyUnions?.length ?? 0) > 0 && ctx.derived.hasBodyParams
+			(op.bodyUnions?.length ?? 0) > 0 && ctx.derived.hasBodyParams
 				? `const bodyUnions: Parameters<typeof validateBodyUnions>[1] = ${stringify(op.bodyUnions ?? [])};\n`
-				: "");
+				: "";
 		const telemetryPath =
 			group !== undefined && group !== ""
 				? `${resource} ${group.replaceAll("/", " ")} ${method.name}`
@@ -508,27 +506,24 @@ class Walk {
  */
 ${importSet.render().join("\n")}
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-  ${builderBody}
-}
-
 ${declarations}
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
   command: '${command}',
   describe: '${escapeSingle(summary(method))}',
-  builder,
+  usage: ${quote(usage)},
+  ${parameters.join("\n")}
   handler: async (argv): Promise<void> =>
     runWithTelemetry(
       {
         command: '${escapeSingle(telemetryPath)}',
-        classification: { safeFlags: ${safe}${aliases} } satisfies ArgClassification<Args>,
+        classification: { safeFlags: ${safe}${aliases} } satisfies ArgClassification<typeof argv>,
       },
       argv as Record<string, unknown>,
       async () => {
 ${handlerLines.join("\n")}
       },
     ),
-};
+});
 
 export default command;
 `;
@@ -669,14 +664,14 @@ export default command;
 		// A hand-written command handles `--dry-run` by the strategy it
 		// chose, which the index wraps it with.
 		let wraps = false;
-		const register = (v: string, dryRun: DryRun | undefined) => {
+		const register = (name: string, v: string, dryRun: DryRun | undefined) => {
 			if (dryRun === undefined) {
-				registrations.push(`    .command(${v})`);
+				registrations.push(`    '${name}': ${v},`);
 				return;
 			}
 			wraps = true;
 			registrations.push(
-				`    .command(withHandWrittenDryRun(${v}, '${String(dryRun)}'))`
+				`    '${name}': withHandWrittenDryRun(${v}, '${String(dryRun)}'),`
 			);
 		};
 		const parent = trimEndMatches(prefix, "/");
@@ -691,7 +686,7 @@ export default command;
 					: `./${cmd}.js`);
 			importLines.push(`import ${v} from '${module}';`);
 			const leaf = this.hand.leaves(parent).find((l) => l.name === cmd);
-			register(v, leaf?.dryRun);
+			register(cmd, v, leaf?.dryRun);
 		}
 		for (const [name, handWritten] of subgroups) {
 			const v = `$${name.replaceAll("-", "")}`;
@@ -700,7 +695,7 @@ export default command;
 					? `#commands/${handWritten.dir}/index.js`
 					: `./${name}/index.js`;
 			importLines.push(`import ${v} from '${module}';`);
-			register(v, handWritten?.dryRun);
+			register(name, v, handWritten?.dryRun);
 		}
 		const wrapper = wraps
 			? "import { withHandWrittenDryRun } from '#lib/hand-written-dry-run.js';"
@@ -709,23 +704,18 @@ export default command;
  * ${header}
  * @generated from apis/overlays/${resource}.ts
  */
-import type { CommandModule } from 'yargs';
-import type { CommonYargsOptions } from '#lib/cli-types.js';
+import { apiGroup } from '#lib/api-command.js';
 ${wrapper}
 ${importLines.join("\n")}
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
   command: '${command}',
   describe: '${escapeSingle(describe)}',
 
-  builder: (yargs) => {
-    return yargs
+  routes: {
 ${registrations.join("\n")}
-    .demandCommand(1, "Please specify a subcommand");
   },
-
-  handler: () => {},
-};
+});
 
 export default command;
 `;

@@ -1,11 +1,10 @@
 import operation from "../../../../_operations/workers-for-platforms/dispatch-namespaces/scripts/secrets/get.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * get command
  * @generated from apis/overlays/workers-for-platforms.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -17,44 +16,40 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 workers-for-platforms dispatch-namespaces scripts secrets get <secret-name>\n\nGet a given secret binding (value omitted) on a script uploaded to a Workers for Platforms dispatch namespace."
-		)
-		.positional("secret-name", {
-			type: "string",
-			description: "A JavaScript variable name for the secret binding.",
-			demandOption: true,
-		})
-		.option("dispatch-namespace", {
-			type: "string",
-			description: "Name of the Workers for Platforms dispatch namespace.",
-			demandOption: true,
-		})
-		.option("script-name", {
-			type: "string",
-			description: "Name of the script.",
-			demandOption: true,
-		})
-		.option("url-encoded", {
-			type: "boolean",
-			description:
-				"Flag that indicates whether the secret name is URL encoded.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "get <secret-name>",
 	describe: "Get Workers for Platforms Script Secret",
-	builder,
+	usage:
+		"$0 workers-for-platforms dispatch-namespaces scripts secrets get <secret-name>\n\nGet a given secret binding (value omitted) on a script uploaded to a Workers for Platforms dispatch namespace.",
+	flags: {
+		"dispatch-namespace": {
+			kind: "parsed",
+			brief: "Name of the Workers for Platforms dispatch namespace.",
+			parse: String,
+		},
+		"script-name": {
+			kind: "parsed",
+			brief: "Name of the script.",
+			parse: String,
+		},
+		"url-encoded": {
+			kind: "boolean",
+			brief: "Flag that indicates whether the secret name is URL encoded.",
+			optional: true,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+	},
+	operands: [
+		{
+			placeholder: "secret-name",
+			brief: "A JavaScript variable name for the secret binding.",
+			parse: String,
+		},
+	],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
@@ -62,7 +57,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					"workers-for-platforms dispatch-namespaces scripts secrets get",
 				classification: {
 					safeFlags: ["url-encoded", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -102,6 +97,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Loaded` });
 			}
 		),
-};
+});
 
 export default command;

@@ -1,22 +1,17 @@
 import $updates from "./updates/index.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * scim command group
  * @generated from apis/overlays/zero-trust.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "scim",
 	describe: "Operations for access.logs.scim",
 
-	builder: (yargs) => {
-		return yargs
-			.command($updates)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		updates: $updates,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

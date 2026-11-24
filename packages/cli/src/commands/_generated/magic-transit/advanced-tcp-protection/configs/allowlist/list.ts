@@ -1,11 +1,10 @@
 import operation from "../../../../_operations/magic-transit/advanced-tcp-protection/configs/allowlist/list.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * list command
  * @generated from apis/overlays/magic-transit.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -17,49 +16,51 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 magic-transit advanced-tcp-protection configs allowlist list\n\nList all allowlist prefixes for an account."
-		)
-		.option("page", {
-			type: "number",
-			description: "The page number for pagination. Defaults to 1.",
-		})
-		.option("per-page", {
-			type: "number",
-			description:
-				"The number of items per page. Must be between 10 and 1000. Defaults to 25.",
-		})
-		.option("order", {
-			type: "string",
-			description: "The field to order by. Defaults to 'prefix'.",
-		})
-		.option("direction", {
-			type: "string",
-			description:
-				"The direction of ordering (ASC or DESC). Defaults to 'ASC'.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "list",
 	describe: "List all allowlist prefixes.",
-	builder,
+	usage:
+		"$0 magic-transit advanced-tcp-protection configs allowlist list\n\nList all allowlist prefixes for an account.",
+	flags: {
+		page: {
+			kind: "parsed",
+			brief: "The page number for pagination. Defaults to 1.",
+			optional: true,
+			parse: Number,
+		},
+		"per-page": {
+			kind: "parsed",
+			brief:
+				"The number of items per page. Must be between 10 and 1000. Defaults to 25.",
+			optional: true,
+			parse: Number,
+		},
+		order: {
+			kind: "parsed",
+			brief: "The field to order by. Defaults to 'prefix'.",
+			optional: true,
+			parse: String,
+		},
+		direction: {
+			kind: "parsed",
+			brief: "The direction of ordering (ASC or DESC). Defaults to 'ASC'.",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "magic-transit advanced-tcp-protection configs allowlist list",
-				classification: {
-					safeFlags: ["dry-run"],
-				} satisfies ArgClassification<Args>,
+				classification: { safeFlags: ["dry-run"] } satisfies ArgClassification<
+					typeof argv
+				>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -92,6 +93,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Loaded` });
 			}
 		),
-};
+});
 
 export default command;

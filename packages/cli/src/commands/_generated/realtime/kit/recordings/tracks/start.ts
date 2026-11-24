@@ -1,11 +1,10 @@
 import operation from "../../../../_operations/realtime/kit/recordings/tracks/start.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * start command
  * @generated from apis/overlays/realtime.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -20,56 +19,56 @@ import { withProgress } from "#lib/progress.js";
 import { promptForRequiredField } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 realtime kit recordings tracks start <app-id>\n\nStarts track recording for a meeting. Track recording currently records separate participant audio tracks as WebM files in the RealtimeKit bucket. Video track recording is in development. For more information, refer to [Track recording](/realtime/realtimekit/recording-guide/track-recording/)."
-		)
-		.positional("app-id", {
-			type: "string",
-			description: "The app identifier tag.",
-			demandOption: true,
-		})
-		.option("layers", {
-			type: "string",
-			description:
-				'Optional audio layer configuration. If omitted, RealtimeKit records all participant audio using the default file name prefix. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": {...}}.',
-		})
-		.option("meeting-id", {
-			type: "string",
-			description: "ID of the meeting to record.",
-		})
-		.option("user-ids", {
-			type: "string",
-			array: true,
-			description:
-				"Optional list of participant user IDs to record. Selective track recording (`user_ids`) is in early beta contact support to use this feature.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description:
-				"Starts audio track recording for an active meeting. Use \`layers\` only when you need to set a file name prefix. Selective track recording (\`user_ids\`) is in early beta contact support to use this feature.",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "start <app-id>",
 	describe: "Start recording participant audio tracks",
-	builder,
+	usage:
+		"$0 realtime kit recordings tracks start <app-id>\n\nStarts track recording for a meeting. Track recording currently records separate participant audio tracks as WebM files in the RealtimeKit bucket. Video track recording is in development. For more information, refer to [Track recording](/realtime/realtimekit/recording-guide/track-recording/).",
+	flags: {
+		layers: {
+			kind: "parsed",
+			brief:
+				'Optional audio layer configuration. If omitted, RealtimeKit records all participant audio using the default file name prefix. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": {...}}.',
+			optional: true,
+			parse: String,
+		},
+		"meeting-id": {
+			kind: "parsed",
+			brief: "ID of the meeting to record.",
+			optional: true,
+			parse: String,
+		},
+		"user-ids": {
+			kind: "parsed",
+			brief:
+				"Optional list of participant user IDs to record. Selective track recording (`user_ids`) is in early beta contact support to use this feature.",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief:
+				"Starts audio track recording for an active meeting. Use `layers` only when you need to set a file name prefix. Selective track recording (`user_ids`) is in early beta contact support to use this feature.",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [
+		{ placeholder: "app-id", brief: "The app identifier tag.", parse: String },
+	],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "realtime kit recordings tracks start",
-				classification: {
-					safeFlags: ["dry-run"],
-				} satisfies ArgClassification<Args>,
+				classification: { safeFlags: ["dry-run"] } satisfies ArgClassification<
+					typeof argv
+				>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -153,6 +152,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Created` });
 			}
 		),
-};
+});
 
 export default command;

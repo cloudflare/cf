@@ -1,24 +1,19 @@
 import $decide from "./decide.js";
 import $list from "./list.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * proposals command group
  * @generated from apis/overlays/pay-per-use.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "proposals",
 	describe: "Operations for proposals",
 
-	builder: (yargs) => {
-		return yargs
-			.command($decide)
-			.command($list)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		decide: $decide,
+		list: $list,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

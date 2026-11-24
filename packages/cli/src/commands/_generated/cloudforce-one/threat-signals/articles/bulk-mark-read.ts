@@ -1,11 +1,10 @@
 import operation from "../../../_operations/cloudforce-one/threat-signals/articles/bulk-mark-read.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * bulk-mark-read command
  * @generated from apis/overlays/cloudforce-one.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -18,44 +17,44 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 cloudforce-one threat-signals articles bulk-mark-read\n\nMarks up to 50 Threat Signals articles as read or unread."
-		)
-		.option("article-ids", {
-			type: "string",
-			array: true,
-			description: "Array of article UUIDs to mark (1-50).",
-		})
-		.option("read", {
-			type: "boolean",
-			description: "True to mark read, false to mark unread.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "bulk-mark-read",
 	describe: "Bulk update Threat Signals article read status",
-	builder,
+	usage:
+		"$0 cloudforce-one threat-signals articles bulk-mark-read\n\nMarks up to 50 Threat Signals articles as read or unread.",
+	flags: {
+		"article-ids": {
+			kind: "parsed",
+			brief: "Array of article UUIDs to mark (1-50).",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		read: {
+			kind: "boolean",
+			brief: "True to mark read, false to mark unread.",
+			optional: true,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "cloudforce-one threat-signals articles bulk-mark-read",
 				classification: {
 					safeFlags: ["read", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -119,6 +118,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Updated` });
 			}
 		),
-};
+});
 
 export default command;

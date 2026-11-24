@@ -11,6 +11,7 @@ import cliui from "cliui";
 import stringWidth from "string-width";
 import { BUILTIN_OPTIONS, GLOBAL_OPTIONS } from "./global-options.js";
 import { theme } from "./ui/theme.js";
+import type { ApiContext, NativeLeaf } from "./api-command.js";
 import type { CommonYargsOptions } from "./cli-types.js";
 import type { CommandResolutionFailure } from "./telemetry/types.js";
 import type {
@@ -21,7 +22,7 @@ import type {
 import type { ArgumentsCamelCase, Argv, CommandModule, Options } from "yargs";
 
 type Args = ArgumentsCamelCase<CommonYargsOptions>;
-type Module = CommandModule<CommonYargsOptions>;
+type Module = CommandModule<CommonYargsOptions> & Partial<NativeLeaf>;
 type Hook = (argv: Args) => unknown;
 const list = <T>(value: T | readonly T[] | undefined): readonly T[] =>
 	value === undefined ? [] : Array.isArray(value) ? value : [value as T];
@@ -43,6 +44,15 @@ class Definition {
 	flags = new Map<string, Options>(Object.entries(GLOBAL_OPTIONS));
 	positions = new Map<string, Options>();
 	children: Module[] = [];
+	resolveRoute?: (token: string) => Module | undefined;
+	registerRoutes(
+		children: Module[],
+		resolve: (token: string) => Module | undefined
+	) {
+		this.children = children;
+		this.resolveRoute = resolve;
+		this.requireChild = true;
+	}
 	checks: Hook[] = [];
 	before: Hook[] = [];
 	after: Hook[] = [];
@@ -169,7 +179,11 @@ function renderHelp(
 	mod: Module | undefined,
 	width: number
 ) {
-	const prefix = ["cf", ...path].join(" ");
+	const prefix = [
+		"cf",
+		...path.slice(0, -1),
+		...(mod ? words(mod).slice(0, 1) : []),
+	].join(" ");
 	const ui = cliui({ width, wrap: Number.isFinite(width) });
 	const columnWidth = (labels: string[]) =>
 		Math.min(
@@ -342,8 +356,22 @@ function renderHelp(
 function closest(input: string, children: Module[]) {
 	let best = 4,
 		suggestion: string | undefined;
-	for (const child of children) {
-		const name = words(child)[0];
+	const visible = new Set(
+		children
+			.filter((child) => child.describe !== false)
+			.map((child) => words(child)[0])
+	);
+	const names = children
+		.flatMap((child) => words(child).slice(0, 1))
+		.concat(
+			children.flatMap((child) => [
+				...list(child.command)
+					.slice(1)
+					.map((name) => name.split(" ", 1).join("")),
+				...list(child.aliases),
+			])
+		);
+	for (const name of names.sort((left, right) => right.length - left.length)) {
 		if (!name || Math.abs(input.length - name.length) >= best) {
 			continue;
 		}
@@ -354,17 +382,18 @@ function closest(input: string, children: Module[]) {
 			const next = [offset + 1];
 			for (let idx = 0; idx < name.length; idx++) {
 				next.push(
-					Math.min(
-						(next[idx] ?? Infinity) + 1,
-						(prev[idx + 1] ?? Infinity) + 1,
-						(prev[idx] ?? Infinity) + Number(char !== name[idx]),
-						idx > 0 &&
-							offset > 0 &&
-							char === name[idx - 1] &&
-							input[offset - 1] === name[idx]
+					char === name[idx]
+						? (prev[idx] ?? Infinity)
+						: idx > 0 &&
+							  offset > 0 &&
+							  char === name[idx - 1] &&
+							  input[offset - 1] === name[idx]
 							? (previousRow[idx - 1] ?? Infinity) + 1
-							: Infinity
-					)
+							: Math.min(
+									(next[idx] ?? Infinity) + 1,
+									(prev[idx + 1] ?? Infinity) + 1,
+									(prev[idx] ?? Infinity) + 1
+								)
 				);
 			}
 			previousRow = prev;
@@ -373,7 +402,7 @@ function closest(input: string, children: Module[]) {
 		const distance = prev[name.length] ?? Infinity;
 		if (distance < best) {
 			best = distance;
-			suggestion = child.describe === false ? undefined : name;
+			suggestion = visible.has(name) ? name : undefined;
 		}
 	}
 	return suggestion;
@@ -467,12 +496,14 @@ export function createParser(
 			if (token === undefined) {
 				break;
 			}
-			const child = def.children.find((entry) =>
-				[
-					...list(entry.command).map((name) => name.split(" ")[0]),
-					...list(entry.aliases),
-				].includes(token)
-			);
+			const child = def.resolveRoute
+				? def.resolveRoute(token)
+				: def.children.find((entry) =>
+						[
+							...list(entry.command).map((name) => name.split(" ")[0]),
+							...list(entry.aliases),
+						].includes(token)
+					);
 			if (!child) {
 				if (!def.requireChild) {
 					break;
@@ -501,7 +532,9 @@ export function createParser(
 			}
 			def.before.push(...parent.before);
 			def.after.push(...parent.after);
-			if (typeof child.builder === "function") {
+			if (child.configure) {
+				child.configure(def);
+			} else if (typeof child.builder === "function") {
 				await child.builder(def as unknown as Argv<CommonYargsOptions>);
 			} else if (child.builder) {
 				def.options(child.builder);
@@ -541,9 +574,12 @@ export function createParser(
 						};
 		}
 		const parsedTokens: string[] = [],
+			nativeTokens: string[] = [],
 			positionals: string[] = [],
 			unknown: string[] = [];
 		const switches = new Map<string, boolean>();
+		const seen = new Set<string>();
+		let native = mod?.native;
 		const coercions = new Map<Options, unknown[]>();
 		const trackCoercion = (opt: Options, value: unknown) => {
 			if (opt.coerce) {
@@ -649,6 +685,7 @@ export function createParser(
 				return fail(`Unknown argument: ${spelling}`);
 			}
 			if (negated && opt.type !== "boolean") {
+				native = undefined;
 				trackCoercion(opt, false);
 				parsedTokens.push(`--${key}`, "!");
 				continue;
@@ -676,6 +713,16 @@ export function createParser(
 				return fail(`Not enough arguments following: ${key}`);
 			}
 			const pushValue = (raw: string | undefined) => {
+				if (
+					(!opt.array && seen.has(key)) ||
+					!raw ||
+					/[\r\n\u2028\u2029]/.test(raw) ||
+					(opt.choices && !opt.coerce && !opt.choices.includes(raw))
+				) {
+					native = undefined;
+				}
+				seen.add(key);
+				nativeTokens.push(`--${key}=${raw ?? ""}`);
 				if (raw !== undefined || !opt.requiresArg) {
 					trackCoercion(opt, raw ?? "");
 				}
@@ -727,27 +774,38 @@ export function createParser(
 		}
 		const selected = mod;
 		const required = spec.filter((item) => item.required).length;
+		if (
+			positionals.length < required ||
+			[...def.flags].some(
+				([key, opt]) =>
+					opt.demandOption && !seen.has(key) && !switches.has(`--${key}`)
+			)
+		) {
+			native = undefined;
+		}
 		let result: Record<string, unknown> | undefined;
-		let operands: string[] = [];
-		const leaf = buildCommand<Record<string, unknown>, string[]>({
-			parameters: {
-				flags: params,
-				positional: {
-					kind: "array",
-					minimum: required,
-					parameter: { brief: "Arguments", parse: String },
+		let capturedOperands: readonly unknown[] = [];
+		const leaf =
+			native?.() ??
+			buildCommand<Record<string, unknown>, string[]>({
+				parameters: {
+					flags: params,
+					positional: {
+						kind: "array",
+						minimum: required,
+						parameter: { brief: "Arguments", parse: String },
+					},
+				} as TypedCommandParameters<
+					Record<string, unknown>,
+					string[],
+					CommandContext
+				>,
+				docs: { brief: String(mod.describe || "") },
+				func(flags, ...values) {
+					result = flags;
+					capturedOperands = values;
 				},
-			} as TypedCommandParameters<
-				Record<string, unknown>,
-				string[],
-				CommandContext
-			>,
-			docs: { brief: String(mod.describe || "") },
-			func(flags, ...values) {
-				result = flags;
-				operands = values;
-			},
-		});
+			});
 		const app = buildApplication(
 			leaf,
 			{
@@ -756,6 +814,9 @@ export function createParser(
 				localization: {
 					text: {
 						...text_en,
+						exceptionWhileRunningCommand(error) {
+							throw error;
+						},
 						exceptionWhileParsingArguments(error) {
 							if (error instanceof UnsatisfiedPositionalError) {
 								return fail(
@@ -792,94 +853,110 @@ export function createParser(
 		await run(
 			app,
 			[
-				...parsedTokens,
+				...(native ? nativeTokens : parsedTokens),
 				...Array.from(switches, ([flag, value]) => `${flag}=${value}`),
 				"--",
 				...positionals,
 			],
 			{
 				process: { stdout: stream, stderr: stream },
-			}
+				prepare,
+			} satisfies ApiContext
 		);
+		if (native && result) {
+			return;
+		}
 		if (!result) {
 			return fail(diagnostic.trim() || "Invalid arguments");
 		}
-		const argv = Object.assign(Object.create(null), {
-			$0: "cf",
-			_: [...path, ...(def.config["populate--"] ? [] : tail)],
-		}) as Args;
-		if (def.config["populate--"] && tail.length) {
-			argv["--"] = tail;
-		}
-		const assign = (key: string, raw: unknown, opt: Options) => {
-			let value = raw ?? opt.default;
-			if (value === undefined) {
-				if (opt.demandOption) {
-					fail(`Missing required argument: ${key}`);
+		await selected.handler(await prepare(result, capturedOperands));
+		async function prepare(
+			parsed: Record<string, unknown>,
+			operands: readonly unknown[]
+		) {
+			result = parsed;
+			const argv = Object.assign(Object.create(null), {
+				$0: "cf",
+				_: [...path, ...(def.config["populate--"] ? [] : tail)],
+			}) as Args;
+			if (def.config["populate--"] && tail.length) {
+				argv["--"] = tail;
+			}
+			const assign = (key: string, raw: unknown, opt: Options) => {
+				let value = raw ?? opt.default;
+				if (value === undefined) {
+					if (opt.demandOption) {
+						fail(`Missing required argument: ${key}`);
+					}
+					return;
 				}
-				return;
+				if (
+					def.flags.has(key) &&
+					Array.isArray(value) &&
+					!opt.array &&
+					opt.type !== "array" &&
+					value.length === 1
+				) {
+					value = value[0];
+				}
+				if (opt.coerce) {
+					value = opt.coerce(value);
+				}
+				if (
+					opt.choices &&
+					!list(value).every((item) =>
+						opt.choices?.some((choice) => choice === item)
+					)
+				) {
+					fail(
+						`Invalid values:\n  Argument: ${key}, Given: ${JSON.stringify(value)}, Choices: ${opt.choices.map((choice) => JSON.stringify(choice)).join(", ")}`
+					);
+				}
+				for (const name of [key, ...list(opt.alias)]) {
+					argv[name] = value;
+					if (def.config["camel-case-expansion"] !== false) {
+						argv[camel(name)] = value;
+					}
+				}
+			};
+			for (const [key, opt] of def.flags) {
+				assign(key, parsed[key], opt);
 			}
-			if (
-				def.flags.has(key) &&
-				Array.isArray(value) &&
-				!opt.array &&
-				opt.type !== "array" &&
-				value.length === 1
-			) {
-				value = value[0];
-			}
-			if (opt.coerce) {
-				value = opt.coerce(value);
-			}
-			if (
-				opt.choices &&
-				!list(value).every((item) =>
-					opt.choices?.some((choice) => choice === item)
-				)
-			) {
-				fail(
-					`Invalid values:\n  Argument: ${key}, Given: ${JSON.stringify(value)}, Choices: ${opt.choices.map((choice) => JSON.stringify(choice)).join(", ")}`
-				);
-			}
-			for (const name of [key, ...list(opt.alias)]) {
-				argv[name] = value;
-				if (def.config["camel-case-expansion"] !== false) {
-					argv[camel(name)] = value;
+			for (const [idx, item] of spec.entries()) {
+				const key = def.positions.has(item.key)
+					? item.key
+					: ([...def.positions.keys()].find(
+							(name) => camel(name) === item.key
+						) ?? item.key);
+				const opt = def.positions.get(key) ?? {};
+				const value = item.many ? operands.slice(idx) : operands[idx];
+				if (value !== undefined || opt.default !== undefined) {
+					assign(
+						key,
+						opt.type === "number" && value !== undefined
+							? Number(value)
+							: value,
+						opt
+					);
 				}
 			}
-		};
-		for (const [key, opt] of def.flags) {
-			assign(key, result[key], opt);
-		}
-		for (const [idx, item] of spec.entries()) {
-			const key = def.positions.has(item.key)
-				? item.key
-				: ([...def.positions.keys()].find((name) => camel(name) === item.key) ??
-					item.key);
-			const opt = def.positions.get(key) ?? {};
-			const value = item.many ? operands.slice(idx) : operands[idx];
-			if (value !== undefined || opt.default !== undefined) {
-				assign(
-					key,
-					opt.type === "number" && value !== undefined ? Number(value) : value,
-					opt
-				);
+			for (const check of def.checks) {
+				const value = await check(argv);
+				if (value === false || typeof value === "string") {
+					fail(
+						typeof value === "string" ? value : "Argument validation failed"
+					);
+				}
 			}
-		}
-		for (const check of def.checks) {
-			const value = await check(argv);
-			if (value === false || typeof value === "string") {
-				fail(typeof value === "string" ? value : "Argument validation failed");
+			for (const hook of def.before) {
+				await hook(argv);
 			}
+			await hooks.startup(argv, command());
+			for (const hook of def.after) {
+				await hook(argv);
+			}
+			return argv;
 		}
-		for (const hook of def.before) {
-			await hook(argv);
-		}
-		await hooks.startup(argv, command());
-		for (const hook of def.after) {
-			await hook(argv);
-		}
-		await selected.handler(argv);
 	}
 	return {
 		parse: (args = rawArgs) => invoke(args, false),

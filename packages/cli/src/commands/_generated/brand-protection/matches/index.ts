@@ -1,24 +1,19 @@
 import $bulkdismiss from "./bulk-dismiss.js";
 import $get from "./get.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * matches command group
  * @generated from apis/overlays/brand-protection.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "matches",
 	describe: "Operations for matches",
 
-	builder: (yargs) => {
-		return yargs
-			.command($bulkdismiss)
-			.command($get)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		"bulk-dismiss": $bulkdismiss,
+		get: $get,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

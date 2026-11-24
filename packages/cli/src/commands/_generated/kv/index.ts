@@ -1,26 +1,21 @@
 import $keys from "./keys/index.js";
 import $metadata from "./metadata/index.js";
 import $namespaces from "./namespaces/index.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * kv command
  * @generated from apis/overlays/kv.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "kv",
 	describe: "kv",
 
-	builder: (yargs) => {
-		return yargs
-			.command($keys)
-			.command($metadata)
-			.command($namespaces)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		keys: $keys,
+		metadata: $metadata,
+		namespaces: $namespaces,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

@@ -1,11 +1,10 @@
 import operation from "../../_operations/magic-transit/cf1-sites/update.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * update command
  * @generated from apis/overlays/magic-transit.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -19,62 +18,66 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 magic-transit cf1-sites update <cf1-site-id>\n\nPartially updates a specific CF1 Site for an account. Only the fields included in the request body are modified; omitted fields retain their existing values."
-		)
-		.positional("cf1-site-id", {
-			type: "string",
-			description: "Identifier",
-			demandOption: true,
-		})
-		.option("description", {
-			type: "string",
-			description: "A human-provided description of the CF1 Site.",
-		})
-		.option("location-lat", {
-			type: "number",
-			description: "Latitude of the CF1 Site.",
-		})
-		.option("location-long", {
-			type: "number",
-			description: "Longitude of the CF1 Site.",
-		})
-		.option("location-name", {
-			type: "string",
-			description: "Name of nearest town, city, or village.",
-		})
-		.option("name", {
-			type: "string",
-			description:
-				"A human-provided name describing the CF1 Site that should be unique within the account.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description:
-				"Partial update payload for a CF1 Site. All properties are optional; only fields supplied in the request body are modified.",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "update <cf1-site-id>",
 	describe: "Update CF1 Site",
-	builder,
+	usage:
+		"$0 magic-transit cf1-sites update <cf1-site-id>\n\nPartially updates a specific CF1 Site for an account. Only the fields included in the request body are modified; omitted fields retain their existing values.",
+	flags: {
+		description: {
+			kind: "parsed",
+			brief: "A human-provided description of the CF1 Site.",
+			optional: true,
+			parse: String,
+		},
+		"location-lat": {
+			kind: "parsed",
+			brief: "Latitude of the CF1 Site.",
+			optional: true,
+			parse: Number,
+		},
+		"location-long": {
+			kind: "parsed",
+			brief: "Longitude of the CF1 Site.",
+			optional: true,
+			parse: Number,
+		},
+		"location-name": {
+			kind: "parsed",
+			brief: "Name of nearest town, city, or village.",
+			optional: true,
+			parse: String,
+		},
+		name: {
+			kind: "parsed",
+			brief:
+				"A human-provided name describing the CF1 Site that should be unique within the account.",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief:
+				"Partial update payload for a CF1 Site. All properties are optional; only fields supplied in the request body are modified.",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [
+		{ placeholder: "cf1-site-id", brief: "Identifier", parse: String },
+	],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "magic-transit cf1-sites update",
-				classification: {
-					safeFlags: ["dry-run"],
-				} satisfies ArgClassification<Args>,
+				classification: { safeFlags: ["dry-run"] } satisfies ArgClassification<
+					typeof argv
+				>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -164,6 +167,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Updated` });
 			}
 		),
-};
+});
 
 export default command;

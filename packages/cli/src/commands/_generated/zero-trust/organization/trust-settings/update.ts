@@ -1,11 +1,10 @@
 import operation from "../../../_operations/zero-trust/organization/trust-settings/update.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * update command
  * @generated from apis/overlays/zero-trust.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -18,46 +17,46 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 zero-trust organization trust-settings update\n\nUpdates the trust settings for your Zero Trust organization."
-		)
-		.option("grant-trust-to-all-accounts-in-org", {
-			type: "boolean",
-			description:
-				"Whether all accounts in the organization are trusted to use this account's cross-account Access resources.",
-		})
-		.option("trusting-accounts", {
-			type: "string",
-			array: true,
-			description:
-				"Explicit account IDs trusted to use this account's cross-account Access resources. At most 100 unique valid account IDs are accepted. Omitted from responses when empty.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "update",
 	describe: "Update Zero Trust organization trust settings",
-	builder,
+	usage:
+		"$0 zero-trust organization trust-settings update\n\nUpdates the trust settings for your Zero Trust organization.",
+	flags: {
+		"grant-trust-to-all-accounts-in-org": {
+			kind: "boolean",
+			brief:
+				"Whether all accounts in the organization are trusted to use this account's cross-account Access resources.",
+			optional: true,
+		},
+		"trusting-accounts": {
+			kind: "parsed",
+			brief:
+				"Explicit account IDs trusted to use this account's cross-account Access resources. At most 100 unique valid account IDs are accepted. Omitted from responses when empty.",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "zero-trust organization trust-settings update",
 				classification: {
 					safeFlags: ["grant-trust-to-all-accounts-in-org", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -107,6 +106,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Updated` });
 			}
 		),
-};
+});
 
 export default command;

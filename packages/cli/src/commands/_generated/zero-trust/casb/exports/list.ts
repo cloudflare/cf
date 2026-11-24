@@ -1,11 +1,10 @@
 import operation from "../../../_operations/zero-trust/casb/exports/list.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * list command
  * @generated from apis/overlays/zero-trust.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -17,44 +16,44 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 zero-trust casb exports list\n\nList all export jobs for a given requestor's organization"
-		)
-		.option("page", {
-			type: "number",
-			description: "A page number within the paginated result set.",
-		})
-		.option("per-page", {
-			type: "number",
-			description: "Number of results to return per page.",
-		})
-		.option("status", {
-			type: "string",
-			description: "Filter on export job's status",
-			choices: ["Pending", "Success", "Failure", "Rescheduled", "In-Progress"],
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "list",
 	describe: "List all export jobs",
-	builder,
+	usage:
+		"$0 zero-trust casb exports list\n\nList all export jobs for a given requestor's organization",
+	flags: {
+		page: {
+			kind: "parsed",
+			brief: "A page number within the paginated result set.",
+			optional: true,
+			parse: Number,
+		},
+		"per-page": {
+			kind: "parsed",
+			brief: "Number of results to return per page.",
+			optional: true,
+			parse: Number,
+		},
+		status: {
+			kind: "enum",
+			brief: "Filter on export job's status",
+			values: ["Pending", "Success", "Failure", "Rescheduled", "In-Progress"],
+			optional: true,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "zero-trust casb exports list",
 				classification: {
 					safeFlags: ["status", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -85,6 +84,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Loaded` });
 			}
 		),
-};
+});
 
 export default command;

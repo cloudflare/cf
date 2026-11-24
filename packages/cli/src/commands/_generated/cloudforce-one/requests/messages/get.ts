@@ -1,11 +1,10 @@
 import operation from "../../../_operations/cloudforce-one/requests/messages/get.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * get command
  * @generated from apis/overlays/cloudforce-one.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -17,46 +16,28 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 cloudforce-one requests messages get <message-id>\n\nReturns the details for a specific message belonging to an RFI request."
-		)
-		.positional("message-id", {
-			type: "string",
-			description: "Message ID",
-			demandOption: true,
-		})
-		.option("project-type", {
-			type: "string",
-			description: "Project type",
-			demandOption: true,
-		})
-		.option("request-id", {
-			type: "string",
-			description: "Request ID",
-			demandOption: true,
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "get <message-id>",
 	describe: "Read a single message for an RFI request",
-	builder,
+	usage:
+		"$0 cloudforce-one requests messages get <message-id>\n\nReturns the details for a specific message belonging to an RFI request.",
+	flags: {
+		"project-type": { kind: "parsed", brief: "Project type", parse: String },
+		"request-id": { kind: "parsed", brief: "Request ID", parse: String },
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+	},
+	operands: [{ placeholder: "message-id", brief: "Message ID", parse: String }],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "cloudforce-one requests messages get",
-				classification: {
-					safeFlags: ["dry-run"],
-				} satisfies ArgClassification<Args>,
+				classification: { safeFlags: ["dry-run"] } satisfies ArgClassification<
+					typeof argv
+				>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -90,6 +71,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Loaded` });
 			}
 		),
-};
+});
 
 export default command;

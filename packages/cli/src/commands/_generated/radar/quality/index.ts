@@ -1,25 +1,20 @@
 import $iqi from "./iqi/index.js";
 import $speed from "./speed/index.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * quality command group
  * @generated from apis/overlays/radar.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "quality",
 	describe:
 		"Internet connection quality metrics — speed, latency, and jitter by geography and ASN",
 
-	builder: (yargs) => {
-		return yargs
-			.command($iqi)
-			.command($speed)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		iqi: $iqi,
+		speed: $speed,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

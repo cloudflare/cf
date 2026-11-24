@@ -1,10 +1,9 @@
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * update command
  * @generated from apis/overlays/billing.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -23,82 +22,89 @@ import {
 } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 billing spend-policies update <policy-id>\n\nReplaces the whole spend policy. Every field is required, as on create; there are no partial updates and `PATCH` is not supported. The `If-Match` header must equal the policy's current `version`. On success, `version` goes up by one and the new value is returned in `ETag`."
-		)
-		.positional("policy-id", {
-			type: "string",
-			description: "Identifies the spend policy.",
-			demandOption: true,
-		})
-		.option("if-match", {
-			type: "string",
-			description:
-				'The policy `version` the change is based on, as returned in `ETag`. Quoted (`"3"`) and bare (`3`) values are both accepted. Weak ETags (`W/"3"`) and `*` are not.',
-			demandOption: true,
-		})
-		.option("action", {
-			type: "string",
-			description:
-				"The action taken when the threshold is reached. `notification` sends an email to `notification_email`. `usage_block` blocks further usage of the product until the end of the billing period. Raising the threshold above the current balance, disabling the policy, or deleting it lifts the block early.",
-			choices: ["notification", "usage_block"],
-		})
-		.coerce("action", (value) => resolveFileToken(value, "action", "text"))
-		.option("enabled", {
-			type: "boolean",
-			description: "Whether the policy is evaluated.",
-		})
-		.option("name", {
-			type: "string",
-			description:
-				"Display name of the policy. After surrounding whitespace is trimmed, it must be 1 to 200 bytes long. The value is stored as sent, untrimmed.",
-		})
-		.option("notification-email", {
-			type: "string",
-			description:
-				"Email address that receives notifications. Required when `action` is `notification`. When set, it must be a bare address (`user@example.com`); display-name forms such as `Name <user@example.com>` are rejected.",
-		})
-		.option("product-id", {
-			type: "string",
-			description:
-				"The product the policy applies to: `workers` or `durable_objects`. Each product's balance and policies are separate. Both products support `notification` and `usage_block` policies on create and update.",
-			choices: ["workers", "durable_objects"],
-		})
-		.coerce("product-id", (value) =>
-			resolveFileToken(value, "product-id", "text")
-		)
-		.option("threshold-cents", {
-			type: "number",
-			description:
-				"The spend threshold for the current billing period, in US cents. Must be greater than zero.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description:
-				"A spend policy as sent on create and on full replacement. Unknown fields and trailing JSON are rejected. Only the first 1 MiB of the body is read.",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "update <policy-id>",
 	describe: "Update Spend Policy",
-	builder,
+	usage:
+		"$0 billing spend-policies update <policy-id>\n\nReplaces the whole spend policy. Every field is required, as on create; there are no partial updates and `PATCH` is not supported. The `If-Match` header must equal the policy's current `version`. On success, `version` goes up by one and the new value is returned in `ETag`.",
+	flags: {
+		"if-match": {
+			kind: "parsed",
+			brief:
+				'The policy `version` the change is based on, as returned in `ETag`. Quoted (`"3"`) and bare (`3`) values are both accepted. Weak ETags (`W/"3"`) and `*` are not.',
+			parse: String,
+		},
+		action: {
+			kind: "parsed",
+			brief:
+				"The action taken when the threshold is reached. `notification` sends an email to `notification_email`. `usage_block` blocks further usage of the product until the end of the billing period. Raising the threshold above the current balance, disabling the policy, or deleting it lifts the block early.",
+			optional: true,
+			choices: ["notification", "usage_block"],
+			parse: String,
+			coerce: (value: string) => resolveFileToken(value, "action", "text"),
+		},
+		enabled: {
+			kind: "boolean",
+			brief: "Whether the policy is evaluated.",
+			optional: true,
+		},
+		name: {
+			kind: "parsed",
+			brief:
+				"Display name of the policy. After surrounding whitespace is trimmed, it must be 1 to 200 bytes long. The value is stored as sent, untrimmed.",
+			optional: true,
+			parse: String,
+		},
+		"notification-email": {
+			kind: "parsed",
+			brief:
+				"Email address that receives notifications. Required when `action` is `notification`. When set, it must be a bare address (`user@example.com`); display-name forms such as `Name <user@example.com>` are rejected.",
+			optional: true,
+			parse: String,
+		},
+		"product-id": {
+			kind: "parsed",
+			brief:
+				"The product the policy applies to: `workers` or `durable_objects`. Each product's balance and policies are separate. Both products support `notification` and `usage_block` policies on create and update.",
+			optional: true,
+			choices: ["workers", "durable_objects"],
+			parse: String,
+			coerce: (value: string) => resolveFileToken(value, "product-id", "text"),
+		},
+		"threshold-cents": {
+			kind: "parsed",
+			brief:
+				"The spend threshold for the current billing period, in US cents. Must be greater than zero.",
+			optional: true,
+			parse: Number,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief:
+				"A spend policy as sent on create and on full replacement. Unknown fields and trailing JSON are rejected. Only the first 1 MiB of the body is read.",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [
+		{
+			placeholder: "policy-id",
+			brief: "Identifies the spend policy.",
+			parse: String,
+		},
+	],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "billing spend-policies update",
 				classification: {
 					safeFlags: ["action", "enabled", "product-id", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -238,6 +244,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Updated` });
 			}
 		),
-};
+});
 
 export default command;

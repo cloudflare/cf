@@ -1,11 +1,10 @@
 import operation from "../../../_operations/dls/regional-services/prefix-bindings/create.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * create command
  * @generated from apis/overlays/dls.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -20,47 +19,50 @@ import { withProgress } from "#lib/progress.js";
 import { promptForRequiredField } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 dls regional-services prefix-bindings create\n\nBind a CIDR from a BYOIP prefix to a region. This requires the **IP Prefixes Write** permission in addition to **DLS Write**, because the binding is created against a BYOIP prefix in Addressing."
-		)
-		.option("cidr", {
-			type: "string",
-			description: "IP prefix in CIDR notation to bind.",
-		})
-		.option("prefix-id", {
-			type: "string",
-			description: "The ID of the parent IP prefix that contains the CIDR.",
-		})
-		.option("region-key", {
-			type: "string",
-			description: 'Region key from managed regions (e.g., "us", "eu").',
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "create",
 	describe: "Create a DLS prefix binding",
-	builder,
+	usage:
+		"$0 dls regional-services prefix-bindings create\n\nBind a CIDR from a BYOIP prefix to a region. This requires the **IP Prefixes Write** permission in addition to **DLS Write**, because the binding is created against a BYOIP prefix in Addressing.",
+	flags: {
+		cidr: {
+			kind: "parsed",
+			brief: "IP prefix in CIDR notation to bind.",
+			optional: true,
+			parse: String,
+		},
+		"prefix-id": {
+			kind: "parsed",
+			brief: "The ID of the parent IP prefix that contains the CIDR.",
+			optional: true,
+			parse: String,
+		},
+		"region-key": {
+			kind: "parsed",
+			brief: 'Region key from managed regions (e.g., "us", "eu").',
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "dls regional-services prefix-bindings create",
-				classification: {
-					safeFlags: ["dry-run"],
-				} satisfies ArgClassification<Args>,
+				classification: { safeFlags: ["dry-run"] } satisfies ArgClassification<
+					typeof argv
+				>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -158,6 +160,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Created` });
 			}
 		),
-};
+});
 
 export default command;

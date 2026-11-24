@@ -1,11 +1,10 @@
 import operation from "../../../_operations/network/routes/cidr/list.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * list command
  * @generated from apis/overlays/network.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -17,40 +16,61 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 network routes cidr list\n\nLists and filters private network routes in an account."
-		)
-		.option("comment", {
-			type: "string",
-			description: "Optional remark describing the route.",
-		})
-		.option("is-deleted", {
-			type: "boolean",
-			description:
+const command = apiCommand({
+	command: "list",
+	describe: "List tunnel routes",
+	usage:
+		"$0 network routes cidr list\n\nLists and filters private network routes in an account.",
+	flags: {
+		comment: {
+			kind: "parsed",
+			brief: "Optional remark describing the route.",
+			optional: true,
+			parse: String,
+		},
+		"is-deleted": {
+			kind: "boolean",
+			brief:
 				"If `true`, only include deleted routes. If `false`, exclude deleted routes. If empty, all routes will be included.",
-		})
-		.option("network-subset", {
-			type: "string",
-			description:
+			optional: true,
+		},
+		"network-subset": {
+			kind: "parsed",
+			brief:
 				"If set, only list routes that are contained within this IP range.",
-		})
-		.option("network-superset", {
-			type: "string",
-			description: "If set, only list routes that contain this IP range.",
-		})
-		.option("existed-at", {
-			type: "string",
-			description:
+			optional: true,
+			parse: String,
+		},
+		"network-superset": {
+			kind: "parsed",
+			brief: "If set, only list routes that contain this IP range.",
+			optional: true,
+			parse: String,
+		},
+		"existed-at": {
+			kind: "parsed",
+			brief:
 				"If provided, include only resources that were created (and not deleted) before this time. URL encoded.",
-		})
-		.option("tunnel-id", { type: "string", description: "UUID of the tunnel." })
-		.option("route-id", { type: "string", description: "UUID of the route." })
-		.option("tun-types", {
-			type: "string",
-			array: true,
-			description: "The types of tunnels to filter by, separated by commas.",
+			optional: true,
+			parse: String,
+		},
+		"tunnel-id": {
+			kind: "parsed",
+			brief: "UUID of the tunnel.",
+			optional: true,
+			parse: String,
+		},
+		"route-id": {
+			kind: "parsed",
+			brief: "UUID of the route.",
+			optional: true,
+			parse: String,
+		},
+		"tun-types": {
+			kind: "parsed",
+			brief: "The types of tunnels to filter by, separated by commas.",
+			variadic: true,
+			optional: true,
 			choices: [
 				"cfd_tunnel",
 				"warp_connector",
@@ -60,42 +80,41 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"gre",
 				"cni",
 			],
-		})
-		.coerce("tun-types", (values: string[]) =>
-			values.flatMap((value) => value.split(","))
-		)
-		.option("virtual-network-id", {
-			type: "string",
-			description: "UUID of the virtual network.",
-		})
-		.option("per-page", {
-			type: "number",
-			description: "Number of results to display.",
-		})
-		.option("page", {
-			type: "number",
-			description: "Page number of paginated results.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
+			parse: String,
+			coerce: (values: string[]) => values.flatMap((value) => value.split(",")),
+		},
+		"virtual-network-id": {
+			kind: "parsed",
+			brief: "UUID of the virtual network.",
+			optional: true,
+			parse: String,
+		},
+		"per-page": {
+			kind: "parsed",
+			brief: "Number of results to display.",
+			optional: true,
+			parse: Number,
+		},
+		page: {
+			kind: "parsed",
+			brief: "Page number of paginated results.",
+			optional: true,
+			parse: Number,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
 			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "list",
-	describe: "List tunnel routes",
-	builder,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "network routes cidr list",
 				classification: {
 					safeFlags: ["is-deleted", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -134,6 +153,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Loaded` });
 			}
 		),
-};
+});
 
 export default command;

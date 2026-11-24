@@ -1,11 +1,10 @@
 import operation from "../../_operations/mesh/nodes/create.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * create command
  * @generated from apis/overlays/mesh.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -20,42 +19,43 @@ import { withProgress } from "#lib/progress.js";
 import { promptForRequiredField } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage("$0 mesh nodes create\n\nCreates a new Mesh node in an account.")
-		.option("ha", {
-			type: "boolean",
-			description:
-				"Indicates that the tunnel will be created to be highly available. If omitted, defaults to false.",
-		})
-		.option("name", {
-			type: "string",
-			description: "A user-friendly name for a tunnel.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "create",
 	describe: "Create a Mesh node",
-	builder,
+	usage: "$0 mesh nodes create\n\nCreates a new Mesh node in an account.",
+	flags: {
+		ha: {
+			kind: "boolean",
+			brief:
+				"Indicates that the tunnel will be created to be highly available. If omitted, defaults to false.",
+			optional: true,
+		},
+		name: {
+			kind: "parsed",
+			brief: "A user-friendly name for a tunnel.",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "mesh nodes create",
 				classification: {
 					safeFlags: ["ha", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -123,6 +123,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Created` });
 			}
 		),
-};
+});
 
 export default command;

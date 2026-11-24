@@ -1,11 +1,10 @@
 import operation from "../../_operations/o11y/issues/update.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * update command
  * @generated from apis/overlays/o11y.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -19,47 +18,46 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 o11y issues update <issueId>\n\nModify an issue status or group title."
-		)
-		.positional("issue-id", {
-			type: "string",
-			description: "IssueId",
-			demandOption: true,
-		})
-		.option("status", {
-			type: "string",
-			description: "The status field",
-			choices: ["active", "resolved", "ignored"],
-		})
-		.coerce("status", (value) => resolveFileToken(value, "status", "text"))
-		.option("title", { type: "string", description: "The title field" })
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Modify an issue status or group title.",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "update <issueId>",
 	describe: "Modify an issue",
-	builder,
+	usage:
+		"$0 o11y issues update <issueId>\n\nModify an issue status or group title.",
+	flags: {
+		status: {
+			kind: "parsed",
+			brief: "The status field",
+			optional: true,
+			choices: ["active", "resolved", "ignored"],
+			parse: String,
+			coerce: (value: string) => resolveFileToken(value, "status", "text"),
+		},
+		title: {
+			kind: "parsed",
+			brief: "The title field",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Modify an issue status or group title.",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [{ placeholder: "issue-id", brief: "IssueId", parse: String }],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "o11y issues update",
 				classification: {
 					safeFlags: ["status", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -123,6 +121,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Updated` });
 			}
 		),
-};
+});
 
 export default command;

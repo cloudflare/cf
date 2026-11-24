@@ -1,11 +1,10 @@
 import operation from "../../../../_operations/zero-trust/casb/findings/instances/get.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * get command
  * @generated from apis/overlays/zero-trust.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -17,42 +16,38 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 zero-trust casb findings instances get <instance-id>\n\nGets a security Finding instance by id."
-		)
-		.positional("instance-id", {
-			type: "string",
-			description: "A uuid ID identifying this Finding instance.",
-			demandOption: true,
-		})
-		.option("finding-id", {
-			type: "string",
-			description:
-				"The `id` of a finding, as returned in each item of the List posture findings response.\nIt is a base64-encoded identifier.",
-			demandOption: true,
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "get <instance-id>",
 	describe: "Get a finding instance using an instance ID",
-	builder,
+	usage:
+		"$0 zero-trust casb findings instances get <instance-id>\n\nGets a security Finding instance by id.",
+	flags: {
+		"finding-id": {
+			kind: "parsed",
+			brief:
+				"The `id` of a finding, as returned in each item of the List posture findings response.\nIt is a base64-encoded identifier.",
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+	},
+	operands: [
+		{
+			placeholder: "instance-id",
+			brief: "A uuid ID identifying this Finding instance.",
+			parse: String,
+		},
+	],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "zero-trust casb findings instances get",
-				classification: {
-					safeFlags: ["dry-run"],
-				} satisfies ArgClassification<Args>,
+				classification: { safeFlags: ["dry-run"] } satisfies ArgClassification<
+					typeof argv
+				>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -84,6 +79,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Loaded` });
 			}
 		),
-};
+});
 
 export default command;

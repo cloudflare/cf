@@ -3,28 +3,23 @@ import $export from "./export.js";
 import $get from "./get.js";
 import $list from "./list.js";
 import $unarchive from "./unarchive.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * instances command group
  * @generated from apis/overlays/zero-trust.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "instances",
 	describe: "Operations for casb.findings.instances",
 
-	builder: (yargs) => {
-		return yargs
-			.command($archive)
-			.command($export)
-			.command($get)
-			.command($list)
-			.command($unarchive)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		archive: $archive,
+		export: $export,
+		get: $get,
+		list: $list,
+		unarchive: $unarchive,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

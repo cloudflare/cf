@@ -9,6 +9,7 @@ import {
 import { generateFiles } from "../../helpers/cli-plugin.js";
 import { commandParser } from "../../helpers/command-parser.js";
 import type { CommandModule } from "yargs";
+import { apiCommand } from "#lib/api-command.js";
 
 function setup(files: Map<string, string>, name = "update") {
 	const source = stripTypeScriptTypes(files.get(`things/${name}.ts`) ?? "")
@@ -28,6 +29,7 @@ function setup(files: Map<string, string>, name = "update") {
 	const formatOutput = vi.fn();
 	const formatDryRun = vi.fn();
 	const command = new Script(source).runInNewContext({
+		apiCommand,
 		Blob,
 		FormData,
 		operation: {},
@@ -334,7 +336,7 @@ describe("multipart bodies", () => {
 		);
 		const code = files.get("things/update.ts") ?? "";
 		for (const field of Object.keys(readOnlyFields)) {
-			expect(code).not.toContain(`.option('${field}',`);
+			expect(code).not.toContain(`"${field}": {`);
 			expect(code).not.toContain(`formData.append('${field}',`);
 		}
 		await seed({ "payload.txt": "writable content" });

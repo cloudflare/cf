@@ -1,11 +1,10 @@
 import operation from "../../_operations/tags/account-resources/get.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * get command
  * @generated from apis/overlays/tags.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -18,20 +17,21 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 tags account-resources get\n\nRetrieves tags for a specific account or zone-level resource.\n\nRuns against your account. Pass --zone to run against a zone instead. CLOUDFLARE_ZONE_ID is ignored."
-		)
-		.option("resource-id", {
-			type: "string",
-			description: "The ID of the resource to retrieve tags for.",
-			demandOption: true,
-		})
-		.option("resource-type", {
-			type: "string",
-			description: "The type of the resource.",
-			choices: [
+const command = apiCommand({
+	command: "get",
+	describe: "Get tags for an account or zone-level resource",
+	usage:
+		"$0 tags account-resources get\n\nRetrieves tags for a specific account or zone-level resource.\n\nRuns against your account. Pass --zone to run against a zone instead. CLOUDFLARE_ZONE_ID is ignored.",
+	flags: {
+		"resource-id": {
+			kind: "parsed",
+			brief: "The ID of the resource to retrieve tags for.",
+			parse: String,
+		},
+		"resource-type": {
+			kind: "enum",
+			brief: "The type of the resource.",
+			values: [
 				"access_application",
 				"access_group",
 				"access_service_token",
@@ -69,32 +69,27 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"worker",
 				"worker_version",
 			],
-			demandOption: true,
-		})
-		.option("worker-id", {
-			type: "string",
-			description: "Worker identifier. Required for worker_version resources.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
+		},
+		"worker-id": {
+			kind: "parsed",
+			brief: "Worker identifier. Required for worker_version resources.",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
 			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "get",
-	describe: "Get tags for an account or zone-level resource",
-	builder,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "tags account-resources get",
 				classification: {
 					safeFlags: ["resource-type", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -150,6 +145,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Loaded` });
 			}
 		),
-};
+});
 
 export default command;

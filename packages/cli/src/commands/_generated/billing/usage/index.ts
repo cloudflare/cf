@@ -3,29 +3,24 @@ import $getaccountusagev2 from "./get-account-usage-v2.js";
 import $getinfov1 from "./get-info-v1.js";
 import $getv1 from "./get-v1.js";
 import $query from "./query.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * usage command group
  * @generated from apis/overlays/billing.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "usage",
 	describe:
 		"Metered usage data for billed services — requests, bandwidth, and feature consumption",
 
-	builder: (yargs) => {
-		return yargs
-			.command($getaccountbillablemetrics)
-			.command($getaccountusagev2)
-			.command($getinfov1)
-			.command($getv1)
-			.command($query)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		"get-account-billable-metrics": $getaccountbillablemetrics,
+		"get-account-usage-v2": $getaccountusagev2,
+		"get-info-v1": $getinfov1,
+		"get-v1": $getv1,
+		query: $query,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

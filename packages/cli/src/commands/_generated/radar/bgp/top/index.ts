@@ -1,24 +1,19 @@
 import $ases from "./ases/index.js";
 import $prefixes from "./prefixes.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * top command group
  * @generated from apis/overlays/radar.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "top",
 	describe: "Operations for bgp.top",
 
-	builder: (yargs) => {
-		return yargs
-			.command($prefixes)
-			.command($ases)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		prefixes: $prefixes,
+		ases: $ases,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

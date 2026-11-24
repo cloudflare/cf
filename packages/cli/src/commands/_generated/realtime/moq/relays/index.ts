@@ -4,30 +4,25 @@ import $get from "./get.js";
 import $list from "./list.js";
 import $tokens from "./tokens/index.js";
 import $update from "./update.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * relays command group
  * @generated from apis/overlays/realtime.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "relays",
 	describe:
 		"Relays are isolated MoQ scopes that carry media between publishers and subscribers",
 
-	builder: (yargs) => {
-		return yargs
-			.command($create)
-			.command($delete)
-			.command($get)
-			.command($list)
-			.command($update)
-			.command($tokens)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		create: $create,
+		delete: $delete,
+		get: $get,
+		list: $list,
+		update: $update,
+		tokens: $tokens,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

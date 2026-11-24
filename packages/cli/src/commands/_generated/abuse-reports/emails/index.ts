@@ -1,24 +1,19 @@
 import $listsubmitted from "./list-submitted.js";
 import $list from "./list.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * emails command group
  * @generated from apis/overlays/abuse-reports.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "emails",
 	describe: "Emails sent for abuse reports",
 
-	builder: (yargs) => {
-		return yargs
-			.command($list)
-			.command($listsubmitted)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		list: $list,
+		"list-submitted": $listsubmitted,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

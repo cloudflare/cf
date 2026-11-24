@@ -1,11 +1,10 @@
 import operation from "../../_operations/ai-gateway/custom-domains/create.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * create command
  * @generated from apis/overlays/ai-gateway.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -20,55 +19,58 @@ import { withProgress } from "#lib/progress.js";
 import { promptForRequiredField } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 ai-gateway custom-domains create <gateway-id>\n\nProvisions a Cloudflare-for-SaaS custom hostname and returns the CNAME target to point DNS at."
-		)
-		.positional("gateway-id", {
-			type: "string",
-			description: "Unique identifier of the AI Gateway within the account.",
-			demandOption: true,
-		})
-		.option("domain", {
-			type: "string",
-			description: "Custom hostname that you own, such as `ai.example.com`.",
-		})
-		.option("min-tls", {
-			type: "string",
-			description: "The minTLS field",
-			choices: ["1.0", "1.1", "1.2", "1.3"],
-		})
-		.coerce("min-tls", (value) => resolveFileToken(value, "min-tls", "text"))
-		.option("zone-id", {
-			type: "string",
-			description:
-				"ID of the Cloudflare zone that contains the custom hostname.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "create <gateway-id>",
 	describe: "Create a custom domain for a gateway",
-	builder,
+	usage:
+		"$0 ai-gateway custom-domains create <gateway-id>\n\nProvisions a Cloudflare-for-SaaS custom hostname and returns the CNAME target to point DNS at.",
+	flags: {
+		domain: {
+			kind: "parsed",
+			brief: "Custom hostname that you own, such as `ai.example.com`.",
+			optional: true,
+			parse: String,
+		},
+		"min-tls": {
+			kind: "parsed",
+			brief: "The minTLS field",
+			optional: true,
+			choices: ["1.0", "1.1", "1.2", "1.3"],
+			parse: String,
+			coerce: (value: string) => resolveFileToken(value, "min-tls", "text"),
+		},
+		"zone-id": {
+			kind: "parsed",
+			brief: "ID of the Cloudflare zone that contains the custom hostname.",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [
+		{
+			placeholder: "gateway-id",
+			brief: "Unique identifier of the AI Gateway within the account.",
+			parse: String,
+		},
+	],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "ai-gateway custom-domains create",
 				classification: {
 					safeFlags: ["min-tls", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -160,6 +162,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Created` });
 			}
 		),
-};
+});
 
 export default command;

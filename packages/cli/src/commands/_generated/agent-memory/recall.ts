@@ -1,11 +1,10 @@
 import operation from "../_operations/agent-memory/recall.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * recall command
  * @generated from apis/overlays/agent-memory.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -20,69 +19,69 @@ import { withProgress } from "#lib/progress.js";
 import { promptForRequiredField } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 agent-memory recall <profile-name>\n\nRetrieves memories relevant to the query and returns a synthesized answer."
-		)
-		.positional("profile-name", {
-			type: "string",
-			description: "Profile name.",
-			demandOption: true,
-		})
-		.option("namespace-name", {
-			type: "string",
-			description: "Namespace name.",
-			demandOption: true,
-		})
-		.option("query", {
-			type: "string",
-			description: "Natural-language query to match against stored memories.",
-		})
-		.option("reference-date", {
-			type: "string",
-			description: "Temporal anchor for relative date references in the query.",
-		})
-		.option("response-length", {
-			type: "string",
-			description: "Verbosity of the synthesized answer. Defaults to 'medium'.",
-			choices: ["short", "medium", "long"],
-		})
-		.coerce("response-length", (value) =>
-			resolveFileToken(value, "response-length", "text")
-		)
-		.option("thinking-level", {
-			type: "string",
-			description: "Recall intensity / search depth. Defaults to 'low'.",
-			choices: ["low", "medium", "high"],
-		})
-		.coerce("thinking-level", (value) =>
-			resolveFileToken(value, "thinking-level", "text")
-		)
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "recall <profile-name>",
 	describe: "Recall memories",
-	builder,
+	usage:
+		"$0 agent-memory recall <profile-name>\n\nRetrieves memories relevant to the query and returns a synthesized answer.",
+	flags: {
+		"namespace-name": {
+			kind: "parsed",
+			brief: "Namespace name.",
+			parse: String,
+		},
+		query: {
+			kind: "parsed",
+			brief: "Natural-language query to match against stored memories.",
+			optional: true,
+			parse: String,
+		},
+		"reference-date": {
+			kind: "parsed",
+			brief: "Temporal anchor for relative date references in the query.",
+			optional: true,
+			parse: String,
+		},
+		"response-length": {
+			kind: "parsed",
+			brief: "Verbosity of the synthesized answer. Defaults to 'medium'.",
+			optional: true,
+			choices: ["short", "medium", "long"],
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "response-length", "text"),
+		},
+		"thinking-level": {
+			kind: "parsed",
+			brief: "Recall intensity / search depth. Defaults to 'low'.",
+			optional: true,
+			choices: ["low", "medium", "high"],
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "thinking-level", "text"),
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [
+		{ placeholder: "profile-name", brief: "Profile name.", parse: String },
+	],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "agent-memory recall",
 				classification: {
 					safeFlags: ["response-length", "thinking-level", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -175,6 +174,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Created` });
 			}
 		),
-};
+});
 
 export default command;

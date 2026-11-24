@@ -1,11 +1,10 @@
 import operation from "../_operations/connectors/create.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * create command
  * @generated from apis/overlays/connectors.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -19,68 +18,92 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage("$0 connectors create\n\nCreates a Magic WAN Connector.")
-		.option("device-id", { type: "string", description: "The device.id field" })
-		.option("device-provision-license", {
-			type: "boolean",
-			description:
-				"When true, create and provision a new licence key for the connector.",
-		})
-		.option("device-serial-number", {
-			type: "string",
-			description: "The device.serial_number field",
-		})
-		.option("activated", {
-			type: "boolean",
-			description: "The activated field",
-		})
-		.option("interrupt-window-days-of-week", {
-			type: "string",
-			array: true,
-			description:
-				"Allowed days of the week for upgrades. Default is all days.",
-		})
-		.option("interrupt-window-duration-hours", {
-			type: "number",
-			description: "The interrupt_window_duration_hours field",
-		})
-		.option("interrupt-window-embargo-dates", {
-			type: "string",
-			array: true,
-			description: "List of dates (YYYY-MM-DD) when upgrades are blocked.",
-		})
-		.option("interrupt-window-hour-of-day", {
-			type: "number",
-			description: "The interrupt_window_hour_of_day field",
-		})
-		.option("notes", { type: "string", description: "The notes field" })
-		.option("timezone", { type: "string", description: "The timezone field" })
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "create",
 	describe: "Create Connector",
-	builder,
+	usage: "$0 connectors create\n\nCreates a Magic WAN Connector.",
+	flags: {
+		"device-id": {
+			kind: "parsed",
+			brief: "The device.id field",
+			optional: true,
+			parse: String,
+		},
+		"device-provision-license": {
+			kind: "boolean",
+			brief:
+				"When true, create and provision a new licence key for the connector.",
+			optional: true,
+		},
+		"device-serial-number": {
+			kind: "parsed",
+			brief: "The device.serial_number field",
+			optional: true,
+			parse: String,
+		},
+		activated: {
+			kind: "boolean",
+			brief: "The activated field",
+			optional: true,
+		},
+		"interrupt-window-days-of-week": {
+			kind: "parsed",
+			brief: "Allowed days of the week for upgrades. Default is all days.",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"interrupt-window-duration-hours": {
+			kind: "parsed",
+			brief: "The interrupt_window_duration_hours field",
+			optional: true,
+			parse: Number,
+		},
+		"interrupt-window-embargo-dates": {
+			kind: "parsed",
+			brief: "List of dates (YYYY-MM-DD) when upgrades are blocked.",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"interrupt-window-hour-of-day": {
+			kind: "parsed",
+			brief: "The interrupt_window_hour_of_day field",
+			optional: true,
+			parse: Number,
+		},
+		notes: {
+			kind: "parsed",
+			brief: "The notes field",
+			optional: true,
+			parse: String,
+		},
+		timezone: {
+			kind: "parsed",
+			brief: "The timezone field",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "connectors create",
 				classification: {
 					safeFlags: ["device-provision-license", "activated", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -186,6 +209,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Created` });
 			}
 		),
-};
+});
 
 export default command;

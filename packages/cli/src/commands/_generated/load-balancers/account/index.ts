@@ -5,31 +5,26 @@ import $get from "./get.js";
 import $list from "./list.js";
 import $update from "./update.js";
 import $usage from "./usage/index.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * account command group
  * @generated from apis/overlays/load-balancers.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "account",
 	describe:
 		"Account-scoped load balancers that distribute traffic without requiring a DNS hostname",
 
-	builder: (yargs) => {
-		return yargs
-			.command($create)
-			.command($delete)
-			.command($edit)
-			.command($get)
-			.command($list)
-			.command($update)
-			.command($usage)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		create: $create,
+		delete: $delete,
+		edit: $edit,
+		get: $get,
+		list: $list,
+		update: $update,
+		usage: $usage,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

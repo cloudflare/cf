@@ -1,11 +1,10 @@
 import operation from "../../../_operations/magic-transit/sites/app-configuration/create.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * create command
  * @generated from apis/overlays/magic-transit.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -18,56 +17,53 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 magic-transit sites app-configuration create <site-id>\n\nCreates a new App Config for a site"
-		)
-		.positional("site-id", {
-			type: "string",
-			description: "Identifier",
-			demandOption: true,
-		})
-		.option("breakout", {
-			type: "boolean",
-			description:
-				"Whether to breakout traffic to the app's endpoints directly. Null preserves default behavior.",
-		})
-		.option("preferred-wans", {
-			type: "string",
-			array: true,
-			description:
-				"WAN interfaces to prefer over default WANs, highest-priority first. Can only be specified for breakout rules (breakout must be true).",
-		})
-		.option("priority", {
-			type: "number",
-			description:
-				"Priority of traffic. 0 is default, anything greater is prioritized. (Currently only 0 and 1 are supported)",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "create <site-id>",
 	describe: "Create a new App Config",
-	builder,
+	usage:
+		"$0 magic-transit sites app-configuration create <site-id>\n\nCreates a new App Config for a site",
+	flags: {
+		breakout: {
+			kind: "boolean",
+			brief:
+				"Whether to breakout traffic to the app's endpoints directly. Null preserves default behavior.",
+			optional: true,
+		},
+		"preferred-wans": {
+			kind: "parsed",
+			brief:
+				"WAN interfaces to prefer over default WANs, highest-priority first. Can only be specified for breakout rules (breakout must be true).",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		priority: {
+			kind: "parsed",
+			brief:
+				"Priority of traffic. 0 is default, anything greater is prioritized. (Currently only 0 and 1 are supported)",
+			optional: true,
+			parse: Number,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [{ placeholder: "site-id", brief: "Identifier", parse: String }],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "magic-transit sites app-configuration create",
 				classification: {
 					safeFlags: ["breakout", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -125,6 +121,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Created` });
 			}
 		),
-};
+});
 
 export default command;

@@ -1,11 +1,10 @@
 import operation from "../../../../_operations/magic-transit/advanced-tcp-protection/configs/allowlist/create.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * create command
  * @generated from apis/overlays/magic-transit.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -20,40 +19,42 @@ import { withProgress } from "#lib/progress.js";
 import { promptForRequiredField } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 magic-transit advanced-tcp-protection configs allowlist create\n\nCreate an allowlist prefix for an account."
-		)
-		.option("comment", {
-			type: "string",
-			description: "An comment describing the allowlist prefix.",
-		})
-		.option("enabled", {
-			type: "boolean",
-			description: "Whether to enable the allowlist prefix into effect.",
-		})
-		.option("prefix", {
-			type: "string",
-			description: "The allowlist prefix to add in CIDR format.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "The new allowlist prefix to create.",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "create",
 	describe: "Create allowlist prefix.",
-	builder,
+	usage:
+		"$0 magic-transit advanced-tcp-protection configs allowlist create\n\nCreate an allowlist prefix for an account.",
+	flags: {
+		comment: {
+			kind: "parsed",
+			brief: "An comment describing the allowlist prefix.",
+			optional: true,
+			parse: String,
+		},
+		enabled: {
+			kind: "boolean",
+			brief: "Whether to enable the allowlist prefix into effect.",
+			optional: true,
+		},
+		prefix: {
+			kind: "parsed",
+			brief: "The allowlist prefix to add in CIDR format.",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "The new allowlist prefix to create.",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
@@ -61,7 +62,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					"magic-transit advanced-tcp-protection configs allowlist create",
 				classification: {
 					safeFlags: ["enabled", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -151,6 +152,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Created` });
 			}
 		),
-};
+});
 
 export default command;

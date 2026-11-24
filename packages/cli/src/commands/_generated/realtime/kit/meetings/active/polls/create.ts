@@ -1,11 +1,10 @@
 import operation from "../../../../../_operations/realtime/kit/meetings/active/polls/create.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * create command
  * @generated from apis/overlays/realtime.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -20,59 +19,62 @@ import { withProgress } from "#lib/progress.js";
 import { promptForRequiredField } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 realtime kit meetings active polls create <meeting-id>\n\nCreates a new poll in an active session for the given meeting ID."
-		)
-		.positional("meeting-id", {
-			type: "string",
-			description: "ID of the meeting",
-			demandOption: true,
-		})
-		.option("app-id", {
-			type: "string",
-			description: "The app identifier tag.",
-			demandOption: true,
-		})
-		.option("anonymous", {
-			type: "boolean",
-			description: "if voters on a poll are anonymous",
-		})
-		.option("hide-votes", {
-			type: "boolean",
-			description: "if votes on an option are visible before a person votes",
-		})
-		.option("options", {
-			type: "string",
-			array: true,
-			description: "Different options for the question",
-		})
-		.option("question", { type: "string", description: "Question of the poll" })
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Request body for creating a new poll",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "create <meeting-id>",
 	describe: "Create a poll",
-	builder,
+	usage:
+		"$0 realtime kit meetings active polls create <meeting-id>\n\nCreates a new poll in an active session for the given meeting ID.",
+	flags: {
+		"app-id": {
+			kind: "parsed",
+			brief: "The app identifier tag.",
+			parse: String,
+		},
+		anonymous: {
+			kind: "boolean",
+			brief: "if voters on a poll are anonymous",
+			optional: true,
+		},
+		"hide-votes": {
+			kind: "boolean",
+			brief: "if votes on an option are visible before a person votes",
+			optional: true,
+		},
+		options: {
+			kind: "parsed",
+			brief: "Different options for the question",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		question: {
+			kind: "parsed",
+			brief: "Question of the poll",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Request body for creating a new poll",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [
+		{ placeholder: "meeting-id", brief: "ID of the meeting", parse: String },
+	],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "realtime kit meetings active polls create",
 				classification: {
 					safeFlags: ["anonymous", "hide-votes", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -162,6 +164,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Created` });
 			}
 		),
-};
+});
 
 export default command;

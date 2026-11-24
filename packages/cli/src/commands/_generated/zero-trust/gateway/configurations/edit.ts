@@ -1,11 +1,10 @@
 import operation from "../../../_operations/zero-trust/gateway/configurations/edit.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * edit command
  * @generated from apis/overlays/zero-trust.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -19,207 +18,265 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 zero-trust gateway configurations edit\n\nUpdate (PATCH) a single subcollection of settings such as `antivirus`, `tls_decrypt`, `activity_log`, `block_page`, `browser_isolation`, `fips`, `body_scanning`, `certificate`, or `max_ttl_secs` without updating the entire configuration object. This endpoint returns an error if any settings collection lacks proper configuration."
-		)
-		.option("settings-activity-log-enabled", {
-			type: "boolean",
-			description: "Specify whether to log activity.",
-		})
-		.option("settings-antivirus-enabled-download-phase", {
-			type: "boolean",
-			description:
-				"Specify whether to enable anti-virus scanning on downloads.",
-		})
-		.option("settings-antivirus-enabled-upload-phase", {
-			type: "boolean",
-			description: "Specify whether to enable anti-virus scanning on uploads.",
-		})
-		.option("settings-antivirus-fail-closed", {
-			type: "boolean",
-			description: "Specify whether to block requests for unscannable files.",
-		})
-		.option("settings-antivirus-notification-settings-enabled", {
-			type: "boolean",
-			description: "Specify whether to enable notifications.",
-		})
-		.option("settings-antivirus-notification-settings-include-context", {
-			type: "boolean",
-			description:
+const command = apiCommand({
+	command: "edit",
+	describe: "Patch Zero Trust account configuration",
+	usage:
+		"$0 zero-trust gateway configurations edit\n\nUpdate (PATCH) a single subcollection of settings such as `antivirus`, `tls_decrypt`, `activity_log`, `block_page`, `browser_isolation`, `fips`, `body_scanning`, `certificate`, or `max_ttl_secs` without updating the entire configuration object. This endpoint returns an error if any settings collection lacks proper configuration.",
+	flags: {
+		"settings-activity-log-enabled": {
+			kind: "boolean",
+			brief: "Specify whether to log activity.",
+			optional: true,
+		},
+		"settings-antivirus-enabled-download-phase": {
+			kind: "boolean",
+			brief: "Specify whether to enable anti-virus scanning on downloads.",
+			optional: true,
+		},
+		"settings-antivirus-enabled-upload-phase": {
+			kind: "boolean",
+			brief: "Specify whether to enable anti-virus scanning on uploads.",
+			optional: true,
+		},
+		"settings-antivirus-fail-closed": {
+			kind: "boolean",
+			brief: "Specify whether to block requests for unscannable files.",
+			optional: true,
+		},
+		"settings-antivirus-notification-settings-enabled": {
+			kind: "boolean",
+			brief: "Specify whether to enable notifications.",
+			optional: true,
+		},
+		"settings-antivirus-notification-settings-include-context": {
+			kind: "boolean",
+			brief:
 				"Specify whether to include context information as query parameters.",
-		})
-		.option("settings-antivirus-notification-settings-msg", {
-			type: "string",
-			description: "Specify the message to show in the notification.",
-		})
-		.option("settings-antivirus-notification-settings-support-url", {
-			type: "string",
-			description:
+			optional: true,
+		},
+		"settings-antivirus-notification-settings-msg": {
+			kind: "parsed",
+			brief: "Specify the message to show in the notification.",
+			optional: true,
+			parse: String,
+		},
+		"settings-antivirus-notification-settings-support-url": {
+			kind: "parsed",
+			brief:
 				"Specify a URL that directs users to more information. If unset, the notification opens a block page.",
-		})
-		.option("settings-block-page-background-color", {
-			type: "string",
-			description:
+			optional: true,
+			parse: String,
+		},
+		"settings-block-page-background-color": {
+			kind: "parsed",
+			brief:
 				"Specify the block page background color in `#rrggbb` format when the mode is customized_block_page.",
-		})
-		.option("settings-block-page-enabled", {
-			type: "boolean",
-			description: "Specify whether to enable the custom block page.",
-		})
-		.option("settings-block-page-footer-text", {
-			type: "string",
-			description:
+			optional: true,
+			parse: String,
+		},
+		"settings-block-page-enabled": {
+			kind: "boolean",
+			brief: "Specify whether to enable the custom block page.",
+			optional: true,
+		},
+		"settings-block-page-footer-text": {
+			kind: "parsed",
+			brief:
 				"Specify the block page footer text when the mode is customized_block_page.",
-		})
-		.option("settings-block-page-header-text", {
-			type: "string",
-			description:
+			optional: true,
+			parse: String,
+		},
+		"settings-block-page-header-text": {
+			kind: "parsed",
+			brief:
 				"Specify the block page header text when the mode is customized_block_page.",
-		})
-		.option("settings-block-page-include-context", {
-			type: "boolean",
-			description:
+			optional: true,
+			parse: String,
+		},
+		"settings-block-page-include-context": {
+			kind: "boolean",
+			brief:
 				"Specify whether to append context to target_uri as query parameters. This applies only when the mode is redirect_uri.",
-		})
-		.option("settings-block-page-logo-path", {
-			type: "string",
-			description:
+			optional: true,
+		},
+		"settings-block-page-logo-path": {
+			kind: "parsed",
+			brief:
 				"Specify the full URL to the logo file when the mode is customized_block_page.",
-		})
-		.option("settings-block-page-mailto-address", {
-			type: "string",
-			description:
+			optional: true,
+			parse: String,
+		},
+		"settings-block-page-mailto-address": {
+			kind: "parsed",
+			brief:
 				"Specify the admin email for users to contact when the mode is customized_block_page.",
-		})
-		.option("settings-block-page-mailto-subject", {
-			type: "string",
-			description:
+			optional: true,
+			parse: String,
+		},
+		"settings-block-page-mailto-subject": {
+			kind: "parsed",
+			brief:
 				"Specify the subject line for emails created from the block page when the mode is customized_block_page.",
-		})
-		.option("settings-block-page-mode", {
-			type: "string",
-			description:
+			optional: true,
+			parse: String,
+		},
+		"settings-block-page-mode": {
+			kind: "parsed",
+			brief:
 				"Specify whether to redirect users to a Cloudflare-hosted block page or a customer-provided URI.",
+			optional: true,
 			choices: ["customized_block_page", "redirect_uri"],
-		})
-		.coerce("settings-block-page-mode", (value) =>
-			resolveFileToken(value, "settings-block-page-mode", "text")
-		)
-		.option("settings-block-page-name", {
-			type: "string",
-			description:
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "settings-block-page-mode", "text"),
+		},
+		"settings-block-page-name": {
+			kind: "parsed",
+			brief:
 				"Specify the block page title when the mode is customized_block_page.",
-		})
-		.option("settings-block-page-suppress-footer", {
-			type: "boolean",
-			description:
+			optional: true,
+			parse: String,
+		},
+		"settings-block-page-suppress-footer": {
+			kind: "boolean",
+			brief:
 				"Specify whether to suppress detailed information at the bottom of the block page when the mode is customized_block_page.",
-		})
-		.option("settings-block-page-target-uri", {
-			type: "string",
-			description:
+			optional: true,
+		},
+		"settings-block-page-target-uri": {
+			kind: "parsed",
+			brief:
 				"Specify the URI to redirect users to when the mode is redirect_uri.",
-		})
-		.option("settings-body-scanning-inspection-mode", {
-			type: "string",
-			description: "Specify the inspection mode as either `deep` or `shallow`.",
+			optional: true,
+			parse: String,
+		},
+		"settings-body-scanning-inspection-mode": {
+			kind: "parsed",
+			brief: "Specify the inspection mode as either `deep` or `shallow`.",
+			optional: true,
 			choices: ["deep", "shallow"],
-		})
-		.coerce("settings-body-scanning-inspection-mode", (value) =>
-			resolveFileToken(value, "settings-body-scanning-inspection-mode", "text")
-		)
-		.option("settings-browser-isolation-non-identity-enabled", {
-			type: "boolean",
-			description:
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(
+					value,
+					"settings-body-scanning-inspection-mode",
+					"text"
+				),
+		},
+		"settings-browser-isolation-non-identity-enabled": {
+			kind: "boolean",
+			brief:
 				"Specify whether to enable non-identity onramp support for Browser Isolation.",
-		})
-		.option("settings-browser-isolation-url-browser-isolation-enabled", {
-			type: "boolean",
-			description: "Specify whether to enable Clientless Browser Isolation.",
-		})
-		.option("settings-certificate-id", {
-			type: "string",
-			description:
+			optional: true,
+		},
+		"settings-browser-isolation-url-browser-isolation-enabled": {
+			kind: "boolean",
+			brief: "Specify whether to enable Clientless Browser Isolation.",
+			optional: true,
+		},
+		"settings-certificate-id": {
+			kind: "parsed",
+			brief:
 				"Specify the UUID of the certificate used for interception. Ensure the certificate is available at the edge(previously called 'active'). A nil UUID directs Cloudflare to use the Root CA.",
-		})
-		.option("settings-custom-certificate-enabled", {
-			type: "boolean",
-			description:
+			optional: true,
+			parse: String,
+		},
+		"settings-custom-certificate-enabled": {
+			kind: "boolean",
+			brief:
 				"Specify whether to enable a custom certificate authority for signing Gateway traffic.",
-		})
-		.option("settings-custom-certificate-id", {
-			type: "string",
-			description:
+			optional: true,
+		},
+		"settings-custom-certificate-id": {
+			kind: "parsed",
+			brief:
 				"Specify the UUID of the certificate (ID from MTLS certificate store).",
-		})
-		.option("settings-extended-email-matching-enabled", {
-			type: "boolean",
-			description:
+			optional: true,
+			parse: String,
+		},
+		"settings-extended-email-matching-enabled": {
+			kind: "boolean",
+			brief:
 				"Specify whether to match all variants of user emails (with + or . modifiers) used as criteria in Firewall policies.",
-		})
-		.option("settings-fips-tls", {
-			type: "boolean",
-			description:
+			optional: true,
+		},
+		"settings-fips-tls": {
+			kind: "boolean",
+			brief:
 				"Enforce cipher suites and TLS versions compliant with FIPS 140-2.",
-		})
-		.option("settings-host-selector-enabled", {
-			type: "boolean",
-			description:
+			optional: true,
+		},
+		"settings-host-selector-enabled": {
+			kind: "boolean",
+			brief:
 				"Specify whether to enable filtering via hosts for egress policies.",
-		})
-		.option("settings-inspection-mode", {
-			type: "string",
-			description:
+			optional: true,
+		},
+		"settings-inspection-mode": {
+			kind: "parsed",
+			brief:
 				"Define the proxy inspection mode. 1. static: Gateway applies static inspection to HTTP on TCP(80). With TLS decryption on, Gateway inspects HTTPS traffic on TCP(443) and UDP(443). 2. dynamic: Gateway applies protocol detection to inspect HTTP and HTTPS traffic on any port. TLS decryption must remain on to inspect HTTPS traffic.",
+			optional: true,
 			choices: ["static", "dynamic"],
-		})
-		.coerce("settings-inspection-mode", (value) =>
-			resolveFileToken(value, "settings-inspection-mode", "text")
-		)
-		.option("settings-max-ttl-secs", {
-			type: "number",
-			description:
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "settings-inspection-mode", "text"),
+		},
+		"settings-max-ttl-secs": {
+			kind: "parsed",
+			brief:
 				"Account-level cap on DNS response TTLs, in seconds. Gateway rewrites DNS responses so returned record TTLs do not exceed this value. Null means no cap. Each DNS location can inherit, override, or disable it through the location `max_ttl` setting.",
-		})
-		.option("settings-protocol-detection-enabled", {
-			type: "boolean",
-			description:
+			optional: true,
+			parse: Number,
+		},
+		"settings-protocol-detection-enabled": {
+			kind: "boolean",
+			brief:
 				"Specify whether to detect protocols from the initial bytes of client traffic.",
-		})
-		.option("settings-regions", {
-			type: "string",
-			description:
+			optional: true,
+		},
+		"settings-regions": {
+			kind: "parsed",
+			brief:
 				'Specify per-region TLS interception and certificate settings for Gateway, keyed by Data Localization Suite region key. Relies on the Zero Trust account region setting  (`GET`/`PUT /accounts/{account_id}/zerotrust/region`) - the account must select a region before Gateway applies these settings for it. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": {...}}.',
-		})
-		.option("settings-sandbox-enabled", {
-			type: "boolean",
-			description: "Specify whether to enable the sandbox.",
-		})
-		.option("settings-sandbox-fallback-action", {
-			type: "string",
-			description:
-				"Specify the action to take when the system cannot scan the file.",
+			optional: true,
+			parse: String,
+		},
+		"settings-sandbox-enabled": {
+			kind: "boolean",
+			brief: "Specify whether to enable the sandbox.",
+			optional: true,
+		},
+		"settings-sandbox-fallback-action": {
+			kind: "parsed",
+			brief: "Specify the action to take when the system cannot scan the file.",
+			optional: true,
 			choices: ["allow", "block"],
-		})
-		.coerce("settings-sandbox-fallback-action", (value) =>
-			resolveFileToken(value, "settings-sandbox-fallback-action", "text")
-		)
-		.option("settings-tls-decrypt-enabled", {
-			type: "boolean",
-			description: "Specify whether to inspect encrypted HTTP traffic.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "settings-sandbox-fallback-action", "text"),
+		},
+		"settings-tls-decrypt-enabled": {
+			kind: "boolean",
+			brief: "Specify whether to inspect encrypted HTTP traffic.",
+			optional: true,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
 			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Specify account settings.",
-		})
-		.check((argv) => {
+		},
+		body: {
+			kind: "parsed",
+			brief: "Specify account settings.",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [],
+	rules(rules) {
+		rules.check((argv) => {
 			const groupSet = [
 				"settings-custom-certificate-enabled",
 				"settings-custom-certificate-id",
@@ -236,14 +293,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			}
 			return true;
 		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "edit",
-	describe: "Patch Zero Trust account configuration",
-	builder,
+	},
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
@@ -274,7 +324,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"settings-tls-decrypt-enabled",
 						"dry-run",
 					],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -625,6 +675,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Updated` });
 			}
 		),
-};
+});
 
 export default command;

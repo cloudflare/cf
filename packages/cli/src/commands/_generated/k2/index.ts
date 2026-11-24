@@ -1,23 +1,18 @@
 import $streams from "./streams/index.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * k2 command
  * @generated from apis/overlays/k2.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "k2",
 	describe:
 		"Durable, ordered event streams that you produce records to and consume from with subscriptions",
 
-	builder: (yargs) => {
-		return yargs
-			.command($streams)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		streams: $streams,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

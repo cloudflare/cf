@@ -1,11 +1,10 @@
 import operation from "../_operations/images/edit.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * edit command
  * @generated from apis/overlays/images.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -19,54 +18,57 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 images edit <image-id>\n\nUpdate a CF Images image's metadata, creator, or access control. On access control change, all copies of the image are purged from cache."
-		)
-		.positional("image-id", {
-			type: "string",
-			description: "Image unique identifier.",
-			demandOption: true,
-		})
-		.option("creator", {
-			type: "string",
-			description: "Can set the creator field with an internal user ID.",
-		})
-		.option("metadata", {
-			type: "string",
-			description:
-				'User modifiable key-value store. Can be used for keeping references to another system of record for managing images. No change if not specified. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": unknown}.',
-		})
-		.option("require-signed-urls", {
-			type: "boolean",
-			description:
-				"Indicates whether the image can be accessed using only its UID. If set to `true`, a signed token needs to be generated with a signing key to view the image. Returns a new UID on a change. No change if not specified.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "edit <image-id>",
 	describe: "Update image",
-	builder,
+	usage:
+		"$0 images edit <image-id>\n\nUpdate a CF Images image's metadata, creator, or access control. On access control change, all copies of the image are purged from cache.",
+	flags: {
+		creator: {
+			kind: "parsed",
+			brief: "Can set the creator field with an internal user ID.",
+			optional: true,
+			parse: String,
+		},
+		metadata: {
+			kind: "parsed",
+			brief:
+				'User modifiable key-value store. Can be used for keeping references to another system of record for managing images. No change if not specified. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": unknown}.',
+			optional: true,
+			parse: String,
+		},
+		"require-signed-urls": {
+			kind: "boolean",
+			brief:
+				"Indicates whether the image can be accessed using only its UID. If set to `true`, a signed token needs to be generated with a signing key to view the image. Returns a new UID on a change. No change if not specified.",
+			optional: true,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [
+		{
+			placeholder: "image-id",
+			brief: "Image unique identifier.",
+			parse: String,
+		},
+	],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "images edit",
 				classification: {
 					safeFlags: ["require-signed-urls", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -138,6 +140,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Updated` });
 			}
 		),
-};
+});
 
 export default command;

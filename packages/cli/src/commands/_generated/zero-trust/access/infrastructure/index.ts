@@ -1,24 +1,19 @@
 import $auditsshsettings from "./audit-ssh-settings/index.js";
 import $sshca from "./ssh-ca/index.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * infrastructure command group
  * @generated from apis/overlays/zero-trust.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "infrastructure",
 	describe: "Operations for access.infrastructure",
 
-	builder: (yargs) => {
-		return yargs
-			.command($auditsshsettings)
-			.command($sshca)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		"audit-ssh-settings": $auditsshsettings,
+		"ssh-ca": $sshca,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

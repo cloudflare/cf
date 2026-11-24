@@ -1,24 +1,19 @@
 import $domaincategories from "./domain-categories.js";
 import $useragents from "./user-agents/index.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * top command group
  * @generated from apis/overlays/radar.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "top",
 	describe: "Operations for robots-txt.top",
 
-	builder: (yargs) => {
-		return yargs
-			.command($domaincategories)
-			.command($useragents)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		"domain-categories": $domaincategories,
+		"user-agents": $useragents,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

@@ -1,23 +1,18 @@
 import $search from "./search.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * scripts command group
  * @generated from apis/overlays/workers.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "scripts",
 	describe:
 		"Worker script operations including usage model, settings, content, tags, schedules, subdomains, and queue consumers",
 
-	builder: (yargs) => {
-		return yargs
-			.command($search)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		search: $search,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

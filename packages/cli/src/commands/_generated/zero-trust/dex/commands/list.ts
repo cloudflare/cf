@@ -1,11 +1,10 @@
 import operation from "../../../_operations/zero-trust/dex/commands/list.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * list command
  * @generated from apis/overlays/zero-trust.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -17,68 +16,72 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 zero-trust dex commands list\n\nRetrieves a paginated list of commands issued to devices under the specified account, optionally filtered by time range, device, or other parameters"
-		)
-		.option("page", {
-			type: "number",
-			description: "Page number of paginated results.",
-			demandOption: true,
-		})
-		.option("per-page", {
-			type: "number",
-			description: "Number of results per page.",
-			demandOption: true,
-		})
-		.option("from", {
-			type: "string",
-			description:
-				"Start time for the query in ISO (RFC3339 - ISO 8601) format.",
-		})
-		.option("to", {
-			type: "string",
-			description: "End time for the query in ISO (RFC3339 - ISO 8601) format.",
-		})
-		.option("device-id", {
-			type: "string",
-			description: "Unique identifier for a device.",
-		})
-		.option("user-email", {
-			type: "string",
-			description: "Email tied to the device.",
-		})
-		.option("command-type", {
-			type: "string",
-			description: "Optionally filter executed commands by command type.",
-			choices: ["pcap", "speed-test", "warp-diag"],
-		})
-		.option("status", {
-			type: "string",
-			description: "Optionally filter executed commands by status.",
-			choices: ["PENDING_EXEC", "PENDING_UPLOAD", "SUCCESS", "FAILED"],
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "list",
 	describe: "List account commands",
-	builder,
+	usage:
+		"$0 zero-trust dex commands list\n\nRetrieves a paginated list of commands issued to devices under the specified account, optionally filtered by time range, device, or other parameters",
+	flags: {
+		page: {
+			kind: "parsed",
+			brief: "Page number of paginated results.",
+			parse: Number,
+		},
+		"per-page": {
+			kind: "parsed",
+			brief: "Number of results per page.",
+			parse: Number,
+		},
+		from: {
+			kind: "parsed",
+			brief: "Start time for the query in ISO (RFC3339 - ISO 8601) format.",
+			optional: true,
+			parse: String,
+		},
+		to: {
+			kind: "parsed",
+			brief: "End time for the query in ISO (RFC3339 - ISO 8601) format.",
+			optional: true,
+			parse: String,
+		},
+		"device-id": {
+			kind: "parsed",
+			brief: "Unique identifier for a device.",
+			optional: true,
+			parse: String,
+		},
+		"user-email": {
+			kind: "parsed",
+			brief: "Email tied to the device.",
+			optional: true,
+			parse: String,
+		},
+		"command-type": {
+			kind: "enum",
+			brief: "Optionally filter executed commands by command type.",
+			values: ["pcap", "speed-test", "warp-diag"],
+			optional: true,
+		},
+		status: {
+			kind: "enum",
+			brief: "Optionally filter executed commands by status.",
+			values: ["PENDING_EXEC", "PENDING_UPLOAD", "SUCCESS", "FAILED"],
+			optional: true,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "zero-trust dex commands list",
 				classification: {
 					safeFlags: ["command-type", "status", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -114,6 +117,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Loaded` });
 			}
 		),
-};
+});
 
 export default command;

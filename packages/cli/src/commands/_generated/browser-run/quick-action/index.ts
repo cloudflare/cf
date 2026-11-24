@@ -7,32 +7,27 @@ import $pdf from "./pdf.js";
 import $scrape from "./scrape.js";
 import $screenshot from "./screenshot.js";
 import $snapshot from "./snapshot.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * quick-action command group
  * @generated from apis/overlays/browser-run.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "quick-action",
 	describe: "Operations for quick-action",
 
-	builder: (yargs) => {
-		return yargs
-			.command($accessibilitytree)
-			.command($content)
-			.command($json)
-			.command($links)
-			.command($markdown)
-			.command($pdf)
-			.command($scrape)
-			.command($screenshot)
-			.command($snapshot)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		"accessibility-tree": $accessibilitytree,
+		content: $content,
+		json: $json,
+		links: $links,
+		markdown: $markdown,
+		pdf: $pdf,
+		scrape: $scrape,
+		screenshot: $screenshot,
+		snapshot: $snapshot,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

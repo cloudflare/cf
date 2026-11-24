@@ -1,11 +1,10 @@
 import operation from "../../../_operations/builds/repos/connections/replace.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * replace command
  * @generated from apis/overlays/builds.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -23,61 +22,67 @@ import {
 } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 builds repos connections replace\n\nSave the repository connection required by build triggers."
-		)
-		.option("provider-account-id", {
-			type: "string",
-			description:
-				"Provider-specific identifier of the account or namespace that owns the repository.",
-		})
-		.option("provider-account-name", {
-			type: "string",
-			description:
-				"Human-readable name of the account or namespace that owns the repository.",
-		})
-		.option("provider-type", {
-			type: "string",
-			description: "Source control provider.",
-			choices: ["github", "gitlab", "gitlab_internal", "origin"],
-		})
-		.coerce("provider-type", (value) =>
-			resolveFileToken(value, "provider-type", "text")
-		)
-		.option("repo-id", {
-			type: "string",
-			description: "Provider-specific repository identifier.",
-		})
-		.option("repo-name", {
-			type: "string",
-			description: "Human-readable repository name.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "replace",
 	describe: "Create or update a repository connection",
-	builder,
+	usage:
+		"$0 builds repos connections replace\n\nSave the repository connection required by build triggers.",
+	flags: {
+		"provider-account-id": {
+			kind: "parsed",
+			brief:
+				"Provider-specific identifier of the account or namespace that owns the repository.",
+			optional: true,
+			parse: String,
+		},
+		"provider-account-name": {
+			kind: "parsed",
+			brief:
+				"Human-readable name of the account or namespace that owns the repository.",
+			optional: true,
+			parse: String,
+		},
+		"provider-type": {
+			kind: "parsed",
+			brief: "Source control provider.",
+			optional: true,
+			choices: ["github", "gitlab", "gitlab_internal", "origin"],
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "provider-type", "text"),
+		},
+		"repo-id": {
+			kind: "parsed",
+			brief: "Provider-specific repository identifier.",
+			optional: true,
+			parse: String,
+		},
+		"repo-name": {
+			kind: "parsed",
+			brief: "Human-readable repository name.",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "builds repos connections replace",
 				classification: {
 					safeFlags: ["provider-type", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -200,6 +205,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Updated` });
 			}
 		),
-};
+});
 
 export default command;

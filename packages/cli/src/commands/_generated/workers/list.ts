@@ -1,11 +1,10 @@
 import operation from "../_operations/workers/list.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * list command
  * @generated from apis/overlays/workers.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -17,41 +16,49 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage("$0 workers list\n\nList all Workers for an account.")
-		.option("page", { type: "number", description: "Current page." })
-		.option("per-page", { type: "number", description: "Items per-page." })
-		.option("order-by", {
-			type: "string",
-			description: "Property to sort results by.",
-			choices: ["deployed_on", "updated_on", "created_on", "name"],
-		})
-		.option("order", {
-			type: "string",
-			description: "Sort direction.",
-			choices: ["asc", "desc"],
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "list",
 	describe: "List Workers",
-	builder,
+	usage: "$0 workers list\n\nList all Workers for an account.",
+	flags: {
+		page: {
+			kind: "parsed",
+			brief: "Current page.",
+			optional: true,
+			parse: Number,
+		},
+		"per-page": {
+			kind: "parsed",
+			brief: "Items per-page.",
+			optional: true,
+			parse: Number,
+		},
+		"order-by": {
+			kind: "enum",
+			brief: "Property to sort results by.",
+			values: ["deployed_on", "updated_on", "created_on", "name"],
+			optional: true,
+		},
+		order: {
+			kind: "enum",
+			brief: "Sort direction.",
+			values: ["asc", "desc"],
+			optional: true,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "workers list",
 				classification: {
 					safeFlags: ["order-by", "order", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -83,6 +90,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Loaded` });
 			}
 		),
-};
+});
 
 export default command;

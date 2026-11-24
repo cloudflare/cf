@@ -1,11 +1,10 @@
 import operation from "../../../../../_operations/realtime/kit/meetings/participants/tokens/revoke.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * revoke command
  * @generated from apis/overlays/realtime.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -20,55 +19,55 @@ import { withProgress } from "#lib/progress.js";
 import { confirmDelete, promptForRequiredField } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 realtime kit meetings participants tokens revoke <participant-id>\n\nRevokes a previously issued participant authentication token without deleting the participant. Other tokens issued to the participant remain valid."
-		)
-		.positional("participant-id", {
-			type: "string",
-			description:
-				"ID of the participant. You can fetch the participant ID using the add a participant API.",
-			demandOption: true,
-		})
-		.option("app-id", {
-			type: "string",
-			description: "The app identifier tag.",
-			demandOption: true,
-		})
-		.option("meeting-id", {
-			type: "string",
-			description:
-				"ID of the meeting. You can fetch the meeting ID using the create a meeting API.",
-			demandOption: true,
-		})
-		.option("token", {
-			type: "string",
-			description: "The participant authentication token to revoke.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("force", {
-			type: "boolean",
-			alias: "f",
-			description: "Skip confirmation (useful in scripts and CI)",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "revoke <participant-id>",
 	describe: "Revoke participant's authentication token",
-	builder,
+	usage:
+		"$0 realtime kit meetings participants tokens revoke <participant-id>\n\nRevokes a previously issued participant authentication token without deleting the participant. Other tokens issued to the participant remain valid.",
+	flags: {
+		"app-id": {
+			kind: "parsed",
+			brief: "The app identifier tag.",
+			parse: String,
+		},
+		"meeting-id": {
+			kind: "parsed",
+			brief:
+				"ID of the meeting. You can fetch the meeting ID using the create a meeting API.",
+			parse: String,
+		},
+		token: {
+			kind: "parsed",
+			brief: "The participant authentication token to revoke.",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		force: {
+			kind: "boolean",
+			brief: "Skip confirmation (useful in scripts and CI)",
+			alias: "f",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [
+		{
+			placeholder: "participant-id",
+			brief:
+				"ID of the participant. You can fetch the participant ID using the add a participant API.",
+			parse: String,
+		},
+	],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
@@ -76,7 +75,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				classification: {
 					safeFlags: ["dry-run", "force"],
 					shortFlagAliases: { f: { canonical: "force", type: "boolean" } },
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -164,6 +163,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Deleted` });
 			}
 		),
-};
+});
 
 export default command;

@@ -1,10 +1,9 @@
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * multi-chat-completions command
  * @generated from apis/overlays/ai-search.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -25,162 +24,198 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 ai-search multi-chat-completions\n\nPerforms a chat completion request against multiple AI Search instances in parallel, merging retrieved content as context for generating a response."
-		)
-		.option("namespace", {
-			type: "string",
-			description: "Namespace to use for this operation.",
+const command = apiCommand({
+	command: "multi-chat-completions",
+	describe: "Multi-Instance Chat Completions",
+	usage:
+		"$0 ai-search multi-chat-completions\n\nPerforms a chat completion request against multiple AI Search instances in parallel, merging retrieved content as context for generating a response.",
+	flags: {
+		namespace: {
+			kind: "parsed",
+			brief: "Namespace to use for this operation.",
 			default: "default",
-		})
-		.option("ai-search-options-cache-cache-threshold", {
-			type: "string",
-			description: "The ai_search_options.cache.cache_threshold field",
+			parse: String,
+		},
+		"ai-search-options-cache-cache-threshold": {
+			kind: "parsed",
+			brief: "The ai_search_options.cache.cache_threshold field",
+			optional: true,
 			choices: [
 				"super_strict_match",
 				"close_enough",
 				"flexible_friend",
 				"anything_goes",
 			],
-		})
-		.coerce("ai-search-options-cache-cache-threshold", (value) =>
-			resolveFileToken(value, "ai-search-options-cache-cache-threshold", "text")
-		)
-		.option("ai-search-options-cache-enabled", {
-			type: "boolean",
-			description: "The ai_search_options.cache.enabled field",
-		})
-		.option("ai-search-options-custom-metadata", {
-			type: "string",
-			description:
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(
+					value,
+					"ai-search-options-cache-cache-threshold",
+					"text"
+				),
+		},
+		"ai-search-options-cache-enabled": {
+			kind: "boolean",
+			brief: "The ai_search_options.cache.enabled field",
+			optional: true,
+		},
+		"ai-search-options-custom-metadata": {
+			kind: "parsed",
+			brief:
 				"Metadata added to AI Gateway logs for requests this operation triggers. Accepts up to 2 string, number, or boolean entries. Reserved keys: 'ai-search', 'task', 'origin', and any key beginning with 'cf.'. Provide as a JSON object or @path/to/file.json. Shape: {\"<key>\": (string | number | boolean)}.",
-		})
-		.option("ai-search-options-instance-ids", {
-			type: "string",
-			array: true,
-			description: "The ai_search_options.instance_ids field",
-		})
-		.option("ai-search-options-query-rewrite-enabled", {
-			type: "boolean",
-			description: "The ai_search_options.query_rewrite.enabled field",
-		})
-		.option("ai-search-options-query-rewrite-model", {
-			type: "string",
-			description:
+			optional: true,
+			parse: String,
+		},
+		"ai-search-options-instance-ids": {
+			kind: "parsed",
+			brief: "The ai_search_options.instance_ids field",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"ai-search-options-query-rewrite-enabled": {
+			kind: "boolean",
+			brief: "The ai_search_options.query_rewrite.enabled field",
+			optional: true,
+		},
+		"ai-search-options-query-rewrite-model": {
+			kind: "parsed",
+			brief:
 				"A Workers AI model ID or an AI Gateway model ID compatible with the OpenAI Chat Completions API. An empty string uses the configured or default model.",
-		})
-		.option("ai-search-options-query-rewrite-rewrite-prompt", {
-			type: "string",
-			description: "The ai_search_options.query_rewrite.rewrite_prompt field",
-		})
-		.option("ai-search-options-reranking-enabled", {
-			type: "boolean",
-			description: "The ai_search_options.reranking.enabled field",
-		})
-		.option("ai-search-options-reranking-match-threshold", {
-			type: "number",
-			description:
+			optional: true,
+			parse: String,
+		},
+		"ai-search-options-query-rewrite-rewrite-prompt": {
+			kind: "parsed",
+			brief: "The ai_search_options.query_rewrite.rewrite_prompt field",
+			optional: true,
+			parse: String,
+		},
+		"ai-search-options-reranking-enabled": {
+			kind: "boolean",
+			brief: "The ai_search_options.reranking.enabled field",
+			optional: true,
+		},
+		"ai-search-options-reranking-match-threshold": {
+			kind: "parsed",
+			brief:
 				"Minimum reranker relevance score a chunk must reach to be returned. When omitted, falls back to the instance-level score_threshold, then to 0.4.",
-		})
-		.option("ai-search-options-reranking-model", {
-			type: "string",
-			description: "The ai_search_options.reranking.model field",
-		})
-		.option("ai-search-options-retrieval-boost-by", {
-			type: "string",
-			description:
+			optional: true,
+			parse: Number,
+		},
+		"ai-search-options-reranking-model": {
+			kind: "parsed",
+			brief: "The ai_search_options.reranking.model field",
+			optional: true,
+			parse: String,
+		},
+		"ai-search-options-retrieval-boost-by": {
+			kind: "parsed",
+			brief:
 				'Metadata fields to boost search results by. Overrides the instance-level boost_by config. Direction defaults to \'asc\' for numeric/datetime fields, \'exists\' for text/boolean fields. Fields must match \'timestamp\' or a defined custom_metadata field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"field": string, "direction"?: "asc" | "desc" | "exists" | ...more}]. ? marks optional keys.',
-		})
-		.option("ai-search-options-retrieval-context-expansion", {
-			type: "number",
-			description: "The ai_search_options.retrieval.context_expansion field",
-		})
-		.option("ai-search-options-retrieval-filters", {
-			type: "string",
-			description:
+			optional: true,
+			parse: String,
+		},
+		"ai-search-options-retrieval-context-expansion": {
+			kind: "parsed",
+			brief: "The ai_search_options.retrieval.context_expansion field",
+			optional: true,
+			parse: Number,
+		},
+		"ai-search-options-retrieval-filters": {
+			kind: "parsed",
+			brief:
 				'The ai_search_options.retrieval.filters field. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": unknown}.',
-		})
-		.option("ai-search-options-retrieval-fusion-method", {
-			type: "string",
-			description: "The ai_search_options.retrieval.fusion_method field",
+			optional: true,
+			parse: String,
+		},
+		"ai-search-options-retrieval-fusion-method": {
+			kind: "parsed",
+			brief: "The ai_search_options.retrieval.fusion_method field",
+			optional: true,
 			choices: ["max", "rrf"],
-		})
-		.coerce("ai-search-options-retrieval-fusion-method", (value) =>
-			resolveFileToken(
-				value,
-				"ai-search-options-retrieval-fusion-method",
-				"text"
-			)
-		)
-		.option("ai-search-options-retrieval-keyword-match-mode", {
-			type: "string",
-			description:
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(
+					value,
+					"ai-search-options-retrieval-fusion-method",
+					"text"
+				),
+		},
+		"ai-search-options-retrieval-keyword-match-mode": {
+			kind: "parsed",
+			brief:
 				"Controls which documents become candidates for BM25 scoring. 'and' restricts candidates to documents containing all query terms; 'or' includes any document containing at least one term and ranks results according to BM25 relevance. When omitted, falls back to the instance-level retrieval_options.keyword_match_mode, then to 'and'.",
+			optional: true,
 			choices: ["and", "or"],
-		})
-		.coerce("ai-search-options-retrieval-keyword-match-mode", (value) =>
-			resolveFileToken(
-				value,
-				"ai-search-options-retrieval-keyword-match-mode",
-				"text"
-			)
-		)
-		.option("ai-search-options-retrieval-match-threshold", {
-			type: "number",
-			description:
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(
+					value,
+					"ai-search-options-retrieval-keyword-match-mode",
+					"text"
+				),
+		},
+		"ai-search-options-retrieval-match-threshold": {
+			kind: "parsed",
+			brief:
 				"Minimum score a chunk must reach to be returned. When omitted, each instance's chunks are filtered by that instance's score_threshold, capped at the lower of the first instance's score_threshold and 0.4.",
-		})
-		.option("ai-search-options-retrieval-max-num-results", {
-			type: "number",
-			description:
+			optional: true,
+			parse: Number,
+		},
+		"ai-search-options-retrieval-max-num-results": {
+			kind: "parsed",
+			brief:
 				"Maximum number of merged results to return. When omitted, defaults to the first instance's max_num_results, then 10.",
-		})
-		.option("ai-search-options-retrieval-retrieval-type", {
-			type: "string",
-			description: "The ai_search_options.retrieval.retrieval_type field",
+			optional: true,
+			parse: Number,
+		},
+		"ai-search-options-retrieval-retrieval-type": {
+			kind: "parsed",
+			brief: "The ai_search_options.retrieval.retrieval_type field",
+			optional: true,
 			choices: ["vector", "keyword", "hybrid"],
-		})
-		.coerce("ai-search-options-retrieval-retrieval-type", (value) =>
-			resolveFileToken(
-				value,
-				"ai-search-options-retrieval-retrieval-type",
-				"text"
-			)
-		)
-		.option("ai-search-options-retrieval-return-on-failure", {
-			type: "boolean",
-			description: "The ai_search_options.retrieval.return_on_failure field",
-		})
-		.option("messages", {
-			type: "string",
-			description:
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(
+					value,
+					"ai-search-options-retrieval-retrieval-type",
+					"text"
+				),
+		},
+		"ai-search-options-retrieval-return-on-failure": {
+			kind: "boolean",
+			brief: "The ai_search_options.retrieval.return_on_failure field",
+			optional: true,
+		},
+		messages: {
+			kind: "parsed",
+			brief:
 				'The messages field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"content": (string | [{...}] | null), "role": "system" | "developer" | "user" | ...more, "<key>": unknown}].',
-		})
-		.option("model", {
-			type: "string",
-			description:
+			optional: true,
+			parse: String,
+		},
+		model: {
+			kind: "parsed",
+			brief:
 				"A Workers AI model ID or an AI Gateway model ID compatible with the OpenAI Chat Completions API. An empty string uses the configured or default model.",
-		})
-		.option("stream", { type: "boolean", description: "The stream field" })
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
+			optional: true,
+			parse: String,
+		},
+		stream: { kind: "boolean", brief: "The stream field", optional: true },
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
 			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "multi-chat-completions",
-	describe: "Multi-Instance Chat Completions",
-	builder,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
@@ -198,7 +233,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"stream",
 						"dry-run",
 					],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -513,6 +548,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Created` });
 			}
 		),
-};
+});
 
 export default command;

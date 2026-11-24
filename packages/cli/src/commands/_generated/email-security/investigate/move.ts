@@ -1,11 +1,10 @@
 import operation from "../../_operations/email-security/investigate/move.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * move command
  * @generated from apis/overlays/email-security.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -20,14 +19,16 @@ import { withProgress } from "#lib/progress.js";
 import { promptForRequiredEnumField } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 email-security investigate move\n\nMoves one or more messages to a specified mailbox folder (Inbox, JunkEmail, DeletedItems, RecoverableItemsDeletions, or RecoverableItemsPurges). Requires active integration. Operates on an explicit list of messages; to move all messages matching a search, create a bulk action job instead."
-		)
-		.option("destination", {
-			type: "string",
-			description: "The mailbox folder to move messages to.",
+const command = apiCommand({
+	command: "move",
+	describe: "Move messages",
+	usage:
+		"$0 email-security investigate move\n\nMoves one or more messages to a specified mailbox folder (Inbox, JunkEmail, DeletedItems, RecoverableItemsDeletions, or RecoverableItemsPurges). Requires active integration. Operates on an explicit list of messages; to move all messages matching a search, create a bulk action job instead.",
+	flags: {
+		destination: {
+			kind: "parsed",
+			brief: "The mailbox folder to move messages to.",
+			optional: true,
 			choices: [
 				"Inbox",
 				"JunkEmail",
@@ -35,13 +36,13 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"RecoverableItemsDeletions",
 				"RecoverableItemsPurges",
 			],
-		})
-		.coerce("destination", (value) =>
-			resolveFileToken(value, "destination", "text")
-		)
-		.option("expected-disposition", {
-			type: "string",
-			description: "Nonfunctional field. End of life: December 1, 2026.",
+			parse: String,
+			coerce: (value: string) => resolveFileToken(value, "destination", "text"),
+		},
+		"expected-disposition": {
+			kind: "parsed",
+			brief: "Nonfunctional field. End of life: December 1, 2026.",
+			optional: true,
 			choices: [
 				"MALICIOUS",
 				"MALICIOUS-BEC",
@@ -54,45 +55,44 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"UNKNOWN",
 				"NONE",
 			],
-		})
-		.coerce("expected-disposition", (value) =>
-			resolveFileToken(value, "expected-disposition", "text")
-		)
-		.option("ids", {
-			type: "string",
-			array: true,
-			description: "List of message IDs to move.",
-		})
-		.option("postfix-ids", {
-			type: "string",
-			array: true,
-			description:
-				"Deprecated, use `ids` instead. End of life: November 1, 2026.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "expected-disposition", "text"),
+		},
+		ids: {
+			kind: "parsed",
+			brief: "List of message IDs to move.",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"postfix-ids": {
+			kind: "parsed",
+			brief: "Deprecated, use `ids` instead. End of life: November 1, 2026.",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
 			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "move",
-	describe: "Move messages",
-	builder,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "email-security investigate move",
 				classification: {
 					safeFlags: ["destination", "expected-disposition", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -168,6 +168,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Created` });
 			}
 		),
-};
+});
 
 export default command;

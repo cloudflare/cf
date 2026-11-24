@@ -6,31 +6,26 @@ import $submit from "./submit.js";
 import $trial from "./trial/index.js";
 import $urlinfo from "./url-info.js";
 import $urls from "./urls/index.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * brand-protection command
  * @generated from apis/overlays/brand-protection.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "brand-protection",
 	describe: "brand-protection",
 
-	builder: (yargs) => {
-		return yargs
-			.command($submit)
-			.command($urlinfo)
-			.command($logomatches)
-			.command($logos)
-			.command($matches)
-			.command($queries)
-			.command($trial)
-			.command($urls)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		submit: $submit,
+		"url-info": $urlinfo,
+		"logo-matches": $logomatches,
+		logos: $logos,
+		matches: $matches,
+		queries: $queries,
+		trial: $trial,
+		urls: $urls,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

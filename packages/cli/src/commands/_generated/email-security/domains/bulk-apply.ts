@@ -1,11 +1,10 @@
 import operation from "../../_operations/email-security/domains/bulk-apply.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * bulk-apply command
  * @generated from apis/overlays/email-security.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -19,54 +18,59 @@ import { withProgress } from "#lib/progress.js";
 import { confirmDelete } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 email-security domains bulk-apply\n\nExecutes multiple domain operations in a single request. All four operation arrays (deletes, patches, puts, posts) are required and executed in order. Send empty arrays for unused operations."
-		)
-		.option("deletes", {
-			type: "string",
-			description:
-				'IDs of the domains to remove protection from. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"id": string}].',
-		})
-		.option("patches", {
-			type: "string",
-			description:
-				'Partial updates to apply — each entry carries the domain\'s ID and only the fields to change. Provide as a JSON array of objects or @path/to/file.json. Shape: [({"allowed_delivery_modes"?: ["DIRECT" | "BCC" | "JOURNAL" | ...more], "drop_dispositions"?: ["MALICIOUS" | "MALICIOUS-BEC" | "SUSPICIOUS" | ...more], "folder"?: ("AllItems" | "Inbox" | null), ...more} & {"id": string})]. ? marks optional keys.',
-		})
-		.option("posts", {
-			type: "string",
-			description:
-				'Domains to add protection for. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"allowed_delivery_modes": ["DIRECT" | "BCC" | "JOURNAL" | ...more], "domain": string, "drop_dispositions": ["MALICIOUS" | "MALICIOUS-BEC" | "SUSPICIOUS" | ...more], "ip_restrictions": [string], ...more}].',
-		})
-		.option("puts", {
-			type: "string",
-			description:
-				'Full replacements to apply — each entry carries the domain\'s ID and every field of its new value. Provide as a JSON array of objects or @path/to/file.json. Shape: [({"allowed_delivery_modes": ["DIRECT" | "BCC" | "JOURNAL" | ...more], "drop_dispositions": ["MALICIOUS" | "MALICIOUS-BEC" | "SUSPICIOUS" | ...more], "ip_restrictions": [string], ...more} & {"id": string})].',
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("force", {
-			type: "boolean",
-			alias: "f",
-			description: "Skip confirmation (useful in scripts and CI)",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "bulk-apply",
 	describe: "Batch domain operations",
-	builder,
+	usage:
+		"$0 email-security domains bulk-apply\n\nExecutes multiple domain operations in a single request. All four operation arrays (deletes, patches, puts, posts) are required and executed in order. Send empty arrays for unused operations.",
+	flags: {
+		deletes: {
+			kind: "parsed",
+			brief:
+				'IDs of the domains to remove protection from. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"id": string}].',
+			optional: true,
+			parse: String,
+		},
+		patches: {
+			kind: "parsed",
+			brief:
+				'Partial updates to apply — each entry carries the domain\'s ID and only the fields to change. Provide as a JSON array of objects or @path/to/file.json. Shape: [({"allowed_delivery_modes"?: ["DIRECT" | "BCC" | "JOURNAL" | ...more], "drop_dispositions"?: ["MALICIOUS" | "MALICIOUS-BEC" | "SUSPICIOUS" | ...more], "folder"?: ("AllItems" | "Inbox" | null), ...more} & {"id": string})]. ? marks optional keys.',
+			optional: true,
+			parse: String,
+		},
+		posts: {
+			kind: "parsed",
+			brief:
+				'Domains to add protection for. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"allowed_delivery_modes": ["DIRECT" | "BCC" | "JOURNAL" | ...more], "domain": string, "drop_dispositions": ["MALICIOUS" | "MALICIOUS-BEC" | "SUSPICIOUS" | ...more], "ip_restrictions": [string], ...more}].',
+			optional: true,
+			parse: String,
+		},
+		puts: {
+			kind: "parsed",
+			brief:
+				'Full replacements to apply — each entry carries the domain\'s ID and every field of its new value. Provide as a JSON array of objects or @path/to/file.json. Shape: [({"allowed_delivery_modes": ["DIRECT" | "BCC" | "JOURNAL" | ...more], "drop_dispositions": ["MALICIOUS" | "MALICIOUS-BEC" | "SUSPICIOUS" | ...more], "ip_restrictions": [string], ...more} & {"id": string})].',
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		force: {
+			kind: "boolean",
+			brief: "Skip confirmation (useful in scripts and CI)",
+			alias: "f",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
@@ -74,7 +78,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				classification: {
 					safeFlags: ["dry-run", "force"],
 					shortFlagAliases: { f: { canonical: "force", type: "boolean" } },
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -161,6 +165,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Done` });
 			}
 		),
-};
+});
 
 export default command;

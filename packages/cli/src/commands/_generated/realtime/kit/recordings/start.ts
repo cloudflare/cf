@@ -1,11 +1,10 @@
 import operation from "../../../_operations/realtime/kit/recordings/start.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * start command
  * @generated from apis/overlays/realtime.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -20,143 +19,166 @@ import { withProgress } from "#lib/progress.js";
 import { promptForRequiredField } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 realtime kit recordings start <app-id>\n\nStarts recording a meeting. The meeting can be started by an App admin directly, or a participant with permissions to start a recording, based on the type of authorization used."
-		)
-		.positional("app-id", {
-			type: "string",
-			description: "The app identifier tag.",
-			demandOption: true,
-		})
-		.option("allow-multiple-recordings", {
-			type: "boolean",
-			description:
-				"By default, a meeting allows only one recording to run at a time. Enabling the `allow_multiple_recordings` parameter to true allows you to initiate multiple recordings concurrently in the same meeting. This allows you to record separate videos of the same meeting with different configurations, such as portrait mode or landscape mode.",
-			default: false,
-		})
-		.option("audio-config-channel", {
-			type: "string",
-			description:
-				"Audio signal pathway within an audio file that carries a specific sound source.",
-			choices: ["mono", "stereo"],
-		})
-		.coerce("audio-config-channel", (value) =>
-			resolveFileToken(value, "audio-config-channel", "text")
-		)
-		.option("audio-config-codec", {
-			type: "string",
-			description:
-				"Codec using which the recording will be encoded. If VP8/VP9 is selected for videoConfig, changing audioConfig is not allowed. In this case, the codec in the audioConfig is automatically set to vorbis.",
-			choices: ["MP3", "AAC"],
-		})
-		.coerce("audio-config-codec", (value) =>
-			resolveFileToken(value, "audio-config-codec", "text")
-		)
-		.option("audio-config-export-file", {
-			type: "boolean",
-			description: "Controls whether to export audio file seperately",
-		})
-		.option("file-name-prefix", {
-			type: "string",
-			description: "Update the recording file name.",
-		})
-		.option("interactive-config-type", {
-			type: "string",
-			description: "The metadata is presented in the form of ID3 tags.",
-			choices: ["ID3"],
-		})
-		.coerce("interactive-config-type", (value) =>
-			resolveFileToken(value, "interactive-config-type", "text")
-		)
-		.option("max-seconds", {
-			type: "number",
-			description:
-				"Specifies the maximum duration for recording in seconds, ranging from a minimum of 60 seconds to a maximum of 24 hours.",
-		})
-		.option("meeting-id", {
-			type: "string",
-			description: "ID of the meeting to record.",
-		})
-		.option("realtimekit-bucket-config-enabled", {
-			type: "boolean",
-			description:
-				"Controls whether recordings are uploaded to RealtimeKit's bucket. If set to false, `download_url`, `audio_download_url`, `download_url_expiry` won't be generated for a recording.",
-		})
-		.option("rtmp-out-config-rtmp-url", {
-			type: "string",
-			description: "RTMP URL to stream to",
-		})
-		.option("storage-config-type", {
-			type: "string",
-			description: "The storage_config.type field",
-			choices: ["gcs", "aws", "azure", "digitalocean", "sftp"],
-		})
-		.coerce("storage-config-type", (value) =>
-			resolveFileToken(value, "storage-config-type", "text")
-		)
-		.option("url", {
-			type: "string",
-			description: "Pass a custom url to record arbitary screen",
-		})
-		.option("video-config-codec", {
-			type: "string",
-			description: "Codec using which the recording will be encoded.",
-			choices: ["H264", "VP8", "VP9"],
-		})
-		.coerce("video-config-codec", (value) =>
-			resolveFileToken(value, "video-config-codec", "text")
-		)
-		.option("video-config-export-file", {
-			type: "boolean",
-			description: "Controls whether to export video file seperately",
-		})
-		.option("video-config-height", {
-			type: "number",
-			description: "Height of the recording video in pixels",
-		})
-		.option("video-config-watermark-position", {
-			type: "string",
-			description: "Position of the watermark",
-			choices: ["left top", "right top", "left bottom", "right bottom"],
-		})
-		.coerce("video-config-watermark-position", (value) =>
-			resolveFileToken(value, "video-config-watermark-position", "text")
-		)
-		.option("video-config-watermark-size-height", {
-			type: "number",
-			description: "Height of the watermark in px",
-		})
-		.option("video-config-watermark-size-width", {
-			type: "number",
-			description: "Width of the watermark in px",
-		})
-		.option("video-config-watermark-url", {
-			type: "string",
-			description: "URL of the watermark image",
-		})
-		.option("video-config-width", {
-			type: "number",
-			description: "Width of the recording video in pixels",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "start <app-id>",
 	describe: "Start recording a meeting",
-	builder,
+	usage:
+		"$0 realtime kit recordings start <app-id>\n\nStarts recording a meeting. The meeting can be started by an App admin directly, or a participant with permissions to start a recording, based on the type of authorization used.",
+	flags: {
+		"allow-multiple-recordings": {
+			kind: "boolean",
+			brief:
+				"By default, a meeting allows only one recording to run at a time. Enabling the `allow_multiple_recordings` parameter to true allows you to initiate multiple recordings concurrently in the same meeting. This allows you to record separate videos of the same meeting with different configurations, such as portrait mode or landscape mode.",
+			default: false,
+		},
+		"audio-config-channel": {
+			kind: "parsed",
+			brief:
+				"Audio signal pathway within an audio file that carries a specific sound source.",
+			optional: true,
+			choices: ["mono", "stereo"],
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "audio-config-channel", "text"),
+		},
+		"audio-config-codec": {
+			kind: "parsed",
+			brief:
+				"Codec using which the recording will be encoded. If VP8/VP9 is selected for videoConfig, changing audioConfig is not allowed. In this case, the codec in the audioConfig is automatically set to vorbis.",
+			optional: true,
+			choices: ["MP3", "AAC"],
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "audio-config-codec", "text"),
+		},
+		"audio-config-export-file": {
+			kind: "boolean",
+			brief: "Controls whether to export audio file seperately",
+			optional: true,
+		},
+		"file-name-prefix": {
+			kind: "parsed",
+			brief: "Update the recording file name.",
+			optional: true,
+			parse: String,
+		},
+		"interactive-config-type": {
+			kind: "parsed",
+			brief: "The metadata is presented in the form of ID3 tags.",
+			optional: true,
+			choices: ["ID3"],
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "interactive-config-type", "text"),
+		},
+		"max-seconds": {
+			kind: "parsed",
+			brief:
+				"Specifies the maximum duration for recording in seconds, ranging from a minimum of 60 seconds to a maximum of 24 hours.",
+			optional: true,
+			parse: Number,
+		},
+		"meeting-id": {
+			kind: "parsed",
+			brief: "ID of the meeting to record.",
+			optional: true,
+			parse: String,
+		},
+		"realtimekit-bucket-config-enabled": {
+			kind: "boolean",
+			brief:
+				"Controls whether recordings are uploaded to RealtimeKit's bucket. If set to false, `download_url`, `audio_download_url`, `download_url_expiry` won't be generated for a recording.",
+			optional: true,
+		},
+		"rtmp-out-config-rtmp-url": {
+			kind: "parsed",
+			brief: "RTMP URL to stream to",
+			optional: true,
+			parse: String,
+		},
+		"storage-config-type": {
+			kind: "parsed",
+			brief: "The storage_config.type field",
+			optional: true,
+			choices: ["gcs", "aws", "azure", "digitalocean", "sftp"],
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "storage-config-type", "text"),
+		},
+		url: {
+			kind: "parsed",
+			brief: "Pass a custom url to record arbitary screen",
+			optional: true,
+			parse: String,
+		},
+		"video-config-codec": {
+			kind: "parsed",
+			brief: "Codec using which the recording will be encoded.",
+			optional: true,
+			choices: ["H264", "VP8", "VP9"],
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "video-config-codec", "text"),
+		},
+		"video-config-export-file": {
+			kind: "boolean",
+			brief: "Controls whether to export video file seperately",
+			optional: true,
+		},
+		"video-config-height": {
+			kind: "parsed",
+			brief: "Height of the recording video in pixels",
+			optional: true,
+			parse: Number,
+		},
+		"video-config-watermark-position": {
+			kind: "parsed",
+			brief: "Position of the watermark",
+			optional: true,
+			choices: ["left top", "right top", "left bottom", "right bottom"],
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "video-config-watermark-position", "text"),
+		},
+		"video-config-watermark-size-height": {
+			kind: "parsed",
+			brief: "Height of the watermark in px",
+			optional: true,
+			parse: Number,
+		},
+		"video-config-watermark-size-width": {
+			kind: "parsed",
+			brief: "Width of the watermark in px",
+			optional: true,
+			parse: Number,
+		},
+		"video-config-watermark-url": {
+			kind: "parsed",
+			brief: "URL of the watermark image",
+			optional: true,
+			parse: String,
+		},
+		"video-config-width": {
+			kind: "parsed",
+			brief: "Width of the recording video in pixels",
+			optional: true,
+			parse: Number,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [
+		{ placeholder: "app-id", brief: "The app identifier tag.", parse: String },
+	],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
@@ -175,7 +197,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"video-config-watermark-position",
 						"dry-run",
 					],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -354,6 +376,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Created` });
 			}
 		),
-};
+});
 
 export default command;

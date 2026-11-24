@@ -1,11 +1,10 @@
 import operation from "../../../_operations/realtime/kit/webhooks/create.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * create command
  * @generated from apis/overlays/realtime.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -20,56 +19,58 @@ import { withProgress } from "#lib/progress.js";
 import { promptForRequiredField } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 realtime kit webhooks create <app-id>\n\nAdds a new webhook to an App."
-		)
-		.positional("app-id", {
-			type: "string",
-			description: "The app identifier tag.",
-			demandOption: true,
-		})
-		.option("enabled", {
-			type: "boolean",
-			description:
-				"Set whether or not the webhook should be active when created",
-			default: true,
-		})
-		.option("events", {
-			type: "string",
-			array: true,
-			description: "Events that this webhook will get triggered by",
-		})
-		.option("name", { type: "string", description: "Name of the webhook" })
-		.option("url", {
-			type: "string",
-			description: "URL this webhook will send events to",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "create <app-id>",
 	describe: "Add a webhook",
-	builder,
+	usage:
+		"$0 realtime kit webhooks create <app-id>\n\nAdds a new webhook to an App.",
+	flags: {
+		enabled: {
+			kind: "boolean",
+			brief: "Set whether or not the webhook should be active when created",
+			default: true,
+		},
+		events: {
+			kind: "parsed",
+			brief: "Events that this webhook will get triggered by",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		name: {
+			kind: "parsed",
+			brief: "Name of the webhook",
+			optional: true,
+			parse: String,
+		},
+		url: {
+			kind: "parsed",
+			brief: "URL this webhook will send events to",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [
+		{ placeholder: "app-id", brief: "The app identifier tag.", parse: String },
+	],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "realtime kit webhooks create",
 				classification: {
 					safeFlags: ["enabled", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -168,6 +169,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Created` });
 			}
 		),
-};
+});
 
 export default command;

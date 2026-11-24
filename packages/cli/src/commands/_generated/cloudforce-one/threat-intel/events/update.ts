@@ -1,11 +1,10 @@
 import operation from "../../../_operations/cloudforce-one/threat-intel/events/update.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * update command
  * @generated from apis/overlays/cloudforce-one.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -20,81 +19,129 @@ import { withProgress } from "#lib/progress.js";
 import { promptForRequiredField } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 cloudforce-one threat-intel events update <event-id>\n\nUpdates the given fields of an event and leaves the other fields unchanged. `datasetId` is required."
-		)
-		.positional("event-id", {
-			type: "string",
-			description: "Event UUID.",
-			demandOption: true,
-		})
-		.option("attacker", { type: "string", description: "The attacker field" })
-		.option("attacker-country", {
-			type: "string",
-			description: "The attackerCountry field",
-		})
-		.option("category", { type: "string", description: "The category field" })
-		.option("created-at", {
-			type: "string",
-			description: "The createdAt field",
-		})
-		.option("dataset-id", {
-			type: "string",
-			description: "Dataset ID containing the event to update.",
-		})
-		.option("date", { type: "string", description: "The date field" })
-		.option("event", { type: "string", description: "The event field" })
-		.option("indicator", { type: "string", description: "The indicator field" })
-		.option("indicator-type", {
-			type: "string",
-			description: "The indicatorType field",
-		})
-		.option("insight", { type: "string", description: "The insight field" })
-		.option("raw-data", {
-			type: "string",
-			description:
-				'The raw.data field. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": unknown}.',
-		})
-		.option("raw-source", {
-			type: "string",
-			description: "The raw.source field",
-		})
-		.option("raw-tlp", { type: "string", description: "The raw.tlp field" })
-		.option("target-country", {
-			type: "string",
-			description: "The targetCountry field",
-		})
-		.option("target-industry", {
-			type: "string",
-			description: "The targetIndustry field",
-		})
-		.option("tlp", { type: "string", description: "The tlp field" })
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "update <event-id>",
 	describe: "Update an event",
-	builder,
+	usage:
+		"$0 cloudforce-one threat-intel events update <event-id>\n\nUpdates the given fields of an event and leaves the other fields unchanged. `datasetId` is required.",
+	flags: {
+		attacker: {
+			kind: "parsed",
+			brief: "The attacker field",
+			optional: true,
+			parse: String,
+		},
+		"attacker-country": {
+			kind: "parsed",
+			brief: "The attackerCountry field",
+			optional: true,
+			parse: String,
+		},
+		category: {
+			kind: "parsed",
+			brief: "The category field",
+			optional: true,
+			parse: String,
+		},
+		"created-at": {
+			kind: "parsed",
+			brief: "The createdAt field",
+			optional: true,
+			parse: String,
+		},
+		"dataset-id": {
+			kind: "parsed",
+			brief: "Dataset ID containing the event to update.",
+			optional: true,
+			parse: String,
+		},
+		date: {
+			kind: "parsed",
+			brief: "The date field",
+			optional: true,
+			parse: String,
+		},
+		event: {
+			kind: "parsed",
+			brief: "The event field",
+			optional: true,
+			parse: String,
+		},
+		indicator: {
+			kind: "parsed",
+			brief: "The indicator field",
+			optional: true,
+			parse: String,
+		},
+		"indicator-type": {
+			kind: "parsed",
+			brief: "The indicatorType field",
+			optional: true,
+			parse: String,
+		},
+		insight: {
+			kind: "parsed",
+			brief: "The insight field",
+			optional: true,
+			parse: String,
+		},
+		"raw-data": {
+			kind: "parsed",
+			brief:
+				'The raw.data field. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": unknown}.',
+			optional: true,
+			parse: String,
+		},
+		"raw-source": {
+			kind: "parsed",
+			brief: "The raw.source field",
+			optional: true,
+			parse: String,
+		},
+		"raw-tlp": {
+			kind: "parsed",
+			brief: "The raw.tlp field",
+			optional: true,
+			parse: String,
+		},
+		"target-country": {
+			kind: "parsed",
+			brief: "The targetCountry field",
+			optional: true,
+			parse: String,
+		},
+		"target-industry": {
+			kind: "parsed",
+			brief: "The targetIndustry field",
+			optional: true,
+			parse: String,
+		},
+		tlp: {
+			kind: "parsed",
+			brief: "The tlp field",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [{ placeholder: "event-id", brief: "Event UUID.", parse: String }],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "cloudforce-one threat-intel events update",
-				classification: {
-					safeFlags: ["dry-run"],
-				} satisfies ArgClassification<Args>,
+				classification: { safeFlags: ["dry-run"] } satisfies ArgClassification<
+					typeof argv
+				>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -320,6 +367,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Updated` });
 			}
 		),
-};
+});
 
 export default command;

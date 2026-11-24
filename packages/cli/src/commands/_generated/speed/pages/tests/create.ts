@@ -1,11 +1,10 @@
 import operation from "../../../_operations/speed/pages/tests/create.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * create command
  * @generated from apis/overlays/speed.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import { createCommandClient, getZoneId } from "#lib/auth.js";
 import { compactBody, parseBody } from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
@@ -14,19 +13,16 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 speed pages tests create <url>\n\nStarts a test for a specific webpage, in a specific region."
-		)
-		.positional("url", {
-			type: "string",
-			description: "A URL.",
-			demandOption: true,
-		})
-		.option("region", {
-			type: "string",
-			description: "A test region.",
+const command = apiCommand({
+	command: "create <url>",
+	describe: "Start page test",
+	usage:
+		"$0 speed pages tests create <url>\n\nStarts a test for a specific webpage, in a specific region.",
+	flags: {
+		region: {
+			kind: "parsed",
+			brief: "A test region.",
+			optional: true,
 			choices: [
 				"asia-east1",
 				"asia-northeast1",
@@ -50,32 +46,29 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"us-south1",
 				"us-west1",
 			],
-		})
-		.coerce("region", (value) => resolveFileToken(value, "region", "text"))
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
+			parse: String,
+			coerce: (value: string) => resolveFileToken(value, "region", "text"),
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
 			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "create <url>",
-	describe: "Start page test",
-	builder,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [{ placeholder: "url", brief: "A URL.", parse: String }],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "speed pages tests create",
 				classification: {
 					safeFlags: ["region", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -133,6 +126,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Created` });
 			}
 		),
-};
+});
 
 export default command;

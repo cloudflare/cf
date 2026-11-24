@@ -7,6 +7,7 @@ import { commandParser } from "../../helpers/command-parser.js";
 import type { CommandMeta } from "../../../lib/command-meta.js";
 import type { ObjectType, Type } from "@cloudflare/forge/plugin";
 import type { CommandModule } from "yargs";
+import { apiCommand } from "#lib/api-command.js";
 
 describe("JSON parameter shapes", () => {
 	const files = generateFiles({
@@ -123,7 +124,9 @@ describe("JSON parameter shapes", () => {
 	const source = stripTypeScriptTypes(files.get("things/create.ts") ?? "")
 		.replace(/^import[\s\S]*?;\n/gm, "")
 		.replace("export default command;", "command;");
-	const command = new Script(source).runInNewContext() as CommandModule;
+	const command = new Script(source).runInNewContext({
+		apiCommand,
+	}) as CommandModule;
 
 	it("shows the same first-level wire shape in help, command metadata, and cf schema", async () => {
 		const description =

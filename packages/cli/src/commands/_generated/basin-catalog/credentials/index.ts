@@ -1,25 +1,20 @@
 import $create from "./create.js";
 import $status from "./status.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * credentials command group
  * @generated from apis/overlays/basin-catalog.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "credentials",
 	describe:
 		"Catalog access credentials for external query engines (Spark, Trino, etc.)",
 
-	builder: (yargs) => {
-		return yargs
-			.command($create)
-			.command($status)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		create: $create,
+		status: $status,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

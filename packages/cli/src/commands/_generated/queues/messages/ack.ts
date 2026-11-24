@@ -1,11 +1,10 @@
 import operation from "../../_operations/queues/messages/ack.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * ack command
  * @generated from apis/overlays/queues.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -18,50 +17,48 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 queues messages ack <queue-id>\n\nAcknowledges successfully processed Queue messages and retries messages that were not processed successfully."
-		)
-		.positional("queue-id", {
-			type: "string",
-			description: "A Resource identifier.",
-			demandOption: true,
-		})
-		.option("acks", {
-			type: "string",
-			description:
-				'The acks field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"lease_id"?: string}]. ? marks optional keys.',
-		})
-		.option("retries", {
-			type: "string",
-			description:
-				'The retries field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"delay_seconds"?: number, "lease_id"?: string}]. ? marks optional keys.',
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "ack <queue-id>",
 	describe: "Acknowledge + Retry Queue Messages",
-	builder,
+	usage:
+		"$0 queues messages ack <queue-id>\n\nAcknowledges successfully processed Queue messages and retries messages that were not processed successfully.",
+	flags: {
+		acks: {
+			kind: "parsed",
+			brief:
+				'The acks field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"lease_id"?: string}]. ? marks optional keys.',
+			optional: true,
+			parse: String,
+		},
+		retries: {
+			kind: "parsed",
+			brief:
+				'The retries field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"delay_seconds"?: number, "lease_id"?: string}]. ? marks optional keys.',
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [
+		{ placeholder: "queue-id", brief: "A Resource identifier.", parse: String },
+	],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "queues messages ack",
-				classification: {
-					safeFlags: ["dry-run"],
-				} satisfies ArgClassification<Args>,
+				classification: { safeFlags: ["dry-run"] } satisfies ArgClassification<
+					typeof argv
+				>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -117,6 +114,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Created` });
 			}
 		),
-};
+});
 
 export default command;

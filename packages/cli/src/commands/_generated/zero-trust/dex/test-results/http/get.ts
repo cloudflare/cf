@@ -1,11 +1,10 @@
 import operation from "../../../../_operations/zero-trust/dex/test-results/http/get.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * get command
  * @generated from apis/overlays/zero-trust.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -17,63 +16,62 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 zero-trust dex test-results http get <test-id>\n\nGet test details and aggregate performance metrics for an http test for a given time period between 1 hour and 7 days."
-		)
-		.positional("test-id", {
-			type: "string",
-			description: "Unique identifier for a specific test.",
-			demandOption: true,
-		})
-		.option("device-id", {
-			type: "string",
-			array: true,
-			description:
-				"Optionally filter result stats to a specific device(s). Cannot be used in combination with colo param.",
-		})
-		.option("from", {
-			type: "string",
-			description: "Start time for aggregate metrics in ISO ms.",
-			demandOption: true,
-		})
-		.option("to", {
-			type: "string",
-			description: "End time for aggregate metrics in ISO ms.",
-			demandOption: true,
-		})
-		.option("interval", {
-			type: "string",
-			description: "Time interval for aggregate time slots.",
-			choices: ["minute", "hour"],
-			demandOption: true,
-		})
-		.option("colo", {
-			type: "string",
-			description:
-				"Optionally filter result stats to a Cloudflare colo. Cannot be used in combination with deviceId param.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "get <test-id>",
 	describe: "Get details and aggregate metrics for an http test",
-	builder,
+	usage:
+		"$0 zero-trust dex test-results http get <test-id>\n\nGet test details and aggregate performance metrics for an http test for a given time period between 1 hour and 7 days.",
+	flags: {
+		"device-id": {
+			kind: "parsed",
+			brief:
+				"Optionally filter result stats to a specific device(s). Cannot be used in combination with colo param.",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		from: {
+			kind: "parsed",
+			brief: "Start time for aggregate metrics in ISO ms.",
+			parse: String,
+		},
+		to: {
+			kind: "parsed",
+			brief: "End time for aggregate metrics in ISO ms.",
+			parse: String,
+		},
+		interval: {
+			kind: "enum",
+			brief: "Time interval for aggregate time slots.",
+			values: ["minute", "hour"],
+		},
+		colo: {
+			kind: "parsed",
+			brief:
+				"Optionally filter result stats to a Cloudflare colo. Cannot be used in combination with deviceId param.",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+	},
+	operands: [
+		{
+			placeholder: "test-id",
+			brief: "Unique identifier for a specific test.",
+			parse: String,
+		},
+	],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "zero-trust dex test-results http get",
 				classification: {
 					safeFlags: ["interval", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -110,6 +108,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Loaded` });
 			}
 		),
-};
+});
 
 export default command;

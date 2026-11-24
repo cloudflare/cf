@@ -3,29 +3,24 @@ import $logs from "./logs/index.js";
 import $summary from "./summary.js";
 import $timeseriesgroups from "./timeseries-groups.js";
 import $timeseries from "./timeseries.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * ct command group
  * @generated from apis/overlays/radar.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "ct",
 	describe:
 		"Certificate Transparency log monitoring and newly-issued certificate discovery",
 
-	builder: (yargs) => {
-		return yargs
-			.command($summary)
-			.command($timeseries)
-			.command($timeseriesgroups)
-			.command($authorities)
-			.command($logs)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		summary: $summary,
+		timeseries: $timeseries,
+		"timeseries-groups": $timeseriesgroups,
+		authorities: $authorities,
+		logs: $logs,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

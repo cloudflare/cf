@@ -8,33 +8,28 @@ import $logs from "./logs/index.js";
 import $pause from "./pause.js";
 import $progress from "./progress.js";
 import $resume from "./resume.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * jobs command group
  * @generated from apis/overlays/r2.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "jobs",
 	describe: "Operations for super-slurper.jobs",
 
-	builder: (yargs) => {
-		return yargs
-			.command($abort)
-			.command($abortall)
-			.command($create)
-			.command($delete)
-			.command($get)
-			.command($list)
-			.command($pause)
-			.command($progress)
-			.command($resume)
-			.command($logs)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		abort: $abort,
+		"abort-all": $abortall,
+		create: $create,
+		delete: $delete,
+		get: $get,
+		list: $list,
+		pause: $pause,
+		progress: $progress,
+		resume: $resume,
+		logs: $logs,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

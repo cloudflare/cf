@@ -1,11 +1,10 @@
 import operation from "../../../../_operations/basin-catalog/namespaces/tables/maintenance-runs/list.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * list command
  * @generated from apis/overlays/basin-catalog.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -17,48 +16,45 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 basin-catalog namespaces tables maintenance-runs list\n\nRetrieves recent table maintenance runs for the current table."
-		)
-		.option("bucket-name", {
-			type: "string",
-			description: "Specifies the R2 bucket name.",
-			demandOption: true,
-		})
-		.option("namespace", {
-			type: "string",
-			description: "Namespace",
-			demandOption: true,
-		})
-		.option("table-name", {
-			type: "string",
-			description: "Table name",
-			demandOption: true,
-		})
-		.option("page-size", { type: "number", description: "Page size" })
-		.option("page-token", { type: "string", description: "Page token" })
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "list",
 	describe: "List table maintenance runs",
-	builder,
+	usage:
+		"$0 basin-catalog namespaces tables maintenance-runs list\n\nRetrieves recent table maintenance runs for the current table.",
+	flags: {
+		"bucket-name": {
+			kind: "parsed",
+			brief: "Specifies the R2 bucket name.",
+			parse: String,
+		},
+		namespace: { kind: "parsed", brief: "Namespace", parse: String },
+		"table-name": { kind: "parsed", brief: "Table name", parse: String },
+		"page-size": {
+			kind: "parsed",
+			brief: "Page size",
+			optional: true,
+			parse: Number,
+		},
+		"page-token": {
+			kind: "parsed",
+			brief: "Page token",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "basin-catalog namespaces tables maintenance-runs list",
-				classification: {
-					safeFlags: ["dry-run"],
-				} satisfies ArgClassification<Args>,
+				classification: { safeFlags: ["dry-run"] } satisfies ArgClassification<
+					typeof argv
+				>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -98,6 +94,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Loaded` });
 			}
 		),
-};
+});
 
 export default command;

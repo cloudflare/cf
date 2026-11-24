@@ -1,66 +1,67 @@
 import operation from "../../../../_operations/radar/bgp/rpki/aspa/changes.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * changes command
  * @generated from apis/overlays/radar.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import { createCommandClient } from "#lib/auth.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 radar bgp rpki aspa changes\n\nRetrieves ASPA (Autonomous System Provider Authorization) changes over time. Returns daily aggregated changes including additions, removals, and modifications of ASPA objects."
-		)
-		.option("date-start", {
-			type: "string",
-			description:
-				"Start of the date range (inclusive). Alternative to `dateRange`; provide together with `dateEnd`.",
-		})
-		.option("date-end", {
-			type: "string",
-			description:
-				"End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`.",
-		})
-		.option("asn", {
-			type: "number",
-			description:
-				"Filter changes involving this ASN (as customer or provider).",
-		})
-		.option("include-asn-info", {
-			type: "boolean",
-			description: "Include ASN metadata (name, country) in response.",
-		})
-		.option("format", {
-			type: "string",
-			description: "Format in which results will be returned.",
-			choices: ["JSON", "CSV"],
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "changes",
 	describe: "Get ASPA changes over time",
-	builder,
+	usage:
+		"$0 radar bgp rpki aspa changes\n\nRetrieves ASPA (Autonomous System Provider Authorization) changes over time. Returns daily aggregated changes including additions, removals, and modifications of ASPA objects.",
+	flags: {
+		"date-start": {
+			kind: "parsed",
+			brief:
+				"Start of the date range (inclusive). Alternative to `dateRange`; provide together with `dateEnd`.",
+			optional: true,
+			parse: String,
+		},
+		"date-end": {
+			kind: "parsed",
+			brief:
+				"End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`.",
+			optional: true,
+			parse: String,
+		},
+		asn: {
+			kind: "parsed",
+			brief: "Filter changes involving this ASN (as customer or provider).",
+			optional: true,
+			parse: Number,
+		},
+		"include-asn-info": {
+			kind: "boolean",
+			brief: "Include ASN metadata (name, country) in response.",
+			optional: true,
+		},
+		format: {
+			kind: "enum",
+			brief: "Format in which results will be returned.",
+			values: ["JSON", "CSV"],
+			optional: true,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "radar bgp rpki aspa changes",
 				classification: {
 					safeFlags: ["include-asn-info", "format", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -90,6 +91,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Loaded` });
 			}
 		),
-};
+});
 
 export default command;

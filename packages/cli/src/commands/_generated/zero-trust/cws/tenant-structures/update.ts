@@ -1,11 +1,10 @@
 import operation from "../../../_operations/zero-trust/cws/tenant-structures/update.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * update command
  * @generated from apis/overlays/zero-trust.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -23,58 +22,59 @@ import {
 } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 zero-trust cws tenant-structures update <structure-id>\n\nUpdates the tenant structure's name and import path; its application remains immutable."
-		)
-		.positional("structure-id", {
-			type: "string",
-			description: "ID of the tenant structure to update",
-			demandOption: true,
-		})
-		.option("application", {
-			type: "string",
-			description:
-				"Platform this structure models. Must match the existing value.",
-			choices: ["aws", "cloudflare"],
-		})
-		.coerce("application", (value) =>
-			resolveFileToken(value, "application", "text")
-		)
-		.option("import-path", {
-			type: "string",
-			description:
-				"Optional unique Rego mount path in the form tenant.<application>.<name>; application must match. Omit to clear.",
-		})
-		.option("name", {
-			type: "string",
-			description: "Human-readable name; unique per account",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "update <structure-id>",
 	describe: "Update a tenant structure",
-	builder,
+	usage:
+		"$0 zero-trust cws tenant-structures update <structure-id>\n\nUpdates the tenant structure's name and import path; its application remains immutable.",
+	flags: {
+		application: {
+			kind: "parsed",
+			brief: "Platform this structure models. Must match the existing value.",
+			optional: true,
+			choices: ["aws", "cloudflare"],
+			parse: String,
+			coerce: (value: string) => resolveFileToken(value, "application", "text"),
+		},
+		"import-path": {
+			kind: "parsed",
+			brief:
+				"Optional unique Rego mount path in the form tenant.<application>.<name>; application must match. Omit to clear.",
+			optional: true,
+			parse: String,
+		},
+		name: {
+			kind: "parsed",
+			brief: "Human-readable name; unique per account",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [
+		{
+			placeholder: "structure-id",
+			brief: "ID of the tenant structure to update",
+			parse: String,
+		},
+	],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "zero-trust cws tenant-structures update",
 				classification: {
 					safeFlags: ["application", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -167,6 +167,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Updated` });
 			}
 		),
-};
+});
 
 export default command;

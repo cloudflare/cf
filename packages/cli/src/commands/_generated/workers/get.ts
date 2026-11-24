@@ -1,11 +1,10 @@
 import operation from "../_operations/workers/get.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * get command
  * @generated from apis/overlays/workers.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -17,41 +16,41 @@ import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
 import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
-import { theme } from "#lib/ui/theme.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage("$0 workers get [worker]\n\nGet details about a specific Worker.")
-		.positional("worker", {
-			type: "string",
-			description: "Identifier for the Worker, which can be ID or name.",
-		})
-		.option("worker", {
-			type: "string",
-			alias: ["script-name", "worker-id"],
-			description: "Identifier for the Worker, which can be ID or name.",
-		})
-		.group("worker", theme.brand("Options"))
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "get [worker]",
 	describe: "Get Worker",
-	builder,
+	usage: "$0 workers get [worker]\n\nGet details about a specific Worker.",
+	flags: {
+		worker: {
+			kind: "parsed",
+			brief: "Identifier for the Worker, which can be ID or name.",
+			optional: true,
+			alias: ["script-name", "worker-id"],
+			grouped: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+	},
+	operands: [
+		{
+			placeholder: "worker",
+			brief: "Identifier for the Worker, which can be ID or name.",
+			parse: String,
+			optional: true,
+		},
+	],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "workers get",
-				classification: {
-					safeFlags: ["dry-run"],
-				} satisfies ArgClassification<Args>,
+				classification: { safeFlags: ["dry-run"] } satisfies ArgClassification<
+					typeof argv
+				>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -84,6 +83,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Loaded` });
 			}
 		),
-};
+});
 
 export default command;

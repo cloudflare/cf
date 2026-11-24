@@ -1,11 +1,10 @@
 import operation from "../../../../_operations/cloudforce-one/threat-intel/tags/relationships/delete.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * delete command
  * @generated from apis/overlays/cloudforce-one.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -18,45 +17,33 @@ import { withProgress } from "#lib/progress.js";
 import { confirmDelete } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 cloudforce-one threat-intel tags relationships delete <rel-uuid>\n\nDeletes a tag relationship by its UUID. `datasetId` is required. Returns `deleted: false` if the relationship doesn't exist."
-		)
-		.positional("rel-uuid", {
-			type: "string",
-			description: "Relationship UUID.",
-			demandOption: true,
-		})
-		.option("tag-uuid", {
-			type: "string",
-			description: "Tag UUID.",
-			demandOption: true,
-		})
-		.option("dataset-id", {
-			type: "string",
-			description: "Dataset UUID containing the relationship.",
-			demandOption: true,
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("force", {
-			type: "boolean",
-			alias: "f",
-			description: "Skip confirmation (useful in scripts and CI)",
-			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "delete <rel-uuid>",
 	describe: "Delete a tag relationship",
-	builder,
+	usage:
+		"$0 cloudforce-one threat-intel tags relationships delete <rel-uuid>\n\nDeletes a tag relationship by its UUID. `datasetId` is required. Returns `deleted: false` if the relationship doesn't exist.",
+	flags: {
+		"tag-uuid": { kind: "parsed", brief: "Tag UUID.", parse: String },
+		"dataset-id": {
+			kind: "parsed",
+			brief: "Dataset UUID containing the relationship.",
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		force: {
+			kind: "boolean",
+			brief: "Skip confirmation (useful in scripts and CI)",
+			alias: "f",
+			default: false,
+		},
+	},
+	operands: [
+		{ placeholder: "rel-uuid", brief: "Relationship UUID.", parse: String },
+	],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
@@ -64,7 +51,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				classification: {
 					safeFlags: ["dry-run", "force"],
 					shortFlagAliases: { f: { canonical: "force", type: "boolean" } },
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -105,6 +92,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Deleted` });
 			}
 		),
-};
+});
 
 export default command;

@@ -1,11 +1,10 @@
 import operation from "../../../_operations/zero-trust/dex/devices/get.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * get command
  * @generated from apis/overlays/zero-trust.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -17,49 +16,49 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 zero-trust dex devices get <device-id>\n\nGet the latest status of a device given device_id from the device_state table."
-		)
-		.positional("device-id", {
-			type: "string",
-			description: "Device-specific ID, given as UUID.",
-			demandOption: true,
-		})
-		.option("since-minutes", {
-			type: "number",
-			description: "Number of minutes before current time.",
-			demandOption: true,
-		})
-		.option("time-now", {
-			type: "string",
-			description: "Current time in ISO format.",
-		})
-		.option("colo", {
-			type: "string",
-			description: "List of data centers to filter results.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "get <device-id>",
 	describe: "Get the latest status of a device.",
-	builder,
+	usage:
+		"$0 zero-trust dex devices get <device-id>\n\nGet the latest status of a device given device_id from the device_state table.",
+	flags: {
+		"since-minutes": {
+			kind: "parsed",
+			brief: "Number of minutes before current time.",
+			parse: Number,
+		},
+		"time-now": {
+			kind: "parsed",
+			brief: "Current time in ISO format.",
+			optional: true,
+			parse: String,
+		},
+		colo: {
+			kind: "parsed",
+			brief: "List of data centers to filter results.",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+	},
+	operands: [
+		{
+			placeholder: "device-id",
+			brief: "Device-specific ID, given as UUID.",
+			parse: String,
+		},
+	],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "zero-trust dex devices get",
-				classification: {
-					safeFlags: ["dry-run"],
-				} satisfies ArgClassification<Args>,
+				classification: { safeFlags: ["dry-run"] } satisfies ArgClassification<
+					typeof argv
+				>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -94,6 +93,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Loaded` });
 			}
 		),
-};
+});
 
 export default command;

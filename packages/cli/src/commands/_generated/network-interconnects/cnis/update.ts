@@ -1,11 +1,10 @@
 import operation from "../../_operations/network-interconnects/cnis/update.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * update command
  * @generated from apis/overlays/network-interconnects.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -20,72 +19,112 @@ import { withProgress } from "#lib/progress.js";
 import { promptForRequiredField } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 network-interconnects cnis update <cni>\n\nUpdates the configuration of an existing Cloud Network Interconnect (CNI), including connection parameters and routing settings."
-		)
-		.positional("cni", {
-			type: "string",
-			description: "CNI ID to retrieve information about",
-			demandOption: true,
-		})
-		.option("account", { type: "string", description: "Customer account tag" })
-		.option("bgp-customer-asn", {
-			type: "number",
-			description: "ASN used on the customer end of the BGP session",
-		})
-		.option("bgp-extra-prefixes", {
-			type: "string",
-			array: true,
-			description:
+const command = apiCommand({
+	command: "update <cni>",
+	describe: "Modify stored information about a CNI object",
+	usage:
+		"$0 network-interconnects cnis update <cni>\n\nUpdates the configuration of an existing Cloud Network Interconnect (CNI), including connection parameters and routing settings.",
+	flags: {
+		account: {
+			kind: "parsed",
+			brief: "Customer account tag",
+			optional: true,
+			parse: String,
+		},
+		"bgp-customer-asn": {
+			kind: "parsed",
+			brief: "ASN used on the customer end of the BGP session",
+			optional: true,
+			parse: Number,
+		},
+		"bgp-extra-prefixes": {
+			kind: "parsed",
+			brief:
 				"Extra set of static prefixes to advertise to the customer's end of the session\nPrefixes containing host bits will be normalized to contain network bits only.\nDuplicates are not allowed.",
-		})
-		.option("bgp-md5-key", {
-			type: "string",
-			description:
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"bgp-md5-key": {
+			kind: "parsed",
+			brief:
 				"MD5 key to use for session authentication.\n\nNote that *this is not a security measure*. MD5 is not a valid security mechanism, and the\nkey is not treated as a secret value. This is *only* supported for preventing\nmisconfiguration, not for defending against malicious attacks.\n\nThe MD5 key, if set, must be of non-zero length and consist only of the following types of\ncharacter:\n\n* ASCII alphanumerics: `[a-zA-Z0-9]`\n* Special characters in the set `'!@#$%^&*()+[]{}<>/.,;:_-~`= \\|`\n\nIn other words, MD5 keys may contain any printable ASCII character aside from newline\n(0x0A), quotation mark (`\"`), vertical tab (0x0B), carriage return (0x0D), tab (0x09),\nform feed (0x0C), and the question mark (`?`). Requests specifying an MD5 key with one\nor more of these disallowed characters will be rejected.",
-		})
-		.option("bgp-mode", {
-			type: "string",
-			description:
+			optional: true,
+			parse: String,
+		},
+		"bgp-mode": {
+			kind: "parsed",
+			brief:
 				"Controls the customer-facing route exchange behavior. Omitting this field during an update preserves the current mode. When enabling BGP on a BGP-disabled CNI, an omitted or null mode defaults to AdvertiseOnly. Otherwise, null clears the explicitly selected mode.",
+			optional: true,
 			choices: ["dynamic_route_exchange", "advertise_only"],
-		})
-		.coerce("bgp-mode", (value) => resolveFileToken(value, "bgp-mode", "text"))
-		.option("cust-ip", {
-			type: "string",
-			description:
+			parse: String,
+			coerce: (value: string) => resolveFileToken(value, "bgp-mode", "text"),
+		},
+		"cust-ip": {
+			kind: "parsed",
+			brief:
 				"Customer end of the point-to-point link\n\nThis should always be inside the same prefix as `p2p_ip`.",
-		})
-		.option("id", { type: "string", description: "The id field" })
-		.option("interconnect", {
-			type: "string",
-			description: "Interconnect identifier hosting this CNI",
-		})
-		.option("magic-conduit-name", {
-			type: "string",
-			description: "The magic.conduit_name field",
-		})
-		.option("magic-description", {
-			type: "string",
-			description: "The magic.description field",
-		})
-		.option("magic-mtu", { type: "number", description: "The magic.mtu field" })
-		.option("p2p-ip", {
-			type: "string",
-			description: "Cloudflare end of the point-to-point link",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
+			optional: true,
+			parse: String,
+		},
+		id: {
+			kind: "parsed",
+			brief: "The id field",
+			optional: true,
+			parse: String,
+		},
+		interconnect: {
+			kind: "parsed",
+			brief: "Interconnect identifier hosting this CNI",
+			optional: true,
+			parse: String,
+		},
+		"magic-conduit-name": {
+			kind: "parsed",
+			brief: "The magic.conduit_name field",
+			optional: true,
+			parse: String,
+		},
+		"magic-description": {
+			kind: "parsed",
+			brief: "The magic.description field",
+			optional: true,
+			parse: String,
+		},
+		"magic-mtu": {
+			kind: "parsed",
+			brief: "The magic.mtu field",
+			optional: true,
+			parse: Number,
+		},
+		"p2p-ip": {
+			kind: "parsed",
+			brief: "Cloudflare end of the point-to-point link",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
 			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		})
-		.check((argv) => {
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [
+		{
+			placeholder: "cni",
+			brief: "CNI ID to retrieve information about",
+			parse: String,
+		},
+	],
+	rules(rules) {
+		rules.check((argv) => {
 			const groupSet = [
 				"bgp-customer-asn",
 				"bgp-extra-prefixes",
@@ -103,21 +142,14 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			}
 			return true;
 		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "update <cni>",
-	describe: "Modify stored information about a CNI object",
-	builder,
+	},
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "network-interconnects cnis update",
 				classification: {
 					safeFlags: ["bgp-mode", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -311,6 +343,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Updated` });
 			}
 		),
-};
+});
 
 export default command;

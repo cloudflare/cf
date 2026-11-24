@@ -1,11 +1,10 @@
 import operation from "../_operations/organizations/update.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * update command
  * @generated from apis/overlays/organizations.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import { createCommandClient } from "#lib/auth.js";
 import { compactBody, parseBody } from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
@@ -14,50 +13,52 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 organizations update <organization-id>\n\nUpdate an organization's name. Supplying `parent_id` verifies the current parent; this endpoint cannot move an organization. Organization names are limited to 65 UTF-8 bytes."
-		)
-		.positional("organization-id", {
-			type: "string",
-			description: "The ID of the organization to modify.",
-			demandOption: true,
-		})
-		.option("name", {
-			type: "string",
-			description:
-				"The Organization name, limited to 65 UTF-8 bytes. An omitted, empty, or unchanged value is a no-op.",
-		})
-		.option("parent-id", {
-			type: "string",
-			description:
-				"The current parent Organization ID. A different value is rejected; this endpoint cannot move an Organization.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "The Organization fields to update or verify.",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "update <organization-id>",
 	describe: "Update organization",
-	builder,
+	usage:
+		"$0 organizations update <organization-id>\n\nUpdate an organization's name. Supplying `parent_id` verifies the current parent; this endpoint cannot move an organization. Organization names are limited to 65 UTF-8 bytes.",
+	flags: {
+		name: {
+			kind: "parsed",
+			brief:
+				"The Organization name, limited to 65 UTF-8 bytes. An omitted, empty, or unchanged value is a no-op.",
+			optional: true,
+			parse: String,
+		},
+		"parent-id": {
+			kind: "parsed",
+			brief:
+				"The current parent Organization ID. A different value is rejected; this endpoint cannot move an Organization.",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "The Organization fields to update or verify.",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [
+		{
+			placeholder: "organization-id",
+			brief: "The ID of the organization to modify.",
+			parse: String,
+		},
+	],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "organizations update",
-				classification: {
-					safeFlags: ["dry-run"],
-				} satisfies ArgClassification<Args>,
+				classification: { safeFlags: ["dry-run"] } satisfies ArgClassification<
+					typeof argv
+				>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -126,6 +127,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Updated` });
 			}
 		),
-};
+});
 
 export default command;

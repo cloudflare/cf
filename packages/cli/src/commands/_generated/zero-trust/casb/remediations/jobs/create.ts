@@ -1,11 +1,10 @@
 import operation from "../../../../_operations/zero-trust/casb/remediations/jobs/create.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * create command
  * @generated from apis/overlays/zero-trust.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -20,44 +19,45 @@ import { withProgress } from "#lib/progress.js";
 import { promptForRequiredField } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 zero-trust casb remediations jobs create\n\nCreate one or more remediation jobs tied to a specific Cloudflare Account."
-		)
-		.option("finding-instance-ids", {
-			type: "string",
-			array: true,
-			description: "UUIDs identifying Finding Instances.",
-		})
-		.option("remediation-type-id", {
-			type: "string",
-			description: "A UUID identifying this Remediation Type.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Request body for creating remediation jobs.",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "create",
 	describe: "Creates remediation jobs",
-	builder,
+	usage:
+		"$0 zero-trust casb remediations jobs create\n\nCreate one or more remediation jobs tied to a specific Cloudflare Account.",
+	flags: {
+		"finding-instance-ids": {
+			kind: "parsed",
+			brief: "UUIDs identifying Finding Instances.",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"remediation-type-id": {
+			kind: "parsed",
+			brief: "A UUID identifying this Remediation Type.",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Request body for creating remediation jobs.",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "zero-trust casb remediations jobs create",
-				classification: {
-					safeFlags: ["dry-run"],
-				} satisfies ArgClassification<Args>,
+				classification: { safeFlags: ["dry-run"] } satisfies ArgClassification<
+					typeof argv
+				>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -130,6 +130,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Created` });
 			}
 		),
-};
+});
 
 export default command;

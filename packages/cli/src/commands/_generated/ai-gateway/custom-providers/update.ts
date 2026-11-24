@@ -1,11 +1,10 @@
 import operation from "../../_operations/ai-gateway/custom-providers/update.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * update command
  * @generated from apis/overlays/ai-gateway.ts
  */
-import type { Argv, CommandModule } from "yargs";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import { apiCommand } from "#lib/api-command.js";
 import {
 	createCommandClient,
 	getAccountId,
@@ -19,65 +18,95 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 ai-gateway custom-providers update <id>\n\nUpdates the specified fields of a custom provider. Changes clear cached entries for the provider."
-		)
-		.positional("id", {
-			type: "string",
-			description: "ID",
-			demandOption: true,
-		})
-		.option("base-url", { type: "string", description: "The base_url field" })
-		.option("beta", { type: "boolean", description: "The beta field" })
-		.option("curl-example", {
-			type: "string",
-			description: "The curl_example field",
-		})
-		.option("description", {
-			type: "string",
-			description: "The description field",
-		})
-		.option("enable", { type: "boolean", description: "The enable field" })
-		.option("headers", {
-			type: "string",
-			description:
-				"JSON object of extra HTTP headers that AI Gateway sends to the provider. Values can contain credentials.",
-		})
-		.option("js-example", {
-			type: "string",
-			description: "The js_example field",
-		})
-		.option("link", { type: "string", description: "The link field" })
-		.option("logo", { type: "string", description: "The logo field" })
-		.option("name", { type: "string", description: "The name field" })
-		.option("position", { type: "number", description: "The position field" })
-		.option("slug", { type: "string", description: "The slug field" })
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
-			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+const command = apiCommand({
 	command: "update <id>",
 	describe: "Update a custom provider",
-	builder,
+	usage:
+		"$0 ai-gateway custom-providers update <id>\n\nUpdates the specified fields of a custom provider. Changes clear cached entries for the provider.",
+	flags: {
+		"base-url": {
+			kind: "parsed",
+			brief: "The base_url field",
+			optional: true,
+			parse: String,
+		},
+		beta: { kind: "boolean", brief: "The beta field", optional: true },
+		"curl-example": {
+			kind: "parsed",
+			brief: "The curl_example field",
+			optional: true,
+			parse: String,
+		},
+		description: {
+			kind: "parsed",
+			brief: "The description field",
+			optional: true,
+			parse: String,
+		},
+		enable: { kind: "boolean", brief: "The enable field", optional: true },
+		headers: {
+			kind: "parsed",
+			brief:
+				"JSON object of extra HTTP headers that AI Gateway sends to the provider. Values can contain credentials.",
+			optional: true,
+			parse: String,
+		},
+		"js-example": {
+			kind: "parsed",
+			brief: "The js_example field",
+			optional: true,
+			parse: String,
+		},
+		link: {
+			kind: "parsed",
+			brief: "The link field",
+			optional: true,
+			parse: String,
+		},
+		logo: {
+			kind: "parsed",
+			brief: "The logo field",
+			optional: true,
+			parse: String,
+		},
+		name: {
+			kind: "parsed",
+			brief: "The name field",
+			optional: true,
+			parse: String,
+		},
+		position: {
+			kind: "parsed",
+			brief: "The position field",
+			optional: true,
+			parse: Number,
+		},
+		slug: {
+			kind: "parsed",
+			brief: "The slug field",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
+			default: false,
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [{ placeholder: "id", brief: "ID", parse: String }],
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "ai-gateway custom-providers update",
 				classification: {
 					safeFlags: ["beta", "enable", "dry-run"],
-				} satisfies ArgClassification<Args>,
+				} satisfies ArgClassification<typeof argv>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
@@ -226,6 +255,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				formatOutput(result, { successLabel: `Updated` });
 			}
 		),
-};
+});
 
 export default command;

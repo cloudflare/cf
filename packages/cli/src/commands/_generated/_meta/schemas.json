@@ -27993,7 +27993,7 @@
 					"name": "alert-enabled",
 					"type": "boolean",
 					"required": false,
-					"description": "Deprecated and ignored: saved-query alerting and rules were removed."
+					"description": "Send an hourly notification when new events match this saved view. Receive it by adding the view to a Threat Events saved query notification policy."
 				},
 				{
 					"name": "alert-rollup-enabled",
@@ -28111,7 +28111,7 @@
 					"name": "alert-enabled",
 					"type": "boolean",
 					"required": false,
-					"description": "Deprecated and ignored: saved-query alerting and rules were removed."
+					"description": "Send an hourly notification when new events match this saved view. Receive it by adding the view to a Threat Events saved query notification policy."
 				},
 				{
 					"name": "alert-rollup-enabled",
@@ -60221,6 +60221,28 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
+		"o11y destinations get": {
+			"operationId": "o11y.destinations.get",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/workers/observability/destinations/{slug}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "slug",
+					"flag": "slug",
+					"positional": true,
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
 		"o11y destinations list": {
 			"operationId": "o11y.destinations.list",
 			"httpMethod": "GET",
@@ -62554,15 +62576,14 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"organizations members batch create": {
-			"operationId": "organizations.members.batch.create",
+		"organizations members bulk-create": {
+			"operationId": "organizations.members.bulk-create",
 			"httpMethod": "POST",
 			"path": "/organizations/{organization_id}/members:batchCreate",
 			"pathParams": [
 				{
 					"name": "organization_id",
 					"flag": "organization-id",
-					"positional": true,
 					"type": "string",
 					"required": true
 				}

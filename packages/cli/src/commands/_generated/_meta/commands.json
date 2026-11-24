@@ -37955,7 +37955,7 @@
 					"name": "alert-enabled",
 					"type": "boolean",
 					"required": false,
-					"description": "Deprecated and ignored: saved-query alerting and rules were removed.",
+					"description": "Send an hourly notification when new events match this saved view. Receive it by adding the view to a Threat Events saved query notification policy.",
 					"default": false
 				},
 				{
@@ -38152,7 +38152,7 @@
 					"name": "alert-enabled",
 					"type": "boolean",
 					"required": false,
-					"description": "Deprecated and ignored: saved-query alerting and rules were removed."
+					"description": "Send an hourly notification when new events match this saved view. Receive it by adding the view to a Threat Events saved query notification policy."
 				},
 				{
 					"name": "alert-rollup-enabled",
@@ -41723,7 +41723,7 @@
 				"skills",
 				"update"
 			],
-			"description": "Replaces the ordered custom skills assigned to a Threat Signals feed. Requires a paid Threat Signals subscription.",
+			"description": "Replaces the ordered custom skills assigned to a Threat Signals feed. Requires a paid Threat Signals subscription. Adding an active Custom Skill that would put the feed above its per-feed limit (`cfone.threat.threat_signals_active_skills_per_feed`) returns 403 with `errors[0].reason` `threat_signals_feed_skill_limit`, and `errors[0].feed_custom_skill_limit` and `errors[0].feed_custom_skill_count` give the limit and current count. Removing or reordering skills is always allowed.",
 			"summary": "Set Threat Signals feed skills",
 			"usage": "cf cloudforce-one threat-signals feeds skills update <feed-id> [options]",
 			"arguments": [
@@ -41959,7 +41959,7 @@
 			"command": "cf cloudforce-one threat-signals skills create",
 			"name": "create",
 			"fullPath": ["cloudforce-one", "threat-signals", "skills", "create"],
-			"description": "Creates a Custom Skill for the account. Free Threat Signals accounts cannot create Custom Skills.",
+			"description": "Creates an active Custom Skill for the account. Free Threat Signals accounts cannot create Custom Skills. When the account is at its active Custom Skill limit (`cfone.threat.threat_signals_skills`), returns 403 with `errors[0].reason` `threat_signals_skill_limit`, and `errors[0].custom_skill_limit` and `errors[0].custom_skill_count` give the limit and current count. Managed Default Skills do not count.",
 			"summary": "Create Threat Signals skill",
 			"usage": "cf cloudforce-one threat-signals skills create [options]",
 			"arguments": [],
@@ -42211,7 +42211,7 @@
 			"command": "cf cloudforce-one threat-signals skills update",
 			"name": "update",
 			"fullPath": ["cloudforce-one", "threat-signals", "skills", "update"],
-			"description": "Updates a Custom Skill. Managed Default Skills cannot be updated. Free Threat Signals accounts cannot update Custom Skills.",
+			"description": "Updates a Custom Skill. Managed Default Skills cannot be updated. Free Threat Signals accounts cannot update Custom Skills. Activating an inactive skill (`is_active` true) returns 403 with `errors[0].reason` `threat_signals_skill_limit` when the account is at its active Custom Skill limit, or `threat_signals_feed_skill_limit` (with `errors[0].feed_id`, `errors[0].feed_custom_skill_limit`, and `errors[0].feed_custom_skill_count`) when a feed it is assigned to is at its per-feed limit.",
 			"summary": "Update Threat Signals skill",
 			"usage": "cf cloudforce-one threat-signals skills update <skill-id> [options]",
 			"arguments": [
@@ -82939,6 +82939,38 @@
 			"hideCommand": false
 		},
 		{
+			"command": "cf o11y destinations get",
+			"name": "get",
+			"fullPath": ["o11y", "destinations", "get"],
+			"description": "Get a Workers Observability Telemetry Destination.",
+			"summary": "Get Destination",
+			"usage": "cf o11y destinations get <slug>",
+			"arguments": [
+				{
+					"name": "slug",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "The destination's slug, which is its name."
+				}
+			],
+			"options": [
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "read",
+			"hasRequestBody": false,
+			"httpMethod": "GET",
+			"apiPath": "/accounts/{account_id}/workers/observability/destinations/{slug}",
+			"operationId": "o11y.destinations.get",
+			"hideCommand": false
+		},
+		{
 			"command": "cf o11y destinations list",
 			"name": "list",
 			"fullPath": ["o11y", "destinations", "list"],
@@ -86073,22 +86105,20 @@
 			"hideCommand": false
 		},
 		{
-			"command": "cf organizations members batch create",
-			"name": "create",
-			"fullPath": ["organizations", "members", "batch", "create"],
+			"command": "cf organizations members bulk-create",
+			"name": "bulk-create",
+			"fullPath": ["organizations", "members", "bulk-create"],
 			"description": "Batch create multiple memberships that grant access to a specific Organization.",
 			"summary": "Batch create organization members",
-			"usage": "cf organizations members batch create <organization-id> [options]",
-			"arguments": [
+			"usage": "cf organizations members bulk-create [options]",
+			"arguments": [],
+			"options": [
 				{
 					"name": "organization-id",
-					"position": 0,
 					"type": "string",
 					"required": true,
 					"description": "Organization ID"
-				}
-			],
-			"options": [
+				},
 				{
 					"name": "members",
 					"type": "string",
@@ -86109,11 +86139,11 @@
 					"description": "Raw JSON request body (bypasses individual flags)"
 				}
 			],
-			"category": "create",
+			"category": "action",
 			"hasRequestBody": true,
 			"httpMethod": "POST",
 			"apiPath": "/organizations/{organization_id}/members:batchCreate",
-			"operationId": "organizations.members.batch.create",
+			"operationId": "organizations.members.bulk-create",
 			"hideCommand": false
 		},
 		{
@@ -173077,7 +173107,6 @@
 		"organizations logs": "Operations for logs",
 		"organizations logs audit": "Operations for logs.audit",
 		"organizations members": "Members of an organization",
-		"organizations members batch": "Add members to an organization in bulk",
 		"organizations profile": "View and update the public profile information for an organization",
 		"organizations shares": "Shares across the organization",
 		"page-rules": "page-rules",

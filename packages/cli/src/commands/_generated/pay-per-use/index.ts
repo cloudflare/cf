@@ -7,32 +7,27 @@ import $proposals from "./proposals/index.js";
 import $usagereports from "./usage-reports/index.js";
 import $usagestats from "./usage-stats/index.js";
 import $zones from "./zones/index.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * pay-per-use command
  * @generated from apis/overlays/pay-per-use.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "pay-per-use",
 	describe: "pay-per-use",
 
-	builder: (yargs) => {
-		return yargs
-			.command($agreements)
-			.command($enableddomains)
-			.command($enabledpublishers)
-			.command($operator)
-			.command($pricing)
-			.command($proposals)
-			.command($usagereports)
-			.command($usagestats)
-			.command($zones)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		agreements: $agreements,
+		"enabled-domains": $enableddomains,
+		"enabled-publishers": $enabledpublishers,
+		operator: $operator,
+		pricing: $pricing,
+		proposals: $proposals,
+		"usage-reports": $usagereports,
+		"usage-stats": $usagestats,
+		zones: $zones,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

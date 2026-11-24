@@ -3,28 +3,23 @@ import $create from "./create.js";
 import $get from "./get.js";
 import $list from "./list.js";
 import $logs from "./logs.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * jobs command group
  * @generated from apis/overlays/ai-search.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "jobs",
 	describe: "Indexing job lifecycle for AI Search instances",
 
-	builder: (yargs) => {
-		return yargs
-			.command($cancel)
-			.command($create)
-			.command($get)
-			.command($list)
-			.command($logs)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		cancel: $cancel,
+		create: $create,
+		get: $get,
+		list: $list,
+		logs: $logs,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

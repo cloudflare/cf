@@ -1,22 +1,17 @@
 import $usage from "./usage/index.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * billing command group
  * @generated from apis/overlays/organizations.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "billing",
 	describe: "Operations for billing",
 
-	builder: (yargs) => {
-		return yargs
-			.command($usage)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		usage: $usage,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

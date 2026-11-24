@@ -1,24 +1,19 @@
 import $schemas from "./schemas/index.js";
 import $settings from "./settings/index.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * schema-validation command group
  * @generated from apis/overlays/api-security.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "schema-validation",
 	describe: "Operations for schema-validation",
 
-	builder: (yargs) => {
-		return yargs
-			.command($schemas)
-			.command($settings)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		schemas: $schemas,
+		settings: $settings,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

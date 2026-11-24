@@ -4,30 +4,25 @@ import $insert from "./insert.js";
 import $list from "./list.js";
 import $query from "./query.js";
 import $upsert from "./upsert.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * vectors command group
  * @generated from apis/overlays/vectorize.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "vectors",
 	describe:
 		"Insert, upsert, query, list, get and delete the vectors in an index",
 
-	builder: (yargs) => {
-		return yargs
-			.command($bulkdelete)
-			.command($bulkget)
-			.command($insert)
-			.command($list)
-			.command($query)
-			.command($upsert)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		"bulk-delete": $bulkdelete,
+		"bulk-get": $bulkget,
+		insert: $insert,
+		list: $list,
+		query: $query,
+		upsert: $upsert,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

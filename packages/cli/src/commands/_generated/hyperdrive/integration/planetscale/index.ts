@@ -1,22 +1,17 @@
 import $signature from "./signature.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * planetscale command group
  * @generated from apis/overlays/hyperdrive.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "planetscale",
 	describe: "Operations for integration.planetscale",
 
-	builder: (yargs) => {
-		return yargs
-			.command($signature)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		signature: $signature,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

@@ -1,24 +1,19 @@
 import $list from "./list.js";
 import $upsert from "./upsert.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * metrics-export command group
  * @generated from apis/overlays/o11y.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "metrics-export",
 	describe: "Operations for metrics-export",
 
-	builder: (yargs) => {
-		return yargs
-			.command($list)
-			.command($upsert)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		list: $list,
+		upsert: $upsert,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

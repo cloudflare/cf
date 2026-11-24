@@ -9,35 +9,30 @@ import $rules from "./rules/index.js";
 import $settings from "./settings/index.js";
 import $statuses from "./statuses/index.js";
 import $update from "./update.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * waiting-rooms command
  * @generated from apis/overlays/waiting-rooms.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "waiting-rooms",
 	describe:
 		"Virtual queues that throttle traffic to your site during peak demand with customizable waiting pages",
 
-	builder: (yargs) => {
-		return yargs
-			.command($create)
-			.command($delete)
-			.command($edit)
-			.command($get)
-			.command($update)
-			.command($accountwaitingrooms)
-			.command($events)
-			.command($page)
-			.command($rules)
-			.command($settings)
-			.command($statuses)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		create: $create,
+		delete: $delete,
+		edit: $edit,
+		get: $get,
+		update: $update,
+		"account-waiting-rooms": $accountwaitingrooms,
+		events: $events,
+		page: $page,
+		rules: $rules,
+		settings: $settings,
+		statuses: $statuses,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

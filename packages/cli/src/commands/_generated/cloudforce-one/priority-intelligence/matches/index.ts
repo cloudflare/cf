@@ -3,28 +3,23 @@ import $aggregate from "./aggregate.js";
 import $list from "./list.js";
 import $series from "./series.js";
 import $update from "./update.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * matches command group
  * @generated from apis/overlays/cloudforce-one.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "matches",
 	describe: "Operations for priority-intelligence.matches",
 
-	builder: (yargs) => {
-		return yargs
-			.command($aggregate)
-			.command($aggregateall)
-			.command($list)
-			.command($series)
-			.command($update)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		aggregate: $aggregate,
+		"aggregate-all": $aggregateall,
+		list: $list,
+		series: $series,
+		update: $update,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

@@ -1,25 +1,20 @@
 import $delete from "./delete.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
+import $deploy from "#commands/previews/deploy/index.js";
 /**
  * previews command
  * @generated from apis/overlays/previews.ts
  */
-import type { CommandModule } from "yargs";
-import $deploy from "#commands/previews/deploy/index.js";
+import { apiGroup } from "#lib/api-command.js";
 import { withHandWrittenDryRun } from "#lib/hand-written-dry-run.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "previews",
 	describe: "Manage Worker Previews",
 
-	builder: (yargs) => {
-		return yargs
-			.command($delete)
-			.command(withHandWrittenDryRun($deploy, "preview"))
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		delete: $delete,
+		deploy: withHandWrittenDryRun($deploy, "preview"),
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

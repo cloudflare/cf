@@ -1,358 +1,204 @@
-import operation from "../../_operations/spectrum/apps/update.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * update command
  * @generated from apis/overlays/spectrum.ts
  */
-import type { Argv, CommandModule } from "yargs";
-import { createCommandClient, getZoneId } from "#lib/auth.js";
-import { compactBody, parseBody, parseScalarValue } from "#lib/body-parser.js";
-import { formatDryRun } from "#lib/dry-run.js";
+import {
+	apiCommand,
+	type ApiInputs,
+	type ApiParameters,
+} from "#lib/api-command.js";
 import { resolveFileToken } from "#lib/input-validation.js";
-import { formatOutput } from "#lib/output.js";
-import { withProgress } from "#lib/progress.js";
-import { promptForRequiredField } from "#lib/prompt.js";
-import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 spectrum apps update <app-id>\n\nUpdates a previously existing application's configuration that uses a name for the origin."
-		)
-		.positional("app-id", {
-			type: "string",
-			description: "App identifier.",
-			demandOption: true,
-		})
-		.option("argo-smart-routing", {
-			type: "boolean",
-			description:
+const parameters = {
+	flags: {
+		"argo-smart-routing": {
+			kind: "boolean",
+			brief:
 				'Enables Argo Smart Routing for this application.\nNotes: Only available for TCP or UDP applications with traffic_type set to "direct".',
-		})
-		.option("dns-name", {
-			type: "string",
-			description:
-				"The name of the DNS record associated with the application.",
-		})
-		.option("dns-type", {
-			type: "string",
-			description: "The type of DNS record associated with the application.",
+			optional: true,
+		},
+		"dns-name": {
+			kind: "parsed",
+			brief: "The name of the DNS record associated with the application.",
+			optional: true,
+			parse: String,
+		},
+		"dns-type": {
+			kind: "parsed",
+			brief: "The type of DNS record associated with the application.",
+			optional: true,
 			choices: ["CNAME", "ADDRESS"],
-		})
-		.coerce("dns-type", (value) => resolveFileToken(value, "dns-type", "text"))
-		.option("edge-alpn-protocols", {
-			type: "string",
-			array: true,
-			description:
+			parse: String,
+			coerce: (value: string) => resolveFileToken(value, "dns-type", "text"),
+		},
+		"edge-alpn-protocols": {
+			kind: "parsed",
+			brief:
 				'ALPN protocol IDs the edge offers on client TLS connections, in preference order, for example `["h2"]` for gRPC or `["postgresql"]` for PostgreSQL direct TLS. When set, clients that offer none of these protocols, or no ALPN at all, are disconnected. Empty means no ALPN.\nNotes: Requires tls "flexible", "full" or "strict", and is not available with traffic_type "ftp". IDs are case-sensitive and unique, each 1 to 255 bytes; the list encodes to at most 65535 bytes, counting each ID plus one length byte.',
-		})
-		.option("edge-ips-connectivity", {
-			type: "string",
-			description:
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"edge-ips-connectivity": {
+			kind: "parsed",
+			brief:
 				"The IP versions supported for inbound connections on Spectrum anycast IPs.",
+			optional: true,
 			choices: ["all", "ipv4", "ipv6"],
-		})
-		.coerce("edge-ips-connectivity", (value) =>
-			resolveFileToken(value, "edge-ips-connectivity", "text")
-		)
-		.option("edge-ips-type", {
-			type: "string",
-			description:
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "edge-ips-connectivity", "text"),
+		},
+		"edge-ips-type": {
+			kind: "parsed",
+			brief:
 				"Variant descriptions:\n- `dynamic`: The type of edge IP configuration specified. Dynamically allocated edge IPs use Spectrum anycast IPs in accordance with the connectivity you specify. Only valid with CNAME DNS names.\n- `static`: The type of edge IP configuration specified. Statically allocated edge IPs use customer IPs in accordance with the ips array you specify. Only valid with ADDRESS DNS names.",
+			optional: true,
 			choices: ["dynamic", "static"],
-		})
-		.coerce("edge-ips-type", (value) =>
-			resolveFileToken(value, "edge-ips-type", "text")
-		)
-		.option("edge-ips-ips", {
-			type: "string",
-			array: true,
-			description:
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "edge-ips-type", "text"),
+		},
+		"edge-ips-ips": {
+			kind: "parsed",
+			brief:
 				"The array of customer owned IPs we broadcast via anycast for this hostname and application.",
-		})
-		.option("ip-firewall", {
-			type: "boolean",
-			description:
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"ip-firewall": {
+			kind: "boolean",
+			brief:
 				"Enables IP Access Rules for this application.\nNotes: Only available for TCP applications.",
-		})
-		.option("origin-direct", {
-			type: "string",
-			array: true,
-			description:
+			optional: true,
+		},
+		"origin-direct": {
+			kind: "parsed",
+			brief:
 				"List of origin IP addresses. Array may contain multiple IP addresses for load balancing.",
-		})
-		.option("origin-dns-name", {
-			type: "string",
-			description: "The name of the DNS record associated with the origin.",
-		})
-		.option("origin-dns-ttl", {
-			type: "number",
-			description: "The TTL of our resolution of your DNS record in seconds.",
-		})
-		.option("origin-dns-type", {
-			type: "string",
-			description:
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"origin-dns-name": {
+			kind: "parsed",
+			brief: "The name of the DNS record associated with the origin.",
+			optional: true,
+			parse: String,
+		},
+		"origin-dns-ttl": {
+			kind: "parsed",
+			brief: "The TTL of our resolution of your DNS record in seconds.",
+			optional: true,
+			parse: Number,
+		},
+		"origin-dns-type": {
+			kind: "parsed",
+			brief:
 				'The type of DNS record associated with the origin. "" is used to specify a combination of A/AAAA records.',
+			optional: true,
 			choices: ["A", "AAAA", "SRV"],
-		})
-		.coerce("origin-dns-type", (value) =>
-			resolveFileToken(value, "origin-dns-type", "text")
-		)
-		.option("origin-port", {
-			type: "string",
-			description:
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "origin-dns-type", "text"),
+		},
+		"origin-port": {
+			kind: "parsed",
+			brief:
 				'The destination port at the origin. Only specified in conjunction with origin_dns. May use an integer to specify a single origin port, for example `1000`, or a string to specify a range of origin ports, for example `"1000-2000"`.\nNotes: If specifying a port range, the number of ports in the range must match the number of ports specified in the "protocol" field. Accepts a JSON scalar or plain string, or @path/to/file.',
-		})
-		.option("origin-worker-id", {
-			type: "string",
-			description:
+			optional: true,
+			parse: String,
+		},
+		"origin-worker-id": {
+			kind: "parsed",
+			brief:
 				'Optional Worker script tag (worker ID) to use as the application\'s origin. Requires traffic_type "worker"; mutually exclusive with origin_direct, origin_dns, origin_port, proxy_protocol, and argo_smart_routing. For TCP applications, tls may be "off" or "flexible"; UDP applications require tls "off".',
-		})
-		.option("protocol", {
-			type: "string",
-			description:
+			optional: true,
+			parse: String,
+		},
+		protocol: {
+			kind: "parsed",
+			brief:
 				'The port configuration at Cloudflare\'s edge. May specify a single port, for example `"tcp/1000"`, or a range of ports, for example `"tcp/1000-2000"`.',
-		})
-		.option("proxy-protocol", {
-			type: "string",
-			description:
+			optional: true,
+			parse: String,
+		},
+		"proxy-protocol": {
+			kind: "parsed",
+			brief:
 				"Enables Proxy Protocol to the origin. Refer to [Enable Proxy protocol](https://developers.cloudflare.com/spectrum/getting-started/proxy-protocol/) for implementation details on PROXY Protocol V1, PROXY Protocol V2, and Simple Proxy Protocol.",
+			optional: true,
 			choices: ["off", "v1", "v2", "simple"],
-		})
-		.coerce("proxy-protocol", (value) =>
-			resolveFileToken(value, "proxy-protocol", "text")
-		)
-		.option("tls", {
-			type: "string",
-			description:
-				"The type of TLS termination associated with the application.",
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "proxy-protocol", "text"),
+		},
+		tls: {
+			kind: "parsed",
+			brief: "The type of TLS termination associated with the application.",
+			optional: true,
 			choices: ["off", "flexible", "full", "strict"],
-		})
-		.coerce("tls", (value) => resolveFileToken(value, "tls", "text"))
-		.option("traffic-type", {
-			type: "string",
-			description:
+			parse: String,
+			coerce: (value: string) => resolveFileToken(value, "tls", "text"),
+		},
+		"traffic-type": {
+			kind: "parsed",
+			brief:
 				'Variant descriptions:\n- `direct`, `http`, `https`, `worker`: Determines how data travels from the edge to your origin. When set to "direct", Spectrum will send traffic directly to your origin, and the application\'s type is derived from the `protocol`. When set to "http" or "https", Spectrum will apply Cloudflare\'s HTTP/HTTPS features as it sends traffic to your origin, and the application type matches this property exactly. When set to "worker", traffic is sent to the Worker specified by `origin_worker_id`.\n- Determines how traffic is sent to the origin. If absent or empty, defaults to "direct". Direct mode uses origin_direct. Worker mode requires origin_worker_id, TCP or UDP with a single port, and CNAME DNS; origin_worker_id and origin_direct are mutually exclusive. A PAYG zone may have at most one Worker application per transport (one TCP and one UDP); creating another for the same transport, or converting another application to Worker while that quota is full, is rejected with error code 11034 and HTTP status 400.',
+			optional: true,
 			choices: ["direct", "http", "https", "worker"],
-		})
-		.coerce("traffic-type", (value) =>
-			resolveFileToken(value, "traffic-type", "text")
-		)
-		.option("virtual-network-id", {
-			type: "string",
-			description:
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "traffic-type", "text"),
+		},
+		"virtual-network-id": {
+			kind: "parsed",
+			brief:
 				"Optional UUID of a virtual network for routing origin traffic through tunnel virtual networks.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
 			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		})
-		.implies("argo-smart-routing", ["traffic-type"])
-		.implies("edge-alpn-protocols", ["traffic-type"])
-		.implies("edge-ips-connectivity", ["traffic-type"])
-		.implies("edge-ips-type", ["traffic-type"])
-		.implies("edge-ips-ips", ["traffic-type"])
-		.implies("ip-firewall", ["traffic-type"])
-		.implies("origin-dns-name", ["traffic-type"])
-		.implies("origin-dns-ttl", ["traffic-type"])
-		.implies("origin-dns-type", ["traffic-type"])
-		.implies("origin-port", ["traffic-type"])
-		.implies("proxy-protocol", ["traffic-type"])
-		.implies("tls", ["traffic-type"])
-		.implies("virtual-network-id", ["traffic-type"]);
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [
+		{ placeholder: "app-id", brief: "App identifier.", parse: String },
+	],
+	rules(rules) {
+		rules.implies("argo-smart-routing", ["traffic-type"]);
+		rules.implies("edge-alpn-protocols", ["traffic-type"]);
+		rules.implies("edge-ips-connectivity", ["traffic-type"]);
+		rules.implies("edge-ips-type", ["traffic-type"]);
+		rules.implies("edge-ips-ips", ["traffic-type"]);
+		rules.implies("ip-firewall", ["traffic-type"]);
+		rules.implies("origin-dns-name", ["traffic-type"]);
+		rules.implies("origin-dns-ttl", ["traffic-type"]);
+		rules.implies("origin-dns-type", ["traffic-type"]);
+		rules.implies("origin-port", ["traffic-type"]);
+		rules.implies("proxy-protocol", ["traffic-type"]);
+		rules.implies("tls", ["traffic-type"]);
+		rules.implies("virtual-network-id", ["traffic-type"]);
+	},
+} as const satisfies ApiParameters;
+export type Args = ApiInputs<typeof parameters>;
+const command = apiCommand({
 	command: "update <app-id>",
 	describe:
 		"Update Spectrum application configuration using a name for the origin",
-	builder,
-	handler: async (argv): Promise<void> =>
-		runWithTelemetry(
-			{
-				command: "spectrum apps update",
-				classification: {
-					safeFlags: [
-						"argo-smart-routing",
-						"dns-type",
-						"edge-ips-connectivity",
-						"edge-ips-type",
-						"ip-firewall",
-						"origin-dns-type",
-						"proxy-protocol",
-						"tls",
-						"traffic-type",
-						"dry-run",
-					],
-				} satisfies ArgClassification<Args>,
-			},
-			argv as Record<string, unknown>,
-			async () => {
-				const resolveRequiredFields = async (): Promise<void> => {
-					if (argv["protocol"] === undefined) {
-						argv["protocol"] = await promptForRequiredField(
-							"protocol",
-							'The port configuration at Cloudflare\'s edge. May specify a single port, for example \`"tcp/1000"\`, or a range of ports, for example \`"tcp/1000-2000"\`.'
-						);
-					}
-				};
-				if (argv.dryRun) {
-					if (argv.body === undefined) {
-						await resolveRequiredFields();
-					}
-					formatDryRun({
-						command: "cf spectrum apps update",
-						method: "PUT",
-						url: `https://api.cloudflare.com/client/v4/zones/${argv.zone ?? argv.zoneId ?? "<zone>"}/spectrum/apps/${argv["app-id"] == null ? "<app-id>" : encodeURIComponent(String(argv["app-id"]))}`,
-						pathParams: {
-							"zone-id": String(argv.zone ?? argv["zone-id"] ?? ""),
-							"app-id": String(argv["app-id"] ?? ""),
-						},
-						bodyKind: "json",
-						body:
-							argv.body !== undefined
-								? parseBody(argv.body)
-								: compactBody({
-										argo_smart_routing: argv["argo-smart-routing"],
-										dns: {
-											name: resolveFileToken(
-												argv["dns-name"] as string | undefined,
-												"dns-name",
-												"text"
-											),
-											type: argv["dns-type"],
-										},
-										edge_alpn_protocols: argv["edge-alpn-protocols"],
-										edge_ips: {
-											connectivity: argv["edge-ips-connectivity"],
-											type: argv["edge-ips-type"],
-											ips: argv["edge-ips-ips"],
-										},
-										ip_firewall: argv["ip-firewall"],
-										origin_direct: argv["origin-direct"],
-										origin_dns: {
-											name: resolveFileToken(
-												argv["origin-dns-name"] as string | undefined,
-												"origin-dns-name",
-												"text"
-											),
-											ttl: argv["origin-dns-ttl"],
-											type: argv["origin-dns-type"],
-										},
-										origin_port: parseScalarValue(
-											argv["origin-port"],
-											"origin-port"
-										),
-										origin_worker_id: resolveFileToken(
-											argv["origin-worker-id"] as string | undefined,
-											"origin-worker-id",
-											"text"
-										),
-										protocol: resolveFileToken(
-											argv["protocol"] as string | undefined,
-											"protocol",
-											"text"
-										),
-										proxy_protocol: argv["proxy-protocol"],
-										tls: argv["tls"],
-										traffic_type: argv["traffic-type"],
-										virtual_network_id: resolveFileToken(
-											argv["virtual-network-id"] as string | undefined,
-											"virtual-network-id",
-											"text"
-										),
-									}),
-					});
-					return;
-				}
-				const parsedBody =
-					argv.body !== undefined ? parseBody(argv.body) : undefined;
-				const client = await createCommandClient(argv);
-				const zoneId = await getZoneId({ zone: argv.zone }, client, {
-					quiet: argv.quiet,
-				});
-				argv.zoneId = zoneId;
-
-				if (argv.body !== undefined) {
-					const bodyData = parsedBody;
-					const result = await withProgress(`Updating`, async () =>
-						client.send(operation, {
-							body: bodyData,
-							zone_id: zoneId,
-							app_id: argv["app-id"],
-						})
-					);
-					formatOutput(result, { successLabel: `Updated` });
-					return;
-				}
-				await resolveRequiredFields();
-
-				// Assemble request body from individual flags
-				const bodyData = compactBody({
-					argo_smart_routing: argv["argo-smart-routing"],
-					dns: {
-						name: resolveFileToken(
-							argv["dns-name"] as string | undefined,
-							"dns-name",
-							"text"
-						),
-						type: argv["dns-type"],
-					},
-					edge_alpn_protocols: argv["edge-alpn-protocols"],
-					edge_ips: {
-						connectivity: argv["edge-ips-connectivity"],
-						type: argv["edge-ips-type"],
-						ips: argv["edge-ips-ips"],
-					},
-					ip_firewall: argv["ip-firewall"],
-					origin_direct: argv["origin-direct"],
-					origin_dns: {
-						name: resolveFileToken(
-							argv["origin-dns-name"] as string | undefined,
-							"origin-dns-name",
-							"text"
-						),
-						ttl: argv["origin-dns-ttl"],
-						type: argv["origin-dns-type"],
-					},
-					origin_port: parseScalarValue(argv["origin-port"], "origin-port"),
-					origin_worker_id: resolveFileToken(
-						argv["origin-worker-id"] as string | undefined,
-						"origin-worker-id",
-						"text"
-					),
-					protocol: resolveFileToken(
-						argv["protocol"] as string | undefined,
-						"protocol",
-						"text"
-					),
-					proxy_protocol: argv["proxy-protocol"],
-					tls: argv["tls"],
-					traffic_type: argv["traffic-type"],
-					virtual_network_id: resolveFileToken(
-						argv["virtual-network-id"] as string | undefined,
-						"virtual-network-id",
-						"text"
-					),
-				});
-				const result = await withProgress(`Updating`, async () =>
-					client.send(operation, {
-						body: bodyData,
-						zone_id: zoneId,
-						app_id: argv["app-id"],
-					})
-				);
-				formatOutput(result, { successLabel: `Updated` });
-			}
-		),
-};
+	usage:
+		"$0 spectrum apps update <app-id>\n\nUpdates a previously existing application's configuration that uses a name for the origin.",
+	...parameters,
+	loader: () => import("./update.handler.js"),
+});
 
 export default command;

@@ -1,486 +1,208 @@
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * search command
  * @generated from apis/overlays/ai-search.ts
  */
-import type { Argv, CommandModule } from "yargs";
 import {
-	createCommandClient,
-	getAccountId,
-	requestApi,
-	resolveAccountIdSilent,
-} from "#lib/auth.js";
-import {
-	compactBody,
-	mergeBodyPositionals,
-	parseBody,
-	parseJsonMap,
-	parseObjectArray,
-	setNestedValue,
-} from "#lib/body-parser.js";
-import { formatDryRun } from "#lib/dry-run.js";
+	apiCommand,
+	type ApiInputs,
+	type ApiParameters,
+} from "#lib/api-command.js";
 import { resolveFileToken } from "#lib/input-validation.js";
-import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
-import { formatOutput } from "#lib/output.js";
-import { withProgress } from "#lib/progress.js";
-import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 ai-search search <instance-id> [query]\n\nExecutes a semantic search query against an AI Search instance to find relevant indexed content."
-		)
-		.positional("instance-id", {
-			type: "string",
-			description: "AI Search instance ID.",
-			demandOption: true,
-		})
-		.positional("query", {
-			type: "string",
-			description: "Text to search for.",
-		})
-		.option("namespace", {
-			type: "string",
-			description: "Namespace to use for this operation.",
+const parameters = {
+	flags: {
+		namespace: {
+			kind: "parsed",
+			brief: "Namespace to use for this operation.",
 			default: "default",
-		})
-		.option("ai-search-options-cache-cache-threshold", {
-			type: "string",
-			description: "The ai_search_options.cache.cache_threshold field",
+			parse: String,
+		},
+		"ai-search-options-cache-cache-threshold": {
+			kind: "parsed",
+			brief: "The ai_search_options.cache.cache_threshold field",
+			optional: true,
 			choices: [
 				"super_strict_match",
 				"close_enough",
 				"flexible_friend",
 				"anything_goes",
 			],
-		})
-		.coerce("ai-search-options-cache-cache-threshold", (value) =>
-			resolveFileToken(value, "ai-search-options-cache-cache-threshold", "text")
-		)
-		.option("ai-search-options-cache-enabled", {
-			type: "boolean",
-			description: "The ai_search_options.cache.enabled field",
-		})
-		.option("ai-search-options-custom-metadata", {
-			type: "string",
-			description:
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(
+					value,
+					"ai-search-options-cache-cache-threshold",
+					"text"
+				),
+		},
+		"ai-search-options-cache-enabled": {
+			kind: "boolean",
+			brief: "The ai_search_options.cache.enabled field",
+			optional: true,
+		},
+		"ai-search-options-custom-metadata": {
+			kind: "parsed",
+			brief:
 				"Metadata added to AI Gateway logs for requests this operation triggers. Accepts up to 2 string, number, or boolean entries. Reserved keys: 'ai-search', 'task', 'origin', and any key beginning with 'cf.'. Provide as a JSON object or @path/to/file.json. Shape: {\"<key>\": (string | number | boolean)}.",
-		})
-		.option("ai-search-options-query-rewrite-enabled", {
-			type: "boolean",
-			description: "The ai_search_options.query_rewrite.enabled field",
-		})
-		.option("ai-search-options-query-rewrite-model", {
-			type: "string",
-			description:
+			optional: true,
+			parse: String,
+		},
+		"ai-search-options-query-rewrite-enabled": {
+			kind: "boolean",
+			brief: "The ai_search_options.query_rewrite.enabled field",
+			optional: true,
+		},
+		"ai-search-options-query-rewrite-model": {
+			kind: "parsed",
+			brief:
 				"A Workers AI model ID or an AI Gateway model ID compatible with the OpenAI Chat Completions API. An empty string uses the configured or default model.",
-		})
-		.option("ai-search-options-query-rewrite-rewrite-prompt", {
-			type: "string",
-			description: "The ai_search_options.query_rewrite.rewrite_prompt field",
-		})
-		.option("ai-search-options-reranking-enabled", {
-			type: "boolean",
-			description: "The ai_search_options.reranking.enabled field",
-		})
-		.option("ai-search-options-reranking-match-threshold", {
-			type: "number",
-			description:
+			optional: true,
+			parse: String,
+		},
+		"ai-search-options-query-rewrite-rewrite-prompt": {
+			kind: "parsed",
+			brief: "The ai_search_options.query_rewrite.rewrite_prompt field",
+			optional: true,
+			parse: String,
+		},
+		"ai-search-options-reranking-enabled": {
+			kind: "boolean",
+			brief: "The ai_search_options.reranking.enabled field",
+			optional: true,
+		},
+		"ai-search-options-reranking-match-threshold": {
+			kind: "parsed",
+			brief:
 				"Minimum reranker relevance score a chunk must reach to be returned. When omitted, falls back to the instance-level score_threshold, then to 0.4.",
-		})
-		.option("ai-search-options-reranking-model", {
-			type: "string",
-			description: "The ai_search_options.reranking.model field",
-		})
-		.option("ai-search-options-retrieval-boost-by", {
-			type: "string",
-			description:
+			optional: true,
+			parse: Number,
+		},
+		"ai-search-options-reranking-model": {
+			kind: "parsed",
+			brief: "The ai_search_options.reranking.model field",
+			optional: true,
+			parse: String,
+		},
+		"ai-search-options-retrieval-boost-by": {
+			kind: "parsed",
+			brief:
 				'Metadata fields to boost search results by. Overrides the instance-level boost_by config. Direction defaults to \'asc\' for numeric/datetime fields, \'exists\' for text/boolean fields. Fields must match \'timestamp\' or a defined custom_metadata field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"field": string, "direction"?: "asc" | "desc" | "exists" | ...more}]. ? marks optional keys.',
-		})
-		.option("ai-search-options-retrieval-context-expansion", {
-			type: "number",
-			description: "The ai_search_options.retrieval.context_expansion field",
-		})
-		.option("ai-search-options-retrieval-filters", {
-			type: "string",
-			description:
+			optional: true,
+			parse: String,
+		},
+		"ai-search-options-retrieval-context-expansion": {
+			kind: "parsed",
+			brief: "The ai_search_options.retrieval.context_expansion field",
+			optional: true,
+			parse: Number,
+		},
+		"ai-search-options-retrieval-filters": {
+			kind: "parsed",
+			brief:
 				'The ai_search_options.retrieval.filters field. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": unknown}.',
-		})
-		.option("ai-search-options-retrieval-fusion-method", {
-			type: "string",
-			description: "The ai_search_options.retrieval.fusion_method field",
+			optional: true,
+			parse: String,
+		},
+		"ai-search-options-retrieval-fusion-method": {
+			kind: "parsed",
+			brief: "The ai_search_options.retrieval.fusion_method field",
+			optional: true,
 			choices: ["max", "rrf"],
-		})
-		.coerce("ai-search-options-retrieval-fusion-method", (value) =>
-			resolveFileToken(
-				value,
-				"ai-search-options-retrieval-fusion-method",
-				"text"
-			)
-		)
-		.option("ai-search-options-retrieval-keyword-match-mode", {
-			type: "string",
-			description:
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(
+					value,
+					"ai-search-options-retrieval-fusion-method",
+					"text"
+				),
+		},
+		"ai-search-options-retrieval-keyword-match-mode": {
+			kind: "parsed",
+			brief:
 				"Controls which documents become candidates for BM25 scoring. 'and' restricts candidates to documents containing all query terms; 'or' includes any document containing at least one term and ranks results according to BM25 relevance. When omitted, falls back to the instance-level retrieval_options.keyword_match_mode, then to 'and'.",
+			optional: true,
 			choices: ["and", "or"],
-		})
-		.coerce("ai-search-options-retrieval-keyword-match-mode", (value) =>
-			resolveFileToken(
-				value,
-				"ai-search-options-retrieval-keyword-match-mode",
-				"text"
-			)
-		)
-		.option("ai-search-options-retrieval-match-threshold", {
-			type: "number",
-			description:
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(
+					value,
+					"ai-search-options-retrieval-keyword-match-mode",
+					"text"
+				),
+		},
+		"ai-search-options-retrieval-match-threshold": {
+			kind: "parsed",
+			brief:
 				"Minimum similarity score a chunk must reach to be returned. When omitted, falls back to the instance-level score_threshold, then to 0.4.",
-		})
-		.option("ai-search-options-retrieval-max-num-results", {
-			type: "number",
-			description:
+			optional: true,
+			parse: Number,
+		},
+		"ai-search-options-retrieval-max-num-results": {
+			kind: "parsed",
+			brief:
 				"Maximum number of results to return. When omitted, falls back to the instance-level max_num_results, then to 10.",
-		})
-		.option("ai-search-options-retrieval-retrieval-type", {
-			type: "string",
-			description: "The ai_search_options.retrieval.retrieval_type field",
+			optional: true,
+			parse: Number,
+		},
+		"ai-search-options-retrieval-retrieval-type": {
+			kind: "parsed",
+			brief: "The ai_search_options.retrieval.retrieval_type field",
+			optional: true,
 			choices: ["vector", "keyword", "hybrid"],
-		})
-		.coerce("ai-search-options-retrieval-retrieval-type", (value) =>
-			resolveFileToken(
-				value,
-				"ai-search-options-retrieval-retrieval-type",
-				"text"
-			)
-		)
-		.option("ai-search-options-retrieval-return-on-failure", {
-			type: "boolean",
-			description: "The ai_search_options.retrieval.return_on_failure field",
-		})
-		.option("messages", {
-			type: "string",
-			description:
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(
+					value,
+					"ai-search-options-retrieval-retrieval-type",
+					"text"
+				),
+		},
+		"ai-search-options-retrieval-return-on-failure": {
+			kind: "boolean",
+			brief: "The ai_search_options.retrieval.return_on_failure field",
+			optional: true,
+		},
+		messages: {
+			kind: "parsed",
+			brief:
 				"OpenAI-compatible message array. For multimodal queries, set the last user message's `content` to an array of typed parts: `[{type:'text', text:'…'}, {type:'image_url', image_url:{url:'…'}}]`. Image inputs require the RAG's embedding_model to declare 'image' in supported_modalities. Provide as a JSON array of objects or @path/to/file.json. Shape: [{\"content\": (string | [{...}] | null), \"role\": \"system\" | \"developer\" | \"user\" | ...more, \"<key>\": unknown}].",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
 			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [
+		{
+			placeholder: "instance-id",
+			brief: "AI Search instance ID.",
+			parse: String,
+		},
+		{
+			placeholder: "query",
+			brief: "Text to search for.",
+			parse: String,
+			optional: true,
+		},
+	],
+} as const satisfies ApiParameters;
+export type Args = ApiInputs<typeof parameters>;
+const command = apiCommand({
 	command: "search <instance-id> [query]",
 	describe: "Search",
-	builder,
-	handler: async (argv): Promise<void> =>
-		runWithTelemetry(
-			{
-				command: "ai-search search",
-				classification: {
-					safeFlags: [
-						"ai-search-options-cache-cache-threshold",
-						"ai-search-options-cache-enabled",
-						"ai-search-options-query-rewrite-enabled",
-						"ai-search-options-reranking-enabled",
-						"ai-search-options-retrieval-fusion-method",
-						"ai-search-options-retrieval-keyword-match-mode",
-						"ai-search-options-retrieval-retrieval-type",
-						"ai-search-options-retrieval-return-on-failure",
-						"dry-run",
-					],
-				} satisfies ArgClassification<Args>,
-			},
-			argv as Record<string, unknown>,
-			async () => {
-				if (argv.dryRun) {
-					const __cfDryRunAccountId = await resolveAccountIdSilent();
-					formatDryRun({
-						command: "cf ai-search search",
-						method: "POST",
-						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/ai-search/namespaces/${argv["namespace"] == null ? "<namespace>" : encodeURIComponent(String(argv["namespace"]))}/instances/${argv["instance-id"] == null ? "<instance-id>" : encodeURIComponent(String(argv["instance-id"]))}/search`,
-						pathParams: {
-							namespace: String(argv["namespace"] ?? ""),
-							"instance-id": String(argv["instance-id"] ?? ""),
-						},
-						bodyKind: "json",
-						body:
-							argv.body !== undefined
-								? mergeBodyPositionals(parseBody(argv.body), [
-										{ name: "query", field: "query", value: argv["query"] },
-									])
-								: compactBody(
-										{
-											ai_search_options: {
-												cache: {
-													cache_threshold:
-														argv["ai-search-options-cache-cache-threshold"],
-													enabled: argv["ai-search-options-cache-enabled"],
-												},
-												custom_metadata: parseJsonMap(
-													argv["ai-search-options-custom-metadata"],
-													"ai-search-options-custom-metadata"
-												),
-												query_rewrite: {
-													enabled:
-														argv["ai-search-options-query-rewrite-enabled"],
-													model: resolveFileToken(
-														argv["ai-search-options-query-rewrite-model"] as
-															| string
-															| undefined,
-														"ai-search-options-query-rewrite-model",
-														"text"
-													),
-													rewrite_prompt: resolveFileToken(
-														argv[
-															"ai-search-options-query-rewrite-rewrite-prompt"
-														] as string | undefined,
-														"ai-search-options-query-rewrite-rewrite-prompt",
-														"text"
-													),
-												},
-												reranking: {
-													enabled: argv["ai-search-options-reranking-enabled"],
-													match_threshold:
-														argv["ai-search-options-reranking-match-threshold"],
-													model: resolveFileToken(
-														argv["ai-search-options-reranking-model"] as
-															| string
-															| undefined,
-														"ai-search-options-reranking-model",
-														"text"
-													),
-												},
-												retrieval: {
-													boost_by: parseObjectArray(
-														argv["ai-search-options-retrieval-boost-by"],
-														"ai-search-options-retrieval-boost-by"
-													),
-													context_expansion:
-														argv[
-															"ai-search-options-retrieval-context-expansion"
-														],
-													filters: parseJsonMap(
-														argv["ai-search-options-retrieval-filters"],
-														"ai-search-options-retrieval-filters"
-													),
-													fusion_method:
-														argv["ai-search-options-retrieval-fusion-method"],
-													keyword_match_mode:
-														argv[
-															"ai-search-options-retrieval-keyword-match-mode"
-														],
-													match_threshold:
-														argv["ai-search-options-retrieval-match-threshold"],
-													max_num_results:
-														argv["ai-search-options-retrieval-max-num-results"],
-													retrieval_type:
-														argv["ai-search-options-retrieval-retrieval-type"],
-													return_on_failure:
-														argv[
-															"ai-search-options-retrieval-return-on-failure"
-														],
-												},
-											},
-											messages: parseObjectArray(argv["messages"], "messages"),
-											query: argv["query"],
-										},
-										[
-											["ai_search_options", "custom_metadata"],
-											["ai_search_options", "retrieval", "filters"],
-										]
-									),
-					});
-					return;
-				}
-				const parsedBody =
-					argv.body !== undefined
-						? mergeBodyPositionals(parseBody(argv.body), [
-								{ name: "query", field: "query", value: argv["query"] },
-							])
-						: undefined;
-				const client = await createCommandClient(argv);
-				const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
-				argv.accountId = accountId;
-
-				if (argv.body !== undefined) {
-					const bodyData = parsedBody;
-					const result = await withProgress(`Loading`, async () =>
-						requestApi<unknown>(
-							client,
-							"POST",
-							`/accounts/${accountId}/ai-search/namespaces/${encodeURIComponent(String(argv["namespace"]))}/instances/${encodeURIComponent(String(argv["instance-id"]))}/search`,
-							{ body: bodyData }
-						)
-					);
-					formatOutput(result, { successLabel: `Loaded` });
-					return;
-				}
-
-				// Assemble request body from individual flags
-				const bodyData: Record<string, unknown> = {};
-				if (argv["ai-search-options-cache-cache-threshold"] !== undefined)
-					setNestedValue(
-						bodyData,
-						["ai_search_options", "cache", "cache_threshold"],
-						argv["ai-search-options-cache-cache-threshold"]
-					);
-				if (argv["ai-search-options-cache-enabled"] !== undefined)
-					setNestedValue(
-						bodyData,
-						["ai_search_options", "cache", "enabled"],
-						argv["ai-search-options-cache-enabled"]
-					);
-				if (argv["ai-search-options-custom-metadata"] !== undefined)
-					setNestedValue(
-						bodyData,
-						["ai_search_options", "custom_metadata"],
-						parseJsonMap(
-							argv["ai-search-options-custom-metadata"],
-							"ai-search-options-custom-metadata"
-						)
-					);
-				if (argv["ai-search-options-query-rewrite-enabled"] !== undefined)
-					setNestedValue(
-						bodyData,
-						["ai_search_options", "query_rewrite", "enabled"],
-						argv["ai-search-options-query-rewrite-enabled"]
-					);
-				if (argv["ai-search-options-query-rewrite-model"] !== undefined)
-					setNestedValue(
-						bodyData,
-						["ai_search_options", "query_rewrite", "model"],
-						resolveFileToken(
-							argv["ai-search-options-query-rewrite-model"] as
-								| string
-								| undefined,
-							"ai-search-options-query-rewrite-model",
-							"text"
-						)
-					);
-				if (
-					argv["ai-search-options-query-rewrite-rewrite-prompt"] !== undefined
-				)
-					setNestedValue(
-						bodyData,
-						["ai_search_options", "query_rewrite", "rewrite_prompt"],
-						resolveFileToken(
-							argv["ai-search-options-query-rewrite-rewrite-prompt"] as
-								| string
-								| undefined,
-							"ai-search-options-query-rewrite-rewrite-prompt",
-							"text"
-						)
-					);
-				if (argv["ai-search-options-reranking-enabled"] !== undefined)
-					setNestedValue(
-						bodyData,
-						["ai_search_options", "reranking", "enabled"],
-						argv["ai-search-options-reranking-enabled"]
-					);
-				if (argv["ai-search-options-reranking-match-threshold"] !== undefined)
-					setNestedValue(
-						bodyData,
-						["ai_search_options", "reranking", "match_threshold"],
-						argv["ai-search-options-reranking-match-threshold"]
-					);
-				if (argv["ai-search-options-reranking-model"] !== undefined)
-					setNestedValue(
-						bodyData,
-						["ai_search_options", "reranking", "model"],
-						resolveFileToken(
-							argv["ai-search-options-reranking-model"] as string | undefined,
-							"ai-search-options-reranking-model",
-							"text"
-						)
-					);
-				if (argv["ai-search-options-retrieval-boost-by"] !== undefined)
-					setNestedValue(
-						bodyData,
-						["ai_search_options", "retrieval", "boost_by"],
-						parseObjectArray(
-							argv["ai-search-options-retrieval-boost-by"],
-							"ai-search-options-retrieval-boost-by"
-						)
-					);
-				if (argv["ai-search-options-retrieval-context-expansion"] !== undefined)
-					setNestedValue(
-						bodyData,
-						["ai_search_options", "retrieval", "context_expansion"],
-						argv["ai-search-options-retrieval-context-expansion"]
-					);
-				if (argv["ai-search-options-retrieval-filters"] !== undefined)
-					setNestedValue(
-						bodyData,
-						["ai_search_options", "retrieval", "filters"],
-						parseJsonMap(
-							argv["ai-search-options-retrieval-filters"],
-							"ai-search-options-retrieval-filters"
-						)
-					);
-				if (argv["ai-search-options-retrieval-fusion-method"] !== undefined)
-					setNestedValue(
-						bodyData,
-						["ai_search_options", "retrieval", "fusion_method"],
-						argv["ai-search-options-retrieval-fusion-method"]
-					);
-				if (
-					argv["ai-search-options-retrieval-keyword-match-mode"] !== undefined
-				)
-					setNestedValue(
-						bodyData,
-						["ai_search_options", "retrieval", "keyword_match_mode"],
-						argv["ai-search-options-retrieval-keyword-match-mode"]
-					);
-				if (argv["ai-search-options-retrieval-match-threshold"] !== undefined)
-					setNestedValue(
-						bodyData,
-						["ai_search_options", "retrieval", "match_threshold"],
-						argv["ai-search-options-retrieval-match-threshold"]
-					);
-				if (argv["ai-search-options-retrieval-max-num-results"] !== undefined)
-					setNestedValue(
-						bodyData,
-						["ai_search_options", "retrieval", "max_num_results"],
-						argv["ai-search-options-retrieval-max-num-results"]
-					);
-				if (argv["ai-search-options-retrieval-retrieval-type"] !== undefined)
-					setNestedValue(
-						bodyData,
-						["ai_search_options", "retrieval", "retrieval_type"],
-						argv["ai-search-options-retrieval-retrieval-type"]
-					);
-				if (argv["ai-search-options-retrieval-return-on-failure"] !== undefined)
-					setNestedValue(
-						bodyData,
-						["ai_search_options", "retrieval", "return_on_failure"],
-						argv["ai-search-options-retrieval-return-on-failure"]
-					);
-				if (argv["messages"] !== undefined)
-					setNestedValue(
-						bodyData,
-						["messages"],
-						parseObjectArray(argv["messages"], "messages")
-					);
-				if (argv["query"] !== undefined) bodyData["query"] = argv["query"];
-				const result = await withProgress(`Loading`, async () =>
-					requestApi<unknown>(
-						client,
-						"POST",
-						`/accounts/${accountId}/ai-search/namespaces/${encodeURIComponent(String(argv["namespace"]))}/instances/${encodeURIComponent(String(argv["instance-id"]))}/search`,
-						{ body: bodyData }
-					)
-				);
-				formatOutput(result, { successLabel: `Loaded` });
-			}
-		),
-};
+	usage:
+		"$0 ai-search search <instance-id> [query]\n\nExecutes a semantic search query against an AI Search instance to find relevant indexed content.",
+	...parameters,
+	loader: () => import("./search.handler.js"),
+});
 
 export default command;

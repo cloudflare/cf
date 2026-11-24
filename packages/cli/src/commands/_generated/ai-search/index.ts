@@ -14,40 +14,35 @@ import $search from "./search.js";
 import $stats from "./stats.js";
 import $tokens from "./tokens/index.js";
 import $update from "./update.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * ai-search command
  * @generated from apis/overlays/ai-search.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "ai-search",
 	describe:
 		"Managed search-as-a-service: crawl, index, and query content with AI-powered relevance and chat completions",
 
-	builder: (yargs) => {
-		return yargs
-			.command($chatcompletions)
-			.command($create)
-			.command($delete)
-			.command($get)
-			.command($list)
-			.command($move)
-			.command($multichatcompletions)
-			.command($multisearch)
-			.command($purgecache)
-			.command($search)
-			.command($stats)
-			.command($update)
-			.command($items)
-			.command($jobs)
-			.command($namespace)
-			.command($tokens)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		"chat-completions": $chatcompletions,
+		create: $create,
+		delete: $delete,
+		get: $get,
+		list: $list,
+		move: $move,
+		"multi-chat-completions": $multichatcompletions,
+		"multi-search": $multisearch,
+		"purge-cache": $purgecache,
+		search: $search,
+		stats: $stats,
+		update: $update,
+		items: $items,
+		jobs: $jobs,
+		namespace: $namespace,
+		tokens: $tokens,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

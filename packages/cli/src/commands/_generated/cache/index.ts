@@ -4,30 +4,25 @@ import $origincloudregions from "./origin-cloud-regions/index.js";
 import $purgeenvironment from "./purge-environment.js";
 import $purge from "./purge.js";
 import $settings from "./settings/index.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * cache command
  * @generated from apis/overlays/cache.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "cache",
 	describe:
 		"Purge cached content and configure Cache Reserve, tiered caching, and variant serving",
 
-	builder: (yargs) => {
-		return yargs
-			.command($invalidate)
-			.command($invalidateenvironment)
-			.command($purge)
-			.command($purgeenvironment)
-			.command($origincloudregions)
-			.command($settings)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		invalidate: $invalidate,
+		"invalidate-environment": $invalidateenvironment,
+		purge: $purge,
+		"purge-environment": $purgeenvironment,
+		"origin-cloud-regions": $origincloudregions,
+		settings: $settings,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

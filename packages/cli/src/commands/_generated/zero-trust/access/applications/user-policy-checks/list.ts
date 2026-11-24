@@ -1,104 +1,32 @@
-import operation from "../../../../_operations/zero-trust/access/applications/user-policy-checks/list.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * list command
  * @generated from apis/overlays/zero-trust.ts
  */
-import type { Argv, CommandModule } from "yargs";
 import {
-	createCommandClient,
-	getAccountId,
-	getZoneId,
-	resolveAccountIdSilent,
-} from "#lib/auth.js";
-import { formatDryRun } from "#lib/dry-run.js";
-import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
-import { formatOutput } from "#lib/output.js";
-import { withProgress } from "#lib/progress.js";
-import { runWithTelemetry } from "#lib/telemetry/index.js";
+	apiCommand,
+	type ApiInputs,
+	type ApiParameters,
+} from "#lib/api-command.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 zero-trust access applications user-policy-checks list\n\nTests if a specific user has permission to access an application.\n\nRuns against your account. Pass --zone to run against a zone instead. CLOUDFLARE_ZONE_ID is ignored."
-		)
-		.option("app-id", {
-			type: "string",
-			description: "App ID",
-			demandOption: true,
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
+const parameters = {
+	flags: {
+		"app-id": { kind: "parsed", brief: "App ID", parse: String },
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
 			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+		},
+	},
+	operands: [],
+} as const satisfies ApiParameters;
+export type Args = ApiInputs<typeof parameters>;
+const command = apiCommand({
 	command: "list",
 	describe: "Test Access policies",
-	builder,
-	handler: async (argv): Promise<void> =>
-		runWithTelemetry(
-			{
-				command: "zero-trust access applications user-policy-checks list",
-				classification: {
-					safeFlags: ["dry-run"],
-				} satisfies ArgClassification<Args>,
-			},
-			argv as Record<string, unknown>,
-			async () => {
-				if (argv.dryRun) {
-					const __cfDryRunAccountId =
-						argv.zone === undefined
-							? await resolveAccountIdSilent()
-							: undefined;
-					const accountOrZone = argv.zone === undefined ? "accounts" : "zones";
-					const accountOrZoneId =
-						argv.zone ?? __cfDryRunAccountId ?? "<account-id>";
-					formatDryRun({
-						command:
-							"cf zero-trust access applications user-policy-checks list",
-						method: "GET",
-						url: `https://api.cloudflare.com/client/v4/${accountOrZone}/${accountOrZoneId}/access/apps/${argv["app-id"] == null ? "<app-id>" : encodeURIComponent(String(argv["app-id"]))}/user_policy_checks`,
-						pathParams: {
-							"account-or-zone": String(accountOrZone),
-							"account-or-zone-id": String(accountOrZoneId),
-							"app-id": String(argv["app-id"] ?? ""),
-						},
-						bodyKind: "none",
-					});
-					return;
-				}
-				const client = await createCommandClient(argv);
-				const accountOrZone = argv.zone === undefined ? "accounts" : "zones";
-				const accountOrZoneId =
-					accountOrZone === "zones"
-						? await getZoneId({ zone: argv.zone }, client, {
-								quiet: argv.quiet,
-							})
-						: argv.local
-							? LOCAL_ACCOUNT_ID
-							: await getAccountId();
-				if (accountOrZone === "zones") {
-					argv.zoneId = accountOrZoneId;
-				} else {
-					argv.accountId = accountOrZoneId;
-				}
-
-				const result = await withProgress(`Loading`, async () =>
-					client.send(operation, {
-						account_or_zone: accountOrZone,
-						account_or_zone_id: accountOrZoneId,
-						app_id: argv["app-id"],
-					})
-				);
-				formatOutput(result, { successLabel: `Loaded` });
-			}
-		),
-};
+	usage:
+		"$0 zero-trust access applications user-policy-checks list\n\nTests if a specific user has permission to access an application.\n\nRuns against your account. Pass --zone to run against a zone instead. CLOUDFLARE_ZONE_ID is ignored.",
+	...parameters,
+	loader: () => import("./list.handler.js"),
+});
 
 export default command;

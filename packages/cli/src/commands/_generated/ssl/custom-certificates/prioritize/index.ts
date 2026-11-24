@@ -1,22 +1,17 @@
 import $update from "./update.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * prioritize command group
  * @generated from apis/overlays/ssl.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "prioritize",
 	describe: "Operations for custom-certificates.prioritize",
 
-	builder: (yargs) => {
-		return yargs
-			.command($update)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		update: $update,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

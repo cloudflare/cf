@@ -1,24 +1,19 @@
 import $get from "./get.js";
 import $update from "./update.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * managed command group
  * @generated from apis/overlays/r2.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "managed",
 	describe: "Operations for buckets.domains.managed",
 
-	builder: (yargs) => {
-		return yargs
-			.command($get)
-			.command($update)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		get: $get,
+		update: $update,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

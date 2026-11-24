@@ -2,27 +2,22 @@ import $create from "./create.js";
 import $get from "./get.js";
 import $list from "./list.js";
 import $update from "./update.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * messages command group
  * @generated from apis/overlays/cloudforce-one.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "messages",
 	describe: "Operations for requests.messages",
 
-	builder: (yargs) => {
-		return yargs
-			.command($create)
-			.command($get)
-			.command($list)
-			.command($update)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		create: $create,
+		get: $get,
+		list: $list,
+		update: $update,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

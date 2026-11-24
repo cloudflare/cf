@@ -1,43 +1,28 @@
-import operation from "../../_operations/alerting/policies/update.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * update command
  * @generated from apis/overlays/alerting.ts
  */
-import type { Argv, CommandModule } from "yargs";
 import {
-	createCommandClient,
-	getAccountId,
-	resolveAccountIdSilent,
-} from "#lib/auth.js";
-import { compactBody, parseBody, parseObjectArray } from "#lib/body-parser.js";
-import { formatDryRun } from "#lib/dry-run.js";
+	apiCommand,
+	type ApiInputs,
+	type ApiParameters,
+} from "#lib/api-command.js";
 import { resolveFileToken } from "#lib/input-validation.js";
-import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
-import { formatOutput } from "#lib/output.js";
-import { withProgress } from "#lib/progress.js";
-import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 alerting policies update <policy-id>\n\nUpdate a Notification policy."
-		)
-		.positional("policy-id", {
-			type: "string",
-			description: "The unique identifier of a notification policy",
-			demandOption: true,
-		})
-		.option("alert-interval", {
-			type: "string",
-			description:
+const parameters = {
+	flags: {
+		"alert-interval": {
+			kind: "parsed",
+			brief:
 				"Optional specification of how often to re-alert from the same incident, not support on all alert types.",
-		})
-		.option("alert-type", {
-			type: "string",
-			description:
+			optional: true,
+			parse: String,
+		},
+		"alert-type": {
+			kind: "parsed",
+			brief:
 				"Refers to which event will trigger a Notification dispatch. You can use the endpoint to get available alert types which then will give you a list of possible values. This enum lists every alert type, not the ones a given account can create, since some types depend on entitlements or account type. To get the alert types an account can create, call `GET /accounts/{account_id}/alerting/v3/available_alerts`.",
+			optional: true,
 			choices: [
 				"abuse_report_alert",
 				"access_custom_certificate_expiration_type",
@@ -131,512 +116,408 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"workers_observability_real_time_issue",
 				"zone_aop_custom_certificate_expiration_type",
 			],
-		})
-		.coerce("alert-type", (value) =>
-			resolveFileToken(value, "alert-type", "text")
-		)
-		.option("description", {
-			type: "string",
-			description: "Optional description for the Notification policy.",
-		})
-		.option("enabled", {
-			type: "boolean",
-			description: "Whether or not the Notification policy is enabled.",
-		})
-		.option("filters-actions", {
-			type: "string",
-			array: true,
-			description: "Usage depends on specific alert type",
-		})
-		.option("filters-affected-asns", {
-			type: "string",
-			array: true,
-			description: "Used for configuring radar_notification",
-		})
-		.option("filters-affected-components", {
-			type: "string",
-			array: true,
-			description: "Used for configuring incident_alert",
-		})
-		.option("filters-affected-locations", {
-			type: "string",
-			array: true,
-			description: "Used for configuring radar_notification",
-		})
-		.option("filters-airport-code", {
-			type: "string",
-			array: true,
-			description: "Used for configuring maintenance_event_notification",
-		})
-		.option("filters-alert-trigger-preferences", {
-			type: "string",
-			array: true,
-			description: "Usage depends on specific alert type",
-		})
-		.option("filters-alert-trigger-preferences-value", {
-			type: "string",
-			array: true,
-			description: "Usage depends on specific alert type",
-		})
-		.option("filters-check-id", {
-			type: "string",
-			array: true,
-			description:
+			parse: String,
+			coerce: (value: string) => resolveFileToken(value, "alert-type", "text"),
+		},
+		description: {
+			kind: "parsed",
+			brief: "Optional description for the Notification policy.",
+			optional: true,
+			parse: String,
+		},
+		enabled: {
+			kind: "boolean",
+			brief: "Whether or not the Notification policy is enabled.",
+			optional: true,
+		},
+		"filters-actions": {
+			kind: "parsed",
+			brief: "Usage depends on specific alert type",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"filters-affected-asns": {
+			kind: "parsed",
+			brief: "Used for configuring radar_notification",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"filters-affected-components": {
+			kind: "parsed",
+			brief: "Used for configuring incident_alert",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"filters-affected-locations": {
+			kind: "parsed",
+			brief: "Used for configuring radar_notification",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"filters-airport-code": {
+			kind: "parsed",
+			brief: "Used for configuring maintenance_event_notification",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"filters-alert-trigger-preferences": {
+			kind: "parsed",
+			brief: "Usage depends on specific alert type",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"filters-alert-trigger-preferences-value": {
+			kind: "parsed",
+			brief: "Usage depends on specific alert type",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"filters-check-id": {
+			kind: "parsed",
+			brief:
 				"Used for configuring magic_endpoint_healthcheck_alert. Takes one or more health check IDs, each a UUID. That alert type requires check_id together with alert_trigger_preferences set to slo, a numeric alert_trigger_preferences_value, and selectors set to failures.",
-		})
-		.option("filters-enabled", {
-			type: "string",
-			array: true,
-			description: "Used for configuring load_balancing_pool_enablement_alert",
-		})
-		.option("filters-environment", {
-			type: "string",
-			array: true,
-			description: "Used for configuring pages_event_alert",
-		})
-		.option("filters-event", {
-			type: "string",
-			array: true,
-			description: "Used for configuring pages_event_alert",
-		})
-		.option("filters-event-source", {
-			type: "string",
-			array: true,
-			description: "Used for configuring load_balancing_health_alert",
-		})
-		.option("filters-event-type", {
-			type: "string",
-			array: true,
-			description: "Usage depends on specific alert type",
-		})
-		.option("filters-group-by", {
-			type: "string",
-			array: true,
-			description: "Usage depends on specific alert type",
-		})
-		.option("filters-health-check-id", {
-			type: "string",
-			array: true,
-			description: "Used for configuring health_check_status_notification",
-		})
-		.option("filters-incident-impact", {
-			type: "string",
-			array: true,
-			description: "Used for configuring incident_alert",
-		})
-		.option("filters-input-id", {
-			type: "string",
-			array: true,
-			description: "Used for configuring stream_live_notifications",
-		})
-		.option("filters-insight-class", {
-			type: "string",
-			array: true,
-			description: "Used for configuring security_insights_alert",
-		})
-		.option("filters-limit", {
-			type: "string",
-			array: true,
-			description: "Used for configuring billing_usage_alert",
-		})
-		.option("filters-logo-tag", {
-			type: "string",
-			array: true,
-			description: "Used for configuring logo_match_alert",
-		})
-		.option("filters-megabits-per-second", {
-			type: "string",
-			array: true,
-			description: "Used for configuring advanced_ddos_attack_l4_alert",
-		})
-		.option("filters-new-health", {
-			type: "string",
-			array: true,
-			description: "Used for configuring load_balancing_health_alert",
-		})
-		.option("filters-new-status", {
-			type: "string",
-			array: true,
-			description: "Used for configuring tunnel_health_event",
-		})
-		.option("filters-packets-per-second", {
-			type: "string",
-			array: true,
-			description: "Used for configuring advanced_ddos_attack_l4_alert",
-		})
-		.option("filters-pool-id", {
-			type: "string",
-			array: true,
-			description: "Usage depends on specific alert type",
-		})
-		.option("filters-pop-names", {
-			type: "string",
-			array: true,
-			description: "Usage depends on specific alert type",
-		})
-		.option("filters-product", {
-			type: "string",
-			array: true,
-			description: "Used for configuring billing_usage_alert",
-		})
-		.option("filters-project-id", {
-			type: "string",
-			array: true,
-			description: "Used for configuring pages_event_alert",
-		})
-		.option("filters-protocol", {
-			type: "string",
-			array: true,
-			description: "Used for configuring advanced_ddos_attack_l4_alert",
-		})
-		.option("filters-query-id", {
-			type: "string",
-			array: true,
-			description:
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"filters-enabled": {
+			kind: "parsed",
+			brief: "Used for configuring load_balancing_pool_enablement_alert",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"filters-environment": {
+			kind: "parsed",
+			brief: "Used for configuring pages_event_alert",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"filters-event": {
+			kind: "parsed",
+			brief: "Used for configuring pages_event_alert",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"filters-event-source": {
+			kind: "parsed",
+			brief: "Used for configuring load_balancing_health_alert",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"filters-event-type": {
+			kind: "parsed",
+			brief: "Usage depends on specific alert type",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"filters-group-by": {
+			kind: "parsed",
+			brief: "Usage depends on specific alert type",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"filters-health-check-id": {
+			kind: "parsed",
+			brief: "Used for configuring health_check_status_notification",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"filters-incident-impact": {
+			kind: "parsed",
+			brief: "Used for configuring incident_alert",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"filters-input-id": {
+			kind: "parsed",
+			brief: "Used for configuring stream_live_notifications",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"filters-insight-class": {
+			kind: "parsed",
+			brief: "Used for configuring security_insights_alert",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"filters-limit": {
+			kind: "parsed",
+			brief: "Used for configuring billing_usage_alert",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"filters-logo-tag": {
+			kind: "parsed",
+			brief: "Used for configuring logo_match_alert",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"filters-megabits-per-second": {
+			kind: "parsed",
+			brief: "Used for configuring advanced_ddos_attack_l4_alert",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"filters-new-health": {
+			kind: "parsed",
+			brief: "Used for configuring load_balancing_health_alert",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"filters-new-status": {
+			kind: "parsed",
+			brief: "Used for configuring tunnel_health_event",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"filters-packets-per-second": {
+			kind: "parsed",
+			brief: "Used for configuring advanced_ddos_attack_l4_alert",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"filters-pool-id": {
+			kind: "parsed",
+			brief: "Usage depends on specific alert type",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"filters-pop-names": {
+			kind: "parsed",
+			brief: "Usage depends on specific alert type",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"filters-product": {
+			kind: "parsed",
+			brief: "Used for configuring billing_usage_alert",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"filters-project-id": {
+			kind: "parsed",
+			brief: "Used for configuring pages_event_alert",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"filters-protocol": {
+			kind: "parsed",
+			brief: "Used for configuring advanced_ddos_attack_l4_alert",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"filters-query-id": {
+			kind: "parsed",
+			brief:
 				"Used for configuring stakeout_saved_query_daily_digest_alert and stakeout_saved_query_immediate_alert, which require it. Takes exactly one value, the saved query ID.",
-		})
-		.option("filters-query-tag", {
-			type: "string",
-			array: true,
-			description: "Usage depends on specific alert type",
-		})
-		.option("filters-requests-per-second", {
-			type: "string",
-			array: true,
-			description: "Used for configuring advanced_ddos_attack_l7_alert",
-		})
-		.option("filters-selectors", {
-			type: "string",
-			array: true,
-			description: "Usage depends on specific alert type",
-		})
-		.option("filters-services", {
-			type: "string",
-			array: true,
-			description: "Used for configuring clickhouse_alert_fw_ent_anomaly",
-		})
-		.option("filters-slo", {
-			type: "string",
-			array: true,
-			description: "Usage depends on specific alert type",
-		})
-		.option("filters-status", {
-			type: "string",
-			array: true,
-			description: "Used for configuring health_check_status_notification",
-		})
-		.option("filters-target-hostname", {
-			type: "string",
-			array: true,
-			description: "Used for configuring advanced_ddos_attack_l7_alert",
-		})
-		.option("filters-target-ip", {
-			type: "string",
-			array: true,
-			description: "Used for configuring advanced_ddos_attack_l4_alert",
-		})
-		.option("filters-target-zone-name", {
-			type: "string",
-			array: true,
-			description: "Used for configuring advanced_ddos_attack_l7_alert",
-		})
-		.option("filters-token-id", {
-			type: "string",
-			array: true,
-			description:
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"filters-query-tag": {
+			kind: "parsed",
+			brief: "Usage depends on specific alert type",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"filters-requests-per-second": {
+			kind: "parsed",
+			brief: "Used for configuring advanced_ddos_attack_l7_alert",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"filters-selectors": {
+			kind: "parsed",
+			brief: "Usage depends on specific alert type",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"filters-services": {
+			kind: "parsed",
+			brief: "Used for configuring clickhouse_alert_fw_ent_anomaly",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"filters-slo": {
+			kind: "parsed",
+			brief: "Usage depends on specific alert type",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"filters-status": {
+			kind: "parsed",
+			brief: "Used for configuring health_check_status_notification",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"filters-target-hostname": {
+			kind: "parsed",
+			brief: "Used for configuring advanced_ddos_attack_l7_alert",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"filters-target-ip": {
+			kind: "parsed",
+			brief: "Used for configuring advanced_ddos_attack_l4_alert",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"filters-target-zone-name": {
+			kind: "parsed",
+			brief: "Used for configuring advanced_ddos_attack_l7_alert",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"filters-token-id": {
+			kind: "parsed",
+			brief:
 				"Access service token IDs to include for expiring_service_token_alert. Omit this property to include all current and future service tokens.",
-		})
-		.option("filters-total-spend-dollars", {
-			type: "string",
-			array: true,
-			description:
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"filters-total-spend-dollars": {
+			kind: "parsed",
+			brief:
 				"Used for configuring billing_budget_alert. Takes exactly one value, the budget threshold in US dollars, as a string greater than zero.",
-		})
-		.option("filters-traffic-exclusions", {
-			type: "string",
-			array: true,
-			description: "Used for configuring traffic_anomalies_alert",
-		})
-		.option("filters-tunnel-id", {
-			type: "string",
-			array: true,
-			description: "Used for configuring tunnel_health_event",
-		})
-		.option("filters-tunnel-name", {
-			type: "string",
-			array: true,
-			description: "Usage depends on specific alert type",
-		})
-		.option("filters-type", {
-			type: "string",
-			array: true,
-			description: "Usage depends on specific alert type",
-		})
-		.option("filters-where", {
-			type: "string",
-			array: true,
-			description: "Usage depends on specific alert type",
-		})
-		.option("filters-zones", {
-			type: "string",
-			array: true,
-			description: "Usage depends on specific alert type",
-		})
-		.option("mechanisms-email", {
-			type: "string",
-			description:
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"filters-traffic-exclusions": {
+			kind: "parsed",
+			brief: "Used for configuring traffic_anomalies_alert",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"filters-tunnel-id": {
+			kind: "parsed",
+			brief: "Used for configuring tunnel_health_event",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"filters-tunnel-name": {
+			kind: "parsed",
+			brief: "Usage depends on specific alert type",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"filters-type": {
+			kind: "parsed",
+			brief: "Usage depends on specific alert type",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"filters-where": {
+			kind: "parsed",
+			brief: "Usage depends on specific alert type",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"filters-zones": {
+			kind: "parsed",
+			brief: "Usage depends on specific alert type",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"mechanisms-email": {
+			kind: "parsed",
+			brief:
 				'The mechanisms.email field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"id"?: string}]. ? marks optional keys.',
-		})
-		.option("mechanisms-pagerduty", {
-			type: "string",
-			description:
+			optional: true,
+			parse: String,
+		},
+		"mechanisms-pagerduty": {
+			kind: "parsed",
+			brief:
 				'The mechanisms.pagerduty field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"id"?: string}]. ? marks optional keys.',
-		})
-		.option("mechanisms-webhooks", {
-			type: "string",
-			description:
+			optional: true,
+			parse: String,
+		},
+		"mechanisms-webhooks": {
+			kind: "parsed",
+			brief:
 				'The mechanisms.webhooks field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"id"?: string}]. ? marks optional keys.',
-		})
-		.option("name", { type: "string", description: "Name of the policy." })
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
+			optional: true,
+			parse: String,
+		},
+		name: {
+			kind: "parsed",
+			brief: "Name of the policy.",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
 			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [
+		{
+			placeholder: "policy-id",
+			brief: "The unique identifier of a notification policy",
+			parse: String,
+		},
+	],
+} as const satisfies ApiParameters;
+export type Args = ApiInputs<typeof parameters>;
+const command = apiCommand({
 	command: "update <policy-id>",
 	describe: "Update a Notification policy",
-	builder,
-	handler: async (argv): Promise<void> =>
-		runWithTelemetry(
-			{
-				command: "alerting policies update",
-				classification: {
-					safeFlags: ["alert-type", "enabled", "dry-run"],
-				} satisfies ArgClassification<Args>,
-			},
-			argv as Record<string, unknown>,
-			async () => {
-				if (argv.dryRun) {
-					const __cfDryRunAccountId = await resolveAccountIdSilent();
-					formatDryRun({
-						command: "cf alerting policies update",
-						method: "PUT",
-						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/alerting/v3/policies/${argv["policy-id"] == null ? "<policy-id>" : encodeURIComponent(String(argv["policy-id"]))}`,
-						pathParams: { "policy-id": String(argv["policy-id"] ?? "") },
-						bodyKind: "json",
-						body:
-							argv.body !== undefined
-								? parseBody(argv.body)
-								: compactBody({
-										alert_interval: resolveFileToken(
-											argv["alert-interval"] as string | undefined,
-											"alert-interval",
-											"text"
-										),
-										alert_type: argv["alert-type"],
-										description: resolveFileToken(
-											argv["description"] as string | undefined,
-											"description",
-											"text"
-										),
-										enabled: argv["enabled"],
-										filters: {
-											actions: argv["filters-actions"],
-											affected_asns: argv["filters-affected-asns"],
-											affected_components: argv["filters-affected-components"],
-											affected_locations: argv["filters-affected-locations"],
-											airport_code: argv["filters-airport-code"],
-											alert_trigger_preferences:
-												argv["filters-alert-trigger-preferences"],
-											alert_trigger_preferences_value:
-												argv["filters-alert-trigger-preferences-value"],
-											check_id: argv["filters-check-id"],
-											enabled: argv["filters-enabled"],
-											environment: argv["filters-environment"],
-											event: argv["filters-event"],
-											event_source: argv["filters-event-source"],
-											event_type: argv["filters-event-type"],
-											group_by: argv["filters-group-by"],
-											health_check_id: argv["filters-health-check-id"],
-											incident_impact: argv["filters-incident-impact"],
-											input_id: argv["filters-input-id"],
-											insight_class: argv["filters-insight-class"],
-											limit: argv["filters-limit"],
-											logo_tag: argv["filters-logo-tag"],
-											megabits_per_second: argv["filters-megabits-per-second"],
-											new_health: argv["filters-new-health"],
-											new_status: argv["filters-new-status"],
-											packets_per_second: argv["filters-packets-per-second"],
-											pool_id: argv["filters-pool-id"],
-											pop_names: argv["filters-pop-names"],
-											product: argv["filters-product"],
-											project_id: argv["filters-project-id"],
-											protocol: argv["filters-protocol"],
-											query_id: argv["filters-query-id"],
-											query_tag: argv["filters-query-tag"],
-											requests_per_second: argv["filters-requests-per-second"],
-											selectors: argv["filters-selectors"],
-											services: argv["filters-services"],
-											slo: argv["filters-slo"],
-											status: argv["filters-status"],
-											target_hostname: argv["filters-target-hostname"],
-											target_ip: argv["filters-target-ip"],
-											target_zone_name: argv["filters-target-zone-name"],
-											token_id: argv["filters-token-id"],
-											total_spend_dollars: argv["filters-total-spend-dollars"],
-											traffic_exclusions: argv["filters-traffic-exclusions"],
-											tunnel_id: argv["filters-tunnel-id"],
-											tunnel_name: argv["filters-tunnel-name"],
-											type: argv["filters-type"],
-											where: argv["filters-where"],
-											zones: argv["filters-zones"],
-										},
-										mechanisms: {
-											email: parseObjectArray(
-												argv["mechanisms-email"],
-												"mechanisms-email"
-											),
-											pagerduty: parseObjectArray(
-												argv["mechanisms-pagerduty"],
-												"mechanisms-pagerduty"
-											),
-											webhooks: parseObjectArray(
-												argv["mechanisms-webhooks"],
-												"mechanisms-webhooks"
-											),
-										},
-										name: resolveFileToken(
-											argv["name"] as string | undefined,
-											"name",
-											"text"
-										),
-									}),
-					});
-					return;
-				}
-				const parsedBody =
-					argv.body !== undefined ? parseBody(argv.body) : undefined;
-				const client = await createCommandClient(argv);
-				const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
-				argv.accountId = accountId;
-
-				if (argv.body !== undefined) {
-					const bodyData = parsedBody;
-					const result = await withProgress(`Updating`, async () =>
-						client.send(operation, {
-							body: bodyData,
-							account_id: accountId,
-							policy_id: argv["policy-id"],
-						})
-					);
-					formatOutput(result, { successLabel: `Updated` });
-					return;
-				}
-
-				// Assemble request body from individual flags
-				const bodyData = compactBody({
-					alert_interval: resolveFileToken(
-						argv["alert-interval"] as string | undefined,
-						"alert-interval",
-						"text"
-					),
-					alert_type: argv["alert-type"],
-					description: resolveFileToken(
-						argv["description"] as string | undefined,
-						"description",
-						"text"
-					),
-					enabled: argv["enabled"],
-					filters: {
-						actions: argv["filters-actions"],
-						affected_asns: argv["filters-affected-asns"],
-						affected_components: argv["filters-affected-components"],
-						affected_locations: argv["filters-affected-locations"],
-						airport_code: argv["filters-airport-code"],
-						alert_trigger_preferences:
-							argv["filters-alert-trigger-preferences"],
-						alert_trigger_preferences_value:
-							argv["filters-alert-trigger-preferences-value"],
-						check_id: argv["filters-check-id"],
-						enabled: argv["filters-enabled"],
-						environment: argv["filters-environment"],
-						event: argv["filters-event"],
-						event_source: argv["filters-event-source"],
-						event_type: argv["filters-event-type"],
-						group_by: argv["filters-group-by"],
-						health_check_id: argv["filters-health-check-id"],
-						incident_impact: argv["filters-incident-impact"],
-						input_id: argv["filters-input-id"],
-						insight_class: argv["filters-insight-class"],
-						limit: argv["filters-limit"],
-						logo_tag: argv["filters-logo-tag"],
-						megabits_per_second: argv["filters-megabits-per-second"],
-						new_health: argv["filters-new-health"],
-						new_status: argv["filters-new-status"],
-						packets_per_second: argv["filters-packets-per-second"],
-						pool_id: argv["filters-pool-id"],
-						pop_names: argv["filters-pop-names"],
-						product: argv["filters-product"],
-						project_id: argv["filters-project-id"],
-						protocol: argv["filters-protocol"],
-						query_id: argv["filters-query-id"],
-						query_tag: argv["filters-query-tag"],
-						requests_per_second: argv["filters-requests-per-second"],
-						selectors: argv["filters-selectors"],
-						services: argv["filters-services"],
-						slo: argv["filters-slo"],
-						status: argv["filters-status"],
-						target_hostname: argv["filters-target-hostname"],
-						target_ip: argv["filters-target-ip"],
-						target_zone_name: argv["filters-target-zone-name"],
-						token_id: argv["filters-token-id"],
-						total_spend_dollars: argv["filters-total-spend-dollars"],
-						traffic_exclusions: argv["filters-traffic-exclusions"],
-						tunnel_id: argv["filters-tunnel-id"],
-						tunnel_name: argv["filters-tunnel-name"],
-						type: argv["filters-type"],
-						where: argv["filters-where"],
-						zones: argv["filters-zones"],
-					},
-					mechanisms: {
-						email: parseObjectArray(
-							argv["mechanisms-email"],
-							"mechanisms-email"
-						),
-						pagerduty: parseObjectArray(
-							argv["mechanisms-pagerduty"],
-							"mechanisms-pagerduty"
-						),
-						webhooks: parseObjectArray(
-							argv["mechanisms-webhooks"],
-							"mechanisms-webhooks"
-						),
-					},
-					name: resolveFileToken(
-						argv["name"] as string | undefined,
-						"name",
-						"text"
-					),
-				});
-				const result = await withProgress(`Updating`, async () =>
-					client.send(operation, {
-						body: bodyData,
-						account_id: accountId,
-						policy_id: argv["policy-id"],
-					})
-				);
-				formatOutput(result, { successLabel: `Updated` });
-			}
-		),
-};
+	usage:
+		"$0 alerting policies update <policy-id>\n\nUpdate a Notification policy.",
+	...parameters,
+	loader: () => import("./update.handler.js"),
+});
 
 export default command;

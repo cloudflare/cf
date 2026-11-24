@@ -1,69 +1,43 @@
-import { RootCommand } from "@bomb.sh/tab";
-import { afterEach, describe, expect, it, vi } from "vite-plus/test";
-import { registerCompletions } from "../../commands/completions/index.js";
-import type { CommandMeta } from "../../lib/metadata.js";
-
-const TCP_META = {
-	command: "cf access tcp",
-	name: "tcp",
-	fullPath: ["access", "tcp"],
-	aliases: ["ssh", "rdp", "smb"],
-	description: "Proxy a TCP connection through Access",
-	usage: "cf access tcp [options]",
-	arguments: [],
-	options: [
-		{
-			name: "log-level",
-			alias: ["loglevel", "log"],
-			type: "string",
-			required: false,
-			description: "cloudflared log level",
-			enum: ["debug", "info"],
-		},
-	],
-} satisfies CommandMeta;
-
-function parseCompletions(root: RootCommand, args: string[]): string[] {
-	const lines: string[] = [];
-	vi.spyOn(console, "log").mockImplementation((line) => {
-		lines.push(String(line));
+import { describe, expect, it } from "vite-plus/test";
+import { buildCli } from "../../index.js";
+import { mockOutputStreams } from "../helpers/capture-output.js";
+import { runCf } from "../helpers/run-cf.js";
+const values = async (...words: string[]) =>
+	(await buildCli([]).cli.complete(words)).map((entry) => entry.completion);
+describe("parser-backed completions", () => {
+	const output = mockOutputStreams();
+	it.each([
+		["bash", "complete -F __cf_complete cf"],
+		["zsh", "compdef _cf cf"],
+		["fish", "complete -c cf"],
+		["powershell", "Register-ArgumentCompleter"],
+	])("keeps the %s shell integration", async (shell, registration) => {
+		expect(await runCf(["complete", shell])).toEqual({ exitCode: 0 });
+		expect(output.out).toContain(registration);
 	});
-	root.parse(args);
-	return lines;
-}
-
-describe("metadata-backed completions", () => {
-	afterEach(() => {
-		vi.restoreAllMocks();
+	it("writes shell candidates and the no-file-completion directive", async () => {
+		await runCf(["complete", "--", "zones", "list", "--direction", "d"]);
+		expect(output.out).toBe("desc\tdesc\n:4");
 	});
-
-	it("registers command aliases as sibling leaves", () => {
-		const root = new RootCommand();
-		registerCompletions(root, [TCP_META]);
-
-		expect(parseCompletions(root, ["access", "s"])).toEqual(
-			expect.arrayContaining([
-				"ssh\tProxy a TCP connection through Access",
-				"smb\tProxy a TCP connection through Access",
-			])
+	it("follows routes, including command aliases", async () => {
+		expect(await values("access", "s")).toEqual(
+			expect.arrayContaining(["ssh", "smb"])
 		);
 	});
-
-	it("registers option aliases and their enum candidates on aliases", () => {
-		const root = new RootCommand();
-		registerCompletions(root, [TCP_META]);
-
-		expect(parseCompletions(root, ["access", "ssh", "--log"])).toEqual(
-			expect.arrayContaining([
-				"--log-level\tcloudflared log level",
-				"--loglevel\tcloudflared log level",
-				"--log\tcloudflared log level",
-			])
+	it("suggests real flags on aliased routes", async () => {
+		expect((await values("access", "ssh", "--log")).sort()).toEqual(
+			["--log-level", "--loglevel"].sort()
 		);
-
-		vi.restoreAllMocks();
-		expect(parseCompletions(root, ["access", "ssh", "--loglevel", ""])).toEqual(
-			expect.arrayContaining(["debug\tdebug", "info\tinfo"])
+	});
+	it("completes enum values in either shell spelling", async () => {
+		for (const words of [["--direction", "d"], ["--direction=d"]]) {
+			expect(await values("zones", "list", ...words)).toEqual(["desc"]);
+		}
+	});
+	it("resolves global options before the route and excludes hidden flags", async () => {
+		expect(await values("--profile", "work", "zones", "li")).toContain("list");
+		expect(await values("zones", "list", "--temp")).not.toContain(
+			"--temporary-account"
 		);
 	});
 });

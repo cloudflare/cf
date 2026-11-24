@@ -1,24 +1,19 @@
 import $check from "./check.js";
 import $get from "./get.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * account-eligibility command group
  * @generated from apis/overlays/monetization.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "account-eligibility",
 	describe: "Operations for account-eligibility",
 
-	builder: (yargs) => {
-		return yargs
-			.command($check)
-			.command($get)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		check: $check,
+		get: $get,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

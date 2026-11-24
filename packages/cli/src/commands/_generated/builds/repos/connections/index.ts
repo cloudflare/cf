@@ -1,24 +1,19 @@
 import $delete from "./delete.js";
 import $replace from "./replace.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * connections command group
  * @generated from apis/overlays/builds.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "connections",
 	describe: "Operations for repos.connections",
 
-	builder: (yargs) => {
-		return yargs
-			.command($delete)
-			.command($replace)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		delete: $delete,
+		replace: $replace,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

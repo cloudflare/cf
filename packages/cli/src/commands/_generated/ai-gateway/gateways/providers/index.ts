@@ -4,29 +4,24 @@ import $get from "./get.js";
 import $list from "./list.js";
 import $test from "./test.js";
 import $update from "./update.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * providers command group
  * @generated from apis/overlays/ai-gateway.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "providers",
 	describe: "Store and rotate upstream AI provider keys for a gateway",
 
-	builder: (yargs) => {
-		return yargs
-			.command($create)
-			.command($delete)
-			.command($get)
-			.command($list)
-			.command($test)
-			.command($update)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		create: $create,
+		delete: $delete,
+		get: $get,
+		list: $list,
+		test: $test,
+		update: $update,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

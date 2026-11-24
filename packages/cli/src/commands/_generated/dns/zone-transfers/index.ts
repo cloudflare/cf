@@ -4,29 +4,24 @@ import $incoming from "./incoming/index.js";
 import $outgoing from "./outgoing/index.js";
 import $peers from "./peers/index.js";
 import $tsigs from "./tsigs/index.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * zone-transfers command group
  * @generated from apis/overlays/dns.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "zone-transfers",
 	describe: "Operations for zone-transfers",
 
-	builder: (yargs) => {
-		return yargs
-			.command($forceaxfr)
-			.command($acls)
-			.command($incoming)
-			.command($outgoing)
-			.command($peers)
-			.command($tsigs)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		"force-axfr": $forceaxfr,
+		acls: $acls,
+		incoming: $incoming,
+		outgoing: $outgoing,
+		peers: $peers,
+		tsigs: $tsigs,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

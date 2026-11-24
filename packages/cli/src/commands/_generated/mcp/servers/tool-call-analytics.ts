@@ -1,109 +1,57 @@
-import operation from "../../_operations/mcp/servers/tool-call-analytics.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * tool-call-analytics command
  * @generated from apis/overlays/mcp.ts
  */
-import type { Argv, CommandModule } from "yargs";
 import {
-	createCommandClient,
-	getAccountId,
-	resolveAccountIdSilent,
-} from "#lib/auth.js";
-import { formatDryRun } from "#lib/dry-run.js";
-import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
-import { formatOutput } from "#lib/output.js";
-import { withProgress } from "#lib/progress.js";
-import { runWithTelemetry } from "#lib/telemetry/index.js";
+	apiCommand,
+	type ApiInputs,
+	type ApiParameters,
+} from "#lib/api-command.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 mcp servers tool-call-analytics <server-id>\n\nReturns daily or monthly tool-call counts for a server."
-		)
-		.positional("server-id", {
-			type: "string",
-			description: "Server ID",
-			demandOption: true,
-		})
-		.option("granularity", {
-			type: "string",
-			description: "Granularity",
-			choices: ["daily", "monthly"],
-		})
-		.option("aggregate", {
-			type: "string",
-			description: "Aggregate",
-			choices: ["true", "false"],
-		})
-		.option("tz", { type: "string", description: "Tz" })
-		.option("days", {
-			type: "number",
-			description:
+const parameters = {
+	flags: {
+		granularity: {
+			kind: "enum",
+			brief: "Granularity",
+			values: ["daily", "monthly"],
+			optional: true,
+		},
+		aggregate: {
+			kind: "enum",
+			brief: "Aggregate",
+			values: ["true", "false"],
+			optional: true,
+		},
+		tz: { kind: "parsed", brief: "Tz", optional: true, parse: String },
+		days: {
+			kind: "parsed",
+			brief:
 				"Daily trailing-window size; defaults to 7 and is ignored for monthly",
-		})
-		.option("response-status", {
-			type: "string",
-			description: "Response status to count; 'all' counts every status",
-			choices: ["success", "error", "cached", "all"],
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
+			optional: true,
+			parse: Number,
+		},
+		"response-status": {
+			kind: "enum",
+			brief: "Response status to count; 'all' counts every status",
+			values: ["success", "error", "cached", "all"],
+			optional: true,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
 			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+		},
+	},
+	operands: [{ placeholder: "server-id", brief: "Server ID", parse: String }],
+} as const satisfies ApiParameters;
+export type Args = ApiInputs<typeof parameters>;
+const command = apiCommand({
 	command: "tool-call-analytics <server-id>",
 	describe: "Per-server MCP tool-call timeseries",
-	builder,
-	handler: async (argv): Promise<void> =>
-		runWithTelemetry(
-			{
-				command: "mcp servers tool-call-analytics",
-				classification: {
-					safeFlags: ["granularity", "aggregate", "response-status", "dry-run"],
-				} satisfies ArgClassification<Args>,
-			},
-			argv as Record<string, unknown>,
-			async () => {
-				const queryParams: Record<string, unknown> = {
-					granularity: argv["granularity"],
-					aggregate: argv["aggregate"],
-					tz: argv["tz"],
-					days: argv["days"],
-					response_status: argv["response-status"],
-				};
-				if (argv.dryRun) {
-					const __cfDryRunAccountId = await resolveAccountIdSilent();
-					formatDryRun({
-						command: "cf mcp servers tool-call-analytics",
-						method: "GET",
-						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/access/ai-controls/mcp/analytics/servers/${argv["server-id"] == null ? "<server-id>" : encodeURIComponent(String(argv["server-id"]))}/tool-calls/timeseries`,
-						pathParams: { "server-id": String(argv["server-id"] ?? "") },
-						query: queryParams,
-						bodyKind: "none",
-					});
-					return;
-				}
-				const client = await createCommandClient(argv);
-				const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
-				argv.accountId = accountId;
-
-				const result = await withProgress(`Loading`, async () =>
-					client.send(operation, {
-						account_id: accountId,
-						server_id: argv["server-id"],
-						...queryParams,
-					})
-				);
-				formatOutput(result, { successLabel: `Loaded` });
-			}
-		),
-};
+	usage:
+		"$0 mcp servers tool-call-analytics <server-id>\n\nReturns daily or monthly tool-call counts for a server.",
+	...parameters,
+	loader: () => import("./tool-call-analytics.handler.js"),
+});
 
 export default command;

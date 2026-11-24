@@ -1,24 +1,19 @@
 import $flow from "./flow/index.js";
 import $protection from "./protection/index.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * tcp command group
  * @generated from apis/overlays/magic-transit.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "tcp",
 	describe: "Operations for advanced-tcp-protection.configs.tcp",
 
-	builder: (yargs) => {
-		return yargs
-			.command($flow)
-			.command($protection)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		flow: $flow,
+		protection: $protection,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

@@ -6,31 +6,26 @@ import $get from "./get.js";
 import $list from "./list.js";
 import $patch from "./patch.js";
 import $update from "./update.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * flags command group
  * @generated from apis/overlays/flagship.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "flags",
 	describe: "Operations for apps.flags",
 
-	builder: (yargs) => {
-		return yargs
-			.command($create)
-			.command($delete)
-			.command($evaluate)
-			.command($get)
-			.command($list)
-			.command($patch)
-			.command($update)
-			.command($changelog)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		create: $create,
+		delete: $delete,
+		evaluate: $evaluate,
+		get: $get,
+		list: $list,
+		patch: $patch,
+		update: $update,
+		changelog: $changelog,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

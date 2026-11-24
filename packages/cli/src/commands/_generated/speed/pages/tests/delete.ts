@@ -1,32 +1,19 @@
-import operation from "../../../_operations/speed/pages/tests/delete.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * delete command
  * @generated from apis/overlays/speed.ts
  */
-import type { Argv, CommandModule } from "yargs";
-import { createCommandClient, getZoneId } from "#lib/auth.js";
-import { formatDryRun } from "#lib/dry-run.js";
-import { formatOutput } from "#lib/output.js";
-import { withProgress } from "#lib/progress.js";
-import { confirmDelete } from "#lib/prompt.js";
-import { runWithTelemetry } from "#lib/telemetry/index.js";
+import {
+	apiCommand,
+	type ApiInputs,
+	type ApiParameters,
+} from "#lib/api-command.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 speed pages tests delete <url>\n\nDeletes all tests for a specific webpage from a specific region. Deleted tests are still counted as part of the quota."
-		)
-		.positional("url", {
-			type: "string",
-			description: "A URL.",
-			demandOption: true,
-		})
-		.option("region", {
-			type: "string",
-			description: "A test region.",
-			choices: [
+const parameters = {
+	flags: {
+		region: {
+			kind: "enum",
+			brief: "A test region.",
+			values: [
 				"asia-east1",
 				"asia-northeast1",
 				"asia-northeast2",
@@ -49,74 +36,30 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"us-south1",
 				"us-west1",
 			],
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
+			optional: true,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
 			default: false,
-		})
-		.option("force", {
-			type: "boolean",
+		},
+		force: {
+			kind: "boolean",
+			brief: "Skip confirmation (useful in scripts and CI)",
 			alias: "f",
-			description: "Skip confirmation (useful in scripts and CI)",
 			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+		},
+	},
+	operands: [{ placeholder: "url", brief: "A URL.", parse: String }],
+} as const satisfies ApiParameters;
+export type Args = ApiInputs<typeof parameters>;
+const command = apiCommand({
 	command: "delete <url>",
 	describe: "Delete all page tests",
-	builder,
-	handler: async (argv): Promise<void> =>
-		runWithTelemetry(
-			{
-				command: "speed pages tests delete",
-				classification: {
-					safeFlags: ["region", "dry-run", "force"],
-					shortFlagAliases: { f: { canonical: "force", type: "boolean" } },
-				} satisfies ArgClassification<Args>,
-			},
-			argv as Record<string, unknown>,
-			async () => {
-				const queryParams: Record<string, unknown> = {
-					region: argv["region"],
-				};
-				if (argv.dryRun) {
-					formatDryRun({
-						command: "cf speed pages tests delete",
-						method: "DELETE",
-						url: `https://api.cloudflare.com/client/v4/zones/${argv.zone ?? argv.zoneId ?? "<zone>"}/speed_api/pages/${argv["url"] == null ? "<url>" : encodeURIComponent(String(argv["url"]))}/tests`,
-						pathParams: {
-							"zone-id": String(argv.zone ?? argv["zone-id"] ?? ""),
-							url: String(argv["url"] ?? ""),
-						},
-						query: queryParams,
-						bodyKind: "none",
-					});
-					return;
-				}
-				const client = await createCommandClient(argv);
-				const zoneId = await getZoneId({ zone: argv.zone }, client, {
-					quiet: argv.quiet,
-				});
-				argv.zoneId = zoneId;
-
-				if (!(await confirmDelete({ force: Boolean(argv.force) }))) {
-					return;
-				}
-
-				const result = await withProgress(`Deleting`, async () =>
-					client.send(operation, {
-						zone_id: zoneId,
-						url: argv["url"],
-						...queryParams,
-					})
-				);
-				formatOutput(result, { successLabel: `Deleted` });
-			}
-		),
-};
+	usage:
+		"$0 speed pages tests delete <url>\n\nDeletes all tests for a specific webpage from a specific region. Deleted tests are still counted as part of the quota.",
+	...parameters,
+	loader: () => import("./delete.handler.js"),
+});
 
 export default command;

@@ -7,33 +7,28 @@ import $health from "./health/index.js";
 import $list from "./list.js";
 import $references from "./references/index.js";
 import $update from "./update.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * pools command group
  * @generated from apis/overlays/load-balancers.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "pools",
 	describe:
 		"Origin server pools with weighted traffic distribution, health thresholds, and geographic preferences",
 
-	builder: (yargs) => {
-		return yargs
-			.command($bulkedit)
-			.command($create)
-			.command($delete)
-			.command($edit)
-			.command($get)
-			.command($list)
-			.command($update)
-			.command($health)
-			.command($references)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		"bulk-edit": $bulkedit,
+		create: $create,
+		delete: $delete,
+		edit: $edit,
+		get: $get,
+		list: $list,
+		update: $update,
+		health: $health,
+		references: $references,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

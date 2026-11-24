@@ -1,22 +1,17 @@
 import $lists from "./lists/index.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * rules command
  * @generated from apis/overlays/rules.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "rules",
 	describe: "Resources used by Cloudflare rules and rulesets",
 
-	builder: (yargs) => {
-		return yargs
-			.command($lists)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		lists: $lists,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

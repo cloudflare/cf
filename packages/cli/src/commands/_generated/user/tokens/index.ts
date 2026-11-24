@@ -6,32 +6,27 @@ import $permissiongroups from "./permission-groups/index.js";
 import $roll from "./roll.js";
 import $update from "./update.js";
 import $verify from "./verify.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * tokens command group
  * @generated from apis/overlays/user.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "tokens",
 	describe:
 		"Create and manage personal API tokens scoped to your user for programmatic API access",
 
-	builder: (yargs) => {
-		return yargs
-			.command($create)
-			.command($delete)
-			.command($get)
-			.command($list)
-			.command($roll)
-			.command($update)
-			.command($verify)
-			.command($permissiongroups)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		create: $create,
+		delete: $delete,
+		get: $get,
+		list: $list,
+		roll: $roll,
+		update: $update,
+		verify: $verify,
+		"permission-groups": $permissiongroups,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

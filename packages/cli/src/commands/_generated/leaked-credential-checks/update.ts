@@ -1,117 +1,48 @@
-import operation from "../_operations/leaked-credential-checks/update.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * update command
  * @generated from apis/overlays/leaked-credential-checks.ts
  */
-import type { Argv, CommandModule } from "yargs";
-import { createCommandClient, getZoneId } from "#lib/auth.js";
-import { compactBody, parseBody } from "#lib/body-parser.js";
-import { formatDryRun } from "#lib/dry-run.js";
-import { formatOutput } from "#lib/output.js";
-import { withProgress } from "#lib/progress.js";
-import { confirmDelete } from "#lib/prompt.js";
-import { runWithTelemetry } from "#lib/telemetry/index.js";
+import {
+	apiCommand,
+	type ApiInputs,
+	type ApiParameters,
+} from "#lib/api-command.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 leaked-credential-checks update\n\nUpdate the Leaked Credential Checks status for the zone, enabling or disabling the detection. While enabled, the detection populates the `cf.waf.credential_check.*` fields, which you can reference in custom rules and rate limiting rules to challenge or block requests carrying compromised credentials."
-		)
-		.option("enabled", {
-			type: "boolean",
-			description:
-				"Determines whether or not Leaked Credential Checks are enabled.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
+const parameters = {
+	flags: {
+		enabled: {
+			kind: "boolean",
+			brief: "Determines whether or not Leaked Credential Checks are enabled.",
+			optional: true,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
 			default: false,
-		})
-		.option("force", {
-			type: "boolean",
+		},
+		force: {
+			kind: "boolean",
+			brief: "Skip confirmation (useful in scripts and CI)",
 			alias: "f",
-			description: "Skip confirmation (useful in scripts and CI)",
 			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Defines the overall status for Leaked Credential Checks.",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+		},
+		body: {
+			kind: "parsed",
+			brief: "Defines the overall status for Leaked Credential Checks.",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [],
+} as const satisfies ApiParameters;
+export type Args = ApiInputs<typeof parameters>;
+const command = apiCommand({
 	command: "update",
 	describe: "Update the Leaked Credential Checks status for a zone.",
-	builder,
-	handler: async (argv): Promise<void> =>
-		runWithTelemetry(
-			{
-				command: "leaked-credential-checks update",
-				classification: {
-					safeFlags: ["enabled", "dry-run", "force"],
-					shortFlagAliases: { f: { canonical: "force", type: "boolean" } },
-				} satisfies ArgClassification<Args>,
-			},
-			argv as Record<string, unknown>,
-			async () => {
-				if (argv.dryRun) {
-					formatDryRun({
-						command: "cf leaked-credential-checks update",
-						method: "POST",
-						url: `https://api.cloudflare.com/client/v4/zones/${argv.zone ?? argv.zoneId ?? "<zone>"}/leaked-credential-checks`,
-						pathParams: {
-							"zone-id": String(argv.zone ?? argv["zone-id"] ?? ""),
-						},
-						bodyKind: "json",
-						body:
-							argv.body !== undefined
-								? parseBody(argv.body)
-								: compactBody({
-										enabled: argv["enabled"],
-									}),
-					});
-					return;
-				}
-				const parsedBody =
-					argv.body !== undefined ? parseBody(argv.body) : undefined;
-				const client = await createCommandClient(argv);
-				const zoneId = await getZoneId({ zone: argv.zone }, client, {
-					quiet: argv.quiet,
-				});
-				argv.zoneId = zoneId;
-
-				if (
-					!(await confirmDelete({
-						force: Boolean(argv.force),
-						message: `This operation toggles Leaked Credential Checks for a zone.`,
-					}))
-				) {
-					return;
-				}
-
-				if (argv.body !== undefined) {
-					const bodyData = parsedBody;
-					const result = await withProgress(`Processing`, async () =>
-						client.send(operation, { body: bodyData, zone_id: zoneId })
-					);
-					formatOutput(result, { successLabel: `Done` });
-					return;
-				}
-
-				// Assemble request body from individual flags
-				const bodyData = compactBody({
-					enabled: argv["enabled"],
-				});
-				const result = await withProgress(`Processing`, async () =>
-					client.send(operation, { body: bodyData, zone_id: zoneId })
-				);
-				formatOutput(result, { successLabel: `Done` });
-			}
-		),
-};
+	usage:
+		"$0 leaked-credential-checks update\n\nUpdate the Leaked Credential Checks status for the zone, enabling or disabling the detection. While enabled, the detection populates the `cf.waf.credential_check.*` fields, which you can reference in custom rules and rate limiting rules to challenge or block requests carrying compromised credentials.",
+	...parameters,
+	loader: () => import("./update.handler.js"),
+});
 
 export default command;

@@ -16,42 +16,37 @@ import $tokens from "./tokens/index.js";
 import $transformations from "./transformations/index.js";
 import $update from "./update.js";
 import $utbilling from "./ut-billing/index.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * accounts command
  * @generated from apis/overlays/accounts.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "accounts",
 	describe:
 		"Account settings, members, roles, subscriptions, and API tokens for your Cloudflare account",
 
-	builder: (yargs) => {
-		return yargs
-			.command($create)
-			.command($delete)
-			.command($get)
-			.command($list)
-			.command($move)
-			.command($update)
-			.command($applications)
-			.command($billing)
-			.command($categories)
-			.command($entitlements)
-			.command($logs)
-			.command($members)
-			.command($organizations)
-			.command($profile)
-			.command($subscriptions)
-			.command($tokens)
-			.command($transformations)
-			.command($utbilling)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		create: $create,
+		delete: $delete,
+		get: $get,
+		list: $list,
+		move: $move,
+		update: $update,
+		applications: $applications,
+		billing: $billing,
+		categories: $categories,
+		entitlements: $entitlements,
+		logs: $logs,
+		members: $members,
+		organizations: $organizations,
+		profile: $profile,
+		subscriptions: $subscriptions,
+		tokens: $tokens,
+		transformations: $transformations,
+		"ut-billing": $utbilling,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

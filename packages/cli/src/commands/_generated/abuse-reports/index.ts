@@ -6,32 +6,27 @@ import $get from "./get.js";
 import $listsubmitted from "./list-submitted.js";
 import $list from "./list.js";
 import $mitigations from "./mitigations/index.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * abuse-reports command
  * @generated from apis/overlays/abuse-reports.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "abuse-reports",
 	describe:
 		"Submit and track abuse reports for phishing, malware, and other policy violations on Cloudflare-proxied sites",
 
-	builder: (yargs) => {
-		return yargs
-			.command($create)
-			.command($get)
-			.command($getsubmitted)
-			.command($list)
-			.command($listsubmitted)
-			.command($appeals)
-			.command($emails)
-			.command($mitigations)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		create: $create,
+		get: $get,
+		"get-submitted": $getsubmitted,
+		list: $list,
+		"list-submitted": $listsubmitted,
+		appeals: $appeals,
+		emails: $emails,
+		mitigations: $mitigations,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

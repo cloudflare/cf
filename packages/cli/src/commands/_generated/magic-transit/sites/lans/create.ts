@@ -1,129 +1,154 @@
-import operation from "../../../_operations/magic-transit/sites/lans/create.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * create command
  * @generated from apis/overlays/magic-transit.ts
  */
-import type { Argv, CommandModule } from "yargs";
 import {
-	createCommandClient,
-	getAccountId,
-	resolveAccountIdSilent,
-} from "#lib/auth.js";
-import {
-	compactBody,
-	parseBody,
-	parseJsonMap,
-	parseObjectArray,
-} from "#lib/body-parser.js";
-import { formatDryRun } from "#lib/dry-run.js";
-import { resolveFileToken } from "#lib/input-validation.js";
-import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
-import { formatOutput } from "#lib/output.js";
-import { withProgress } from "#lib/progress.js";
-import { runWithTelemetry } from "#lib/telemetry/index.js";
+	apiCommand,
+	type ApiInputs,
+	type ApiParameters,
+} from "#lib/api-command.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 magic-transit sites lans create <site-id>\n\nCreates a new Site LAN. If the site is in high availability mode, static_addressing is required along with secondary and virtual address."
-		)
-		.positional("site-id", {
-			type: "string",
-			description: "Identifier",
-			demandOption: true,
-		})
-		.option("bond-id", { type: "number", description: "The bond_id field" })
-		.option("ha-link", {
-			type: "boolean",
-			description:
+const parameters = {
+	flags: {
+		"bond-id": {
+			kind: "parsed",
+			brief: "The bond_id field",
+			optional: true,
+			parse: Number,
+		},
+		"ha-link": {
+			kind: "boolean",
+			brief:
 				"mark true to use this LAN for HA probing. only works for site with HA turned on. only one LAN can be set as the ha_link.",
-		})
-		.option("is-breakout", {
-			type: "boolean",
-			description:
-				"mark true to use this LAN for source-based breakout traffic",
-		})
-		.option("is-prioritized", {
-			type: "boolean",
-			description:
-				"mark true to use this LAN for source-based prioritized traffic",
-		})
-		.option("name", { type: "string", description: "The name field" })
-		.option("nat-static-prefix", {
-			type: "string",
-			description: "A valid CIDR notation representing an IP range.",
-		})
-		.option("physport", { type: "number", description: "The physport field" })
-		.option("remote-subnets", {
-			type: "string",
-			description:
+			optional: true,
+		},
+		"is-breakout": {
+			kind: "boolean",
+			brief: "mark true to use this LAN for source-based breakout traffic",
+			optional: true,
+		},
+		"is-prioritized": {
+			kind: "boolean",
+			brief: "mark true to use this LAN for source-based prioritized traffic",
+			optional: true,
+		},
+		name: {
+			kind: "parsed",
+			brief: "The name field",
+			optional: true,
+			parse: String,
+		},
+		"nat-static-prefix": {
+			kind: "parsed",
+			brief: "A valid CIDR notation representing an IP range.",
+			optional: true,
+			parse: String,
+		},
+		physport: {
+			kind: "parsed",
+			brief: "The physport field",
+			optional: true,
+			parse: Number,
+		},
+		"remote-subnets": {
+			kind: "parsed",
+			brief:
 				'The remote_subnets field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"local_alias_prefix": string, "remote_prefix": string}].',
-		})
-		.option("routed-subnets", {
-			type: "string",
-			description:
+			optional: true,
+			parse: String,
+		},
+		"routed-subnets": {
+			kind: "parsed",
+			brief:
 				'The routed_subnets field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"next_hop": string, "prefix": string, "nat"?: {...}}]. ? marks optional keys.',
-		})
-		.option("static-addressing-address", {
-			type: "string",
-			description: "A valid CIDR notation representing an IP range.",
-		})
-		.option("static-addressing-dhcp-relay-server-addresses", {
-			type: "string",
-			array: true,
-			description: "List of DHCP server IPs.",
-		})
-		.option("static-addressing-dhcp-server-dhcp-options", {
-			type: "string",
-			description:
+			optional: true,
+			parse: String,
+		},
+		"static-addressing-address": {
+			kind: "parsed",
+			brief: "A valid CIDR notation representing an IP range.",
+			optional: true,
+			parse: String,
+		},
+		"static-addressing-dhcp-relay-server-addresses": {
+			kind: "parsed",
+			brief: "List of DHCP server IPs.",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"static-addressing-dhcp-server-dhcp-options": {
+			kind: "parsed",
+			brief:
 				'Optional list of custom DHCP options to include in DHCP responses. Only valid when DHCP server is enabled. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"code": number, "type": "text" | "hex" | "ip" | ...more, "value": string}].',
-		})
-		.option("static-addressing-dhcp-server-dhcp-pool-end", {
-			type: "string",
-			description: "A valid IPv4 address.",
-		})
-		.option("static-addressing-dhcp-server-dhcp-pool-start", {
-			type: "string",
-			description: "A valid IPv4 address.",
-		})
-		.option("static-addressing-dhcp-server-dns-server", {
-			type: "string",
-			description: "A valid IPv4 address.",
-		})
-		.option("static-addressing-dhcp-server-dns-servers", {
-			type: "string",
-			array: true,
-			description: "The static_addressing.dhcp_server.dns_servers field",
-		})
-		.option("static-addressing-dhcp-server-reservations", {
-			type: "string",
-			description:
+			optional: true,
+			parse: String,
+		},
+		"static-addressing-dhcp-server-dhcp-pool-end": {
+			kind: "parsed",
+			brief: "A valid IPv4 address.",
+			optional: true,
+			parse: String,
+		},
+		"static-addressing-dhcp-server-dhcp-pool-start": {
+			kind: "parsed",
+			brief: "A valid IPv4 address.",
+			optional: true,
+			parse: String,
+		},
+		"static-addressing-dhcp-server-dns-server": {
+			kind: "parsed",
+			brief: "A valid IPv4 address.",
+			optional: true,
+			parse: String,
+		},
+		"static-addressing-dhcp-server-dns-servers": {
+			kind: "parsed",
+			brief: "The static_addressing.dhcp_server.dns_servers field",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"static-addressing-dhcp-server-reservations": {
+			kind: "parsed",
+			brief:
 				'Mapping of MAC addresses to IP addresses. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": string}.',
-		})
-		.option("static-addressing-secondary-address", {
-			type: "string",
-			description: "A valid CIDR notation representing an IP range.",
-		})
-		.option("static-addressing-virtual-address", {
-			type: "string",
-			description: "A valid CIDR notation representing an IP range.",
-		})
-		.option("vlan-tag", {
-			type: "number",
-			description: "VLAN ID. Use zero for untagged.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
+			optional: true,
+			parse: String,
+		},
+		"static-addressing-secondary-address": {
+			kind: "parsed",
+			brief: "A valid CIDR notation representing an IP range.",
+			optional: true,
+			parse: String,
+		},
+		"static-addressing-virtual-address": {
+			kind: "parsed",
+			brief: "A valid CIDR notation representing an IP range.",
+			optional: true,
+			parse: String,
+		},
+		"vlan-tag": {
+			kind: "parsed",
+			brief: "VLAN ID. Use zero for untagged.",
+			optional: true,
+			parse: Number,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
 			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		})
-		.check((argv) => {
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [{ placeholder: "site-id", brief: "Identifier", parse: String }],
+	rules(rules) {
+		rules.check((argv) => {
 			const groupSet = [
 				"static-addressing-address",
 				"static-addressing-dhcp-relay-server-addresses",
@@ -148,247 +173,16 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			}
 			return true;
 		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+	},
+} as const satisfies ApiParameters;
+export type Args = ApiInputs<typeof parameters>;
+const command = apiCommand({
 	command: "create <site-id>",
 	describe: "Create a new Site LAN",
-	builder,
-	handler: async (argv): Promise<void> =>
-		runWithTelemetry(
-			{
-				command: "magic-transit sites lans create",
-				classification: {
-					safeFlags: ["ha-link", "is-breakout", "is-prioritized", "dry-run"],
-				} satisfies ArgClassification<Args>,
-			},
-			argv as Record<string, unknown>,
-			async () => {
-				if (argv.dryRun) {
-					const __cfDryRunAccountId = await resolveAccountIdSilent();
-					formatDryRun({
-						command: "cf magic-transit sites lans create",
-						method: "POST",
-						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/magic/sites/${argv["site-id"] == null ? "<site-id>" : encodeURIComponent(String(argv["site-id"]))}/lans`,
-						pathParams: { "site-id": String(argv["site-id"] ?? "") },
-						bodyKind: "json",
-						body:
-							argv.body !== undefined
-								? parseBody(argv.body)
-								: compactBody(
-										{
-											bond_id: argv["bond-id"],
-											ha_link: argv["ha-link"],
-											is_breakout: argv["is-breakout"],
-											is_prioritized: argv["is-prioritized"],
-											name: resolveFileToken(
-												argv["name"] as string | undefined,
-												"name",
-												"text"
-											),
-											nat: {
-												static_prefix: resolveFileToken(
-													argv["nat-static-prefix"] as string | undefined,
-													"nat-static-prefix",
-													"text"
-												),
-											},
-											physport: argv["physport"],
-											remote_subnets: parseObjectArray(
-												argv["remote-subnets"],
-												"remote-subnets"
-											),
-											routed_subnets: parseObjectArray(
-												argv["routed-subnets"],
-												"routed-subnets"
-											),
-											static_addressing: {
-												address: resolveFileToken(
-													argv["static-addressing-address"] as
-														| string
-														| undefined,
-													"static-addressing-address",
-													"text"
-												),
-												dhcp_relay: {
-													server_addresses:
-														argv[
-															"static-addressing-dhcp-relay-server-addresses"
-														],
-												},
-												dhcp_server: {
-													dhcp_options: parseObjectArray(
-														argv["static-addressing-dhcp-server-dhcp-options"],
-														"static-addressing-dhcp-server-dhcp-options"
-													),
-													dhcp_pool_end: resolveFileToken(
-														argv[
-															"static-addressing-dhcp-server-dhcp-pool-end"
-														] as string | undefined,
-														"static-addressing-dhcp-server-dhcp-pool-end",
-														"text"
-													),
-													dhcp_pool_start: resolveFileToken(
-														argv[
-															"static-addressing-dhcp-server-dhcp-pool-start"
-														] as string | undefined,
-														"static-addressing-dhcp-server-dhcp-pool-start",
-														"text"
-													),
-													dns_server: resolveFileToken(
-														argv["static-addressing-dhcp-server-dns-server"] as
-															| string
-															| undefined,
-														"static-addressing-dhcp-server-dns-server",
-														"text"
-													),
-													dns_servers:
-														argv["static-addressing-dhcp-server-dns-servers"],
-													reservations: parseJsonMap(
-														argv["static-addressing-dhcp-server-reservations"],
-														"static-addressing-dhcp-server-reservations"
-													),
-												},
-												secondary_address: resolveFileToken(
-													argv["static-addressing-secondary-address"] as
-														| string
-														| undefined,
-													"static-addressing-secondary-address",
-													"text"
-												),
-												virtual_address: resolveFileToken(
-													argv["static-addressing-virtual-address"] as
-														| string
-														| undefined,
-													"static-addressing-virtual-address",
-													"text"
-												),
-											},
-											vlan_tag: argv["vlan-tag"],
-										},
-										[["static_addressing", "dhcp_server", "reservations"]]
-									),
-					});
-					return;
-				}
-				const parsedBody =
-					argv.body !== undefined ? parseBody(argv.body) : undefined;
-				const client = await createCommandClient(argv);
-				const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
-				argv.accountId = accountId;
-
-				if (argv.body !== undefined) {
-					const bodyData = parsedBody;
-					const result = await withProgress(`Creating`, async () =>
-						client.send(operation, {
-							body: bodyData,
-							account_id: accountId,
-							site_id: argv["site-id"],
-						})
-					);
-					formatOutput(result, { successLabel: `Created` });
-					return;
-				}
-
-				// Assemble request body from individual flags
-				const bodyData = compactBody(
-					{
-						bond_id: argv["bond-id"],
-						ha_link: argv["ha-link"],
-						is_breakout: argv["is-breakout"],
-						is_prioritized: argv["is-prioritized"],
-						name: resolveFileToken(
-							argv["name"] as string | undefined,
-							"name",
-							"text"
-						),
-						nat: {
-							static_prefix: resolveFileToken(
-								argv["nat-static-prefix"] as string | undefined,
-								"nat-static-prefix",
-								"text"
-							),
-						},
-						physport: argv["physport"],
-						remote_subnets: parseObjectArray(
-							argv["remote-subnets"],
-							"remote-subnets"
-						),
-						routed_subnets: parseObjectArray(
-							argv["routed-subnets"],
-							"routed-subnets"
-						),
-						static_addressing: {
-							address: resolveFileToken(
-								argv["static-addressing-address"] as string | undefined,
-								"static-addressing-address",
-								"text"
-							),
-							dhcp_relay: {
-								server_addresses:
-									argv["static-addressing-dhcp-relay-server-addresses"],
-							},
-							dhcp_server: {
-								dhcp_options: parseObjectArray(
-									argv["static-addressing-dhcp-server-dhcp-options"],
-									"static-addressing-dhcp-server-dhcp-options"
-								),
-								dhcp_pool_end: resolveFileToken(
-									argv["static-addressing-dhcp-server-dhcp-pool-end"] as
-										| string
-										| undefined,
-									"static-addressing-dhcp-server-dhcp-pool-end",
-									"text"
-								),
-								dhcp_pool_start: resolveFileToken(
-									argv["static-addressing-dhcp-server-dhcp-pool-start"] as
-										| string
-										| undefined,
-									"static-addressing-dhcp-server-dhcp-pool-start",
-									"text"
-								),
-								dns_server: resolveFileToken(
-									argv["static-addressing-dhcp-server-dns-server"] as
-										| string
-										| undefined,
-									"static-addressing-dhcp-server-dns-server",
-									"text"
-								),
-								dns_servers: argv["static-addressing-dhcp-server-dns-servers"],
-								reservations: parseJsonMap(
-									argv["static-addressing-dhcp-server-reservations"],
-									"static-addressing-dhcp-server-reservations"
-								),
-							},
-							secondary_address: resolveFileToken(
-								argv["static-addressing-secondary-address"] as
-									| string
-									| undefined,
-								"static-addressing-secondary-address",
-								"text"
-							),
-							virtual_address: resolveFileToken(
-								argv["static-addressing-virtual-address"] as string | undefined,
-								"static-addressing-virtual-address",
-								"text"
-							),
-						},
-						vlan_tag: argv["vlan-tag"],
-					},
-					[["static_addressing", "dhcp_server", "reservations"]]
-				);
-				const result = await withProgress(`Creating`, async () =>
-					client.send(operation, {
-						body: bodyData,
-						account_id: accountId,
-						site_id: argv["site-id"],
-					})
-				);
-				formatOutput(result, { successLabel: `Created` });
-			}
-		),
-};
+	usage:
+		"$0 magic-transit sites lans create <site-id>\n\nCreates a new Site LAN. If the site is in high availability mode, static_addressing is required along with secondary and virtual address.",
+	...parameters,
+	loader: () => import("./create.handler.js"),
+});
 
 export default command;

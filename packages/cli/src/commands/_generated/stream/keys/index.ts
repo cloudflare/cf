@@ -1,27 +1,22 @@
 import $create from "./create.js";
 import $delete from "./delete.js";
 import $list from "./list.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * keys command group
  * @generated from apis/overlays/stream.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "keys",
 	describe:
 		"Signing keys used to generate short-lived signed URLs for private video playback",
 
-	builder: (yargs) => {
-		return yargs
-			.command($create)
-			.command($delete)
-			.command($list)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		create: $create,
+		delete: $delete,
+		list: $list,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

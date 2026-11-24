@@ -3,28 +3,23 @@ import $keys from "./keys/index.js";
 import $resources from "./resources/index.js";
 import $summary from "./summary/index.js";
 import $values from "./values/index.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * tags command
  * @generated from apis/overlays/tags.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "tags",
 	describe: "tags",
 
-	builder: (yargs) => {
-		return yargs
-			.command($accountresources)
-			.command($keys)
-			.command($resources)
-			.command($summary)
-			.command($values)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		"account-resources": $accountresources,
+		keys: $keys,
+		resources: $resources,
+		summary: $summary,
+		values: $values,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

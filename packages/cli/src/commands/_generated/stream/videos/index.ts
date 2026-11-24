@@ -10,35 +10,30 @@ import $edit from "./edit.js";
 import $get from "./get.js";
 import $list from "./list.js";
 import $token from "./token/index.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * videos command group
  * @generated from apis/overlays/stream.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "videos",
 	describe: "Aggregate video storage usage statistics for the account",
 
-	builder: (yargs) => {
-		return yargs
-			.command($clip)
-			.command($copy)
-			.command($create)
-			.command($delete)
-			.command($edit)
-			.command($get)
-			.command($list)
-			.command($audiotracks)
-			.command($captions)
-			.command($directupload)
-			.command($downloads)
-			.command($token)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		clip: $clip,
+		copy: $copy,
+		create: $create,
+		delete: $delete,
+		edit: $edit,
+		get: $get,
+		list: $list,
+		"audio-tracks": $audiotracks,
+		captions: $captions,
+		"direct-upload": $directupload,
+		downloads: $downloads,
+		token: $token,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

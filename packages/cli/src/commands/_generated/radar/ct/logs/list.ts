@@ -1,81 +1,49 @@
-import operation from "../../../_operations/radar/ct/logs/list.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * list command
  * @generated from apis/overlays/radar.ts
  */
-import type { Argv, CommandModule } from "yargs";
-import { createCommandClient } from "#lib/auth.js";
-import { formatDryRun } from "#lib/dry-run.js";
-import { formatOutput } from "#lib/output.js";
-import { withProgress } from "#lib/progress.js";
-import { runWithTelemetry } from "#lib/telemetry/index.js";
+import {
+	apiCommand,
+	type ApiInputs,
+	type ApiParameters,
+} from "#lib/api-command.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage("$0 radar ct logs list\n\nRetrieves a list of certificate logs.")
-		.option("limit", {
-			type: "number",
-			description: "Limits the number of objects returned in the response.",
-		})
-		.option("offset", {
-			type: "number",
-			description:
+const parameters = {
+	flags: {
+		limit: {
+			kind: "parsed",
+			brief: "Limits the number of objects returned in the response.",
+			optional: true,
+			parse: Number,
+		},
+		offset: {
+			kind: "parsed",
+			brief:
 				"Skips the specified number of objects before fetching the results.",
-		})
-		.option("format", {
-			type: "string",
-			description: "Format in which results will be returned.",
-			choices: ["JSON", "CSV"],
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
+			optional: true,
+			parse: Number,
+		},
+		format: {
+			kind: "enum",
+			brief: "Format in which results will be returned.",
+			values: ["JSON", "CSV"],
+			optional: true,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
 			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+		},
+	},
+	operands: [],
+} as const satisfies ApiParameters;
+export type Args = ApiInputs<typeof parameters>;
+const command = apiCommand({
 	command: "list",
 	describe: "List certificate logs",
-	builder,
-	handler: async (argv): Promise<void> =>
-		runWithTelemetry(
-			{
-				command: "radar ct logs list",
-				classification: {
-					safeFlags: ["format", "dry-run"],
-				} satisfies ArgClassification<Args>,
-			},
-			argv as Record<string, unknown>,
-			async () => {
-				const queryParams: Record<string, unknown> = {
-					limit: argv["limit"],
-					offset: argv["offset"],
-					format: argv["format"],
-				};
-				if (argv.dryRun) {
-					formatDryRun({
-						command: "cf radar ct logs list",
-						method: "GET",
-						url: `https://api.cloudflare.com/client/v4/radar/ct/logs`,
-						pathParams: {},
-						query: queryParams,
-						bodyKind: "none",
-					});
-					return;
-				}
-				const client = await createCommandClient(argv);
-
-				const result = await withProgress(`Loading`, async () =>
-					client.send(operation, queryParams)
-				);
-				formatOutput(result, { successLabel: `Loaded` });
-			}
-		),
-};
+	usage: "$0 radar ct logs list\n\nRetrieves a list of certificate logs.",
+	...parameters,
+	loader: () => import("./list.handler.js"),
+});
 
 export default command;

@@ -6,32 +6,27 @@ import $participants from "./participants/index.js";
 import $peers from "./peers/index.js";
 import $summaries from "./summaries/index.js";
 import $transcripts from "./transcripts/index.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * sessions command group
  * @generated from apis/overlays/realtime.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "sessions",
 	describe:
 		"Historical session data, participants, chat, transcripts, and summaries",
 
-	builder: (yargs) => {
-		return yargs
-			.command($get)
-			.command($list)
-			.command($chat)
-			.command($livestreams)
-			.command($participants)
-			.command($peers)
-			.command($summaries)
-			.command($transcripts)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		get: $get,
+		list: $list,
+		chat: $chat,
+		livestreams: $livestreams,
+		participants: $participants,
+		peers: $peers,
+		summaries: $summaries,
+		transcripts: $transcripts,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

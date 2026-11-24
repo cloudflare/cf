@@ -1,100 +1,40 @@
-import operation from "../../_operations/secrets-store/secrets/delete.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * delete command
  * @generated from apis/overlays/secrets-store.ts
  */
-import type { Argv, CommandModule } from "yargs";
 import {
-	createCommandClient,
-	getAccountId,
-	resolveAccountIdSilent,
-} from "#lib/auth.js";
-import { formatDryRun } from "#lib/dry-run.js";
-import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
-import { formatOutput } from "#lib/output.js";
-import { withProgress } from "#lib/progress.js";
-import { confirmDelete } from "#lib/prompt.js";
-import { runWithTelemetry } from "#lib/telemetry/index.js";
+	apiCommand,
+	type ApiInputs,
+	type ApiParameters,
+} from "#lib/api-command.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 secrets-store secrets delete <secret-id>\n\nDeletes a single secret."
-		)
-		.positional("secret-id", {
-			type: "string",
-			description: "Secret identifier.",
-			demandOption: true,
-		})
-		.option("store-id", {
-			type: "string",
-			description: "Store identifier.",
-			demandOption: true,
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
+const parameters = {
+	flags: {
+		"store-id": { kind: "parsed", brief: "Store identifier.", parse: String },
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
 			default: false,
-		})
-		.option("force", {
-			type: "boolean",
+		},
+		force: {
+			kind: "boolean",
+			brief: "Skip confirmation (useful in scripts and CI)",
 			alias: "f",
-			description: "Skip confirmation (useful in scripts and CI)",
 			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+		},
+	},
+	operands: [
+		{ placeholder: "secret-id", brief: "Secret identifier.", parse: String },
+	],
+} as const satisfies ApiParameters;
+export type Args = ApiInputs<typeof parameters>;
+const command = apiCommand({
 	command: "delete <secret-id>",
 	describe: "Delete a secret",
-	builder,
-	handler: async (argv): Promise<void> =>
-		runWithTelemetry(
-			{
-				command: "secrets-store secrets delete",
-				classification: {
-					safeFlags: ["dry-run", "force"],
-					shortFlagAliases: { f: { canonical: "force", type: "boolean" } },
-				} satisfies ArgClassification<Args>,
-			},
-			argv as Record<string, unknown>,
-			async () => {
-				if (argv.dryRun) {
-					const __cfDryRunAccountId = await resolveAccountIdSilent();
-					formatDryRun({
-						command: "cf secrets-store secrets delete",
-						method: "DELETE",
-						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/secrets_store/stores/${argv["store-id"] == null ? "<store-id>" : encodeURIComponent(String(argv["store-id"]))}/secrets/${argv["secret-id"] == null ? "<secret-id>" : encodeURIComponent(String(argv["secret-id"]))}`,
-						pathParams: {
-							"store-id": String(argv["store-id"] ?? ""),
-							"secret-id": String(argv["secret-id"] ?? ""),
-						},
-						bodyKind: "none",
-					});
-					return;
-				}
-				const client = await createCommandClient(argv);
-				const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
-				argv.accountId = accountId;
-
-				if (!(await confirmDelete({ force: Boolean(argv.force) }))) {
-					return;
-				}
-
-				const result = await withProgress(`Deleting`, async () =>
-					client.send(operation, {
-						account_id: accountId,
-						store_id: argv["store-id"],
-						secret_id: argv["secret-id"],
-					})
-				);
-				formatOutput(result, { successLabel: `Deleted` });
-			}
-		),
-};
+	usage:
+		"$0 secrets-store secrets delete <secret-id>\n\nDeletes a single secret.",
+	...parameters,
+	loader: () => import("./delete.handler.js"),
+});
 
 export default command;

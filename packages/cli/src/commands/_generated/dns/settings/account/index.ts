@@ -1,26 +1,21 @@
 import $edit from "./edit.js";
 import $get from "./get.js";
 import $nameserversets from "./nameserver-sets/index.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * account command group
  * @generated from apis/overlays/dns.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "account",
 	describe: "Operations for settings.account",
 
-	builder: (yargs) => {
-		return yargs
-			.command($edit)
-			.command($get)
-			.command($nameserversets)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		edit: $edit,
+		get: $get,
+		"nameserver-sets": $nameserversets,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

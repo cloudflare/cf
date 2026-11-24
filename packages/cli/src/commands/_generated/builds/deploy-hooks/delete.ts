@@ -1,105 +1,48 @@
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * delete command
  * @generated from apis/overlays/builds.ts
  */
-import type { Argv, CommandModule } from "yargs";
 import {
-	createCommandClient,
-	getAccountId,
-	requestApi,
-	resolveAccountIdSilent,
-} from "#lib/auth.js";
-import { formatDryRun } from "#lib/dry-run.js";
-import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
-import { formatOutput } from "#lib/output.js";
-import { withProgress } from "#lib/progress.js";
-import { confirmDelete } from "#lib/prompt.js";
-import { runWithTelemetry } from "#lib/telemetry/index.js";
+	apiCommand,
+	type ApiInputs,
+	type ApiParameters,
+} from "#lib/api-command.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 builds deploy-hooks delete <deploy-hook-uuid>\n\nDelete a deploy hook so its UUID can no longer start builds."
-		)
-		.positional("deploy-hook-uuid", {
-			type: "string",
-			description: "UUID of the deploy hook, as returned by deploy-hooks list.",
-			demandOption: true,
-		})
-		.option("worker", {
-			type: "string",
-			description: "Name or script tag of the Worker.",
-			demandOption: true,
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
+const parameters = {
+	flags: {
+		worker: {
+			kind: "parsed",
+			brief: "Name or script tag of the Worker.",
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
 			default: false,
-		})
-		.option("force", {
-			type: "boolean",
+		},
+		force: {
+			kind: "boolean",
+			brief: "Skip confirmation (useful in scripts and CI)",
 			alias: "f",
-			description: "Skip confirmation (useful in scripts and CI)",
 			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+		},
+	},
+	operands: [
+		{
+			placeholder: "deploy-hook-uuid",
+			brief: "UUID of the deploy hook, as returned by deploy-hooks list.",
+			parse: String,
+		},
+	],
+} as const satisfies ApiParameters;
+export type Args = ApiInputs<typeof parameters>;
+const command = apiCommand({
 	command: "delete <deploy-hook-uuid>",
 	describe: "Delete a deploy hook",
-	builder,
-	handler: async (argv): Promise<void> =>
-		runWithTelemetry(
-			{
-				command: "builds deploy-hooks delete",
-				classification: {
-					safeFlags: ["dry-run", "force"],
-					shortFlagAliases: { f: { canonical: "force", type: "boolean" } },
-				} satisfies ArgClassification<Args>,
-			},
-			argv as Record<string, unknown>,
-			async () => {
-				if (argv.dryRun) {
-					const __cfDryRunAccountId = await resolveAccountIdSilent();
-					formatDryRun({
-						command: "cf builds deploy-hooks delete",
-						method: "DELETE",
-						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/builds/workers/${argv["worker"] == null ? "<worker>" : encodeURIComponent(String(argv["worker"]))}/deploy_hooks/${argv["deploy-hook-uuid"] == null ? "<deploy-hook-uuid>" : encodeURIComponent(String(argv["deploy-hook-uuid"]))}`,
-						pathParams: {
-							worker: String(argv["worker"] ?? ""),
-							"deploy-hook-uuid": String(argv["deploy-hook-uuid"] ?? ""),
-						},
-						bodyKind: "none",
-					});
-					return;
-				}
-				const client = await createCommandClient(argv);
-				const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
-				argv.accountId = accountId;
-
-				if (
-					!(await confirmDelete({
-						force: Boolean(argv.force),
-						message: `This operation deletes the deploy hook. Requests to its URL will no longer start builds.`,
-					}))
-				) {
-					return;
-				}
-
-				const result = await withProgress(`Deleting`, async () =>
-					requestApi<unknown>(
-						client,
-						"DELETE",
-						`/accounts/${accountId}/builds/workers/${encodeURIComponent(String(argv["worker"]))}/deploy_hooks/${encodeURIComponent(String(argv["deploy-hook-uuid"]))}`
-					)
-				);
-				formatOutput(result, { successLabel: `Deleted` });
-			}
-		),
-};
+	usage:
+		"$0 builds deploy-hooks delete <deploy-hook-uuid>\n\nDelete a deploy hook so its UUID can no longer start builds.",
+	...parameters,
+	loader: () => import("./delete.handler.js"),
+});
 
 export default command;

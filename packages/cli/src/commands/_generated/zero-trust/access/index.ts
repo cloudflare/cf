@@ -13,38 +13,33 @@ import $tags from "./tags/index.js";
 import $targets from "./targets/index.js";
 import $userpopulations from "./user-populations/index.js";
 import $users from "./users/index.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * access command group
  * @generated from apis/overlays/zero-trust.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "access",
 	describe: "Operations for access",
 
-	builder: (yargs) => {
-		return yargs
-			.command($applications)
-			.command($custompages)
-			.command($infrastructure)
-			.command($logs)
-			.command($mfa)
-			.command($mtlscertificates)
-			.command($policies)
-			.command($rulegroups)
-			.command($samlencryptioncertificates)
-			.command($servicetokens)
-			.command($signingkeys)
-			.command($tags)
-			.command($targets)
-			.command($userpopulations)
-			.command($users)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		applications: $applications,
+		"custom-pages": $custompages,
+		infrastructure: $infrastructure,
+		logs: $logs,
+		mfa: $mfa,
+		"mtls-certificates": $mtlscertificates,
+		policies: $policies,
+		"rule-groups": $rulegroups,
+		"saml-encryption-certificates": $samlencryptioncertificates,
+		"service-tokens": $servicetokens,
+		"signing-keys": $signingkeys,
+		tags: $tags,
+		targets: $targets,
+		"user-populations": $userpopulations,
+		users: $users,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

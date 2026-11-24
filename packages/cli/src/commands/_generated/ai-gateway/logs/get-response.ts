@@ -1,88 +1,36 @@
-import operation from "../../_operations/ai-gateway/logs/get-response.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * get-response command
  * @generated from apis/overlays/ai-gateway.ts
  */
-import type { Argv, CommandModule } from "yargs";
 import {
-	createCommandClient,
-	getAccountId,
-	resolveAccountIdSilent,
-} from "#lib/auth.js";
-import { formatDryRun } from "#lib/dry-run.js";
-import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
-import { formatOutput } from "#lib/output.js";
-import { withProgress } from "#lib/progress.js";
-import { runWithTelemetry } from "#lib/telemetry/index.js";
+	apiCommand,
+	type ApiInputs,
+	type ApiParameters,
+} from "#lib/api-command.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 ai-gateway logs get-response <id>\n\nRetrieves the response payload for an AI Gateway log entry."
-		)
-		.positional("id", {
-			type: "string",
-			description: "ID",
-			demandOption: true,
-		})
-		.option("gateway-id", {
-			type: "string",
-			description: "Unique identifier of the AI Gateway within the account.",
-			demandOption: true,
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
+const parameters = {
+	flags: {
+		"gateway-id": {
+			kind: "parsed",
+			brief: "Unique identifier of the AI Gateway within the account.",
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
 			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+		},
+	},
+	operands: [{ placeholder: "id", brief: "ID", parse: String }],
+} as const satisfies ApiParameters;
+export type Args = ApiInputs<typeof parameters>;
+const command = apiCommand({
 	command: "get-response <id>",
 	describe: "Get Gateway Log Response",
-	builder,
-	handler: async (argv): Promise<void> =>
-		runWithTelemetry(
-			{
-				command: "ai-gateway logs get-response",
-				classification: {
-					safeFlags: ["dry-run"],
-				} satisfies ArgClassification<Args>,
-			},
-			argv as Record<string, unknown>,
-			async () => {
-				if (argv.dryRun) {
-					const __cfDryRunAccountId = await resolveAccountIdSilent();
-					formatDryRun({
-						command: "cf ai-gateway logs get-response",
-						method: "GET",
-						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/ai-gateway/gateways/${argv["gateway-id"] == null ? "<gateway-id>" : encodeURIComponent(String(argv["gateway-id"]))}/logs/${argv["id"] == null ? "<id>" : encodeURIComponent(String(argv["id"]))}/response`,
-						pathParams: {
-							"gateway-id": String(argv["gateway-id"] ?? ""),
-							id: String(argv["id"] ?? ""),
-						},
-						bodyKind: "none",
-					});
-					return;
-				}
-				const client = await createCommandClient(argv);
-				const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
-				argv.accountId = accountId;
-
-				const result = await withProgress(`Loading`, async () =>
-					client.send(operation, {
-						account_id: accountId,
-						gateway_id: argv["gateway-id"],
-						id: argv["id"],
-					})
-				);
-				formatOutput(result, { successLabel: `Loaded` });
-			}
-		),
-};
+	usage:
+		"$0 ai-gateway logs get-response <id>\n\nRetrieves the response payload for an AI Gateway log entry.",
+	...parameters,
+	loader: () => import("./get-response.handler.js"),
+});
 
 export default command;

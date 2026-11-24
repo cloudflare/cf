@@ -5,30 +5,25 @@ import $list from "./list.js";
 import $pause from "./pause.js";
 import $resume from "./resume.js";
 import $update from "./update.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * integrations command group
  * @generated from apis/overlays/zero-trust.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "integrations",
 	describe: "Operations for casb.integrations",
 
-	builder: (yargs) => {
-		return yargs
-			.command($create)
-			.command($delete)
-			.command($get)
-			.command($list)
-			.command($pause)
-			.command($resume)
-			.command($update)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		create: $create,
+		delete: $delete,
+		get: $get,
+		list: $list,
+		pause: $pause,
+		resume: $resume,
+		update: $update,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

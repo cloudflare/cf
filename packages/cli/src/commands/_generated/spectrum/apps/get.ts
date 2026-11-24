@@ -1,75 +1,33 @@
-import operation from "../../_operations/spectrum/apps/get.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * get command
  * @generated from apis/overlays/spectrum.ts
  */
-import type { Argv, CommandModule } from "yargs";
-import { createCommandClient, getZoneId } from "#lib/auth.js";
-import { formatDryRun } from "#lib/dry-run.js";
-import { formatOutput } from "#lib/output.js";
-import { withProgress } from "#lib/progress.js";
-import { runWithTelemetry } from "#lib/telemetry/index.js";
+import {
+	apiCommand,
+	type ApiInputs,
+	type ApiParameters,
+} from "#lib/api-command.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 spectrum apps get <app-id>\n\nGets the application configuration of a specific application inside a zone."
-		)
-		.positional("app-id", {
-			type: "string",
-			description: "App identifier.",
-			demandOption: true,
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
+const parameters = {
+	flags: {
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
 			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+		},
+	},
+	operands: [
+		{ placeholder: "app-id", brief: "App identifier.", parse: String },
+	],
+} as const satisfies ApiParameters;
+export type Args = ApiInputs<typeof parameters>;
+const command = apiCommand({
 	command: "get <app-id>",
 	describe: "Get Spectrum application configuration",
-	builder,
-	handler: async (argv): Promise<void> =>
-		runWithTelemetry(
-			{
-				command: "spectrum apps get",
-				classification: {
-					safeFlags: ["dry-run"],
-				} satisfies ArgClassification<Args>,
-			},
-			argv as Record<string, unknown>,
-			async () => {
-				if (argv.dryRun) {
-					formatDryRun({
-						command: "cf spectrum apps get",
-						method: "GET",
-						url: `https://api.cloudflare.com/client/v4/zones/${argv.zone ?? argv.zoneId ?? "<zone>"}/spectrum/apps/${argv["app-id"] == null ? "<app-id>" : encodeURIComponent(String(argv["app-id"]))}`,
-						pathParams: {
-							"zone-id": String(argv.zone ?? argv["zone-id"] ?? ""),
-							"app-id": String(argv["app-id"] ?? ""),
-						},
-						bodyKind: "none",
-					});
-					return;
-				}
-				const client = await createCommandClient(argv);
-				const zoneId = await getZoneId({ zone: argv.zone }, client, {
-					quiet: argv.quiet,
-				});
-				argv.zoneId = zoneId;
-
-				const result = await withProgress(`Loading`, async () =>
-					client.send(operation, { zone_id: zoneId, app_id: argv["app-id"] })
-				);
-				formatOutput(result, { successLabel: `Loaded` });
-			}
-		),
-};
+	usage:
+		"$0 spectrum apps get <app-id>\n\nGets the application configuration of a specific application inside a zone.",
+	...parameters,
+	loader: () => import("./get.handler.js"),
+});
 
 export default command;

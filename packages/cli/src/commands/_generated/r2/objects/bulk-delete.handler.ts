@@ -1,0 +1,98 @@
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import type { Args } from "./bulk-delete.js";
+import {
+	createCommandClient,
+	getAccountId,
+	requestApi,
+	resolveAccountIdSilent,
+} from "#lib/auth.js";
+import { parseBody } from "#lib/body-parser.js";
+import { formatDryRun } from "#lib/dry-run.js";
+import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
+import { formatOutput } from "#lib/output.js";
+import { withProgress } from "#lib/progress.js";
+import { confirmDelete } from "#lib/prompt.js";
+import { runWithTelemetry } from "#lib/telemetry/index.js";
+
+export default async function handle(argv: Args): Promise<void> {
+	return runWithTelemetry(
+		{
+			command: "r2 objects bulk-delete",
+			classification: {
+				safeFlags: ["dry-run", "force"],
+				shortFlagAliases: { f: { canonical: "force", type: "boolean" } },
+			} satisfies ArgClassification<typeof argv>,
+		},
+		argv as Record<string, unknown>,
+		async () => {
+			const queryParams: Record<string, unknown> = {
+				prefix: argv["prefix"],
+			};
+
+			const headers: Record<string, string> = {};
+			if (argv["cf-r2-jurisdiction"] !== undefined)
+				headers["cf-r2-jurisdiction"] = String(argv["cf-r2-jurisdiction"]);
+			if (argv["cf-r2-data-catalog-check"] !== undefined)
+				headers["cf-r2-data-catalog-check"] = String(
+					argv["cf-r2-data-catalog-check"]
+				);
+			if (argv.body === undefined) {
+				throw new Error(
+					"--body is required for this command. Pass --body '<json>' or --body @path/to/file.json."
+				);
+			}
+			if (argv.dryRun) {
+				const __cfDryRunAccountId = await resolveAccountIdSilent();
+				formatDryRun({
+					command: "cf r2 objects bulk-delete",
+					method: "DELETE",
+					url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/r2/buckets/${argv["bucket-name"] == null ? "<bucket-name>" : encodeURIComponent(String(argv["bucket-name"]))}/objects`,
+					pathParams: { "bucket-name": String(argv["bucket-name"] ?? "") },
+					query: queryParams,
+					bodyKind: "json",
+					body:
+						argv.body !== undefined
+							? parseBody(argv.body, [], 1000)
+							: undefined,
+				});
+				return;
+			}
+			const parsedBody =
+				argv.body !== undefined ? parseBody(argv.body, [], 1000) : undefined;
+			const client = await createCommandClient(argv);
+			const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
+			argv.accountId = accountId;
+
+			if (
+				!(await confirmDelete({
+					force: Boolean(argv.force),
+					message: `This permanently deletes the listed R2 objects. With the deprecated \`prefix\` parameter it deletes every object under that prefix, and an empty prefix empties the bucket.`,
+				}))
+			) {
+				return;
+			}
+
+			if (argv.body !== undefined) {
+				const bodyData = parsedBody;
+				const qs = new URLSearchParams(
+					Object.entries(queryParams)
+						.filter(([, v]) => v !== undefined)
+						.map(([k, v]) => [k, String(v)])
+				).toString();
+				const result = await withProgress(`Deleting`, async () =>
+					requestApi<unknown>(
+						client,
+						"DELETE",
+						`/accounts/${accountId}/r2/buckets/${encodeURIComponent(String(argv["bucket-name"]))}/objects${qs ? "?" + qs : ""}`,
+						{
+							body: bodyData,
+							headers: Object.keys(headers).length > 0 ? headers : undefined,
+						}
+					)
+				);
+				formatOutput(result, { successLabel: `Deleted` });
+				return;
+			}
+		}
+	);
+}

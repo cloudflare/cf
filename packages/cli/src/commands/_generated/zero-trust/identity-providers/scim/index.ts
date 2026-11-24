@@ -1,24 +1,19 @@
 import $groups from "./groups/index.js";
 import $users from "./users/index.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * scim command group
  * @generated from apis/overlays/zero-trust.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "scim",
 	describe: "Operations for identity-providers.scim",
 
-	builder: (yargs) => {
-		return yargs
-			.command($groups)
-			.command($users)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		groups: $groups,
+		users: $users,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

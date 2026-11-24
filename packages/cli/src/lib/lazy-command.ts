@@ -1,3 +1,4 @@
+import type { NativeLeaf } from "./api-command.js";
 import type { CommandTelemetryMeta } from "./telemetry/run.js";
 /**
  * Lazy command registration.
@@ -20,7 +21,7 @@ import type { Argv, CommandModule } from "yargs";
  * module must expose a CommandModule as its default export.
  */
 export type LazyCommandImporter<T = object, U = object> = () => Promise<{
-	default: CommandModule<T, U>;
+	default: CommandModule<T, U> & Partial<NativeLeaf>;
 }>;
 
 /**
@@ -58,11 +59,21 @@ export function lazyCommand<
 	importer: LazyCommandImporter<T, U>,
 	telemetry: CommandTelemetryMeta | null
 ): CommandModule<T, U> & { describe: D } {
-	return {
+	const shell: CommandModule<T, U> & { describe: D } = {
 		command,
 		describe,
 		builder: async (yargs) => {
 			const mod = await importer();
+			if (mod.default.native && mod.default.configure) {
+				const registry = yargs as unknown as {
+					registerNative(leaf: NativeLeaf): void;
+				};
+				const leaf = mod.default as NativeLeaf & CommandModule<T, U>;
+				const selected =
+					telemetry === null ? leaf : { ...leaf, handler: shell.handler };
+				registry.registerNative(selected);
+				return yargs as unknown as Argv<U>;
+			}
 			const builder = mod.default.builder;
 			if (typeof builder === "function") {
 				return builder(yargs);
@@ -83,4 +94,5 @@ export function lazyCommand<
 			);
 		},
 	};
+	return shell;
 }

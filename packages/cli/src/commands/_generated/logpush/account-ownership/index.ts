@@ -1,24 +1,19 @@
 import $create from "./create.js";
 import $validate from "./validate/index.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * account-ownership command group
  * @generated from apis/overlays/logpush.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "account-ownership",
 	describe: "Operations for account-ownership",
 
-	builder: (yargs) => {
-		return yargs
-			.command($create)
-			.command($validate)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		create: $create,
+		validate: $validate,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

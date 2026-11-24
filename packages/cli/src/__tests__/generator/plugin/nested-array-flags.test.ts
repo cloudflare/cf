@@ -2,7 +2,6 @@ import { stripTypeScriptTypes } from "node:module";
 import { Script } from "node:vm";
 import { runInTempDir, seed } from "@cloudflare/workers-utils/test-helpers";
 import { describe, expect, it, vi } from "vite-plus/test";
-import yargs, { type CommandModule } from "yargs";
 import {
 	compactBody,
 	parseBody,
@@ -12,7 +11,10 @@ import {
 } from "../../../lib/body-parser.js";
 import { resolveFileToken } from "../../../lib/input-validation.js";
 import { generateFiles } from "../../helpers/cli-plugin.js";
+import { commandParser } from "../../helpers/command-parser.js";
 import type { CommandMeta } from "../../../lib/command-meta.js";
+import type { CommandModule } from "yargs";
+import { apiCommand } from "#lib/api-command.js";
 
 function generate(typed: boolean) {
 	const schema = {
@@ -117,6 +119,7 @@ describe.each([true, false])(
 				const requestApi = vi.fn(async () => undefined);
 				const formatDryRun = vi.fn();
 				const command = new Script(source).runInNewContext({
+					apiCommand,
 					compactBody,
 					parseBody,
 					parseNestedArray,
@@ -137,14 +140,7 @@ describe.each([true, false])(
 					) => run(),
 				}) as CommandModule;
 				const parse = async (flags: string[]) =>
-					yargs([method, "--name", "thing", ...flags])
-						.exitProcess(false)
-						.command(command)
-						.strict()
-						.fail((message, error) => {
-							throw error ?? new Error(message);
-						})
-						.parseAsync();
+					commandParser([method, "--name", "thing", ...flags], command).parse();
 				return { parse, send, requestApi, formatDryRun };
 			};
 

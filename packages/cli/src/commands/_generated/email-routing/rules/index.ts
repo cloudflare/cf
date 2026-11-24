@@ -5,31 +5,26 @@ import $get from "./get.js";
 import $listaccount from "./list-account.js";
 import $plan from "./plan.js";
 import $update from "./update.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * rules command group
  * @generated from apis/overlays/email-routing.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "rules",
 	describe:
 		"Match incoming email addresses and forward messages to destination mailboxes or Workers",
 
-	builder: (yargs) => {
-		return yargs
-			.command($create)
-			.command($delete)
-			.command($get)
-			.command($listaccount)
-			.command($plan)
-			.command($update)
-			.command($catchall)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		create: $create,
+		delete: $delete,
+		get: $get,
+		"list-account": $listaccount,
+		plan: $plan,
+		update: $update,
+		"catch-all": $catchall,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

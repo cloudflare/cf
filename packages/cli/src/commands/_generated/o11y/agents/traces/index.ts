@@ -1,26 +1,21 @@
 import $events from "./events.js";
 import $get from "./get.js";
 import $list from "./list.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * traces command group
  * @generated from apis/overlays/o11y.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "traces",
 	describe: "Operations for agents.traces",
 
-	builder: (yargs) => {
-		return yargs
-			.command($events)
-			.command($get)
-			.command($list)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		events: $events,
+		get: $get,
+		list: $list,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

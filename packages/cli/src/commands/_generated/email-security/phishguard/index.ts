@@ -1,23 +1,18 @@
 import $reports from "./reports/index.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * phishguard command group
  * @generated from apis/overlays/email-security.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "phishguard",
 	describe:
 		"PhishGuard user-reported phishing reports — view detected threats for a date range",
 
-	builder: (yargs) => {
-		return yargs
-			.command($reports)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		reports: $reports,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

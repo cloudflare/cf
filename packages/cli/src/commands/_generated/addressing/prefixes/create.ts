@@ -1,171 +1,67 @@
-import operation from "../../_operations/addressing/prefixes/create.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * create command
  * @generated from apis/overlays/addressing.ts
  */
-import type { Argv, CommandModule } from "yargs";
 import {
-	createCommandClient,
-	getAccountId,
-	resolveAccountIdSilent,
-} from "#lib/auth.js";
-import { compactBody, parseBody } from "#lib/body-parser.js";
-import { formatDryRun } from "#lib/dry-run.js";
-import { resolveFileToken } from "#lib/input-validation.js";
-import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
-import { formatOutput } from "#lib/output.js";
-import { withProgress } from "#lib/progress.js";
-import { promptForRequiredField } from "#lib/prompt.js";
-import { runWithTelemetry } from "#lib/telemetry/index.js";
+	apiCommand,
+	type ApiInputs,
+	type ApiParameters,
+} from "#lib/api-command.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 addressing prefixes create\n\nAdd a new prefix under the account."
-		)
-		.option("asn", {
-			type: "number",
-			description:
+const parameters = {
+	flags: {
+		asn: {
+			kind: "parsed",
+			brief:
 				"Autonomous System Number (ASN) the prefix will be advertised under. Use 13335 for Cloudflare's ASN, or your own ASN as an integer without the AS prefix. The IRR route and RPKI ROA must authorize this ASN.",
-		})
-		.option("cidr", {
-			type: "string",
-			description: "IP Prefix in Classless Inter-Domain Routing format.",
-		})
-		.option("delegate-loa-creation", {
-			type: "boolean",
-			description:
+			optional: true,
+			parse: Number,
+		},
+		cidr: {
+			kind: "parsed",
+			brief: "IP Prefix in Classless Inter-Domain Routing format.",
+			optional: true,
+			parse: String,
+		},
+		"delegate-loa-creation": {
+			kind: "boolean",
+			brief:
 				"Whether Cloudflare is allowed to generate the LOA document on behalf of the prefix owner.",
 			default: false,
-		})
-		.option("description", {
-			type: "string",
-			description: "Description of the prefix.",
-		})
-		.option("loa-document-id", {
-			type: "string",
-			description: "Identifier for the uploaded LOA document.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
+		},
+		description: {
+			kind: "parsed",
+			brief: "Description of the prefix.",
+			optional: true,
+			parse: String,
+		},
+		"loa-document-id": {
+			kind: "parsed",
+			brief: "Identifier for the uploaded LOA document.",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
 			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [],
+} as const satisfies ApiParameters;
+export type Args = ApiInputs<typeof parameters>;
+const command = apiCommand({
 	command: "create",
 	describe: "Add Prefix",
-	builder,
-	handler: async (argv): Promise<void> =>
-		runWithTelemetry(
-			{
-				command: "addressing prefixes create",
-				classification: {
-					safeFlags: ["delegate-loa-creation", "dry-run"],
-				} satisfies ArgClassification<Args>,
-			},
-			argv as Record<string, unknown>,
-			async () => {
-				const resolveRequiredFields = async (): Promise<void> => {
-					if (argv["asn"] === undefined) {
-						throw new Error(
-							"--asn is required (or pass --body with this field set)."
-						);
-					}
-					if (argv["cidr"] === undefined) {
-						argv["cidr"] = await promptForRequiredField(
-							"cidr",
-							"IP Prefix in Classless Inter-Domain Routing format."
-						);
-					}
-				};
-				if (argv.dryRun) {
-					if (argv.body === undefined) {
-						await resolveRequiredFields();
-					}
-					const __cfDryRunAccountId = await resolveAccountIdSilent();
-					formatDryRun({
-						command: "cf addressing prefixes create",
-						method: "POST",
-						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/addressing/prefixes`,
-						pathParams: {},
-						bodyKind: "json",
-						body:
-							argv.body !== undefined
-								? parseBody(argv.body)
-								: compactBody({
-										asn: argv["asn"],
-										cidr: resolveFileToken(
-											argv["cidr"] as string | undefined,
-											"cidr",
-											"text"
-										),
-										delegate_loa_creation: argv["delegate-loa-creation"],
-										description: resolveFileToken(
-											argv["description"] as string | undefined,
-											"description",
-											"text"
-										),
-										loa_document_id: resolveFileToken(
-											argv["loa-document-id"] as string | undefined,
-											"loa-document-id",
-											"text"
-										),
-									}),
-					});
-					return;
-				}
-				const parsedBody =
-					argv.body !== undefined ? parseBody(argv.body) : undefined;
-				const client = await createCommandClient(argv);
-				const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
-				argv.accountId = accountId;
-
-				if (argv.body !== undefined) {
-					const bodyData = parsedBody;
-					const result = await withProgress(`Creating`, async () =>
-						client.send(operation, { body: bodyData, account_id: accountId })
-					);
-					formatOutput(result, { successLabel: `Created` });
-					return;
-				}
-				await resolveRequiredFields();
-
-				// Assemble request body from individual flags
-				const bodyData = compactBody({
-					asn: argv["asn"],
-					cidr: resolveFileToken(
-						argv["cidr"] as string | undefined,
-						"cidr",
-						"text"
-					),
-					delegate_loa_creation: argv["delegate-loa-creation"],
-					description: resolveFileToken(
-						argv["description"] as string | undefined,
-						"description",
-						"text"
-					),
-					loa_document_id: resolveFileToken(
-						argv["loa-document-id"] as string | undefined,
-						"loa-document-id",
-						"text"
-					),
-				});
-				const result = await withProgress(`Creating`, async () =>
-					client.send(operation, { body: bodyData, account_id: accountId })
-				);
-				formatOutput(result, { successLabel: `Created` });
-			}
-		),
-};
+	usage: "$0 addressing prefixes create\n\nAdd a new prefix under the account.",
+	...parameters,
+	loader: () => import("./create.handler.js"),
+});
 
 export default command;

@@ -5,30 +5,25 @@ import $get from "./get.js";
 import $list from "./list.js";
 import $rotatesecret from "./rotate-secret.js";
 import $update from "./update.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * oauth-clients command group
  * @generated from apis/overlays/iam.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "oauth-clients",
 	describe: "Operations for oauth-clients",
 
-	builder: (yargs) => {
-		return yargs
-			.command($create)
-			.command($delete)
-			.command($deleterotatedsecret)
-			.command($get)
-			.command($list)
-			.command($rotatesecret)
-			.command($update)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		create: $create,
+		delete: $delete,
+		"delete-rotated-secret": $deleterotatedsecret,
+		get: $get,
+		list: $list,
+		"rotate-secret": $rotatesecret,
+		update: $update,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

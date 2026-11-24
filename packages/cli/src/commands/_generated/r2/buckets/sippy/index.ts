@@ -1,26 +1,21 @@
 import $disable from "./disable.js";
 import $enable from "./enable.js";
 import $get from "./get.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * sippy command group
  * @generated from apis/overlays/r2.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "sippy",
 	describe: "Operations for buckets.sippy",
 
-	builder: (yargs) => {
-		return yargs
-			.command($disable)
-			.command($enable)
-			.command($get)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		disable: $disable,
+		enable: $enable,
+		get: $get,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

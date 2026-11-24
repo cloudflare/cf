@@ -4,30 +4,25 @@ import $get from "./get.js";
 import $list from "./list.js";
 import $ownership from "./ownership/index.js";
 import $stop from "./stop.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * pcaps command group
  * @generated from apis/overlays/magic-transit.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "pcaps",
 	describe:
 		"Packet capture requests for debugging traffic flowing through Magic Transit tunnels",
 
-	builder: (yargs) => {
-		return yargs
-			.command($create)
-			.command($get)
-			.command($list)
-			.command($stop)
-			.command($download)
-			.command($ownership)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		create: $create,
+		get: $get,
+		list: $list,
+		stop: $stop,
+		download: $download,
+		ownership: $ownership,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

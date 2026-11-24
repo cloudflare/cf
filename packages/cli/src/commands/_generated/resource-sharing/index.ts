@@ -6,32 +6,27 @@ import $list from "./list.js";
 import $recipients from "./recipients/index.js";
 import $resources from "./resources/index.js";
 import $update from "./update.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * resource-sharing command
  * @generated from apis/overlays/resource-sharing.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "resource-sharing",
 	describe:
 		"Share account-level resources (WAF custom rulesets, Gateway policies and settings, Access IdP federation grants) with other accounts in the same organization",
 
-	builder: (yargs) => {
-		return yargs
-			.command($create)
-			.command($delete)
-			.command($get)
-			.command($list)
-			.command($update)
-			.command($excludedrecipients)
-			.command($recipients)
-			.command($resources)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		create: $create,
+		delete: $delete,
+		get: $get,
+		list: $list,
+		update: $update,
+		"excluded-recipients": $excludedrecipients,
+		recipients: $recipients,
+		resources: $resources,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

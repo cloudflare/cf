@@ -4,30 +4,25 @@ import $edit from "./edit.js";
 import $full from "./full/index.js";
 import $get from "./get.js";
 import $update from "./update.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * configs command group
  * @generated from apis/overlays/magic-network-monitoring.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "configs",
 	describe:
 		"Account-level monitoring configuration — sampling rates, thresholds, and notification settings",
 
-	builder: (yargs) => {
-		return yargs
-			.command($create)
-			.command($delete)
-			.command($edit)
-			.command($get)
-			.command($update)
-			.command($full)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		create: $create,
+		delete: $delete,
+		edit: $edit,
+		get: $get,
+		update: $update,
+		full: $full,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

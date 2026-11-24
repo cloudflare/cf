@@ -5,31 +5,26 @@ import $list from "./list.js";
 import $secrets from "./secrets/index.js";
 import $settings from "./settings/index.js";
 import $tags from "./tags/index.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * scripts command group
  * @generated from apis/overlays/workers-for-platforms.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "scripts",
 	describe:
 		"Operations around customer Workers deployed inside a dispatch namespace",
 
-	builder: (yargs) => {
-		return yargs
-			.command($delete)
-			.command($get)
-			.command($list)
-			.command($bindings)
-			.command($secrets)
-			.command($settings)
-			.command($tags)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		delete: $delete,
+		get: $get,
+		list: $list,
+		bindings: $bindings,
+		secrets: $secrets,
+		settings: $settings,
+		tags: $tags,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

@@ -6,32 +6,27 @@ import $get from "./get.js";
 import $list from "./list.js";
 import $maintenanceconfigs from "./maintenance-configs/index.js";
 import $namespaces from "./namespaces/index.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * basin-catalog command
  * @generated from apis/overlays/basin-catalog.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "basin-catalog",
 	describe:
 		"Iceberg-compatible data catalog for R2 — organize objects into tables and namespaces for SQL query engines",
 
-	builder: (yargs) => {
-		return yargs
-			.command($delete)
-			.command($disable)
-			.command($enable)
-			.command($get)
-			.command($list)
-			.command($credentials)
-			.command($maintenanceconfigs)
-			.command($namespaces)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		delete: $delete,
+		disable: $disable,
+		enable: $enable,
+		get: $get,
+		list: $list,
+		credentials: $credentials,
+		"maintenance-configs": $maintenanceconfigs,
+		namespaces: $namespaces,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

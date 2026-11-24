@@ -1,24 +1,19 @@
 import $refresh from "./refresh.js";
 import $revoke from "./revoke.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * tokens command group
  * @generated from apis/overlays/realtime.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "tokens",
 	describe: "Access tokens for RealtimeKit meeting participants",
 
-	builder: (yargs) => {
-		return yargs
-			.command($refresh)
-			.command($revoke)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		refresh: $refresh,
+		revoke: $revoke,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

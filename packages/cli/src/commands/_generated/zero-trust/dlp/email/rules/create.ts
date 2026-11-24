@@ -1,195 +1,73 @@
-import operation from "../../../../_operations/zero-trust/dlp/email/rules/create.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * create command
  * @generated from apis/overlays/zero-trust.ts
  */
-import type { Argv, CommandModule } from "yargs";
 import {
-	createCommandClient,
-	getAccountId,
-	resolveAccountIdSilent,
-} from "#lib/auth.js";
-import { compactBody, parseBody, parseObjectArray } from "#lib/body-parser.js";
-import { formatDryRun } from "#lib/dry-run.js";
+	apiCommand,
+	type ApiInputs,
+	type ApiParameters,
+} from "#lib/api-command.js";
 import { resolveFileToken } from "#lib/input-validation.js";
-import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
-import { formatOutput } from "#lib/output.js";
-import { withProgress } from "#lib/progress.js";
-import {
-	promptForRequiredEnumField,
-	promptForRequiredField,
-} from "#lib/prompt.js";
-import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 zero-trust dlp email rules create\n\nCreates a new DLP email scanning rule that defines what content patterns to detect in email messages and what actions to take."
-		)
-		.option("action-action", {
-			type: "string",
-			description: "The action.action field",
+const parameters = {
+	flags: {
+		"action-action": {
+			kind: "parsed",
+			brief: "The action.action field",
+			optional: true,
 			choices: ["Block"],
-		})
-		.coerce("action-action", (value) =>
-			resolveFileToken(value, "action-action", "text")
-		)
-		.option("action-message", {
-			type: "string",
-			description: "The action.message field",
-		})
-		.option("conditions", {
-			type: "string",
-			description:
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "action-action", "text"),
+		},
+		"action-message": {
+			kind: "parsed",
+			brief: "The action.message field",
+			optional: true,
+			parse: String,
+		},
+		conditions: {
+			kind: "parsed",
+			brief:
 				'Triggered if all conditions match. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"operator": "InList" | "NotInList" | "MatchRegex" | ...more, "selector": "Recipients" | "Sender" | "DLPProfiles", "value": ([string] | string)}].',
-		})
-		.option("description", {
-			type: "string",
-			description: "The description field",
-		})
-		.option("enabled", { type: "boolean", description: "The enabled field" })
-		.option("name", { type: "string", description: "The name field" })
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
+			optional: true,
+			parse: String,
+		},
+		description: {
+			kind: "parsed",
+			brief: "The description field",
+			optional: true,
+			parse: String,
+		},
+		enabled: { kind: "boolean", brief: "The enabled field", optional: true },
+		name: {
+			kind: "parsed",
+			brief: "The name field",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
 			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Rule description.",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+		},
+		body: {
+			kind: "parsed",
+			brief: "Rule description.",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [],
+} as const satisfies ApiParameters;
+export type Args = ApiInputs<typeof parameters>;
+const command = apiCommand({
 	command: "create",
 	describe: "Create email scanner rule",
-	builder,
-	handler: async (argv): Promise<void> =>
-		runWithTelemetry(
-			{
-				command: "zero-trust dlp email rules create",
-				classification: {
-					safeFlags: ["action-action", "enabled", "dry-run"],
-				} satisfies ArgClassification<Args>,
-			},
-			argv as Record<string, unknown>,
-			async () => {
-				const resolveRequiredFields = async (): Promise<void> => {
-					if (argv["action-action"] === undefined) {
-						argv["action-action"] = await promptForRequiredEnumField(
-							"action-action",
-							"The action.action field",
-							["Block"] as const
-						);
-					}
-					if (argv["conditions"] === undefined) {
-						throw new Error(
-							"--conditions is required (or pass --body with this field set)."
-						);
-					}
-					if (argv["enabled"] === undefined) {
-						throw new Error(
-							"--enabled is required (or pass --body with this field set)."
-						);
-					}
-					if (argv["name"] === undefined) {
-						argv["name"] = await promptForRequiredField(
-							"name",
-							"The name field"
-						);
-					}
-				};
-				if (argv.dryRun) {
-					if (argv.body === undefined) {
-						await resolveRequiredFields();
-					}
-					const __cfDryRunAccountId = await resolveAccountIdSilent();
-					formatDryRun({
-						command: "cf zero-trust dlp email rules create",
-						method: "POST",
-						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/dlp/email/rules`,
-						pathParams: {},
-						bodyKind: "json",
-						body:
-							argv.body !== undefined
-								? parseBody(argv.body)
-								: compactBody({
-										action: {
-											action: argv["action-action"],
-											message: resolveFileToken(
-												argv["action-message"] as string | undefined,
-												"action-message",
-												"text"
-											),
-										},
-										conditions: parseObjectArray(
-											argv["conditions"],
-											"conditions"
-										),
-										description: resolveFileToken(
-											argv["description"] as string | undefined,
-											"description",
-											"text"
-										),
-										enabled: argv["enabled"],
-										name: resolveFileToken(
-											argv["name"] as string | undefined,
-											"name",
-											"text"
-										),
-									}),
-					});
-					return;
-				}
-				const parsedBody =
-					argv.body !== undefined ? parseBody(argv.body) : undefined;
-				const client = await createCommandClient(argv);
-				const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
-				argv.accountId = accountId;
-
-				if (argv.body !== undefined) {
-					const bodyData = parsedBody;
-					const result = await withProgress(`Creating`, async () =>
-						client.send(operation, { body: bodyData, account_id: accountId })
-					);
-					formatOutput(result, { successLabel: `Created` });
-					return;
-				}
-				await resolveRequiredFields();
-
-				// Assemble request body from individual flags
-				const bodyData = compactBody({
-					action: {
-						action: argv["action-action"],
-						message: resolveFileToken(
-							argv["action-message"] as string | undefined,
-							"action-message",
-							"text"
-						),
-					},
-					conditions: parseObjectArray(argv["conditions"], "conditions"),
-					description: resolveFileToken(
-						argv["description"] as string | undefined,
-						"description",
-						"text"
-					),
-					enabled: argv["enabled"],
-					name: resolveFileToken(
-						argv["name"] as string | undefined,
-						"name",
-						"text"
-					),
-				});
-				const result = await withProgress(`Creating`, async () =>
-					client.send(operation, { body: bodyData, account_id: accountId })
-				);
-				formatOutput(result, { successLabel: `Created` });
-			}
-		),
-};
+	usage:
+		"$0 zero-trust dlp email rules create\n\nCreates a new DLP email scanning rule that defines what content patterns to detect in email messages and what actions to take.",
+	...parameters,
+	loader: () => import("./create.handler.js"),
+});
 
 export default command;

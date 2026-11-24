@@ -1,78 +1,77 @@
-import operation from "../../_operations/workers/deployments/create.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * create command
  * @generated from apis/overlays/workers.ts
  */
-import type { Argv, CommandModule } from "yargs";
 import {
-	createCommandClient,
-	getAccountId,
-	getWorkerName,
-	resolveAccountIdSilent,
-} from "#lib/auth.js";
-import { compactBody, parseBody, parseObjectArray } from "#lib/body-parser.js";
-import { validateBodyUnions } from "#lib/body-unions.js";
-import { formatDryRun } from "#lib/dry-run.js";
+	apiCommand,
+	type ApiInputs,
+	type ApiParameters,
+} from "#lib/api-command.js";
 import { resolveFileToken } from "#lib/input-validation.js";
-import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
-import { formatOutput } from "#lib/output.js";
-import { withProgress } from "#lib/progress.js";
-import { promptForRequiredEnumField } from "#lib/prompt.js";
-import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 workers deployments create\n\nDeployments configure how [Worker Versions](https://developers.cloudflare.com/api/operations/worker-versions-list-versions) are deployed to traffic. A deployment can consist of multiple versions of a Worker."
-		)
-		.option("worker", {
-			type: "string",
+const parameters = {
+	flags: {
+		worker: {
+			kind: "parsed",
+			brief: "Name of the script.",
+			optional: true,
 			alias: ["script-name", "worker-id"],
-			description: "Name of the script.",
-		})
-		.option("bypass-deployment-checks", {
-			type: "boolean",
-			description:
+			parse: String,
+		},
+		"bypass-deployment-checks": {
+			kind: "boolean",
+			brief:
 				"If set to true, the deployment will be created even if normally blocked by something such rolling back to an older version when a secret has changed.",
-		})
-		.option("durable-objects-code-update-mode", {
-			type: "string",
-			description:
+			optional: true,
+		},
+		"durable-objects-code-update-mode": {
+			kind: "parsed",
+			brief:
 				"How to apply Durable Object code updates. `immediate` resets active objects and applies the new code right away. `deferred` lets active objects keep running their current code until they hibernate or the maximum delay passes.",
+			optional: true,
 			choices: ["immediate", "deferred"],
-		})
-		.coerce("durable-objects-code-update-mode", (value) =>
-			resolveFileToken(value, "durable-objects-code-update-mode", "text")
-		)
-		.option("durable-objects-code-update-max-delay", {
-			type: "number",
-			description:
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "durable-objects-code-update-mode", "text"),
+		},
+		"durable-objects-code-update-max-delay": {
+			kind: "parsed",
+			brief:
 				"Maximum number of seconds, up to 86400, that an active Durable Object can keep running its current code before it resets and adopts the new code. Only valid with `deferred`. When omitted, the default maximum delay applies.",
-		})
-		.option("strategy", {
-			type: "string",
-			description:
+			optional: true,
+			parse: Number,
+		},
+		strategy: {
+			kind: "parsed",
+			brief:
 				"Strategy for routing traffic across the listed versions. `percentage` splits traffic according to each version's `percentage`.",
+			optional: true,
 			choices: ["percentage"],
-		})
-		.coerce("strategy", (value) => resolveFileToken(value, "strategy", "text"))
-		.option("versions", {
-			type: "string",
-			description:
+			parse: String,
+			coerce: (value: string) => resolveFileToken(value, "strategy", "text"),
+		},
+		versions: {
+			kind: "parsed",
+			brief:
 				'Worker versions included in this deployment. Each object must contain a `version_id` UUID and a `percentage`; percentages across all objects must total 100. In the `cf` CLI, pass the entire array as one JSON value to `--versions`, either inline, for example `--versions \'[{"version_id":"023e105f-2a42-4f8b-a1c1-73f6a2a30c0f","percentage":100}]\'`, or from a JSON file with `--versions @versions.json`. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"percentage": number, "version_id": string}].',
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
 			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		})
-		.check((argv) => {
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [],
+	rules(rules) {
+		rules.check((argv) => {
 			const groupSet = [
 				"durable-objects-code-update-mode",
 				"durable-objects-code-update-max-delay",
@@ -89,163 +88,16 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			}
 			return true;
 		});
-}
-
-type Args = InferArgs<typeof builder>;
-const bodyUnions: Parameters<typeof validateBodyUnions>[1] = [
-	{
-		path: ["code_update_strategy"],
-		selector: "mode",
-		variants: [
-			{
-				values: ["immediate"],
-				schema: {
-					type: "object",
-					properties: { mode: { enum: ["immediate"] } },
-					required: ["mode"],
-					additionalProperties: false,
-				},
-			},
-			{
-				values: ["deferred"],
-				schema: {
-					type: "object",
-					properties: {
-						max_delay: { anyOf: [{ type: "number" }, { type: "null" }] },
-						mode: { enum: ["deferred"] },
-					},
-					required: ["mode"],
-					additionalProperties: false,
-				},
-			},
-		],
 	},
-];
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+} as const satisfies ApiParameters;
+export type Args = ApiInputs<typeof parameters>;
+const command = apiCommand({
 	command: "create",
 	describe: "Create Worker Deployment",
-	builder,
-	handler: async (argv): Promise<void> =>
-		runWithTelemetry(
-			{
-				command: "workers deployments create",
-				classification: {
-					safeFlags: [
-						"bypass-deployment-checks",
-						"durable-objects-code-update-mode",
-						"strategy",
-						"dry-run",
-					],
-				} satisfies ArgClassification<Args>,
-			},
-			argv as Record<string, unknown>,
-			async () => {
-				const scriptName = await getWorkerName({
-					scriptName: argv["worker"],
-					quiet: argv["quiet"] as boolean | undefined,
-				});
-				argv["worker"] = scriptName;
-
-				const queryParams: Record<string, unknown> = {
-					force: argv["bypass-deployment-checks"],
-				};
-				const resolveRequiredFields = async (): Promise<void> => {
-					if (argv["strategy"] === undefined) {
-						argv["strategy"] = await promptForRequiredEnumField(
-							"strategy",
-							"Strategy for routing traffic across the listed versions. \`percentage\` splits traffic according to each version's \`percentage\`.",
-							["percentage"] as const
-						);
-					}
-					if (argv["versions"] === undefined) {
-						throw new Error(
-							"--versions is required (or pass --body with this field set)."
-						);
-					}
-				};
-				if (argv.dryRun) {
-					if (argv.body === undefined) {
-						await resolveRequiredFields();
-					}
-					const __cfDryRunAccountId = await resolveAccountIdSilent();
-					formatDryRun({
-						command: "cf workers deployments create",
-						method: "POST",
-						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/workers/scripts/${encodeURIComponent(scriptName)}/deployments`,
-						pathParams: { worker: String(argv["worker"] ?? "") },
-						query: queryParams,
-						bodyKind: "json",
-						body:
-							argv.body !== undefined
-								? parseBody(argv.body)
-								: validateBodyUnions(
-										compactBody({
-											code_update_strategy: {
-												mode: argv["durable-objects-code-update-mode"],
-												max_delay:
-													argv["durable-objects-code-update-max-delay"],
-											},
-											strategy: argv["strategy"],
-											versions: parseObjectArray(argv["versions"], "versions"),
-										}),
-										bodyUnions
-									),
-					});
-					return;
-				}
-				const parsedBody =
-					argv.body !== undefined ? parseBody(argv.body) : undefined;
-				const client = await createCommandClient(argv);
-				const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
-				argv.accountId = accountId;
-
-				if (argv.body !== undefined) {
-					const bodyData = parsedBody;
-					const qs = new URLSearchParams(
-						Object.entries(queryParams)
-							.filter(([, v]) => v !== undefined)
-							.map(([k, v]) => [k, String(v)])
-					).toString();
-					const result = await withProgress(`Creating`, async () =>
-						client.send(operation, {
-							body: bodyData,
-							account_id: accountId,
-							script_name: scriptName,
-							...queryParams,
-						})
-					);
-					formatOutput(result, { successLabel: `Created` });
-					return;
-				}
-				await resolveRequiredFields();
-
-				// Assemble request body from individual flags
-				const bodyData = compactBody({
-					code_update_strategy: {
-						mode: argv["durable-objects-code-update-mode"],
-						max_delay: argv["durable-objects-code-update-max-delay"],
-					},
-					strategy: argv["strategy"],
-					versions: parseObjectArray(argv["versions"], "versions"),
-				});
-				validateBodyUnions(bodyData, bodyUnions);
-				const qs = new URLSearchParams(
-					Object.entries(queryParams)
-						.filter(([, v]) => v !== undefined)
-						.map(([k, v]) => [k, String(v)])
-				).toString();
-				const result = await withProgress(`Creating`, async () =>
-					client.send(operation, {
-						body: bodyData,
-						account_id: accountId,
-						script_name: scriptName,
-						...queryParams,
-					})
-				);
-				formatOutput(result, { successLabel: `Created` });
-			}
-		),
-};
+	usage:
+		"$0 workers deployments create\n\nDeployments configure how [Worker Versions](https://developers.cloudflare.com/api/operations/worker-versions-list-versions) are deployed to traffic. A deployment can consist of multiple versions of a Worker.",
+	...parameters,
+	loader: () => import("./create.handler.js"),
+});
 
 export default command;

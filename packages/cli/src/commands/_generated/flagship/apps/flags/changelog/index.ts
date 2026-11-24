@@ -1,20 +1,17 @@
 import $list from "./list.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * changelog command group
  * @generated from apis/overlays/flagship.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "changelog",
 	describe: "Operations for apps.flags.changelog",
 
-	builder: (yargs) => {
-		return yargs.command($list).demandCommand(1, "Please specify a subcommand");
+	routes: {
+		list: $list,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

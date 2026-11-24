@@ -14,40 +14,35 @@ import $origintlsclientauth from "./origin-tls-client-auth/index.js";
 import $recommendations from "./recommendations/index.js";
 import $universal from "./universal/index.js";
 import $verification from "./verification/index.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * ssl command
  * @generated from apis/overlays/ssl.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "ssl",
 	describe:
 		"SSL/TLS certificate management — certificate packs, Universal SSL, verification, and TLS mode recommendations",
 
-	builder: (yargs) => {
-		return yargs
-			.command($analyze)
-			.command($autoorigintlskex)
-			.command($automaticupgrader)
-			.command($certificateauthorities)
-			.command($certificatepacks)
-			.command($clientcertificates)
-			.command($ctalerting)
-			.command($customcertificates)
-			.command($dcvdelegation)
-			.command($keylesscertificates)
-			.command($mtlscertificates)
-			.command($origincacertificates)
-			.command($origintlsclientauth)
-			.command($recommendations)
-			.command($universal)
-			.command($verification)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		analyze: $analyze,
+		"auto-origin-tls-kex": $autoorigintlskex,
+		"automatic-upgrader": $automaticupgrader,
+		"certificate-authorities": $certificateauthorities,
+		"certificate-packs": $certificatepacks,
+		"client-certificates": $clientcertificates,
+		"ct-alerting": $ctalerting,
+		"custom-certificates": $customcertificates,
+		"dcv-delegation": $dcvdelegation,
+		"keyless-certificates": $keylesscertificates,
+		"mtls-certificates": $mtlscertificates,
+		"origin-ca-certificates": $origincacertificates,
+		"origin-tls-client-auth": $origintlsclientauth,
+		recommendations: $recommendations,
+		universal: $universal,
+		verification: $verification,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

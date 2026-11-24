@@ -1,69 +1,31 @@
-import operation from "../../_operations/pay-per-use/zones/get-configuration.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * get-configuration command
  * @generated from apis/overlays/pay-per-use.ts
  */
-import type { Argv, CommandModule } from "yargs";
-import { createCommandClient, getZoneId } from "#lib/auth.js";
-import { formatDryRun } from "#lib/dry-run.js";
-import { formatOutput } from "#lib/output.js";
-import { withProgress } from "#lib/progress.js";
-import { runWithTelemetry } from "#lib/telemetry/index.js";
+import {
+	apiCommand,
+	type ApiInputs,
+	type ApiParameters,
+} from "#lib/api-command.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 pay-per-use zones get-configuration\n\nGets the pay-per-use configuration, zone-level grace period, and read-only non-billable classification timestamp for a zone."
-		)
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
+const parameters = {
+	flags: {
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
 			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+		},
+	},
+	operands: [],
+} as const satisfies ApiParameters;
+export type Args = ApiInputs<typeof parameters>;
+const command = apiCommand({
 	command: "get-configuration",
 	describe: "Get pay-per-use zone configuration",
-	builder,
-	handler: async (argv): Promise<void> =>
-		runWithTelemetry(
-			{
-				command: "pay-per-use zones get-configuration",
-				classification: {
-					safeFlags: ["dry-run"],
-				} satisfies ArgClassification<Args>,
-			},
-			argv as Record<string, unknown>,
-			async () => {
-				if (argv.dryRun) {
-					formatDryRun({
-						command: "cf pay-per-use zones get-configuration",
-						method: "GET",
-						url: `https://api.cloudflare.com/client/v4/zones/${argv.zone ?? argv.zoneId ?? "<zone>"}/pay-per-use/configuration`,
-						pathParams: {
-							"zone-id": String(argv.zone ?? argv["zone-id"] ?? ""),
-						},
-						bodyKind: "none",
-					});
-					return;
-				}
-				const client = await createCommandClient(argv);
-				const zoneId = await getZoneId({ zone: argv.zone }, client, {
-					quiet: argv.quiet,
-				});
-				argv.zoneId = zoneId;
-
-				const result = await withProgress(`Loading`, async () =>
-					client.send(operation, { zone_id: zoneId })
-				);
-				formatOutput(result, { successLabel: `Loaded` });
-			}
-		),
-};
+	usage:
+		"$0 pay-per-use zones get-configuration\n\nGets the pay-per-use configuration, zone-level grace period, and read-only non-billable classification timestamp for a zone.",
+	...parameters,
+	loader: () => import("./get-configuration.handler.js"),
+});
 
 export default command;

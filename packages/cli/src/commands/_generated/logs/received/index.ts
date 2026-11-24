@@ -1,24 +1,19 @@
 import $fields from "./fields/index.js";
 import $get from "./get.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * received command group
  * @generated from apis/overlays/logs.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "received",
 	describe: "Received log operations",
 
-	builder: (yargs) => {
-		return yargs
-			.command($get)
-			.command($fields)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		get: $get,
+		fields: $fields,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

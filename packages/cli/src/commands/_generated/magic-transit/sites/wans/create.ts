@@ -1,93 +1,109 @@
-import operation from "../../../_operations/magic-transit/sites/wans/create.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * create command
  * @generated from apis/overlays/magic-transit.ts
  */
-import type { Argv, CommandModule } from "yargs";
 import {
-	createCommandClient,
-	getAccountId,
-	resolveAccountIdSilent,
-} from "#lib/auth.js";
-import { compactBody, parseBody } from "#lib/body-parser.js";
-import { formatDryRun } from "#lib/dry-run.js";
+	apiCommand,
+	type ApiInputs,
+	type ApiParameters,
+} from "#lib/api-command.js";
 import { resolveFileToken } from "#lib/input-validation.js";
-import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
-import { formatOutput } from "#lib/output.js";
-import { withProgress } from "#lib/progress.js";
-import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 magic-transit sites wans create <site-id>\n\nCreates a new Site WAN."
-		)
-		.positional("site-id", {
-			type: "string",
-			description: "Identifier",
-			demandOption: true,
-		})
-		.option("health-check-rate", {
-			type: "string",
-			description:
+const parameters = {
+	flags: {
+		"health-check-rate": {
+			kind: "parsed",
+			brief:
 				"Magic WAN health check rate for tunnels created on this link. The default value is `mid`.",
-			choices: ["low", "mid", "high"],
 			default: "mid",
-		})
-		.coerce("health-check-rate", (value) =>
-			resolveFileToken(value, "health-check-rate", "text")
-		)
-		.option("load-balance-inner-flows", {
-			type: "boolean",
-			description: "The load_balance_inner_flows field",
+			choices: ["low", "mid", "high"],
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "health-check-rate", "text"),
+		},
+		"load-balance-inner-flows": {
+			kind: "boolean",
+			brief: "The load_balance_inner_flows field",
 			default: true,
-		})
-		.option("name", { type: "string", description: "The name field" })
-		.option("physport", { type: "number", description: "The physport field" })
-		.option("priority", { type: "number", description: "The priority field" })
-		.option("provisioned-download-kbps", {
-			type: "number",
-			description:
+		},
+		name: {
+			kind: "parsed",
+			brief: "The name field",
+			optional: true,
+			parse: String,
+		},
+		physport: {
+			kind: "parsed",
+			brief: "The physport field",
+			optional: true,
+			parse: Number,
+		},
+		priority: {
+			kind: "parsed",
+			brief: "The priority field",
+			optional: true,
+			parse: Number,
+		},
+		"provisioned-download-kbps": {
+			kind: "parsed",
+			brief:
 				"Provisioned download rate of the WAN circuit in kilobits per second.",
-		})
-		.option("provisioned-upload-kbps", {
-			type: "number",
-			description:
+			optional: true,
+			parse: Number,
+		},
+		"provisioned-upload-kbps": {
+			kind: "parsed",
+			brief:
 				"Provisioned upload rate of the WAN circuit in kilobits per second.",
-		})
-		.option("static-addressing-address", {
-			type: "string",
-			description: "A valid CIDR notation representing an IP range.",
-		})
-		.option("static-addressing-gateway-address", {
-			type: "string",
-			description: "A valid IPv4 address.",
-		})
-		.option("static-addressing-secondary-address", {
-			type: "string",
-			description: "A valid CIDR notation representing an IP range.",
-		})
-		.option("static-addressing-secondary-gateway-address", {
-			type: "string",
-			description:
+			optional: true,
+			parse: Number,
+		},
+		"static-addressing-address": {
+			kind: "parsed",
+			brief: "A valid CIDR notation representing an IP range.",
+			optional: true,
+			parse: String,
+		},
+		"static-addressing-gateway-address": {
+			kind: "parsed",
+			brief: "A valid IPv4 address.",
+			optional: true,
+			parse: String,
+		},
+		"static-addressing-secondary-address": {
+			kind: "parsed",
+			brief: "A valid CIDR notation representing an IP range.",
+			optional: true,
+			parse: String,
+		},
+		"static-addressing-secondary-gateway-address": {
+			kind: "parsed",
+			brief:
 				"Gateway address for the secondary connector of a high availability site.",
-		})
-		.option("vlan-tag", {
-			type: "number",
-			description: "VLAN ID. Use zero for untagged.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
+			optional: true,
+			parse: String,
+		},
+		"vlan-tag": {
+			kind: "parsed",
+			brief: "VLAN ID. Use zero for untagged.",
+			optional: true,
+			parse: Number,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
 			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		})
-		.check((argv) => {
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [{ placeholder: "site-id", brief: "Identifier", parse: String }],
+	rules(rules) {
+		rules.check((argv) => {
 			const groupSet = [
 				"static-addressing-address",
 				"static-addressing-gateway-address",
@@ -107,164 +123,16 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			}
 			return true;
 		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+	},
+} as const satisfies ApiParameters;
+export type Args = ApiInputs<typeof parameters>;
+const command = apiCommand({
 	command: "create <site-id>",
 	describe: "Create a new Site WAN",
-	builder,
-	handler: async (argv): Promise<void> =>
-		runWithTelemetry(
-			{
-				command: "magic-transit sites wans create",
-				classification: {
-					safeFlags: [
-						"health-check-rate",
-						"load-balance-inner-flows",
-						"dry-run",
-					],
-				} satisfies ArgClassification<Args>,
-			},
-			argv as Record<string, unknown>,
-			async () => {
-				const resolveRequiredFields = async (): Promise<void> => {
-					if (argv["physport"] === undefined) {
-						throw new Error(
-							"--physport is required (or pass --body with this field set)."
-						);
-					}
-				};
-				if (argv.dryRun) {
-					if (argv.body === undefined) {
-						await resolveRequiredFields();
-					}
-					const __cfDryRunAccountId = await resolveAccountIdSilent();
-					formatDryRun({
-						command: "cf magic-transit sites wans create",
-						method: "POST",
-						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/magic/sites/${argv["site-id"] == null ? "<site-id>" : encodeURIComponent(String(argv["site-id"]))}/wans`,
-						pathParams: { "site-id": String(argv["site-id"] ?? "") },
-						bodyKind: "json",
-						body:
-							argv.body !== undefined
-								? parseBody(argv.body)
-								: compactBody({
-										health_check_rate: argv["health-check-rate"],
-										load_balance_inner_flows: argv["load-balance-inner-flows"],
-										name: resolveFileToken(
-											argv["name"] as string | undefined,
-											"name",
-											"text"
-										),
-										physport: argv["physport"],
-										priority: argv["priority"],
-										provisioned_download_kbps:
-											argv["provisioned-download-kbps"],
-										provisioned_upload_kbps: argv["provisioned-upload-kbps"],
-										static_addressing: {
-											address: resolveFileToken(
-												argv["static-addressing-address"] as string | undefined,
-												"static-addressing-address",
-												"text"
-											),
-											gateway_address: resolveFileToken(
-												argv["static-addressing-gateway-address"] as
-													| string
-													| undefined,
-												"static-addressing-gateway-address",
-												"text"
-											),
-											secondary_address: resolveFileToken(
-												argv["static-addressing-secondary-address"] as
-													| string
-													| undefined,
-												"static-addressing-secondary-address",
-												"text"
-											),
-											secondary_gateway_address: resolveFileToken(
-												argv["static-addressing-secondary-gateway-address"] as
-													| string
-													| undefined,
-												"static-addressing-secondary-gateway-address",
-												"text"
-											),
-										},
-										vlan_tag: argv["vlan-tag"],
-									}),
-					});
-					return;
-				}
-				const parsedBody =
-					argv.body !== undefined ? parseBody(argv.body) : undefined;
-				const client = await createCommandClient(argv);
-				const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
-				argv.accountId = accountId;
-
-				if (argv.body !== undefined) {
-					const bodyData = parsedBody;
-					const result = await withProgress(`Creating`, async () =>
-						client.send(operation, {
-							body: bodyData,
-							account_id: accountId,
-							site_id: argv["site-id"],
-						})
-					);
-					formatOutput(result, { successLabel: `Created` });
-					return;
-				}
-				await resolveRequiredFields();
-
-				// Assemble request body from individual flags
-				const bodyData = compactBody({
-					health_check_rate: argv["health-check-rate"],
-					load_balance_inner_flows: argv["load-balance-inner-flows"],
-					name: resolveFileToken(
-						argv["name"] as string | undefined,
-						"name",
-						"text"
-					),
-					physport: argv["physport"],
-					priority: argv["priority"],
-					provisioned_download_kbps: argv["provisioned-download-kbps"],
-					provisioned_upload_kbps: argv["provisioned-upload-kbps"],
-					static_addressing: {
-						address: resolveFileToken(
-							argv["static-addressing-address"] as string | undefined,
-							"static-addressing-address",
-							"text"
-						),
-						gateway_address: resolveFileToken(
-							argv["static-addressing-gateway-address"] as string | undefined,
-							"static-addressing-gateway-address",
-							"text"
-						),
-						secondary_address: resolveFileToken(
-							argv["static-addressing-secondary-address"] as string | undefined,
-							"static-addressing-secondary-address",
-							"text"
-						),
-						secondary_gateway_address: resolveFileToken(
-							argv["static-addressing-secondary-gateway-address"] as
-								| string
-								| undefined,
-							"static-addressing-secondary-gateway-address",
-							"text"
-						),
-					},
-					vlan_tag: argv["vlan-tag"],
-				});
-				const result = await withProgress(`Creating`, async () =>
-					client.send(operation, {
-						body: bodyData,
-						account_id: accountId,
-						site_id: argv["site-id"],
-					})
-				);
-				formatOutput(result, { successLabel: `Created` });
-			}
-		),
-};
+	usage:
+		"$0 magic-transit sites wans create <site-id>\n\nCreates a new Site WAN.",
+	...parameters,
+	loader: () => import("./create.handler.js"),
+});
 
 export default command;

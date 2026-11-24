@@ -1,26 +1,21 @@
 import $dismiss from "./dismiss.js";
 import $get from "./get.js";
 import $undismiss from "./undismiss.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * queries command group
  * @generated from apis/overlays/brand-protection.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "queries",
 	describe: "Operations for queries",
 
-	builder: (yargs) => {
-		return yargs
-			.command($dismiss)
-			.command($get)
-			.command($undismiss)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		dismiss: $dismiss,
+		get: $get,
+		undismiss: $undismiss,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

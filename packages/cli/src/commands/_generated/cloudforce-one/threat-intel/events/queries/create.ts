@@ -1,187 +1,74 @@
-import operation from "../../../../_operations/cloudforce-one/threat-intel/events/queries/create.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * create command
  * @generated from apis/overlays/cloudforce-one.ts
  */
-import type { Argv, CommandModule } from "yargs";
 import {
-	createCommandClient,
-	getAccountId,
-	resolveAccountIdSilent,
-} from "#lib/auth.js";
-import { compactBody, parseBody } from "#lib/body-parser.js";
-import { formatDryRun } from "#lib/dry-run.js";
-import { resolveFileToken } from "#lib/input-validation.js";
-import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
-import { formatOutput } from "#lib/output.js";
-import { withProgress } from "#lib/progress.js";
-import { promptForRequiredField } from "#lib/prompt.js";
-import { runWithTelemetry } from "#lib/telemetry/index.js";
+	apiCommand,
+	type ApiInputs,
+	type ApiParameters,
+} from "#lib/api-command.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 cloudforce-one threat-intel events queries create\n\nSaves an event query under a unique `name`. `query_json` holds the query parameters as a JSON string."
-		)
-		.option("alert-enabled", {
-			type: "boolean",
-			description:
+const parameters = {
+	flags: {
+		"alert-enabled": {
+			kind: "boolean",
+			brief:
 				"Send an hourly notification when new events match this saved view. Receive it by adding the view to a Threat Events saved query notification policy.",
 			default: false,
-		})
-		.option("alert-rollup-enabled", {
-			type: "boolean",
-			description:
+		},
+		"alert-rollup-enabled": {
+			kind: "boolean",
+			brief:
 				"Deprecated and ignored: saved-query alerting and rules were removed.",
 			default: false,
-		})
-		.option("name", {
-			type: "string",
-			description: "Unique name for the saved query",
-		})
-		.option("query-json", {
-			type: "string",
-			description: "JSON string containing the query parameters",
-		})
-		.option("rule-enabled", {
-			type: "boolean",
-			description:
+		},
+		name: {
+			kind: "parsed",
+			brief: "Unique name for the saved query",
+			optional: true,
+			parse: String,
+		},
+		"query-json": {
+			kind: "parsed",
+			brief: "JSON string containing the query parameters",
+			optional: true,
+			parse: String,
+		},
+		"rule-enabled": {
+			kind: "boolean",
+			brief:
 				"Deprecated and ignored: saved-query alerting and rules were removed.",
 			default: false,
-		})
-		.option("rule-scope", {
-			type: "string",
-			description:
+		},
+		"rule-scope": {
+			kind: "parsed",
+			brief:
 				"Deprecated and ignored: saved-query alerting and rules were removed.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
 			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [],
+} as const satisfies ApiParameters;
+export type Args = ApiInputs<typeof parameters>;
+const command = apiCommand({
 	command: "create",
 	describe: "Create a saved event query",
-	builder,
-	handler: async (argv): Promise<void> =>
-		runWithTelemetry(
-			{
-				command: "cloudforce-one threat-intel events queries create",
-				classification: {
-					safeFlags: [
-						"alert-enabled",
-						"alert-rollup-enabled",
-						"rule-enabled",
-						"dry-run",
-					],
-				} satisfies ArgClassification<Args>,
-			},
-			argv as Record<string, unknown>,
-			async () => {
-				const resolveRequiredFields = async (): Promise<void> => {
-					if (argv["name"] === undefined) {
-						argv["name"] = await promptForRequiredField(
-							"name",
-							"Unique name for the saved query"
-						);
-					}
-					if (argv["query-json"] === undefined) {
-						argv["query-json"] = await promptForRequiredField(
-							"query-json",
-							"JSON string containing the query parameters"
-						);
-					}
-				};
-				if (argv.dryRun) {
-					if (argv.body === undefined) {
-						await resolveRequiredFields();
-					}
-					const __cfDryRunAccountId = await resolveAccountIdSilent();
-					formatDryRun({
-						command: "cf cloudforce-one threat-intel events queries create",
-						method: "POST",
-						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/cloudforce-one/events/queries/create`,
-						pathParams: {},
-						bodyKind: "json",
-						body:
-							argv.body !== undefined
-								? parseBody(argv.body)
-								: compactBody({
-										alert_enabled: argv["alert-enabled"],
-										alert_rollup_enabled: argv["alert-rollup-enabled"],
-										name: resolveFileToken(
-											argv["name"] as string | undefined,
-											"name",
-											"text"
-										),
-										query_json: resolveFileToken(
-											argv["query-json"] as string | undefined,
-											"query-json",
-											"text"
-										),
-										rule_enabled: argv["rule-enabled"],
-										rule_scope: resolveFileToken(
-											argv["rule-scope"] as string | undefined,
-											"rule-scope",
-											"text"
-										),
-									}),
-					});
-					return;
-				}
-				const parsedBody =
-					argv.body !== undefined ? parseBody(argv.body) : undefined;
-				const client = await createCommandClient(argv);
-				const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
-				argv.accountId = accountId;
-
-				if (argv.body !== undefined) {
-					const bodyData = parsedBody;
-					const result = await withProgress(`Creating`, async () =>
-						client.send(operation, { body: bodyData, account_id: accountId })
-					);
-					formatOutput(result, { successLabel: `Created` });
-					return;
-				}
-				await resolveRequiredFields();
-
-				// Assemble request body from individual flags
-				const bodyData = compactBody({
-					alert_enabled: argv["alert-enabled"],
-					alert_rollup_enabled: argv["alert-rollup-enabled"],
-					name: resolveFileToken(
-						argv["name"] as string | undefined,
-						"name",
-						"text"
-					),
-					query_json: resolveFileToken(
-						argv["query-json"] as string | undefined,
-						"query-json",
-						"text"
-					),
-					rule_enabled: argv["rule-enabled"],
-					rule_scope: resolveFileToken(
-						argv["rule-scope"] as string | undefined,
-						"rule-scope",
-						"text"
-					),
-				});
-				const result = await withProgress(`Creating`, async () =>
-					client.send(operation, { body: bodyData, account_id: accountId })
-				);
-				formatOutput(result, { successLabel: `Created` });
-			}
-		),
-};
+	usage:
+		"$0 cloudforce-one threat-intel events queries create\n\nSaves an event query under a unique `name`. `query_json` holds the query parameters as a JSON string.",
+	...parameters,
+	loader: () => import("./create.handler.js"),
+});
 
 export default command;

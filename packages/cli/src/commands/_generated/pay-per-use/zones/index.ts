@@ -2,27 +2,22 @@ import $getcanbeenabled from "./get-can-be-enabled.js";
 import $getconfiguration from "./get-configuration.js";
 import $setcanbeenabled from "./set-can-be-enabled.js";
 import $updateconfiguration from "./update-configuration.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * zones command group
  * @generated from apis/overlays/pay-per-use.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "zones",
 	describe: "Operations for zones",
 
-	builder: (yargs) => {
-		return yargs
-			.command($getcanbeenabled)
-			.command($getconfiguration)
-			.command($setcanbeenabled)
-			.command($updateconfiguration)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		"get-can-be-enabled": $getcanbeenabled,
+		"get-configuration": $getconfiguration,
+		"set-can-be-enabled": $setcanbeenabled,
+		"update-configuration": $updateconfiguration,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

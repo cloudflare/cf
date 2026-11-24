@@ -1,68 +1,37 @@
-import operation from "../../../_operations/user/firewall/access-rules/get.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * get command
  * @generated from apis/overlays/user.ts
  */
-import type { Argv, CommandModule } from "yargs";
-import { createCommandClient } from "#lib/auth.js";
-import { formatDryRun } from "#lib/dry-run.js";
-import { formatOutput } from "#lib/output.js";
-import { withProgress } from "#lib/progress.js";
-import { runWithTelemetry } from "#lib/telemetry/index.js";
+import {
+	apiCommand,
+	type ApiInputs,
+	type ApiParameters,
+} from "#lib/api-command.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 user firewall access-rules get <rule-id>\n\nFetches the details of an IP Access rule defined at the user level."
-		)
-		.positional("rule-id", {
-			type: "string",
-			description: "Unique identifier for a rule.",
-			demandOption: true,
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
+const parameters = {
+	flags: {
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
 			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+		},
+	},
+	operands: [
+		{
+			placeholder: "rule-id",
+			brief: "Unique identifier for a rule.",
+			parse: String,
+		},
+	],
+} as const satisfies ApiParameters;
+export type Args = ApiInputs<typeof parameters>;
+const command = apiCommand({
 	command: "get <rule-id>",
 	describe: "Get an IP Access rule",
-	builder,
-	handler: async (argv): Promise<void> =>
-		runWithTelemetry(
-			{
-				command: "user firewall access-rules get",
-				classification: {
-					safeFlags: ["dry-run"],
-				} satisfies ArgClassification<Args>,
-			},
-			argv as Record<string, unknown>,
-			async () => {
-				if (argv.dryRun) {
-					formatDryRun({
-						command: "cf user firewall access-rules get",
-						method: "GET",
-						url: `https://api.cloudflare.com/client/v4/user/firewall/access_rules/rules/${argv["rule-id"] == null ? "<rule-id>" : encodeURIComponent(String(argv["rule-id"]))}`,
-						pathParams: { "rule-id": String(argv["rule-id"] ?? "") },
-						bodyKind: "none",
-					});
-					return;
-				}
-				const client = await createCommandClient(argv);
-
-				const result = await withProgress(`Loading`, async () =>
-					client.send(operation, { rule_id: argv["rule-id"] })
-				);
-				formatOutput(result, { successLabel: `Loaded` });
-			}
-		),
-};
+	usage:
+		"$0 user firewall access-rules get <rule-id>\n\nFetches the details of an IP Access rule defined at the user level.",
+	...parameters,
+	loader: () => import("./get.handler.js"),
+});
 
 export default command;

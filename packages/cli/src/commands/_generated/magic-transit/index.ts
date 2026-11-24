@@ -11,37 +11,32 @@ import $pcaps from "./pcaps/index.js";
 import $redundancygroups from "./redundancy-groups/index.js";
 import $routes from "./routes/index.js";
 import $sites from "./sites/index.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * magic-transit command
  * @generated from apis/overlays/magic-transit.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "magic-transit",
 	describe:
 		"DDoS-protected network transit — GRE/IPsec tunnels, static routes, Magic WAN sites, connectors, and packet captures",
 
-	builder: (yargs) => {
-		return yargs
-			.command($advanceddnsprotection)
-			.command($advancedtcpprotection)
-			.command($apps)
-			.command($bgpfilterprofiles)
-			.command($bgpsettings)
-			.command($cfinterconnects)
-			.command($cf1sites)
-			.command($gretunnels)
-			.command($ipsectunnels)
-			.command($pcaps)
-			.command($redundancygroups)
-			.command($routes)
-			.command($sites)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		"advanced-dns-protection": $advanceddnsprotection,
+		"advanced-tcp-protection": $advancedtcpprotection,
+		apps: $apps,
+		"bgp-filter-profiles": $bgpfilterprofiles,
+		"bgp-settings": $bgpsettings,
+		"cf-interconnects": $cfinterconnects,
+		"cf1-sites": $cf1sites,
+		"gre-tunnels": $gretunnels,
+		"ipsec-tunnels": $ipsectunnels,
+		pcaps: $pcaps,
+		"redundancy-groups": $redundancygroups,
+		routes: $routes,
+		sites: $sites,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

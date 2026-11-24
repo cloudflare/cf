@@ -1,0 +1,111 @@
+import operation from "../../_operations/brand-protection/logos/create.js";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import type { Args } from "./create.js";
+import {
+	createCommandClient,
+	getAccountId,
+	resolveAccountIdSilent,
+} from "#lib/auth.js";
+import { compactBody, parseBody } from "#lib/body-parser.js";
+import { formatDryRun } from "#lib/dry-run.js";
+import { resolveFileToken } from "#lib/input-validation.js";
+import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
+import { formatOutput } from "#lib/output.js";
+import { withProgress } from "#lib/progress.js";
+import { promptForRequiredField } from "#lib/prompt.js";
+import { runWithTelemetry } from "#lib/telemetry/index.js";
+
+export default async function handle(argv: Args): Promise<void> {
+	return runWithTelemetry(
+		{
+			command: "brand-protection logos create",
+			classification: {
+				safeFlags: ["search-lookback", "dry-run"],
+			} satisfies ArgClassification<typeof argv>,
+		},
+		argv as Record<string, unknown>,
+		async () => {
+			const resolveRequiredFields = async (): Promise<void> => {
+				if (argv["image-data"] === undefined) {
+					argv["image-data"] = await promptForRequiredField(
+						"image-data",
+						"Base64 encoded image data. Can include data URI prefix (e.g., 'data:image/png;base64,...') or just the base64 string. Supported formats: PNG, JPEG, GIF, WebP, BMP, and SVG. ICO is also accepted when the data includes a \`data:image/x-icon;base64,\` prefix."
+					);
+				}
+				if (argv["similarity-threshold"] === undefined) {
+					throw new Error(
+						"--similarity-threshold is required (or pass --body with this field set)."
+					);
+				}
+				if (argv["tag"] === undefined) {
+					argv["tag"] = await promptForRequiredField(
+						"tag",
+						"Name of the logo query. Must be unique among the account's logo queries."
+					);
+				}
+			};
+			if (argv.dryRun) {
+				if (argv.body === undefined) {
+					await resolveRequiredFields();
+				}
+				const __cfDryRunAccountId = await resolveAccountIdSilent();
+				formatDryRun({
+					command: "cf brand-protection logos create",
+					method: "POST",
+					url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/cloudforce-one/v2/brand-protection/logo/queries`,
+					pathParams: {},
+					bodyKind: "json",
+					body:
+						argv.body !== undefined
+							? parseBody(argv.body)
+							: compactBody({
+									image_data: resolveFileToken(
+										argv["image-data"] as string | undefined,
+										"image-data",
+										"text"
+									),
+									search_lookback: argv["search-lookback"],
+									similarity_threshold: argv["similarity-threshold"],
+									tag: resolveFileToken(
+										argv["tag"] as string | undefined,
+										"tag",
+										"text"
+									),
+								}),
+				});
+				return;
+			}
+			const parsedBody =
+				argv.body !== undefined ? parseBody(argv.body) : undefined;
+			const client = await createCommandClient(argv);
+			const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
+			argv.accountId = accountId;
+
+			if (argv.body !== undefined) {
+				const bodyData = parsedBody;
+				const result = await withProgress(`Creating`, async () =>
+					client.send(operation, { body: bodyData, account_id: accountId })
+				);
+				formatOutput(result, { successLabel: `Created` });
+				return;
+			}
+			await resolveRequiredFields();
+
+			// Assemble request body from individual flags
+			const bodyData = compactBody({
+				image_data: resolveFileToken(
+					argv["image-data"] as string | undefined,
+					"image-data",
+					"text"
+				),
+				search_lookback: argv["search-lookback"],
+				similarity_threshold: argv["similarity-threshold"],
+				tag: resolveFileToken(argv["tag"] as string | undefined, "tag", "text"),
+			});
+			const result = await withProgress(`Creating`, async () =>
+				client.send(operation, { body: bodyData, account_id: accountId })
+			);
+			formatOutput(result, { successLabel: `Created` });
+		}
+	);
+}

@@ -6,31 +6,26 @@ import $getbyidentifier from "./get-by-identifier.js";
 import $getcancelreason from "./get-cancel-reason.js";
 import $get from "./get.js";
 import $update from "./update.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * subscriptions command group
  * @generated from apis/overlays/accounts.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "subscriptions",
 	describe: "View and manage plan subscriptions attached to this account",
 
-	builder: (yargs) => {
-		return yargs
-			.command($canceldelayeddowngrade)
-			.command($create)
-			.command($createcancelreason)
-			.command($delete)
-			.command($get)
-			.command($getbyidentifier)
-			.command($getcancelreason)
-			.command($update)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		"cancel-delayed-downgrade": $canceldelayeddowngrade,
+		create: $create,
+		"create-cancel-reason": $createcancelreason,
+		delete: $delete,
+		get: $get,
+		"get-by-identifier": $getbyidentifier,
+		"get-cancel-reason": $getcancelreason,
+		update: $update,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

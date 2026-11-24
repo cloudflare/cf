@@ -1,20 +1,17 @@
 import $jobs from "./jobs/index.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * remediations command group
  * @generated from apis/overlays/zero-trust.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "remediations",
 	describe: "Operations for casb.remediations",
 
-	builder: (yargs) => {
-		return yargs.command($jobs).demandCommand(1, "Please specify a subcommand");
+	routes: {
+		jobs: $jobs,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

@@ -1,68 +1,71 @@
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * query command
  * @generated from apis/overlays/sql.ts
  */
-import type { Argv, CommandModule } from "yargs";
-import { createCommandClient, requestApi } from "#lib/auth.js";
 import {
-	compactBody,
-	mergeBodyPositionals,
-	parseBody,
-	setNestedValue,
-} from "#lib/body-parser.js";
-import { formatDryRun } from "#lib/dry-run.js";
-import { readFileForFlag, resolveFileToken } from "#lib/input-validation.js";
-import { formatOutput } from "#lib/output.js";
-import { withProgress } from "#lib/progress.js";
-import { runWithTelemetry } from "#lib/telemetry/index.js";
+	apiCommand,
+	type ApiInputs,
+	type ApiParameters,
+} from "#lib/api-command.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 sql query <query>\n\nExecutes a SQL query against the analytics datasets available to the caller. Send either raw SQL or a JSON object containing the query and optional positional or named parameters, time range, and account or zone scope. Raw SQL placeholders can also be bound with query parameters named `param_<name>`. A trailing `FORMAT JSON`, `FORMAT JSONEachRow`, `FORMAT TabSeparated`, or `FORMAT TSV` is supported for all datasets. Without FORMAT, each backend retains its existing default JSON response."
-		)
-		.positional("query", {
-			type: "string",
-			description:
-				"SQL query to execute. A trailing FORMAT selects JSON, JSONEachRow, TabSeparated, or TSV output on any dataset. ",
-			demandOption: true,
-		})
-		.option("scope-account", {
-			type: "string",
-			description:
+const parameters = {
+	flags: {
+		"scope-account": {
+			kind: "parsed",
+			brief:
 				"Account tag used to authorize and scope the query. Must be a 32-character lowercase hex string.\n",
-		})
-		.option("scope-zone", {
-			type: "string",
-			description:
+			optional: true,
+			parse: String,
+		},
+		"scope-zone": {
+			kind: "parsed",
+			brief:
 				"Zone tag used to authorize and scope the query. Must be a 32-character lowercase hex string.\n",
-		})
-		.option("time-until", {
-			type: "string",
-			description: "Inclusive upper bound for the dataset's timestamp column.",
-		})
-		.option("time-since", {
-			type: "string",
-			description: "Inclusive lower bound for the dataset's timestamp column.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
+			optional: true,
+			parse: String,
+		},
+		"time-until": {
+			kind: "parsed",
+			brief: "Inclusive upper bound for the dataset's timestamp column.",
+			optional: true,
+			parse: String,
+		},
+		"time-since": {
+			kind: "parsed",
+			brief: "Inclusive lower bound for the dataset's timestamp column.",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
 			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		})
-		.option("file", {
-			type: "string",
-			description: "Path to a file to upload as the request body",
-		})
-		.conflicts("scope-account", ["scope-zone"])
-		.conflicts("scope-zone", ["scope-account"])
-		.check((argv) => {
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+		file: {
+			kind: "parsed",
+			brief: "Path to a file to upload as the request body",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [
+		{
+			placeholder: "query",
+			brief:
+				"SQL query to execute. A trailing FORMAT selects JSON, JSONEachRow, TabSeparated, or TSV output on any dataset. ",
+			parse: String,
+		},
+	],
+	rules(rules) {
+		rules.conflicts("scope-account", ["scope-zone"]);
+		rules.conflicts("scope-zone", ["scope-account"]);
+		rules.check((argv) => {
 			const groupSet = ["time-until", "time-since"].some(
 				(k) => argv[k] !== undefined
 			);
@@ -76,152 +79,16 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			}
 			return true;
 		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+	},
+} as const satisfies ApiParameters;
+export type Args = ApiInputs<typeof parameters>;
+const command = apiCommand({
 	command: "query <query>",
 	describe: "Query analytics datasets",
-	builder,
-	handler: async (argv): Promise<void> =>
-		runWithTelemetry(
-			{
-				command: "sql query",
-				classification: {
-					safeFlags: ["dry-run"],
-				} satisfies ArgClassification<Args>,
-			},
-			argv as Record<string, unknown>,
-			async () => {
-				if (argv.dryRun) {
-					formatDryRun({
-						command: "cf sql query",
-						method: "POST",
-						url: `https://api.cloudflare.com/client/v4/analytics/sql`,
-						pathParams: {},
-						bodyKind: argv.file !== undefined ? "octet-stream" : "json",
-						body:
-							argv.file !== undefined
-								? { file: argv.file }
-								: argv.body !== undefined
-									? mergeBodyPositionals(parseBody(argv.body), [
-											{ name: "query", field: "query", value: argv["query"] },
-										])
-									: compactBody({
-											scope: {
-												accountTag: resolveFileToken(
-													argv["scope-account"] as string | undefined,
-													"scope-account",
-													"text"
-												),
-												zoneTag: resolveFileToken(
-													argv["scope-zone"] as string | undefined,
-													"scope-zone",
-													"text"
-												),
-											},
-											time_range: {
-												end: resolveFileToken(
-													argv["time-until"] as string | undefined,
-													"time-until",
-													"text"
-												),
-												start: resolveFileToken(
-													argv["time-since"] as string | undefined,
-													"time-since",
-													"text"
-												),
-											},
-											query: argv["query"],
-										}),
-					});
-					return;
-				}
-				const parsedBody =
-					argv.file !== undefined
-						? undefined
-						: argv.body !== undefined
-							? mergeBodyPositionals(parseBody(argv.body), [
-									{ name: "query", field: "query", value: argv["query"] },
-								])
-							: undefined;
-				const client = await createCommandClient(argv);
-
-				if (argv.file !== undefined) {
-					const fileContent = readFileForFlag(argv.file);
-					const result = await withProgress(`Loading`, async () =>
-						requestApi<unknown>(client, "POST", `/analytics/sql`, {
-							body: fileContent,
-							headers: { "Content-Type": "text/plain" },
-						})
-					);
-					formatOutput(result, { successLabel: `Loaded` });
-					return;
-				}
-
-				if (argv.body !== undefined) {
-					const bodyData = parsedBody;
-					const result = await withProgress(`Loading`, async () =>
-						requestApi<unknown>(client, "POST", `/analytics/sql`, {
-							body: bodyData,
-						})
-					);
-					formatOutput(result, { successLabel: `Loaded` });
-					return;
-				}
-
-				// Assemble request body from individual flags
-				const bodyData: Record<string, unknown> = {};
-				if (argv["scope-account"] !== undefined)
-					setNestedValue(
-						bodyData,
-						["scope", "accountTag"],
-						resolveFileToken(
-							argv["scope-account"] as string | undefined,
-							"scope-account",
-							"text"
-						)
-					);
-				if (argv["scope-zone"] !== undefined)
-					setNestedValue(
-						bodyData,
-						["scope", "zoneTag"],
-						resolveFileToken(
-							argv["scope-zone"] as string | undefined,
-							"scope-zone",
-							"text"
-						)
-					);
-				if (argv["time-until"] !== undefined)
-					setNestedValue(
-						bodyData,
-						["time_range", "end"],
-						resolveFileToken(
-							argv["time-until"] as string | undefined,
-							"time-until",
-							"text"
-						)
-					);
-				if (argv["time-since"] !== undefined)
-					setNestedValue(
-						bodyData,
-						["time_range", "start"],
-						resolveFileToken(
-							argv["time-since"] as string | undefined,
-							"time-since",
-							"text"
-						)
-					);
-				if (argv["query"] !== undefined) bodyData["query"] = argv["query"];
-				const result = await withProgress(`Loading`, async () =>
-					requestApi<unknown>(client, "POST", `/analytics/sql`, {
-						body: bodyData,
-					})
-				);
-				formatOutput(result, { successLabel: `Loaded` });
-			}
-		),
-};
+	usage:
+		"$0 sql query <query>\n\nExecutes a SQL query against the analytics datasets available to the caller. Send either raw SQL or a JSON object containing the query and optional positional or named parameters, time range, and account or zone scope. Raw SQL placeholders can also be bound with query parameters named `param_<name>`. A trailing `FORMAT JSON`, `FORMAT JSONEachRow`, `FORMAT TabSeparated`, or `FORMAT TSV` is supported for all datasets. Without FORMAT, each backend retains its existing default JSON response.",
+	...parameters,
+	loader: () => import("./query.handler.js"),
+});
 
 export default command;

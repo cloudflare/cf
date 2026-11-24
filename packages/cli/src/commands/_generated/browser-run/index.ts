@@ -3,28 +3,23 @@ import $devtools from "./devtools/index.js";
 import $quickaction from "./quick-action/index.js";
 import $recording from "./recording/index.js";
 import $script from "./script/index.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * browser-run command
  * @generated from apis/overlays/browser-run.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "browser-run",
 	describe: "browser-run",
 
-	builder: (yargs) => {
-		return yargs
-			.command($crawl)
-			.command($devtools)
-			.command($quickaction)
-			.command($recording)
-			.command($script)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		crawl: $crawl,
+		devtools: $devtools,
+		"quick-action": $quickaction,
+		recording: $recording,
+		script: $script,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

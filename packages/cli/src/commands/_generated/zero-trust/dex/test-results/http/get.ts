@@ -1,115 +1,67 @@
-import operation from "../../../../_operations/zero-trust/dex/test-results/http/get.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * get command
  * @generated from apis/overlays/zero-trust.ts
  */
-import type { Argv, CommandModule } from "yargs";
 import {
-	createCommandClient,
-	getAccountId,
-	resolveAccountIdSilent,
-} from "#lib/auth.js";
-import { formatDryRun } from "#lib/dry-run.js";
-import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
-import { formatOutput } from "#lib/output.js";
-import { withProgress } from "#lib/progress.js";
-import { runWithTelemetry } from "#lib/telemetry/index.js";
+	apiCommand,
+	type ApiInputs,
+	type ApiParameters,
+} from "#lib/api-command.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 zero-trust dex test-results http get <test-id>\n\nGet test details and aggregate performance metrics for an http test for a given time period between 1 hour and 7 days."
-		)
-		.positional("test-id", {
-			type: "string",
-			description: "Unique identifier for a specific test.",
-			demandOption: true,
-		})
-		.option("device-id", {
-			type: "string",
-			array: true,
-			description:
+const parameters = {
+	flags: {
+		"device-id": {
+			kind: "parsed",
+			brief:
 				"Optionally filter result stats to a specific device(s). Cannot be used in combination with colo param.",
-		})
-		.option("from", {
-			type: "string",
-			description: "Start time for aggregate metrics in ISO ms.",
-			demandOption: true,
-		})
-		.option("to", {
-			type: "string",
-			description: "End time for aggregate metrics in ISO ms.",
-			demandOption: true,
-		})
-		.option("interval", {
-			type: "string",
-			description: "Time interval for aggregate time slots.",
-			choices: ["minute", "hour"],
-			demandOption: true,
-		})
-		.option("colo", {
-			type: "string",
-			description:
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		from: {
+			kind: "parsed",
+			brief: "Start time for aggregate metrics in ISO ms.",
+			parse: String,
+		},
+		to: {
+			kind: "parsed",
+			brief: "End time for aggregate metrics in ISO ms.",
+			parse: String,
+		},
+		interval: {
+			kind: "enum",
+			brief: "Time interval for aggregate time slots.",
+			values: ["minute", "hour"],
+		},
+		colo: {
+			kind: "parsed",
+			brief:
 				"Optionally filter result stats to a Cloudflare colo. Cannot be used in combination with deviceId param.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
 			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+		},
+	},
+	operands: [
+		{
+			placeholder: "test-id",
+			brief: "Unique identifier for a specific test.",
+			parse: String,
+		},
+	],
+} as const satisfies ApiParameters;
+export type Args = ApiInputs<typeof parameters>;
+const command = apiCommand({
 	command: "get <test-id>",
 	describe: "Get details and aggregate metrics for an http test",
-	builder,
-	handler: async (argv): Promise<void> =>
-		runWithTelemetry(
-			{
-				command: "zero-trust dex test-results http get",
-				classification: {
-					safeFlags: ["interval", "dry-run"],
-				} satisfies ArgClassification<Args>,
-			},
-			argv as Record<string, unknown>,
-			async () => {
-				const queryParams: Record<string, unknown> = {
-					deviceId: argv["device-id"],
-					from: argv["from"],
-					to: argv["to"],
-					interval: argv["interval"],
-					colo: argv["colo"],
-				};
-				if (argv.dryRun) {
-					const __cfDryRunAccountId = await resolveAccountIdSilent();
-					formatDryRun({
-						command: "cf zero-trust dex test-results http get",
-						method: "GET",
-						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/dex/http-tests/${argv["test-id"] == null ? "<test-id>" : encodeURIComponent(String(argv["test-id"]))}`,
-						pathParams: { "test-id": String(argv["test-id"] ?? "") },
-						query: queryParams,
-						bodyKind: "none",
-					});
-					return;
-				}
-				const client = await createCommandClient(argv);
-				const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
-				argv.accountId = accountId;
-
-				const result = await withProgress(`Loading`, async () =>
-					client.send(operation, {
-						account_id: accountId,
-						test_id: argv["test-id"],
-						...queryParams,
-					})
-				);
-				formatOutput(result, { successLabel: `Loaded` });
-			}
-		),
-};
+	usage:
+		"$0 zero-trust dex test-results http get <test-id>\n\nGet test details and aggregate performance metrics for an http test for a given time period between 1 hour and 7 days.",
+	...parameters,
+	loader: () => import("./get.handler.js"),
+});
 
 export default command;

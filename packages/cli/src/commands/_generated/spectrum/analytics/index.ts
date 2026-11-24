@@ -1,27 +1,22 @@
 import $aggregates from "./aggregates/index.js";
 import $events from "./events/index.js";
 import $zones from "./zones/index.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * analytics command group
  * @generated from apis/overlays/spectrum.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "analytics",
 	describe:
 		"Real-time and historical connection analytics for Spectrum applications",
 
-	builder: (yargs) => {
-		return yargs
-			.command($aggregates)
-			.command($events)
-			.command($zones)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		aggregates: $aggregates,
+		events: $events,
+		zones: $zones,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

@@ -1,88 +1,38 @@
-import operation from "../../../_operations/workers-for-platforms/dispatch-namespaces/scripts/get.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * get command
  * @generated from apis/overlays/workers-for-platforms.ts
  */
-import type { Argv, CommandModule } from "yargs";
 import {
-	createCommandClient,
-	getAccountId,
-	resolveAccountIdSilent,
-} from "#lib/auth.js";
-import { formatDryRun } from "#lib/dry-run.js";
-import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
-import { formatOutput } from "#lib/output.js";
-import { withProgress } from "#lib/progress.js";
-import { runWithTelemetry } from "#lib/telemetry/index.js";
+	apiCommand,
+	type ApiInputs,
+	type ApiParameters,
+} from "#lib/api-command.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 workers-for-platforms dispatch-namespaces scripts get <script-name>\n\nFetch information about a script uploaded to a Workers for Platforms dispatch namespace."
-		)
-		.positional("script-name", {
-			type: "string",
-			description: "Name of the script.",
-			demandOption: true,
-		})
-		.option("dispatch-namespace", {
-			type: "string",
-			description: "Name of the Workers for Platforms dispatch namespace.",
-			demandOption: true,
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
+const parameters = {
+	flags: {
+		"dispatch-namespace": {
+			kind: "parsed",
+			brief: "Name of the Workers for Platforms dispatch namespace.",
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
 			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+		},
+	},
+	operands: [
+		{ placeholder: "script-name", brief: "Name of the script.", parse: String },
+	],
+} as const satisfies ApiParameters;
+export type Args = ApiInputs<typeof parameters>;
+const command = apiCommand({
 	command: "get <script-name>",
 	describe: "Get Workers for Platforms Script details",
-	builder,
-	handler: async (argv): Promise<void> =>
-		runWithTelemetry(
-			{
-				command: "workers-for-platforms dispatch-namespaces scripts get",
-				classification: {
-					safeFlags: ["dry-run"],
-				} satisfies ArgClassification<Args>,
-			},
-			argv as Record<string, unknown>,
-			async () => {
-				if (argv.dryRun) {
-					const __cfDryRunAccountId = await resolveAccountIdSilent();
-					formatDryRun({
-						command: "cf workers-for-platforms dispatch-namespaces scripts get",
-						method: "GET",
-						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/workers/dispatch/namespaces/${argv["dispatch-namespace"] == null ? "<dispatch-namespace>" : encodeURIComponent(String(argv["dispatch-namespace"]))}/scripts/${argv["script-name"] == null ? "<script-name>" : encodeURIComponent(String(argv["script-name"]))}`,
-						pathParams: {
-							"dispatch-namespace": String(argv["dispatch-namespace"] ?? ""),
-							"script-name": String(argv["script-name"] ?? ""),
-						},
-						bodyKind: "none",
-					});
-					return;
-				}
-				const client = await createCommandClient(argv);
-				const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
-				argv.accountId = accountId;
-
-				const result = await withProgress(`Loading`, async () =>
-					client.send(operation, {
-						account_id: accountId,
-						dispatch_namespace: argv["dispatch-namespace"],
-						script_name: argv["script-name"],
-					})
-				);
-				formatOutput(result, { successLabel: `Loaded` });
-			}
-		),
-};
+	usage:
+		"$0 workers-for-platforms dispatch-namespaces scripts get <script-name>\n\nFetch information about a script uploaded to a Workers for Platforms dispatch namespace.",
+	...parameters,
+	loader: () => import("./get.handler.js"),
+});
 
 export default command;

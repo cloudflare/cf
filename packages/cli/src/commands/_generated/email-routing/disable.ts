@@ -1,122 +1,49 @@
-import operation from "../_operations/email-routing/disable.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * disable command
  * @generated from apis/overlays/email-routing.ts
  */
-import type { Argv, CommandModule } from "yargs";
-import { createCommandClient, getZoneId } from "#lib/auth.js";
-import { compactBody, parseBody } from "#lib/body-parser.js";
-import { formatDryRun } from "#lib/dry-run.js";
-import { resolveFileToken } from "#lib/input-validation.js";
-import { formatOutput } from "#lib/output.js";
-import { withProgress } from "#lib/progress.js";
-import { confirmDelete } from "#lib/prompt.js";
-import { runWithTelemetry } from "#lib/telemetry/index.js";
+import {
+	apiCommand,
+	type ApiInputs,
+	type ApiParameters,
+} from "#lib/api-command.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 email-routing disable\n\nDisable your Email Routing zone. Also removes additional MX records previously required for Email Routing to work."
-		)
-		.option("name", { type: "string", description: "Domain of your zone." })
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
+const parameters = {
+	flags: {
+		name: {
+			kind: "parsed",
+			brief: "Domain of your zone.",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
 			default: false,
-		})
-		.option("force", {
-			type: "boolean",
+		},
+		force: {
+			kind: "boolean",
+			brief: "Skip confirmation (useful in scripts and CI)",
 			alias: "f",
-			description: "Skip confirmation (useful in scripts and CI)",
 			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [],
+} as const satisfies ApiParameters;
+export type Args = ApiInputs<typeof parameters>;
+const command = apiCommand({
 	command: "disable",
 	describe: "Disable Email Routing",
-	builder,
-	handler: async (argv): Promise<void> =>
-		runWithTelemetry(
-			{
-				command: "email-routing disable",
-				classification: {
-					safeFlags: ["dry-run", "force"],
-					shortFlagAliases: { f: { canonical: "force", type: "boolean" } },
-				} satisfies ArgClassification<Args>,
-			},
-			argv as Record<string, unknown>,
-			async () => {
-				if (argv.dryRun) {
-					formatDryRun({
-						command: "cf email-routing disable",
-						method: "DELETE",
-						url: `https://api.cloudflare.com/client/v4/zones/${argv.zone ?? argv.zoneId ?? "<zone>"}/email/routing/dns`,
-						pathParams: {
-							"zone-id": String(argv.zone ?? argv["zone-id"] ?? ""),
-						},
-						bodyKind: "json",
-						body:
-							argv.body !== undefined
-								? parseBody(argv.body)
-								: compactBody({
-										name: resolveFileToken(
-											argv["name"] as string | undefined,
-											"name",
-											"text"
-										),
-									}),
-					});
-					return;
-				}
-				const parsedBody =
-					argv.body !== undefined ? parseBody(argv.body) : undefined;
-				const client = await createCommandClient(argv);
-				const zoneId = await getZoneId({ zone: argv.zone }, client, {
-					quiet: argv.quiet,
-				});
-				argv.zoneId = zoneId;
-
-				if (
-					!(await confirmDelete({
-						force: Boolean(argv.force),
-						message: `This operation disables Email Routing and removes its DNS records.`,
-					}))
-				) {
-					return;
-				}
-
-				if (argv.body !== undefined) {
-					const bodyData = parsedBody;
-					const result = await withProgress(`Deleting`, async () =>
-						client.send(operation, { body: bodyData, zone_id: zoneId })
-					);
-					formatOutput(result, { successLabel: `Deleted` });
-					return;
-				}
-
-				// Assemble request body from individual flags
-				const bodyData = compactBody({
-					name: resolveFileToken(
-						argv["name"] as string | undefined,
-						"name",
-						"text"
-					),
-				});
-				const result = await withProgress(`Deleting`, async () =>
-					client.send(operation, { body: bodyData, zone_id: zoneId })
-				);
-				formatOutput(result, { successLabel: `Deleted` });
-			}
-		),
-};
+	usage:
+		"$0 email-routing disable\n\nDisable your Email Routing zone. Also removes additional MX records previously required for Email Routing to work.",
+	...parameters,
+	loader: () => import("./disable.handler.js"),
+});
 
 export default command;

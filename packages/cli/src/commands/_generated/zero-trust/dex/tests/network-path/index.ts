@@ -1,20 +1,17 @@
 import $get from "./get.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * network-path command group
  * @generated from apis/overlays/zero-trust.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "network-path",
 	describe: "Operations for dex.tests.network-path",
 
-	builder: (yargs) => {
-		return yargs.command($get).demandCommand(1, "Please specify a subcommand");
+	routes: {
+		get: $get,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

@@ -1,25 +1,20 @@
 import $list from "./list.js";
 import $objects from "./objects/index.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * namespaces command group
  * @generated from apis/overlays/durable-objects.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "namespaces",
 	describe:
 		"List Durable Object namespaces and inspect individual object instances within them",
 
-	builder: (yargs) => {
-		return yargs
-			.command($list)
-			.command($objects)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		list: $list,
+		objects: $objects,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

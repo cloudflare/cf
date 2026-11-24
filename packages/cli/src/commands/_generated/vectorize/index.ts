@@ -5,31 +5,26 @@ import $info from "./info.js";
 import $list from "./list.js";
 import $metadataindexes from "./metadata-indexes/index.js";
 import $vectors from "./vectors/index.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * vectorize command
  * @generated from apis/overlays/vectorize.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "vectorize",
 	describe:
 		"Globally distributed vector database for building semantic search, recommendations, and RAG applications on Workers",
 
-	builder: (yargs) => {
-		return yargs
-			.command($create)
-			.command($delete)
-			.command($get)
-			.command($info)
-			.command($list)
-			.command($metadataindexes)
-			.command($vectors)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		create: $create,
+		delete: $delete,
+		get: $get,
+		info: $info,
+		list: $list,
+		"metadata-indexes": $metadataindexes,
+		vectors: $vectors,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

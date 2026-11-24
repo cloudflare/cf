@@ -1,24 +1,19 @@
 import $aspa from "./aspa/index.js";
 import $roas from "./roas/index.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * rpki command group
  * @generated from apis/overlays/radar.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "rpki",
 	describe: "Operations for bgp.rpki",
 
-	builder: (yargs) => {
-		return yargs
-			.command($aspa)
-			.command($roas)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		aspa: $aspa,
+		roas: $roas,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

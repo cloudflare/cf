@@ -12,37 +12,32 @@ import $stats from "./stats/index.js";
 import $tree from "./tree/index.js";
 import $update from "./update.js";
 import $validate from "./validate.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * rules command group
  * @generated from apis/overlays/cloudforce-one.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "rules",
 	describe: "Rule management operations",
 
-	builder: (yargs) => {
-		return yargs
-			.command($create)
-			.command($delete)
-			.command($deleteall)
-			.command($get)
-			.command($list)
-			.command($search)
-			.command($update)
-			.command($validate)
-			.command($approvals)
-			.command($email)
-			.command($exemptions)
-			.command($managed)
-			.command($stats)
-			.command($tree)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		create: $create,
+		delete: $delete,
+		"delete-all": $deleteall,
+		get: $get,
+		list: $list,
+		search: $search,
+		update: $update,
+		validate: $validate,
+		approvals: $approvals,
+		email: $email,
+		exemptions: $exemptions,
+		managed: $managed,
+		stats: $stats,
+		tree: $tree,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

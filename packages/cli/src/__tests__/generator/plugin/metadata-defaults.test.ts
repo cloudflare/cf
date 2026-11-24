@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vite-plus/test";
 import { generateFiles } from "../../helpers/cli-plugin.js";
+import { generatedOptions } from "../../helpers/command-parser.js";
 import type { CommandMeta } from "../../../lib/command-meta.js";
 
 type Json = Record<string, unknown>;
@@ -48,12 +49,11 @@ function expectDefault(
 	value: unknown
 ) {
 	const metadata = generated.command.options.find((o) => o.name === flag);
-	const match = generated.code.match(
-		new RegExp(`\\.option\\('${flag}', (\\{[^\\n]*\\})\\)`)
-	);
+	const builder = generatedOptions(generated.code)[flag];
 	expect(metadata, `metadata for --${flag}`).toBeDefined();
-	expect(match, `builder for --${flag}`).not.toBeNull();
-	const builder = JSON.parse(match?.[1] ?? "") as Json;
+	if (!builder) {
+		throw new Error(`missing flag: ${flag}`);
+	}
 	for (const option of [metadata, builder]) {
 		if (value === undefined) {
 			expect(option).not.toHaveProperty("default");

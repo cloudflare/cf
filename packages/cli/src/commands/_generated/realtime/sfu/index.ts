@@ -1,20 +1,17 @@
 import $apps from "./apps/index.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * sfu command group
  * @generated from apis/overlays/realtime.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "sfu",
 	describe: "SFU apps that route WebRTC media and data between participants",
 
-	builder: (yargs) => {
-		return yargs.command($apps).demandCommand(1, "Please specify a subcommand");
+	routes: {
+		apps: $apps,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

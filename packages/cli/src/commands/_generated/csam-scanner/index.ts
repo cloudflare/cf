@@ -1,24 +1,19 @@
 import $edit from "./edit.js";
 import $get from "./get.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * csam-scanner command
  * @generated from apis/overlays/csam-scanner.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "csam-scanner",
 	describe: "csam-scanner",
 
-	builder: (yargs) => {
-		return yargs
-			.command($edit)
-			.command($get)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		edit: $edit,
+		get: $get,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

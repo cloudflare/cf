@@ -1,90 +1,44 @@
-import operation from "../../../../_operations/pages/deployments/history/logs/get.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * get command
  * @generated from apis/overlays/pages.ts
  */
-import type { Argv, CommandModule } from "yargs";
 import {
-	createCommandClient,
-	getAccountId,
-	resolveAccountIdSilent,
-} from "#lib/auth.js";
-import { formatDryRun } from "#lib/dry-run.js";
-import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
-import { formatOutput } from "#lib/output.js";
-import { withProgress } from "#lib/progress.js";
-import { runWithTelemetry } from "#lib/telemetry/index.js";
+	apiCommand,
+	type ApiInputs,
+	type ApiParameters,
+} from "#lib/api-command.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 pages deployments history logs get <deployment-id>\n\nRetrieve the build logs for a Cloudflare Pages deployment."
-		)
-		.positional("deployment-id", {
-			type: "string",
-			description:
-				"UUID of the Pages deployment, as returned by deployment list or create operations.",
-			demandOption: true,
-		})
-		.option("project-name", {
-			type: "string",
-			description:
+const parameters = {
+	flags: {
+		"project-name": {
+			kind: "parsed",
+			brief:
 				"Name of the Pages project. Must begin with a lowercase letter or digit and contain only lowercase letters, digits, and hyphens.",
-			demandOption: true,
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
 			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+		},
+	},
+	operands: [
+		{
+			placeholder: "deployment-id",
+			brief:
+				"UUID of the Pages deployment, as returned by deployment list or create operations.",
+			parse: String,
+		},
+	],
+} as const satisfies ApiParameters;
+export type Args = ApiInputs<typeof parameters>;
+const command = apiCommand({
 	command: "get <deployment-id>",
 	describe: "Get Pages deployment logs",
-	builder,
-	handler: async (argv): Promise<void> =>
-		runWithTelemetry(
-			{
-				command: "pages deployments history logs get",
-				classification: {
-					safeFlags: ["dry-run"],
-				} satisfies ArgClassification<Args>,
-			},
-			argv as Record<string, unknown>,
-			async () => {
-				if (argv.dryRun) {
-					const __cfDryRunAccountId = await resolveAccountIdSilent();
-					formatDryRun({
-						command: "cf pages deployments history logs get",
-						method: "GET",
-						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/pages/projects/${argv["project-name"] == null ? "<project-name>" : encodeURIComponent(String(argv["project-name"]))}/deployments/${argv["deployment-id"] == null ? "<deployment-id>" : encodeURIComponent(String(argv["deployment-id"]))}/history/logs`,
-						pathParams: {
-							"project-name": String(argv["project-name"] ?? ""),
-							"deployment-id": String(argv["deployment-id"] ?? ""),
-						},
-						bodyKind: "none",
-					});
-					return;
-				}
-				const client = await createCommandClient(argv);
-				const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
-				argv.accountId = accountId;
-
-				const result = await withProgress(`Loading`, async () =>
-					client.send(operation, {
-						account_id: accountId,
-						project_name: argv["project-name"],
-						deployment_id: argv["deployment-id"],
-					})
-				);
-				formatOutput(result, { successLabel: `Loaded` });
-			}
-		),
-};
+	usage:
+		"$0 pages deployments history logs get <deployment-id>\n\nRetrieve the build logs for a Cloudflare Pages deployment.",
+	...parameters,
+	loader: () => import("./get.handler.js"),
+});
 
 export default command;

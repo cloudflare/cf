@@ -22,7 +22,7 @@ Paths below are relative to the repository root unless a section uses the
 cf/
 ├── packages/cli/       # cf — CLI + generator
 │   ├── src/
-│   │   ├── index.ts            # yargs entry; registers lazy-loaded generated
+│   │   ├── index.ts            # Stricli entry; registers lazy-loaded generated
 │   │   │                       # commands + hand-written commands
 │   │   ├── dev.ts              # tsx entry wrapper (maps CliExit → process.exit);
 │   │   │                       # NOT the `cf dev` command
@@ -155,7 +155,7 @@ the document; the command generator is a forge plugin that lives here, in
 WebAssembly component that forge runs. It walks forge's model of the
 operations, each top-level group's commands in turn, and emits:
 
-- `src/commands/_generated/<resource>/<sub>/<op>.ts` — yargs command modules
+- `src/commands/_generated/<resource>/<sub>/<op>.ts` — Stricli API command declarations
 - `src/commands/_generated/_operations/<resource>/<group>/<op>.ts` — one
   module per method, at its path in the group tree, whose default export is
   its `Operation` (`d1.database.query` in `_operations/d1/database/query.ts`);
@@ -191,10 +191,7 @@ literal says where each goes, how the response is read, and which status
 errors the operation declares. Commands whose request can't be expressed
 that way send a passthrough `requestApi` call instead.
 
-Shell completions are no longer generated — `cf complete` is backed by
-`@bomb.sh/tab`, which parses the command/option tree at runtime from
-the complete generated and hand-written `_meta/commands.json` catalogue (see
-`src/commands/completions/index.ts`).
+`cf complete` uses the same route resolution and flag declarations as the parser. Stricli suggests the next command, alias, flag or enum value. For `--profile` and named profile arguments to `auth activate`, `create`, and `delete`, it also suggests matching local profile names. Completion lists filenames only: it does not read credentials, contact the API, or require a working profile store. `@bomb.sh/tab` supplies the bash, zsh, fish and PowerShell scripts; their callback protocol is unchanged.
 
 `pnpm build` runs Vite+ Pack, which:
 
@@ -210,7 +207,7 @@ the complete generated and hand-written `_meta/commands.json` catalogue (see
 | ------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Add/fix a generated command     | Overlay files in `@cloudflare/forge` — NOT in this repo. Edit forge; Renovate picks up the next tagged release.                                                                                                                                                                 |
 | Add a generated-command rule    | `packages/cli/generator/plugin/` — emits handler body, arg shapes, body validation, confirm prompts, etc.; rerun `pnpm generate`                                                                                                                                                |
-| New cross-product flag          | yargs middleware in `packages/cli/src/index.ts` (`--zone`, `--profile`, `--quiet`, `--local`, `--persist-to`)                                                                                                                                                                   |
+| New cross-product flag          | startup hook in `packages/cli/src/index.ts` (`--zone`, `--profile`, `--quiet`, `--local`, `--persist-to`)                                                                                                                                                                       |
 | Hand-written command            | roots under `packages/cli/src/commands/{auth,build,cli,completions,dev,deploy,init,previews}/` plus `schema.ts` and `tools.ts`; generated-tree exceptions under `{access,ai,registrar,d1,observability,tunnels,workers}/`; register every one in `src/commands/hand-written.ts` |
 | Hand-written metadata/emit      | per-command `meta.ts`, `packages/cli/src/commands/{hand-written,hand-written-meta,root-commands}.ts`                                                                                                                                                                            |
 | `cf init` scaffold / setup      | `packages/cli/src/commands/init/{index,workers,template}.ts`                                                                                                                                                                                                                    |
@@ -220,7 +217,7 @@ the complete generated and hand-written `_meta/commands.json` catalogue (see
 | Auth / OAuth                    | `packages/cli/src/lib/auth.ts`, `packages/cli/src/lib/oauth/`                                                                                                                                                                                                                   |
 | `cloudflare.config.ts` settings | `packages/cli/src/lib/project-settings.ts`                                                                                                                                                                                                                                      |
 | Global CLI state                | `packages/cli/src/lib/state.ts` (shell-completion and telemetry state under workers-auth's canonical cf config directory)                                                                                                                                                       |
-| Help formatting                 | yargs built-in (cf no longer overrides help)                                                                                                                                                                                                                                    |
+| Help formatting                 | declaration-driven renderer in `packages/cli/src/lib/stricli.ts`                                                                                                                                                                                                                |
 | `--local` request routing       | `packages/cli/src/lib/{local,local-runtime}.ts`                                                                                                                                                                                                                                 |
 | Local-install delegation        | `packages/cli/src/lib/delegate.ts`                                                                                                                                                                                                                                              |
 | Output / spinner / errors       | `packages/cli/src/lib/{output,progress,errors,prompt}.ts`, `lib/ui/`                                                                                                                                                                                                            |
@@ -269,7 +266,7 @@ the complete generated and hand-written `_meta/commands.json` catalogue (see
 | `ui/theme.ts`         | background-neutral semantic colour palette and Chalk wrapper                                                                                                                                                                                                                                                                                                                                           |
 | `ui/format.ts`        | one-line `success`, `warning`, and `hint` helpers                                                                                                                                                                                                                                                                                                                                                      |
 | `ui/log.ts`           | stderr messages: clack notices (hidden by `--quiet`), warnings and flow lines, each notice or warning optionally followed by copyable commands; not re-exported from `ui/index.ts`                                                                                                                                                                                                                     |
-| `input-validation.ts` | yargs-time arg coercion + `resolveFileToken(value, fieldName, format)` for `@<path>` ingestion; runtime body/path validation                                                                                                                                                                                                                                                                           |
+| `input-validation.ts` | parse-time arg coercion + `resolveFileToken(value, fieldName, format)` for `@<path>` ingestion; runtime body/path validation                                                                                                                                                                                                                                                                           |
 | `resolve.ts`          | URL templating (path-param substitution), `isId`, `isValidDomainName`                                                                                                                                                                                                                                                                                                                                  |
 
 ## Critical Invariants
@@ -357,21 +354,18 @@ Practical extensions of this rule:
 
 ### Lazy command registration
 
-Each generated top-level root and each hand-written root is registered via `lazyCommand` (`src/lib/lazy-command.ts`). The outer shell exposes only the `command` + `describe` strings yargs needs; selecting a root dynamically imports its root module/chunk. Within that selected generated root, index files statically import and register the full subtree. Without the outer lazy boundary, `cf --help` / `cf --version` / any command would eagerly load every generated root, the complete command catalogue, the API client, and every helper.
+Each generated top-level root and each hand-written root is registered via `lazyCommand` (`src/lib/lazy-command.ts`). The outer shell exposes only the `command` + `describe` strings the router needs; selecting a root dynamically imports its root module/chunk. Within the selected generated root, index files import the subtree’s command definitions. Each generated definition uses a Stricli loader to import its `.handler.ts` sibling only for execution; its argument type comes from the definition via a type-only import. Without the outer lazy boundary, `cf --help` / `cf --version` / any command would eagerly load every generated root, the complete command catalogue, the API client, and every helper.
 
 Vite+ Pack preserves those dynamic root imports as code-split chunks (and may factor shared dependencies into additional chunks), so do not assume a strict one-chunk-per-root correspondence. Don't reintroduce eager top-level imports of `_generated/index.ts` from anywhere besides the lazy shell registration in `src/index.ts`.
 
 ### Generator output (DO NOT EDIT)
 
-- `packages/cli/src/commands/_generated/` — yargs modules, `_operations/`
+- `packages/cli/src/commands/_generated/` — Stricli command and route-map modules, `_operations/`
   operation literals, and `_meta/` JSON
 
 Tracked in git and never safe to patch by hand. Every `pnpm generate` cleans, rewrites, and Vite+-formats `_generated/`. Make changes in Forge's OpenAPI or in the generator plugin (`packages/cli/generator/plugin/`), then regenerate and commit the resulting artifacts.
 
 GitHub collapses `_generated/` by default because it is marked `linguist-generated`, but AI reviewers must still review every changed file there.
-
-Shell-completion scripts are no longer generated — `cf complete`
-(`@bomb.sh/tab`) reads `_meta/commands.json` at runtime.
 
 ### OpenAPI compatibility overlay
 
@@ -577,7 +571,7 @@ to know before editing `generator/plugin/`.
   fail with a clear "--body is required" error instead of an opaque
   EOF API error.
 - Per-field-flag `demandOption: true` is suppressed when `--body` is
-  also supported (so `--body @file` isn't rejected by yargs for
+  also supported (so `--body @file` isn't rejected during parsing for
   missing required fields — handler-time enforcement instead).
 - Required body positionals remain mandatory when `--body` is supplied, even
   when the JSON contains the same fields. Body positionals merge into JSON
@@ -710,7 +704,7 @@ Hand-written commands with no generated parent (`auth/`, `build/`, `cli/`,
 `schema.ts` and `tools.ts`) are `kind: "root"` entries and must not collide
 with a generated product name.
 
-Generation merges every hand-written leaf into the complete `_meta/commands.json` consumed by completions and tools. Generation additionally emits `_meta/hand-written-commands.json`, repeating only executable entries with their `root` / `leafOverride` / `leaf` / `subgroup` provenance and source directory. Presentation-only `parentOverride` entries do not represent commands and are not emitted there.
+Generation merges every hand-written leaf into the complete `_meta/commands.json` consumed by discovery tools. Generation additionally emits `_meta/hand-written-commands.json`, repeating only executable entries with their `root` / `leafOverride` / `leaf` / `subgroup` provenance and source directory. Presentation-only `parentOverride` entries do not represent commands and are not emitted there.
 
 Container SSH is a bounded hand-written leaf in `src/commands/containers/ssh`, registered in `hand-written.ts`. It adapts cf authentication to the same `@cloudflare/containers-shared` SSH options and transport used by Wrangler.
 
@@ -755,10 +749,9 @@ break at sunset; surfacing them encourages users to adopt doomed paths.
   each accepted body in one request. No automatic batching is inferred from
   schema limits.
 
-### Strict yargs
+### Argument parsing
 
-`yargs.strict()` handles unknown flags. There are no pre-yargs
-allowlists — yargs is authoritative. Keep it that way.
+`src/lib/api-command.ts` builds Stricli commands and route maps from generated declarations. Flag kinds, parsers, defaults, variadic flags, and named operands determine generated handler input types. `src/lib/stricli.ts` preserves cf help, error messages, aliases, and token spellings that Stricli does not accept natively. Hand-written commands can still use builder declarations and yargs types; neither path loads the yargs runtime. Unknown options are rejected before startup unless a command explicitly accepts or forwards them.
 
 ### Output
 
@@ -802,7 +795,7 @@ pass its `cursor` value to `cf zero-trust casb findings list --cursor <value>`.
 
 Required fields inside an optional request-body object are validated only when a
 flag supplies that object. Omitting the object leaves those nested fields
-optional. Because yargs performs this validation before the handler, missing
+optional. Because the parser performs this validation before the handler, missing
 fields in a supplied optional object are rejected rather than prompted for.
 
 For other required body fields, when stdin is a TTY and the field is not supplied:
@@ -867,7 +860,7 @@ These have stabilised this repo's voice; preserve them.
   (the commands passed to `log.info` / `log.warn`); other commands in a
   message are styled as code. `--quiet` hides notices and success lines,
   never warnings, fixes or prompts.
-- **Splash screen:** bare `cf` prints the headline, a short getting-started list, and the docs link. Yargs owns root, group, and command help rendering.
+- **Splash screen:** bare `cf` prints the headline, a short getting-started list, and the docs link. The cf declaration adapter renders root, group, and command help.
 
 ## Global Flags
 

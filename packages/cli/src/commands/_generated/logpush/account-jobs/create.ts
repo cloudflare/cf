@@ -1,35 +1,21 @@
-import operation from "../../_operations/logpush/account-jobs/create.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * create command
  * @generated from apis/overlays/logpush.ts
  */
-import type { Argv, CommandModule } from "yargs";
 import {
-	createCommandClient,
-	getAccountId,
-	getZoneId,
-	resolveAccountIdSilent,
-} from "#lib/auth.js";
-import { compactBody, parseBody } from "#lib/body-parser.js";
-import { formatDryRun } from "#lib/dry-run.js";
+	apiCommand,
+	type ApiInputs,
+	type ApiParameters,
+} from "#lib/api-command.js";
 import { resolveFileToken } from "#lib/input-validation.js";
-import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
-import { formatOutput } from "#lib/output.js";
-import { withProgress } from "#lib/progress.js";
-import { promptForRequiredField } from "#lib/prompt.js";
-import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 logpush account-jobs create\n\nCreates a new Logpush job for an account or zone.\n\nRuns against your account. Pass --zone to run against a zone instead. CLOUDFLARE_ZONE_ID is ignored."
-		)
-		.option("dataset", {
-			type: "string",
-			description:
+const parameters = {
+	flags: {
+		dataset: {
+			kind: "parsed",
+			brief:
 				"Name of the dataset. A list of supported datasets can be found on the [Developer Docs](https://developers.cloudflare.com/logs/reference/log-fields/).",
+			default: "http_requests",
 			choices: [
 				"access_requests",
 				"account_abuse_protection_events",
@@ -70,435 +56,206 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"zaraz_events",
 				"zero_trust_network_sessions",
 			],
-			default: "http_requests",
-		})
-		.coerce("dataset", (value) => resolveFileToken(value, "dataset", "text"))
-		.option("destination-conf", {
-			type: "string",
-			description:
+			parse: String,
+			coerce: (value: string) => resolveFileToken(value, "dataset", "text"),
+		},
+		"destination-conf": {
+			kind: "parsed",
+			brief:
 				"Uniquely identifies a resource (such as an s3 bucket) where data. will be pushed. Additional configuration parameters supported by the destination may be included.",
-		})
-		.option("enabled", {
-			type: "boolean",
-			description: "Flag that indicates if the job is enabled.",
+			optional: true,
+			parse: String,
+		},
+		enabled: {
+			kind: "boolean",
+			brief: "Flag that indicates if the job is enabled.",
 			default: false,
-		})
-		.option("filter", {
-			type: "string",
-			description:
+		},
+		filter: {
+			kind: "parsed",
+			brief:
 				"The filters to select the events to include and/or remove from your logs. For more information, refer to [Filters](https://developers.cloudflare.com/logs/reference/filters/).",
-		})
-		.option("filter-attack-traffic", {
-			type: "boolean",
-			description:
+			optional: true,
+			parse: String,
+		},
+		"filter-attack-traffic": {
+			kind: "boolean",
+			brief:
 				"When true, excludes DDoS attack traffic from logs. This option is supported for the `http_requests`, `firewall_events`, and `network_analytics_logs` datasets.",
 			default: false,
-		})
-		.option("frequency", {
-			type: "string",
-			description:
+		},
+		frequency: {
+			kind: "parsed",
+			brief:
 				"This field is deprecated. Please use `max_upload_*` parameters instead. . The frequency at which Cloudflare sends batches of logs to your destination. Setting frequency to high sends your logs in larger quantities of smaller files. Setting frequency to low sends logs in smaller quantities of larger files.",
-			choices: ["high", "low"],
 			default: "high",
-		})
-		.coerce("frequency", (value) =>
-			resolveFileToken(value, "frequency", "text")
-		)
-		.option("kind", {
-			type: "string",
-			description:
+			choices: ["high", "low"],
+			parse: String,
+			coerce: (value: string) => resolveFileToken(value, "frequency", "text"),
+		},
+		kind: {
+			kind: "parsed",
+			brief:
 				"The kind parameter (optional) is used to differentiate between Logpush and Edge Log Delivery jobs (when supported by the dataset).",
-			choices: ["edge"],
 			default: "",
-		})
-		.coerce("kind", (value) => resolveFileToken(value, "kind", "text"))
-		.option("logpull-options", {
-			type: "string",
-			description:
+			choices: ["edge"],
+			parse: String,
+			coerce: (value: string) => resolveFileToken(value, "kind", "text"),
+		},
+		"logpull-options": {
+			kind: "parsed",
+			brief:
 				"This field is deprecated. Use `output_options` instead. Configuration string. It specifies things like requested fields and timestamp formats. If migrating from the logpull api, copy the url (full url or just the query string) of your call here, and logpush will keep on making this call for you, setting start and end times appropriately.",
-		})
-		.option("max-upload-bytes", {
-			type: "number",
-			description:
+			optional: true,
+			parse: String,
+		},
+		"max-upload-bytes": {
+			kind: "parsed",
+			brief:
 				"The maximum uncompressed file size of a batch of logs. This setting value must be between `5 MB` and `1 GB`, or `0` to disable it. Note that you cannot set a minimum file size; this means that log files may be much smaller than this batch size.",
-		})
-		.option("max-upload-interval-seconds", {
-			type: "number",
-			description:
+			optional: true,
+			parse: Number,
+		},
+		"max-upload-interval-seconds": {
+			kind: "parsed",
+			brief:
 				"The maximum interval in seconds for log batches. This setting must be between 30 and 300 seconds (5 minutes), or `0` to disable it. Note that you cannot specify a minimum interval for log batches; this means that log files may be sent in shorter intervals than this.",
-		})
-		.option("max-upload-records", {
-			type: "number",
-			description:
+			optional: true,
+			parse: Number,
+		},
+		"max-upload-records": {
+			kind: "parsed",
+			brief:
 				"The maximum number of log lines per batch. This setting must be between 1000 and 1,000,000 lines, or `0` to disable it. Note that you cannot specify a minimum number of log lines per batch; this means that log files may contain many fewer lines than this.",
-		})
-		.option("name", {
-			type: "string",
-			description:
+			optional: true,
+			parse: Number,
+		},
+		name: {
+			kind: "parsed",
+			brief:
 				"Optional human readable job name. Not unique. Cloudflare suggests. that you set this to a meaningful string, like the domain name, to make it easier to identify your job.",
-		})
-		.option("output-options-cve-2021-44228", {
-			type: "boolean",
-			description:
+			optional: true,
+			parse: String,
+		},
+		"output-options-cve-2021-44228": {
+			kind: "boolean",
+			brief:
 				"If set to true, will cause all occurrences of `${` in the generated files to be replaced with `x{`.",
-		})
-		.option("output-options-batch-prefix", {
-			type: "string",
-			description: "String to be prepended before each batch.",
-		})
-		.option("output-options-batch-suffix", {
-			type: "string",
-			description: "String to be appended after each batch.",
-		})
-		.option("output-options-field-delimiter", {
-			type: "string",
-			description:
+			optional: true,
+		},
+		"output-options-batch-prefix": {
+			kind: "parsed",
+			brief: "String to be prepended before each batch.",
+			optional: true,
+			parse: String,
+		},
+		"output-options-batch-suffix": {
+			kind: "parsed",
+			brief: "String to be appended after each batch.",
+			optional: true,
+			parse: String,
+		},
+		"output-options-field-delimiter": {
+			kind: "parsed",
+			brief:
 				"String to join fields. This field be ignored when `record_template` is set.",
-		})
-		.option("output-options-field-names", {
-			type: "string",
-			array: true,
-			description:
+			optional: true,
+			parse: String,
+		},
+		"output-options-field-names": {
+			kind: "parsed",
+			brief:
 				"List of field names to be included in the Logpush output. For the moment, there is no option to add all fields at once, so you must specify all the fields names you are interested in.",
-		})
-		.option("output-options-merge-subrequests", {
-			type: "boolean",
-			description:
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"output-options-merge-subrequests": {
+			kind: "boolean",
+			brief:
 				"If set to true, subrequests will be merged into the parent request. Only supported for the `http_requests` dataset.",
-		})
-		.option("output-options-output-type", {
-			type: "string",
-			description:
+			optional: true,
+		},
+		"output-options-output-type": {
+			kind: "parsed",
+			brief:
 				"Specifies the output type, such as `ndjson` or `csv`. This sets default values for the rest of the settings, depending on the chosen output type. Some formatting rules, like string quoting, are different between output types.",
+			optional: true,
 			choices: ["ndjson", "csv"],
-		})
-		.coerce("output-options-output-type", (value) =>
-			resolveFileToken(value, "output-options-output-type", "text")
-		)
-		.option("output-options-record-delimiter", {
-			type: "string",
-			description: "String to be inserted in-between the records as separator.",
-		})
-		.option("output-options-record-prefix", {
-			type: "string",
-			description: "String to be prepended before each record.",
-		})
-		.option("output-options-record-suffix", {
-			type: "string",
-			description: "String to be appended after each record.",
-		})
-		.option("output-options-record-template", {
-			type: "string",
-			description:
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "output-options-output-type", "text"),
+		},
+		"output-options-record-delimiter": {
+			kind: "parsed",
+			brief: "String to be inserted in-between the records as separator.",
+			optional: true,
+			parse: String,
+		},
+		"output-options-record-prefix": {
+			kind: "parsed",
+			brief: "String to be prepended before each record.",
+			optional: true,
+			parse: String,
+		},
+		"output-options-record-suffix": {
+			kind: "parsed",
+			brief: "String to be appended after each record.",
+			optional: true,
+			parse: String,
+		},
+		"output-options-record-template": {
+			kind: "parsed",
+			brief:
 				"String to use as template for each record instead of the default json key value mapping. All fields used in the template must be present in `field_names` as well, otherwise they will end up as null. Format as a Go `text/template` without any standard functions, like conditionals, loops, sub-templates, etc.",
-		})
-		.option("output-options-sample-rate", {
-			type: "number",
-			description:
+			optional: true,
+			parse: String,
+		},
+		"output-options-sample-rate": {
+			kind: "parsed",
+			brief:
 				"Specifies the sampling rate as a floating number greater than 0 and at most 1. Sampling is applied on top of filtering, and regardless of the current `sample_interval` of the data.",
-		})
-		.option("output-options-timestamp-format", {
-			type: "string",
-			description:
+			optional: true,
+			parse: Number,
+		},
+		"output-options-timestamp-format": {
+			kind: "parsed",
+			brief:
 				"String to specify the format for timestamps, such as `unixnano`, `unix`, `rfc3339`, `rfc3339ms` or `rfc3339ns`.",
+			optional: true,
 			choices: ["unixnano", "unix", "rfc3339", "rfc3339ms", "rfc3339ns"],
-		})
-		.coerce("output-options-timestamp-format", (value) =>
-			resolveFileToken(value, "output-options-timestamp-format", "text")
-		)
-		.option("ownership-challenge", {
-			type: "string",
-			description: "Ownership challenge token to prove destination ownership.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "output-options-timestamp-format", "text"),
+		},
+		"ownership-challenge": {
+			kind: "parsed",
+			brief: "Ownership challenge token to prove destination ownership.",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
 			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [],
+} as const satisfies ApiParameters;
+export type Args = ApiInputs<typeof parameters>;
+const command = apiCommand({
 	command: "create",
 	describe: "Create Logpush job",
-	builder,
-	handler: async (argv): Promise<void> =>
-		runWithTelemetry(
-			{
-				command: "logpush account-jobs create",
-				classification: {
-					safeFlags: [
-						"dataset",
-						"enabled",
-						"filter-attack-traffic",
-						"frequency",
-						"kind",
-						"output-options-cve-2021-44228",
-						"output-options-merge-subrequests",
-						"output-options-output-type",
-						"output-options-timestamp-format",
-						"dry-run",
-					],
-				} satisfies ArgClassification<Args>,
-			},
-			argv as Record<string, unknown>,
-			async () => {
-				const resolveRequiredFields = async (): Promise<void> => {
-					if (argv["destination-conf"] === undefined) {
-						argv["destination-conf"] = await promptForRequiredField(
-							"destination-conf",
-							"Uniquely identifies a resource (such as an s3 bucket) where data. will be pushed. Additional configuration parameters supported by the destination may be included.",
-							{ kind: "secret" }
-						);
-					}
-				};
-				if (argv.dryRun) {
-					if (argv.body === undefined) {
-						await resolveRequiredFields();
-					}
-					const __cfDryRunAccountId =
-						argv.zone === undefined
-							? await resolveAccountIdSilent()
-							: undefined;
-					const accountOrZone = argv.zone === undefined ? "accounts" : "zones";
-					const accountOrZoneId =
-						argv.zone ?? __cfDryRunAccountId ?? "<account-id>";
-					formatDryRun({
-						command: "cf logpush account-jobs create",
-						method: "POST",
-						url: `https://api.cloudflare.com/client/v4/${accountOrZone}/${accountOrZoneId}/logpush/jobs`,
-						pathParams: {
-							"account-or-zone": String(accountOrZone),
-							"account-or-zone-id": String(accountOrZoneId),
-						},
-						bodyKind: "json",
-						body:
-							argv.body !== undefined
-								? parseBody(argv.body)
-								: compactBody({
-										dataset: argv["dataset"],
-										destination_conf: resolveFileToken(
-											argv["destination-conf"] as string | undefined,
-											"destination-conf",
-											"text"
-										),
-										enabled: argv["enabled"],
-										filter: resolveFileToken(
-											argv["filter"] as string | undefined,
-											"filter",
-											"text"
-										),
-										filter_attack_traffic: argv["filter-attack-traffic"],
-										frequency: argv["frequency"],
-										kind: argv["kind"],
-										logpull_options: resolveFileToken(
-											argv["logpull-options"] as string | undefined,
-											"logpull-options",
-											"text"
-										),
-										max_upload_bytes: argv["max-upload-bytes"],
-										max_upload_interval_seconds:
-											argv["max-upload-interval-seconds"],
-										max_upload_records: argv["max-upload-records"],
-										name: resolveFileToken(
-											argv["name"] as string | undefined,
-											"name",
-											"text"
-										),
-										output_options: {
-											"CVE-2021-44228": argv["output-options-cve-2021-44228"],
-											batch_prefix: resolveFileToken(
-												argv["output-options-batch-prefix"] as
-													| string
-													| undefined,
-												"output-options-batch-prefix",
-												"text"
-											),
-											batch_suffix: resolveFileToken(
-												argv["output-options-batch-suffix"] as
-													| string
-													| undefined,
-												"output-options-batch-suffix",
-												"text"
-											),
-											field_delimiter: resolveFileToken(
-												argv["output-options-field-delimiter"] as
-													| string
-													| undefined,
-												"output-options-field-delimiter",
-												"text"
-											),
-											field_names: argv["output-options-field-names"],
-											merge_subrequests:
-												argv["output-options-merge-subrequests"],
-											output_type: argv["output-options-output-type"],
-											record_delimiter: resolveFileToken(
-												argv["output-options-record-delimiter"] as
-													| string
-													| undefined,
-												"output-options-record-delimiter",
-												"text"
-											),
-											record_prefix: resolveFileToken(
-												argv["output-options-record-prefix"] as
-													| string
-													| undefined,
-												"output-options-record-prefix",
-												"text"
-											),
-											record_suffix: resolveFileToken(
-												argv["output-options-record-suffix"] as
-													| string
-													| undefined,
-												"output-options-record-suffix",
-												"text"
-											),
-											record_template: resolveFileToken(
-												argv["output-options-record-template"] as
-													| string
-													| undefined,
-												"output-options-record-template",
-												"text"
-											),
-											sample_rate: argv["output-options-sample-rate"],
-											timestamp_format: argv["output-options-timestamp-format"],
-										},
-										ownership_challenge: resolveFileToken(
-											argv["ownership-challenge"] as string | undefined,
-											"ownership-challenge",
-											"text"
-										),
-									}),
-						sensitiveBodyPaths: [["destination_conf"], ["ownership_challenge"]],
-					});
-					return;
-				}
-				const parsedBody =
-					argv.body !== undefined ? parseBody(argv.body) : undefined;
-				const client = await createCommandClient(argv);
-				const accountOrZone = argv.zone === undefined ? "accounts" : "zones";
-				const accountOrZoneId =
-					accountOrZone === "zones"
-						? await getZoneId({ zone: argv.zone }, client, {
-								quiet: argv.quiet,
-							})
-						: argv.local
-							? LOCAL_ACCOUNT_ID
-							: await getAccountId();
-				if (accountOrZone === "zones") {
-					argv.zoneId = accountOrZoneId;
-				} else {
-					argv.accountId = accountOrZoneId;
-				}
-
-				if (argv.body !== undefined) {
-					const bodyData = parsedBody;
-					const result = await withProgress(`Creating`, async () =>
-						client.send(operation, {
-							body: bodyData,
-							account_or_zone: accountOrZone,
-							account_or_zone_id: accountOrZoneId,
-						})
-					);
-					formatOutput(result, { successLabel: `Created` });
-					return;
-				}
-				await resolveRequiredFields();
-
-				// Assemble request body from individual flags
-				const bodyData = compactBody({
-					dataset: argv["dataset"],
-					destination_conf: resolveFileToken(
-						argv["destination-conf"] as string | undefined,
-						"destination-conf",
-						"text"
-					),
-					enabled: argv["enabled"],
-					filter: resolveFileToken(
-						argv["filter"] as string | undefined,
-						"filter",
-						"text"
-					),
-					filter_attack_traffic: argv["filter-attack-traffic"],
-					frequency: argv["frequency"],
-					kind: argv["kind"],
-					logpull_options: resolveFileToken(
-						argv["logpull-options"] as string | undefined,
-						"logpull-options",
-						"text"
-					),
-					max_upload_bytes: argv["max-upload-bytes"],
-					max_upload_interval_seconds: argv["max-upload-interval-seconds"],
-					max_upload_records: argv["max-upload-records"],
-					name: resolveFileToken(
-						argv["name"] as string | undefined,
-						"name",
-						"text"
-					),
-					output_options: {
-						"CVE-2021-44228": argv["output-options-cve-2021-44228"],
-						batch_prefix: resolveFileToken(
-							argv["output-options-batch-prefix"] as string | undefined,
-							"output-options-batch-prefix",
-							"text"
-						),
-						batch_suffix: resolveFileToken(
-							argv["output-options-batch-suffix"] as string | undefined,
-							"output-options-batch-suffix",
-							"text"
-						),
-						field_delimiter: resolveFileToken(
-							argv["output-options-field-delimiter"] as string | undefined,
-							"output-options-field-delimiter",
-							"text"
-						),
-						field_names: argv["output-options-field-names"],
-						merge_subrequests: argv["output-options-merge-subrequests"],
-						output_type: argv["output-options-output-type"],
-						record_delimiter: resolveFileToken(
-							argv["output-options-record-delimiter"] as string | undefined,
-							"output-options-record-delimiter",
-							"text"
-						),
-						record_prefix: resolveFileToken(
-							argv["output-options-record-prefix"] as string | undefined,
-							"output-options-record-prefix",
-							"text"
-						),
-						record_suffix: resolveFileToken(
-							argv["output-options-record-suffix"] as string | undefined,
-							"output-options-record-suffix",
-							"text"
-						),
-						record_template: resolveFileToken(
-							argv["output-options-record-template"] as string | undefined,
-							"output-options-record-template",
-							"text"
-						),
-						sample_rate: argv["output-options-sample-rate"],
-						timestamp_format: argv["output-options-timestamp-format"],
-					},
-					ownership_challenge: resolveFileToken(
-						argv["ownership-challenge"] as string | undefined,
-						"ownership-challenge",
-						"text"
-					),
-				});
-				const result = await withProgress(`Creating`, async () =>
-					client.send(operation, {
-						body: bodyData,
-						account_or_zone: accountOrZone,
-						account_or_zone_id: accountOrZoneId,
-					})
-				);
-				formatOutput(result, { successLabel: `Created` });
-			}
-		),
-};
+	usage:
+		"$0 logpush account-jobs create\n\nCreates a new Logpush job for an account or zone.\n\nRuns against your account. Pass --zone to run against a zone instead. CLOUDFLARE_ZONE_ID is ignored.",
+	...parameters,
+	loader: () => import("./create.handler.js"),
+});
 
 export default command;

@@ -4,29 +4,24 @@ import $edit from "./edit.js";
 import $get from "./get.js";
 import $migratetopreviews from "./migrate-to-previews.js";
 import $purgecache from "./purge-cache.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * workers command group
  * @generated from apis/overlays/builds.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "workers",
 	describe: "Manage repository-backed build configuration for Workers.",
 
-	builder: (yargs) => {
-		return yargs
-			.command($create)
-			.command($delete)
-			.command($edit)
-			.command($get)
-			.command($migratetopreviews)
-			.command($purgecache)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		create: $create,
+		delete: $delete,
+		edit: $edit,
+		get: $get,
+		"migrate-to-previews": $migratetopreviews,
+		"purge-cache": $purgecache,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

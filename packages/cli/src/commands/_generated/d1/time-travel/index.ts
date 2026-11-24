@@ -1,24 +1,19 @@
 import $getbookmark from "./get-bookmark.js";
 import $restore from "./restore.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * time-travel command group
  * @generated from apis/overlays/d1.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "time-travel",
 	describe: "use specific point-in-time backups of your D1 database",
 
-	builder: (yargs) => {
-		return yargs
-			.command($getbookmark)
-			.command($restore)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		"get-bookmark": $getbookmark,
+		restore: $restore,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

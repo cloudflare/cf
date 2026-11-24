@@ -4,29 +4,24 @@ import $get from "./get.js";
 import $list from "./list.js";
 import $setdefault from "./set-default.js";
 import $update from "./update.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * payment-methods command group
  * @generated from apis/overlays/accounts.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "payment-methods",
 	describe: "Operations for billing.payment-methods",
 
-	builder: (yargs) => {
-		return yargs
-			.command($create)
-			.command($delete)
-			.command($get)
-			.command($list)
-			.command($setdefault)
-			.command($update)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		create: $create,
+		delete: $delete,
+		get: $get,
+		list: $list,
+		"set-default": $setdefault,
+		update: $update,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

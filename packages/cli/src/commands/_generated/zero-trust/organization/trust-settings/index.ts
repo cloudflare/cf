@@ -2,27 +2,22 @@ import $delete from "./delete.js";
 import $get from "./get.js";
 import $replace from "./replace.js";
 import $update from "./update.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * trust-settings command group
  * @generated from apis/overlays/zero-trust.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "trust-settings",
 	describe: "Operations for organization.trust-settings",
 
-	builder: (yargs) => {
-		return yargs
-			.command($delete)
-			.command($get)
-			.command($replace)
-			.command($update)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		delete: $delete,
+		get: $get,
+		replace: $replace,
+		update: $update,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

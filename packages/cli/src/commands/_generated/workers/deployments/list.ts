@@ -1,104 +1,62 @@
-import operation from "../../_operations/workers/deployments/list.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * list command
  * @generated from apis/overlays/workers.ts
  */
-import type { Argv, CommandModule } from "yargs";
 import {
-	createCommandClient,
-	getAccountId,
-	getWorkerName,
-	resolveAccountIdSilent,
-} from "#lib/auth.js";
-import { formatDryRun } from "#lib/dry-run.js";
-import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
-import { formatOutput } from "#lib/output.js";
-import { withProgress } from "#lib/progress.js";
-import { runWithTelemetry } from "#lib/telemetry/index.js";
+	apiCommand,
+	type ApiInputs,
+	type ApiParameters,
+} from "#lib/api-command.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 workers deployments list\n\nList Worker deployments. The first deployment in the list is the latest deployment actively serving traffic."
-		)
-		.option("worker", {
-			type: "string",
+const parameters = {
+	flags: {
+		worker: {
+			kind: "parsed",
+			brief: "Name of the script.",
+			optional: true,
 			alias: ["script-name", "worker-id"],
-			description: "Name of the script.",
-		})
-		.option("since", {
-			type: "string",
-			description: "Start of the deployment creation time range, inclusive.",
-		})
-		.option("until", {
-			type: "string",
-			description: "End of the deployment creation time range, inclusive.",
-		})
-		.option("page", { type: "number", description: "Current page." })
-		.option("per-page", { type: "number", description: "Items per page." })
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
+			parse: String,
+		},
+		since: {
+			kind: "parsed",
+			brief: "Start of the deployment creation time range, inclusive.",
+			optional: true,
+			parse: String,
+		},
+		until: {
+			kind: "parsed",
+			brief: "End of the deployment creation time range, inclusive.",
+			optional: true,
+			parse: String,
+		},
+		page: {
+			kind: "parsed",
+			brief: "Current page.",
+			optional: true,
+			parse: Number,
+		},
+		"per-page": {
+			kind: "parsed",
+			brief: "Items per page.",
+			optional: true,
+			parse: Number,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
 			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+		},
+	},
+	operands: [],
+} as const satisfies ApiParameters;
+export type Args = ApiInputs<typeof parameters>;
+const command = apiCommand({
 	command: "list",
 	describe: "List Worker Deployments",
-	builder,
-	handler: async (argv): Promise<void> =>
-		runWithTelemetry(
-			{
-				command: "workers deployments list",
-				classification: {
-					safeFlags: ["dry-run"],
-				} satisfies ArgClassification<Args>,
-			},
-			argv as Record<string, unknown>,
-			async () => {
-				const scriptName = await getWorkerName({
-					scriptName: argv["worker"],
-					quiet: argv["quiet"] as boolean | undefined,
-				});
-				argv["worker"] = scriptName;
-
-				const queryParams: Record<string, unknown> = {
-					since: argv["since"],
-					until: argv["until"],
-					page: argv["page"],
-					per_page: argv["per-page"],
-				};
-				if (argv.dryRun) {
-					const __cfDryRunAccountId = await resolveAccountIdSilent();
-					formatDryRun({
-						command: "cf workers deployments list",
-						method: "GET",
-						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/workers/scripts/${encodeURIComponent(scriptName)}/deployments`,
-						pathParams: { worker: String(argv["worker"] ?? "") },
-						query: queryParams,
-						bodyKind: "none",
-					});
-					return;
-				}
-				const client = await createCommandClient(argv);
-				const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
-				argv.accountId = accountId;
-
-				const result = await withProgress(`Loading`, async () =>
-					client.send(operation, {
-						account_id: accountId,
-						script_name: scriptName,
-						...queryParams,
-					})
-				);
-				formatOutput(result, { successLabel: `Loaded` });
-			}
-		),
-};
+	usage:
+		"$0 workers deployments list\n\nList Worker deployments. The first deployment in the list is the latest deployment actively serving traffic.",
+	...parameters,
+	loader: () => import("./list.handler.js"),
+});
 
 export default command;

@@ -2,27 +2,22 @@ import $settings from "./settings/index.js";
 import $shadowhosts from "./shadow-hosts/index.js";
 import $shadowzonehosts from "./shadow-zone-hosts/index.js";
 import $shadowzones from "./shadow-zones/index.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * partners command group
  * @generated from apis/overlays/security-insights.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "partners",
 	describe: "Operations for partners",
 
-	builder: (yargs) => {
-		return yargs
-			.command($settings)
-			.command($shadowhosts)
-			.command($shadowzonehosts)
-			.command($shadowzones)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		settings: $settings,
+		"shadow-hosts": $shadowhosts,
+		"shadow-zone-hosts": $shadowzonehosts,
+		"shadow-zones": $shadowzones,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

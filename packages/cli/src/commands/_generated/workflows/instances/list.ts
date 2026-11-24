@@ -1,51 +1,45 @@
-import operation from "../../_operations/workflows/instances/list.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * list command
  * @generated from apis/overlays/workflows.ts
  */
-import type { Argv, CommandModule } from "yargs";
 import {
-	createCommandClient,
-	getAccountId,
-	resolveAccountIdSilent,
-} from "#lib/auth.js";
-import { formatDryRun } from "#lib/dry-run.js";
-import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
-import { formatOutput } from "#lib/output.js";
-import { withProgress } from "#lib/progress.js";
-import { runWithTelemetry } from "#lib/telemetry/index.js";
+	apiCommand,
+	type ApiInputs,
+	type ApiParameters,
+} from "#lib/api-command.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 workflows instances list\n\nLists all instances of a workflow with their execution status."
-		)
-		.option("workflow-name", {
-			type: "string",
-			description: "Workflow name",
-			demandOption: true,
-		})
-		.option("page", {
-			type: "number",
-			description: "Deprecated: use `cursor` for pagination instead.",
-		})
-		.option("per-page", { type: "number", description: "Per page" })
-		.option("cursor", {
-			type: "string",
-			description:
+const parameters = {
+	flags: {
+		"workflow-name": { kind: "parsed", brief: "Workflow name", parse: String },
+		page: {
+			kind: "parsed",
+			brief: "Deprecated: use `cursor` for pagination instead.",
+			optional: true,
+			parse: Number,
+		},
+		"per-page": {
+			kind: "parsed",
+			brief: "Per page",
+			optional: true,
+			parse: Number,
+		},
+		cursor: {
+			kind: "parsed",
+			brief:
 				"Opaque token for cursor-based pagination. Mutually exclusive with `page`.",
-		})
-		.option("direction", {
-			type: "string",
-			description: "Defines the direction for cursor-based pagination.",
-			choices: ["asc", "desc"],
-		})
-		.option("status", {
-			type: "string",
-			description: "Status",
-			choices: [
+			optional: true,
+			parse: String,
+		},
+		direction: {
+			kind: "enum",
+			brief: "Defines the direction for cursor-based pagination.",
+			values: ["asc", "desc"],
+			optional: true,
+		},
+		status: {
+			kind: "enum",
+			brief: "Status",
+			values: [
 				"queued",
 				"running",
 				"paused",
@@ -56,75 +50,36 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"waiting",
 				"rollingBack",
 			],
-		})
-		.option("start", {
-			type: "string",
-			description: "Accepts ISO 8601 with no timezone offsets and in UTC.",
-		})
-		.option("end", {
-			type: "string",
-			description: "Accepts ISO 8601 with no timezone offsets and in UTC.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
+			optional: true,
+		},
+		start: {
+			kind: "parsed",
+			brief: "Accepts ISO 8601 with no timezone offsets and in UTC.",
+			optional: true,
+			parse: String,
+		},
+		end: {
+			kind: "parsed",
+			brief: "Accepts ISO 8601 with no timezone offsets and in UTC.",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
 			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+		},
+	},
+	operands: [],
+} as const satisfies ApiParameters;
+export type Args = ApiInputs<typeof parameters>;
+const command = apiCommand({
 	command: "list",
 	describe: "List of workflow instances",
-	builder,
-	handler: async (argv): Promise<void> =>
-		runWithTelemetry(
-			{
-				command: "workflows instances list",
-				classification: {
-					safeFlags: ["direction", "status", "dry-run"],
-				} satisfies ArgClassification<Args>,
-			},
-			argv as Record<string, unknown>,
-			async () => {
-				const queryParams: Record<string, unknown> = {
-					page: argv["page"],
-					per_page: argv["per-page"],
-					cursor: argv["cursor"],
-					direction: argv["direction"],
-					status: argv["status"],
-					date_start: argv["start"],
-					date_end: argv["end"],
-				};
-				if (argv.dryRun) {
-					const __cfDryRunAccountId = await resolveAccountIdSilent();
-					formatDryRun({
-						command: "cf workflows instances list",
-						method: "GET",
-						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/workflows/${argv["workflow-name"] == null ? "<workflow-name>" : encodeURIComponent(String(argv["workflow-name"]))}/instances`,
-						pathParams: {
-							"workflow-name": String(argv["workflow-name"] ?? ""),
-						},
-						query: queryParams,
-						bodyKind: "none",
-					});
-					return;
-				}
-				const client = await createCommandClient(argv);
-				const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
-				argv.accountId = accountId;
-
-				const result = await withProgress(`Loading`, async () =>
-					client.send(operation, {
-						account_id: accountId,
-						workflow_name: argv["workflow-name"],
-						...queryParams,
-					})
-				);
-				formatOutput(result, { successLabel: `Loaded` });
-			}
-		),
-};
+	usage:
+		"$0 workflows instances list\n\nLists all instances of a workflow with their execution status.",
+	...parameters,
+	loader: () => import("./list.handler.js"),
+});
 
 export default command;

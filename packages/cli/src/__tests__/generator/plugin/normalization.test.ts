@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vite-plus/test";
 import { generateFiles } from "../../helpers/cli-plugin.js";
+import { generatedOptions } from "../../helpers/command-parser.js";
 import type { CommandMeta } from "../../../lib/command-meta.js";
 
 describe("Forge metadata normalization", () => {
@@ -79,10 +80,7 @@ describe("Forge metadata normalization", () => {
 			(entry) => entry.command === "cf things create"
 		);
 		const code = files.get("things/create.ts") ?? "";
-		const builderNames = Array.from(
-			code.matchAll(/\.option\(['"]([^'"]+)['"],/g),
-			(match) => match[1]
-		);
+		const builderNames = Object.keys(generatedOptions(code));
 
 		expect(command?.options.map((option) => option.name)).toEqual(builderNames);
 		expect(builderNames).toEqual(

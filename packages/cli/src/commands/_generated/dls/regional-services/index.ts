@@ -1,22 +1,17 @@
 import $prefixbindings from "./prefix-bindings/index.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * regional-services command group
  * @generated from apis/overlays/dls.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "regional-services",
 	describe: "Operations for regional-services",
 
-	builder: (yargs) => {
-		return yargs
-			.command($prefixbindings)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		"prefix-bindings": $prefixbindings,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

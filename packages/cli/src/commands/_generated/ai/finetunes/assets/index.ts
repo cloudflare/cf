@@ -1,24 +1,19 @@
 import $create from "./create.js";
 import $download from "./download.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * assets command group
  * @generated from apis/overlays/ai.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "assets",
 	describe: "Operations for finetunes.assets",
 
-	builder: (yargs) => {
-		return yargs
-			.command($create)
-			.command($download)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		create: $create,
+		download: $download,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

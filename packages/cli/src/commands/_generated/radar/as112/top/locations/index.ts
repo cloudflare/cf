@@ -2,27 +2,22 @@ import $dnssec from "./dnssec/index.js";
 import $edns from "./edns/index.js";
 import $get from "./get.js";
 import $ipversion from "./ip-version/index.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * locations command group
  * @generated from apis/overlays/radar.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "locations",
 	describe: "Operations for as112.top.locations",
 
-	builder: (yargs) => {
-		return yargs
-			.command($get)
-			.command($dnssec)
-			.command($edns)
-			.command($ipversion)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		get: $get,
+		dnssec: $dnssec,
+		edns: $edns,
+		"ip-version": $ipversion,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

@@ -1,26 +1,21 @@
 import $authmethods from "./auth-methods/index.js";
 import $get from "./get.js";
 import $list from "./list.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * applications command group
  * @generated from apis/overlays/zero-trust.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "applications",
 	describe: "Operations for casb.applications",
 
-	builder: (yargs) => {
-		return yargs
-			.command($get)
-			.command($list)
-			.command($authmethods)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		get: $get,
+		list: $list,
+		"auth-methods": $authmethods,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

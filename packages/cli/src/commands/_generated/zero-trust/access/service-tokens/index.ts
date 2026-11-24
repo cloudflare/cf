@@ -5,30 +5,25 @@ import $list from "./list.js";
 import $refresh from "./refresh.js";
 import $rotate from "./rotate.js";
 import $update from "./update.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * service-tokens command group
  * @generated from apis/overlays/zero-trust.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "service-tokens",
 	describe: "Operations for access.service-tokens",
 
-	builder: (yargs) => {
-		return yargs
-			.command($create)
-			.command($delete)
-			.command($get)
-			.command($list)
-			.command($refresh)
-			.command($rotate)
-			.command($update)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		create: $create,
+		delete: $delete,
+		get: $get,
+		list: $list,
+		refresh: $refresh,
+		rotate: $rotate,
+		update: $update,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

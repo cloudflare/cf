@@ -1,24 +1,19 @@
 import $create from "./create.js";
 import $list from "./list.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * feedback command group
  * @generated from apis/overlays/bot-management.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "feedback",
 	describe: "Operations for feedback",
 
-	builder: (yargs) => {
-		return yargs
-			.command($create)
-			.command($list)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		create: $create,
+		list: $list,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

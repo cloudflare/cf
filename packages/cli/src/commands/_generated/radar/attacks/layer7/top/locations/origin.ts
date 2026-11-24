@@ -1,83 +1,91 @@
-import operation from "../../../../../_operations/radar/attacks/layer7/top/locations/origin.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * origin command
  * @generated from apis/overlays/radar.ts
  */
-import type { Argv, CommandModule } from "yargs";
-import { createCommandClient } from "#lib/auth.js";
-import { formatDryRun } from "#lib/dry-run.js";
-import { formatOutput } from "#lib/output.js";
-import { withProgress } from "#lib/progress.js";
-import { runWithTelemetry } from "#lib/telemetry/index.js";
+import {
+	apiCommand,
+	type ApiInputs,
+	type ApiParameters,
+} from "#lib/api-command.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 radar attacks layer7 top locations origin\n\nRetrieves the top origin locations of layer 7 attacks. Values are percentages of the total layer 7 attacks, with the origin location determined by the client IP address."
-		)
-		.option("limit", {
-			type: "number",
-			description: "Limits the number of objects returned in the response.",
-		})
-		.option("name", {
-			type: "string",
-			array: true,
-			description: "Array of names used to label the series in the response.",
-		})
-		.option("date-range", {
-			type: "string",
-			array: true,
-			description:
+const parameters = {
+	flags: {
+		limit: {
+			kind: "parsed",
+			brief: "Limits the number of objects returned in the response.",
+			optional: true,
+			parse: Number,
+		},
+		name: {
+			kind: "parsed",
+			brief: "Array of names used to label the series in the response.",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"date-range": {
+			kind: "parsed",
+			brief:
 				"Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters).",
-		})
-		.option("date-start", {
-			type: "string",
-			array: true,
-			description:
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"date-start": {
+			kind: "parsed",
+			brief:
 				"Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected.",
-		})
-		.option("date-end", {
-			type: "string",
-			array: true,
-			description:
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"date-end": {
+			kind: "parsed",
+			brief:
 				"End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected.",
-		})
-		.option("asn", {
-			type: "string",
-			array: true,
-			description:
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		asn: {
+			kind: "parsed",
+			brief:
 				"Filters results by Autonomous System. Specify one or more Autonomous System Numbers (ASNs) as a comma-separated list. Prefix with `-` to exclude ASNs from results. For example, `-174, 3356` excludes results from AS174, but includes results from AS3356.",
-		})
-		.option("continent", {
-			type: "string",
-			array: true,
-			description:
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		continent: {
+			kind: "parsed",
+			brief:
 				"Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA.",
-		})
-		.option("ip-version", {
-			type: "string",
-			array: true,
-			description: "Filters results by IP version (Ipv4 vs. IPv6).",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"ip-version": {
+			kind: "parsed",
+			brief: "Filters results by IP version (Ipv4 vs. IPv6).",
+			variadic: true,
+			optional: true,
 			choices: ["IPv4", "IPv6"],
-		})
-		.coerce("ip-version", (values: string[]) =>
-			values.flatMap((value) => value.split(","))
-		)
-		.option("http-version", {
-			type: "string",
-			array: true,
-			description: "Filters results by HTTP version.",
+			parse: String,
+			coerce: (values: string[]) => values.flatMap((value) => value.split(",")),
+		},
+		"http-version": {
+			kind: "parsed",
+			brief: "Filters results by HTTP version.",
+			variadic: true,
+			optional: true,
 			choices: ["HTTPv1", "HTTPv2", "HTTPv3"],
-		})
-		.coerce("http-version", (values: string[]) =>
-			values.flatMap((value) => value.split(","))
-		)
-		.option("http-method", {
-			type: "string",
-			array: true,
-			description: "Filters results by HTTP method.",
+			parse: String,
+			coerce: (values: string[]) => values.flatMap((value) => value.split(",")),
+		},
+		"http-method": {
+			kind: "parsed",
+			brief: "Filters results by HTTP method.",
+			variadic: true,
+			optional: true,
 			choices: [
 				"GET",
 				"POST",
@@ -126,14 +134,14 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"COOK",
 				"TRACK",
 			],
-		})
-		.coerce("http-method", (values: string[]) =>
-			values.flatMap((value) => value.split(","))
-		)
-		.option("mitigation-product", {
-			type: "string",
-			array: true,
-			description: "Filters the results by layer 7 mitigation product.",
+			parse: String,
+			coerce: (values: string[]) => values.flatMap((value) => value.split(",")),
+		},
+		"mitigation-product": {
+			kind: "parsed",
+			brief: "Filters the results by layer 7 mitigation product.",
+			variadic: true,
+			optional: true,
 			choices: [
 				"DDOS",
 				"WAF",
@@ -143,87 +151,46 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"API_SHIELD",
 				"DATA_LOSS_PREVENTION",
 			],
-		})
-		.coerce("mitigation-product", (values: string[]) =>
-			values.flatMap((value) => value.split(","))
-		)
-		.option("as-category", {
-			type: "string",
-			array: true,
-			description:
+			parse: String,
+			coerce: (values: string[]) => values.flatMap((value) => value.split(",")),
+		},
+		"as-category": {
+			kind: "parsed",
+			brief:
 				"Filters results by the inferred network type of the Autonomous System: `ACCESS_ISP` (networks connecting end users, plus transit), `HOSTING_CLOUD_CONTENT` (hosting providers, clouds and CDNs), `ORGANIZATION` (enterprises, universities, governments, banks and IXP route servers), or `UNCLASSIFIED` (the AS isn't classified, or the traffic couldn't be mapped to an AS). In HTTP, only supported for date ranges starting on or after 2023-05-01.",
+			variadic: true,
+			optional: true,
 			choices: [
 				"ACCESS_ISP",
 				"HOSTING_CLOUD_CONTENT",
 				"ORGANIZATION",
 				"UNCLASSIFIED",
 			],
-		})
-		.coerce("as-category", (values: string[]) =>
-			values.flatMap((value) => value.split(","))
-		)
-		.option("format", {
-			type: "string",
-			description: "Format in which results will be returned.",
-			choices: ["JSON", "CSV"],
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
+			parse: String,
+			coerce: (values: string[]) => values.flatMap((value) => value.split(",")),
+		},
+		format: {
+			kind: "enum",
+			brief: "Format in which results will be returned.",
+			values: ["JSON", "CSV"],
+			optional: true,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
 			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+		},
+	},
+	operands: [],
+} as const satisfies ApiParameters;
+export type Args = ApiInputs<typeof parameters>;
+const command = apiCommand({
 	command: "origin",
 	describe: "Get top origin locations of layer 7 attacks",
-	builder,
-	handler: async (argv): Promise<void> =>
-		runWithTelemetry(
-			{
-				command: "radar attacks layer7 top locations origin",
-				classification: {
-					safeFlags: ["format", "dry-run"],
-				} satisfies ArgClassification<Args>,
-			},
-			argv as Record<string, unknown>,
-			async () => {
-				const queryParams: Record<string, unknown> = {
-					limit: argv["limit"],
-					name: argv["name"],
-					dateRange: argv["date-range"],
-					dateStart: argv["date-start"],
-					dateEnd: argv["date-end"],
-					asn: argv["asn"],
-					continent: argv["continent"],
-					ipVersion: argv["ip-version"],
-					httpVersion: argv["http-version"],
-					httpMethod: argv["http-method"],
-					mitigationProduct: argv["mitigation-product"],
-					asCategory: argv["as-category"],
-					format: argv["format"],
-				};
-				if (argv.dryRun) {
-					formatDryRun({
-						command: "cf radar attacks layer7 top locations origin",
-						method: "GET",
-						url: `https://api.cloudflare.com/client/v4/radar/attacks/layer7/top/locations/origin`,
-						pathParams: {},
-						query: queryParams,
-						bodyKind: "none",
-					});
-					return;
-				}
-				const client = await createCommandClient(argv);
-
-				const result = await withProgress(`Loading`, async () =>
-					client.send(operation, queryParams)
-				);
-				formatOutput(result, { successLabel: `Loaded` });
-			}
-		),
-};
+	usage:
+		"$0 radar attacks layer7 top locations origin\n\nRetrieves the top origin locations of layer 7 attacks. Values are percentages of the total layer 7 attacks, with the origin location determined by the client IP address.",
+	...parameters,
+	loader: () => import("./origin.handler.js"),
+});
 
 export default command;

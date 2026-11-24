@@ -1,24 +1,19 @@
 import $list from "./list.js";
 import $uniquedevices from "./unique-devices/index.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * tests command group
  * @generated from apis/overlays/zero-trust.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "tests",
 	describe: "Operations for dex.overview.tests",
 
-	builder: (yargs) => {
-		return yargs
-			.command($list)
-			.command($uniquedevices)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		list: $list,
+		"unique-devices": $uniquedevices,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

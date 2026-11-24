@@ -1,0 +1,166 @@
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import type { Args } from "./create.js";
+import {
+	createCommandClient,
+	getAccountId,
+	requestApi,
+	resolveAccountIdSilent,
+} from "#lib/auth.js";
+import { compactBody, parseBody, setNestedValue } from "#lib/body-parser.js";
+import { formatDryRun } from "#lib/dry-run.js";
+import { resolveFileToken } from "#lib/input-validation.js";
+import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
+import { formatOutput } from "#lib/output.js";
+import { withProgress } from "#lib/progress.js";
+import {
+	confirmDelete,
+	promptForRequiredEnumField,
+	promptForRequiredField,
+} from "#lib/prompt.js";
+import { runWithTelemetry } from "#lib/telemetry/index.js";
+
+export default async function handle(argv: Args): Promise<void> {
+	return runWithTelemetry(
+		{
+			command: "r2 buckets jobs create",
+			classification: {
+				safeFlags: [
+					"job-type",
+					"destination-storage-class",
+					"source-storage-class",
+					"dry-run",
+					"force",
+				],
+				shortFlagAliases: { f: { canonical: "force", type: "boolean" } },
+			} satisfies ArgClassification<typeof argv>,
+		},
+		argv as Record<string, unknown>,
+		async () => {
+			const headers: Record<string, string> = {};
+			if (argv["cf-r2-jurisdiction"] !== undefined)
+				headers["cf-r2-jurisdiction"] = String(argv["cf-r2-jurisdiction"]);
+			if (argv["cf-r2-data-catalog-check"] !== undefined)
+				headers["cf-r2-data-catalog-check"] = String(
+					argv["cf-r2-data-catalog-check"]
+				);
+			const resolveRequiredFields = async (): Promise<void> => {
+				if (argv["job-type"] === undefined) {
+					argv["job-type"] = await promptForRequiredEnumField(
+						"job-type",
+						"The jobType field",
+						["prefixDelete", "storageClassMigration"] as const
+					);
+				}
+
+				if (
+					argv["job-type"] === "prefixDelete" &&
+					argv["prefix"] === undefined
+				) {
+					argv["prefix"] = await promptForRequiredField(
+						"prefix",
+						"Prefix matched against object keys. A non-empty value must end in \`/\`. An empty string empties the entire bucket. ",
+						{ question: "Enter value for --prefix" }
+					);
+				}
+			};
+			if (argv.dryRun) {
+				if (argv.body === undefined) {
+					await resolveRequiredFields();
+				}
+				const __cfDryRunAccountId = await resolveAccountIdSilent();
+				formatDryRun({
+					command: "cf r2 buckets jobs create",
+					method: "POST",
+					url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/r2/buckets/${argv["bucket-name"] == null ? "<bucket-name>" : encodeURIComponent(String(argv["bucket-name"]))}/jobs`,
+					pathParams: { "bucket-name": String(argv["bucket-name"] ?? "") },
+					bodyKind: "json",
+					body:
+						argv.body !== undefined
+							? parseBody(argv.body)
+							: compactBody({
+									jobType: argv["job-type"],
+									prefix: resolveFileToken(
+										argv["prefix"] as string | undefined,
+										"prefix",
+										"text"
+									),
+									destinationStorageClass: argv["destination-storage-class"],
+									sourceStorageClass: argv["source-storage-class"],
+								}),
+				});
+				return;
+			}
+			const parsedBody =
+				argv.body !== undefined ? parseBody(argv.body) : undefined;
+			const client = await createCommandClient(argv);
+			const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
+			argv.accountId = accountId;
+
+			if (
+				!(await confirmDelete({
+					force: Boolean(argv.force),
+					message: `This starts a background job that either permanently deletes every object under the given prefix (every object in the bucket for an empty prefix) or migrates every object in the bucket between storage classes.`,
+				}))
+			) {
+				return;
+			}
+
+			if (argv.body !== undefined) {
+				const bodyData = parsedBody;
+				const result = await withProgress(`Processing`, async () =>
+					requestApi<unknown>(
+						client,
+						"POST",
+						`/accounts/${accountId}/r2/buckets/${encodeURIComponent(String(argv["bucket-name"]))}/jobs`,
+						{
+							body: bodyData,
+							headers: Object.keys(headers).length > 0 ? headers : undefined,
+						}
+					)
+				);
+				formatOutput(result, { successLabel: `Done` });
+				return;
+			}
+			await resolveRequiredFields();
+
+			// Assemble request body from individual flags
+			const bodyData: Record<string, unknown> = {};
+			if (argv["job-type"] !== undefined)
+				setNestedValue(bodyData, ["jobType"], argv["job-type"]);
+			if (argv["prefix"] !== undefined)
+				setNestedValue(
+					bodyData,
+					["prefix"],
+					resolveFileToken(
+						argv["prefix"] as string | undefined,
+						"prefix",
+						"text"
+					)
+				);
+			if (argv["destination-storage-class"] !== undefined)
+				setNestedValue(
+					bodyData,
+					["destinationStorageClass"],
+					argv["destination-storage-class"]
+				);
+			if (argv["source-storage-class"] !== undefined)
+				setNestedValue(
+					bodyData,
+					["sourceStorageClass"],
+					argv["source-storage-class"]
+				);
+			const result = await withProgress(`Processing`, async () =>
+				requestApi<unknown>(
+					client,
+					"POST",
+					`/accounts/${accountId}/r2/buckets/${encodeURIComponent(String(argv["bucket-name"]))}/jobs`,
+					{
+						body: bodyData,
+						headers: Object.keys(headers).length > 0 ? headers : undefined,
+					}
+				)
+			);
+			formatOutput(result, { successLabel: `Done` });
+		}
+	);
+}

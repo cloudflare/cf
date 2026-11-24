@@ -1,159 +1,51 @@
-import operation from "../../../_operations/zero-trust/access/tags/update.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * update command
  * @generated from apis/overlays/zero-trust.ts
  */
-import type { Argv, CommandModule } from "yargs";
 import {
-	createCommandClient,
-	getAccountId,
-	resolveAccountIdSilent,
-} from "#lib/auth.js";
-import { compactBody, parseBody } from "#lib/body-parser.js";
-import { formatDryRun } from "#lib/dry-run.js";
-import { resolveFileToken } from "#lib/input-validation.js";
-import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
-import { formatOutput } from "#lib/output.js";
-import { withProgress } from "#lib/progress.js";
-import { promptForRequiredField } from "#lib/prompt.js";
-import { runWithTelemetry } from "#lib/telemetry/index.js";
+	apiCommand,
+	type ApiInputs,
+	type ApiParameters,
+} from "#lib/api-command.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage("$0 zero-trust access tags update <tag-name>\n\nUpdate a tag")
-		.positional("tag-name", {
-			type: "string",
-			description: "The name of the tag",
-			demandOption: true,
-		})
-		.option("created-at", {
-			type: "string",
-			description: "The created_at field",
-		})
-		.option("name", { type: "string", description: "The name of the tag" })
-		.option("updated-at", {
-			type: "string",
-			description: "The updated_at field",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
+const parameters = {
+	flags: {
+		"created-at": {
+			kind: "parsed",
+			brief: "The created_at field",
+			optional: true,
+			parse: String,
+		},
+		name: {
+			kind: "parsed",
+			brief: "The name of the tag",
+			optional: true,
+			parse: String,
+		},
+		"updated-at": {
+			kind: "parsed",
+			brief: "The updated_at field",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
 			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "A tag",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+		},
+		body: { kind: "parsed", brief: "A tag", optional: true, parse: String },
+	},
+	operands: [
+		{ placeholder: "tag-name", brief: "The name of the tag", parse: String },
+	],
+} as const satisfies ApiParameters;
+export type Args = ApiInputs<typeof parameters>;
+const command = apiCommand({
 	command: "update <tag-name>",
 	describe: "Update a tag",
-	builder,
-	handler: async (argv): Promise<void> =>
-		runWithTelemetry(
-			{
-				command: "zero-trust access tags update",
-				classification: {
-					safeFlags: ["dry-run"],
-				} satisfies ArgClassification<Args>,
-			},
-			argv as Record<string, unknown>,
-			async () => {
-				const resolveRequiredFields = async (): Promise<void> => {
-					if (argv["name"] === undefined) {
-						argv["name"] = await promptForRequiredField(
-							"name",
-							"The name of the tag"
-						);
-					}
-				};
-				if (argv.dryRun) {
-					if (argv.body === undefined) {
-						await resolveRequiredFields();
-					}
-					const __cfDryRunAccountId = await resolveAccountIdSilent();
-					formatDryRun({
-						command: "cf zero-trust access tags update",
-						method: "PUT",
-						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/access/tags/${argv["tag-name"] == null ? "<tag-name>" : encodeURIComponent(String(argv["tag-name"]))}`,
-						pathParams: { "tag-name": String(argv["tag-name"] ?? "") },
-						bodyKind: "json",
-						body:
-							argv.body !== undefined
-								? parseBody(argv.body)
-								: compactBody({
-										created_at: resolveFileToken(
-											argv["created-at"] as string | undefined,
-											"created-at",
-											"text"
-										),
-										name: resolveFileToken(
-											argv["name"] as string | undefined,
-											"name",
-											"text"
-										),
-										updated_at: resolveFileToken(
-											argv["updated-at"] as string | undefined,
-											"updated-at",
-											"text"
-										),
-									}),
-					});
-					return;
-				}
-				const parsedBody =
-					argv.body !== undefined ? parseBody(argv.body) : undefined;
-				const client = await createCommandClient(argv);
-				const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
-				argv.accountId = accountId;
-
-				if (argv.body !== undefined) {
-					const bodyData = parsedBody;
-					const result = await withProgress(`Updating`, async () =>
-						client.send(operation, {
-							body: bodyData,
-							account_id: accountId,
-							tag_name: argv["tag-name"],
-						})
-					);
-					formatOutput(result, { successLabel: `Updated` });
-					return;
-				}
-				await resolveRequiredFields();
-
-				// Assemble request body from individual flags
-				const bodyData = compactBody({
-					created_at: resolveFileToken(
-						argv["created-at"] as string | undefined,
-						"created-at",
-						"text"
-					),
-					name: resolveFileToken(
-						argv["name"] as string | undefined,
-						"name",
-						"text"
-					),
-					updated_at: resolveFileToken(
-						argv["updated-at"] as string | undefined,
-						"updated-at",
-						"text"
-					),
-				});
-				const result = await withProgress(`Updating`, async () =>
-					client.send(operation, {
-						body: bodyData,
-						account_id: accountId,
-						tag_name: argv["tag-name"],
-					})
-				);
-				formatOutput(result, { successLabel: `Updated` });
-			}
-		),
-};
+	usage: "$0 zero-trust access tags update <tag-name>\n\nUpdate a tag",
+	...parameters,
+	loader: () => import("./update.handler.js"),
+});
 
 export default command;

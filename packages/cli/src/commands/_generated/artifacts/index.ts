@@ -1,22 +1,17 @@
 import $namespaces from "./namespaces/index.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * artifacts command
  * @generated from apis/overlays/artifacts.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "artifacts",
 	describe: "artifacts",
 
-	builder: (yargs) => {
-		return yargs
-			.command($namespaces)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		namespaces: $namespaces,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

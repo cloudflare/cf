@@ -89,6 +89,7 @@
 		"@cloudflare/workers-auth": "0.18.8",
 		"@cloudflare/workers-utils": "0.57.0",
 		"@redocly/openapi-core": "2.82.0",
+		"@stricli/core": "1.3.0",
 		"@types/node": "26.6.6",
 		"@types/semver": "7.8.0",
 		"@types/shell-quote": "^1.7.5",
@@ -96,6 +97,7 @@
 		"@types/yargs": "17.0.35",
 		"chalk": "6.0.1",
 		"ci-info": "^4.5.0",
+		"cliui": "9.0.1",
 		"esbuild": "0.28.2",
 		"figures": "6.1.0",
 		"minimatch": "11.0.9",
@@ -109,8 +111,7 @@
 		"tsx": "4.21.0",
 		"undici": "8.13.0",
 		"vite-plus": "catalog:",
-		"ws": "8.23.0",
-		"yargs": "18.2.0"
+		"ws": "8.23.0"
 	},
 	"config": {
 		"openApiVersion": "3359e90fa19e8e250ab5a402b0f9dbe65bbe82a3"

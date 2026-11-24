@@ -5,30 +5,25 @@ import $get from "./get.js";
 import $items from "./items/index.js";
 import $list from "./list.js";
 import $update from "./update.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * lists command group
  * @generated from apis/overlays/zero-trust.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "lists",
 	describe: "Operations for gateway.lists",
 
-	builder: (yargs) => {
-		return yargs
-			.command($create)
-			.command($delete)
-			.command($edit)
-			.command($get)
-			.command($list)
-			.command($update)
-			.command($items)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		create: $create,
+		delete: $delete,
+		edit: $edit,
+		get: $get,
+		list: $list,
+		update: $update,
+		items: $items,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

@@ -1,24 +1,19 @@
 import $configurations from "./configurations/index.js";
 import $rules from "./rules/index.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * token-validation command group
  * @generated from apis/overlays/api-security.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "token-validation",
 	describe: "Operations for token-validation",
 
-	builder: (yargs) => {
-		return yargs
-			.command($configurations)
-			.command($rules)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		configurations: $configurations,
+		rules: $rules,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

@@ -1,22 +1,17 @@
 import $relays from "./relays/index.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * moq command group
  * @generated from apis/overlays/realtime.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "moq",
 	describe: "MoQ relays for publishing and subscribing to media streams",
 
-	builder: (yargs) => {
-		return yargs
-			.command($relays)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		relays: $relays,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

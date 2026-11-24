@@ -2,12 +2,14 @@ import { stripTypeScriptTypes } from "node:module";
 import { Script } from "node:vm";
 import { runInTempDir, seed } from "@cloudflare/workers-utils/test-helpers";
 import { describe, expect, it, vi } from "vite-plus/test";
-import yargs, { type CommandModule } from "yargs";
 import {
 	readFileForFlag,
 	resolveFileToken,
 } from "../../../lib/input-validation.js";
 import { generateFiles } from "../../helpers/cli-plugin.js";
+import { commandParser } from "../../helpers/command-parser.js";
+import type { CommandModule } from "yargs";
+import { apiCommand } from "#lib/api-command.js";
 
 function setup(files: Map<string, string>, name = "update") {
 	const source = stripTypeScriptTypes(files.get(`things/${name}.ts`) ?? "")
@@ -27,6 +29,7 @@ function setup(files: Map<string, string>, name = "update") {
 	const formatOutput = vi.fn();
 	const formatDryRun = vi.fn();
 	const command = new Script(source).runInNewContext({
+		apiCommand,
 		Blob,
 		FormData,
 		operation: {},
@@ -47,14 +50,7 @@ function setup(files: Map<string, string>, name = "update") {
 		) => task(),
 	}) as CommandModule;
 	const run = (flags: string[] = []) =>
-		yargs([name, ...flags])
-			.exitProcess(false)
-			.command(command)
-			.strict()
-			.fail((message, error) => {
-				throw error ?? new Error(message);
-			})
-			.parseAsync();
+		commandParser([name, ...flags], command).parse();
 	return {
 		run,
 		client,
@@ -340,7 +336,7 @@ describe("multipart bodies", () => {
 		);
 		const code = files.get("things/update.ts") ?? "";
 		for (const field of Object.keys(readOnlyFields)) {
-			expect(code).not.toContain(`.option('${field}',`);
+			expect(code).not.toContain(`"${field}": {`);
 			expect(code).not.toContain(`formData.append('${field}',`);
 		}
 		await seed({ "payload.txt": "writable content" });

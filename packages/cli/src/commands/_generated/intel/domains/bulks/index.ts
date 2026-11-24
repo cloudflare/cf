@@ -1,20 +1,17 @@
 import $get from "./get.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * bulks command group
  * @generated from apis/overlays/intel.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "bulks",
 	describe: "Operations for domains.bulks",
 
-	builder: (yargs) => {
-		return yargs.command($get).demandCommand(1, "Please specify a subcommand");
+	routes: {
+		get: $get,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

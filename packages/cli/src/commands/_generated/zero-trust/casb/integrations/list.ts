@@ -1,124 +1,86 @@
-import operation from "../../../_operations/zero-trust/casb/integrations/list.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * list command
  * @generated from apis/overlays/zero-trust.ts
  */
-import type { Argv, CommandModule } from "yargs";
 import {
-	createCommandClient,
-	getAccountId,
-	resolveAccountIdSilent,
-} from "#lib/auth.js";
-import { formatDryRun } from "#lib/dry-run.js";
-import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
-import { formatOutput } from "#lib/output.js";
-import { withProgress } from "#lib/progress.js";
-import { runWithTelemetry } from "#lib/telemetry/index.js";
+	apiCommand,
+	type ApiInputs,
+	type ApiParameters,
+} from "#lib/api-command.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 zero-trust casb integrations list\n\nReturns a paginated list of integrations for the account."
-		)
-		.option("application", {
-			type: "string",
-			description:
+const parameters = {
+	flags: {
+		application: {
+			kind: "parsed",
+			brief:
 				"Filter by application/vendor (e.g., GOOGLE_WORKSPACE, MICROSOFT_INTERNAL).",
-		})
-		.option("direction", {
-			type: "string",
-			description: "Direction to order results.",
-			choices: ["asc", "desc"],
-		})
-		.option("dlp-enabled", {
-			type: "boolean",
-			description: "Filter by DLP enabled status (true/false).",
-		})
-		.option("order", {
-			type: "string",
-			description: "Field to order results by.",
-			choices: ["application", "created", "name", "status"],
-		})
-		.option("page", {
-			type: "number",
-			description: "Page number within the paginated result set.",
-		})
-		.option("page-size", {
-			type: "number",
-			description: "Number of results per page.",
-		})
-		.option("search", {
-			type: "string",
-			description: "Search integrations by name or application.",
-		})
-		.option("status", {
-			type: "string",
-			description: "Filter by integration status.",
-			choices: ["Healthy", "Initializing", "Offline", "Unhealthy"],
-		})
-		.option("use-cases", {
-			type: "string",
-			description:
+			optional: true,
+			parse: String,
+		},
+		direction: {
+			kind: "enum",
+			brief: "Direction to order results.",
+			values: ["asc", "desc"],
+			optional: true,
+		},
+		"dlp-enabled": {
+			kind: "boolean",
+			brief: "Filter by DLP enabled status (true/false).",
+			optional: true,
+		},
+		order: {
+			kind: "enum",
+			brief: "Field to order results by.",
+			values: ["application", "created", "name", "status"],
+			optional: true,
+		},
+		page: {
+			kind: "parsed",
+			brief: "Page number within the paginated result set.",
+			optional: true,
+			parse: Number,
+		},
+		"page-size": {
+			kind: "parsed",
+			brief: "Number of results per page.",
+			optional: true,
+			parse: Number,
+		},
+		search: {
+			kind: "parsed",
+			brief: "Search integrations by name or application.",
+			optional: true,
+			parse: String,
+		},
+		status: {
+			kind: "enum",
+			brief: "Filter by integration status.",
+			values: ["Healthy", "Initializing", "Offline", "Unhealthy"],
+			optional: true,
+		},
+		"use-cases": {
+			kind: "parsed",
+			brief:
 				"Filter by enabled use cases (e.g., casb, ces). Matches integrations enrolled in any of the specified values. Can be specified multiple times.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
 			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+		},
+	},
+	operands: [],
+} as const satisfies ApiParameters;
+export type Args = ApiInputs<typeof parameters>;
+const command = apiCommand({
 	command: "list",
 	describe: "List integrations",
-	builder,
-	handler: async (argv): Promise<void> =>
-		runWithTelemetry(
-			{
-				command: "zero-trust casb integrations list",
-				classification: {
-					safeFlags: ["direction", "dlp-enabled", "order", "status", "dry-run"],
-				} satisfies ArgClassification<Args>,
-			},
-			argv as Record<string, unknown>,
-			async () => {
-				const queryParams: Record<string, unknown> = {
-					application: argv["application"],
-					direction: argv["direction"],
-					dlp_enabled: argv["dlp-enabled"],
-					order: argv["order"],
-					page: argv["page"],
-					page_size: argv["page-size"],
-					search: argv["search"],
-					status: argv["status"],
-					use_cases: argv["use-cases"],
-				};
-				if (argv.dryRun) {
-					const __cfDryRunAccountId = await resolveAccountIdSilent();
-					formatDryRun({
-						command: "cf zero-trust casb integrations list",
-						method: "GET",
-						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/one/integrations`,
-						pathParams: {},
-						query: queryParams,
-						bodyKind: "none",
-					});
-					return;
-				}
-				const client = await createCommandClient(argv);
-				const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
-				argv.accountId = accountId;
-
-				const result = await withProgress(`Loading`, async () =>
-					client.send(operation, { account_id: accountId, ...queryParams })
-				);
-				formatOutput(result, { successLabel: `Loaded` });
-			}
-		),
-};
+	usage:
+		"$0 zero-trust casb integrations list\n\nReturns a paginated list of integrations for the account.",
+	...parameters,
+	loader: () => import("./list.handler.js"),
+});
 
 export default command;

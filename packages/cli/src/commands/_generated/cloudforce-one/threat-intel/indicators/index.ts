@@ -8,33 +8,28 @@ import $relationships from "./relationships/index.js";
 import $tags from "./tags/index.js";
 import $types from "./types/index.js";
 import $update from "./update.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * indicators command group
  * @generated from apis/overlays/cloudforce-one.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "indicators",
 	describe: "Operations for threat-intel.indicators",
 
-	builder: (yargs) => {
-		return yargs
-			.command($bulkcreate)
-			.command($bulkdelete)
-			.command($create)
-			.command($delete)
-			.command($get)
-			.command($list)
-			.command($update)
-			.command($relationships)
-			.command($tags)
-			.command($types)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		"bulk-create": $bulkcreate,
+		"bulk-delete": $bulkdelete,
+		create: $create,
+		delete: $delete,
+		get: $get,
+		list: $list,
+		update: $update,
+		relationships: $relationships,
+		tags: $tags,
+		types: $types,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

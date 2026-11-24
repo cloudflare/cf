@@ -4,29 +4,24 @@ import $get from "./get.js";
 import $list from "./list.js";
 import $update from "./update.js";
 import $users from "./users/index.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * user-populations command group
  * @generated from apis/overlays/zero-trust.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "user-populations",
 	describe: "Operations for access.user-populations",
 
-	builder: (yargs) => {
-		return yargs
-			.command($create)
-			.command($delete)
-			.command($get)
-			.command($list)
-			.command($update)
-			.command($users)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		create: $create,
+		delete: $delete,
+		get: $get,
+		list: $list,
+		update: $update,
+		users: $users,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

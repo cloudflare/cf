@@ -1,24 +1,19 @@
 import $regionalservices from "./regional-services/index.js";
 import $regions from "./regions/index.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * dls command
  * @generated from apis/overlays/dls.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "dls",
 	describe: "dls",
 
-	builder: (yargs) => {
-		return yargs
-			.command($regionalservices)
-			.command($regions)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		"regional-services": $regionalservices,
+		regions: $regions,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

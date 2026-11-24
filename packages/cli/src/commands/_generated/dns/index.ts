@@ -4,29 +4,24 @@ import $settings from "./settings/index.js";
 import $usage from "./usage/index.js";
 import $views from "./views/index.js";
 import $zonetransfers from "./zone-transfers/index.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * dns command
  * @generated from apis/overlays/dns.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "dns",
 	describe: "dns",
 
-	builder: (yargs) => {
-		return yargs
-			.command($dnssec)
-			.command($records)
-			.command($settings)
-			.command($usage)
-			.command($views)
-			.command($zonetransfers)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		dnssec: $dnssec,
+		records: $records,
+		settings: $settings,
+		usage: $usage,
+		views: $views,
+		"zone-transfers": $zonetransfers,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

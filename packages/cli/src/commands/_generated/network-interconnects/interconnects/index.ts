@@ -5,31 +5,26 @@ import $list from "./list.js";
 import $loadefaultname from "./loa-default-name.js";
 import $loa from "./loa.js";
 import $status from "./status.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * interconnects command group
  * @generated from apis/overlays/network-interconnects.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "interconnects",
 	describe:
 		"Physical cross-connect and partner interconnect sessions with LOA and status tracking",
 
-	builder: (yargs) => {
-		return yargs
-			.command($create)
-			.command($delete)
-			.command($get)
-			.command($list)
-			.command($loa)
-			.command($loadefaultname)
-			.command($status)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		create: $create,
+		delete: $delete,
+		get: $get,
+		list: $list,
+		loa: $loa,
+		"loa-default-name": $loadefaultname,
+		status: $status,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

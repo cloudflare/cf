@@ -1,22 +1,17 @@
 import $events from "./events/index.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * leaks command group
  * @generated from apis/overlays/radar.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "leaks",
 	describe: "Operations for bgp.leaks",
 
-	builder: (yargs) => {
-		return yargs
-			.command($events)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		events: $events,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

@@ -7,32 +7,27 @@ import $regometadata from "./rego-metadata/index.js";
 import $regomodules from "./rego-modules/index.js";
 import $tenantstructures from "./tenant-structures/index.js";
 import $workloads from "./workloads/index.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * cws command group
  * @generated from apis/overlays/zero-trust.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "cws",
 	describe: "Operations for cws",
 
-	builder: (yargs) => {
-		return yargs
-			.command($basicauthcredentials)
-			.command($deployments)
-			.command($domainacls)
-			.command($policies)
-			.command($policysets)
-			.command($regometadata)
-			.command($regomodules)
-			.command($tenantstructures)
-			.command($workloads)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		"basic-auth-credentials": $basicauthcredentials,
+		deployments: $deployments,
+		"domain-acls": $domainacls,
+		policies: $policies,
+		"policy-sets": $policysets,
+		"rego-metadata": $regometadata,
+		"rego-modules": $regomodules,
+		"tenant-structures": $tenantstructures,
+		workloads: $workloads,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

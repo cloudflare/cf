@@ -1,25 +1,20 @@
 import $colos from "./colos/index.js";
 import $get from "./get.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * latency command group
  * @generated from apis/overlays/analytics.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "latency",
 	describe:
 		"Argo Smart Routing latency analytics showing time-to-first-byte improvements",
 
-	builder: (yargs) => {
-		return yargs
-			.command($get)
-			.command($colos)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		get: $get,
+		colos: $colos,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

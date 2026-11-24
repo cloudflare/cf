@@ -5,30 +5,25 @@ import $get from "./get.js";
 import $list from "./list.js";
 import $test from "./test.js";
 import $update from "./update.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * policies command group
  * @generated from apis/overlays/alerting.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "policies",
 	describe: "Operations for policies",
 
-	builder: (yargs) => {
-		return yargs
-			.command($create)
-			.command($delete)
-			.command($get)
-			.command($list)
-			.command($test)
-			.command($update)
-			.command($email)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		create: $create,
+		delete: $delete,
+		get: $get,
+		list: $list,
+		test: $test,
+		update: $update,
+		email: $email,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

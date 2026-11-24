@@ -7,32 +7,27 @@ import $logs from "./logs.js";
 import $sync from "./sync.js";
 import $upload from "./upload.js";
 import $upsert from "./upsert.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * items command group
  * @generated from apis/overlays/ai-search.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "items",
 	describe: "Content indexed by AI Search instances",
 
-	builder: (yargs) => {
-		return yargs
-			.command($chunks)
-			.command($delete)
-			.command($download)
-			.command($get)
-			.command($list)
-			.command($logs)
-			.command($sync)
-			.command($upload)
-			.command($upsert)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		chunks: $chunks,
+		delete: $delete,
+		download: $download,
+		get: $get,
+		list: $list,
+		logs: $logs,
+		sync: $sync,
+		upload: $upload,
+		upsert: $upsert,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

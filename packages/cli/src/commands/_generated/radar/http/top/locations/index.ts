@@ -7,32 +7,27 @@ import $httpversion from "./http-version/index.js";
 import $ipversion from "./ip-version/index.js";
 import $os from "./os/index.js";
 import $tlsversion from "./tls-version/index.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * locations command group
  * @generated from apis/overlays/radar.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "locations",
 	describe: "Operations for http.top.locations",
 
-	builder: (yargs) => {
-		return yargs
-			.command($get)
-			.command($botclass)
-			.command($browserfamily)
-			.command($devicetype)
-			.command($httpprotocol)
-			.command($httpversion)
-			.command($ipversion)
-			.command($os)
-			.command($tlsversion)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		get: $get,
+		"bot-class": $botclass,
+		"browser-family": $browserfamily,
+		"device-type": $devicetype,
+		"http-protocol": $httpprotocol,
+		"http-version": $httpversion,
+		"ip-version": $ipversion,
+		os: $os,
+		"tls-version": $tlsversion,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

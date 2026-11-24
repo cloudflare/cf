@@ -6,33 +6,28 @@ import $models from "./models/index.js";
 import $tasks from "./tasks/index.js";
 import $tomarkdown from "./to-markdown.js";
 import $websearch from "./websearch.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
+import $run from "#commands/ai/run/index.js";
 /**
  * ai command
  * @generated from apis/overlays/ai.ts
  */
-import type { CommandModule } from "yargs";
-import $run from "#commands/ai/run/index.js";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "ai",
 	describe: "ai",
 
-	builder: (yargs) => {
-		return yargs
-			.command($getmodelschema)
-			.command($listmarkdownsupportedformats)
-			.command($run)
-			.command($tomarkdown)
-			.command($websearch)
-			.command($authors)
-			.command($finetunes)
-			.command($models)
-			.command($tasks)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		"get-model-schema": $getmodelschema,
+		"list-markdown-supported-formats": $listmarkdownsupportedformats,
+		run: $run,
+		"to-markdown": $tomarkdown,
+		websearch: $websearch,
+		authors: $authors,
+		finetunes: $finetunes,
+		models: $models,
+		tasks: $tasks,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

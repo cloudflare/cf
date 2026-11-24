@@ -2,7 +2,6 @@ import { stripTypeScriptTypes } from "node:module";
 import { Script } from "node:vm";
 import { runInTempDir, seed } from "@cloudflare/workers-utils/test-helpers";
 import { describe, expect, it, vi } from "vite-plus/test";
-import yargs, { type CommandModule } from "yargs";
 import { derive } from "../../../../generator/plugin/args.js";
 import { compactBody, parseBody } from "../../../lib/body-parser.js";
 import { resolveFileToken } from "../../../lib/input-validation.js";
@@ -13,8 +12,11 @@ import {
 	method,
 	operation,
 } from "../../helpers/cli-plugin.js";
+import { commandParser } from "../../helpers/command-parser.js";
 import type { Method } from "../../../../generator/plugin/commands.js";
 import type { CommandMeta } from "../../../lib/command-meta.js";
+import type { CommandModule } from "yargs";
+import { apiCommand } from "#lib/api-command.js";
 
 describe("exact body-field overrides", () => {
 	const op = operation("post", "/things", {
@@ -216,6 +218,7 @@ describe("emitted nested overrides and metadata", () => {
 				.replace("export default command;", "command;");
 			const formatDryRun = vi.fn();
 			const command = new Script(source).runInNewContext({
+				apiCommand,
 				compactBody,
 				parseBody,
 				resolveFileToken,
@@ -227,14 +230,7 @@ describe("emitted nested overrides and metadata", () => {
 				) => run(),
 			}) as CommandModule;
 			const parse = async (flags: string[]) =>
-				yargs(["create", "--dry-run", ...flags])
-					.exitProcess(false)
-					.command(command)
-					.strict()
-					.fail((message, error) => {
-						throw error ?? new Error(message);
-					})
-					.parseAsync();
+				commandParser(["create", "--dry-run", ...flags], command).parse();
 			for (const [flag, value] of [
 				["settings-label", "child"],
 				["settings-sibling", "sibling"],

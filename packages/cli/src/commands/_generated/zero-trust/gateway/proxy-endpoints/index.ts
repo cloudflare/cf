@@ -3,28 +3,23 @@ import $delete from "./delete.js";
 import $edit from "./edit.js";
 import $get from "./get.js";
 import $list from "./list.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * proxy-endpoints command group
  * @generated from apis/overlays/zero-trust.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "proxy-endpoints",
 	describe: "Operations for gateway.proxy-endpoints",
 
-	builder: (yargs) => {
-		return yargs
-			.command($create)
-			.command($delete)
-			.command($edit)
-			.command($get)
-			.command($list)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		create: $create,
+		delete: $delete,
+		edit: $edit,
+		get: $get,
+		list: $list,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

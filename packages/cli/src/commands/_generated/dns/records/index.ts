@@ -11,36 +11,31 @@ import $scanreview from "./scan-review.js";
 import $scantrigger from "./scan-trigger.js";
 import $scan from "./scan.js";
 import $update from "./update.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * records command group
  * @generated from apis/overlays/dns.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "records",
 	describe: "Operations for records",
 
-	builder: (yargs) => {
-		return yargs
-			.command($bulkapply)
-			.command($create)
-			.command($delete)
-			.command($edit)
-			.command($export)
-			.command($get)
-			.command($import)
-			.command($list)
-			.command($scan)
-			.command($scanlist)
-			.command($scanreview)
-			.command($scantrigger)
-			.command($update)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		"bulk-apply": $bulkapply,
+		create: $create,
+		delete: $delete,
+		edit: $edit,
+		export: $export,
+		get: $get,
+		import: $import,
+		list: $list,
+		scan: $scan,
+		"scan-list": $scanlist,
+		"scan-review": $scanreview,
+		"scan-trigger": $scantrigger,
+		update: $update,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

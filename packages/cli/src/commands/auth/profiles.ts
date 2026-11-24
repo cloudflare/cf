@@ -1,30 +1,12 @@
 import path from "node:path";
 import { getAuthFromEnv, validateProfileName } from "@cloudflare/workers-auth";
+import { apiCommand } from "../../lib/api-command.js";
 import { getProfileStore, login, logout } from "../../lib/oauth/index.js";
 import { formatOutput, printSuccess } from "../../lib/output.js";
+import { savedProfiles } from "../../lib/profile-completions.js";
 import { theme } from "../../lib/ui/index.js";
 import { log } from "../../lib/ui/log.js";
 import type { CommonYargsOptions } from "../../lib/cli-types.js";
-import type { ArgumentsCamelCase, Argv, CommandModule } from "yargs";
-
-interface CreateArgs extends CommonYargsOptions {
-	name: string;
-	browser?: boolean;
-	device?: boolean;
-	scopes?: string[];
-}
-
-interface NamedProfileArgs extends CommonYargsOptions {
-	name: string;
-}
-
-interface ActivateArgs extends NamedProfileArgs {
-	dir?: string;
-}
-
-interface DeactivateArgs extends CommonYargsOptions {
-	dir?: string;
-}
 
 export function assertNoProfileFlag(
 	args: Pick<CommonYargsOptions, "profile">,
@@ -51,36 +33,40 @@ function assertNoEnvCredentials(): void {
 	);
 }
 
-export const createCommand: CommandModule<object, CreateArgs> = {
+export const createCommand = apiCommand({
 	command: "create <name>",
 	describe: "Create or re-authenticate a named auth profile",
-
-	builder: (yargs: Argv): Argv<CreateArgs> =>
-		yargs
-			.positional("name", {
-				type: "string",
-				description: "Name for the auth profile",
-				demandOption: true,
-			})
-			.option("browser", {
-				type: "boolean",
-				description:
-					"Open the authorization link in a browser (use --no-browser to print it instead)",
-				default: true,
-			})
-			.option("device", {
-				type: "boolean",
-				description:
-					"Use OAuth device authorization (use --no-device for the localhost callback flow)",
-				default: true,
-			})
-			.option("scopes", {
-				type: "string",
-				array: true,
-				description: "The set of OAuth scopes to request",
-			}) as Argv<CreateArgs>,
-
-	handler: async (argv: ArgumentsCamelCase<CreateArgs>): Promise<void> => {
+	flags: {
+		browser: {
+			kind: "boolean",
+			brief:
+				"Open the authorization link in a browser (use --no-browser to print it instead)",
+			default: true,
+		},
+		device: {
+			kind: "boolean",
+			brief:
+				"Use OAuth device authorization (use --no-device for the localhost callback flow)",
+			default: true,
+		},
+		scopes: {
+			kind: "parsed",
+			parse: String,
+			brief: "The set of OAuth scopes to request",
+			optional: true,
+			variadic: true,
+		},
+	},
+	operands: [
+		{
+			placeholder: "name",
+			parse: String,
+			brief: "Name for the auth profile",
+			proposeCompletions: (partial) => savedProfiles(partial, false),
+		},
+	],
+	profileCompletion: false,
+	async handler(argv) {
 		assertNoProfileFlag(
 			argv,
 			"create",
@@ -109,22 +95,22 @@ export const createCommand: CommandModule<object, CreateArgs> = {
 			`cf auth activate ${argv.name}`
 		);
 	},
-};
+});
 
-export const deleteCommand: CommandModule<object, NamedProfileArgs> = {
+export const deleteCommand = apiCommand({
 	command: "delete <name>",
 	describe: "Delete a named auth profile",
-
-	builder: (yargs: Argv): Argv<NamedProfileArgs> =>
-		yargs.positional("name", {
-			type: "string",
-			description: "Name of the auth profile to delete",
-			demandOption: true,
-		}) as Argv<NamedProfileArgs>,
-
-	handler: async (
-		argv: ArgumentsCamelCase<NamedProfileArgs>
-	): Promise<void> => {
+	flags: {},
+	operands: [
+		{
+			placeholder: "name",
+			parse: String,
+			brief: "Name of the auth profile to delete",
+			proposeCompletions: (partial) => savedProfiles(partial, false),
+		},
+	],
+	profileCompletion: false,
+	async handler(argv) {
 		assertNoProfileFlag(argv, "delete");
 		assertNoEnvCredentials();
 		validateProfileName(argv.name);
@@ -163,26 +149,28 @@ export const deleteCommand: CommandModule<object, NamedProfileArgs> = {
 			);
 		}
 	},
-};
+});
 
-export const activateCommand: CommandModule<object, ActivateArgs> = {
+export const activateCommand = apiCommand({
 	command: "activate <name> [dir]",
 	describe: "Bind a named auth profile to a directory",
-
-	builder: (yargs: Argv): Argv<ActivateArgs> =>
-		yargs
-			.positional("name", {
-				type: "string",
-				description: "Name of the auth profile to activate",
-				demandOption: true,
-			})
-			.positional("dir", {
-				type: "string",
-				description:
-					"Directory to bind the profile to (defaults to current directory)",
-			}) as Argv<ActivateArgs>,
-
-	handler: (argv: ArgumentsCamelCase<ActivateArgs>): void => {
+	flags: {},
+	operands: [
+		{
+			placeholder: "name",
+			parse: String,
+			brief: "Name of the auth profile to activate",
+			proposeCompletions: (partial) => savedProfiles(partial, false),
+		},
+		{
+			placeholder: "dir",
+			parse: String,
+			brief: "Directory to bind the profile to (defaults to current directory)",
+			optional: true,
+		},
+	],
+	profileCompletion: false,
+	handler(argv) {
 		assertNoProfileFlag(
 			argv,
 			"activate",
@@ -204,20 +192,23 @@ export const activateCommand: CommandModule<object, ActivateArgs> = {
 			`Profile "${argv.name}" activated for "${path.resolve(targetDir)}".`
 		);
 	},
-};
+});
 
-export const deactivateCommand: CommandModule<object, DeactivateArgs> = {
+export const deactivateCommand = apiCommand({
 	command: "deactivate [dir]",
 	describe: "Remove the auth profile binding from a directory",
-
-	builder: (yargs: Argv): Argv<DeactivateArgs> =>
-		yargs.positional("dir", {
-			type: "string",
-			description:
+	flags: {},
+	operands: [
+		{
+			placeholder: "dir",
+			parse: String,
+			brief:
 				"Directory to unbind (defaults to current directory). Must be the exact directory the profile was bound to.",
-		}) as Argv<DeactivateArgs>,
-
-	handler: (argv: ArgumentsCamelCase<DeactivateArgs>): void => {
+			optional: true,
+		},
+	],
+	profileCompletion: false,
+	handler(argv) {
 		assertNoProfileFlag(argv, "deactivate");
 		assertNoEnvCredentials();
 
@@ -241,13 +232,15 @@ export const deactivateCommand: CommandModule<object, DeactivateArgs> = {
 			);
 		}
 	},
-};
+});
 
-export const listCommand: CommandModule<object, CommonYargsOptions> = {
+export const listCommand = apiCommand({
 	command: "list",
 	describe: "List all auth profiles",
-
-	handler: (argv: ArgumentsCamelCase<CommonYargsOptions>): void => {
+	flags: {},
+	operands: [],
+	profileCompletion: false,
+	handler(argv) {
 		assertNoProfileFlag(argv, "list");
 		const profiles = getProfileStore();
 		const bindings = profiles.bindings.read();
@@ -264,4 +257,4 @@ export const listCommand: CommandModule<object, CommonYargsOptions> = {
 			}))
 		);
 	},
-};
+});

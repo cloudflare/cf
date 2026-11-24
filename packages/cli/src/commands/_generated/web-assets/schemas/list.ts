@@ -1,104 +1,62 @@
-import operation from "../../_operations/web-assets/schemas/list.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * list command
  * @generated from apis/overlays/web-assets.ts
  */
-import type { Argv, CommandModule } from "yargs";
-import { createCommandClient, getZoneId } from "#lib/auth.js";
-import { formatDryRun } from "#lib/dry-run.js";
-import { formatOutput } from "#lib/output.js";
-import { withProgress } from "#lib/progress.js";
-import { runWithTelemetry } from "#lib/telemetry/index.js";
+import {
+	apiCommand,
+	type ApiInputs,
+	type ApiParameters,
+} from "#lib/api-command.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 web-assets schemas list\n\nReturns tracked web and API operations and their feature configuration rendered as OpenAPI schemas."
-		)
-		.option("host", {
-			type: "string",
-			array: true,
-			description: "Receive schema only for the given host(s).",
-		})
-		.option("feature", {
-			type: "string",
-			array: true,
-			description:
+const parameters = {
+	flags: {
+		host: {
+			kind: "parsed",
+			brief: "Receive schema only for the given host(s).",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		feature: {
+			kind: "parsed",
+			brief:
 				"Add feature(s) to the results. The feature name that is given here corresponds to the resulting feature object. Have a look at the top-level object description for more details on the specific meaning.",
+			variadic: true,
+			optional: true,
 			choices: [
 				"thresholds",
 				"parameter_schemas",
 				"schema_info",
 				"confidence_intervals",
 			],
-		})
-		.coerce("feature", (values: string[]) =>
-			values.flatMap((value) => value.split(","))
-		)
-		.option("include-schema-kind", {
-			type: "string",
-			array: true,
-			description: "Schema kinds to include in exported OpenAPI schemas.",
+			parse: String,
+			coerce: (values: string[]) => values.flatMap((value) => value.split(",")),
+		},
+		"include-schema-kind": {
+			kind: "parsed",
+			brief: "Schema kinds to include in exported OpenAPI schemas.",
+			variadic: true,
+			optional: true,
 			choices: ["learned"],
-		})
-		.coerce("include-schema-kind", (values: string[]) =>
-			values.flatMap((value) => value.split(","))
-		)
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
+			parse: String,
+			coerce: (values: string[]) => values.flatMap((value) => value.split(",")),
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
 			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+		},
+	},
+	operands: [],
+} as const satisfies ApiParameters;
+export type Args = ApiInputs<typeof parameters>;
+const command = apiCommand({
 	command: "list",
 	describe: "Export web and API operations as OpenAPI schemas",
-	builder,
-	handler: async (argv): Promise<void> =>
-		runWithTelemetry(
-			{
-				command: "web-assets schemas list",
-				classification: {
-					safeFlags: ["dry-run"],
-				} satisfies ArgClassification<Args>,
-			},
-			argv as Record<string, unknown>,
-			async () => {
-				const queryParams: Record<string, unknown> = {
-					host: argv["host"],
-					feature: argv["feature"],
-					include_schema_kind: argv["include-schema-kind"],
-				};
-				if (argv.dryRun) {
-					formatDryRun({
-						command: "cf web-assets schemas list",
-						method: "GET",
-						url: `https://api.cloudflare.com/client/v4/zones/${argv.zone ?? argv.zoneId ?? "<zone>"}/api_gateway/schemas`,
-						pathParams: {
-							"zone-id": String(argv.zone ?? argv["zone-id"] ?? ""),
-						},
-						query: queryParams,
-						bodyKind: "none",
-					});
-					return;
-				}
-				const client = await createCommandClient(argv);
-				const zoneId = await getZoneId({ zone: argv.zone }, client, {
-					quiet: argv.quiet,
-				});
-				argv.zoneId = zoneId;
-
-				const result = await withProgress(`Loading`, async () =>
-					client.send(operation, { zone_id: zoneId, ...queryParams })
-				);
-				formatOutput(result, { successLabel: `Loaded` });
-			}
-		),
-};
+	usage:
+		"$0 web-assets schemas list\n\nReturns tracked web and API operations and their feature configuration rendered as OpenAPI schemas.",
+	...parameters,
+	loader: () => import("./list.handler.js"),
+});
 
 export default command;

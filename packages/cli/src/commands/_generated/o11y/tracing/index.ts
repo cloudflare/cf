@@ -1,24 +1,19 @@
 import $rules from "./rules/index.js";
 import $settings from "./settings/index.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * tracing command group
  * @generated from apis/overlays/o11y.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "tracing",
 	describe: "Operations for tracing",
 
-	builder: (yargs) => {
-		return yargs
-			.command($rules)
-			.command($settings)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		rules: $rules,
+		settings: $settings,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

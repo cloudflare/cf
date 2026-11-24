@@ -5,31 +5,26 @@ import $instances from "./instances/index.js";
 import $list from "./list.js";
 import $settings from "./settings/index.js";
 import $versions from "./versions/index.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * workflows command
  * @generated from apis/overlays/workflows.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "workflows",
 	describe:
 		"Durable, multi-step workflows that run on Workers with automatic retries and state persistence",
 
-	builder: (yargs) => {
-		return yargs
-			.command($delete)
-			.command($get)
-			.command($list)
-			.command($concurrency)
-			.command($instances)
-			.command($settings)
-			.command($versions)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		delete: $delete,
+		get: $get,
+		list: $list,
+		concurrency: $concurrency,
+		instances: $instances,
+		settings: $settings,
+		versions: $versions,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

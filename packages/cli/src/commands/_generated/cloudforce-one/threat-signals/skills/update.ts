@@ -1,174 +1,73 @@
-import operation from "../../../_operations/cloudforce-one/threat-signals/skills/update.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * update command
  * @generated from apis/overlays/cloudforce-one.ts
  */
-import type { Argv, CommandModule } from "yargs";
 import {
-	createCommandClient,
-	getAccountId,
-	resolveAccountIdSilent,
-} from "#lib/auth.js";
-import { compactBody, parseBody } from "#lib/body-parser.js";
-import { formatDryRun } from "#lib/dry-run.js";
-import { resolveFileToken } from "#lib/input-validation.js";
-import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
-import { formatOutput } from "#lib/output.js";
-import { withProgress } from "#lib/progress.js";
-import { runWithTelemetry } from "#lib/telemetry/index.js";
+	apiCommand,
+	type ApiInputs,
+	type ApiParameters,
+} from "#lib/api-command.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 cloudforce-one threat-signals skills update <skill-id>\n\nUpdates a Custom Skill. Managed Default Skills cannot be updated. Free Threat Signals accounts cannot update Custom Skills. Activating an inactive skill (`is_active` true) returns 403 with `errors[0].reason` `threat_signals_skill_limit` when the account is at its active Custom Skill limit, or `threat_signals_feed_skill_limit` (with `errors[0].feed_id`, `errors[0].feed_custom_skill_limit`, and `errors[0].feed_custom_skill_count`) when a feed it is assigned to is at its per-feed limit."
-		)
-		.positional("skill-id", {
-			type: "string",
-			description: "Custom Skill UUID or a Managed Default Skill ID",
-			demandOption: true,
-		})
-		.option("skill-config", {
-			type: "string",
-			description:
+const parameters = {
+	flags: {
+		"skill-config": {
+			kind: "parsed",
+			brief:
 				"Optional skill configuration (stored but not currently interpreted).",
-		})
-		.option("is-active", {
-			type: "boolean",
-			description:
-				"Whether the skill is active and eligible for feed assignment.",
-		})
-		.option("name", {
-			type: "string",
-			description: "Custom Skill name (1–100 characters).",
-		})
-		.option("output-schema", {
-			type: "string",
-			description: "JSON Schema serialized as a string (max 4096 characters).",
-		})
-		.option("prompt", {
-			type: "string",
-			description:
-				"AI prompt (1–4000 characters) defining the skill's instructions.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
+			optional: true,
+			parse: String,
+		},
+		"is-active": {
+			kind: "boolean",
+			brief: "Whether the skill is active and eligible for feed assignment.",
+			optional: true,
+		},
+		name: {
+			kind: "parsed",
+			brief: "Custom Skill name (1–100 characters).",
+			optional: true,
+			parse: String,
+		},
+		"output-schema": {
+			kind: "parsed",
+			brief: "JSON Schema serialized as a string (max 4096 characters).",
+			optional: true,
+			parse: String,
+		},
+		prompt: {
+			kind: "parsed",
+			brief: "AI prompt (1–4000 characters) defining the skill's instructions.",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
 			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [
+		{
+			placeholder: "skill-id",
+			brief: "Custom Skill UUID or a Managed Default Skill ID",
+			parse: String,
+		},
+	],
+} as const satisfies ApiParameters;
+export type Args = ApiInputs<typeof parameters>;
+const command = apiCommand({
 	command: "update <skill-id>",
 	describe: "Update Threat Signals skill",
-	builder,
-	handler: async (argv): Promise<void> =>
-		runWithTelemetry(
-			{
-				command: "cloudforce-one threat-signals skills update",
-				classification: {
-					safeFlags: ["is-active", "dry-run"],
-				} satisfies ArgClassification<Args>,
-			},
-			argv as Record<string, unknown>,
-			async () => {
-				if (argv.dryRun) {
-					const __cfDryRunAccountId = await resolveAccountIdSilent();
-					formatDryRun({
-						command: "cf cloudforce-one threat-signals skills update",
-						method: "PATCH",
-						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/cloudforce-one/v2/threat-signals/skills/${argv["skill-id"] == null ? "<skill-id>" : encodeURIComponent(String(argv["skill-id"]))}`,
-						pathParams: { "skill-id": String(argv["skill-id"] ?? "") },
-						bodyKind: "json",
-						body:
-							argv.body !== undefined
-								? parseBody(argv.body)
-								: compactBody({
-										config: resolveFileToken(
-											argv["skill-config"] as string | undefined,
-											"skill-config",
-											"text"
-										),
-										is_active: argv["is-active"],
-										name: resolveFileToken(
-											argv["name"] as string | undefined,
-											"name",
-											"text"
-										),
-										output_schema: resolveFileToken(
-											argv["output-schema"] as string | undefined,
-											"output-schema",
-											"text"
-										),
-										prompt: resolveFileToken(
-											argv["prompt"] as string | undefined,
-											"prompt",
-											"text"
-										),
-									}),
-					});
-					return;
-				}
-				const parsedBody =
-					argv.body !== undefined ? parseBody(argv.body) : undefined;
-				const client = await createCommandClient(argv);
-				const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
-				argv.accountId = accountId;
-
-				if (argv.body !== undefined) {
-					const bodyData = parsedBody;
-					const result = await withProgress(`Updating`, async () =>
-						client.send(operation, {
-							body: bodyData,
-							account_id: accountId,
-							skill_id: argv["skill-id"],
-						})
-					);
-					formatOutput(result, { successLabel: `Updated` });
-					return;
-				}
-
-				// Assemble request body from individual flags
-				const bodyData = compactBody({
-					config: resolveFileToken(
-						argv["skill-config"] as string | undefined,
-						"skill-config",
-						"text"
-					),
-					is_active: argv["is-active"],
-					name: resolveFileToken(
-						argv["name"] as string | undefined,
-						"name",
-						"text"
-					),
-					output_schema: resolveFileToken(
-						argv["output-schema"] as string | undefined,
-						"output-schema",
-						"text"
-					),
-					prompt: resolveFileToken(
-						argv["prompt"] as string | undefined,
-						"prompt",
-						"text"
-					),
-				});
-				const result = await withProgress(`Updating`, async () =>
-					client.send(operation, {
-						body: bodyData,
-						account_id: accountId,
-						skill_id: argv["skill-id"],
-					})
-				);
-				formatOutput(result, { successLabel: `Updated` });
-			}
-		),
-};
+	usage:
+		"$0 cloudforce-one threat-signals skills update <skill-id>\n\nUpdates a Custom Skill. Managed Default Skills cannot be updated. Free Threat Signals accounts cannot update Custom Skills. Activating an inactive skill (`is_active` true) returns 403 with `errors[0].reason` `threat_signals_skill_limit` when the account is at its active Custom Skill limit, or `threat_signals_feed_skill_limit` (with `errors[0].feed_id`, `errors[0].feed_custom_skill_limit`, and `errors[0].feed_custom_skill_count`) when a feed it is assigned to is at its per-feed limit.",
+	...parameters,
+	loader: () => import("./update.handler.js"),
+});
 
 export default command;

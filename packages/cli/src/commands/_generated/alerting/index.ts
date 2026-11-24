@@ -3,28 +3,23 @@ import $destinations from "./destinations/index.js";
 import $history from "./history/index.js";
 import $policies from "./policies/index.js";
 import $silences from "./silences/index.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * alerting command
  * @generated from apis/overlays/alerting.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "alerting",
 	describe: "alerting",
 
-	builder: (yargs) => {
-		return yargs
-			.command($availablealerts)
-			.command($destinations)
-			.command($history)
-			.command($policies)
-			.command($silences)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		"available-alerts": $availablealerts,
+		destinations: $destinations,
+		history: $history,
+		policies: $policies,
+		silences: $silences,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

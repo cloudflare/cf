@@ -2,27 +2,22 @@ import $get from "./get.js";
 import $malicious from "./malicious/index.js";
 import $spam from "./spam/index.js";
 import $spoof from "./spoof/index.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * tlds command group
  * @generated from apis/overlays/radar.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "tlds",
 	describe: "Operations for email.security.top.tlds",
 
-	builder: (yargs) => {
-		return yargs
-			.command($get)
-			.command($malicious)
-			.command($spam)
-			.command($spoof)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		get: $get,
+		malicious: $malicious,
+		spam: $spam,
+		spoof: $spoof,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

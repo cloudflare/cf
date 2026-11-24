@@ -1,25 +1,20 @@
 import $connectivityprecheck from "./connectivity-precheck/index.js";
 import $jobs from "./jobs/index.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * super-slurper command group
  * @generated from apis/overlays/r2.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "super-slurper",
 	describe:
 		"Migrate data from external S3-compatible storage into R2 buckets with resumable transfer jobs",
 
-	builder: (yargs) => {
-		return yargs
-			.command($connectivityprecheck)
-			.command($jobs)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		"connectivity-precheck": $connectivityprecheck,
+		jobs: $jobs,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

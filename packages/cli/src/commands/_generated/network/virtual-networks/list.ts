@@ -1,119 +1,74 @@
-import operation from "../../_operations/network/virtual-networks/list.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * list command
  * @generated from apis/overlays/network.ts
  */
-import type { Argv, CommandModule } from "yargs";
 import {
-	createCommandClient,
-	getAccountId,
-	resolveAccountIdSilent,
-} from "#lib/auth.js";
-import { formatDryRun } from "#lib/dry-run.js";
-import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
-import { formatOutput } from "#lib/output.js";
-import { withProgress } from "#lib/progress.js";
-import { runWithTelemetry } from "#lib/telemetry/index.js";
+	apiCommand,
+	type ApiInputs,
+	type ApiParameters,
+} from "#lib/api-command.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 network virtual-networks list\n\nLists and filters virtual networks in an account."
-		)
-		.option("page", {
-			type: "number",
-			description:
-				"Page number of paginated results, starting at 1. Defaults to 1.",
-		})
-		.option("per-page", {
-			type: "number",
-			description:
+const parameters = {
+	flags: {
+		page: {
+			kind: "parsed",
+			brief: "Page number of paginated results, starting at 1. Defaults to 1.",
+			optional: true,
+			parse: Number,
+		},
+		"per-page": {
+			kind: "parsed",
+			brief:
 				"Number of virtual networks per page, up to 1000. Defaults to 1000.",
-		})
-		.option("id", {
-			type: "string",
-			description: "UUID of the virtual network.",
-		})
-		.option("name", {
-			type: "string",
-			description: "A user-friendly name for the virtual network.",
-		})
-		.option("is-default", {
-			type: "boolean",
-			description:
+			optional: true,
+			parse: Number,
+		},
+		id: {
+			kind: "parsed",
+			brief: "UUID of the virtual network.",
+			optional: true,
+			parse: String,
+		},
+		name: {
+			kind: "parsed",
+			brief: "A user-friendly name for the virtual network.",
+			optional: true,
+			parse: String,
+		},
+		"is-default": {
+			kind: "boolean",
+			brief:
 				"If `true`, only include the default virtual network. If `false`, exclude the default virtual network. If empty, all virtual networks will be included.",
-		})
-		.option("is-default-network", {
-			type: "boolean",
-			description:
+			optional: true,
+		},
+		"is-default-network": {
+			kind: "boolean",
+			brief:
 				"If `true`, only include the default virtual network. If `false`, exclude the default virtual network. If empty, all virtual networks will be included.",
-		})
-		.option("is-deleted", {
-			type: "boolean",
-			description:
+			optional: true,
+		},
+		"is-deleted": {
+			kind: "boolean",
+			brief:
 				"If `true`, only include deleted virtual networks. If `false`, exclude deleted virtual networks. If empty, all virtual networks will be included.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
+			optional: true,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
 			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+		},
+	},
+	operands: [],
+} as const satisfies ApiParameters;
+export type Args = ApiInputs<typeof parameters>;
+const command = apiCommand({
 	command: "list",
 	describe: "List virtual networks",
-	builder,
-	handler: async (argv): Promise<void> =>
-		runWithTelemetry(
-			{
-				command: "network virtual-networks list",
-				classification: {
-					safeFlags: [
-						"is-default",
-						"is-default-network",
-						"is-deleted",
-						"dry-run",
-					],
-				} satisfies ArgClassification<Args>,
-			},
-			argv as Record<string, unknown>,
-			async () => {
-				const queryParams: Record<string, unknown> = {
-					page: argv["page"],
-					per_page: argv["per-page"],
-					id: argv["id"],
-					name: argv["name"],
-					is_default: argv["is-default"],
-					is_default_network: argv["is-default-network"],
-					is_deleted: argv["is-deleted"],
-				};
-				if (argv.dryRun) {
-					const __cfDryRunAccountId = await resolveAccountIdSilent();
-					formatDryRun({
-						command: "cf network virtual-networks list",
-						method: "GET",
-						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/teamnet/virtual_networks`,
-						pathParams: {},
-						query: queryParams,
-						bodyKind: "none",
-					});
-					return;
-				}
-				const client = await createCommandClient(argv);
-				const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
-				argv.accountId = accountId;
-
-				const result = await withProgress(`Loading`, async () =>
-					client.send(operation, { account_id: accountId, ...queryParams })
-				);
-				formatOutput(result, { successLabel: `Loaded` });
-			}
-		),
-};
+	usage:
+		"$0 network virtual-networks list\n\nLists and filters virtual networks in an account.",
+	...parameters,
+	loader: () => import("./list.handler.js"),
+});
 
 export default command;

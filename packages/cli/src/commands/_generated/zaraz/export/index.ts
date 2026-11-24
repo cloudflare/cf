@@ -1,21 +1,18 @@
 import $get from "./get.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * export command group
  * @generated from apis/overlays/zaraz.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "export",
 	describe:
 		"Export the current Zaraz configuration as a portable JSON document",
 
-	builder: (yargs) => {
-		return yargs.command($get).demandCommand(1, "Please specify a subcommand");
+	routes: {
+		get: $get,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

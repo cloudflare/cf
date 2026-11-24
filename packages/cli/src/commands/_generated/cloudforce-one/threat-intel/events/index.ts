@@ -18,43 +18,38 @@ import $relationships from "./relationships/index.js";
 import $search from "./search.js";
 import $targetindustries from "./target-industries/index.js";
 import $update from "./update.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * events command group
  * @generated from apis/overlays/cloudforce-one.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "events",
 	describe: "Operations for threat-intel.events",
 
-	builder: (yargs) => {
-		return yargs
-			.command($aggregate)
-			.command($bulkcreate)
-			.command($bulkupdate)
-			.command($copy)
-			.command($create)
-			.command($delete)
-			.command($get)
-			.command($graphql)
-			.command($list)
-			.command($move)
-			.command($search)
-			.command($update)
-			.command($attackers)
-			.command($categories)
-			.command($countries)
-			.command($legacy)
-			.command($queries)
-			.command($raw)
-			.command($relationships)
-			.command($targetindustries)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		aggregate: $aggregate,
+		"bulk-create": $bulkcreate,
+		"bulk-update": $bulkupdate,
+		copy: $copy,
+		create: $create,
+		delete: $delete,
+		get: $get,
+		graphql: $graphql,
+		list: $list,
+		move: $move,
+		search: $search,
+		update: $update,
+		attackers: $attackers,
+		categories: $categories,
+		countries: $countries,
+		legacy: $legacy,
+		queries: $queries,
+		raw: $raw,
+		relationships: $relationships,
+		"target-industries": $targetindustries,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

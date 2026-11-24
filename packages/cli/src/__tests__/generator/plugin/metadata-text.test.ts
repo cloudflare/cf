@@ -5,6 +5,7 @@ import {
 } from "../../../../generator/plugin/files.js";
 import { HandWritten } from "../../../../generator/plugin/hand-written.js";
 import { method, operation } from "../../helpers/cli-plugin.js";
+import { generatedOptions } from "../../helpers/command-parser.js";
 import type { Command } from "../../../../generator/plugin/commands.js";
 import type { CommandMeta } from "../../../lib/command-meta.js";
 
@@ -50,9 +51,7 @@ describe("command metadata text option", () => {
 		"matches the runtime option for %s responses",
 		(contentType) => {
 			const { meta, code } = generate(contentType);
-			const match = code.match(/\.option\("text", (\{[^\n]*\})\)/);
-			expect(match).not.toBeNull();
-			const runtime = JSON.parse(match?.[1] ?? "") as Record<string, unknown>;
+			const runtime = generatedOptions(code).text;
 			expect(runtime).toMatchObject({ type: "boolean", default: false });
 			expect(meta.options.filter((option) => option.name === "text")).toEqual([
 				{ name: "text", required: false, ...runtime },
@@ -69,7 +68,7 @@ describe("command metadata text option", () => {
 		(contentType, status) => {
 			const { meta, code } = generate(contentType, status);
 			expect(meta.options.some((option) => option.name === "text")).toBe(false);
-			expect(code).not.toContain('.option("text"');
+			expect(code).not.toContain('"text": {');
 		}
 	);
 });

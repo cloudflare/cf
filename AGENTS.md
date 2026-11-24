@@ -124,7 +124,7 @@ In the rules below, `src/` means `packages/cli/src/`.
 - Keep the hand-written registry import-free plain data; root lazy loaders
   and telemetry belong in `root-commands.ts`. Keep each command's `meta.ts`
   sidecar and the typed `hand-written-meta.ts` list in sync.
-- Let strict yargs own unknown-option validation. Keep emitter options and
+- Keep unknown-option validation in the shared command parser. Keep emitter options and
   metadata synchronized. Reserve a new cross-cutting flag in
   `src/lib/global-options.ts` before introducing it; generation fails on any
   API field that would take a flag cf owns.

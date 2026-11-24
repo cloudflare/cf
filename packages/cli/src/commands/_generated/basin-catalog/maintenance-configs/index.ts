@@ -1,25 +1,20 @@
 import $get from "./get.js";
 import $update from "./update.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * maintenance-configs command group
  * @generated from apis/overlays/basin-catalog.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "maintenance-configs",
 	describe:
 		"Table maintenance settings — compaction schedules and snapshot expiration policies",
 
-	builder: (yargs) => {
-		return yargs
-			.command($get)
-			.command($update)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		get: $get,
+		update: $update,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

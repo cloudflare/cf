@@ -1,11 +1,13 @@
 import { stripTypeScriptTypes } from "node:module";
 import { Script } from "node:vm";
 import { describe, expect, it } from "vite-plus/test";
-import yargs, { type CommandModule } from "yargs";
 import { Client, type Operation } from "../../../api/client.js";
 import { path } from "../../../api/path.js";
 import { generateFiles } from "../../helpers/cli-plugin.js";
+import { commandParser } from "../../helpers/command-parser.js";
 import type { CommandsMetadata } from "../../../lib/command-meta.js";
+import type { CommandModule } from "yargs";
+import { apiCommand } from "#lib/api-command.js";
 
 const enumValues = ["001", "a/b &c", "literal,comma"];
 const enumSchema = { type: "string", enum: enumValues };
@@ -111,6 +113,7 @@ describe.each(
 				},
 			});
 			const command = new Script(source).runInNewContext({
+				apiCommand,
 				operation,
 				createCommandClient: async () => client,
 				formatOutput: () => {},
@@ -122,19 +125,14 @@ describe.each(
 					task: () => Promise<void>
 				) => task(),
 			}) as CommandModule;
-			const argv = await yargs(["list", ...flags])
-				.exitProcess(false)
-				.command(command)
-				.strict()
-				.fail((message, error) => {
-					throw error ?? new Error(message);
-				})
-				.parseAsync();
+			const argv = await commandParser(["list", ...flags], command).parse();
 			return { argv, urls };
 		}
 
 		it("preserves the array type and publishes item choices", () => {
-			expect(source).toContain('"type":"string","array":true');
+			expect(source).toMatch(
+				/"indicator-ids": \{[^}]*"variadic":true[^}]*parse: String/
+			);
 			if (choices === undefined) {
 				expect(source).not.toContain('"choices"');
 			} else {
@@ -149,9 +147,9 @@ describe.each(
 			expect(option).toMatchObject({ type: "string", required: true });
 			expect(option?.enum).toEqual(choices);
 			if (choices !== undefined) {
-				expect(source).toContain('.coerce("indicator-ids"');
+				expect(source).toContain("coerce: (values");
 			} else {
-				expect(source).not.toContain(".coerce(");
+				expect(source).not.toContain("coerce:");
 			}
 		});
 

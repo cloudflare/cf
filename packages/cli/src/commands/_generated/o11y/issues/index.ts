@@ -9,34 +9,29 @@ import $remove from "./remove.js";
 import $summary from "./summary.js";
 import $ungroup from "./ungroup.js";
 import $update from "./update.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * issues command group
  * @generated from apis/overlays/o11y.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "issues",
 	describe: "Operations for issues",
 
-	builder: (yargs) => {
-		return yargs
-			.command($add)
-			.command($get)
-			.command($group)
-			.command($list)
-			.command($notify)
-			.command($occurrences)
-			.command($remove)
-			.command($summary)
-			.command($ungroup)
-			.command($update)
-			.command($automations)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		add: $add,
+		get: $get,
+		group: $group,
+		list: $list,
+		notify: $notify,
+		occurrences: $occurrences,
+		remove: $remove,
+		summary: $summary,
+		ungroup: $ungroup,
+		update: $update,
+		automations: $automations,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

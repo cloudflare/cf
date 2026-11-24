@@ -5,31 +5,26 @@ import $read from "./read.js";
 import $sync from "./sync.js";
 import $toolcallanalytics from "./tool-call-analytics.js";
 import $update from "./update.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * servers command group
  * @generated from apis/overlays/mcp.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "servers",
 	describe:
 		"Manage upstream MCP servers, credentials, capabilities, and sync state",
 
-	builder: (yargs) => {
-		return yargs
-			.command($create)
-			.command($delete)
-			.command($list)
-			.command($read)
-			.command($sync)
-			.command($toolcallanalytics)
-			.command($update)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		create: $create,
+		delete: $delete,
+		list: $list,
+		read: $read,
+		sync: $sync,
+		"tool-call-analytics": $toolcallanalytics,
+		update: $update,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

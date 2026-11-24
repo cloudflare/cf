@@ -6,31 +6,26 @@ import $list from "./list.js";
 import $preview from "./preview.js";
 import $reputation from "./reputation/index.js";
 import $update from "./update.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * subdomains command group
  * @generated from apis/overlays/email-sending.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "subdomains",
 	describe: "Configure sending subdomains and keep their DNS records healthy",
 
-	builder: (yargs) => {
-		return yargs
-			.command($create)
-			.command($delete)
-			.command($get)
-			.command($list)
-			.command($preview)
-			.command($update)
-			.command($dns)
-			.command($reputation)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		create: $create,
+		delete: $delete,
+		get: $get,
+		list: $list,
+		preview: $preview,
+		update: $update,
+		dns: $dns,
+		reputation: $reputation,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

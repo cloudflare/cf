@@ -1,22 +1,17 @@
 import $accesscheck from "./access-check.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * legal-response command group
  * @generated from apis/overlays/cloudforce-one.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "legal-response",
 	describe: "Operations for requests.legal-response",
 
-	builder: (yargs) => {
-		return yargs
-			.command($accesscheck)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		"access-check": $accesscheck,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

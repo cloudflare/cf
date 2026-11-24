@@ -5,30 +5,25 @@ import $delete from "./delete.js";
 import $get from "./get.js";
 import $list from "./list.js";
 import $put from "./put.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * keys command group
  * @generated from apis/overlays/kv.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "keys",
 	describe: "Operations for keys",
 
-	builder: (yargs) => {
-		return yargs
-			.command($bulkdelete)
-			.command($bulkget)
-			.command($bulkput)
-			.command($delete)
-			.command($get)
-			.command($list)
-			.command($put)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		"bulk-delete": $bulkdelete,
+		"bulk-get": $bulkget,
+		"bulk-put": $bulkput,
+		delete: $delete,
+		get: $get,
+		list: $list,
+		put: $put,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

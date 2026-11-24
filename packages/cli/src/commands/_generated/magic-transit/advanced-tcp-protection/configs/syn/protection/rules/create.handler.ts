@@ -1,0 +1,166 @@
+import operation from "../../../../../../_operations/magic-transit/advanced-tcp-protection/configs/syn/protection/rules/create.js";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import type { Args } from "./create.js";
+import {
+	createCommandClient,
+	getAccountId,
+	resolveAccountIdSilent,
+} from "#lib/auth.js";
+import { compactBody, parseBody } from "#lib/body-parser.js";
+import { formatDryRun } from "#lib/dry-run.js";
+import { resolveFileToken } from "#lib/input-validation.js";
+import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
+import { formatOutput } from "#lib/output.js";
+import { withProgress } from "#lib/progress.js";
+import { promptForRequiredField } from "#lib/prompt.js";
+import { runWithTelemetry } from "#lib/telemetry/index.js";
+
+export default async function handle(argv: Args): Promise<void> {
+	return runWithTelemetry(
+		{
+			command:
+				"magic-transit advanced-tcp-protection configs syn protection rules create",
+			classification: { safeFlags: ["dry-run"] } satisfies ArgClassification<
+				typeof argv
+			>,
+		},
+		argv as Record<string, unknown>,
+		async () => {
+			const resolveRequiredFields = async (): Promise<void> => {
+				if (argv["burst-sensitivity"] === undefined) {
+					argv["burst-sensitivity"] = await promptForRequiredField(
+						"burst-sensitivity",
+						"The burst sensitivity. Must be one of 'low', 'medium', 'high'."
+					);
+				}
+				if (argv["protection-mode"] === undefined) {
+					argv["protection-mode"] = await promptForRequiredField(
+						"protection-mode",
+						"The mode for SYN Protection. Must be one of 'enabled', 'disabled', 'monitoring'."
+					);
+				}
+				if (argv["name"] === undefined) {
+					argv["name"] = await promptForRequiredField(
+						"name",
+						"The name of the SYN Protection rule. Value is relative to the 'scope' setting. For 'global' scope, name should be 'global'. For either the 'region' or 'datacenter' scope, name should be the actual name of the region or datacenter, e.g., 'wnam' or 'lax'."
+					);
+				}
+				if (argv["rate-sensitivity"] === undefined) {
+					argv["rate-sensitivity"] = await promptForRequiredField(
+						"rate-sensitivity",
+						"The rate sensitivity. Must be one of 'low', 'medium', 'high'."
+					);
+				}
+				if (argv["scope"] === undefined) {
+					argv["scope"] = await promptForRequiredField(
+						"scope",
+						"The scope for the SYN Protection rule. Must be one of 'global', 'region', or 'datacenter'."
+					);
+				}
+			};
+			if (argv.dryRun) {
+				if (argv.body === undefined) {
+					await resolveRequiredFields();
+				}
+				const __cfDryRunAccountId = await resolveAccountIdSilent();
+				formatDryRun({
+					command:
+						"cf magic-transit advanced-tcp-protection configs syn protection rules create",
+					method: "POST",
+					url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/magic/advanced_tcp_protection/configs/syn_protection/rules`,
+					pathParams: {},
+					bodyKind: "json",
+					body:
+						argv.body !== undefined
+							? parseBody(argv.body)
+							: compactBody({
+									burst_sensitivity: resolveFileToken(
+										argv["burst-sensitivity"] as string | undefined,
+										"burst-sensitivity",
+										"text"
+									),
+									mitigation_type: resolveFileToken(
+										argv["mitigation-type"] as string | undefined,
+										"mitigation-type",
+										"text"
+									),
+									mode: resolveFileToken(
+										argv["protection-mode"] as string | undefined,
+										"protection-mode",
+										"text"
+									),
+									name: resolveFileToken(
+										argv["name"] as string | undefined,
+										"name",
+										"text"
+									),
+									rate_sensitivity: resolveFileToken(
+										argv["rate-sensitivity"] as string | undefined,
+										"rate-sensitivity",
+										"text"
+									),
+									scope: resolveFileToken(
+										argv["scope"] as string | undefined,
+										"scope",
+										"text"
+									),
+								}),
+				});
+				return;
+			}
+			const parsedBody =
+				argv.body !== undefined ? parseBody(argv.body) : undefined;
+			const client = await createCommandClient(argv);
+			const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
+			argv.accountId = accountId;
+
+			if (argv.body !== undefined) {
+				const bodyData = parsedBody;
+				const result = await withProgress(`Creating`, async () =>
+					client.send(operation, { body: bodyData, account_id: accountId })
+				);
+				formatOutput(result, { successLabel: `Created` });
+				return;
+			}
+			await resolveRequiredFields();
+
+			// Assemble request body from individual flags
+			const bodyData = compactBody({
+				burst_sensitivity: resolveFileToken(
+					argv["burst-sensitivity"] as string | undefined,
+					"burst-sensitivity",
+					"text"
+				),
+				mitigation_type: resolveFileToken(
+					argv["mitigation-type"] as string | undefined,
+					"mitigation-type",
+					"text"
+				),
+				mode: resolveFileToken(
+					argv["protection-mode"] as string | undefined,
+					"protection-mode",
+					"text"
+				),
+				name: resolveFileToken(
+					argv["name"] as string | undefined,
+					"name",
+					"text"
+				),
+				rate_sensitivity: resolveFileToken(
+					argv["rate-sensitivity"] as string | undefined,
+					"rate-sensitivity",
+					"text"
+				),
+				scope: resolveFileToken(
+					argv["scope"] as string | undefined,
+					"scope",
+					"text"
+				),
+			});
+			const result = await withProgress(`Creating`, async () =>
+				client.send(operation, { body: bodyData, account_id: accountId })
+			);
+			formatOutput(result, { successLabel: `Created` });
+		}
+	);
+}

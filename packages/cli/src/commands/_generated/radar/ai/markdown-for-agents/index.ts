@@ -1,24 +1,19 @@
 import $summary from "./summary.js";
 import $timeseries from "./timeseries.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * markdown-for-agents command group
  * @generated from apis/overlays/radar.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "markdown-for-agents",
 	describe: "Operations for ai.markdown-for-agents",
 
-	builder: (yargs) => {
-		return yargs
-			.command($summary)
-			.command($timeseries)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		summary: $summary,
+		timeseries: $timeseries,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

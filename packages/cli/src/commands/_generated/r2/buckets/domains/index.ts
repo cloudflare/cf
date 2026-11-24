@@ -1,24 +1,19 @@
 import $custom from "./custom/index.js";
 import $managed from "./managed/index.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * domains command group
  * @generated from apis/overlays/r2.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "domains",
 	describe: "Operations for buckets.domains",
 
-	builder: (yargs) => {
-		return yargs
-			.command($custom)
-			.command($managed)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		custom: $custom,
+		managed: $managed,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

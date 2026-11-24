@@ -1,24 +1,19 @@
 import $bytimes from "./bytimes/index.js";
 import $summaries from "./summaries/index.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * events command group
  * @generated from apis/overlays/spectrum.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "events",
 	describe: "Operations for analytics.events",
 
-	builder: (yargs) => {
-		return yargs
-			.command($bytimes)
-			.command($summaries)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		bytimes: $bytimes,
+		summaries: $summaries,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

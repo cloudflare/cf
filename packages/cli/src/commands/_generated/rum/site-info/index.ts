@@ -6,32 +6,27 @@ import $listzonetags from "./list-zone-tags.js";
 import $list from "./list.js";
 import $update from "./update.js";
 import $validatehostname from "./validate-hostname.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * site-info command group
  * @generated from apis/overlays/rum.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "site-info",
 	describe:
 		"Web Analytics sites — register domains and get the JavaScript beacon snippet",
 
-	builder: (yargs) => {
-		return yargs
-			.command($create)
-			.command($delete)
-			.command($get)
-			.command($list)
-			.command($listsitetags)
-			.command($listzonetags)
-			.command($update)
-			.command($validatehostname)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		create: $create,
+		delete: $delete,
+		get: $get,
+		list: $list,
+		"list-site-tags": $listsitetags,
+		"list-zone-tags": $listzonetags,
+		update: $update,
+		"validate-hostname": $validatehostname,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

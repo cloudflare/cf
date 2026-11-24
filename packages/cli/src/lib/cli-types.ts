@@ -1,12 +1,6 @@
 /**
- * Yargs argv-shape helpers shared between hand-written commands and
- * the generated `_generated/` tree.
- *
- * Replaces the per-command hand-emitted `interface XArgs { … }` blocks
- * that used to live at the top of every generated module. Yargs already
- * knows the type of every option that's been declared on the builder
- * chain — `InferArgs<typeof builder>` projects that knowledge back into
- * a single type the handler can accept.
+ * Legacy builder argv types for hand-written commands. Generated API commands
+ * infer handler inputs from their native parameter declarations in api-command.ts.
  *
  * Modelled on wrangler's `StrictYargsOptionsToInterface` /
  * `CommonYargsOptions` pair (see `packages/wrangler/src/yargs-types.ts`

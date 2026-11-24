@@ -1,24 +1,19 @@
 import $getbanners from "./get-banners.js";
 import $get from "./get.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * results command group
  * @generated from apis/overlays/cloudforce-one.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "results",
 	describe: "Operations for scans.results",
 
-	builder: (yargs) => {
-		return yargs
-			.command($get)
-			.command($getbanners)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		get: $get,
+		"get-banners": $getbanners,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

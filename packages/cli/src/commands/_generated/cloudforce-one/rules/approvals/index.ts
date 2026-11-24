@@ -2,27 +2,22 @@ import $cancel from "./cancel.js";
 import $get from "./get.js";
 import $list from "./list.js";
 import $resubmit from "./resubmit.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * approvals command group
  * @generated from apis/overlays/cloudforce-one.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "approvals",
 	describe: "Approval workflow operations",
 
-	builder: (yargs) => {
-		return yargs
-			.command($cancel)
-			.command($get)
-			.command($list)
-			.command($resubmit)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		cancel: $cancel,
+		get: $get,
+		list: $list,
+		resubmit: $resubmit,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

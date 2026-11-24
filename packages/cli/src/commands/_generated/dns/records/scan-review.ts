@@ -1,107 +1,51 @@
-import operation from "../../_operations/dns/records/scan-review.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * scan-review command
  * @generated from apis/overlays/dns.ts
  */
-import type { Argv, CommandModule } from "yargs";
-import { createCommandClient, getZoneId } from "#lib/auth.js";
-import { compactBody, parseBody, parseObjectArray } from "#lib/body-parser.js";
-import { formatDryRun } from "#lib/dry-run.js";
-import { formatOutput } from "#lib/output.js";
-import { withProgress } from "#lib/progress.js";
-import { runWithTelemetry } from "#lib/telemetry/index.js";
+import {
+	apiCommand,
+	type ApiInputs,
+	type ApiParameters,
+} from "#lib/api-command.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 dns records scan-review\n\nAccept or reject DNS records found by the DNS records scan. Accepted records will be permanently added to the zone, while rejected records will be permanently deleted."
-		)
-		.option("accepts", {
-			type: "string",
-			description:
+const parameters = {
+	flags: {
+		accepts: {
+			kind: "parsed",
+			brief:
 				'The accepts field. Provide as a JSON array of objects or @path/to/file.json. Shape: [(({"comment"?: string, "name"?: string, "proxied"?: boolean, "settings"?: {...}, "tags"?: [string], ...more} & {"content"?: string, "private_routing"?: boolean, "type"?: "A"}) | ...more)]. ? marks optional keys.',
-		})
-		.option("rejects", {
-			type: "string",
-			description:
+			optional: true,
+			parse: String,
+		},
+		rejects: {
+			kind: "parsed",
+			brief:
 				'The rejects field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"id": string}].',
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
 			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [],
+} as const satisfies ApiParameters;
+export type Args = ApiInputs<typeof parameters>;
+const command = apiCommand({
 	command: "scan-review",
 	describe: "Review Scanned DNS Records",
-	builder,
-	handler: async (argv): Promise<void> =>
-		runWithTelemetry(
-			{
-				command: "dns records scan-review",
-				classification: {
-					safeFlags: ["dry-run"],
-				} satisfies ArgClassification<Args>,
-			},
-			argv as Record<string, unknown>,
-			async () => {
-				if (argv.dryRun) {
-					formatDryRun({
-						command: "cf dns records scan-review",
-						method: "POST",
-						url: `https://api.cloudflare.com/client/v4/zones/${argv.zone ?? argv.zoneId ?? "<zone>"}/dns_records/scan/review`,
-						pathParams: {
-							"zone-id": String(argv.zone ?? argv["zone-id"] ?? ""),
-						},
-						bodyKind: "json",
-						body:
-							argv.body !== undefined
-								? parseBody(argv.body)
-								: compactBody({
-										accepts: parseObjectArray(argv["accepts"], "accepts"),
-										rejects: parseObjectArray(argv["rejects"], "rejects"),
-									}),
-					});
-					return;
-				}
-				const parsedBody =
-					argv.body !== undefined ? parseBody(argv.body) : undefined;
-				const client = await createCommandClient(argv);
-				const zoneId = await getZoneId({ zone: argv.zone }, client, {
-					quiet: argv.quiet,
-				});
-				argv.zoneId = zoneId;
-
-				if (argv.body !== undefined) {
-					const bodyData = parsedBody;
-					const result = await withProgress(`Creating`, async () =>
-						client.send(operation, { body: bodyData, zone_id: zoneId })
-					);
-					formatOutput(result, { successLabel: `Created` });
-					return;
-				}
-
-				// Assemble request body from individual flags
-				const bodyData = compactBody({
-					accepts: parseObjectArray(argv["accepts"], "accepts"),
-					rejects: parseObjectArray(argv["rejects"], "rejects"),
-				});
-				const result = await withProgress(`Creating`, async () =>
-					client.send(operation, { body: bodyData, zone_id: zoneId })
-				);
-				formatOutput(result, { successLabel: `Created` });
-			}
-		),
-};
+	usage:
+		"$0 dns records scan-review\n\nAccept or reject DNS records found by the DNS records scan. Accepted records will be permanently added to the zone, while rejected records will be permanently deleted.",
+	...parameters,
+	loader: () => import("./scan-review.handler.js"),
+});
 
 export default command;

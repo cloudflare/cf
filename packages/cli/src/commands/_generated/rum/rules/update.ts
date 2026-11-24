@@ -1,150 +1,72 @@
-import operation from "../../_operations/rum/rules/update.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * update command
  * @generated from apis/overlays/rum.ts
  */
-import type { Argv, CommandModule } from "yargs";
 import {
-	createCommandClient,
-	getAccountId,
-	resolveAccountIdSilent,
-} from "#lib/auth.js";
-import { compactBody, parseBody } from "#lib/body-parser.js";
-import { formatDryRun } from "#lib/dry-run.js";
-import { resolveFileToken } from "#lib/input-validation.js";
-import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
-import { formatOutput } from "#lib/output.js";
-import { withProgress } from "#lib/progress.js";
-import { runWithTelemetry } from "#lib/telemetry/index.js";
+	apiCommand,
+	type ApiInputs,
+	type ApiParameters,
+} from "#lib/api-command.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 rum rules update <rule-id>\n\nUpdates a rule in a Web Analytics ruleset."
-		)
-		.positional("rule-id", {
-			type: "string",
-			description: "The Web Analytics rule identifier.",
-			demandOption: true,
-		})
-		.option("ruleset-id", {
-			type: "string",
-			description: "The Web Analytics ruleset identifier.",
-			demandOption: true,
-		})
-		.option("host", { type: "string", description: "The host field" })
-		.option("inclusive", {
-			type: "boolean",
-			description:
+const parameters = {
+	flags: {
+		"ruleset-id": {
+			kind: "parsed",
+			brief: "The Web Analytics ruleset identifier.",
+			parse: String,
+		},
+		host: {
+			kind: "parsed",
+			brief: "The host field",
+			optional: true,
+			parse: String,
+		},
+		inclusive: {
+			kind: "boolean",
+			brief:
 				"Whether the rule includes or excludes traffic from being measured.",
-		})
-		.option("is-paused", {
-			type: "boolean",
-			description: "Whether the rule is paused or not.",
-		})
-		.option("paths", {
-			type: "string",
-			array: true,
-			description: "The paths field",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
+			optional: true,
+		},
+		"is-paused": {
+			kind: "boolean",
+			brief: "Whether the rule is paused or not.",
+			optional: true,
+		},
+		paths: {
+			kind: "parsed",
+			brief: "The paths field",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
 			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [
+		{
+			placeholder: "rule-id",
+			brief: "The Web Analytics rule identifier.",
+			parse: String,
+		},
+	],
+} as const satisfies ApiParameters;
+export type Args = ApiInputs<typeof parameters>;
+const command = apiCommand({
 	command: "update <rule-id>",
 	describe: "Update a Web Analytics rule",
-	builder,
-	handler: async (argv): Promise<void> =>
-		runWithTelemetry(
-			{
-				command: "rum rules update",
-				classification: {
-					safeFlags: ["inclusive", "is-paused", "dry-run"],
-				} satisfies ArgClassification<Args>,
-			},
-			argv as Record<string, unknown>,
-			async () => {
-				if (argv.dryRun) {
-					const __cfDryRunAccountId = await resolveAccountIdSilent();
-					formatDryRun({
-						command: "cf rum rules update",
-						method: "PUT",
-						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/rum/v2/${argv["ruleset-id"] == null ? "<ruleset-id>" : encodeURIComponent(String(argv["ruleset-id"]))}/rule/${argv["rule-id"] == null ? "<rule-id>" : encodeURIComponent(String(argv["rule-id"]))}`,
-						pathParams: {
-							"ruleset-id": String(argv["ruleset-id"] ?? ""),
-							"rule-id": String(argv["rule-id"] ?? ""),
-						},
-						bodyKind: "json",
-						body:
-							argv.body !== undefined
-								? parseBody(argv.body)
-								: compactBody({
-										host: resolveFileToken(
-											argv["host"] as string | undefined,
-											"host",
-											"text"
-										),
-										inclusive: argv["inclusive"],
-										is_paused: argv["is-paused"],
-										paths: argv["paths"],
-									}),
-					});
-					return;
-				}
-				const parsedBody =
-					argv.body !== undefined ? parseBody(argv.body) : undefined;
-				const client = await createCommandClient(argv);
-				const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
-				argv.accountId = accountId;
-
-				if (argv.body !== undefined) {
-					const bodyData = parsedBody;
-					const result = await withProgress(`Updating`, async () =>
-						client.send(operation, {
-							body: bodyData,
-							account_id: accountId,
-							ruleset_id: argv["ruleset-id"],
-							rule_id: argv["rule-id"],
-						})
-					);
-					formatOutput(result, { successLabel: `Updated` });
-					return;
-				}
-
-				// Assemble request body from individual flags
-				const bodyData = compactBody({
-					host: resolveFileToken(
-						argv["host"] as string | undefined,
-						"host",
-						"text"
-					),
-					inclusive: argv["inclusive"],
-					is_paused: argv["is-paused"],
-					paths: argv["paths"],
-				});
-				const result = await withProgress(`Updating`, async () =>
-					client.send(operation, {
-						body: bodyData,
-						account_id: accountId,
-						ruleset_id: argv["ruleset-id"],
-						rule_id: argv["rule-id"],
-					})
-				);
-				formatOutput(result, { successLabel: `Updated` });
-			}
-		),
-};
+	usage:
+		"$0 rum rules update <rule-id>\n\nUpdates a rule in a Web Analytics ruleset.",
+	...parameters,
+	loader: () => import("./update.handler.js"),
+});
 
 export default command;

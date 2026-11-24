@@ -6,31 +6,26 @@ import $list from "./list.js";
 import $samlcertificate from "./saml-certificate/index.js";
 import $scim from "./scim/index.js";
 import $update from "./update.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * identity-providers command group
  * @generated from apis/overlays/zero-trust.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "identity-providers",
 	describe: "Operations for identity-providers",
 
-	builder: (yargs) => {
-		return yargs
-			.command($create)
-			.command($delete)
-			.command($get)
-			.command($list)
-			.command($update)
-			.command($federationgrants)
-			.command($samlcertificate)
-			.command($scim)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		create: $create,
+		delete: $delete,
+		get: $get,
+		list: $list,
+		update: $update,
+		"federation-grants": $federationgrants,
+		"saml-certificate": $samlcertificate,
+		scim: $scim,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

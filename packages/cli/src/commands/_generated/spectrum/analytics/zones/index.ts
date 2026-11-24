@@ -1,22 +1,17 @@
 import $report from "./report/index.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * zones command group
  * @generated from apis/overlays/spectrum.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "zones",
 	describe: "Operations for analytics.zones",
 
-	builder: (yargs) => {
-		return yargs
-			.command($report)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		report: $report,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

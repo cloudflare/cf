@@ -1,24 +1,19 @@
 import $contentfindings from "./content-findings/index.js";
 import $findings from "./findings/index.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * data-security command group
  * @generated from apis/overlays/analytics.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "data-security",
 	describe: "Operations for query.data-security",
 
-	builder: (yargs) => {
-		return yargs
-			.command($contentfindings)
-			.command($findings)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		"content-findings": $contentfindings,
+		findings: $findings,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

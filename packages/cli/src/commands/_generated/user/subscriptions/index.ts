@@ -1,26 +1,21 @@
 import $delete from "./delete.js";
 import $list from "./list.js";
 import $update from "./update.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * subscriptions command group
  * @generated from apis/overlays/user.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "subscriptions",
 	describe: "View and manage zone-level plan subscriptions owned by your user",
 
-	builder: (yargs) => {
-		return yargs
-			.command($delete)
-			.command($list)
-			.command($update)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		delete: $delete,
+		list: $list,
+		update: $update,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

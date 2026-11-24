@@ -2,28 +2,23 @@ import $domain from "./domain/index.js";
 import $internetservices from "./internet-services/index.js";
 import $timeseriesgroups from "./timeseries-groups.js";
 import $top from "./top.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * ranking command group
  * @generated from apis/overlays/radar.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "ranking",
 	describe:
 		"Top domain rankings based on DNS query popularity across the Cloudflare network",
 
-	builder: (yargs) => {
-		return yargs
-			.command($timeseriesgroups)
-			.command($top)
-			.command($domain)
-			.command($internetservices)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		"timeseries-groups": $timeseriesgroups,
+		top: $top,
+		domain: $domain,
+		"internet-services": $internetservices,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

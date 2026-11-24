@@ -4,30 +4,25 @@ import $delete from "./delete.js";
 import $get from "./get.js";
 import $list from "./list.js";
 import $messages from "./messages/index.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * bulk-actions command group
  * @generated from apis/overlays/email-security.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "bulk-actions",
 	describe:
 		"Asynchronous jobs that move or release every message matching a search — create, monitor, and manage bulk jobs",
 
-	builder: (yargs) => {
-		return yargs
-			.command($cancel)
-			.command($create)
-			.command($delete)
-			.command($get)
-			.command($list)
-			.command($messages)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		cancel: $cancel,
+		create: $create,
+		delete: $delete,
+		get: $get,
+		list: $list,
+		messages: $messages,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

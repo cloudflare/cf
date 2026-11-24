@@ -1,127 +1,51 @@
-import operation from "../../../../_operations/cloudforce-one/threat-signals/feeds/skills/update.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * update command
  * @generated from apis/overlays/cloudforce-one.ts
  */
-import type { Argv, CommandModule } from "yargs";
 import {
-	createCommandClient,
-	getAccountId,
-	resolveAccountIdSilent,
-} from "#lib/auth.js";
-import { compactBody, parseBody } from "#lib/body-parser.js";
-import { formatDryRun } from "#lib/dry-run.js";
-import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
-import { formatOutput } from "#lib/output.js";
-import { withProgress } from "#lib/progress.js";
-import { runWithTelemetry } from "#lib/telemetry/index.js";
+	apiCommand,
+	type ApiInputs,
+	type ApiParameters,
+} from "#lib/api-command.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 cloudforce-one threat-signals feeds skills update <feed-id>\n\nReplaces the ordered custom skills assigned to a Threat Signals feed. Requires a paid Threat Signals subscription. Adding an active Custom Skill that would put the feed above its per-feed limit (`cfone.threat.threat_signals_active_skills_per_feed`) returns 403 with `errors[0].reason` `threat_signals_feed_skill_limit`, and `errors[0].feed_custom_skill_limit` and `errors[0].feed_custom_skill_count` give the limit and current count. Removing or reordering skills is always allowed."
-		)
-		.positional("feed-id", {
-			type: "string",
-			description: "UUID of the Threat Signals feed",
-			demandOption: true,
-		})
-		.option("skill-ids", {
-			type: "string",
-			array: true,
-			description:
+const parameters = {
+	flags: {
+		"skill-ids": {
+			kind: "parsed",
+			brief:
 				"Ordered array of Custom Skill UUIDs (max 20). Replaces the feed's custom skill assignments. Free accounts cannot assign custom skills. Managed default skills are unaffected.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
 			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [
+		{
+			placeholder: "feed-id",
+			brief: "UUID of the Threat Signals feed",
+			parse: String,
+		},
+	],
+} as const satisfies ApiParameters;
+export type Args = ApiInputs<typeof parameters>;
+const command = apiCommand({
 	command: "update <feed-id>",
 	describe: "Set Threat Signals feed skills",
-	builder,
-	handler: async (argv): Promise<void> =>
-		runWithTelemetry(
-			{
-				command: "cloudforce-one threat-signals feeds skills update",
-				classification: {
-					safeFlags: ["dry-run"],
-				} satisfies ArgClassification<Args>,
-			},
-			argv as Record<string, unknown>,
-			async () => {
-				const resolveRequiredFields = async (): Promise<void> => {
-					if (argv["skill-ids"] === undefined) {
-						throw new Error(
-							"--skill-ids is required (or pass --body with this field set)."
-						);
-					}
-				};
-				if (argv.dryRun) {
-					if (argv.body === undefined) {
-						await resolveRequiredFields();
-					}
-					const __cfDryRunAccountId = await resolveAccountIdSilent();
-					formatDryRun({
-						command: "cf cloudforce-one threat-signals feeds skills update",
-						method: "PUT",
-						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/cloudforce-one/v2/threat-signals/feeds/${argv["feed-id"] == null ? "<feed-id>" : encodeURIComponent(String(argv["feed-id"]))}/skills`,
-						pathParams: { "feed-id": String(argv["feed-id"] ?? "") },
-						bodyKind: "json",
-						body:
-							argv.body !== undefined
-								? parseBody(argv.body)
-								: compactBody({
-										skill_ids: argv["skill-ids"],
-									}),
-					});
-					return;
-				}
-				const parsedBody =
-					argv.body !== undefined ? parseBody(argv.body) : undefined;
-				const client = await createCommandClient(argv);
-				const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
-				argv.accountId = accountId;
-
-				if (argv.body !== undefined) {
-					const bodyData = parsedBody;
-					const result = await withProgress(`Updating`, async () =>
-						client.send(operation, {
-							body: bodyData,
-							account_id: accountId,
-							feed_id: argv["feed-id"],
-						})
-					);
-					formatOutput(result, { successLabel: `Updated` });
-					return;
-				}
-				await resolveRequiredFields();
-
-				// Assemble request body from individual flags
-				const bodyData = compactBody({
-					skill_ids: argv["skill-ids"],
-				});
-				const result = await withProgress(`Updating`, async () =>
-					client.send(operation, {
-						body: bodyData,
-						account_id: accountId,
-						feed_id: argv["feed-id"],
-					})
-				);
-				formatOutput(result, { successLabel: `Updated` });
-			}
-		),
-};
+	usage:
+		"$0 cloudforce-one threat-signals feeds skills update <feed-id>\n\nReplaces the ordered custom skills assigned to a Threat Signals feed. Requires a paid Threat Signals subscription. Adding an active Custom Skill that would put the feed above its per-feed limit (`cfone.threat.threat_signals_active_skills_per_feed`) returns 403 with `errors[0].reason` `threat_signals_feed_skill_limit`, and `errors[0].feed_custom_skill_limit` and `errors[0].feed_custom_skill_count` give the limit and current count. Removing or reordering skills is always allowed.",
+	...parameters,
+	loader: () => import("./update.handler.js"),
+});
 
 export default command;

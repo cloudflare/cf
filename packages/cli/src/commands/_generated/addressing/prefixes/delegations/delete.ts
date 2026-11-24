@@ -1,100 +1,48 @@
-import operation from "../../../_operations/addressing/prefixes/delegations/delete.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * delete command
  * @generated from apis/overlays/addressing.ts
  */
-import type { Argv, CommandModule } from "yargs";
 import {
-	createCommandClient,
-	getAccountId,
-	resolveAccountIdSilent,
-} from "#lib/auth.js";
-import { formatDryRun } from "#lib/dry-run.js";
-import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
-import { formatOutput } from "#lib/output.js";
-import { withProgress } from "#lib/progress.js";
-import { confirmDelete } from "#lib/prompt.js";
-import { runWithTelemetry } from "#lib/telemetry/index.js";
+	apiCommand,
+	type ApiInputs,
+	type ApiParameters,
+} from "#lib/api-command.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 addressing prefixes delegations delete <delegation-id>\n\nDelete an account delegation for a given IP prefix."
-		)
-		.positional("delegation-id", {
-			type: "string",
-			description: "Identifier of a Delegation.",
-			demandOption: true,
-		})
-		.option("prefix-id", {
-			type: "string",
-			description: "Identifier of an IP Prefix.",
-			demandOption: true,
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
+const parameters = {
+	flags: {
+		"prefix-id": {
+			kind: "parsed",
+			brief: "Identifier of an IP Prefix.",
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
 			default: false,
-		})
-		.option("force", {
-			type: "boolean",
+		},
+		force: {
+			kind: "boolean",
+			brief: "Skip confirmation (useful in scripts and CI)",
 			alias: "f",
-			description: "Skip confirmation (useful in scripts and CI)",
 			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+		},
+	},
+	operands: [
+		{
+			placeholder: "delegation-id",
+			brief: "Identifier of a Delegation.",
+			parse: String,
+		},
+	],
+} as const satisfies ApiParameters;
+export type Args = ApiInputs<typeof parameters>;
+const command = apiCommand({
 	command: "delete <delegation-id>",
 	describe: "Delete Prefix Delegation",
-	builder,
-	handler: async (argv): Promise<void> =>
-		runWithTelemetry(
-			{
-				command: "addressing prefixes delegations delete",
-				classification: {
-					safeFlags: ["dry-run", "force"],
-					shortFlagAliases: { f: { canonical: "force", type: "boolean" } },
-				} satisfies ArgClassification<Args>,
-			},
-			argv as Record<string, unknown>,
-			async () => {
-				if (argv.dryRun) {
-					const __cfDryRunAccountId = await resolveAccountIdSilent();
-					formatDryRun({
-						command: "cf addressing prefixes delegations delete",
-						method: "DELETE",
-						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/addressing/prefixes/${argv["prefix-id"] == null ? "<prefix-id>" : encodeURIComponent(String(argv["prefix-id"]))}/delegations/${argv["delegation-id"] == null ? "<delegation-id>" : encodeURIComponent(String(argv["delegation-id"]))}`,
-						pathParams: {
-							"prefix-id": String(argv["prefix-id"] ?? ""),
-							"delegation-id": String(argv["delegation-id"] ?? ""),
-						},
-						bodyKind: "none",
-					});
-					return;
-				}
-				const client = await createCommandClient(argv);
-				const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
-				argv.accountId = accountId;
-
-				if (!(await confirmDelete({ force: Boolean(argv.force) }))) {
-					return;
-				}
-
-				const result = await withProgress(`Deleting`, async () =>
-					client.send(operation, {
-						account_id: accountId,
-						prefix_id: argv["prefix-id"],
-						delegation_id: argv["delegation-id"],
-					})
-				);
-				formatOutput(result, { successLabel: `Deleted` });
-			}
-		),
-};
+	usage:
+		"$0 addressing prefixes delegations delete <delegation-id>\n\nDelete an account delegation for a given IP prefix.",
+	...parameters,
+	loader: () => import("./delete.handler.js"),
+});
 
 export default command;

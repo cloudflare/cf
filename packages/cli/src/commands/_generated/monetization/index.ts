@@ -1,24 +1,19 @@
 import $accounteligibility from "./account-eligibility/index.js";
 import $rules from "./rules/index.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * monetization command
  * @generated from apis/overlays/monetization.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "monetization",
 	describe: "monetization",
 
-	builder: (yargs) => {
-		return yargs
-			.command($accounteligibility)
-			.command($rules)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		"account-eligibility": $accounteligibility,
+		rules: $rules,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

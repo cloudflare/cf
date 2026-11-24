@@ -1,22 +1,17 @@
 import $update from "./update.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * predefined command group
  * @generated from apis/overlays/zero-trust.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "predefined",
 	describe: "Data Loss Prevention - manage predefined profiles",
 
-	builder: (yargs) => {
-		return yargs
-			.command($update)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		update: $update,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

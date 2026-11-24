@@ -8,35 +8,30 @@ import $search from "./search.js";
 import $transfercheck from "./transfer-check.js";
 import $transferin from "./transfer-in.js";
 import $update from "./update.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
+import $create from "#commands/registrar/registrations/create/index.js";
 /**
  * registrations command group
  * @generated from apis/overlays/registrar.ts
  */
-import type { CommandModule } from "yargs";
-import $create from "#commands/registrar/registrations/create/index.js";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "registrations",
 	describe: "Operations for registrations",
 
-	builder: (yargs) => {
-		return yargs
-			.command($check)
-			.command($create)
-			.command($get)
-			.command($getregistrationstatus)
-			.command($gettransferstatus)
-			.command($getupdatestatus)
-			.command($list)
-			.command($search)
-			.command($transfercheck)
-			.command($transferin)
-			.command($update)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		check: $check,
+		create: $create,
+		get: $get,
+		"get-registration-status": $getregistrationstatus,
+		"get-transfer-status": $gettransferstatus,
+		"get-update-status": $getupdatestatus,
+		list: $list,
+		search: $search,
+		"transfer-check": $transfercheck,
+		"transfer-in": $transferin,
+		update: $update,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

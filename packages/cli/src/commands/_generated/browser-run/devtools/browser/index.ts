@@ -4,29 +4,24 @@ import $liveview from "./live-view/index.js";
 import $protocol from "./protocol.js";
 import $targets from "./targets/index.js";
 import $version from "./version.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * browser command group
  * @generated from apis/overlays/browser-run.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "browser",
 	describe: "Operations for devtools.browser",
 
-	builder: (yargs) => {
-		return yargs
-			.command($create)
-			.command($delete)
-			.command($protocol)
-			.command($version)
-			.command($liveview)
-			.command($targets)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		create: $create,
+		delete: $delete,
+		protocol: $protocol,
+		version: $version,
+		"live-view": $liveview,
+		targets: $targets,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

@@ -1,111 +1,44 @@
-import operation from "../../../_operations/o11y/tracing/rules/update.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * update command
  * @generated from apis/overlays/o11y.ts
  */
-import type { Argv, CommandModule } from "yargs";
-import { createCommandClient, getZoneId } from "#lib/auth.js";
-import { compactBody, parseBody, parseObjectArray } from "#lib/body-parser.js";
-import { formatDryRun } from "#lib/dry-run.js";
-import { formatOutput } from "#lib/output.js";
-import { withProgress } from "#lib/progress.js";
-import { runWithTelemetry } from "#lib/telemetry/index.js";
+import {
+	apiCommand,
+	type ApiInputs,
+	type ApiParameters,
+} from "#lib/api-command.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 o11y tracing rules update\n\nReplace all sampling overrides in a zone's managed Cloudflare Traces ruleset. Rules are evaluated in the supplied order."
-		)
-		.option("rules", {
-			type: "string",
-			description:
+const parameters = {
+	flags: {
+		rules: {
+			kind: "parsed",
+			brief:
 				'Trace rules in evaluation order. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"action": "set_trace_settings", "action_parameters": {...}, "description": string, "enabled": boolean, "expression": string}].',
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
 			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Replace the ordered trace rules",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+		},
+		body: {
+			kind: "parsed",
+			brief: "Replace the ordered trace rules",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [],
+} as const satisfies ApiParameters;
+export type Args = ApiInputs<typeof parameters>;
+const command = apiCommand({
 	command: "update",
 	describe: "Replace zone trace rules",
-	builder,
-	handler: async (argv): Promise<void> =>
-		runWithTelemetry(
-			{
-				command: "o11y tracing rules update",
-				classification: {
-					safeFlags: ["dry-run"],
-				} satisfies ArgClassification<Args>,
-			},
-			argv as Record<string, unknown>,
-			async () => {
-				const resolveRequiredFields = async (): Promise<void> => {
-					if (argv["rules"] === undefined) {
-						throw new Error(
-							"--rules is required (or pass --body with this field set)."
-						);
-					}
-				};
-				if (argv.dryRun) {
-					if (argv.body === undefined) {
-						await resolveRequiredFields();
-					}
-					formatDryRun({
-						command: "cf o11y tracing rules update",
-						method: "PUT",
-						url: `https://api.cloudflare.com/client/v4/zones/${argv.zone ?? argv.zoneId ?? "<zone>"}/observability/tracing/rules`,
-						pathParams: {
-							"zone-id": String(argv.zone ?? argv["zone-id"] ?? ""),
-						},
-						bodyKind: "json",
-						body:
-							argv.body !== undefined
-								? parseBody(argv.body)
-								: compactBody({
-										rules: parseObjectArray(argv["rules"], "rules"),
-									}),
-					});
-					return;
-				}
-				const parsedBody =
-					argv.body !== undefined ? parseBody(argv.body) : undefined;
-				const client = await createCommandClient(argv);
-				const zoneId = await getZoneId({ zone: argv.zone }, client, {
-					quiet: argv.quiet,
-				});
-				argv.zoneId = zoneId;
-
-				if (argv.body !== undefined) {
-					const bodyData = parsedBody;
-					const result = await withProgress(`Updating`, async () =>
-						client.send(operation, { body: bodyData, zone_id: zoneId })
-					);
-					formatOutput(result, { successLabel: `Updated` });
-					return;
-				}
-				await resolveRequiredFields();
-
-				// Assemble request body from individual flags
-				const bodyData = compactBody({
-					rules: parseObjectArray(argv["rules"], "rules"),
-				});
-				const result = await withProgress(`Updating`, async () =>
-					client.send(operation, { body: bodyData, zone_id: zoneId })
-				);
-				formatOutput(result, { successLabel: `Updated` });
-			}
-		),
-};
+	usage:
+		"$0 o11y tracing rules update\n\nReplace all sampling overrides in a zone's managed Cloudflare Traces ruleset. Rules are evaluated in the supplied order.",
+	...parameters,
+	loader: () => import("./update.handler.js"),
+});
 
 export default command;

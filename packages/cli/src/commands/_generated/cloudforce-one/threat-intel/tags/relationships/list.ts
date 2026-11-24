@@ -1,115 +1,68 @@
-import operation from "../../../../_operations/cloudforce-one/threat-intel/tags/relationships/list.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * list command
  * @generated from apis/overlays/cloudforce-one.ts
  */
-import type { Argv, CommandModule } from "yargs";
 import {
-	createCommandClient,
-	getAccountId,
-	resolveAccountIdSilent,
-} from "#lib/auth.js";
-import { formatDryRun } from "#lib/dry-run.js";
-import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
-import { formatOutput } from "#lib/output.js";
-import { withProgress } from "#lib/progress.js";
-import { runWithTelemetry } from "#lib/telemetry/index.js";
+	apiCommand,
+	type ApiInputs,
+	type ApiParameters,
+} from "#lib/api-command.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 cloudforce-one threat-intel tags relationships list\n\nLists the relationships that start at a tag, across the intelligence datasets you can read. Use `datasets` to limit the datasets (`all` and `operational` are equivalent here) and `expand` to include the related entities. Analytics datasets don't store tag associations, so the `analytics` scope returns no results."
-		)
-		.option("tag-uuid", {
-			type: "string",
-			description: "Tag UUID.",
-			demandOption: true,
-		})
-		.option("datasets", {
-			type: "string",
-			array: true,
-			description:
+const parameters = {
+	flags: {
+		"tag-uuid": { kind: "parsed", brief: "Tag UUID.", parse: String },
+		datasets: {
+			kind: "parsed",
+			brief:
 				"Comma-separated dataset UUIDs to scope to, or one standalone scope value: 'all'/'*' or 'operational' for readable intelligence datasets (isAnalytics=false), or 'analytics' for readable analytics datasets (isAnalytics=true). Analytics datasets do not expose tag associations, so 'analytics' returns an empty result. Omit for 'all'.",
-		})
-		.option("search", {
-			type: "string",
-			array: true,
-			description:
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		search: {
+			kind: "parsed",
+			brief:
 				"JSON array of {field, op, value} filters (same as indicator list search).",
-		})
-		.option("expand", {
-			type: "string",
-			array: true,
-			description:
-				"Comma-separated entity types to hydrate (event, indicator, tag).",
-		})
-		.option("cursor", {
-			type: "string",
-			description:
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		expand: {
+			kind: "parsed",
+			brief: "Comma-separated entity types to hydrate (event, indicator, tag).",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		cursor: {
+			kind: "parsed",
+			brief:
 				"Opaque cursor from a previous page. Results are ordered by createdAt ascending. Cursors in an older format are rejected; restart without a cursor.",
-		})
-		.option("page-size", {
-			type: "number",
-			description: "Page size (1–100, default 25).",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
+			optional: true,
+			parse: String,
+		},
+		"page-size": {
+			kind: "parsed",
+			brief: "Page size (1–100, default 25).",
+			optional: true,
+			parse: Number,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
 			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+		},
+	},
+	operands: [],
+} as const satisfies ApiParameters;
+export type Args = ApiInputs<typeof parameters>;
+const command = apiCommand({
 	command: "list",
 	describe: "List tag relationships",
-	builder,
-	handler: async (argv): Promise<void> =>
-		runWithTelemetry(
-			{
-				command: "cloudforce-one threat-intel tags relationships list",
-				classification: {
-					safeFlags: ["dry-run"],
-				} satisfies ArgClassification<Args>,
-			},
-			argv as Record<string, unknown>,
-			async () => {
-				const queryParams: Record<string, unknown> = {
-					datasets: argv["datasets"],
-					search: argv["search"],
-					expand: argv["expand"],
-					cursor: argv["cursor"],
-					pageSize: argv["page-size"],
-				};
-				if (argv.dryRun) {
-					const __cfDryRunAccountId = await resolveAccountIdSilent();
-					formatDryRun({
-						command: "cf cloudforce-one threat-intel tags relationships list",
-						method: "GET",
-						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/cloudforce-one/events/tags/${argv["tag-uuid"] == null ? "<tag-uuid>" : encodeURIComponent(String(argv["tag-uuid"]))}/relationships`,
-						pathParams: { "tag-uuid": String(argv["tag-uuid"] ?? "") },
-						query: queryParams,
-						bodyKind: "none",
-					});
-					return;
-				}
-				const client = await createCommandClient(argv);
-				const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
-				argv.accountId = accountId;
-
-				const result = await withProgress(`Loading`, async () =>
-					client.send(operation, {
-						account_id: accountId,
-						tag_uuid: argv["tag-uuid"],
-						...queryParams,
-					})
-				);
-				formatOutput(result, { successLabel: `Loaded` });
-			}
-		),
-};
+	usage:
+		"$0 cloudforce-one threat-intel tags relationships list\n\nLists the relationships that start at a tag, across the intelligence datasets you can read. Use `datasets` to limit the datasets (`all` and `operational` are equivalent here) and `expand` to include the related entities. Analytics datasets don't store tag associations, so the `analytics` scope returns no results.",
+	...parameters,
+	loader: () => import("./list.handler.js"),
+});
 
 export default command;

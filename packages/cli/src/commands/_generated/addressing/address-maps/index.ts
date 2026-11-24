@@ -6,31 +6,26 @@ import $get from "./get.js";
 import $ips from "./ips/index.js";
 import $list from "./list.js";
 import $zones from "./zones/index.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * address-maps command group
  * @generated from apis/overlays/addressing.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "address-maps",
 	describe: "Operations for address-maps",
 
-	builder: (yargs) => {
-		return yargs
-			.command($create)
-			.command($delete)
-			.command($edit)
-			.command($get)
-			.command($list)
-			.command($accounts)
-			.command($ips)
-			.command($zones)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		create: $create,
+		delete: $delete,
+		edit: $edit,
+		get: $get,
+		list: $list,
+		accounts: $accounts,
+		ips: $ips,
+		zones: $zones,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

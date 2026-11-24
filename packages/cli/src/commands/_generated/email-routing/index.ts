@@ -4,30 +4,25 @@ import $dns from "./dns/index.js";
 import $enable from "./enable.js";
 import $rules from "./rules/index.js";
 import $settings from "./settings/index.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * email-routing command
  * @generated from apis/overlays/email-routing.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "email-routing",
 	describe:
 		"Route incoming email to verified destination addresses or Workers with routing rules, catch-all behavior, and managed DNS records",
 
-	builder: (yargs) => {
-		return yargs
-			.command($disable)
-			.command($enable)
-			.command($addresses)
-			.command($dns)
-			.command($rules)
-			.command($settings)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		disable: $disable,
+		enable: $enable,
+		addresses: $addresses,
+		dns: $dns,
+		rules: $rules,
+		settings: $settings,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

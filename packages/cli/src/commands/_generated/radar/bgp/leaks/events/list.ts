@@ -1,132 +1,106 @@
-import operation from "../../../../_operations/radar/bgp/leaks/events/list.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * list command
  * @generated from apis/overlays/radar.ts
  */
-import type { Argv, CommandModule } from "yargs";
-import { createCommandClient } from "#lib/auth.js";
-import { formatDryRun } from "#lib/dry-run.js";
-import { formatOutput } from "#lib/output.js";
-import { withProgress } from "#lib/progress.js";
-import { runWithTelemetry } from "#lib/telemetry/index.js";
+import {
+	apiCommand,
+	type ApiInputs,
+	type ApiParameters,
+} from "#lib/api-command.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 radar bgp leaks events list\n\nRetrieves the BGP route leak events."
-		)
-		.option("page", {
-			type: "number",
-			description: "Current page number, starting from 1.",
-		})
-		.option("per-page", {
-			type: "number",
-			description: "Number of entries per page.",
-		})
-		.option("event-id", {
-			type: "number",
-			description: "The unique identifier of a event.",
-		})
-		.option("leak-asn", {
-			type: "number",
-			description: "The leaking AS of a route leak event.",
-		})
-		.option("involved-asn", {
-			type: "number",
-			description: "ASN that is causing or affected by a route leak event.",
-		})
-		.option("involved-country", {
-			type: "string",
-			description: "Country code of a involved ASN in a route leak event.",
-		})
-		.option("date-range", {
-			type: "string",
-			description:
+const parameters = {
+	flags: {
+		page: {
+			kind: "parsed",
+			brief: "Current page number, starting from 1.",
+			optional: true,
+			parse: Number,
+		},
+		"per-page": {
+			kind: "parsed",
+			brief: "Number of entries per page.",
+			optional: true,
+			parse: Number,
+		},
+		"event-id": {
+			kind: "parsed",
+			brief: "The unique identifier of a event.",
+			optional: true,
+			parse: Number,
+		},
+		"leak-asn": {
+			kind: "parsed",
+			brief: "The leaking AS of a route leak event.",
+			optional: true,
+			parse: Number,
+		},
+		"involved-asn": {
+			kind: "parsed",
+			brief: "ASN that is causing or affected by a route leak event.",
+			optional: true,
+			parse: Number,
+		},
+		"involved-country": {
+			kind: "parsed",
+			brief: "Country code of a involved ASN in a route leak event.",
+			optional: true,
+			parse: String,
+		},
+		"date-range": {
+			kind: "parsed",
+			brief:
 				"Filters results by a relative date range ending at the current time. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`), e.g. `7d`. Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `3dcontrol` covers days -10 to -7, `7dcontrol` covers days -14 to -7, `28dcontrol` covers days -56 to -28, and `10dcontrol` covers days -24 to -14). Mutually exclusive with `dateStart`/`dateEnd`.",
-		})
-		.option("date-start", {
-			type: "string",
-			description:
+			optional: true,
+			parse: String,
+		},
+		"date-start": {
+			kind: "parsed",
+			brief:
 				"Start of the date range (inclusive). Alternative to `dateRange`; provide together with `dateEnd`.",
-		})
-		.option("date-end", {
-			type: "string",
-			description:
+			optional: true,
+			parse: String,
+		},
+		"date-end": {
+			kind: "parsed",
+			brief:
 				"End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`.",
-		})
-		.option("sort-by", {
-			type: "string",
-			description: "Sorts results by the specified field.",
-			choices: ["ID", "LEAKS", "PEERS", "PREFIXES", "ORIGINS", "TIME"],
-		})
-		.option("sort-order", {
-			type: "string",
-			description: "Sort order.",
-			choices: ["ASC", "DESC"],
-		})
-		.option("format", {
-			type: "string",
-			description: "Format in which results will be returned.",
-			choices: ["JSON", "CSV"],
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
+			optional: true,
+			parse: String,
+		},
+		"sort-by": {
+			kind: "enum",
+			brief: "Sorts results by the specified field.",
+			values: ["ID", "LEAKS", "PEERS", "PREFIXES", "ORIGINS", "TIME"],
+			optional: true,
+		},
+		"sort-order": {
+			kind: "enum",
+			brief: "Sort order.",
+			values: ["ASC", "DESC"],
+			optional: true,
+		},
+		format: {
+			kind: "enum",
+			brief: "Format in which results will be returned.",
+			values: ["JSON", "CSV"],
+			optional: true,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
 			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+		},
+	},
+	operands: [],
+} as const satisfies ApiParameters;
+export type Args = ApiInputs<typeof parameters>;
+const command = apiCommand({
 	command: "list",
 	describe: "Get BGP route leak events",
-	builder,
-	handler: async (argv): Promise<void> =>
-		runWithTelemetry(
-			{
-				command: "radar bgp leaks events list",
-				classification: {
-					safeFlags: ["sort-by", "sort-order", "format", "dry-run"],
-				} satisfies ArgClassification<Args>,
-			},
-			argv as Record<string, unknown>,
-			async () => {
-				const queryParams: Record<string, unknown> = {
-					page: argv["page"],
-					per_page: argv["per-page"],
-					eventId: argv["event-id"],
-					leakAsn: argv["leak-asn"],
-					involvedAsn: argv["involved-asn"],
-					involvedCountry: argv["involved-country"],
-					dateRange: argv["date-range"],
-					dateStart: argv["date-start"],
-					dateEnd: argv["date-end"],
-					sortBy: argv["sort-by"],
-					sortOrder: argv["sort-order"],
-					format: argv["format"],
-				};
-				if (argv.dryRun) {
-					formatDryRun({
-						command: "cf radar bgp leaks events list",
-						method: "GET",
-						url: `https://api.cloudflare.com/client/v4/radar/bgp/leaks/events`,
-						pathParams: {},
-						query: queryParams,
-						bodyKind: "none",
-					});
-					return;
-				}
-				const client = await createCommandClient(argv);
-
-				const result = await withProgress(`Loading`, async () =>
-					client.send(operation, queryParams)
-				);
-				formatOutput(result, { successLabel: `Loaded` });
-			}
-		),
-};
+	usage:
+		"$0 radar bgp leaks events list\n\nRetrieves the BGP route leak events.",
+	...parameters,
+	loader: () => import("./list.handler.js"),
+});
 
 export default command;

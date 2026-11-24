@@ -8,34 +8,29 @@ import $messages from "./messages/index.js";
 import $metrics from "./metrics/index.js";
 import $purge from "./purge/index.js";
 import $subscriptions from "./subscriptions/index.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * queues command
  * @generated from apis/overlays/queues.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "queues",
 	describe:
 		"Reliable message queuing between Workers — produce, consume, and batch-process messages at scale",
 
-	builder: (yargs) => {
-		return yargs
-			.command($create)
-			.command($delete)
-			.command($edit)
-			.command($get)
-			.command($list)
-			.command($consumers)
-			.command($messages)
-			.command($metrics)
-			.command($purge)
-			.command($subscriptions)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		create: $create,
+		delete: $delete,
+		edit: $edit,
+		get: $get,
+		list: $list,
+		consumers: $consumers,
+		messages: $messages,
+		metrics: $metrics,
+		purge: $purge,
+		subscriptions: $subscriptions,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

@@ -1,145 +1,47 @@
-import operation from "../../../../_operations/zero-trust/access/applications/settings/update.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * update command
  * @generated from apis/overlays/zero-trust.ts
  */
-import type { Argv, CommandModule } from "yargs";
 import {
-	createCommandClient,
-	getAccountId,
-	getZoneId,
-	resolveAccountIdSilent,
-} from "#lib/auth.js";
-import { compactBody, parseBody } from "#lib/body-parser.js";
-import { formatDryRun } from "#lib/dry-run.js";
-import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
-import { formatOutput } from "#lib/output.js";
-import { withProgress } from "#lib/progress.js";
-import { runWithTelemetry } from "#lib/telemetry/index.js";
+	apiCommand,
+	type ApiInputs,
+	type ApiParameters,
+} from "#lib/api-command.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 zero-trust access applications settings update <app-id>\n\nUpdates Access application settings.\n\nRuns against your account. Pass --zone to run against a zone instead. CLOUDFLARE_ZONE_ID is ignored."
-		)
-		.positional("app-id", {
-			type: "string",
-			description: "App ID",
-			demandOption: true,
-		})
-		.option("allow-iframe", {
-			type: "boolean",
-			description: "Enables loading application content in an iFrame.",
-		})
-		.option("skip-interstitial", {
-			type: "boolean",
-			description: "Enables automatic authentication through cloudflared.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
+const parameters = {
+	flags: {
+		"allow-iframe": {
+			kind: "boolean",
+			brief: "Enables loading application content in an iFrame.",
+			optional: true,
+		},
+		"skip-interstitial": {
+			kind: "boolean",
+			brief: "Enables automatic authentication through cloudflared.",
+			optional: true,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
 			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [{ placeholder: "app-id", brief: "App ID", parse: String }],
+} as const satisfies ApiParameters;
+export type Args = ApiInputs<typeof parameters>;
+const command = apiCommand({
 	command: "update <app-id>",
 	describe: "Update Access application settings",
-	builder,
-	handler: async (argv): Promise<void> =>
-		runWithTelemetry(
-			{
-				command: "zero-trust access applications settings update",
-				classification: {
-					safeFlags: ["allow-iframe", "skip-interstitial", "dry-run"],
-				} satisfies ArgClassification<Args>,
-			},
-			argv as Record<string, unknown>,
-			async () => {
-				if (argv.dryRun) {
-					const __cfDryRunAccountId =
-						argv.zone === undefined
-							? await resolveAccountIdSilent()
-							: undefined;
-					const accountOrZone = argv.zone === undefined ? "accounts" : "zones";
-					const accountOrZoneId =
-						argv.zone ?? __cfDryRunAccountId ?? "<account-id>";
-					formatDryRun({
-						command: "cf zero-trust access applications settings update",
-						method: "PUT",
-						url: `https://api.cloudflare.com/client/v4/${accountOrZone}/${accountOrZoneId}/access/apps/${argv["app-id"] == null ? "<app-id>" : encodeURIComponent(String(argv["app-id"]))}/settings`,
-						pathParams: {
-							"account-or-zone": String(accountOrZone),
-							"account-or-zone-id": String(accountOrZoneId),
-							"app-id": String(argv["app-id"] ?? ""),
-						},
-						bodyKind: "json",
-						body:
-							argv.body !== undefined
-								? parseBody(argv.body)
-								: compactBody({
-										allow_iframe: argv["allow-iframe"],
-										skip_interstitial: argv["skip-interstitial"],
-									}),
-					});
-					return;
-				}
-				const parsedBody =
-					argv.body !== undefined ? parseBody(argv.body) : undefined;
-				const client = await createCommandClient(argv);
-				const accountOrZone = argv.zone === undefined ? "accounts" : "zones";
-				const accountOrZoneId =
-					accountOrZone === "zones"
-						? await getZoneId({ zone: argv.zone }, client, {
-								quiet: argv.quiet,
-							})
-						: argv.local
-							? LOCAL_ACCOUNT_ID
-							: await getAccountId();
-				if (accountOrZone === "zones") {
-					argv.zoneId = accountOrZoneId;
-				} else {
-					argv.accountId = accountOrZoneId;
-				}
-
-				if (argv.body !== undefined) {
-					const bodyData = parsedBody;
-					const result = await withProgress(`Updating`, async () =>
-						client.send(operation, {
-							body: bodyData,
-							account_or_zone: accountOrZone,
-							account_or_zone_id: accountOrZoneId,
-							app_id: argv["app-id"],
-						})
-					);
-					formatOutput(result, { successLabel: `Updated` });
-					return;
-				}
-
-				// Assemble request body from individual flags
-				const bodyData = compactBody({
-					allow_iframe: argv["allow-iframe"],
-					skip_interstitial: argv["skip-interstitial"],
-				});
-				const result = await withProgress(`Updating`, async () =>
-					client.send(operation, {
-						body: bodyData,
-						account_or_zone: accountOrZone,
-						account_or_zone_id: accountOrZoneId,
-						app_id: argv["app-id"],
-					})
-				);
-				formatOutput(result, { successLabel: `Updated` });
-			}
-		),
-};
+	usage:
+		"$0 zero-trust access applications settings update <app-id>\n\nUpdates Access application settings.\n\nRuns against your account. Pass --zone to run against a zone instead. CLOUDFLARE_ZONE_ID is ignored.",
+	...parameters,
+	loader: () => import("./update.handler.js"),
+});
 
 export default command;

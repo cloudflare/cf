@@ -1,24 +1,19 @@
 import $list from "./list.js";
 import $start from "./start.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * scans command group
  * @generated from apis/overlays/security-insights.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "scans",
 	describe: "Operations for scans",
 
-	builder: (yargs) => {
-		return yargs
-			.command($list)
-			.command($start)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		list: $list,
+		start: $start,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

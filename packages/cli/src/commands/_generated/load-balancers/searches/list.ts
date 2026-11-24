@@ -1,87 +1,51 @@
-import operation from "../../_operations/load-balancers/searches/list.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * list command
  * @generated from apis/overlays/load-balancers.ts
  */
-import type { Argv, CommandModule } from "yargs";
 import {
-	createCommandClient,
-	getAccountId,
-	resolveAccountIdSilent,
-} from "#lib/auth.js";
-import { formatDryRun } from "#lib/dry-run.js";
-import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
-import { formatOutput } from "#lib/output.js";
-import { withProgress } from "#lib/progress.js";
-import { runWithTelemetry } from "#lib/telemetry/index.js";
+	apiCommand,
+	type ApiInputs,
+	type ApiParameters,
+} from "#lib/api-command.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 load-balancers searches list\n\nSearch for Load Balancing resources."
-		)
-		.option("query", { type: "string", description: "Search query term." })
-		.option("references", {
-			type: "string",
-			description:
+const parameters = {
+	flags: {
+		query: {
+			kind: "parsed",
+			brief: "Search query term.",
+			optional: true,
+			parse: String,
+		},
+		references: {
+			kind: "enum",
+			brief:
 				'The type of references to include. "*" to include both referral and referrer references. "" to not include any reference information.',
-			choices: ["", "*", "referral", "referrer"],
-		})
-		.option("page", { type: "number", description: "Page" })
-		.option("per-page", { type: "number", description: "Per page" })
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
+			values: ["", "*", "referral", "referrer"],
+			optional: true,
+		},
+		page: { kind: "parsed", brief: "Page", optional: true, parse: Number },
+		"per-page": {
+			kind: "parsed",
+			brief: "Per page",
+			optional: true,
+			parse: Number,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
 			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+		},
+	},
+	operands: [],
+} as const satisfies ApiParameters;
+export type Args = ApiInputs<typeof parameters>;
+const command = apiCommand({
 	command: "list",
 	describe: "Search Resources",
-	builder,
-	handler: async (argv): Promise<void> =>
-		runWithTelemetry(
-			{
-				command: "load-balancers searches list",
-				classification: {
-					safeFlags: ["references", "dry-run"],
-				} satisfies ArgClassification<Args>,
-			},
-			argv as Record<string, unknown>,
-			async () => {
-				const queryParams: Record<string, unknown> = {
-					query: argv["query"],
-					references: argv["references"],
-					page: argv["page"],
-					per_page: argv["per-page"],
-				};
-				if (argv.dryRun) {
-					const __cfDryRunAccountId = await resolveAccountIdSilent();
-					formatDryRun({
-						command: "cf load-balancers searches list",
-						method: "GET",
-						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/load_balancers/search`,
-						pathParams: {},
-						query: queryParams,
-						bodyKind: "none",
-					});
-					return;
-				}
-				const client = await createCommandClient(argv);
-				const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
-				argv.accountId = accountId;
-
-				const result = await withProgress(`Loading`, async () =>
-					client.send(operation, { account_id: accountId, ...queryParams })
-				);
-				formatOutput(result, { successLabel: `Loaded` });
-			}
-		),
-};
+	usage:
+		"$0 load-balancers searches list\n\nSearch for Load Balancing resources.",
+	...parameters,
+	loader: () => import("./list.handler.js"),
+});
 
 export default command;

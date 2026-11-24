@@ -3,28 +3,23 @@ import $delete from "./delete.js";
 import $edit from "./edit.js";
 import $get from "./get.js";
 import $list from "./list.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * bgp-prefixes command group
  * @generated from apis/overlays/addressing.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "bgp-prefixes",
 	describe: "Operations for prefixes.bgp-prefixes",
 
-	builder: (yargs) => {
-		return yargs
-			.command($create)
-			.command($delete)
-			.command($edit)
-			.command($get)
-			.command($list)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		create: $create,
+		delete: $delete,
+		edit: $edit,
+		get: $get,
+		list: $list,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

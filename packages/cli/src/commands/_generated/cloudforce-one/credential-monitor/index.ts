@@ -1,24 +1,19 @@
 import $domains from "./domains/index.js";
 import $matches from "./matches/index.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * credential-monitor command group
  * @generated from apis/overlays/cloudforce-one.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "credential-monitor",
 	describe: "Operations for credential-monitor",
 
-	builder: (yargs) => {
-		return yargs
-			.command($domains)
-			.command($matches)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		domains: $domains,
+		matches: $matches,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

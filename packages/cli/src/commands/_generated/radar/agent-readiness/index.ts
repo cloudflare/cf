@@ -1,22 +1,17 @@
 import $summary from "./summary.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * agent-readiness command group
  * @generated from apis/overlays/radar.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "agent-readiness",
 	describe: "Agent readiness summary statistics across the Cloudflare network",
 
-	builder: (yargs) => {
-		return yargs
-			.command($summary)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		summary: $summary,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

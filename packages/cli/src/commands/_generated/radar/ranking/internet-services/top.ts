@@ -1,95 +1,64 @@
-import operation from "../../../_operations/radar/ranking/internet-services/top.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * top command
  * @generated from apis/overlays/radar.ts
  */
-import type { Argv, CommandModule } from "yargs";
-import { createCommandClient } from "#lib/auth.js";
-import { formatDryRun } from "#lib/dry-run.js";
-import { formatOutput } from "#lib/output.js";
-import { withProgress } from "#lib/progress.js";
-import { runWithTelemetry } from "#lib/telemetry/index.js";
+import {
+	apiCommand,
+	type ApiInputs,
+	type ApiParameters,
+} from "#lib/api-command.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 radar ranking internet-services top\n\nRetrieves top Internet services based on their rank."
-		)
-		.option("service-category", {
-			type: "string",
-			array: true,
-			description: "Filters results by Internet service category.",
-		})
-		.option("limit", {
-			type: "number",
-			description: "Limits the number of objects returned in the response.",
-		})
-		.option("name", {
-			type: "string",
-			array: true,
-			description: "Array of names used to label the series in the response.",
-		})
-		.option("date", {
-			type: "string",
-			array: true,
-			description: "Filters results by the specified array of dates.",
-		})
-		.option("format", {
-			type: "string",
-			description: "Format in which results will be returned.",
-			choices: ["JSON", "CSV"],
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
+const parameters = {
+	flags: {
+		"service-category": {
+			kind: "parsed",
+			brief: "Filters results by Internet service category.",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		limit: {
+			kind: "parsed",
+			brief: "Limits the number of objects returned in the response.",
+			optional: true,
+			parse: Number,
+		},
+		name: {
+			kind: "parsed",
+			brief: "Array of names used to label the series in the response.",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		date: {
+			kind: "parsed",
+			brief: "Filters results by the specified array of dates.",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		format: {
+			kind: "enum",
+			brief: "Format in which results will be returned.",
+			values: ["JSON", "CSV"],
+			optional: true,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
 			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+		},
+	},
+	operands: [],
+} as const satisfies ApiParameters;
+export type Args = ApiInputs<typeof parameters>;
+const command = apiCommand({
 	command: "top",
 	describe: "Get top Internet services",
-	builder,
-	handler: async (argv): Promise<void> =>
-		runWithTelemetry(
-			{
-				command: "radar ranking internet-services top",
-				classification: {
-					safeFlags: ["format", "dry-run"],
-				} satisfies ArgClassification<Args>,
-			},
-			argv as Record<string, unknown>,
-			async () => {
-				const queryParams: Record<string, unknown> = {
-					serviceCategory: argv["service-category"],
-					limit: argv["limit"],
-					name: argv["name"],
-					date: argv["date"],
-					format: argv["format"],
-				};
-				if (argv.dryRun) {
-					formatDryRun({
-						command: "cf radar ranking internet-services top",
-						method: "GET",
-						url: `https://api.cloudflare.com/client/v4/radar/ranking/internet_services/top`,
-						pathParams: {},
-						query: queryParams,
-						bodyKind: "none",
-					});
-					return;
-				}
-				const client = await createCommandClient(argv);
-
-				const result = await withProgress(`Loading`, async () =>
-					client.send(operation, queryParams)
-				);
-				formatOutput(result, { successLabel: `Loaded` });
-			}
-		),
-};
+	usage:
+		"$0 radar ranking internet-services top\n\nRetrieves top Internet services based on their rank.",
+	...parameters,
+	loader: () => import("./top.handler.js"),
+});
 
 export default command;

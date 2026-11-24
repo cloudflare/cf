@@ -1,26 +1,21 @@
 import $browser from "./browser/index.js";
 import $json from "./json/index.js";
 import $session from "./session/index.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * devtools command group
  * @generated from apis/overlays/browser-run.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "devtools",
 	describe: "Operations for devtools",
 
-	builder: (yargs) => {
-		return yargs
-			.command($browser)
-			.command($json)
-			.command($session)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		browser: $browser,
+		json: $json,
+		session: $session,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

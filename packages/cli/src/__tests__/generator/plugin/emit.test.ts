@@ -1,8 +1,5 @@
-import { stripTypeScriptTypes } from "node:module";
-import { Script } from "node:vm";
 import { describe, expect, it } from "vite-plus/test";
-import yargs, { type Argv } from "yargs";
-import { builderLines } from "../../../../generator/plugin/emit/builder.js";
+import { parameterSource } from "../../../../generator/plugin/emit/builder.js";
 import {
 	ACCOUNT_OR_ZONE_HELP,
 	bodyObject,
@@ -27,6 +24,10 @@ import {
 	param,
 	wire,
 } from "../../helpers/cli-plugin.js";
+import {
+	generatedParameters,
+	commandParser,
+} from "../../helpers/command-parser.js";
 import type { Arg, ArgType } from "../../../../generator/plugin/args.js";
 import type { Method } from "../../../../generator/plugin/commands.js";
 import type { OperationInfo } from "../../../../generator/plugin/operation.js";
@@ -169,10 +170,10 @@ describe("an API force parameter on a delete", () => {
 			"things",
 			op()
 		);
-		const builder = builderLines(ctx).join("\n");
-		expect(builder).toContain('.option(\'force-delete\', {"type":"boolean"');
+		const builder = parameterSource(ctx).join("\n");
+		expect(builder).toContain('"force-delete": {"kind":"boolean"');
 		expect(builder).toContain(
-			'.option("force", {"type":"boolean","alias":"f","description":"Skip confirmation (useful in scripts and CI)","default":false})'
+			'"force": {"kind":"boolean","brief":"Skip confirmation (useful in scripts and CI)","alias":"f","default":false}'
 		);
 		const code = handler(ctx).join("\n");
 		expect(code).toContain(`'force': argv["force-delete"]`);
@@ -367,7 +368,7 @@ describe("variant prompts", () => {
 });
 
 describe("optional joined query enums", () => {
-	it("leaves an omitted optional array unset", () => {
+	it("leaves an omitted optional array unset", async () => {
 		const ctx = context(
 			method("list", "example-list"),
 			"example",
@@ -382,10 +383,15 @@ describe("optional joined query enums", () => {
 				wire: wire({ joined: ["selector"] }),
 			})
 		);
-		const parser = new Script(
-			stripTypeScriptTypes(`yargs${builderLines(ctx).join("\n")}`)
-		).runInNewContext({ yargs: yargs([]).exitProcess(false) }) as Argv;
-		expect(parser.parseSync().selector).toBeUndefined();
+		const params = generatedParameters(parameterSource(ctx));
+		expect(
+			(
+				await commandParser(["list"], {
+					...params,
+					command: "list",
+				}).parse()
+			).selector
+		).toBeUndefined();
 	});
 });
 
@@ -408,15 +414,14 @@ describe("file-backed enum arguments", () => {
 				requestContentTypes: ["application/json"],
 			})
 		);
-		const builder = builderLines(ctx).join("\n");
+		const builder = parameterSource(ctx).join("\n");
 		const body = bodyObject(ctx, "").join("\n");
 
 		expect(builder).toContain('"choices":["first","second"]');
 		expect(builder).toContain(
-			'.coerce("selection", (value) => resolveFileToken(value, "selection", "text"))'
+			'coerce: (value: string) => resolveFileToken(value, "selection", "text")'
 		);
-		expect(builder).not.toContain('.coerce("sort"');
-		expect(builder).not.toContain('.coerce("description"');
+		expect(builder).not.toMatch(/"(?:sort|description)": \{[^\n]*coerce:/);
 		expect(body).toContain('selection: argv["selection"]');
 		expect(body).toContain('resolveFileToken(argv["description"]');
 	});
@@ -452,18 +457,9 @@ describe("optional body-object validation", () => {
 				requestContentTypes: ["application/json"],
 			})
 		);
-		const builder = new Script(
-			`(yargs) => yargs\n${builderLines(ctx).join("\n")}`
-		).runInNewContext() as (args: Argv) => Argv;
+		const params = generatedParameters(parameterSource(ctx));
 		const parse = async (args: string[]) =>
-			yargs(args)
-				.exitProcess(false)
-				.fail((message, error) => {
-					throw error ?? new Error(message);
-				})
-				.command("create", "", builder, () => {})
-				.strict()
-				.parseAsync();
+			commandParser(args, { ...params, command: "create" }).parse();
 
 		await expect(
 			parse(["create", "--parameters-order-by-order", "asc"])
@@ -556,19 +552,19 @@ describe("object-array bodies", () => {
 		const ctx = context(createMethod, "tests", create(true));
 		expect(find(ctx.derived.args, "versions").type).toBe("objectArray");
 		expect(find(ctx.derived.args, "tags").type).toBe("array");
-		const lines = builderLines(ctx);
+		const lines = parameterSource(ctx);
 		const option = (name: string) => {
-			const line = lines.find((l) => l.startsWith(`.option('${name}'`));
+			const line = lines.find((l) => l.startsWith(`"${name}": {`));
 			if (line === undefined) {
 				throw new Error(`no --${name} in ${lines.join("\n")}`);
 			}
 			return line;
 		};
-		expect(option("versions")).toContain(`"type":"string"`);
-		expect(option("versions")).not.toContain(`"array":true`);
-		expect(option("versions")).not.toContain(`"demandOption":true`);
-		expect(option("tags")).toContain(`"type":"string"`);
-		expect(option("tags")).toContain(`"array":true`);
+		expect(option("versions")).toContain(`parse: String`);
+		expect(option("versions")).not.toContain(`"variadic":true`);
+		expect(option("versions")).toContain(`"optional":true`);
+		expect(option("tags")).toContain(`parse: String`);
+		expect(option("tags")).toContain(`"variadic":true`);
 	});
 
 	it("parses the complete JSON value when assembling the body", () => {
@@ -610,7 +606,7 @@ describe("Fern names", () => {
 		const ctx = context(m, "example", op);
 		return {
 			handler: handler(ctx).join("\n"),
-			builder: builderLines(ctx).join("\n"),
+			builder: parameterSource(ctx).join("\n"),
 			resolvedRequestPath: ctx.resolvedRequestPath,
 		};
 	};
@@ -628,18 +624,12 @@ describe("Fern names", () => {
 				"./"
 			);
 			expect(command).toBe(required ? "get <consumer>" : "get [consumer]");
-			const builder = new Script(
-				`(yargs) => yargs\n${builderLines(ctx).join("\n")}`
-			).runInNewContext() as (args: Argv) => Argv;
+			const params = generatedParameters(parameterSource(ctx));
 			const parse = async (args: string[]) =>
-				yargs(args)
-					.exitProcess(false)
-					.fail((message, error) => {
-						throw error ?? new Error(message);
-					})
-					.command(command, "", builder, () => {})
-					.strict()
-					.parseAsync();
+				commandParser(args, {
+					...params,
+					command: command,
+				}).parse();
 			expect(
 				await parse(["get", "consumer-1", "--queue", "queue-1"])
 			).toMatchObject({ consumer: "consumer-1", queue: "queue-1" });
@@ -659,8 +649,8 @@ describe("Fern names", () => {
 			...renamedConsumerGet(),
 			wire: wire({ hasRequest: true }),
 		});
-		expect(builder).toContain(".positional('consumer'");
-		expect(builder).toContain(".option('queue'");
+		expect(builder).toContain("placeholder: 'consumer'");
+		expect(builder).toContain('"queue": {');
 		expect(builder).not.toContain("queue-id");
 		expect(builder).not.toContain("consumer-id");
 
@@ -733,8 +723,8 @@ describe("Fern names", () => {
 			method("create", "example-without-sdk-entry"),
 			op
 		);
-		expect(builder).toContain(".option('mtls-certificate-id'");
-		expect(builder).toContain(".option('token'");
+		expect(builder).toContain('"mtls-certificate-id": {');
+		expect(builder).toContain('"token": {');
 		expect(builder).toContain(".conflicts('mtls-certificate-id', ['token'])");
 		expect(builder).toContain(".conflicts('token', ['mtls-certificate-id'])");
 		expect(h).toContain(

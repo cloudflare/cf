@@ -1,42 +1,21 @@
-import operation from "../../../_operations/zero-trust/gateway/rules/create.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * create command
  * @generated from apis/overlays/zero-trust.ts
  */
-import type { Argv, CommandModule } from "yargs";
 import {
-	createCommandClient,
-	getAccountId,
-	resolveAccountIdSilent,
-} from "#lib/auth.js";
-import {
-	compactBody,
-	parseBody,
-	parseJsonMap,
-	parseObjectArray,
-} from "#lib/body-parser.js";
-import { formatDryRun } from "#lib/dry-run.js";
+	apiCommand,
+	type ApiInputs,
+	type ApiParameters,
+} from "#lib/api-command.js";
 import { resolveFileToken } from "#lib/input-validation.js";
-import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
-import { formatOutput } from "#lib/output.js";
-import { withProgress } from "#lib/progress.js";
-import {
-	promptForRequiredEnumField,
-	promptForRequiredField,
-} from "#lib/prompt.js";
-import { runWithTelemetry } from "#lib/telemetry/index.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 zero-trust gateway rules create\n\nCreate a new Zero Trust Gateway rule."
-		)
-		.option("action", {
-			type: "string",
-			description:
+const parameters = {
+	flags: {
+		action: {
+			kind: "parsed",
+			brief:
 				"Specify the action to perform when the associated traffic, identity, and device posture expressions either absent or evaluate to `true`.",
+			optional: true,
 			choices: [
 				"on",
 				"off",
@@ -56,417 +35,538 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"redirect",
 				"forward",
 			],
-		})
-		.coerce("action", (value) => resolveFileToken(value, "action", "text"))
-		.option("description", {
-			type: "string",
-			description: "Specify the rule description.",
+			parse: String,
+			coerce: (value: string) => resolveFileToken(value, "action", "text"),
+		},
+		description: {
+			kind: "parsed",
+			brief: "Specify the rule description.",
 			default: "",
-		})
-		.option("device-posture", {
-			type: "string",
-			description:
+			parse: String,
+		},
+		"device-posture": {
+			kind: "parsed",
+			brief:
 				"Specify the wirefilter expression used for device posture check. The API automatically formats and sanitizes expressions before storing them. To prevent Terraform state drift, use the formatted expression returned in the API response.",
 			default: "",
-		})
-		.option("enabled", {
-			type: "boolean",
-			description: "Specify whether the rule is enabled.",
+			parse: String,
+		},
+		enabled: {
+			kind: "boolean",
+			brief: "Specify whether the rule is enabled.",
 			default: false,
-		})
-		.option("expiration-duration", {
-			type: "number",
-			description:
+		},
+		"expiration-duration": {
+			kind: "parsed",
+			brief:
 				"Defines the default duration a policy active in minutes. Must set in order to use the `reset_expiration` endpoint on this rule.",
-		})
-		.option("expiration-expires-at", {
-			type: "string",
-			description: "The expiration.expires_at field",
-		})
-		.option("filters", {
-			type: "string",
-			array: true,
-			description:
+			optional: true,
+			parse: Number,
+		},
+		"expiration-expires-at": {
+			kind: "parsed",
+			brief: "The expiration.expires_at field",
+			optional: true,
+			parse: String,
+		},
+		filters: {
+			kind: "parsed",
+			brief:
 				"Specify the protocol or layer to evaluate the traffic, identity, and device posture expressions. Can only contain a single value.",
-		})
-		.option("identity", {
-			type: "string",
-			description:
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		identity: {
+			kind: "parsed",
+			brief:
 				"Specify the wirefilter expression used for identity matching. The API automatically formats and sanitizes expressions before storing them. To prevent Terraform state drift, use the formatted expression returned in the API response.",
 			default: "",
-		})
-		.option("name", { type: "string", description: "Specify the rule name." })
-		.option("precedence", {
-			type: "number",
-			description:
+			parse: String,
+		},
+		name: {
+			kind: "parsed",
+			brief: "Specify the rule name.",
+			optional: true,
+			parse: String,
+		},
+		precedence: {
+			kind: "parsed",
+			brief:
 				"Set the order of your rules. Lower values indicate higher precedence. At each processing phase, evaluate applicable rules in ascending order of this value. Refer to [Order of enforcement](http://developers.cloudflare.com/learning-paths/secure-internet-traffic/understand-policies/order-of-enforcement/#manage-precedence-with-terraform) to manage precedence via Terraform.",
-		})
-		.option("rule-settings-add-headers", {
-			type: "string",
-			description:
+			optional: true,
+			parse: Number,
+		},
+		"rule-settings-add-headers": {
+			kind: "parsed",
+			brief:
 				'Add custom headers to allowed requests as key-value pairs. Use header names as keys that map to arrays of header values. Header values may contain `@{selector.name}` variable references that are interpolated at the edge. Use `@@{` to escape a literal `@{`. A maximum of 20 header operations (add + set + delete) is allowed per policy. Each header name may not exceed 256 bytes and each header value may not exceed 4 KB. Settable only for `http` rules with the action set to `allow`. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": [string]}.',
-		})
-		.option("rule-settings-allow-child-bypass", {
-			type: "boolean",
-			description:
+			optional: true,
+			parse: String,
+		},
+		"rule-settings-allow-child-bypass": {
+			kind: "boolean",
+			brief:
 				"Set to enable MSP children to bypass this rule. Only parent MSP accounts can set this. this rule. Settable for all types of rules.",
-		})
-		.option("rule-settings-biso-admin-controls-copy", {
-			type: "string",
-			description:
+			optional: true,
+		},
+		"rule-settings-biso-admin-controls-copy": {
+			kind: "parsed",
+			brief:
 				'Configure copy behavior. If set to remote_only, users cannot copy isolated content from the remote browser to the local clipboard. If this field is absent, copying remains enabled. Applies only when version == "v2".',
+			optional: true,
 			choices: ["enabled", "disabled", "remote_only"],
-		})
-		.coerce("rule-settings-biso-admin-controls-copy", (value) =>
-			resolveFileToken(value, "rule-settings-biso-admin-controls-copy", "text")
-		)
-		.option("rule-settings-biso-admin-controls-dcp", {
-			type: "boolean",
-			description:
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(
+					value,
+					"rule-settings-biso-admin-controls-copy",
+					"text"
+				),
+		},
+		"rule-settings-biso-admin-controls-dcp": {
+			kind: "boolean",
+			brief:
 				'Set to false to enable copy-pasting. Only applies when `version == "v1"`.',
-		})
-		.option("rule-settings-biso-admin-controls-dd", {
-			type: "boolean",
-			description:
+			optional: true,
+		},
+		"rule-settings-biso-admin-controls-dd": {
+			kind: "boolean",
+			brief:
 				'Set to false to enable downloading. Only applies when `version == "v1"`.',
-		})
-		.option("rule-settings-biso-admin-controls-dk", {
-			type: "boolean",
-			description:
+			optional: true,
+		},
+		"rule-settings-biso-admin-controls-dk": {
+			kind: "boolean",
+			brief:
 				'Set to false to enable keyboard usage. Only applies when `version == "v1"`.',
-		})
-		.option("rule-settings-biso-admin-controls-download", {
-			type: "string",
-			description:
+			optional: true,
+		},
+		"rule-settings-biso-admin-controls-download": {
+			kind: "parsed",
+			brief:
 				'Configure download behavior. When set to remote_only, users can view downloads but cannot save them. If this field is absent, downloading remains enabled. Applies only when version == "v2".',
+			optional: true,
 			choices: ["enabled", "disabled", "remote_only"],
-		})
-		.coerce("rule-settings-biso-admin-controls-download", (value) =>
-			resolveFileToken(
-				value,
-				"rule-settings-biso-admin-controls-download",
-				"text"
-			)
-		)
-		.option("rule-settings-biso-admin-controls-dp", {
-			type: "boolean",
-			description:
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(
+					value,
+					"rule-settings-biso-admin-controls-download",
+					"text"
+				),
+		},
+		"rule-settings-biso-admin-controls-dp": {
+			kind: "boolean",
+			brief:
 				'Set to false to enable printing. Only applies when `version == "v1"`.',
-		})
-		.option("rule-settings-biso-admin-controls-du", {
-			type: "boolean",
-			description:
+			optional: true,
+		},
+		"rule-settings-biso-admin-controls-du": {
+			kind: "boolean",
+			brief:
 				'Set to false to enable uploading. Only applies when `version == "v1"`.',
-		})
-		.option("rule-settings-biso-admin-controls-keyboard", {
-			type: "string",
-			description:
+			optional: true,
+		},
+		"rule-settings-biso-admin-controls-keyboard": {
+			kind: "parsed",
+			brief:
 				'Configure keyboard usage behavior. When set to enable_read_only_actions, only approved browser commands (find, copy, print, zoom, and select-all) may execute; other keyboard input is blocked from reaching the page. Copy and print remain subject to their independent controls. If this field is absent, keyboard usage remains enabled. Applies only when version == "v2". The enable_read_only_actions value requires an explicit version of "v2".',
+			optional: true,
 			choices: ["enabled", "disabled", "enable_read_only_actions"],
-		})
-		.coerce("rule-settings-biso-admin-controls-keyboard", (value) =>
-			resolveFileToken(
-				value,
-				"rule-settings-biso-admin-controls-keyboard",
-				"text"
-			)
-		)
-		.option("rule-settings-biso-admin-controls-paste", {
-			type: "string",
-			description:
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(
+					value,
+					"rule-settings-biso-admin-controls-keyboard",
+					"text"
+				),
+		},
+		"rule-settings-biso-admin-controls-paste": {
+			kind: "parsed",
+			brief:
 				'Configure paste behavior. If set to remote_only, users cannot paste content from the local clipboard into isolated pages. If this field is absent, pasting remains enabled. Applies only when version == "v2".',
+			optional: true,
 			choices: ["enabled", "disabled", "remote_only"],
-		})
-		.coerce("rule-settings-biso-admin-controls-paste", (value) =>
-			resolveFileToken(value, "rule-settings-biso-admin-controls-paste", "text")
-		)
-		.option("rule-settings-biso-admin-controls-printing", {
-			type: "string",
-			description:
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(
+					value,
+					"rule-settings-biso-admin-controls-paste",
+					"text"
+				),
+		},
+		"rule-settings-biso-admin-controls-printing": {
+			kind: "parsed",
+			brief:
 				'Configure print behavior. Default, Printing is enabled. Applies only when version == "v2".',
+			optional: true,
 			choices: ["enabled", "disabled"],
-		})
-		.coerce("rule-settings-biso-admin-controls-printing", (value) =>
-			resolveFileToken(
-				value,
-				"rule-settings-biso-admin-controls-printing",
-				"text"
-			)
-		)
-		.option("rule-settings-biso-admin-controls-upload", {
-			type: "string",
-			description:
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(
+					value,
+					"rule-settings-biso-admin-controls-printing",
+					"text"
+				),
+		},
+		"rule-settings-biso-admin-controls-upload": {
+			kind: "parsed",
+			brief:
 				'Configure upload behavior. If this field is absent, uploading remains enabled. Applies only when version == "v2".',
+			optional: true,
 			choices: ["enabled", "disabled"],
-		})
-		.coerce("rule-settings-biso-admin-controls-upload", (value) =>
-			resolveFileToken(
-				value,
-				"rule-settings-biso-admin-controls-upload",
-				"text"
-			)
-		)
-		.option("rule-settings-biso-admin-controls-version", {
-			type: "string",
-			description:
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(
+					value,
+					"rule-settings-biso-admin-controls-upload",
+					"text"
+				),
+		},
+		"rule-settings-biso-admin-controls-version": {
+			kind: "parsed",
+			brief:
 				"Indicate which version of the browser isolation controls should apply.",
+			optional: true,
 			choices: ["v1", "v2"],
-		})
-		.coerce("rule-settings-biso-admin-controls-version", (value) =>
-			resolveFileToken(
-				value,
-				"rule-settings-biso-admin-controls-version",
-				"text"
-			)
-		)
-		.option("rule-settings-biso-admin-controls-wm-id", {
-			type: "string",
-			description:
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(
+					value,
+					"rule-settings-biso-admin-controls-version",
+					"text"
+				),
+		},
+		"rule-settings-biso-admin-controls-wm-id": {
+			kind: "parsed",
+			brief:
 				"Specify the watermark ID (UUID) to apply to the isolated browser session. When present, enables watermark rendering in the isolated browser.",
-		})
-		.option("rule-settings-block-page-include-context", {
-			type: "boolean",
-			description:
+			optional: true,
+			parse: String,
+		},
+		"rule-settings-block-page-include-context": {
+			kind: "boolean",
+			brief:
 				"Specify whether to pass the context information as query parameters.",
-		})
-		.option("rule-settings-block-page-target-uri", {
-			type: "string",
-			description: "Specify the URI to which the user is redirected.",
-		})
-		.option("rule-settings-block-page-enabled", {
-			type: "boolean",
-			description:
+			optional: true,
+		},
+		"rule-settings-block-page-target-uri": {
+			kind: "parsed",
+			brief: "Specify the URI to which the user is redirected.",
+			optional: true,
+			parse: String,
+		},
+		"rule-settings-block-page-enabled": {
+			kind: "boolean",
+			brief:
 				"Enable the custom block page. Settable only for `dns` rules with action `block`.",
-		})
-		.option("rule-settings-block-reason", {
-			type: "string",
-			description:
+			optional: true,
+		},
+		"rule-settings-block-reason": {
+			kind: "parsed",
+			brief:
 				"Explain why the rule blocks the request. The custom block page shows this text (if enabled). Settable only for `dns`, `l4`, and `http` rules when the action set to `block`.",
-		})
-		.option("rule-settings-bypass-parent-rule", {
-			type: "boolean",
-			description:
+			optional: true,
+			parse: String,
+		},
+		"rule-settings-bypass-parent-rule": {
+			kind: "boolean",
+			brief:
 				"Set to enable MSP accounts to bypass their parent's rules. Only MSP child accounts can set this. Settable for all types of rules.",
-		})
-		.option("rule-settings-check-session-duration", {
-			type: "string",
-			description:
+			optional: true,
+		},
+		"rule-settings-check-session-duration": {
+			kind: "parsed",
+			brief:
 				"Sets the required session freshness threshold. The API returns a normalized version of this value.",
-		})
-		.option("rule-settings-check-session-enforce", {
-			type: "boolean",
-			description: "Enable session enforcement.",
-		})
-		.option("rule-settings-delete-headers", {
-			type: "string",
-			array: true,
-			description:
+			optional: true,
+			parse: String,
+		},
+		"rule-settings-check-session-enforce": {
+			kind: "boolean",
+			brief: "Enable session enforcement.",
+			optional: true,
+		},
+		"rule-settings-delete-headers": {
+			kind: "parsed",
+			brief:
 				"Remove headers from allowed requests by name. A maximum of 20 header operations (add + set + delete) is allowed per policy. Each header name may not exceed 256 bytes. Settable only for `http` rules with the action set to `allow`.",
-		})
-		.option("rule-settings-dns-resolvers-ipv4", {
-			type: "string",
-			description:
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"rule-settings-dns-resolvers-ipv4": {
+			kind: "parsed",
+			brief:
 				'The rule_settings.dns_resolvers.ipv4 field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"ip": string, "port"?: number, "route_through_private_network"?: boolean, "vnet_id"?: string}]. ? marks optional keys.',
-		})
-		.option("rule-settings-dns-resolvers-ipv6", {
-			type: "string",
-			description:
+			optional: true,
+			parse: String,
+		},
+		"rule-settings-dns-resolvers-ipv6": {
+			kind: "parsed",
+			brief:
 				'The rule_settings.dns_resolvers.ipv6 field. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"ip": string, "port"?: number, "route_through_private_network"?: boolean, "vnet_id"?: string}]. ? marks optional keys.',
-		})
-		.option("rule-settings-egress-ipv4", {
-			type: "string",
-			description: "Specify the IPv4 address to use for egress.",
-		})
-		.option("rule-settings-egress-ipv4-fallback", {
-			type: "string",
-			description:
+			optional: true,
+			parse: String,
+		},
+		"rule-settings-egress-ipv4": {
+			kind: "parsed",
+			brief: "Specify the IPv4 address to use for egress.",
+			optional: true,
+			parse: String,
+		},
+		"rule-settings-egress-ipv4-fallback": {
+			kind: "parsed",
+			brief:
 				"Specify the fallback IPv4 address to use for egress when the primary IPv4 fails. Set '0.0.0.0' to indicate local egress via WARP IPs.",
-		})
-		.option("rule-settings-egress-ipv6", {
-			type: "string",
-			description: "Specify the IPv6 range to use for egress.",
-		})
-		.option("rule-settings-forensic-copy-enabled", {
-			type: "boolean",
-			description: "Enable sending the copy to storage.",
-		})
-		.option("rule-settings-forward-worker-id", {
-			type: "string",
-			description: "Specify the public Worker ID of the target Worker.",
-		})
-		.option("rule-settings-ignore-cname-category-matches", {
-			type: "boolean",
-			description:
+			optional: true,
+			parse: String,
+		},
+		"rule-settings-egress-ipv6": {
+			kind: "parsed",
+			brief: "Specify the IPv6 range to use for egress.",
+			optional: true,
+			parse: String,
+		},
+		"rule-settings-forensic-copy-enabled": {
+			kind: "boolean",
+			brief: "Enable sending the copy to storage.",
+			optional: true,
+		},
+		"rule-settings-forward-worker-id": {
+			kind: "parsed",
+			brief: "Specify the public Worker ID of the target Worker.",
+			optional: true,
+			parse: String,
+		},
+		"rule-settings-ignore-cname-category-matches": {
+			kind: "boolean",
+			brief:
 				"Ignore category matches at CNAME domains in a response. When off, evaluate categories in this rule against all CNAME domain categories in the response. Settable only for `dns` and `dns_resolver` rules.",
-		})
-		.option("rule-settings-insecure-disable-dnssec-validation", {
-			type: "boolean",
-			description:
+			optional: true,
+		},
+		"rule-settings-insecure-disable-dnssec-validation": {
+			kind: "boolean",
+			brief:
 				"Specify whether to disable DNSSEC validation (for Allow actions) [INSECURE]. Settable only for `dns` rules.",
-		})
-		.option("rule-settings-ip-categories", {
-			type: "boolean",
-			description:
+			optional: true,
+		},
+		"rule-settings-ip-categories": {
+			kind: "boolean",
+			brief:
 				"Enable IPs in DNS resolver category blocks. The system blocks only domain name categories unless you enable this setting. Settable only for `dns` and `dns_resolver` rules.",
-		})
-		.option("rule-settings-ip-indicator-feeds", {
-			type: "boolean",
-			description:
+			optional: true,
+		},
+		"rule-settings-ip-indicator-feeds": {
+			kind: "boolean",
+			brief:
 				"Indicates whether to include IPs in DNS resolver indicator feed blocks. Default, indicator feeds block only domain names. Settable only for `dns` and `dns_resolver` rules.",
-		})
-		.option("rule-settings-l4override-ip", {
-			type: "string",
-			description: "Defines the IPv4 or IPv6 address.",
-		})
-		.option("rule-settings-l4override-port", {
-			type: "number",
-			description: "Defines a port number to use for TCP/UDP overrides.",
-		})
-		.option("rule-settings-notification-settings-enabled", {
-			type: "boolean",
-			description: "Enable notification.",
-		})
-		.option("rule-settings-notification-settings-include-context", {
-			type: "boolean",
-			description:
+			optional: true,
+		},
+		"rule-settings-l4override-ip": {
+			kind: "parsed",
+			brief: "Defines the IPv4 or IPv6 address.",
+			optional: true,
+			parse: String,
+		},
+		"rule-settings-l4override-port": {
+			kind: "parsed",
+			brief: "Defines a port number to use for TCP/UDP overrides.",
+			optional: true,
+			parse: Number,
+		},
+		"rule-settings-notification-settings-enabled": {
+			kind: "boolean",
+			brief: "Enable notification.",
+			optional: true,
+		},
+		"rule-settings-notification-settings-include-context": {
+			kind: "boolean",
+			brief:
 				"Indicates whether to pass the context information as query parameters.",
-		})
-		.option("rule-settings-notification-settings-msg", {
-			type: "string",
-			description: "Customize the message shown in the notification.",
-		})
-		.option("rule-settings-notification-settings-support-url", {
-			type: "string",
-			description:
+			optional: true,
+		},
+		"rule-settings-notification-settings-msg": {
+			kind: "parsed",
+			brief: "Customize the message shown in the notification.",
+			optional: true,
+			parse: String,
+		},
+		"rule-settings-notification-settings-support-url": {
+			kind: "parsed",
+			brief:
 				"Defines an optional URL to direct users to additional information. If unset, the notification opens a block page.",
-		})
-		.option("rule-settings-override-host", {
-			type: "string",
-			description:
+			optional: true,
+			parse: String,
+		},
+		"rule-settings-override-host": {
+			kind: "parsed",
+			brief:
 				"Defines a hostname for override, for the matching DNS queries. Settable only for `dns` rules with the action set to `override`.",
-		})
-		.option("rule-settings-override-ips", {
-			type: "string",
-			array: true,
-			description:
+			optional: true,
+			parse: String,
+		},
+		"rule-settings-override-ips": {
+			kind: "parsed",
+			brief:
 				"Defines a an IP or set of IPs for overriding matched DNS queries. Settable only for `dns` rules with the action set to `override`.",
-		})
-		.option("rule-settings-payload-log-enabled", {
-			type: "boolean",
-			description: "Enable DLP payload logging for this rule.",
-		})
-		.option("rule-settings-quarantine-file-types", {
-			type: "string",
-			array: true,
-			description: "Specify the types of files to sandbox.",
-		})
-		.option("rule-settings-redirect-include-context", {
-			type: "boolean",
-			description:
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"rule-settings-payload-log-enabled": {
+			kind: "boolean",
+			brief: "Enable DLP payload logging for this rule.",
+			optional: true,
+		},
+		"rule-settings-quarantine-file-types": {
+			kind: "parsed",
+			brief: "Specify the types of files to sandbox.",
+			variadic: true,
+			optional: true,
+			parse: String,
+		},
+		"rule-settings-redirect-include-context": {
+			kind: "boolean",
+			brief:
 				"Specify whether to pass the context information as query parameters.",
-		})
-		.option("rule-settings-redirect-preserve-path-and-query", {
-			type: "boolean",
-			description:
+			optional: true,
+		},
+		"rule-settings-redirect-preserve-path-and-query": {
+			kind: "boolean",
+			brief:
 				"Specify whether to append the path and query parameters from the original request to target_uri.",
-		})
-		.option("rule-settings-redirect-target-uri", {
-			type: "string",
-			description: "Specify the URI to which the user is redirected.",
-		})
-		.option("rule-settings-resolve-dns-internally-fallback", {
-			type: "string",
-			description:
+			optional: true,
+		},
+		"rule-settings-redirect-target-uri": {
+			kind: "parsed",
+			brief: "Specify the URI to which the user is redirected.",
+			optional: true,
+			parse: String,
+		},
+		"rule-settings-resolve-dns-internally-fallback": {
+			kind: "parsed",
+			brief:
 				"Specify the fallback behavior to apply when the internal DNS response code differs from 'NOERROR' or when the response data contains only CNAME records for 'A' or 'AAAA' queries.",
+			optional: true,
 			choices: ["none", "public_dns"],
-		})
-		.coerce("rule-settings-resolve-dns-internally-fallback", (value) =>
-			resolveFileToken(
-				value,
-				"rule-settings-resolve-dns-internally-fallback",
-				"text"
-			)
-		)
-		.option("rule-settings-resolve-dns-internally-view-id", {
-			type: "string",
-			description:
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(
+					value,
+					"rule-settings-resolve-dns-internally-fallback",
+					"text"
+				),
+		},
+		"rule-settings-resolve-dns-internally-view-id": {
+			kind: "parsed",
+			brief:
 				"Specify the internal DNS view identifier to pass to the internal DNS service.",
-		})
-		.option("rule-settings-resolve-dns-through-cloudflare", {
-			type: "boolean",
-			description:
+			optional: true,
+			parse: String,
+		},
+		"rule-settings-resolve-dns-through-cloudflare": {
+			kind: "boolean",
+			brief:
 				"Enable to send queries that match the policy to Cloudflare's default 1.1.1.1 DNS resolver. Cannot set when 'dns_resolvers' specified or 'resolve_dns_internally' is set. Only valid when a rule's action set to 'resolve'. Settable only for `dns_resolver` rules.",
-		})
-		.option("rule-settings-set-headers", {
-			type: "string",
-			description:
+			optional: true,
+		},
+		"rule-settings-set-headers": {
+			kind: "parsed",
+			brief:
 				'Replace existing headers on allowed requests with the specified key-value pairs. If a header does not exist, it is added. Header values may contain `@{selector.name}` variable references that are interpolated at the edge. Use `@@{` to escape a literal `@{`. A maximum of 20 header operations (add + set + delete) is allowed per policy. Each header name may not exceed 256 bytes and each header value may not exceed 4 KB. Settable only for `http` rules with the action set to `allow`. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": [string]}.',
-		})
-		.option("rule-settings-untrusted-cert-action", {
-			type: "string",
-			description:
+			optional: true,
+			parse: String,
+		},
+		"rule-settings-untrusted-cert-action": {
+			kind: "parsed",
+			brief:
 				"Defines the action performed when an untrusted certificate seen. The default action an error with HTTP code 526.",
+			optional: true,
 			choices: ["pass_through", "block", "error"],
-		})
-		.coerce("rule-settings-untrusted-cert-action", (value) =>
-			resolveFileToken(value, "rule-settings-untrusted-cert-action", "text")
-		)
-		.option("schedule-fri", {
-			type: "string",
-			description:
+			parse: String,
+			coerce: (value: string) =>
+				resolveFileToken(value, "rule-settings-untrusted-cert-action", "text"),
+		},
+		"schedule-fri": {
+			kind: "parsed",
+			brief:
 				"Specify the time intervals when the rule is active on Fridays, in the increasing order from 00:00-24:00.  If this parameter omitted, the rule is deactivated on Fridays. API returns a formatted version of this string, which may cause Terraform drift if a unformatted value is used.",
-		})
-		.option("schedule-mon", {
-			type: "string",
-			description:
+			optional: true,
+			parse: String,
+		},
+		"schedule-mon": {
+			kind: "parsed",
+			brief:
 				"Specify the time intervals when the rule is active on Mondays, in the increasing order from 00:00-24:00(capped at maximum of 6 time splits). If this parameter omitted, the rule is deactivated on Mondays. API returns a formatted version of this string, which may cause Terraform drift if a unformatted value is used.",
-		})
-		.option("schedule-sat", {
-			type: "string",
-			description:
+			optional: true,
+			parse: String,
+		},
+		"schedule-sat": {
+			kind: "parsed",
+			brief:
 				"Specify the time intervals when the rule is active on Saturdays, in the increasing order from 00:00-24:00.  If this parameter omitted, the rule is deactivated on Saturdays. API returns a formatted version of this string, which may cause Terraform drift if a unformatted value is used.",
-		})
-		.option("schedule-sun", {
-			type: "string",
-			description:
+			optional: true,
+			parse: String,
+		},
+		"schedule-sun": {
+			kind: "parsed",
+			brief:
 				"Specify the time intervals when the rule is active on Sundays, in the increasing order from 00:00-24:00. If this parameter omitted, the rule is deactivated on Sundays. API returns a formatted version of this string, which may cause Terraform drift if a unformatted value is used.",
-		})
-		.option("schedule-thu", {
-			type: "string",
-			description:
+			optional: true,
+			parse: String,
+		},
+		"schedule-thu": {
+			kind: "parsed",
+			brief:
 				"Specify the time intervals when the rule is active on Thursdays, in the increasing order from 00:00-24:00. If this parameter omitted, the rule is deactivated on Thursdays. API returns a formatted version of this string, which may cause Terraform drift if a unformatted value is used.",
-		})
-		.option("schedule-time-zone", {
-			type: "string",
-			description:
+			optional: true,
+			parse: String,
+		},
+		"schedule-time-zone": {
+			kind: "parsed",
+			brief:
 				"Specify the time zone for rule evaluation. When a [valid time zone city name](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones#List) is provided, Gateway always uses the current time for that time zone. When this parameter is omitted, Gateway uses the time zone determined from the user's IP address. Colo time zone is used when the user's IP address does not resolve to a location.",
-		})
-		.option("schedule-tue", {
-			type: "string",
-			description:
+			optional: true,
+			parse: String,
+		},
+		"schedule-tue": {
+			kind: "parsed",
+			brief:
 				"Specify the time intervals when the rule is active on Tuesdays, in the increasing order from 00:00-24:00. If this parameter omitted, the rule is deactivated on Tuesdays. API returns a formatted version of this string, which may cause Terraform drift if a unformatted value is used.",
-		})
-		.option("schedule-wed", {
-			type: "string",
-			description:
+			optional: true,
+			parse: String,
+		},
+		"schedule-wed": {
+			kind: "parsed",
+			brief:
 				"Specify the time intervals when the rule is active on Wednesdays, in the increasing order from 00:00-24:00. If this parameter omitted, the rule is deactivated on Wednesdays. API returns a formatted version of this string, which may cause Terraform drift if a unformatted value is used.",
-		})
-		.option("traffic", {
-			type: "string",
-			description:
+			optional: true,
+			parse: String,
+		},
+		traffic: {
+			kind: "parsed",
+			brief:
 				"Specify the wirefilter expression used for traffic matching. The API automatically formats and sanitizes expressions before storing them. To prevent Terraform state drift, use the formatted expression returned in the API response.",
 			default: "",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
 			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		})
-		.check((argv) => {
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [],
+	rules(rules) {
+		rules.check((argv) => {
 			const groupSet = ["expiration-duration", "expiration-expires-at"].some(
 				(k) => argv[k] !== undefined
 			);
@@ -481,8 +581,8 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				}
 			}
 			return true;
-		})
-		.check((argv) => {
+		});
+		rules.check((argv) => {
 			const groupSet = [
 				"rule-settings-block-page-include-context",
 				"rule-settings-block-page-target-uri",
@@ -498,8 +598,8 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				}
 			}
 			return true;
-		})
-		.check((argv) => {
+		});
+		rules.check((argv) => {
 			const groupSet = [
 				"rule-settings-redirect-include-context",
 				"rule-settings-redirect-preserve-path-and-query",
@@ -517,683 +617,16 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			}
 			return true;
 		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+	},
+} as const satisfies ApiParameters;
+export type Args = ApiInputs<typeof parameters>;
+const command = apiCommand({
 	command: "create",
 	describe: "Create a Zero Trust Gateway rule",
-	builder,
-	handler: async (argv): Promise<void> =>
-		runWithTelemetry(
-			{
-				command: "zero-trust gateway rules create",
-				classification: {
-					safeFlags: [
-						"action",
-						"enabled",
-						"rule-settings-allow-child-bypass",
-						"rule-settings-biso-admin-controls-copy",
-						"rule-settings-biso-admin-controls-dcp",
-						"rule-settings-biso-admin-controls-dd",
-						"rule-settings-biso-admin-controls-dk",
-						"rule-settings-biso-admin-controls-download",
-						"rule-settings-biso-admin-controls-dp",
-						"rule-settings-biso-admin-controls-du",
-						"rule-settings-biso-admin-controls-keyboard",
-						"rule-settings-biso-admin-controls-paste",
-						"rule-settings-biso-admin-controls-printing",
-						"rule-settings-biso-admin-controls-upload",
-						"rule-settings-biso-admin-controls-version",
-						"rule-settings-block-page-include-context",
-						"rule-settings-block-page-enabled",
-						"rule-settings-bypass-parent-rule",
-						"rule-settings-check-session-enforce",
-						"rule-settings-forensic-copy-enabled",
-						"rule-settings-ignore-cname-category-matches",
-						"rule-settings-insecure-disable-dnssec-validation",
-						"rule-settings-ip-categories",
-						"rule-settings-ip-indicator-feeds",
-						"rule-settings-notification-settings-enabled",
-						"rule-settings-notification-settings-include-context",
-						"rule-settings-payload-log-enabled",
-						"rule-settings-redirect-include-context",
-						"rule-settings-redirect-preserve-path-and-query",
-						"rule-settings-resolve-dns-internally-fallback",
-						"rule-settings-resolve-dns-through-cloudflare",
-						"rule-settings-untrusted-cert-action",
-						"dry-run",
-					],
-				} satisfies ArgClassification<Args>,
-			},
-			argv as Record<string, unknown>,
-			async () => {
-				const resolveRequiredFields = async (): Promise<void> => {
-					if (argv["action"] === undefined) {
-						argv["action"] = await promptForRequiredEnumField(
-							"action",
-							"Specify the action to perform when the associated traffic, identity, and device posture expressions either absent or evaluate to \`true\`.",
-							[
-								"on",
-								"off",
-								"allow",
-								"block",
-								"scan",
-								"noscan",
-								"safesearch",
-								"ytrestricted",
-								"isolate",
-								"noisolate",
-								"override",
-								"l4_override",
-								"egress",
-								"resolve",
-								"quarantine",
-								"redirect",
-								"forward",
-							] as const
-						);
-					}
-					if (argv["name"] === undefined) {
-						argv["name"] = await promptForRequiredField(
-							"name",
-							"Specify the rule name."
-						);
-					}
-				};
-				if (argv.dryRun) {
-					if (argv.body === undefined) {
-						await resolveRequiredFields();
-					}
-					const __cfDryRunAccountId = await resolveAccountIdSilent();
-					formatDryRun({
-						command: "cf zero-trust gateway rules create",
-						method: "POST",
-						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/gateway/rules`,
-						pathParams: {},
-						bodyKind: "json",
-						body:
-							argv.body !== undefined
-								? parseBody(argv.body)
-								: compactBody(
-										{
-											action: argv["action"],
-											description: resolveFileToken(
-												argv["description"] as string | undefined,
-												"description",
-												"text"
-											),
-											device_posture: resolveFileToken(
-												argv["device-posture"] as string | undefined,
-												"device-posture",
-												"text"
-											),
-											enabled: argv["enabled"],
-											expiration: {
-												duration: argv["expiration-duration"],
-												expires_at: resolveFileToken(
-													argv["expiration-expires-at"] as string | undefined,
-													"expiration-expires-at",
-													"text"
-												),
-											},
-											filters: argv["filters"],
-											identity: resolveFileToken(
-												argv["identity"] as string | undefined,
-												"identity",
-												"text"
-											),
-											name: resolveFileToken(
-												argv["name"] as string | undefined,
-												"name",
-												"text"
-											),
-											precedence: argv["precedence"],
-											rule_settings: {
-												add_headers: parseJsonMap(
-													argv["rule-settings-add-headers"],
-													"rule-settings-add-headers"
-												),
-												allow_child_bypass:
-													argv["rule-settings-allow-child-bypass"],
-												biso_admin_controls: {
-													copy: argv["rule-settings-biso-admin-controls-copy"],
-													dcp: argv["rule-settings-biso-admin-controls-dcp"],
-													dd: argv["rule-settings-biso-admin-controls-dd"],
-													dk: argv["rule-settings-biso-admin-controls-dk"],
-													download:
-														argv["rule-settings-biso-admin-controls-download"],
-													dp: argv["rule-settings-biso-admin-controls-dp"],
-													du: argv["rule-settings-biso-admin-controls-du"],
-													keyboard:
-														argv["rule-settings-biso-admin-controls-keyboard"],
-													paste:
-														argv["rule-settings-biso-admin-controls-paste"],
-													printing:
-														argv["rule-settings-biso-admin-controls-printing"],
-													upload:
-														argv["rule-settings-biso-admin-controls-upload"],
-													version:
-														argv["rule-settings-biso-admin-controls-version"],
-													wm_id: resolveFileToken(
-														argv["rule-settings-biso-admin-controls-wm-id"] as
-															| string
-															| undefined,
-														"rule-settings-biso-admin-controls-wm-id",
-														"text"
-													),
-												},
-												block_page: {
-													include_context:
-														argv["rule-settings-block-page-include-context"],
-													target_uri: resolveFileToken(
-														argv["rule-settings-block-page-target-uri"] as
-															| string
-															| undefined,
-														"rule-settings-block-page-target-uri",
-														"text"
-													),
-												},
-												block_page_enabled:
-													argv["rule-settings-block-page-enabled"],
-												block_reason: resolveFileToken(
-													argv["rule-settings-block-reason"] as
-														| string
-														| undefined,
-													"rule-settings-block-reason",
-													"text"
-												),
-												bypass_parent_rule:
-													argv["rule-settings-bypass-parent-rule"],
-												check_session: {
-													duration: resolveFileToken(
-														argv["rule-settings-check-session-duration"] as
-															| string
-															| undefined,
-														"rule-settings-check-session-duration",
-														"text"
-													),
-													enforce: argv["rule-settings-check-session-enforce"],
-												},
-												delete_headers: argv["rule-settings-delete-headers"],
-												dns_resolvers: {
-													ipv4: parseObjectArray(
-														argv["rule-settings-dns-resolvers-ipv4"],
-														"rule-settings-dns-resolvers-ipv4"
-													),
-													ipv6: parseObjectArray(
-														argv["rule-settings-dns-resolvers-ipv6"],
-														"rule-settings-dns-resolvers-ipv6"
-													),
-												},
-												egress: {
-													ipv4: resolveFileToken(
-														argv["rule-settings-egress-ipv4"] as
-															| string
-															| undefined,
-														"rule-settings-egress-ipv4",
-														"text"
-													),
-													ipv4_fallback: resolveFileToken(
-														argv["rule-settings-egress-ipv4-fallback"] as
-															| string
-															| undefined,
-														"rule-settings-egress-ipv4-fallback",
-														"text"
-													),
-													ipv6: resolveFileToken(
-														argv["rule-settings-egress-ipv6"] as
-															| string
-															| undefined,
-														"rule-settings-egress-ipv6",
-														"text"
-													),
-												},
-												forensic_copy: {
-													enabled: argv["rule-settings-forensic-copy-enabled"],
-												},
-												forward: {
-													worker_id: resolveFileToken(
-														argv["rule-settings-forward-worker-id"] as
-															| string
-															| undefined,
-														"rule-settings-forward-worker-id",
-														"text"
-													),
-												},
-												ignore_cname_category_matches:
-													argv["rule-settings-ignore-cname-category-matches"],
-												insecure_disable_dnssec_validation:
-													argv[
-														"rule-settings-insecure-disable-dnssec-validation"
-													],
-												ip_categories: argv["rule-settings-ip-categories"],
-												ip_indicator_feeds:
-													argv["rule-settings-ip-indicator-feeds"],
-												l4override: {
-													ip: resolveFileToken(
-														argv["rule-settings-l4override-ip"] as
-															| string
-															| undefined,
-														"rule-settings-l4override-ip",
-														"text"
-													),
-													port: argv["rule-settings-l4override-port"],
-												},
-												notification_settings: {
-													enabled:
-														argv["rule-settings-notification-settings-enabled"],
-													include_context:
-														argv[
-															"rule-settings-notification-settings-include-context"
-														],
-													msg: resolveFileToken(
-														argv["rule-settings-notification-settings-msg"] as
-															| string
-															| undefined,
-														"rule-settings-notification-settings-msg",
-														"text"
-													),
-													support_url: resolveFileToken(
-														argv[
-															"rule-settings-notification-settings-support-url"
-														] as string | undefined,
-														"rule-settings-notification-settings-support-url",
-														"text"
-													),
-												},
-												override_host: resolveFileToken(
-													argv["rule-settings-override-host"] as
-														| string
-														| undefined,
-													"rule-settings-override-host",
-													"text"
-												),
-												override_ips: argv["rule-settings-override-ips"],
-												payload_log: {
-													enabled: argv["rule-settings-payload-log-enabled"],
-												},
-												quarantine: {
-													file_types:
-														argv["rule-settings-quarantine-file-types"],
-												},
-												redirect: {
-													include_context:
-														argv["rule-settings-redirect-include-context"],
-													preserve_path_and_query:
-														argv[
-															"rule-settings-redirect-preserve-path-and-query"
-														],
-													target_uri: resolveFileToken(
-														argv["rule-settings-redirect-target-uri"] as
-															| string
-															| undefined,
-														"rule-settings-redirect-target-uri",
-														"text"
-													),
-												},
-												resolve_dns_internally: {
-													fallback:
-														argv[
-															"rule-settings-resolve-dns-internally-fallback"
-														],
-													view_id: resolveFileToken(
-														argv[
-															"rule-settings-resolve-dns-internally-view-id"
-														] as string | undefined,
-														"rule-settings-resolve-dns-internally-view-id",
-														"text"
-													),
-												},
-												resolve_dns_through_cloudflare:
-													argv["rule-settings-resolve-dns-through-cloudflare"],
-												set_headers: parseJsonMap(
-													argv["rule-settings-set-headers"],
-													"rule-settings-set-headers"
-												),
-												untrusted_cert: {
-													action: argv["rule-settings-untrusted-cert-action"],
-												},
-											},
-											schedule: {
-												fri: resolveFileToken(
-													argv["schedule-fri"] as string | undefined,
-													"schedule-fri",
-													"text"
-												),
-												mon: resolveFileToken(
-													argv["schedule-mon"] as string | undefined,
-													"schedule-mon",
-													"text"
-												),
-												sat: resolveFileToken(
-													argv["schedule-sat"] as string | undefined,
-													"schedule-sat",
-													"text"
-												),
-												sun: resolveFileToken(
-													argv["schedule-sun"] as string | undefined,
-													"schedule-sun",
-													"text"
-												),
-												thu: resolveFileToken(
-													argv["schedule-thu"] as string | undefined,
-													"schedule-thu",
-													"text"
-												),
-												time_zone: resolveFileToken(
-													argv["schedule-time-zone"] as string | undefined,
-													"schedule-time-zone",
-													"text"
-												),
-												tue: resolveFileToken(
-													argv["schedule-tue"] as string | undefined,
-													"schedule-tue",
-													"text"
-												),
-												wed: resolveFileToken(
-													argv["schedule-wed"] as string | undefined,
-													"schedule-wed",
-													"text"
-												),
-											},
-											traffic: resolveFileToken(
-												argv["traffic"] as string | undefined,
-												"traffic",
-												"text"
-											),
-										},
-										[
-											["rule_settings", "add_headers"],
-											["rule_settings", "set_headers"],
-										]
-									),
-					});
-					return;
-				}
-				const parsedBody =
-					argv.body !== undefined ? parseBody(argv.body) : undefined;
-				const client = await createCommandClient(argv);
-				const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
-				argv.accountId = accountId;
-
-				if (argv.body !== undefined) {
-					const bodyData = parsedBody;
-					const result = await withProgress(`Creating`, async () =>
-						client.send(operation, { body: bodyData, account_id: accountId })
-					);
-					formatOutput(result, { successLabel: `Created` });
-					return;
-				}
-				await resolveRequiredFields();
-
-				// Assemble request body from individual flags
-				const bodyData = compactBody(
-					{
-						action: argv["action"],
-						description: resolveFileToken(
-							argv["description"] as string | undefined,
-							"description",
-							"text"
-						),
-						device_posture: resolveFileToken(
-							argv["device-posture"] as string | undefined,
-							"device-posture",
-							"text"
-						),
-						enabled: argv["enabled"],
-						expiration: {
-							duration: argv["expiration-duration"],
-							expires_at: resolveFileToken(
-								argv["expiration-expires-at"] as string | undefined,
-								"expiration-expires-at",
-								"text"
-							),
-						},
-						filters: argv["filters"],
-						identity: resolveFileToken(
-							argv["identity"] as string | undefined,
-							"identity",
-							"text"
-						),
-						name: resolveFileToken(
-							argv["name"] as string | undefined,
-							"name",
-							"text"
-						),
-						precedence: argv["precedence"],
-						rule_settings: {
-							add_headers: parseJsonMap(
-								argv["rule-settings-add-headers"],
-								"rule-settings-add-headers"
-							),
-							allow_child_bypass: argv["rule-settings-allow-child-bypass"],
-							biso_admin_controls: {
-								copy: argv["rule-settings-biso-admin-controls-copy"],
-								dcp: argv["rule-settings-biso-admin-controls-dcp"],
-								dd: argv["rule-settings-biso-admin-controls-dd"],
-								dk: argv["rule-settings-biso-admin-controls-dk"],
-								download: argv["rule-settings-biso-admin-controls-download"],
-								dp: argv["rule-settings-biso-admin-controls-dp"],
-								du: argv["rule-settings-biso-admin-controls-du"],
-								keyboard: argv["rule-settings-biso-admin-controls-keyboard"],
-								paste: argv["rule-settings-biso-admin-controls-paste"],
-								printing: argv["rule-settings-biso-admin-controls-printing"],
-								upload: argv["rule-settings-biso-admin-controls-upload"],
-								version: argv["rule-settings-biso-admin-controls-version"],
-								wm_id: resolveFileToken(
-									argv["rule-settings-biso-admin-controls-wm-id"] as
-										| string
-										| undefined,
-									"rule-settings-biso-admin-controls-wm-id",
-									"text"
-								),
-							},
-							block_page: {
-								include_context:
-									argv["rule-settings-block-page-include-context"],
-								target_uri: resolveFileToken(
-									argv["rule-settings-block-page-target-uri"] as
-										| string
-										| undefined,
-									"rule-settings-block-page-target-uri",
-									"text"
-								),
-							},
-							block_page_enabled: argv["rule-settings-block-page-enabled"],
-							block_reason: resolveFileToken(
-								argv["rule-settings-block-reason"] as string | undefined,
-								"rule-settings-block-reason",
-								"text"
-							),
-							bypass_parent_rule: argv["rule-settings-bypass-parent-rule"],
-							check_session: {
-								duration: resolveFileToken(
-									argv["rule-settings-check-session-duration"] as
-										| string
-										| undefined,
-									"rule-settings-check-session-duration",
-									"text"
-								),
-								enforce: argv["rule-settings-check-session-enforce"],
-							},
-							delete_headers: argv["rule-settings-delete-headers"],
-							dns_resolvers: {
-								ipv4: parseObjectArray(
-									argv["rule-settings-dns-resolvers-ipv4"],
-									"rule-settings-dns-resolvers-ipv4"
-								),
-								ipv6: parseObjectArray(
-									argv["rule-settings-dns-resolvers-ipv6"],
-									"rule-settings-dns-resolvers-ipv6"
-								),
-							},
-							egress: {
-								ipv4: resolveFileToken(
-									argv["rule-settings-egress-ipv4"] as string | undefined,
-									"rule-settings-egress-ipv4",
-									"text"
-								),
-								ipv4_fallback: resolveFileToken(
-									argv["rule-settings-egress-ipv4-fallback"] as
-										| string
-										| undefined,
-									"rule-settings-egress-ipv4-fallback",
-									"text"
-								),
-								ipv6: resolveFileToken(
-									argv["rule-settings-egress-ipv6"] as string | undefined,
-									"rule-settings-egress-ipv6",
-									"text"
-								),
-							},
-							forensic_copy: {
-								enabled: argv["rule-settings-forensic-copy-enabled"],
-							},
-							forward: {
-								worker_id: resolveFileToken(
-									argv["rule-settings-forward-worker-id"] as string | undefined,
-									"rule-settings-forward-worker-id",
-									"text"
-								),
-							},
-							ignore_cname_category_matches:
-								argv["rule-settings-ignore-cname-category-matches"],
-							insecure_disable_dnssec_validation:
-								argv["rule-settings-insecure-disable-dnssec-validation"],
-							ip_categories: argv["rule-settings-ip-categories"],
-							ip_indicator_feeds: argv["rule-settings-ip-indicator-feeds"],
-							l4override: {
-								ip: resolveFileToken(
-									argv["rule-settings-l4override-ip"] as string | undefined,
-									"rule-settings-l4override-ip",
-									"text"
-								),
-								port: argv["rule-settings-l4override-port"],
-							},
-							notification_settings: {
-								enabled: argv["rule-settings-notification-settings-enabled"],
-								include_context:
-									argv["rule-settings-notification-settings-include-context"],
-								msg: resolveFileToken(
-									argv["rule-settings-notification-settings-msg"] as
-										| string
-										| undefined,
-									"rule-settings-notification-settings-msg",
-									"text"
-								),
-								support_url: resolveFileToken(
-									argv["rule-settings-notification-settings-support-url"] as
-										| string
-										| undefined,
-									"rule-settings-notification-settings-support-url",
-									"text"
-								),
-							},
-							override_host: resolveFileToken(
-								argv["rule-settings-override-host"] as string | undefined,
-								"rule-settings-override-host",
-								"text"
-							),
-							override_ips: argv["rule-settings-override-ips"],
-							payload_log: {
-								enabled: argv["rule-settings-payload-log-enabled"],
-							},
-							quarantine: {
-								file_types: argv["rule-settings-quarantine-file-types"],
-							},
-							redirect: {
-								include_context: argv["rule-settings-redirect-include-context"],
-								preserve_path_and_query:
-									argv["rule-settings-redirect-preserve-path-and-query"],
-								target_uri: resolveFileToken(
-									argv["rule-settings-redirect-target-uri"] as
-										| string
-										| undefined,
-									"rule-settings-redirect-target-uri",
-									"text"
-								),
-							},
-							resolve_dns_internally: {
-								fallback: argv["rule-settings-resolve-dns-internally-fallback"],
-								view_id: resolveFileToken(
-									argv["rule-settings-resolve-dns-internally-view-id"] as
-										| string
-										| undefined,
-									"rule-settings-resolve-dns-internally-view-id",
-									"text"
-								),
-							},
-							resolve_dns_through_cloudflare:
-								argv["rule-settings-resolve-dns-through-cloudflare"],
-							set_headers: parseJsonMap(
-								argv["rule-settings-set-headers"],
-								"rule-settings-set-headers"
-							),
-							untrusted_cert: {
-								action: argv["rule-settings-untrusted-cert-action"],
-							},
-						},
-						schedule: {
-							fri: resolveFileToken(
-								argv["schedule-fri"] as string | undefined,
-								"schedule-fri",
-								"text"
-							),
-							mon: resolveFileToken(
-								argv["schedule-mon"] as string | undefined,
-								"schedule-mon",
-								"text"
-							),
-							sat: resolveFileToken(
-								argv["schedule-sat"] as string | undefined,
-								"schedule-sat",
-								"text"
-							),
-							sun: resolveFileToken(
-								argv["schedule-sun"] as string | undefined,
-								"schedule-sun",
-								"text"
-							),
-							thu: resolveFileToken(
-								argv["schedule-thu"] as string | undefined,
-								"schedule-thu",
-								"text"
-							),
-							time_zone: resolveFileToken(
-								argv["schedule-time-zone"] as string | undefined,
-								"schedule-time-zone",
-								"text"
-							),
-							tue: resolveFileToken(
-								argv["schedule-tue"] as string | undefined,
-								"schedule-tue",
-								"text"
-							),
-							wed: resolveFileToken(
-								argv["schedule-wed"] as string | undefined,
-								"schedule-wed",
-								"text"
-							),
-						},
-						traffic: resolveFileToken(
-							argv["traffic"] as string | undefined,
-							"traffic",
-							"text"
-						),
-					},
-					[
-						["rule_settings", "add_headers"],
-						["rule_settings", "set_headers"],
-					]
-				);
-				const result = await withProgress(`Creating`, async () =>
-					client.send(operation, { body: bodyData, account_id: accountId })
-				);
-				formatOutput(result, { successLabel: `Created` });
-			}
-		),
-};
+	usage:
+		"$0 zero-trust gateway rules create\n\nCreate a new Zero Trust Gateway rule.",
+	...parameters,
+	loader: () => import("./create.handler.js"),
+});
 
 export default command;

@@ -1,24 +1,19 @@
 import $livestreams from "./livestreams/index.js";
 import $usage from "./usage/index.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * analytics command group
  * @generated from apis/overlays/realtime.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "analytics",
 	describe: "Usage and livestream analytics for RealtimeKit applications",
 
-	builder: (yargs) => {
-		return yargs
-			.command($livestreams)
-			.command($usage)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		livestreams: $livestreams,
+		usage: $usage,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

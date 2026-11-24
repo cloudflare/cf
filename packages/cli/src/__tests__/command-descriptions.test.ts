@@ -6,7 +6,7 @@ import {
 	it,
 	vi,
 } from "vite-plus/test";
-import { getCompletionDescription } from "../commands/completions/index.js";
+import { buildCli } from "../index.js";
 import { captureOutput } from "./helpers/capture-output.js";
 import { runCf } from "./helpers/run-cf.js";
 import type { CommandMeta } from "../lib/metadata.js";
@@ -51,18 +51,11 @@ describe("generated command descriptions", () => {
 		);
 	});
 
-	it("uses summaries in completions with a legacy metadata fallback", () => {
-		expect(getCompletionDescription(zonesList as CommandMeta)).toBe(
-			"List Zones"
+	it("uses the parser summary in shell completions", async () => {
+		expect(await buildCli([]).cli.complete(["zones", "li"])).toContainEqual(
+			expect.objectContaining({ completion: "list", brief: "List Zones" })
 		);
-		expect(
-			getCompletionDescription({
-				description: "Full description",
-			} as CommandMeta)
-		).toBe("Full description");
-		expect(getCompletionDescription({} as CommandMeta)).toBe("");
 	});
-
 	it("uses full descriptions in leaf help", async () => {
 		await expect(runCf(["zones", "list", "--help"])).resolves.toEqual({
 			exitCode: 0,

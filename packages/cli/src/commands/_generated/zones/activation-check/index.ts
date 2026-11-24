@@ -1,22 +1,17 @@
 import $activate from "./activate.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * activation-check command group
  * @generated from apis/overlays/zones.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "activation-check",
 	describe: "Operations for activation-check",
 
-	builder: (yargs) => {
-		return yargs
-			.command($activate)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		activate: $activate,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

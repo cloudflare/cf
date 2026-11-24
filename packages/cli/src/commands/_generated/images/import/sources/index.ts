@@ -5,30 +5,25 @@ import $get from "./get.js";
 import $list from "./list.js";
 import $precheck from "./pre-check.js";
 import $update from "./update.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * sources command group
  * @generated from apis/overlays/images.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "sources",
 	describe: "Operations for import.sources",
 
-	builder: (yargs) => {
-		return yargs
-			.command($check)
-			.command($create)
-			.command($delete)
-			.command($get)
-			.command($list)
-			.command($precheck)
-			.command($update)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		check: $check,
+		create: $create,
+		delete: $delete,
+		get: $get,
+		list: $list,
+		"pre-check": $precheck,
+		update: $update,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

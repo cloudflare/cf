@@ -8,33 +8,28 @@ import $integrations from "./integrations/index.js";
 import $policies from "./policies/index.js";
 import $remediations from "./remediations/index.js";
 import $webhooks from "./webhooks/index.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * casb command group
  * @generated from apis/overlays/zero-trust.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "casb",
 	describe: "Operations for casb",
 
-	builder: (yargs) => {
-		return yargs
-			.command($applications)
-			.command($assetschemas)
-			.command($content)
-			.command($exports)
-			.command($findingtypes)
-			.command($findings)
-			.command($integrations)
-			.command($policies)
-			.command($remediations)
-			.command($webhooks)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		applications: $applications,
+		"asset-schemas": $assetschemas,
+		content: $content,
+		exports: $exports,
+		"finding-types": $findingtypes,
+		findings: $findings,
+		integrations: $integrations,
+		policies: $policies,
+		remediations: $remediations,
+		webhooks: $webhooks,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

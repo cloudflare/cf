@@ -1,125 +1,49 @@
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * update command
  * @generated from apis/overlays/scim.ts
  */
-import type { Argv, CommandModule } from "yargs";
 import {
-	createCommandClient,
-	getAccountId,
-	requestApi,
-	resolveAccountIdSilent,
-} from "#lib/auth.js";
-import { formatDryRun } from "#lib/dry-run.js";
-import { readFileForFlag, resolveFileToken } from "#lib/input-validation.js";
-import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
-import { formatOutput } from "#lib/output.js";
-import { withProgress } from "#lib/progress.js";
-import { runWithTelemetry } from "#lib/telemetry/index.js";
+	apiCommand,
+	type ApiInputs,
+	type ApiParameters,
+} from "#lib/api-command.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 scim users update <user-id>\n\nReplaces a SCIM User resource (RFC 7644 Section 3.5.1). Fully replaces the mutable attributes of the user. Supports updating `userName`, `name`, `emails`, and `active`."
-		)
-		.positional("user-id", {
-			type: "string",
-			description:
-				"The user tag identifying a SCIM User resource (account member).",
-			demandOption: true,
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
+const parameters = {
+	flags: {
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
 			default: false,
-		})
-		.option("body", {
-			type: "string",
-			description: "Raw JSON request body (bypasses individual flags)",
-		})
-		.option("file", {
-			type: "string",
-			description: "Path to a file to upload as the request body",
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+		},
+		body: {
+			kind: "parsed",
+			brief: "Raw JSON request body (bypasses individual flags)",
+			optional: true,
+			parse: String,
+		},
+		file: {
+			kind: "parsed",
+			brief: "Path to a file to upload as the request body",
+			optional: true,
+			parse: String,
+		},
+	},
+	operands: [
+		{
+			placeholder: "user-id",
+			brief: "The user tag identifying a SCIM User resource (account member).",
+			parse: String,
+		},
+	],
+} as const satisfies ApiParameters;
+export type Args = ApiInputs<typeof parameters>;
+const command = apiCommand({
 	command: "update <user-id>",
 	describe: "Replace SCIM User",
-	builder,
-	handler: async (argv): Promise<void> =>
-		runWithTelemetry(
-			{
-				command: "scim users update",
-				classification: {
-					safeFlags: ["dry-run"],
-				} satisfies ArgClassification<Args>,
-			},
-			argv as Record<string, unknown>,
-			async () => {
-				if (argv.body === undefined && argv.file === undefined) {
-					throw new Error(
-						"--body or --file is required for this command. Pass --body '<value>' or --file path/to/file."
-					);
-				}
-				if (argv.dryRun) {
-					const __cfDryRunAccountId = await resolveAccountIdSilent();
-					formatDryRun({
-						command: "cf scim users update",
-						method: "PUT",
-						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/scim/v2/Users/${argv["user-id"] == null ? "<user-id>" : encodeURIComponent(String(argv["user-id"]))}`,
-						pathParams: { "user-id": String(argv["user-id"] ?? "") },
-						bodyKind: "octet-stream",
-						body: argv.file !== undefined ? { file: argv.file } : argv.body,
-					});
-					return;
-				}
-				const parsedBody =
-					argv.file !== undefined
-						? undefined
-						: resolveFileToken(argv.body, "body", "binary");
-				const client = await createCommandClient(argv);
-				const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
-				argv.accountId = accountId;
-
-				if (argv.file !== undefined) {
-					const fileContent = readFileForFlag(argv.file);
-					const result = await withProgress(`Updating`, async () =>
-						requestApi<unknown>(
-							client,
-							"PUT",
-							`/accounts/${accountId}/scim/v2/Users/${encodeURIComponent(String(argv["user-id"]))}`,
-							{
-								body: fileContent,
-								headers: { "Content-Type": "application/scim+json" },
-							}
-						)
-					);
-					formatOutput(result, { successLabel: `Updated` });
-					return;
-				}
-
-				if (argv.body !== undefined) {
-					const bodyData = parsedBody;
-					const result = await withProgress(`Updating`, async () =>
-						requestApi<unknown>(
-							client,
-							"PUT",
-							`/accounts/${accountId}/scim/v2/Users/${encodeURIComponent(String(argv["user-id"]))}`,
-							{
-								body: bodyData,
-								headers: { "Content-Type": "application/scim+json" },
-							}
-						)
-					);
-					formatOutput(result, { successLabel: `Updated` });
-					return;
-				}
-			}
-		),
-};
+	usage:
+		"$0 scim users update <user-id>\n\nReplaces a SCIM User resource (RFC 7644 Section 3.5.1). Fully replaces the mutable attributes of the user. Supports updating `userName`, `name`, `emails`, and `active`.",
+	...parameters,
+	loader: () => import("./update.handler.js"),
+});
 
 export default command;

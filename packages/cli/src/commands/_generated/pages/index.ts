@@ -7,36 +7,31 @@ import $edit from "./edit.js";
 import $get from "./get.js";
 import $list from "./list.js";
 import $source from "./source/index.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
+import $deploy from "#commands/pages/deploy/index.js";
 /**
  * pages command
  * @generated from apis/overlays/pages.ts
  */
-import type { CommandModule } from "yargs";
-import $deploy from "#commands/pages/deploy/index.js";
+import { apiGroup } from "#lib/api-command.js";
 import { withHandWrittenDryRun } from "#lib/hand-written-dry-run.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "pages",
 	describe:
 		"Full-stack application hosting with Git-integrated builds, preview deployments, and custom domains",
 
-	builder: (yargs) => {
-		return yargs
-			.command($create)
-			.command($delete)
-			.command(withHandWrittenDryRun($deploy, "preview"))
-			.command($edit)
-			.command($get)
-			.command($list)
-			.command($buildcache)
-			.command($deployments)
-			.command($domains)
-			.command($source)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		create: $create,
+		delete: $delete,
+		deploy: withHandWrittenDryRun($deploy, "preview"),
+		edit: $edit,
+		get: $get,
+		list: $list,
+		"build-cache": $buildcache,
+		deployments: $deployments,
+		domains: $domains,
+		source: $source,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

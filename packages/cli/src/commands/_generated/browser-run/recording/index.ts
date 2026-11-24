@@ -1,24 +1,19 @@
 import $get from "./get.js";
 import $network from "./network/index.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * recording command group
  * @generated from apis/overlays/browser-run.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "recording",
 	describe: "Operations for recording",
 
-	builder: (yargs) => {
-		return yargs
-			.command($get)
-			.command($network)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		get: $get,
+		network: $network,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

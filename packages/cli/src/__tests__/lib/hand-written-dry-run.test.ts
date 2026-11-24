@@ -1,6 +1,6 @@
 import { afterEach, describe, expect, it, vi } from "vite-plus/test";
-import yargs from "yargs";
 import { withHandWrittenDryRun } from "../../lib/hand-written-dry-run.js";
+import { commandParser } from "../helpers/command-parser.js";
 import { generateFiles } from "../helpers/forge-cli.js";
 import { runCf } from "../helpers/run-cf.js";
 import type { OptionMeta } from "../../lib/metadata.js";
@@ -38,11 +38,10 @@ describe("hand-written dry runs", () => {
 
 		let error: unknown;
 		try {
-			await yargs(["group", "delete", "item-1", "--dry-run"])
-				.command(group)
-				.strict()
-				.exitProcess(false)
-				.parseAsync();
+			await commandParser(
+				["group", "delete", "item-1", "--dry-run"],
+				group
+			).parse();
 		} catch (caught) {
 			error = caught;
 		}
@@ -76,11 +75,10 @@ describe("hand-written dry runs", () => {
 		);
 
 		await expect(async () => {
-			await yargs(["dev", "--dry-run", "--token", "secret-value"])
-				.command(command)
-				.strict()
-				.exitProcess(false)
-				.parseAsync();
+			await commandParser(
+				["dev", "--dry-run", "--token", "secret-value"],
+				command
+			).parse();
 		}).rejects.toMatchObject({ code: 0 });
 		expect(handler).not.toHaveBeenCalled();
 		expect(output).toHaveBeenCalledTimes(1);
@@ -93,11 +91,7 @@ describe("hand-written dry runs", () => {
 			{ command: "deploy", describe: "Deploy", handler },
 			"native"
 		);
-		await yargs(["deploy", "--dry-run"])
-			.command(command)
-			.strict()
-			.exitProcess(false)
-			.parseAsync();
+		await commandParser(["deploy", "--dry-run"], command).parse();
 		expect(handler).toHaveBeenCalledWith(
 			expect.objectContaining({ dryRun: true })
 		);

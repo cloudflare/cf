@@ -11,36 +11,31 @@ import $logging from "./logging/index.js";
 import $pacfiles from "./pacfiles/index.js";
 import $proxyendpoints from "./proxy-endpoints/index.js";
 import $rules from "./rules/index.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * gateway command group
  * @generated from apis/overlays/zero-trust.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "gateway",
 	describe: "Operations for gateway",
 
-	builder: (yargs) => {
-		return yargs
-			.command($create)
-			.command($list)
-			.command($apptypes)
-			.command($categories)
-			.command($certificates)
-			.command($configurations)
-			.command($dnsdestinationips)
-			.command($lists)
-			.command($locations)
-			.command($logging)
-			.command($pacfiles)
-			.command($proxyendpoints)
-			.command($rules)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		create: $create,
+		list: $list,
+		"app-types": $apptypes,
+		categories: $categories,
+		certificates: $certificates,
+		configurations: $configurations,
+		"dns-destination-ips": $dnsdestinationips,
+		lists: $lists,
+		locations: $locations,
+		logging: $logging,
+		pacfiles: $pacfiles,
+		"proxy-endpoints": $proxyendpoints,
+		rules: $rules,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

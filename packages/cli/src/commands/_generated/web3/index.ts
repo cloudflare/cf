@@ -1,23 +1,18 @@
 import $hostnames from "./hostnames/index.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * web3 command
  * @generated from apis/overlays/web3.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "web3",
 	describe:
 		"Web3 gateways — serve IPFS and Ethereum content through custom hostnames on Cloudflare",
 
-	builder: (yargs) => {
-		return yargs
-			.command($hostnames)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		hostnames: $hostnames,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

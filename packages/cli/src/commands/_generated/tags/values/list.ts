@@ -1,36 +1,24 @@
-import operation from "../../_operations/tags/values/list.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * list command
  * @generated from apis/overlays/tags.ts
  */
-import type { Argv, CommandModule } from "yargs";
 import {
-	createCommandClient,
-	getAccountId,
-	resolveAccountIdSilent,
-} from "#lib/auth.js";
-import { formatDryRun } from "#lib/dry-run.js";
-import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
-import { formatOutput } from "#lib/output.js";
-import { withProgress } from "#lib/progress.js";
-import { runWithTelemetry } from "#lib/telemetry/index.js";
+	apiCommand,
+	type ApiInputs,
+	type ApiParameters,
+} from "#lib/api-command.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 tags values list\n\nLists all distinct values for a given tag key, optionally filtered by resource type."
-		)
-		.option("tag-key", {
-			type: "string",
-			description: "The tag key to retrieve values for.",
-			demandOption: true,
-		})
-		.option("type", {
-			type: "string",
-			description: "Filter by resource type.",
-			choices: [
+const parameters = {
+	flags: {
+		"tag-key": {
+			kind: "parsed",
+			brief: "The tag key to retrieve values for.",
+			parse: String,
+		},
+		type: {
+			kind: "enum",
+			brief: "Filter by resource type.",
+			values: [
 				"access_application",
 				"access_application_policy",
 				"access_group",
@@ -79,61 +67,30 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"zone",
 				"zone_ruleset",
 			],
-		})
-		.option("cursor", { type: "string", description: "Cursor for pagination." })
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
+			optional: true,
+		},
+		cursor: {
+			kind: "parsed",
+			brief: "Cursor for pagination.",
+			optional: true,
+			parse: String,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
 			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+		},
+	},
+	operands: [],
+} as const satisfies ApiParameters;
+export type Args = ApiInputs<typeof parameters>;
+const command = apiCommand({
 	command: "list",
 	describe: "List tag values",
-	builder,
-	handler: async (argv): Promise<void> =>
-		runWithTelemetry(
-			{
-				command: "tags values list",
-				classification: {
-					safeFlags: ["type", "dry-run"],
-				} satisfies ArgClassification<Args>,
-			},
-			argv as Record<string, unknown>,
-			async () => {
-				const queryParams: Record<string, unknown> = {
-					type: argv["type"],
-					cursor: argv["cursor"],
-				};
-				if (argv.dryRun) {
-					const __cfDryRunAccountId = await resolveAccountIdSilent();
-					formatDryRun({
-						command: "cf tags values list",
-						method: "GET",
-						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/tags/values/${argv["tag-key"] == null ? "<tag-key>" : encodeURIComponent(String(argv["tag-key"]))}`,
-						pathParams: { "tag-key": String(argv["tag-key"] ?? "") },
-						query: queryParams,
-						bodyKind: "none",
-					});
-					return;
-				}
-				const client = await createCommandClient(argv);
-				const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
-				argv.accountId = accountId;
-
-				const result = await withProgress(`Loading`, async () =>
-					client.send(operation, {
-						account_id: accountId,
-						tag_key: argv["tag-key"],
-						...queryParams,
-					})
-				);
-				formatOutput(result, { successLabel: `Loaded` });
-			}
-		),
-};
+	usage:
+		"$0 tags values list\n\nLists all distinct values for a given tag key, optionally filtered by resource type.",
+	...parameters,
+	loader: () => import("./list.handler.js"),
+});
 
 export default command;

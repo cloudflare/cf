@@ -4,29 +4,24 @@ import $loadocuments from "./loa-documents/index.js";
 import $prefixes from "./prefixes/index.js";
 import $regionalhostnames from "./regional-hostnames/index.js";
 import $services from "./services/index.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * addressing command
  * @generated from apis/overlays/addressing.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "addressing",
 	describe: "addressing",
 
-	builder: (yargs) => {
-		return yargs
-			.command($addressmaps)
-			.command($leases)
-			.command($loadocuments)
-			.command($prefixes)
-			.command($regionalhostnames)
-			.command($services)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		"address-maps": $addressmaps,
+		leases: $leases,
+		"loa-documents": $loadocuments,
+		prefixes: $prefixes,
+		"regional-hostnames": $regionalhostnames,
+		services: $services,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

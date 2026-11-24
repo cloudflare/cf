@@ -4,30 +4,25 @@ import $list from "./list.js";
 import $summary from "./summary.js";
 import $timeseriesgroups from "./timeseries-groups.js";
 import $timeseries from "./timeseries.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * bots command group
  * @generated from apis/overlays/radar.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "bots",
 	describe:
 		"Internet-wide bot traffic trends, categories, and distribution statistics",
 
-	builder: (yargs) => {
-		return yargs
-			.command($get)
-			.command($list)
-			.command($summary)
-			.command($timeseries)
-			.command($timeseriesgroups)
-			.command($crawlers)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		get: $get,
+		list: $list,
+		summary: $summary,
+		timeseries: $timeseries,
+		"timeseries-groups": $timeseriesgroups,
+		crawlers: $crawlers,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

@@ -5,30 +5,25 @@ import $history from "./history/index.js";
 import $list from "./list.js";
 import $retry from "./retry.js";
 import $rollback from "./rollback.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * deployments command group
  * @generated from apis/overlays/pages.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "deployments",
 	describe: "Operations for deployments",
 
-	builder: (yargs) => {
-		return yargs
-			.command($create)
-			.command($delete)
-			.command($get)
-			.command($list)
-			.command($retry)
-			.command($rollback)
-			.command($history)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		create: $create,
+		delete: $delete,
+		get: $get,
+		list: $list,
+		retry: $retry,
+		rollback: $rollback,
+		history: $history,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

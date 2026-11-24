@@ -1,0 +1,104 @@
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import type { Args } from "./put.js";
+import {
+	createCommandClient,
+	getAccountId,
+	requestApi,
+	resolveAccountIdSilent,
+} from "#lib/auth.js";
+import { formatDryRun } from "#lib/dry-run.js";
+import { readFileForFlag, resolveFileToken } from "#lib/input-validation.js";
+import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
+import { formatOutput } from "#lib/output.js";
+import { withProgress } from "#lib/progress.js";
+import { runWithTelemetry } from "#lib/telemetry/index.js";
+
+export default async function handle(argv: Args): Promise<void> {
+	return runWithTelemetry(
+		{
+			command: "r2 objects put",
+			classification: { safeFlags: ["dry-run"] } satisfies ArgClassification<
+				typeof argv
+			>,
+		},
+		argv as Record<string, unknown>,
+		async () => {
+			const headers: Record<string, string> = {};
+			if (argv["cf-r2-jurisdiction"] !== undefined)
+				headers["cf-r2-jurisdiction"] = String(argv["cf-r2-jurisdiction"]);
+			if (argv["content-type"] !== undefined)
+				headers["Content-Type"] = String(argv["content-type"]);
+			if (argv["content-length"] !== undefined)
+				headers["Content-Length"] = String(argv["content-length"]);
+			if (argv["cf-r2-storage-class"] !== undefined)
+				headers["cf-r2-storage-class"] = String(argv["cf-r2-storage-class"]);
+			if (argv.body === undefined && argv.file === undefined) {
+				throw new Error(
+					"--body or --file is required for this command. Pass --body '<value>' or --file path/to/file."
+				);
+			}
+			if (argv.dryRun) {
+				const __cfDryRunAccountId = await resolveAccountIdSilent();
+				formatDryRun({
+					command: "cf r2 objects put",
+					method: "PUT",
+					url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/r2/buckets/${argv["bucket-name"] == null ? "<bucket-name>" : encodeURIComponent(String(argv["bucket-name"]))}/objects/${argv["object-key"] == null ? "<object-key>" : encodeURIComponent(String(argv["object-key"]))}`,
+					pathParams: {
+						"bucket-name": String(argv["bucket-name"] ?? ""),
+						"object-key": String(argv["object-key"] ?? ""),
+					},
+					bodyKind: "octet-stream",
+					body: argv.file !== undefined ? { file: argv.file } : argv.body,
+				});
+				return;
+			}
+			const parsedBody =
+				argv.file !== undefined
+					? undefined
+					: resolveFileToken(argv.body, "body", "binary");
+			const client = await createCommandClient(argv);
+			const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
+			argv.accountId = accountId;
+
+			if (argv.file !== undefined) {
+				const fileContent = readFileForFlag(argv.file);
+				const result = await withProgress(`Updating`, async () =>
+					requestApi<unknown>(
+						client,
+						"PUT",
+						`/accounts/${accountId}/r2/buckets/${encodeURIComponent(String(argv["bucket-name"]))}/objects/${encodeURIComponent(String(argv["object-key"]))}`,
+						{
+							body: fileContent,
+							headers: {
+								"Content-Type": "application/octet-stream",
+								...(Object.keys(headers).length > 0 ? headers : undefined),
+							},
+						}
+					)
+				);
+				formatOutput(result, { successLabel: `Updated` });
+				return;
+			}
+
+			if (argv.body !== undefined) {
+				const bodyData = parsedBody;
+				const result = await withProgress(`Updating`, async () =>
+					requestApi<unknown>(
+						client,
+						"PUT",
+						`/accounts/${accountId}/r2/buckets/${encodeURIComponent(String(argv["bucket-name"]))}/objects/${encodeURIComponent(String(argv["object-key"]))}`,
+						{
+							body: bodyData,
+							headers: {
+								"Content-Type": "application/octet-stream",
+								...headers,
+							},
+						}
+					)
+				);
+				formatOutput(result, { successLabel: `Updated` });
+				return;
+			}
+		}
+	);
+}

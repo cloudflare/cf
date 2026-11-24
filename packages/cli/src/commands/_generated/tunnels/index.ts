@@ -9,47 +9,42 @@ import $hostnames from "./hostnames/index.js";
 import $list from "./list.js";
 import $managementtoken from "./management-token/index.js";
 import $token from "./token/index.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
-/**
- * tunnels command
- * @generated from apis/overlays/tunnels.ts
- */
-import type { CommandModule } from "yargs";
 import $diag from "#commands/tunnels/diag/index.js";
 import $login from "#commands/tunnels/login/index.js";
 import $quickstart from "#commands/tunnels/quick-start/index.js";
 import $ready from "#commands/tunnels/ready/index.js";
 import $run from "#commands/tunnels/run/index.js";
 import $tail from "#commands/tunnels/tail/index.js";
+/**
+ * tunnels command
+ * @generated from apis/overlays/tunnels.ts
+ */
+import { apiGroup } from "#lib/api-command.js";
 import { withHandWrittenDryRun } from "#lib/hand-written-dry-run.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "tunnels",
 	describe: "tunnels",
 
-	builder: (yargs) => {
-		return yargs
-			.command($create)
-			.command($delete)
-			.command(withHandWrittenDryRun($diag, "preview"))
-			.command($edit)
-			.command($get)
-			.command($list)
-			.command(withHandWrittenDryRun($login, "preview"))
-			.command(withHandWrittenDryRun($quickstart, "preview"))
-			.command(withHandWrittenDryRun($ready, "preview"))
-			.command(withHandWrittenDryRun($run, "preview"))
-			.command(withHandWrittenDryRun($tail, "preview"))
-			.command($config)
-			.command($connections)
-			.command($connectors)
-			.command($hostnames)
-			.command($managementtoken)
-			.command($token)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		create: $create,
+		delete: $delete,
+		diag: withHandWrittenDryRun($diag, "preview"),
+		edit: $edit,
+		get: $get,
+		list: $list,
+		login: withHandWrittenDryRun($login, "preview"),
+		"quick-start": withHandWrittenDryRun($quickstart, "preview"),
+		ready: withHandWrittenDryRun($ready, "preview"),
+		run: withHandWrittenDryRun($run, "preview"),
+		tail: withHandWrittenDryRun($tail, "preview"),
+		config: $config,
+		connections: $connections,
+		connectors: $connectors,
+		hostnames: $hostnames,
+		"management-token": $managementtoken,
+		token: $token,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

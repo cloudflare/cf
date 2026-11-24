@@ -6,31 +6,26 @@ import $get from "./get.js";
 import $list from "./list.js";
 import $update from "./update.js";
 import $verification from "./verification/index.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * domains command group
  * @generated from apis/overlays/email-security.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "domains",
 	describe: "Operations for domains",
 
-	builder: (yargs) => {
-		return yargs
-			.command($bulkapply)
-			.command($create)
-			.command($delete)
-			.command($edit)
-			.command($get)
-			.command($list)
-			.command($update)
-			.command($verification)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		"bulk-apply": $bulkapply,
+		create: $create,
+		delete: $delete,
+		edit: $edit,
+		get: $get,
+		list: $list,
+		update: $update,
+		verification: $verification,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

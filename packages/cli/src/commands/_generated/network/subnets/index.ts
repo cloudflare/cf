@@ -2,27 +2,22 @@ import $cloudflaresource from "./cloudflare-source/index.js";
 import $initialresolvedip from "./initial-resolved-ip/index.js";
 import $list from "./list.js";
 import $warp from "./warp/index.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * subnets command group
  * @generated from apis/overlays/network.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "subnets",
 	describe: "Operations for subnets",
 
-	builder: (yargs) => {
-		return yargs
-			.command($list)
-			.command($cloudflaresource)
-			.command($initialresolvedip)
-			.command($warp)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		list: $list,
+		"cloudflare-source": $cloudflaresource,
+		"initial-resolved-ip": $initialresolvedip,
+		warp: $warp,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

@@ -1,6 +1,9 @@
 import { randomUUID } from "node:crypto";
+import { mkdirSync, writeFileSync } from "node:fs";
+import { dirname, join } from "node:path";
 import {
 	createCfProfileStore,
+	getAuthConfigFilePath,
 	writeAuthConfigFile,
 } from "@cloudflare/workers-auth/cf";
 import { runInTempDir } from "@cloudflare/workers-utils/test-helpers";
@@ -39,6 +42,63 @@ describe("cf auth profiles", () => {
 				() => new HttpResponse("")
 			)
 		);
+	});
+
+	it("completes local names without resolving a profile or exposing credentials", async () => {
+		createProfile("work");
+		createProfile("personal");
+		createProfile("default");
+		vi.stubEnv("CLOUDFLARE_AUTH_PROFILE", "not a valid profile!");
+		for (const words of [
+			["auth", "activate", "wo"],
+			["auth", "delete", "wo"],
+			["auth", "create", "wo"],
+			["zones", "list", "--profile", "wo"],
+			["--profile=wo"],
+		]) {
+			expect(await runCf(["complete", "--", ...words])).toEqual({
+				exitCode: 0,
+			});
+			expect(std.getAndClearOut()).toBe("work\twork\n:4");
+			expect(std.getAndClearErr()).toBe("");
+		}
+		for (const words of [
+			["auth", "activate", "def"],
+			["auth", "activate", "work", "wo"],
+			["auth", "list", "--profile", "wo"],
+		]) {
+			await runCf(["complete", "--", ...words]);
+			expect(std.getAndClearOut()).toBe(":4");
+		}
+		await runCf(["complete", "--", "auth", "whoami", "--profile", "def"]);
+		expect(std.getAndClearOut()).toBe("default\tdefault\n:4");
+	});
+
+	it("suggests safe encrypted profile filenames without opening the files", async () => {
+		const directory = dirname(getAuthConfigFilePath());
+		mkdirSync(directory, { recursive: true });
+		for (const file of [
+			"work.enc",
+			"work.json",
+			"work space.json",
+			"staging.json",
+		]) {
+			writeFileSync(join(directory, file), "not credential data");
+		}
+		await runCf(["complete", "--", "auth", "activate", ""]);
+		expect(std.getAndClearOut()).toBe("work\twork\n:4");
+		expect(std.getAndClearErr()).toBe("");
+	});
+
+	it("returns no suggestions when the profile directory cannot be listed", async () => {
+		const directory = dirname(getAuthConfigFilePath());
+		mkdirSync(dirname(directory), { recursive: true });
+		writeFileSync(directory, "not a directory");
+		expect(await runCf(["complete", "--", "auth", "activate", "wo"])).toEqual({
+			exitCode: 0,
+		});
+		expect(std.getAndClearOut()).toBe(":4");
+		expect(std.getAndClearErr()).toBe("");
 	});
 
 	it("activates, lists, and deactivates a named profile", async () => {

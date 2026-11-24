@@ -2,8 +2,7 @@ import { stripTypeScriptTypes } from "node:module";
 import { Script } from "node:vm";
 import { runInTempDir, seed } from "@cloudflare/workers-utils/test-helpers";
 import { describe, expect, it, vi } from "vite-plus/test";
-import yargs, { type Argv } from "yargs";
-import { builderLines } from "../../../../generator/plugin/emit/builder.js";
+import { parameterSource } from "../../../../generator/plugin/emit/builder.js";
 import { handler, imports } from "../../../../generator/plugin/emit/handler.js";
 import { context as emitContext } from "../../../../generator/plugin/emit/index.js";
 import {
@@ -18,6 +17,10 @@ import {
 	operation,
 	wire,
 } from "../../helpers/cli-plugin.js";
+import {
+	generatedParameters,
+	commandParser,
+} from "../../helpers/command-parser.js";
 
 describe.each([true, false])(
 	"scalar-union positionals (typed request: %s)",
@@ -37,9 +40,7 @@ describe.each([true, false])(
 			}),
 			"./"
 		);
-		const builder = new Script(
-			`(yargs) => yargs\n${builderLines(ctx).join("\n")}`
-		).runInNewContext() as (args: Argv) => Argv;
+		const params = generatedParameters(parameterSource(ctx));
 		const source = stripTypeScriptTypes(
 			`(async (argv) => {\n${handler(ctx).join("\n")}\n})`
 		);
@@ -85,18 +86,10 @@ describe.each([true, false])(
 						) => task(),
 						formatOutput: () => {},
 					}) as (argv: Record<string, unknown>) => Promise<void>;
-					const argv = await yargs([
-						"create",
-						...args,
-						...(dryRun ? ["--dry-run"] : []),
-					])
-						.exitProcess(false)
-						.command(command, "", builder, () => {})
-						.strict()
-						.fail((message, error) => {
-							throw error ?? new Error(message);
-						})
-						.parseAsync();
+					const argv = await commandParser(
+						["create", ...args, ...(dryRun ? ["--dry-run"] : [])],
+						{ ...params, command: command }
+					).parse();
 					await run(argv);
 					if (dryRun) {
 						expect(formatDryRun).toHaveBeenCalledWith(

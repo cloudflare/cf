@@ -4,29 +4,24 @@ import $accountownership from "./account-ownership/index.js";
 import $accountvalidate from "./account-validate/index.js";
 import $edge from "./edge/index.js";
 import $transformers from "./transformers/index.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * logpush command
  * @generated from apis/overlays/logpush.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "logpush",
 	describe: "logpush",
 
-	builder: (yargs) => {
-		return yargs
-			.command($accountdatasets)
-			.command($accountjobs)
-			.command($accountownership)
-			.command($accountvalidate)
-			.command($edge)
-			.command($transformers)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		"account-datasets": $accountdatasets,
+		"account-jobs": $accountjobs,
+		"account-ownership": $accountownership,
+		"account-validate": $accountvalidate,
+		edge: $edge,
+		transformers: $transformers,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

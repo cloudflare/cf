@@ -6,31 +6,26 @@ import $get from "./get.js";
 import $list from "./list.js";
 import $search from "./search.js";
 import $update from "./update.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * registrations command group
  * @generated from apis/overlays/registrar-sandbox.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "registrations",
 	describe: "Operations for registrations",
 
-	builder: (yargs) => {
-		return yargs
-			.command($check)
-			.command($create)
-			.command($get)
-			.command($getregistrationstatus)
-			.command($getupdatestatus)
-			.command($list)
-			.command($search)
-			.command($update)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		check: $check,
+		create: $create,
+		get: $get,
+		"get-registration-status": $getregistrationstatus,
+		"get-update-status": $getupdatestatus,
+		list: $list,
+		search: $search,
+		update: $update,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

@@ -8,33 +8,28 @@ import $get from "./get.js";
 import $list from "./list.js";
 import $servicebindings from "./service-bindings/index.js";
 import $validate from "./validate/index.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * prefixes command group
  * @generated from apis/overlays/addressing.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "prefixes",
 	describe: "Operations for prefixes",
 
-	builder: (yargs) => {
-		return yargs
-			.command($create)
-			.command($delete)
-			.command($edit)
-			.command($get)
-			.command($list)
-			.command($advertisementstatus)
-			.command($bgpprefixes)
-			.command($delegations)
-			.command($servicebindings)
-			.command($validate)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		create: $create,
+		delete: $delete,
+		edit: $edit,
+		get: $get,
+		list: $list,
+		"advertisement-status": $advertisementstatus,
+		"bgp-prefixes": $bgpprefixes,
+		delegations: $delegations,
+		"service-bindings": $servicebindings,
+		validate: $validate,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

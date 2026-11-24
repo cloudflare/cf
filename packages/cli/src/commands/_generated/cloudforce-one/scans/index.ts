@@ -1,24 +1,19 @@
 import $config from "./config/index.js";
 import $results from "./results/index.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * scans command group
  * @generated from apis/overlays/cloudforce-one.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "scans",
 	describe: "Scan URLs, IPs, and domains for threat intelligence indicators",
 
-	builder: (yargs) => {
-		return yargs
-			.command($config)
-			.command($results)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		config: $config,
+		results: $results,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

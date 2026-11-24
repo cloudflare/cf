@@ -1,24 +1,19 @@
 import $edit from "./edit.js";
 import $update from "./update.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * credentials command group
  * @generated from apis/overlays/api-security.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "credentials",
 	describe: "Operations for token-validation.configurations.credentials",
 
-	builder: (yargs) => {
-		return yargs
-			.command($edit)
-			.command($update)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		edit: $edit,
+		update: $update,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

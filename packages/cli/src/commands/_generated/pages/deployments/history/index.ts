@@ -1,20 +1,17 @@
 import $logs from "./logs/index.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * history command group
  * @generated from apis/overlays/pages.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "history",
 	describe: "Operations for deployments.history",
 
-	builder: (yargs) => {
-		return yargs.command($logs).demandCommand(1, "Please specify a subcommand");
+	routes: {
+		logs: $logs,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

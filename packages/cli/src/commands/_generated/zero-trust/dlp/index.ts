@@ -15,40 +15,35 @@ import $sensitivitygroups from "./sensitivity-groups/index.js";
 import $sensitivitylevels from "./sensitivity-levels/index.js";
 import $settings from "./settings/index.js";
 import $validators from "./validators/index.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * dlp command group
  * @generated from apis/overlays/zero-trust.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "dlp",
 	describe: "Operations for dlp",
 
-	builder: (yargs) => {
-		return yargs
-			.command($customprompttopics)
-			.command($dataclasses)
-			.command($datatagcategories)
-			.command($datatagcategorytemplates)
-			.command($datatags)
-			.command($datasets)
-			.command($documentfingerprints)
-			.command($email)
-			.command($entries)
-			.command($limits)
-			.command($patterns)
-			.command($profiles)
-			.command($sensitivitygrouptemplates)
-			.command($sensitivitygroups)
-			.command($sensitivitylevels)
-			.command($settings)
-			.command($validators)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		"custom-prompt-topics": $customprompttopics,
+		"data-classes": $dataclasses,
+		"data-tag-categories": $datatagcategories,
+		"data-tag-category-templates": $datatagcategorytemplates,
+		"data-tags": $datatags,
+		datasets: $datasets,
+		"document-fingerprints": $documentfingerprints,
+		email: $email,
+		entries: $entries,
+		limits: $limits,
+		patterns: $patterns,
+		profiles: $profiles,
+		"sensitivity-group-templates": $sensitivitygrouptemplates,
+		"sensitivity-groups": $sensitivitygroups,
+		"sensitivity-levels": $sensitivitylevels,
+		settings: $settings,
+		validators: $validators,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

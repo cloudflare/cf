@@ -1,22 +1,17 @@
 import $services from "./services/index.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * workers-vpc command
  * @generated from apis/overlays/workers-vpc.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "workers-vpc",
 	describe: "workers-vpc",
 
-	builder: (yargs) => {
-		return yargs
-			.command($services)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		services: $services,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

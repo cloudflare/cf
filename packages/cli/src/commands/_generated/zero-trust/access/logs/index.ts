@@ -1,26 +1,21 @@
 import $accessrequests from "./access-requests/index.js";
 import $jitrequests from "./jit-requests/index.js";
 import $scim from "./scim/index.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * logs command group
  * @generated from apis/overlays/zero-trust.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "logs",
 	describe: "Operations for access.logs",
 
-	builder: (yargs) => {
-		return yargs
-			.command($accessrequests)
-			.command($jitrequests)
-			.command($scim)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		"access-requests": $accessrequests,
+		"jit-requests": $jitrequests,
+		scim: $scim,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

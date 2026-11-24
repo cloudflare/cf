@@ -1,22 +1,17 @@
 import $start from "./start.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * tracks command group
  * @generated from apis/overlays/realtime.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "tracks",
 	describe: "Participant-track recordings for RealtimeKit meetings",
 
-	builder: (yargs) => {
-		return yargs
-			.command($start)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		start: $start,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

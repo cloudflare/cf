@@ -1,26 +1,21 @@
 import $get from "./get.js";
 import $graph from "./graph.js";
 import $list from "./list.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * versions command group
  * @generated from apis/overlays/workflows.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "versions",
 	describe: "Workflow version operations",
 
-	builder: (yargs) => {
-		return yargs
-			.command($get)
-			.command($graph)
-			.command($list)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		get: $get,
+		graph: $graph,
+		list: $list,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

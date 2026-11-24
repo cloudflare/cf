@@ -7,33 +7,28 @@ import $rules from "./rules/index.js";
 import $testresults from "./test-results/index.js";
 import $tests from "./tests/index.js";
 import $warpchangeevents from "./warp-change-events/index.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * dex command group
  * @generated from apis/overlays/zero-trust.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "dex",
 	describe:
 		"Digital Experience Monitoring — synthetic tests, fleet-wide device metrics, and network path diagnostics",
 
-	builder: (yargs) => {
-		return yargs
-			.command($colos)
-			.command($commands)
-			.command($devices)
-			.command($isps)
-			.command($overview)
-			.command($rules)
-			.command($testresults)
-			.command($tests)
-			.command($warpchangeevents)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		colos: $colos,
+		commands: $commands,
+		devices: $devices,
+		isps: $isps,
+		overview: $overview,
+		rules: $rules,
+		"test-results": $testresults,
+		tests: $tests,
+		"warp-change-events": $warpchangeevents,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

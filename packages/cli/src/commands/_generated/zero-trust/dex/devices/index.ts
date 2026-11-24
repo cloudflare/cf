@@ -2,27 +2,22 @@ import $aggregates from "./aggregates/index.js";
 import $get from "./get.js";
 import $list from "./list.js";
 import $overtime from "./over-time/index.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * devices command group
  * @generated from apis/overlays/zero-trust.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "devices",
 	describe: "Operations for dex.devices",
 
-	builder: (yargs) => {
-		return yargs
-			.command($get)
-			.command($list)
-			.command($aggregates)
-			.command($overtime)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		get: $get,
+		list: $list,
+		aggregates: $aggregates,
+		"over-time": $overtime,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

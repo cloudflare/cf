@@ -1,20 +1,17 @@
 import $list from "./list.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * ip-lists command group
  * @generated from apis/overlays/intel.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "ip-lists",
 	describe: "Curated IP lists used for threat detection and policy enforcement",
 
-	builder: (yargs) => {
-		return yargs.command($list).demandCommand(1, "Please specify a subcommand");
+	routes: {
+		list: $list,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

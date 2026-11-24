@@ -1,24 +1,19 @@
 import $customtruststore from "./custom-trust-store/index.js";
 import $totaltls from "./total-tls/index.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * acm command
  * @generated from apis/overlays/acm.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "acm",
 	describe: "acm",
 
-	builder: (yargs) => {
-		return yargs
-			.command($customtruststore)
-			.command($totaltls)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		"custom-trust-store": $customtruststore,
+		"total-tls": $totaltls,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

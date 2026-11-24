@@ -1,26 +1,21 @@
 import $get from "./get.js";
 import $networkpath from "./network-path/index.js";
 import $percentiles from "./percentiles/index.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * traceroute command group
  * @generated from apis/overlays/zero-trust.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "traceroute",
 	describe: "Operations for dex.test-results.traceroute",
 
-	builder: (yargs) => {
-		return yargs
-			.command($get)
-			.command($networkpath)
-			.command($percentiles)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		get: $get,
+		"network-path": $networkpath,
+		percentiles: $percentiles,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

@@ -1,21 +1,18 @@
 import $asn from "./asn/index.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * configs command group
  * @generated from apis/overlays/botnet-feed.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "configs",
 	describe:
 		"Botnet feed subscription configuration and notification preferences",
 
-	builder: (yargs) => {
-		return yargs.command($asn).demandCommand(1, "Please specify a subcommand");
+	routes: {
+		asn: $asn,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

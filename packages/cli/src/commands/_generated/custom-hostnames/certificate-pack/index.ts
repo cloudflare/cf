@@ -1,22 +1,17 @@
 import $certificates from "./certificates/index.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * certificate-pack command group
  * @generated from apis/overlays/custom-hostnames.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "certificate-pack",
 	describe: "Operations for certificate-pack",
 
-	builder: (yargs) => {
-		return yargs
-			.command($certificates)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		certificates: $certificates,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

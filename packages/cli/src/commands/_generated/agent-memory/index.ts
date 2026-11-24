@@ -12,37 +12,32 @@ import $listprofiles from "./list-profiles.js";
 import $recall from "./recall.js";
 import $remember from "./remember.js";
 import $summary from "./summary.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * agent-memory command
  * @generated from apis/overlays/agent-memory.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "agent-memory",
 	describe: "agent-memory",
 
-	builder: (yargs) => {
-		return yargs
-			.command($createnamespace)
-			.command($deletememory)
-			.command($deletenamespace)
-			.command($deleteprofile)
-			.command($deletesession)
-			.command($getmemory)
-			.command($getnamespace)
-			.command($ingest)
-			.command($listmemories)
-			.command($listnamespaces)
-			.command($listprofiles)
-			.command($recall)
-			.command($remember)
-			.command($summary)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		"create-namespace": $createnamespace,
+		"delete-memory": $deletememory,
+		"delete-namespace": $deletenamespace,
+		"delete-profile": $deleteprofile,
+		"delete-session": $deletesession,
+		"get-memory": $getmemory,
+		"get-namespace": $getnamespace,
+		ingest: $ingest,
+		"list-memories": $listmemories,
+		"list-namespaces": $listnamespaces,
+		"list-profiles": $listprofiles,
+		recall: $recall,
+		remember: $remember,
+		summary: $summary,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

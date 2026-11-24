@@ -3,29 +3,24 @@ import $cookies from "./cookies/index.js";
 import $policies from "./policies/index.js";
 import $scripts from "./scripts/index.js";
 import $settings from "./settings/index.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * client-side-security command
  * @generated from apis/overlays/client-side-security.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "client-side-security",
 	describe:
 		"Client-Side Security — monitor JavaScript, connections, and cookies on your pages for supply-chain attacks",
 
-	builder: (yargs) => {
-		return yargs
-			.command($connections)
-			.command($cookies)
-			.command($policies)
-			.command($scripts)
-			.command($settings)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		connections: $connections,
+		cookies: $cookies,
+		policies: $policies,
+		scripts: $scripts,
+		settings: $settings,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

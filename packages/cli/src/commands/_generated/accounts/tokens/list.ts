@@ -1,96 +1,54 @@
-import operation from "../../_operations/accounts/tokens/list.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
  * list command
  * @generated from apis/overlays/accounts.ts
  */
-import type { Argv, CommandModule } from "yargs";
 import {
-	createCommandClient,
-	getAccountId,
-	resolveAccountIdSilent,
-} from "#lib/auth.js";
-import { formatDryRun } from "#lib/dry-run.js";
-import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
-import { formatOutput } from "#lib/output.js";
-import { withProgress } from "#lib/progress.js";
-import { runWithTelemetry } from "#lib/telemetry/index.js";
+	apiCommand,
+	type ApiInputs,
+	type ApiParameters,
+} from "#lib/api-command.js";
 
-function builder(yargs: Argv<CommonYargsOptions>) {
-	return yargs
-		.usage(
-			"$0 accounts tokens list\n\nList Account Owned API tokens created for this account. Callers with `com.cloudflare.api.account.token.list_self` permission only receive tokens they created. Results include active, disabled, and recently-expired tokens when `include_expired` is set to true."
-		)
-		.option("page", {
-			type: "number",
-			description: "Page number of paginated results.",
-		})
-		.option("per-page", {
-			type: "number",
-			description: "Maximum number of results per page.",
-		})
-		.option("direction", {
-			type: "string",
-			description: "Direction to order results.",
-			choices: ["asc", "desc"],
-		})
-		.option("include-expired", {
-			type: "boolean",
-			description:
-				"When true, includes recently-expired tokens in the response.",
-		})
-		.option("dry-run", {
-			type: "boolean",
-			description: "Validate and show what would happen without executing",
+const parameters = {
+	flags: {
+		page: {
+			kind: "parsed",
+			brief: "Page number of paginated results.",
+			optional: true,
+			parse: Number,
+		},
+		"per-page": {
+			kind: "parsed",
+			brief: "Maximum number of results per page.",
+			optional: true,
+			parse: Number,
+		},
+		direction: {
+			kind: "enum",
+			brief: "Direction to order results.",
+			values: ["asc", "desc"],
+			optional: true,
+		},
+		"include-expired": {
+			kind: "boolean",
+			brief: "When true, includes recently-expired tokens in the response.",
+			optional: true,
+		},
+		"dry-run": {
+			kind: "boolean",
+			brief: "Validate and show what would happen without executing",
 			default: false,
-		});
-}
-
-type Args = InferArgs<typeof builder>;
-
-const command: CommandModule<CommonYargsOptions, Args> = {
+		},
+	},
+	operands: [],
+} as const satisfies ApiParameters;
+export type Args = ApiInputs<typeof parameters>;
+const command = apiCommand({
 	command: "list",
 	describe: "List Tokens",
-	builder,
-	handler: async (argv): Promise<void> =>
-		runWithTelemetry(
-			{
-				command: "accounts tokens list",
-				classification: {
-					safeFlags: ["direction", "include-expired", "dry-run"],
-				} satisfies ArgClassification<Args>,
-			},
-			argv as Record<string, unknown>,
-			async () => {
-				const queryParams: Record<string, unknown> = {
-					page: argv["page"],
-					per_page: argv["per-page"],
-					direction: argv["direction"],
-					include_expired: argv["include-expired"],
-				};
-				if (argv.dryRun) {
-					const __cfDryRunAccountId = await resolveAccountIdSilent();
-					formatDryRun({
-						command: "cf accounts tokens list",
-						method: "GET",
-						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/tokens`,
-						pathParams: {},
-						query: queryParams,
-						bodyKind: "none",
-					});
-					return;
-				}
-				const client = await createCommandClient(argv);
-				const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
-				argv.accountId = accountId;
-
-				const result = await withProgress(`Loading`, async () =>
-					client.send(operation, { account_id: accountId, ...queryParams })
-				);
-				formatOutput(result, { successLabel: `Loaded` });
-			}
-		),
-};
+	usage:
+		"$0 accounts tokens list\n\nList Account Owned API tokens created for this account. Callers with `com.cloudflare.api.account.token.list_self` permission only receive tokens they created. Results include active, disabled, and recently-expired tokens when `include_expired` is set to true.",
+	...parameters,
+	loader: () => import("./list.handler.js"),
+});
 
 export default command;

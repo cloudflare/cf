@@ -4,30 +4,25 @@ import $delete from "./delete.js";
 import $get from "./get.js";
 import $updateemail from "./update-email.js";
 import $update from "./update.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * profiles command group
  * @generated from apis/overlays/billing.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "profiles",
 	describe:
 		"Billing profile with payment method, address, and invoice preferences",
 
-	builder: (yargs) => {
-		return yargs
-			.command($create)
-			.command($createpaymentintent)
-			.command($delete)
-			.command($get)
-			.command($update)
-			.command($updateemail)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		create: $create,
+		"create-payment-intent": $createpaymentintent,
+		delete: $delete,
+		get: $get,
+		update: $update,
+		"update-email": $updateemail,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

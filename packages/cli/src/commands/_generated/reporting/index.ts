@@ -1,26 +1,21 @@
 import $industry from "./industry/index.js";
 import $policies from "./policies/index.js";
 import $reports from "./reports/index.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * reporting command
  * @generated from apis/overlays/reporting.ts
  */
-import type { CommandModule } from "yargs";
+import { apiGroup } from "#lib/api-command.js";
 
-const command: CommandModule<CommonYargsOptions> = {
+const command = apiGroup({
 	command: "reporting",
 	describe: "reporting",
 
-	builder: (yargs) => {
-		return yargs
-			.command($industry)
-			.command($policies)
-			.command($reports)
-			.demandCommand(1, "Please specify a subcommand");
+	routes: {
+		industry: $industry,
+		policies: $policies,
+		reports: $reports,
 	},
-
-	handler: () => {},
-};
+});
 
 export default command;

@@ -112122,8 +112122,8 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"zero-trust cws tenant-structures nodes batch": {
-			"operationId": "zero-trust.cws.tenant-structures.nodes.batch",
+		"zero-trust cws tenant-structures nodes bulk-apply": {
+			"operationId": "zero-trust.cws.tenant-structures.nodes.bulk-apply",
 			"httpMethod": "POST",
 			"path": "/accounts/{account_id}/cws/tenant-structures/{structure_id}/nodes/batch",
 			"pathParams": [
@@ -112135,7 +112135,6 @@
 				{
 					"name": "structure_id",
 					"flag": "structure-id",
-					"positional": true,
 					"type": "string",
 					"required": true
 				}

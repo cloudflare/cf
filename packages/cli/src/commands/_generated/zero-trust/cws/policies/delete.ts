@@ -21,7 +21,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 zero-trust cws policies delete <policy-id>\n\nDeletes the policy and cascades its policy-set membership rows. The policy sets remain."
+			"$0 zero-trust cws policies delete <policy-id>\n\nDeletes the policy when no policy set references it. If referenced, the request is rejected with the policy set IDs and names; detach the policy first."
 		)
 		.positional("policy-id", {
 			type: "string",

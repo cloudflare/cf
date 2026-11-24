@@ -21,7 +21,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 zero-trust cws workloads delete <workload-id>\n\nDeletes the workload if it is not targeted by a policy set."
+			"$0 zero-trust cws workloads delete <workload-id>\n\nDeletes the workload if it is not targeted by a policy set. When policy sets still reference it, the error identifies each policy set by ID and name so those relationships can be removed first."
 		)
 		.positional("workload-id", {
 			type: "string",

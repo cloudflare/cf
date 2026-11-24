@@ -154973,7 +154973,7 @@
 			"command": "cf zero-trust cws policies delete",
 			"name": "delete",
 			"fullPath": ["zero-trust", "cws", "policies", "delete"],
-			"description": "Deletes the policy and cascades its policy-set membership rows. The policy sets remain.",
+			"description": "Deletes the policy when no policy set references it. If referenced, the request is rejected with the policy set IDs and names; detach the policy first.",
 			"summary": "Delete a policy",
 			"usage": "cf zero-trust cws policies delete <policy-id>",
 			"arguments": [
@@ -155253,7 +155253,7 @@
 			"command": "cf zero-trust cws policy-sets delete",
 			"name": "delete",
 			"fullPath": ["zero-trust", "cws", "policy-sets", "delete"],
-			"description": "Deletes the policy set and cascades its deployment attachment and policy and workload membership rows. The referenced deployments, policies, and workloads remain.",
+			"description": "Deletes the policy set if it is not attached to a deployment, then removes its policy and workload membership rows. When deployments still reference it, the error identifies each deployment by ID and name so those relationships can be removed first. Referenced policies and workloads remain.",
 			"summary": "Delete a policy set",
 			"usage": "cf zero-trust cws policy-sets delete <policy-set-id>",
 			"arguments": [
@@ -156093,22 +156093,26 @@
 			"hideCommand": false
 		},
 		{
-			"command": "cf zero-trust cws tenant-structures nodes batch",
-			"name": "batch",
-			"fullPath": ["zero-trust", "cws", "tenant-structures", "nodes", "batch"],
+			"command": "cf zero-trust cws tenant-structures nodes bulk-apply",
+			"name": "bulk-apply",
+			"fullPath": [
+				"zero-trust",
+				"cws",
+				"tenant-structures",
+				"nodes",
+				"bulk-apply"
+			],
 			"description": "Atomically validates and applies 1 to 500 unordered node operations. Creates may reference new parents but cannot reuse a native_id deleted in the same batch. Maximum body size: 1 MiB.",
 			"summary": "Apply a batch of tenant node mutations",
-			"usage": "cf zero-trust cws tenant-structures nodes batch <structure-id> [options]",
-			"arguments": [
+			"usage": "cf zero-trust cws tenant-structures nodes bulk-apply [options]",
+			"arguments": [],
+			"options": [
 				{
 					"name": "structure-id",
-					"position": 0,
 					"type": "string",
 					"required": true,
 					"description": "ID of the parent tenant structure"
-				}
-			],
-			"options": [
+				},
 				{
 					"name": "creates",
 					"type": "string",
@@ -156153,7 +156157,7 @@
 			"hasRequestBody": true,
 			"httpMethod": "POST",
 			"apiPath": "/accounts/{account_id}/cws/tenant-structures/{structure_id}/nodes/batch",
-			"operationId": "zero-trust.cws.tenant-structures.nodes.batch",
+			"operationId": "zero-trust.cws.tenant-structures.nodes.bulk-apply",
 			"hideCommand": false
 		},
 		{
@@ -156565,7 +156569,7 @@
 			"command": "cf zero-trust cws workloads delete",
 			"name": "delete",
 			"fullPath": ["zero-trust", "cws", "workloads", "delete"],
-			"description": "Deletes the workload if it is not targeted by a policy set.",
+			"description": "Deletes the workload if it is not targeted by a policy set. When policy sets still reference it, the error identifies each policy set by ID and name so those relationships can be removed first.",
 			"summary": "Delete a workload",
 			"usage": "cf zero-trust cws workloads delete <workload-id>",
 			"arguments": [

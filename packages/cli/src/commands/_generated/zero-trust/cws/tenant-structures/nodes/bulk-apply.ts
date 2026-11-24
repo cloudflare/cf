@@ -1,8 +1,8 @@
-import operation from "../../../../_operations/zero-trust/cws/tenant-structures/nodes/batch.js";
+import operation from "../../../../_operations/zero-trust/cws/tenant-structures/nodes/bulk-apply.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
- * batch command
+ * bulk-apply command
  * @generated from apis/overlays/zero-trust.ts
  */
 import type { Argv, CommandModule } from "yargs";
@@ -22,9 +22,9 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 zero-trust cws tenant-structures nodes batch <structure-id>\n\nAtomically validates and applies 1 to 500 unordered node operations. Creates may reference new parents but cannot reuse a native_id deleted in the same batch. Maximum body size: 1 MiB."
+			"$0 zero-trust cws tenant-structures nodes bulk-apply\n\nAtomically validates and applies 1 to 500 unordered node operations. Creates may reference new parents but cannot reuse a native_id deleted in the same batch. Maximum body size: 1 MiB."
 		)
-		.positional("structure-id", {
+		.option("structure-id", {
 			type: "string",
 			description: "ID of the parent tenant structure",
 			demandOption: true,
@@ -64,13 +64,13 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 type Args = InferArgs<typeof builder>;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "batch <structure-id>",
+	command: "bulk-apply",
 	describe: "Apply a batch of tenant node mutations",
 	builder,
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
-				command: "zero-trust cws tenant-structures nodes batch",
+				command: "zero-trust cws tenant-structures nodes bulk-apply",
 				classification: {
 					safeFlags: ["dry-run", "force"],
 					shortFlagAliases: { f: { canonical: "force", type: "boolean" } },
@@ -101,7 +101,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					}
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
-						command: "cf zero-trust cws tenant-structures nodes batch",
+						command: "cf zero-trust cws tenant-structures nodes bulk-apply",
 						method: "POST",
 						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/cws/tenant-structures/${argv["structure-id"] == null ? "<structure-id>" : encodeURIComponent(String(argv["structure-id"]))}/nodes/batch`,
 						pathParams: { "structure-id": String(argv["structure-id"] ?? "") },

@@ -1,5 +1,5 @@
 /**
- * create command
+ * bulk-create command
  * @generated from apis/overlays/organizations.ts
  */
 import {
@@ -10,6 +10,11 @@ import {
 
 const parameters = {
 	flags: {
+		"organization-id": {
+			kind: "parsed",
+			brief: "Organization ID",
+			parse: String,
+		},
 		members: {
 			kind: "parsed",
 			brief:
@@ -29,18 +34,16 @@ const parameters = {
 			parse: String,
 		},
 	},
-	operands: [
-		{ placeholder: "organization-id", brief: "Organization ID", parse: String },
-	],
+	operands: [],
 } as const satisfies ApiParameters;
 export type Args = ApiInputs<typeof parameters>;
 const command = apiCommand({
-	command: "create <organization-id>",
+	command: "bulk-create",
 	describe: "Batch create organization members",
 	usage:
-		"$0 organizations members batch create <organization-id>\n\nBatch create multiple memberships that grant access to a specific Organization.",
+		"$0 organizations members bulk-create\n\nBatch create multiple memberships that grant access to a specific Organization.",
 	...parameters,
-	loader: () => import("./create.handler.js"),
+	loader: () => import("./bulk-create.handler.js"),
 });
 
 export default command;

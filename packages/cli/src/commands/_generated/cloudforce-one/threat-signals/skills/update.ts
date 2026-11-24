@@ -65,7 +65,7 @@ const command = apiCommand({
 	command: "update <skill-id>",
 	describe: "Update Threat Signals skill",
 	usage:
-		"$0 cloudforce-one threat-signals skills update <skill-id>\n\nUpdates a Custom Skill. Managed Default Skills cannot be updated. Free Threat Signals accounts cannot update Custom Skills.",
+		"$0 cloudforce-one threat-signals skills update <skill-id>\n\nUpdates a Custom Skill. Managed Default Skills cannot be updated. Free Threat Signals accounts cannot update Custom Skills. Activating an inactive skill (`is_active` true) returns 403 with `errors[0].reason` `threat_signals_skill_limit` when the account is at its active Custom Skill limit, or `threat_signals_feed_skill_limit` (with `errors[0].feed_id`, `errors[0].feed_custom_skill_limit`, and `errors[0].feed_custom_skill_count`) when a feed it is assigned to is at its per-feed limit.",
 	...parameters,
 	loader: () => import("./update.handler.js"),
 });

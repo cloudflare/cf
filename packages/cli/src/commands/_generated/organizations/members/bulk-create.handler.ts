@@ -1,6 +1,6 @@
-import operation from "../../../_operations/organizations/members/batch/create.js";
+import operation from "../../_operations/organizations/members/bulk-create.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { Args } from "./create.js";
+import type { Args } from "./bulk-create.js";
 import { createCommandClient } from "#lib/auth.js";
 import { compactBody, parseBody, parseObjectArray } from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
@@ -11,7 +11,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 export default async function handle(argv: Args): Promise<void> {
 	return runWithTelemetry(
 		{
-			command: "organizations members batch create",
+			command: "organizations members bulk-create",
 			classification: { safeFlags: ["dry-run"] } satisfies ArgClassification<
 				typeof argv
 			>,
@@ -20,7 +20,7 @@ export default async function handle(argv: Args): Promise<void> {
 		async () => {
 			if (argv.dryRun) {
 				formatDryRun({
-					command: "cf organizations members batch create",
+					command: "cf organizations members bulk-create",
 					method: "POST",
 					url: `https://api.cloudflare.com/client/v4/organizations/${argv["organization-id"] == null ? "<organization-id>" : encodeURIComponent(String(argv["organization-id"]))}/members:batchCreate`,
 					pathParams: {

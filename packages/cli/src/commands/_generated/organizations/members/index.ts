@@ -1,4 +1,4 @@
-import $batch from "./batch/index.js";
+import $bulkcreate from "./bulk-create.js";
 import $create from "./create.js";
 import $delete from "./delete.js";
 import $get from "./get.js";
@@ -14,11 +14,11 @@ const command = apiGroup({
 	describe: "Members of an organization",
 
 	routes: {
+		"bulk-create": $bulkcreate,
 		create: $create,
 		delete: $delete,
 		get: $get,
 		list: $list,
-		batch: $batch,
 	},
 });
 

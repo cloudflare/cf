@@ -1,5 +1,6 @@
 import $create from "./create.js";
 import $delete from "./delete.js";
+import $get from "./get.js";
 import $list from "./list.js";
 import $update from "./update.js";
 /**
@@ -15,6 +16,7 @@ const command = apiGroup({
 	routes: {
 		create: $create,
 		delete: $delete,
+		get: $get,
 		list: $list,
 		update: $update,
 	},

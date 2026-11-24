@@ -13,7 +13,7 @@ const parameters = {
 		"alert-enabled": {
 			kind: "boolean",
 			brief:
-				"Deprecated and ignored: saved-query alerting and rules were removed.",
+				"Send an hourly notification when new events match this saved view. Receive it by adding the view to a Threat Events saved query notification policy.",
 			optional: true,
 		},
 		"alert-rollup-enabled": {

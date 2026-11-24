@@ -43,7 +43,7 @@ const command = apiCommand({
 	command: "update <feed-id>",
 	describe: "Set Threat Signals feed skills",
 	usage:
-		"$0 cloudforce-one threat-signals feeds skills update <feed-id>\n\nReplaces the ordered custom skills assigned to a Threat Signals feed. Requires a paid Threat Signals subscription.",
+		"$0 cloudforce-one threat-signals feeds skills update <feed-id>\n\nReplaces the ordered custom skills assigned to a Threat Signals feed. Requires a paid Threat Signals subscription. Adding an active Custom Skill that would put the feed above its per-feed limit (`cfone.threat.threat_signals_active_skills_per_feed`) returns 403 with `errors[0].reason` `threat_signals_feed_skill_limit`, and `errors[0].feed_custom_skill_limit` and `errors[0].feed_custom_skill_count` give the limit and current count. Removing or reordering skills is always allowed.",
 	...parameters,
 	loader: () => import("./update.handler.js"),
 });

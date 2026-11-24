@@ -41,6 +41,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			choices: ["CNAME", "ADDRESS"],
 		})
 		.coerce("dns-type", (value) => resolveFileToken(value, "dns-type", "text"))
+		.option("edge-alpn-protocols", {
+			type: "string",
+			array: true,
+			description:
+				'ALPN protocol IDs the edge offers on client TLS connections, in preference order, for example `["h2"]` for gRPC or `["postgresql"]` for PostgreSQL direct TLS. When set, clients that offer none of these protocols, or no ALPN at all, are disconnected. Empty means no ALPN.\nNotes: Requires tls "flexible", "full" or "strict", and is not available with traffic_type "ftp". IDs are case-sensitive and unique, each 1 to 255 bytes; the list encodes to at most 65535 bytes, counting each ID plus one length byte.',
+		})
 		.option("edge-ips-connectivity", {
 			type: "string",
 			description:
@@ -148,6 +154,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Raw JSON request body (bypasses individual flags)",
 		})
 		.implies("argo-smart-routing", ["traffic-type"])
+		.implies("edge-alpn-protocols", ["traffic-type"])
 		.implies("edge-ips-connectivity", ["traffic-type"])
 		.implies("edge-ips-type", ["traffic-type"])
 		.implies("edge-ips-ips", ["traffic-type"])
@@ -223,6 +230,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											),
 											type: argv["dns-type"],
 										},
+										edge_alpn_protocols: argv["edge-alpn-protocols"],
 										edge_ips: {
 											connectivity: argv["edge-ips-connectivity"],
 											type: argv["edge-ips-type"],
@@ -298,6 +306,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						),
 						type: argv["dns-type"],
 					},
+					edge_alpn_protocols: argv["edge-alpn-protocols"],
 					edge_ips: {
 						connectivity: argv["edge-ips-connectivity"],
 						type: argv["edge-ips-type"],

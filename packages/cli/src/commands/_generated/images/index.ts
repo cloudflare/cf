@@ -1,3 +1,4 @@
+import $config from "./config/index.js";
 import $create from "./create.js";
 import $delete from "./delete.js";
 import $directupload from "./direct-upload.js";
@@ -32,6 +33,7 @@ const command: CommandModule<CommonYargsOptions> = {
 			.command($getblob)
 			.command($list)
 			.command($stats)
+			.command($config)
 			.command($flows)
 			.command($import)
 			.command($keys)

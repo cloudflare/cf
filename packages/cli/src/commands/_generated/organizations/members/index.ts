@@ -1,4 +1,4 @@
-import $batch from "./batch/index.js";
+import $bulkcreate from "./bulk-create.js";
 import $create from "./create.js";
 import $delete from "./delete.js";
 import $get from "./get.js";
@@ -16,11 +16,11 @@ const command: CommandModule<CommonYargsOptions> = {
 
 	builder: (yargs) => {
 		return yargs
+			.command($bulkcreate)
 			.command($create)
 			.command($delete)
 			.command($get)
 			.command($list)
-			.command($batch)
 			.demandCommand(1, "Please specify a subcommand");
 	},
 

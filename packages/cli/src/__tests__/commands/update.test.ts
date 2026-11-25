@@ -236,6 +236,87 @@ describe("cf update", () => {
 		});
 	});
 
+	const vpInstallId = "97da9e35-a49d-465e-9aae-2df784be832f";
+
+	async function mockVpInstall(prefix: string, listedInstallId: string) {
+		const install = join(prefix, "cf");
+		await seed({ [join(install, "package.json")]: installedPackage });
+		vi.mocked(findOwnPackageJson).mockReturnValue(
+			join(process.cwd(), install, "package.json")
+		);
+		vi.mocked(x).mockImplementation((name) =>
+			name === "vp"
+				? probeResult(
+						JSON.stringify([
+							{ name: "cf", version: "1.2.3", installId: listedInstallId },
+							{ name: "typescript", version: "5.0.0", installId: "" },
+						]),
+						0
+					)
+				: probeResult("", 1)
+		);
+	}
+
+	it.each([
+		["Unix", join("vp", "packages", "cf", vpInstallId, "lib", "node_modules")],
+		["Windows", join("vp", "packages", "cf", vpInstallId, "node_modules")],
+		[
+			"legacy suffixed",
+			join("vp", "packages", `cf#${vpInstallId}`, "lib", "node_modules"),
+		],
+		["legacy unversioned", join("vp", "packages", "cf", "lib", "node_modules")],
+	])(
+		"verifies a global Vite+ install in the %s layout",
+		async (layout, prefix) => {
+			const listedInstallId = layout.startsWith("legacy")
+				? layout === "legacy suffixed"
+					? `#${vpInstallId}`
+					: ""
+				: vpInstallId;
+			await mockVpInstall(prefix, listedInstallId);
+
+			await runCf(["update", "1.2.4", "--dry-run"]);
+
+			expect(preview()).toEqual({
+				dryRun: true,
+				scope: "global",
+				cwd: tmpdir(),
+				command: ["vp", "add", "--global", "cf@1.2.4"],
+			});
+			expect(x).toHaveBeenCalledWith(
+				"vp",
+				["list", "--global", "--json"],
+				expect.any(Object)
+			);
+			expect(spawn).not.toHaveBeenCalled();
+		}
+	);
+
+	it("drops a pinned Vite+ version spec when updating to latest", async () => {
+		await mockVpInstall(
+			join("vp", "packages", "cf", vpInstallId, "lib", "node_modules"),
+			vpInstallId
+		);
+
+		await runCf(["update", "--dry-run"]);
+
+		expect(preview()).toMatchObject({
+			command: ["vp", "update", "--global", "--latest", "cf"],
+		});
+	});
+
+	it("does not update a Vite+ install that vp does not report", async () => {
+		await mockVpInstall(
+			join("vp", "packages", "cf", vpInstallId, "lib", "node_modules"),
+			"0f8fad5b-d9cb-469f-a165-70867728950e"
+		);
+
+		await expect(runCf(["update"])).rejects.toThrow(
+			"Could not identify the package manager"
+		);
+		expect(spawn).not.toHaveBeenCalled();
+	});
+
 	it("refuses to update a shared pnpm global install group", async () => {
 		const root = join(process.cwd(), "global");
 		const install = join(root, "node_modules", "cf");

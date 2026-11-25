@@ -1,5 +1,5 @@
-import { dirname, join } from "node:path";
-import { fileURLToPath, pathToFileURL } from "node:url";
+import { join } from "node:path";
+import { pathToFileURL } from "node:url";
 import { isCommandsMetadata, loadMeta } from "../metadata.js";
 import { GLOBAL_SHORT_FLAG_ALIASES, readPassedFlags } from "./sanitization.js";
 import type { ShortFlagAlias } from "./sanitization.js";
@@ -41,7 +41,7 @@ function loadCatalogueVocabulary(): CommandVocabulary | null {
 	// The bundled chunk sits next to `dist/_meta/`; the source module needs an
 	// anchor inside `src/commands/`, beside `_generated/`.
 	const sourceAnchor = pathToFileURL(
-		join(dirname(fileURLToPath(import.meta.url)), "..", "..", "commands", "_")
+		join(import.meta.dirname, "..", "..", "commands", "_")
 	).href;
 	const metadata =
 		loadMeta(import.meta.url, "commands.json", isCommandsMetadata) ??

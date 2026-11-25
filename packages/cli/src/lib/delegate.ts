@@ -40,7 +40,6 @@ import { existsSync, readFileSync, realpathSync } from "node:fs";
 import { createRequire } from "node:module";
 import { constants } from "node:os";
 import { dirname, resolve } from "node:path";
-import { fileURLToPath } from "node:url";
 // The package's own version, not `VERSION`: that honours the generic
 // `CLI_VERSION` override, which must not reach the child's telemetry. The
 // JSON import also keeps the delegate chunk independent of the command tree.
@@ -418,7 +417,7 @@ export function isEphemeralExecRun(): boolean {
  * `packages/cli/package.json`).
  */
 export function findOwnPackageJson(): string | null {
-	let dir = dirname(fileURLToPath(import.meta.url));
+	let dir = import.meta.dirname;
 	for (;;) {
 		const candidate = resolve(dir, "package.json");
 		if (existsSync(candidate)) {

@@ -122,7 +122,6 @@ export default defineConfig({
 			"unicorn/catch-error-name": "off",
 			"unicorn/consistent-function-scoping": "off",
 			"unicorn/numeric-separators-style": "off",
-			"unicorn/prefer-import-meta-properties": "off",
 			"unicorn/prefer-set-has": "off",
 			"unicorn/prefer-single-call": "off",
 			"unicorn/prefer-string-raw": "off",

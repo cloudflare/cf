@@ -93,7 +93,10 @@ describe("withProgress", () => {
 		let finish = () => {};
 		const running = withProgress(
 			"Loading",
-			() => new Promise<void>((resolve) => (finish = resolve))
+			() =>
+				new Promise<void>((resolve) => {
+					finish = resolve;
+				})
 		);
 
 		process.emit("SIGINT", "SIGINT");
@@ -111,7 +114,10 @@ describe("withProgress", () => {
 		let finish = () => {};
 		const running = withProgress(
 			"Loading",
-			() => new Promise<void>((resolve) => (finish = resolve))
+			() =>
+				new Promise<void>((resolve) => {
+					finish = resolve;
+				})
 		);
 
 		// clack's spinner exits 0 when it reads Ctrl+C or Esc as a keypress.

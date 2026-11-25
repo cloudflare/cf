@@ -101,7 +101,6 @@ export default defineConfig({
 			"@nkzw/no-instanceof": "off",
 			"import/consistent-type-specifier-style": "off",
 			"import/no-namespace": "off",
-			"no-promise-executor-return": "off",
 			"preserve-caught-error": "off",
 			"quality/no-chained-type-assertions": "off",
 			"quality/no-conditional-empty-object-spread": "off",

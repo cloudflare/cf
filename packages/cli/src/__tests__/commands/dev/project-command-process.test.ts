@@ -43,7 +43,9 @@ async function canListen(port: number): Promise<boolean> {
 		throw error;
 	} finally {
 		if (server.listening) {
-			await new Promise<void>((resolve) => server.close(() => resolve()));
+			await new Promise<void>((resolve) => {
+				server.close(() => resolve());
+			});
 		}
 	}
 }

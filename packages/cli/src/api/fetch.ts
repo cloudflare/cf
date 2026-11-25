@@ -415,9 +415,9 @@ export async function send(
 		if (!RETRYABLE.has(response.status)) {
 			break;
 		}
-		await new Promise((resolve) =>
-			setTimeout(resolve, retryDelay(response, i))
-		);
+		await new Promise((resolve) => {
+			setTimeout(resolve, retryDelay(response, i));
+		});
 		response = await sendOnce(
 			fetcher,
 			url,

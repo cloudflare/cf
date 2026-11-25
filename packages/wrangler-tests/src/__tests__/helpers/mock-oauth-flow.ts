@@ -68,10 +68,10 @@ export const mockOAuthFlow = () => {
 			);
 
 			// Trigger the mock HttpServer to handle this fake request to continue the OAuth flow.
-			fetchHttp(request).catch((e) => {
+			fetchHttp(request).catch((error: unknown) => {
 				throw new Error(
 					"Failed to send OAuth Grant to wrangler, maybe the server was closed?",
-					e as Error
+					{ cause: error }
 				);
 			});
 		});

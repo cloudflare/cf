@@ -40,7 +40,7 @@ export function setNestedValue(
 		}
 		current = current[key] as Record<string, unknown>;
 	}
-	const lastKey = path[path.length - 1] ?? "";
+	const lastKey = path.at(-1) ?? "";
 	current[lastKey] = value;
 }
 

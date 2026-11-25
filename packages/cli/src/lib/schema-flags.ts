@@ -1620,7 +1620,7 @@ function coerce(
 			return resolveFileToken(value, descriptor.name, "text");
 		}
 		default: {
-			const raw = Array.isArray(value) ? value[value.length - 1] : value;
+			const raw = Array.isArray(value) ? value.at(-1) : value;
 			if (typeof raw === "boolean") {
 				return fail("a string");
 			}

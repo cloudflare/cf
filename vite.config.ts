@@ -80,6 +80,11 @@ export default defineConfig({
 			],
 			curly: ["error", "all"],
 			"vite-plus/prefer-vite-plus-imports": "error",
+			// Tests assert through node:assert and local expect* helpers.
+			"vitest/expect-expect": [
+				"error",
+				{ assertFunctionNames: ["assert*", "expect*"] },
+			],
 			// Temporarily off while adopting @cloudflare/oxlint-config. Each rule is
 			// enabled with its fixes, or documented as staying off, in its own commit.
 			"@nkzw/no-instanceof": "off",
@@ -128,7 +133,6 @@ export default defineConfig({
 			"unicorn/prefer-string-replace-all": "off",
 			"unicorn/prefer-top-level-await": "off",
 			"unicorn/text-encoding-identifier-case": "off",
-			"vitest/expect-expect": "off",
 			"vitest/no-conditional-expect": "off",
 			"vitest/no-conditional-tests": "off",
 			"vitest/no-standalone-expect": "off",

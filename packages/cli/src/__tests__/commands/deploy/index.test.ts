@@ -1329,7 +1329,8 @@ describe("cf deploy", () => {
 					"export default {}",
 				".cloudflare/output/v1/workers/default/bundle/lib.cjs":
 					"module.exports = {}",
-				".cloudflare/output/v1/workers/default/bundle/data.bin": "\x00\x01\x02",
+				".cloudflare/output/v1/workers/default/bundle/data.bin":
+					"\u0000\u0001\u0002",
 				".cloudflare/output/v1/workers/default/bundle/text.txt": "hello",
 				".cloudflare/output/v1/workers/default/bundle/helper.wasm":
 					"wasm-bytes",

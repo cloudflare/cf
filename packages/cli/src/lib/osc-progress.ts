@@ -77,7 +77,7 @@ class OscProgressController {
 			return;
 		}
 
-		process.stderr.write(`\x1b]9;4;${OscProgressState.Hidden};0\x07`);
+		process.stderr.write(`\u001b]9;4;${OscProgressState.Hidden};0\u0007`);
 	}
 
 	ensureCleanup(): void {
@@ -99,7 +99,7 @@ class OscProgressController {
 			return;
 		}
 
-		process.stderr.write(`\x1b]9;4;${state};0\x07`);
+		process.stderr.write(`\u001b]9;4;${state};0\u0007`);
 	}
 }
 

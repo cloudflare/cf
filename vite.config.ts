@@ -121,7 +121,6 @@ export default defineConfig({
 			"typescript/use-unknown-in-catch-callback-variable": "off",
 			"unicorn/catch-error-name": "off",
 			"unicorn/consistent-function-scoping": "off",
-			"unicorn/no-hex-escape": "off",
 			"unicorn/no-typeof-undefined": "off",
 			"unicorn/numeric-separators-style": "off",
 			"unicorn/prefer-at": "off",

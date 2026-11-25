@@ -93,7 +93,7 @@ describe("osc-progress", () => {
 		terminalProgress.setIndeterminate();
 
 		expect(stderrWrite).toContain(
-			`\x1b]9;4;${OscProgressState.Indeterminate};0\x07`
+			`\u001b]9;4;${OscProgressState.Indeterminate};0\u0007`
 		);
 	});
 
@@ -103,7 +103,7 @@ describe("osc-progress", () => {
 		terminalProgress.setIndeterminate();
 
 		expect(stderrWrite).toContain(
-			`\x1b]9;4;${OscProgressState.Indeterminate};0\x07`
+			`\u001b]9;4;${OscProgressState.Indeterminate};0\u0007`
 		);
 	});
 });

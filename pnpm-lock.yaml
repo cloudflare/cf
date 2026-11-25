@@ -194,6 +194,9 @@ importers:
       '@changesets/cli':
         specifier: 2.31.0
         version: 2.31.0(patch_hash=059d085279022eeb7f92871a182f71310e4891b62871cfedccb21b34f4bfcd27)(@types/node@26.6.6)
+      '@cloudflare/oxlint-config':
+        specifier: 0.2.0
+        version: 0.2.0(b5fc60e8423823ec87330edad33fdfb7)
       '@types/node':
         specifier: 26.6.6
         version: 26.6.6
@@ -785,6 +788,21 @@ packages:
   '@cloudflare/kv-asset-handler@0.5.1':
     resolution: {integrity: sha512-48OysfSW3MkQY1XjkhkpPkgrEkOvgfoyHzA2eyX5wpzFpijC02uWigv3hkNdJdT3C7ybW/U17yYHXeR68pLeww==}
     engines: {node: '>=22.0.0'}
+
+  '@cloudflare/oxlint-config@0.2.0':
+    resolution: {integrity: sha512-HENc8yIzCuIPvUyQbX47UKv2kgA26iZt1XRsrlQXayJG6cWmBNlnHXfPy7oNCghqWpTBcbFRdGwsHd1Ahe3zhw==}
+    engines: {node: ^22.18.0 || >=24.0.0}
+    peerDependencies:
+      oxlint: ^1.94.0
+      tsrs: '>=7.1.0-beta.tsrs2'
+      vite-plus: '>=1.7.0'
+    peerDependenciesMeta:
+      oxlint:
+        optional: true
+      tsrs:
+        optional: true
+      vite-plus:
+        optional: true
 
   '@cloudflare/runtime-types@0.1.34':
     resolution: {integrity: sha512-aUZ7PV7X24GgwlVlB/4Li10WWYXD9KKBsyKwINygVh9GMFyrErOl1MBWbeVPH5eBlLiRTsvBv89mE8/MlxBfbw==}
@@ -1552,6 +1570,31 @@ packages:
     peerDependencies:
       '@emnapi/core': ^1.7.1 || ^2.0.0-alpha.4
       '@emnapi/runtime': ^1.7.1 || ^2.0.0-alpha.4
+
+  '@nkzw/eslint-plugin@3.0.0':
+    resolution: {integrity: sha512-J6Ms/OzUxx7BNBggCKOqFWbESgAJYjvXvekCjjpxVJA2fBv5xOsC5P+2WDYqQUMCvDOU3GxBgG/jrmbqf+/wQA==}
+    peerDependencies:
+      eslint: '>= 9'
+    peerDependenciesMeta:
+      eslint:
+        optional: true
+
+  '@nkzw/oxlint-config@4.1.0':
+    resolution: {integrity: sha512-uFJxSqD8LPGe+uYVh+EC9BwndUGr3h7+aHQhKcdUANNSV4c1vvRoOqqHUTlML5RnHtvABtapW1ZyY4gkz6sKOA==}
+    peerDependencies:
+      eslint-plugin-perfectionist: ^5.14.0
+      oxlint: '>=1.94.0'
+      tsrs: '>=0.25.0-ts7.1.0-beta || ^7.1.0-beta.tsrs2'
+      vite-plus: '>=1.7.0'
+    peerDependenciesMeta:
+      eslint-plugin-perfectionist:
+        optional: true
+      oxlint:
+        optional: true
+      tsrs:
+        optional: true
+      vite-plus:
+        optional: true
 
   '@noble/hashes@1.8.0':
     resolution: {integrity: sha512-jCs9ldd7NwzpgXDIf6P3+NrHh9/sD6CQdxHyjQI+h/6rDNo88ypBxxz45UDuZHz9r3tNz7N/VInSVoVdtXEI4A==}
@@ -3058,6 +3101,10 @@ packages:
   escalade@3.2.0:
     resolution: {integrity: sha512-WUj2qlxaQtO4g6Pq5c29GTcWGDyd8itL8zTlipgECz3JesAiiOKotd8JU6otB3PACgG6xkJUyVhboMS+bje/jA==}
     engines: {node: '>=6'}
+
+  eslint-plugin-no-only-tests@3.4.0:
+    resolution: {integrity: sha512-4S3/9Nb7A2tiMcpzEQE9bQSlpeOz6WJkgryBuou/SA8W2x2c8Zf4j0NvTKBjv6qNhF9T79tmkecm/0CHqV0UGg==}
+    engines: {node: '>=5.0.0'}
 
   esprima@4.0.1:
     resolution: {integrity: sha512-eGuFFw7Upda+g4p+QHvnW0RyTX/SVeJBDM/gCtMARO0cLuT2HcEKnTPvhjV6aGeqrCB/sbNop0Kszm0jsaWU4A==}
@@ -4630,6 +4677,17 @@ snapshots:
 
   '@cloudflare/kv-asset-handler@0.5.1': {}
 
+  '@cloudflare/oxlint-config@0.2.0(b5fc60e8423823ec87330edad33fdfb7)':
+    dependencies:
+      '@nkzw/oxlint-config': 4.1.0(b5fc60e8423823ec87330edad33fdfb7)
+    optionalDependencies:
+      oxlint: 1.94.0(vite-plus@1.7.0(@types/node@26.6.6)(@vitest/browser-preview@5.1.0)(@vitest/ui@5.1.0)(@voidzero-dev/vite-plus-core@8.3.8000(@types/node@26.6.6)(esbuild@0.28.2)(tsx@4.21.0)(typescript@7.0.2)(unrun@0.2.39)(yaml@2.9.0))(esbuild@0.28.2)(msw@3.0.7(@types/node@26.6.6)(@voidzero-dev/vite-plus-core@8.3.8000(@types/node@26.6.6)(esbuild@0.28.2)(tsx@4.21.0)(typescript@7.0.2)(unrun@0.2.39)(yaml@2.9.0))(graphql@16.14.2)(supports-color@10.2.2)(typescript@7.0.2))(tsx@4.21.0)(typescript@7.0.2)(unrun@0.2.39)(vitest@5.1.0)(yaml@2.9.0))
+      tsrs: 0.18.0-ts7.1.0-dev.20260929
+      vite-plus: 1.7.0(@types/node@26.6.6)(@vitest/browser-preview@5.1.0)(@vitest/ui@5.1.0)(@voidzero-dev/vite-plus-core@8.3.8000(@types/node@26.6.6)(esbuild@0.28.2)(tsx@4.21.0)(typescript@7.0.2)(unrun@0.2.39)(yaml@2.9.0))(esbuild@0.28.2)(msw@3.0.7(@types/node@26.6.6)(@voidzero-dev/vite-plus-core@8.3.8000(@types/node@26.6.6)(esbuild@0.28.2)(tsx@4.21.0)(typescript@7.0.2)(unrun@0.2.39)(yaml@2.9.0))(graphql@16.14.2)(supports-color@10.2.2)(typescript@7.0.2))(tsx@4.21.0)(typescript@7.0.2)(unrun@0.2.39)(vitest@5.1.0)(yaml@2.9.0)
+    transitivePeerDependencies:
+      - eslint
+      - eslint-plugin-perfectionist
+
   '@cloudflare/runtime-types@0.1.34(@types/node@26.6.6)':
     dependencies:
       miniflare: 5.20261123.1-beta(@types/node@26.6.6)
@@ -5201,6 +5259,19 @@ snapshots:
       '@emnapi/runtime': 1.11.2
       '@tybys/wasm-util': 0.10.4
     optional: true
+
+  '@nkzw/eslint-plugin@3.0.0': {}
+
+  '@nkzw/oxlint-config@4.1.0(b5fc60e8423823ec87330edad33fdfb7)':
+    dependencies:
+      '@nkzw/eslint-plugin': 3.0.0
+      eslint-plugin-no-only-tests: 3.4.0
+    optionalDependencies:
+      oxlint: 1.94.0(vite-plus@1.7.0(@types/node@26.6.6)(@vitest/browser-preview@5.1.0)(@vitest/ui@5.1.0)(@voidzero-dev/vite-plus-core@8.3.8000(@types/node@26.6.6)(esbuild@0.28.2)(tsx@4.21.0)(typescript@7.0.2)(unrun@0.2.39)(yaml@2.9.0))(esbuild@0.28.2)(msw@3.0.7(@types/node@26.6.6)(@voidzero-dev/vite-plus-core@8.3.8000(@types/node@26.6.6)(esbuild@0.28.2)(tsx@4.21.0)(typescript@7.0.2)(unrun@0.2.39)(yaml@2.9.0))(graphql@16.14.2)(supports-color@10.2.2)(typescript@7.0.2))(tsx@4.21.0)(typescript@7.0.2)(unrun@0.2.39)(vitest@5.1.0)(yaml@2.9.0))
+      tsrs: 0.18.0-ts7.1.0-dev.20260929
+      vite-plus: 1.7.0(@types/node@26.6.6)(@vitest/browser-preview@5.1.0)(@vitest/ui@5.1.0)(@voidzero-dev/vite-plus-core@8.3.8000(@types/node@26.6.6)(esbuild@0.28.2)(tsx@4.21.0)(typescript@7.0.2)(unrun@0.2.39)(yaml@2.9.0))(esbuild@0.28.2)(msw@3.0.7(@types/node@26.6.6)(@voidzero-dev/vite-plus-core@8.3.8000(@types/node@26.6.6)(esbuild@0.28.2)(tsx@4.21.0)(typescript@7.0.2)(unrun@0.2.39)(yaml@2.9.0))(graphql@16.14.2)(supports-color@10.2.2)(typescript@7.0.2))(tsx@4.21.0)(typescript@7.0.2)(unrun@0.2.39)(vitest@5.1.0)(yaml@2.9.0)
+    transitivePeerDependencies:
+      - eslint
 
   '@noble/hashes@1.8.0': {}
 
@@ -6291,6 +6362,8 @@ snapshots:
       '@esbuild/win32-x64': 0.28.2
 
   escalade@3.2.0: {}
+
+  eslint-plugin-no-only-tests@3.4.0: {}
 
   esprima@4.0.1: {}
 

@@ -146,7 +146,7 @@ export const mockOAuthFlow = () => {
 						status = 302;
 						headers = { location: "cloudflareaccess.com" };
 					}
-					return HttpResponse.json(null, { status: status, headers });
+					return HttpResponse.json(null, { status, headers });
 				},
 				{ once: true }
 			)

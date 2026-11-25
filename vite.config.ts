@@ -98,7 +98,6 @@ export default defineConfig({
 			"import/no-namespace": "off",
 			"no-promise-executor-return": "off",
 			"no-useless-assignment": "off",
-			"object-shorthand": "off",
 			"preserve-caught-error": "off",
 			"quality/no-array-filter-map": "off",
 			"quality/no-chained-type-assertions": "off",

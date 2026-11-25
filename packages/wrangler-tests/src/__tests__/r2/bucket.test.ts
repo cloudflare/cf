@@ -504,7 +504,7 @@ describe("r2", () => {
 									bucketName,
 									queues: [
 										{
-											queueId: queueId,
+											queueId,
 											queueName,
 											rules: [
 												{

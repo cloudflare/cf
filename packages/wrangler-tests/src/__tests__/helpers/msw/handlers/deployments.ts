@@ -151,7 +151,7 @@ export const mswSuccessDeploymentDetails = [
 						script_runtime: {
 							usage_model: "bundled",
 						},
-						bindings: bindings,
+						bindings,
 					},
 				})
 			);

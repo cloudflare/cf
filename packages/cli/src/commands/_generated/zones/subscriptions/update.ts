@@ -17,7 +17,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 zones subscriptions update\n\nUpdates zone subscriptions, either plan or add-ons."
+			"$0 zones subscriptions update\n\nUpdates zone subscriptions, either plan or add-ons. Updating to the `free` rate plan downgrades the zone to the Free plan, after which the zone has no zone subscription."
 		)
 		.option("app-install-id", {
 			type: "string",

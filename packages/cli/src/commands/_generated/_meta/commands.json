@@ -82867,6 +82867,114 @@
 			"hideCommand": false
 		},
 		{
+			"command": "cf network-quality settings get",
+			"name": "get",
+			"fullPath": ["network-quality", "settings", "get"],
+			"description": "Returns Network Quality Test settings for an account.",
+			"summary": "Get account Network Quality Test settings",
+			"usage": "cf network-quality settings get",
+			"arguments": [],
+			"options": [
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "read",
+			"hasRequestBody": false,
+			"httpMethod": "GET",
+			"apiPath": "/accounts/{account_id}/networkquality/settings",
+			"operationId": "network-quality.settings.get",
+			"hideCommand": false
+		},
+		{
+			"command": "cf network-quality settings update",
+			"name": "update",
+			"fullPath": ["network-quality", "settings", "update"],
+			"description": "Updates Network Quality Test settings for an account.",
+			"summary": "Update account Network Quality Test settings",
+			"usage": "cf network-quality settings update [options]",
+			"arguments": [],
+			"options": [
+				{
+					"name": "enabled",
+					"type": "boolean",
+					"required": true,
+					"description": "The enabled field"
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "body",
+					"type": "string",
+					"required": false,
+					"description": "Raw JSON request body (bypasses individual flags)"
+				}
+			],
+			"category": "update",
+			"hasRequestBody": true,
+			"httpMethod": "PUT",
+			"apiPath": "/accounts/{account_id}/networkquality/settings",
+			"operationId": "network-quality.settings.update",
+			"hideCommand": false
+		},
+		{
+			"command": "cf network-quality tokens create",
+			"name": "create",
+			"fullPath": ["network-quality", "tokens", "create"],
+			"description": "Issues an authorization token for a Network Quality Test client.",
+			"summary": "Create a Network Quality Test authorization token",
+			"usage": "cf network-quality tokens create [options]",
+			"arguments": [],
+			"options": [
+				{
+					"name": "bytes",
+					"type": "number",
+					"required": true,
+					"description": "Customer-defined byte budget signed into the token for downstream enforcement and billing"
+				},
+				{
+					"name": "eyeball-id",
+					"type": "string",
+					"required": true,
+					"description": "The eyeball_id field"
+				},
+				{
+					"name": "source-ips",
+					"type": "string",
+					"required": false,
+					"description": "The source_ips field"
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "body",
+					"type": "string",
+					"required": false,
+					"description": "Raw JSON request body (bypasses individual flags)"
+				}
+			],
+			"category": "create",
+			"hasRequestBody": true,
+			"httpMethod": "POST",
+			"apiPath": "/accounts/{account_id}/networkquality/token",
+			"operationId": "network-quality.tokens.create",
+			"hideCommand": false
+		},
+		{
 			"command": "cf o11y agents traces events",
 			"name": "events",
 			"fullPath": ["o11y", "agents", "traces", "events"],
@@ -173631,6 +173739,9 @@
 		"network-interconnects interconnects": "Physical cross-connect and partner interconnect sessions with LOA and status tracking",
 		"network-interconnects settings": "Account-level interconnect settings and default configurations",
 		"network-interconnects slots": "Available interconnect facility slots showing port capacity at Cloudflare data centers",
+		"network-quality": "network-quality",
+		"network-quality settings": "Operations for settings",
+		"network-quality tokens": "Operations for tokens",
 		"o11y": "o11y",
 		"o11y agents": "Operations for agents",
 		"o11y agents traces": "Operations for agents.traces",

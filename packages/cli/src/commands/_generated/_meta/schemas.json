@@ -60162,6 +60162,77 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
+		"network-quality settings get": {
+			"operationId": "network-quality.settings.get",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/networkquality/settings",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"network-quality settings update": {
+			"operationId": "network-quality.settings.update",
+			"httpMethod": "PUT",
+			"path": "/accounts/{account_id}/networkquality/settings",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "enabled",
+					"type": "boolean",
+					"required": true,
+					"description": "The enabled field"
+				}
+			]
+		},
+		"network-quality tokens create": {
+			"operationId": "network-quality.tokens.create",
+			"httpMethod": "POST",
+			"path": "/accounts/{account_id}/networkquality/token",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "bytes",
+					"type": "number",
+					"required": true,
+					"description": "Customer-defined byte budget signed into the token for downstream enforcement and billing"
+				},
+				{
+					"name": "eyeball-id",
+					"type": "string",
+					"required": true,
+					"description": "The eyeball_id field"
+				},
+				{
+					"name": "source-ips",
+					"type": "string",
+					"required": false,
+					"description": "The source_ips field"
+				}
+			]
+		},
 		"o11y agents traces events": {
 			"operationId": "o11y.agents.traces.events",
 			"httpMethod": "GET",

@@ -173,9 +173,8 @@ export function unwrapEnvelope(body: unknown, response?: Response): unknown {
 	if (!("success" in body)) {
 		return body;
 	}
-	const get = (key: string): unknown => Reflect.get(body, key);
-	if (get("success") === false) {
-		const rawErrors = get("errors");
+	if (body.success === false) {
+		const rawErrors = "errors" in body ? body.errors : undefined;
 		const errors = Array.isArray(rawErrors) ? rawErrors : [];
 		const message =
 			errors
@@ -184,8 +183,9 @@ export function unwrapEnvelope(body: unknown, response?: Response): unknown {
 						return entry;
 					}
 					if (entry && typeof entry === "object" && "message" in entry) {
-						const text: unknown = Reflect.get(entry, "message");
-						return typeof text === "string" ? text : undefined;
+						return typeof entry.message === "string"
+							? entry.message
+							: undefined;
 					}
 					return undefined;
 				})
@@ -208,10 +208,11 @@ export function unwrapEnvelope(body: unknown, response?: Response): unknown {
 	if (!("result" in body)) {
 		return body;
 	}
-	const result = get("result");
+	const { result } = body;
+	const resultInfo = "result_info" in body ? body.result_info : undefined;
 	return Array.isArray(result)
-		? { result, result_info: get("result_info") }
-		: withResultInfo(result, get("result_info"));
+		? { result, result_info: resultInfo }
+		: withResultInfo(result, resultInfo);
 }
 
 /**

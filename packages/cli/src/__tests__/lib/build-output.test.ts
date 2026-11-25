@@ -5,15 +5,23 @@ import {
 	readBuildOutput,
 } from "@cloudflare/build-output-utils";
 import { runInTempDir, seed } from "@cloudflare/workers-utils/test-helpers";
-import { afterEach, describe, expect, it, vi } from "vite-plus/test";
+import {
+	afterEach,
+	beforeEach,
+	describe,
+	expect,
+	it,
+	vi,
+} from "vite-plus/test";
 import {
 	BuildOutputConfigError,
 	applyCIWorkerNameOverride,
 	parseWorkerConfig,
+	resolveBuildOutputSettings,
 	selectBuildOutputWorker,
-	validateBuildOutputAccount,
 	validateBuildOutputMode,
 } from "../../lib/build-output.js";
+import { applyCloudflareDotEnv } from "../../lib/dotenv.js";
 
 describe("build output", () => {
 	runInTempDir();
@@ -170,9 +178,7 @@ describe("build output", () => {
 		});
 
 		it("rejects a different built mode", () => {
-			expect(() =>
-				validateBuildOutputMode("staging", "production")
-			).toThrowError(
+			expect(() => validateBuildOutputMode("staging", "production")).toThrow(
 				new BuildOutputConfigError(
 					'The Build Output was created with mode "production", but this command requested mode "staging". To use the existing Build Output, rerun with "--mode production". To deploy in staging mode, rebuild with "--mode staging" before deploying.'
 				)
@@ -180,7 +186,7 @@ describe("build output", () => {
 		});
 
 		it("rejects Build Output without a recorded mode", () => {
-			expect(() => validateBuildOutputMode("staging", undefined)).toThrowError(
+			expect(() => validateBuildOutputMode("staging", undefined)).toThrow(
 				new BuildOutputConfigError(
 					'The Build Output does not record which mode it was created with, but this command requested mode "staging". Rebuild with "--mode staging" before deploying.'
 				)
@@ -188,25 +194,151 @@ describe("build output", () => {
 		});
 	});
 
-	describe("account validation", () => {
+	describe("settings resolution", () => {
+		beforeEach(() => {
+			vi.stubEnv("CLOUDFLARE_ACCOUNT_ID", undefined);
+			vi.stubEnv("CLOUDFLARE_COMPLIANCE_REGION", undefined);
+		});
+
 		it.each([
-			{ accountId: undefined, temporaryAccount: true },
-			{ accountId: "account-id", temporaryAccount: false },
+			{ settings: undefined, temporaryAccount: true },
+			{
+				settings: { complianceRegion: "public" as const },
+				temporaryAccount: true,
+			},
+			{ settings: { accountId: "account-id" }, temporaryAccount: false },
 		])(
-			"accepts account $accountId when temporary is $temporaryAccount",
-			({ accountId, temporaryAccount }) => {
+			"accepts settings $settings when temporary is $temporaryAccount",
+			({ settings, temporaryAccount }) => {
 				expect(() =>
-					validateBuildOutputAccount(accountId, temporaryAccount)
+					resolveBuildOutputSettings(settings, temporaryAccount)
 				).not.toThrow();
 			}
 		);
 
 		it("rejects a Build Output account with a temporary account", () => {
-			expect(() => validateBuildOutputAccount("account-id", true)).toThrowError(
+			expect(() =>
+				resolveBuildOutputSettings({ accountId: "account-id" }, true)
+			).toThrow(
 				new BuildOutputConfigError(
-					'Temporary accounts can\'t be used when a specific account ID ("account-id") is set in your config file. Remove `--temporary-account` to use that account, or remove `accountId` from your config file and rebuild to use a temporary account.'
+					'The Build Output targets account "account-id", but `--temporary-account` was passed. To deploy to "account-id", remove `--temporary-account`. To deploy to a temporary account, remove `accountId` from your config file, then rebuild.'
 				)
 			);
+		});
+
+		it.each([
+			{ settings: {}, env: {}, region: "public" },
+			{
+				settings: { complianceRegion: "fedramp-high" as const },
+				env: {},
+				region: "fedramp_high",
+			},
+			{
+				settings: {},
+				env: { CLOUDFLARE_COMPLIANCE_REGION: "fedramp_high" },
+				region: "fedramp_high",
+			},
+			{
+				settings: {},
+				env: { CLOUDFLARE_COMPLIANCE_REGION: "fedramp-high" },
+				region: "fedramp_high",
+			},
+			{
+				settings: { complianceRegion: "fedramp-high" as const },
+				env: { CLOUDFLARE_COMPLIANCE_REGION: "fedramp_high" },
+				region: "fedramp_high",
+			},
+			{
+				settings: { complianceRegion: "public" as const },
+				env: { CLOUDFLARE_COMPLIANCE_REGION: "public" },
+				region: "public",
+			},
+			{
+				settings: { accountId: "account-id" },
+				env: { CLOUDFLARE_ACCOUNT_ID: "account-id" },
+				region: "public",
+			},
+			{
+				settings: {},
+				env: { CLOUDFLARE_ACCOUNT_ID: "env-account" },
+				region: "public",
+			},
+		])(
+			"resolves region $region from settings $settings and env $env",
+			({ settings, env, region }) => {
+				for (const [name, value] of Object.entries(env)) {
+					vi.stubEnv(name, value);
+				}
+
+				expect(resolveBuildOutputSettings(settings, false)).toEqual({
+					complianceRegion: region,
+				});
+			}
+		);
+
+		it.each([{}, { complianceRegion: "public" as const }])(
+			"rejects an invalid CLOUDFLARE_COMPLIANCE_REGION with settings %o",
+			(settings) => {
+				vi.stubEnv("CLOUDFLARE_COMPLIANCE_REGION", "invalid");
+
+				expect(() => resolveBuildOutputSettings(settings, false)).toThrow(
+					'Invalid compliance region "invalid" from CLOUDFLARE_COMPLIANCE_REGION. Valid values are: public, fedramp_high'
+				);
+			}
+		);
+
+		it.each([
+			{
+				settings: { accountId: "account-id" },
+				name: "CLOUDFLARE_ACCOUNT_ID",
+				value: "env-account",
+				message:
+					'The Build Output targets account "account-id", but `CLOUDFLARE_ACCOUNT_ID` is "env-account" in your environment. To deploy to "account-id", unset it. To deploy to "env-account", set `accountId` to "env-account" in your config file or remove it, then rebuild.',
+			},
+			{
+				settings: { complianceRegion: "fedramp-high" as const },
+				name: "CLOUDFLARE_COMPLIANCE_REGION",
+				value: "public",
+				message:
+					'The Build Output targets compliance region "fedramp-high", but `CLOUDFLARE_COMPLIANCE_REGION` is "public" in your environment. To deploy to "fedramp-high", unset it. To deploy to "public", set `complianceRegion` to "public" in your config file or remove it, then rebuild.',
+			},
+			{
+				settings: { complianceRegion: "public" as const },
+				name: "CLOUDFLARE_COMPLIANCE_REGION",
+				value: "fedramp_high",
+				message:
+					'The Build Output targets compliance region "public", but `CLOUDFLARE_COMPLIANCE_REGION` is "fedramp_high" in your environment. To deploy to "public", unset it. To deploy to "fedramp-high", set `complianceRegion` to "fedramp-high" in your config file or remove it, then rebuild.',
+			},
+		])(
+			"rejects a different $name from the environment",
+			({ settings, name, value, message }) => {
+				vi.stubEnv(name, value);
+
+				expect(() => resolveBuildOutputSettings(settings, false)).toThrow(
+					new BuildOutputConfigError(message)
+				);
+			}
+		);
+
+		it("names the dotenv file that set a different value", async () => {
+			await seed({
+				".env.staging": "CLOUDFLARE_COMPLIANCE_REGION=public",
+			});
+			const restore = await applyCloudflareDotEnv({ mode: "staging" });
+			try {
+				expect(() =>
+					resolveBuildOutputSettings(
+						{ accountId: "account-id", complianceRegion: "fedramp-high" },
+						false
+					)
+				).toThrow(
+					new BuildOutputConfigError(
+						'The Build Output targets compliance region "fedramp-high", but `CLOUDFLARE_COMPLIANCE_REGION` is "public" in .env.staging. To deploy to "fedramp-high", remove it from .env.staging. To deploy to "public", set `complianceRegion` to "public" in your config file or remove it, then rebuild.'
+					)
+				);
+			} finally {
+				restore();
+			}
 		});
 	});
 
@@ -252,7 +384,7 @@ describe("build output", () => {
 			async (requested) => {
 				const workers = await seedWorkers({ default: "my-worker", api: "api" });
 
-				expect(() => selectBuildOutputWorker(workers, requested)).toThrowError(
+				expect(() => selectBuildOutputWorker(workers, requested)).toThrow(
 					new BuildOutputConfigError(
 						`The Build Output has no Worker named "${requested}". Available Workers: my-worker (default), api.`
 					)
@@ -305,7 +437,7 @@ describe("build output", () => {
 		it("rejects a name shared by more than one Worker", async () => {
 			const workers = await seedWorkers({ default: "api", api: "api" });
 
-			expect(() => selectBuildOutputWorker(workers, "api")).toThrowError(
+			expect(() => selectBuildOutputWorker(workers, "api")).toThrow(
 				new BuildOutputConfigError(
 					'The Build Output contains more than one Worker named "api".'
 				)

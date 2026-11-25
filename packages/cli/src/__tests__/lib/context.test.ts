@@ -9,6 +9,7 @@ import {
 	getZoneId,
 	resolveAccountIdSilent,
 } from "../../lib/context.js";
+import { applyCloudflareDotEnv } from "../../lib/dotenv.js";
 import { MissingCredentialsError } from "../../lib/errors.js";
 import { setTemporaryAccountRequested } from "../../lib/oauth/index.js";
 import {
@@ -317,8 +318,20 @@ describe("context", () => {
 		it("throws on an invalid value", async () => {
 			vi.stubEnv("CLOUDFLARE_COMPLIANCE_REGION", "invalid");
 			await expect(getComplianceRegion()).rejects.toThrow(
-				/Invalid compliance region/
+				'Invalid compliance region "invalid" from CLOUDFLARE_COMPLIANCE_REGION. Valid values are: public, fedramp_high'
 			);
+		});
+
+		it("names the dotenv file that set an invalid value", async () => {
+			writeFileSync(".env.staging", "CLOUDFLARE_COMPLIANCE_REGION=invalid");
+			const restore = await applyCloudflareDotEnv({ mode: "staging" });
+			try {
+				await expect(getComplianceRegion()).rejects.toThrow(
+					'Invalid compliance region "invalid" from CLOUDFLARE_COMPLIANCE_REGION in .env.staging. Valid values are: public, fedramp_high'
+				);
+			} finally {
+				restore();
+			}
 		});
 	});
 });

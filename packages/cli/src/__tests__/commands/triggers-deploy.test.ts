@@ -271,6 +271,26 @@ describe("cf workers triggers deploy", () => {
 			}
 		);
 
+		it("rejects a CLOUDFLARE_ACCOUNT_ID from dotenv that differs from the Build Output account", async () => {
+			const requests = recordRequests();
+			await seed({
+				".cloudflare/output/v1/config.json": buildOutputRootConfig({
+					buildContext: { isPreview: false, mode: "staging" },
+					settings: { accountId: "built-account" },
+				}),
+			});
+
+			await expect(
+				runCf([...TRIGGERS_DEPLOY_COMMAND, "--prebuilt"])
+			).rejects.toThrow(
+				'The Build Output targets account "built-account", but `CLOUDFLARE_ACCOUNT_ID` is "staging-account" in .env.staging. To deploy to "built-account", remove it from .env.staging. To deploy to "staging-account", set `accountId` to "staging-account" in your config file or remove it, then rebuild.'
+			);
+
+			expect(requests).toEqual([]);
+			expect(schedulesRequest).toBeUndefined();
+			expect(process.env.CLOUDFLARE_ACCOUNT_ID).toBeUndefined();
+		});
+
 		it("loads dotenv files for the mode a delegated build recorded by default", async () => {
 			// Vite records its default "production" mode when --mode is omitted.
 			await seed({
@@ -295,6 +315,7 @@ describe("cf workers triggers deploy", () => {
 	});
 
 	it("skips the build and deploys existing triggers with --prebuilt", async () => {
+		vi.stubEnv("CLOUDFLARE_ACCOUNT_ID", undefined);
 		let schedulesBody: unknown;
 		let schedulesAccount: unknown;
 		msw.use(

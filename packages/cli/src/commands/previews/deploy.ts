@@ -11,7 +11,6 @@ import {
 } from "@cloudflare/deploy-helpers";
 import {
 	getCloudflareApiBaseUrl,
-	getCloudflareComplianceRegion,
 	writeOutput,
 } from "@cloudflare/workers-utils";
 import { resolveBuildOutputAuth } from "../../lib/build-output-auth.js";
@@ -21,8 +20,8 @@ import {
 	applyCIWorkerNameOverride,
 	buildOutputWorkerOption,
 	parseWorkerConfig,
+	resolveBuildOutputSettings,
 	selectBuildOutputWorker,
-	validateBuildOutputAccount,
 	validateBuildOutputMode,
 } from "../../lib/build-output.js";
 import { createDeployContext } from "../../lib/deploy-context.js";
@@ -117,8 +116,8 @@ async function deployPreviewBuildOutput(
 ): Promise<PreviewResult> {
 	assertPreviewBuildOutputRootConfig(output.rootConfig);
 	validateBuildOutputMode(argv.mode, output.rootConfig.buildContext.mode);
-	validateBuildOutputAccount(
-		output.rootConfig.settings?.accountId,
+	const { complianceRegion } = resolveBuildOutputSettings(
+		output.rootConfig.settings,
 		argv["temporary-account"]
 	);
 	const { worker } = applyCIWorkerNameOverride(
@@ -129,7 +128,6 @@ async function deployPreviewBuildOutput(
 		output.rootConfig
 	);
 
-	const complianceRegion = getCloudflareComplianceRegion(wranglerConfig);
 	const { authToken, accountId } = await resolveBuildOutputAuth({
 		accountId: output.rootConfig.settings?.accountId,
 		complianceRegion,

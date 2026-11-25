@@ -347,6 +347,7 @@ describe("cf workers versions create", () => {
 	});
 
 	it("skips build when --prebuilt is passed", async () => {
+		vi.stubEnv("CLOUDFLARE_ACCOUNT_ID", undefined);
 		const requests = recordRequests();
 		mockWorkerUpload();
 		await seed({

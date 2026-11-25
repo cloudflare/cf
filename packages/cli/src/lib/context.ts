@@ -15,6 +15,7 @@
  *   1. --zone / -z CLI flag
  *   2. CLOUDFLARE_ZONE_ID environment variable
  */
+import { getCloudflareDotEnvFile } from "./dotenv.js";
 import {
 	CLOUDFLARE_CONFIG_FILENAME,
 	getLoadedProjectSettings,
@@ -236,17 +237,14 @@ const VALID_COMPLIANCE_REGIONS = ["public", "fedramp_high"] as const;
 export type ComplianceRegion = (typeof VALID_COMPLIANCE_REGIONS)[number];
 
 /**
- * Resolve the compliance region in the representation consumed by
- * workers-auth/workers-utils. cloudflare.config.ts uses `fedramp-high`, which
- * is converted once at this boundary.
+ * Get the compliance region in the representation consumed by
+ * workers-auth/workers-utils, defaulting to public. cloudflare.config.ts uses
+ * `fedramp-high`, which is converted once at this boundary.
  */
-async function resolveComplianceRegion(
+export async function getComplianceRegion(
 	options: { isPreview?: boolean } = {}
-): Promise<ComplianceRegion | undefined> {
-	const envRegion = normalizeComplianceRegion(
-		process.env.CLOUDFLARE_COMPLIANCE_REGION,
-		"CLOUDFLARE_COMPLIANCE_REGION"
-	);
+): Promise<ComplianceRegion> {
+	const envRegion = getComplianceRegionFromEnv();
 	if (envRegion) {
 		return envRegion;
 	}
@@ -256,17 +254,23 @@ async function resolveComplianceRegion(
 		preloadedProjectSettings === undefined
 			? await loadProjectSettings(undefined, options)
 			: preloadedProjectSettings;
-	return normalizeComplianceRegion(
-		projectSettings?.settings?.complianceRegion,
-		"cloudflare.config.ts"
+	return (
+		normalizeComplianceRegion(
+			projectSettings?.settings?.complianceRegion,
+			"cloudflare.config.ts"
+		) ?? "public"
 	);
 }
 
-/** Get the compliance region, defaulting to public. */
-export async function getComplianceRegion(options?: {
-	isPreview?: boolean;
-}): Promise<ComplianceRegion> {
-	return (await resolveComplianceRegion(options)) ?? "public";
+/** Read `CLOUDFLARE_COMPLIANCE_REGION`, accepting either `fedramp` spelling. */
+export function getComplianceRegionFromEnv(): ComplianceRegion | undefined {
+	const file = getCloudflareDotEnvFile("CLOUDFLARE_COMPLIANCE_REGION");
+	return normalizeComplianceRegion(
+		process.env.CLOUDFLARE_COMPLIANCE_REGION,
+		file === undefined
+			? "CLOUDFLARE_COMPLIANCE_REGION"
+			: `CLOUDFLARE_COMPLIANCE_REGION in ${file}`
+	);
 }
 
 function normalizeComplianceRegion(

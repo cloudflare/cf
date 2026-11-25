@@ -26,6 +26,7 @@ import {
 import { runCf } from "../helpers/run-cf.js";
 import type * as ContainerModule from "../../commands/deploy/containers.js";
 import type * as BuildOutputModule from "../../lib/build-output.js";
+import type * as ContextModule from "../../lib/context.js";
 
 const mocks = vi.hoisted(() => ({
 	assembleBuildResult: vi.fn(),
@@ -57,9 +58,13 @@ vi.mock("@cloudflare/deploy-helpers", () => ({
 vi.mock("../../lib/auth-token.js", () => ({
 	getAuthToken: mocks.getAuthToken,
 }));
-vi.mock("../../lib/context.js", () => ({
-	getAccountId: mocks.getAccountId,
-}));
+vi.mock("../../lib/context.js", async (importOriginal) => {
+	const actual = await importOriginal<typeof ContextModule>();
+	return {
+		getAccountId: mocks.getAccountId,
+		getComplianceRegionFromEnv: actual.getComplianceRegionFromEnv,
+	};
+});
 
 vi.mock("../../lib/deploy-context.js", () => ({
 	createDeployContext: mocks.createDeployContext,
@@ -75,8 +80,8 @@ vi.mock("../../lib/build-output.js", async (importOriginal) => {
 		applyCIWorkerNameOverride: actual.applyCIWorkerNameOverride,
 		buildOutputWorkerOption: actual.buildOutputWorkerOption,
 		parseWorkerConfig: mocks.parseWorkerConfig,
+		resolveBuildOutputSettings: actual.resolveBuildOutputSettings,
 		selectBuildOutputWorker: actual.selectBuildOutputWorker,
-		validateBuildOutputAccount: actual.validateBuildOutputAccount,
 		validateBuildOutputMode: actual.validateBuildOutputMode,
 	};
 });
@@ -126,6 +131,7 @@ describe("cf previews deploy", () => {
 		clearOutputFilePath();
 		vi.stubEnv("WRANGLER_OUTPUT_FILE_DIRECTORY", undefined);
 		vi.stubEnv("WRANGLER_OUTPUT_FILE_PATH", undefined);
+		vi.stubEnv("CLOUDFLARE_ACCOUNT_ID", undefined);
 		vi.clearAllMocks();
 		mocks.parseWorkerConfig.mockImplementation((worker) => ({
 			wranglerConfig: worker.config,
@@ -379,7 +385,7 @@ describe("cf previews deploy", () => {
 		};
 		mocks.readBuildOutput.mockResolvedValue({
 			rootConfig: {
-				complianceRegion: "fedramp-high",
+				settings: { complianceRegion: "fedramp-high" },
 				buildContext: { isPreview: true, mode: "staging" },
 			},
 			workers: { default: worker },

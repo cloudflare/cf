@@ -822,6 +822,7 @@ describe("cf deploy", () => {
 		});
 
 		it("skips build when --prebuilt is passed", async () => {
+			vi.stubEnv("CLOUDFLARE_ACCOUNT_ID", undefined);
 			const requests = recordRequests();
 			mockWorkerUpload();
 			await seed({
@@ -842,6 +843,72 @@ describe("cf deploy", () => {
 
 			expect(exitCode).toBe(0);
 			expect(buildDelegateWasCalled()).toBe(false);
+			expect(
+				requests.some((request) => request.includes("/accounts/built-account/"))
+			).toBe(true);
+		});
+
+		it.each([{ flags: [] }, { flags: ["--dry-run"] }])(
+			"rejects a different CLOUDFLARE_ACCOUNT_ID before API requests with --prebuilt $flags",
+			async ({ flags }) => {
+				vi.stubEnv("CLOUDFLARE_ACCOUNT_ID", "env-account");
+				const requests = recordRequests();
+				await seed({
+					".cloudflare/output/v1/config.json": buildOutputRootConfig({
+						settings: { accountId: "built-account" },
+					}),
+					".cloudflare/output/v1/workers/default/worker.config.json":
+						workerConfig(),
+					".cloudflare/output/v1/workers/default/bundle/index.js":
+						"export default { fetch() { return new Response('ok'); } }",
+				});
+
+				await expect(runCf(["deploy", "--prebuilt", ...flags])).rejects.toThrow(
+					'The Build Output targets account "built-account", but `CLOUDFLARE_ACCOUNT_ID` is "env-account" in your environment. To deploy to "built-account", unset it. To deploy to "env-account", set `accountId` to "env-account" in your config file or remove it, then rebuild.'
+				);
+
+				expect(requests).toEqual([]);
+			}
+		);
+
+		it("rejects a CLOUDFLARE_COMPLIANCE_REGION from dotenv that differs from the Build Output region", async () => {
+			vi.stubEnv("CLOUDFLARE_COMPLIANCE_REGION", undefined);
+			const requests = recordRequests();
+			await seed({
+				".env": "CLOUDFLARE_COMPLIANCE_REGION=public",
+				".cloudflare/output/v1/config.json": buildOutputRootConfig({
+					settings: { complianceRegion: "fedramp-high" },
+				}),
+				".cloudflare/output/v1/workers/default/worker.config.json":
+					workerConfig(),
+				".cloudflare/output/v1/workers/default/bundle/index.js":
+					"export default { fetch() { return new Response('ok'); } }",
+			});
+
+			await expect(runCf(["deploy", "--prebuilt"])).rejects.toThrow(
+				'The Build Output targets compliance region "fedramp-high", but `CLOUDFLARE_COMPLIANCE_REGION` is "public" in .env. To deploy to "fedramp-high", remove it from .env. To deploy to "public", set `complianceRegion` to "public" in your config file or remove it, then rebuild.'
+			);
+
+			expect(requests).toEqual([]);
+		});
+
+		it("deploys when CLOUDFLARE_ACCOUNT_ID matches the Build Output account", async () => {
+			vi.stubEnv("CLOUDFLARE_ACCOUNT_ID", "built-account");
+			const requests = recordRequests();
+			mockWorkerUpload();
+			await seed({
+				".cloudflare/output/v1/config.json": buildOutputRootConfig({
+					settings: { accountId: "built-account" },
+				}),
+				".cloudflare/output/v1/workers/default/worker.config.json":
+					workerConfig(),
+				".cloudflare/output/v1/workers/default/bundle/index.js":
+					"export default { fetch() { return new Response('ok'); } }",
+			});
+
+			const { exitCode } = await runCf(["deploy", "--prebuilt"]);
+
+			expect(exitCode).toBe(0);
 			expect(
 				requests.some((request) => request.includes("/accounts/built-account/"))
 			).toBe(true);

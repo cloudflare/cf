@@ -7,10 +7,7 @@ import {
 	versionsUpload,
 	initDeployHelpersContext,
 } from "@cloudflare/deploy-helpers";
-import {
-	getCloudflareApiBaseUrl,
-	getCloudflareComplianceRegion,
-} from "@cloudflare/workers-utils";
+import { getCloudflareApiBaseUrl } from "@cloudflare/workers-utils";
 import { resolveBuildOutputAuth } from "../../lib/build-output-auth.js";
 import { withBuildOutputDotEnv } from "../../lib/build-output-dotenv.js";
 import {
@@ -18,8 +15,8 @@ import {
 	applyCIWorkerNameOverride,
 	buildOutputWorkerOption,
 	parseWorkerConfig,
+	resolveBuildOutputSettings,
 	selectBuildOutputWorker,
-	validateBuildOutputAccount,
 	validateBuildOutputMode,
 } from "../../lib/build-output.js";
 import { CliExit } from "../../lib/cli-exit.js";
@@ -133,8 +130,8 @@ async function uploadBuildOutput(
 		);
 	}
 	validateBuildOutputMode(argv.mode, rootConfig.buildContext.mode);
-	validateBuildOutputAccount(
-		rootConfig.settings?.accountId,
+	const { complianceRegion } = resolveBuildOutputSettings(
+		rootConfig.settings,
 		argv["temporary-account"] === true
 	);
 	const { worker, workerNameOverridden } = applyCIWorkerNameOverride(
@@ -151,7 +148,6 @@ async function uploadBuildOutput(
 		{ includeSourceMaps: !argv["temporary-account"] }
 	);
 
-	const complianceRegion = getCloudflareComplianceRegion(wranglerConfig);
 	const { authToken, accountId } = await resolveBuildOutputAuth({
 		accountId: rootConfig.settings?.accountId,
 		complianceRegion,

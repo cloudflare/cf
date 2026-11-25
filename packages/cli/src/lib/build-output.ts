@@ -1,8 +1,12 @@
 import path from "node:path";
 import { convertToWranglerConfig } from "@cloudflare/config";
 import { normalizeAndValidateConfig } from "@cloudflare/workers-utils";
+import { toApiComplianceRegion } from "@cloudflare/workers-utils/compliance";
 import { BuildOutputConfigError } from "./build-output-error.js";
+import { getComplianceRegionFromEnv } from "./context.js";
+import { getCloudflareDotEnvFile } from "./dotenv.js";
 import { log } from "./ui/log.js";
+import type { ComplianceRegion } from "./context.js";
 import type {
 	BuildOutputWorker,
 	BuildOutputWorkers,
@@ -42,16 +46,88 @@ export function validateBuildOutputMode(
 	}
 }
 
-/** A Build Output account is the deployment target, so it can't be replaced. */
-export function validateBuildOutputAccount(
-	accountId: string | undefined,
+type BuildOutputSettings = NonNullable<ParsedBuildOutputRootConfig["settings"]>;
+
+interface SettingEnvVariable {
+	name: string;
+	description: string;
+	/**
+	 * The variable's value as the config file writes it (`fedramp-high`, not
+	 * `fedramp_high`), if it is set.
+	 */
+	read: () => string | undefined;
+	/** The form to suggest for the variable, when it differs from the config's. */
+	toEnv?: (setting: string) => string;
+}
+
+// Typed by setting, so a new setting can't skip deciding on its variable.
+const SETTING_ENV_VARIABLES: Record<
+	keyof BuildOutputSettings,
+	SettingEnvVariable
+> = {
+	accountId: {
+		name: "CLOUDFLARE_ACCOUNT_ID",
+		description: "account",
+		read: () => process.env.CLOUDFLARE_ACCOUNT_ID || undefined,
+	},
+	complianceRegion: {
+		name: "CLOUDFLARE_COMPLIANCE_REGION",
+		description: "compliance region",
+		read: () => {
+			const region = getComplianceRegionFromEnv();
+			return region === "fedramp_high" ? "fedramp-high" : region;
+		},
+		// TODO: Remove once workers-utils accepts `fedramp-high` in
+		// CLOUDFLARE_COMPLIANCE_REGION, which today only takes `fedramp_high`.
+		toEnv: (region) => (region === "fedramp-high" ? "fedramp_high" : region),
+	},
+};
+
+/**
+ * Build Output settings are the deployment target, so they can't be replaced.
+ * A variable that sets one to a different value is rejected rather than
+ * silently ignored, because either value may be the one the user meant.
+ *
+ * workers-utils reads `CLOUDFLARE_COMPLIANCE_REGION` again for every API URL
+ * and throws if it differs from the config's `compliance_region`. Rejecting
+ * conflicts here means it always agrees with the region returned.
+ */
+export function resolveBuildOutputSettings(
+	settings: BuildOutputSettings | undefined,
 	temporaryAccount: boolean
-): void {
-	if (accountId !== undefined && temporaryAccount) {
+): { complianceRegion: ComplianceRegion } {
+	if (settings?.accountId !== undefined && temporaryAccount) {
 		throw new BuildOutputConfigError(
-			`Temporary accounts can't be used when a specific account ID ("${accountId}") is set in your config file. Remove \`--temporary-account\` to use that account, or remove \`accountId\` from your config file and rebuild to use a temporary account.`
+			`The Build Output targets account "${settings.accountId}", but \`--temporary-account\` was passed. To deploy to "${settings.accountId}", remove \`--temporary-account\`. To deploy to a temporary account, remove \`accountId\` from your config file, then rebuild.`
 		);
 	}
+
+	for (const setting of Object.keys(
+		SETTING_ENV_VARIABLES
+	) as (keyof BuildOutputSettings)[]) {
+		const recorded = settings?.[setting];
+		if (recorded === undefined) {
+			continue;
+		}
+		const variable = SETTING_ENV_VARIABLES[setting];
+		const envSetting = variable.read();
+		if (envSetting === undefined || envSetting === recorded) {
+			continue;
+		}
+		const file = getCloudflareDotEnvFile(variable.name);
+		const source = file ?? "your environment";
+		const remedy = file === undefined ? "unset it" : `remove it from ${file}`;
+		throw new BuildOutputConfigError(
+			`The Build Output targets ${variable.description} "${recorded}", but \`${variable.name}\` is "${process.env[variable.name]}" in ${source}. To deploy to "${recorded}", ${remedy} or set it to "${variable.toEnv?.(recorded) ?? recorded}". To deploy to "${envSetting}", set \`${setting}\` to "${envSetting}" in your config file or remove it, then rebuild.`
+		);
+	}
+
+	return {
+		complianceRegion:
+			toApiComplianceRegion(settings?.complianceRegion) ??
+			getComplianceRegionFromEnv() ??
+			"public",
+	};
 }
 
 /** Selects a Build Output Worker for every workflow that consumes one. */

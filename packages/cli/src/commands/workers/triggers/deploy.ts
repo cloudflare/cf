@@ -2,15 +2,14 @@ import {
 	initDeployHelpersContext,
 	triggersDeploy,
 } from "@cloudflare/deploy-helpers";
-import { getCloudflareComplianceRegion } from "@cloudflare/workers-utils";
 import { resolveBuildOutputAuth } from "../../../lib/build-output-auth.js";
 import { withBuildOutputDotEnv } from "../../../lib/build-output-dotenv.js";
 import {
 	applyCIWorkerNameOverride,
 	buildOutputWorkerOption,
 	parseWorkerConfig,
+	resolveBuildOutputSettings,
 	selectBuildOutputWorker,
-	validateBuildOutputAccount,
 	validateBuildOutputMode,
 } from "../../../lib/build-output.js";
 import { createDeployContext } from "../../../lib/deploy-context.js";
@@ -89,8 +88,8 @@ async function deployTriggers(
 		);
 	}
 	validateBuildOutputMode(argv.mode, rootConfig.buildContext.mode);
-	validateBuildOutputAccount(
-		rootConfig.settings?.accountId,
+	const { complianceRegion } = resolveBuildOutputSettings(
+		rootConfig.settings,
 		argv["temporary-account"] === true
 	);
 	const { worker } = applyCIWorkerNameOverride(
@@ -98,7 +97,6 @@ async function deployTriggers(
 	);
 	const { wranglerConfig } = parseWorkerConfig(worker, rootConfig);
 
-	const complianceRegion = getCloudflareComplianceRegion(wranglerConfig);
 	const { authToken, accountId } = await resolveBuildOutputAuth({
 		accountId: rootConfig.settings?.accountId,
 		complianceRegion,

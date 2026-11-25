@@ -170,6 +170,13 @@ cf resolves account parameters itself.
 
 - Account: `--temporary-account` → `CLOUDFLARE_ACCOUNT_ID` → project
   `cloudflare.config.ts` → workers-auth selection.
+- Build Output deploy account and compliance region: the recorded
+  `accountId` / `complianceRegion` → `CLOUDFLARE_ACCOUNT_ID` /
+  `CLOUDFLARE_COMPLIANCE_REGION` → workers-auth selection / `public`. A
+  variable that differs from a recorded setting is an error that names the
+  dotenv file that set it, rather than either value silently winning. List
+  new Build Output settings in `SETTING_ENV_VARIABLES`
+  (`src/lib/build-output.ts`).
 - Compliance region: `CLOUDFLARE_COMPLIANCE_REGION` → project
   `cloudflare.config.ts` → `public`.
 - Zone: positional value → `--zone` → `CLOUDFLARE_ZONE_ID`.

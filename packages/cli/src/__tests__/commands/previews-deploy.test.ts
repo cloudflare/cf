@@ -6,6 +6,7 @@ import {
 	writeFileSync,
 } from "node:fs";
 import { dirname, resolve } from "node:path";
+import { BuildOutputRootConfigSchema } from "@cloudflare/config";
 import { clearOutputFilePath } from "@cloudflare/workers-utils";
 import {
 	mockConsoleMethods,
@@ -26,6 +27,8 @@ import {
 import { runCf } from "../helpers/run-cf.js";
 import type * as ContainerModule from "../../commands/deploy/containers.js";
 import type * as BuildOutputModule from "../../lib/build-output.js";
+import type * as ContextModule from "../../lib/context.js";
+import type { ParsedBuildOutputRootConfig } from "@cloudflare/config";
 
 const mocks = vi.hoisted(() => ({
 	assembleBuildResult: vi.fn(),
@@ -47,6 +50,14 @@ vi.mock("@cloudflare/build-output-utils", () => ({
 	readBuildOutput: mocks.readBuildOutput,
 }));
 
+// readBuildOutput is mocked, so check root configs against the schema it
+// would parse them with.
+function rootConfigFixture(
+	config: ParsedBuildOutputRootConfig
+): ParsedBuildOutputRootConfig {
+	return BuildOutputRootConfigSchema.parse(config);
+}
+
 vi.mock("@cloudflare/deploy-helpers", () => ({
 	assertPreviewBuildOutputRootConfig: mocks.assertPreviewBuildOutputRootConfig,
 	getBranchName: mocks.getBranchName,
@@ -57,9 +68,13 @@ vi.mock("@cloudflare/deploy-helpers", () => ({
 vi.mock("../../lib/auth-token.js", () => ({
 	getAuthToken: mocks.getAuthToken,
 }));
-vi.mock("../../lib/context.js", () => ({
-	getAccountId: mocks.getAccountId,
-}));
+vi.mock("../../lib/context.js", async (importOriginal) => {
+	const actual = await importOriginal<typeof ContextModule>();
+	return {
+		getAccountId: mocks.getAccountId,
+		getComplianceRegionFromEnv: actual.getComplianceRegionFromEnv,
+	};
+});
 
 vi.mock("../../lib/deploy-context.js", () => ({
 	createDeployContext: mocks.createDeployContext,
@@ -75,8 +90,8 @@ vi.mock("../../lib/build-output.js", async (importOriginal) => {
 		applyCIWorkerNameOverride: actual.applyCIWorkerNameOverride,
 		buildOutputWorkerOption: actual.buildOutputWorkerOption,
 		parseWorkerConfig: mocks.parseWorkerConfig,
+		resolveBuildOutputSettings: actual.resolveBuildOutputSettings,
 		selectBuildOutputWorker: actual.selectBuildOutputWorker,
-		validateBuildOutputAccount: actual.validateBuildOutputAccount,
 		validateBuildOutputMode: actual.validateBuildOutputMode,
 	};
 });
@@ -126,6 +141,7 @@ describe("cf previews deploy", () => {
 		clearOutputFilePath();
 		vi.stubEnv("WRANGLER_OUTPUT_FILE_DIRECTORY", undefined);
 		vi.stubEnv("WRANGLER_OUTPUT_FILE_PATH", undefined);
+		vi.stubEnv("CLOUDFLARE_ACCOUNT_ID", undefined);
 		vi.clearAllMocks();
 		mocks.parseWorkerConfig.mockImplementation((worker) => ({
 			wranglerConfig: worker.config,
@@ -139,7 +155,9 @@ describe("cf previews deploy", () => {
 	});
 
 	it("builds and uploads Preview Build Output", async () => {
-		const rootConfig = { buildContext: { isPreview: true, mode: "staging" } };
+		const rootConfig = rootConfigFixture({
+			buildContext: { isPreview: true, mode: "staging" },
+		});
 		const worker = {
 			config: { type: "worker", name: "preview-worker" },
 			bundleDir: "/project/bundle",
@@ -203,10 +221,10 @@ describe("cf previews deploy", () => {
 	});
 
 	it("uploads prebuilt Preview output with a recorded mode without --mode", async () => {
-		const rootConfig = {
+		const rootConfig = rootConfigFixture({
 			settings: { accountId: "built-preview-account" },
 			buildContext: { isPreview: true, mode: "staging" },
-		};
+		});
 		const worker = {
 			config: { type: "worker", name: "preview-worker" },
 			bundleDir: "/project/bundle",
@@ -258,7 +276,9 @@ describe("cf previews deploy", () => {
 				"CLOUDFLARE_API_TOKEN=staging-token\nCLOUDFLARE_ACCOUNT_ID=staging-account\n"
 			);
 			mocks.readBuildOutput.mockResolvedValue({
-				rootConfig: { buildContext: { isPreview: true, mode: "staging" } },
+				rootConfig: rootConfigFixture({
+					buildContext: { isPreview: true, mode: "staging" },
+				}),
 				workers: {
 					default: {
 						config: { type: "worker", name: "preview-worker" },
@@ -298,7 +318,7 @@ describe("cf previews deploy", () => {
 
 	it("deploys the Preview under CLOUDFLARE_CI_OVERRIDE_WORKER_NAME", async () => {
 		vi.stubEnv("CLOUDFLARE_CI_OVERRIDE_WORKER_NAME", "dashboard-worker");
-		const rootConfig = { buildContext: { isPreview: true } };
+		const rootConfig = rootConfigFixture({ buildContext: { isPreview: true } });
 		const worker = {
 			config: { type: "worker", name: "config-worker" },
 			bundleDir: "/project/bundle",
@@ -337,7 +357,7 @@ describe("cf previews deploy", () => {
 	});
 
 	it("uploads secrets from --secrets-file", async () => {
-		const rootConfig = { buildContext: { isPreview: true } };
+		const rootConfig = rootConfigFixture({ buildContext: { isPreview: true } });
 		const worker = {
 			config: { type: "worker", name: "preview-worker" },
 			bundleDir: "/project/bundle",
@@ -373,15 +393,14 @@ describe("cf previews deploy", () => {
 			config: {
 				type: "worker",
 				name: "preview-worker",
-				compliance_region: "fedramp_high",
 			},
 			bundleDir: "/project/bundle",
 		};
 		mocks.readBuildOutput.mockResolvedValue({
-			rootConfig: {
-				complianceRegion: "fedramp-high",
+			rootConfig: rootConfigFixture({
+				settings: { complianceRegion: "fedramp-high" },
 				buildContext: { isPreview: true, mode: "staging" },
-			},
+			}),
 			workers: { default: worker },
 		});
 		mocks.assembleBuildResult.mockReturnValue({ content: "worker code" });
@@ -417,7 +436,7 @@ describe("cf previews deploy", () => {
 		};
 		mocks.readBuildOutput.mockResolvedValue({
 			root: "/project",
-			rootConfig: { buildContext: { isPreview: true } },
+			rootConfig: rootConfigFixture({ buildContext: { isPreview: true } }),
 			workers: { default: worker },
 		});
 		mocks.assembleBuildResult.mockReturnValue({ content: "worker code" });
@@ -443,7 +462,7 @@ describe("cf previews deploy", () => {
 	});
 
 	it("builds and uploads the Worker selected by --worker", async () => {
-		const rootConfig = { buildContext: { isPreview: true } };
+		const rootConfig = rootConfigFixture({ buildContext: { isPreview: true } });
 		const api = {
 			config: { type: "worker", name: "api" },
 			bundleDir: "/project/api/bundle",
@@ -501,7 +520,7 @@ describe("cf previews deploy", () => {
 
 	it("rejects an unknown --worker before authenticating", async () => {
 		mocks.readBuildOutput.mockResolvedValue({
-			rootConfig: { buildContext: { isPreview: true } },
+			rootConfig: rootConfigFixture({ buildContext: { isPreview: true } }),
 			workers: {
 				default: { config: { type: "worker", name: "preview-worker" } },
 			},
@@ -521,7 +540,7 @@ describe("cf previews deploy", () => {
 	});
 
 	it("passes Build Output Containers to the Preview upload", async () => {
-		const rootConfig = { buildContext: { isPreview: true } };
+		const rootConfig = rootConfigFixture({ buildContext: { isPreview: true } });
 		const worker = {
 			config: {
 				type: "worker",
@@ -576,7 +595,7 @@ describe("cf previews deploy", () => {
 	});
 
 	it("uses the inferred branch name", async () => {
-		const rootConfig = { buildContext: { isPreview: true } };
+		const rootConfig = rootConfigFixture({ buildContext: { isPreview: true } });
 		const worker = {
 			config: { type: "worker", name: "preview-worker" },
 			bundleDir: "/project/bundle",
@@ -613,7 +632,9 @@ describe("cf previews deploy", () => {
 			assetsDir: "/project/assets",
 		};
 		mocks.readBuildOutput.mockResolvedValue({
-			rootConfig: { buildContext: { isPreview: true, mode: "staging" } },
+			rootConfig: rootConfigFixture({
+				buildContext: { isPreview: true, mode: "staging" },
+			}),
 			workers: { default: worker },
 		});
 		mocks.getAuthToken.mockResolvedValue("token");
@@ -646,7 +667,9 @@ describe("cf previews deploy", () => {
 			bundleDir: "/project/bundle",
 		};
 		mocks.readBuildOutput.mockResolvedValue({
-			rootConfig: { buildContext: { isPreview: true, mode: "staging" } },
+			rootConfig: rootConfigFixture({
+				buildContext: { isPreview: true, mode: "staging" },
+			}),
 			workers: { default: worker },
 		});
 		mocks.assembleBuildResult.mockReturnValue({ content: "worker code" });
@@ -685,10 +708,10 @@ describe("cf previews deploy", () => {
 
 		beforeEach(() => {
 			mocks.readBuildOutput.mockResolvedValue({
-				rootConfig: {
-					accountId: "account-id",
+				rootConfig: rootConfigFixture({
+					settings: { accountId: "account-id" },
 					buildContext: { isPreview: true },
-				},
+				}),
 				workers: {
 					default: {
 						config: { type: "worker", name: "preview-worker" },
@@ -814,7 +837,7 @@ describe("cf previews deploy", () => {
 	});
 
 	it("deploys a static assets directory without running the delegated build", async () => {
-		const rootConfig = { buildContext: { isPreview: true } };
+		const rootConfig = rootConfigFixture({ buildContext: { isPreview: true } });
 		const worker = {
 			config: { type: "worker", name: "preview-worker" },
 			assetsDir: "/project/assets",

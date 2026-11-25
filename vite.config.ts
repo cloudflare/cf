@@ -80,6 +80,9 @@ export default defineConfig({
 			],
 			curly: ["error", "all"],
 			"vite-plus/prefer-vite-plus-imports": "error",
+			// The CLI writes to the console directly and has no logger abstraction.
+			// See docs/design-history.md.
+			"no-console": "off",
 			// Tests assert through node:assert and local expect* helpers.
 			"vitest/expect-expect": [
 				"error",
@@ -94,7 +97,6 @@ export default defineConfig({
 			"import/consistent-type-specifier-style": "off",
 			"import/export": "off",
 			"import/no-namespace": "off",
-			"no-console": "off",
 			"no-promise-executor-return": "off",
 			"no-useless-assignment": "off",
 			"object-shorthand": "off",

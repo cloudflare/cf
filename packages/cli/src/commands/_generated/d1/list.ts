@@ -32,6 +32,25 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "number",
 			description: "Number of items per page.",
 		})
+		.option("fields", {
+			type: "string",
+			array: true,
+			description:
+				"Comma-separated list of fields to include for each database. When omitted, every field except `recommendation_count` is returned.",
+			choices: [
+				"uuid",
+				"name",
+				"created_at",
+				"version",
+				"jurisdiction",
+				"num_tables",
+				"file_size",
+				"recommendation_count",
+			],
+		})
+		.coerce("fields", (values: string[]) =>
+			values.flatMap((value) => value.split(","))
+		)
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",
@@ -59,6 +78,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					name: argv["name"],
 					page: argv["page"],
 					per_page: argv["per-page"],
+					fields: argv["fields"],
 				};
 				if (argv.dryRun) {
 					const __cfDryRunAccountId = await resolveAccountIdSilent();

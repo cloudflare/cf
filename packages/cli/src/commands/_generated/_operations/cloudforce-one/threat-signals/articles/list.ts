@@ -22,6 +22,7 @@ export default {
 		"fetched_after",
 		"fetched_before",
 		"feed_category",
+		"feed_category_id",
 		"source_type",
 		"tag_applied_by",
 		"pir_id",

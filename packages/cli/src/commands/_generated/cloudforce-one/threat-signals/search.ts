@@ -35,8 +35,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		})
 		.option("feed-id", {
 			type: "string",
+			array: true,
 			description:
-				"Optional feed UUID that restricts results to articles from that feed.",
+				"Optional repeatable feed UUID filter, up to 40 feeds. Results come only from articles in the selected feeds.",
 		})
 		.option("dry-run", {
 			type: "boolean",

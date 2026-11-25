@@ -77,6 +77,15 @@ describe("installed completion scripts", () => {
 		expect(readdirSync(dirname(path))).toEqual(["cf.zsh"]);
 	});
 
+	it.runIf(process.platform === "win32")(
+		"uses forward slashes in bash and zsh rc lines on Windows",
+		() => {
+			expect(getSourceLine("bash", "C:\\Users\\me\\cf.bash")).toBe(
+				"source 'C:/Users/me/cf.bash'"
+			);
+		}
+	);
+
 	it("quotes the rc line for each shell", () => {
 		const path = "/home/o'brien/cf.sh";
 

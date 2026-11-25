@@ -13,7 +13,7 @@ import {
 	rmSync,
 	writeFileSync,
 } from "node:fs";
-import { dirname, join } from "node:path";
+import { dirname, join, sep } from "node:path";
 import t from "@bomb.sh/tab";
 import { getCfConfigPath } from "@cloudflare/workers-auth/cf";
 
@@ -63,7 +63,9 @@ export function getSourceLine(shell: Shell, path: string): string {
 		case "fish":
 			return `source '${path.replaceAll("\\", "\\\\").replaceAll("'", "\\'")}'`;
 		default:
-			return `source '${path.replaceAll("'", "'\\''")}'`;
+			// bash and zsh on Windows run under MSYS2 or Cygwin, which accept
+			// `C:/…`; forward slashes avoid relying on how each reads `\`.
+			return `source '${path.replaceAll(sep, "/").replaceAll("'", "'\\''")}'`;
 	}
 }
 

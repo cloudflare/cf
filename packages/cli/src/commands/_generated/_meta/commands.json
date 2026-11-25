@@ -113115,7 +113115,7 @@
 					"type": "string",
 					"required": false,
 					"description": "The recording_config.storage_config.type field",
-					"enum": ["gcs", "aws", "azure", "digitalocean", "sftp"]
+					"enum": ["gcs", "aws", "azure", "digitalocean", "sftp", "cloudflare"]
 				},
 				{
 					"name": "recording-config-video-config-codec",
@@ -113359,7 +113359,7 @@
 					"type": "string",
 					"required": false,
 					"description": "The recording_config.storage_config.type field",
-					"enum": ["gcs", "aws", "azure", "digitalocean", "sftp"]
+					"enum": ["gcs", "aws", "azure", "digitalocean", "sftp", "cloudflare"]
 				},
 				{
 					"name": "recording-config-video-config-codec",
@@ -114313,7 +114313,7 @@
 					"type": "string",
 					"required": false,
 					"description": "The recording_config.storage_config.type field",
-					"enum": ["gcs", "aws", "azure", "digitalocean", "sftp"]
+					"enum": ["gcs", "aws", "azure", "digitalocean", "sftp", "cloudflare"]
 				},
 				{
 					"name": "recording-config-video-config-codec",
@@ -116230,7 +116230,7 @@
 					"type": "string",
 					"required": false,
 					"description": "The storage_config.type field",
-					"enum": ["gcs", "aws", "azure", "digitalocean", "sftp"]
+					"enum": ["gcs", "aws", "azure", "digitalocean", "sftp", "cloudflare"]
 				},
 				{
 					"name": "url",

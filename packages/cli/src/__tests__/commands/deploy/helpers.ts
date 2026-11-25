@@ -23,7 +23,7 @@ export function workerConfig(overrides: WorkerConfigOverrides = {}) {
 		name: "test-worker",
 		compatibilityDate: "2025-01-01",
 		manifest:
-			mainModule != null
+			mainModule !== undefined
 				? { type: "complete", mainModule, modules }
 				: undefined,
 		...rest,

@@ -93,7 +93,6 @@ export default defineConfig({
 			// Temporarily off while adopting @cloudflare/oxlint-config. Each rule is
 			// enabled with its fixes, or documented as staying off, in its own commit.
 			"@nkzw/no-instanceof": "off",
-			eqeqeq: "off",
 			"import/consistent-type-specifier-style": "off",
 			"import/export": "off",
 			"import/no-namespace": "off",

@@ -131,15 +131,28 @@ export default defineConfig({
 			"vitest/expect-expect": "off",
 			"vitest/no-conditional-expect": "off",
 			"vitest/no-conditional-tests": "off",
-			"vitest/no-disabled-tests": "off",
 			"vitest/no-standalone-expect": "off",
 			"vitest/require-mock-type-parameters": "off",
 			"vitest/require-to-throw-message": "off",
-			"vitest/valid-describe-callback": "off",
 			"vitest/valid-expect": "off",
 			"vitest/valid-title": "off",
-			"vitest/warn-todo": "off",
 		},
+		overrides: [
+			{
+				// Wrangler compatibility tests keep upstream titles, and their skip and
+				// todo cases are parity classifications with placeholder bodies. See
+				// packages/wrangler-tests/AGENTS.md.
+				files: ["packages/wrangler-tests/**"],
+				rules: {
+					"vitest/expect-expect": "off",
+					"vitest/no-conditional-tests": "off",
+					"vitest/no-disabled-tests": "off",
+					"vitest/valid-describe-callback": "off",
+					"vitest/valid-title": "off",
+					"vitest/warn-todo": "off",
+				},
+			},
+		],
 		ignorePatterns: [
 			...cloudflare.ignorePatterns,
 			"fixtures/**",

@@ -113,7 +113,6 @@ export default defineConfig({
 			"typescript/array-type": "off",
 			"typescript/no-empty-object-type": "off",
 			"typescript/no-misused-promises": "off",
-			"typescript/no-require-imports": "off",
 			"typescript/no-unnecessary-type-assertion": "off",
 			"typescript/no-unsafe-argument": "off",
 			"typescript/no-unsafe-assignment": "off",
@@ -129,7 +128,6 @@ export default defineConfig({
 			"unicorn/numeric-separators-style": "off",
 			"unicorn/prefer-at": "off",
 			"unicorn/prefer-import-meta-properties": "off",
-			"unicorn/prefer-node-protocol": "off",
 			"unicorn/prefer-number-properties": "off",
 			"unicorn/prefer-set-has": "off",
 			"unicorn/prefer-single-call": "off",
@@ -156,6 +154,16 @@ export default defineConfig({
 					"vitest/valid-describe-callback": "off",
 					"vitest/valid-title": "off",
 					"vitest/warn-todo": "off",
+				},
+			},
+			{
+				// Upstream CommonJS script for Node.js versions older than cf supports.
+				files: [
+					"packages/wrangler-tests/src/__tests__/test-old-node-version.js",
+				],
+				rules: {
+					"typescript/no-require-imports": "off",
+					"unicorn/prefer-node-protocol": "off",
 				},
 			},
 		],

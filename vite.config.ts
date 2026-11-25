@@ -111,7 +111,6 @@ export default defineConfig({
 			"quality/no-unknown-type-aliases": "off",
 			"quality/no-unsafe-dictionary-type": "off",
 			"typescript/array-type": "off",
-			"typescript/no-misused-promises": "off",
 			"typescript/no-unnecessary-type-assertion": "off",
 			"typescript/no-unsafe-argument": "off",
 			"typescript/no-unsafe-assignment": "off",

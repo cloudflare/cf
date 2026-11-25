@@ -169,6 +169,7 @@ async function fixture() {
 	let customPrepared: unknown;
 	let prepareEnvelope: unknown;
 	let origin = "";
+	// oxlint-disable-next-line typescript/no-misused-promises -- an unhandled rejection fails the Vitest run
 	const server = createServer(tlsOptions, async (request, response) => {
 		const chunks: Buffer[] = [];
 		for await (const chunk of request) {

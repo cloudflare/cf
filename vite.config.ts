@@ -86,6 +86,9 @@ export default defineConfig({
 			// TypeScript reports duplicate and conflicting exports. This rule misreads
 			// re-exports from chunked ESM packages and CommonJS modules.
 			"import/export": "off",
+			// Its fix uses iterator helpers, which the ES2023 TypeScript lib for the
+			// Node.js 22 floor does not type.
+			"quality/no-array-filter-map": "off",
 			// Tests assert through node:assert and local expect* helpers.
 			"vitest/expect-expect": [
 				"error",
@@ -100,7 +103,6 @@ export default defineConfig({
 			"import/no-namespace": "off",
 			"no-promise-executor-return": "off",
 			"preserve-caught-error": "off",
-			"quality/no-array-filter-map": "off",
 			"quality/no-chained-type-assertions": "off",
 			"quality/no-conditional-empty-object-spread": "off",
 			"quality/no-known-value-widening": "off",

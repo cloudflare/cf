@@ -85,6 +85,8 @@ export default defineConfig({
 				"error",
 				{ assertFunctionNames: ["assert*", "expect*"] },
 			],
+			// Parameterized suites name describe blocks from loop variables.
+			"vitest/valid-title": ["error", { ignoreTypeOfDescribeName: true }],
 			// Temporarily off while adopting @cloudflare/oxlint-config. Each rule is
 			// enabled with its fixes, or documented as staying off, in its own commit.
 			"@nkzw/no-instanceof": "off",
@@ -139,7 +141,6 @@ export default defineConfig({
 			"vitest/require-mock-type-parameters": "off",
 			"vitest/require-to-throw-message": "off",
 			"vitest/valid-expect": "off",
-			"vitest/valid-title": "off",
 		},
 		overrides: [
 			{

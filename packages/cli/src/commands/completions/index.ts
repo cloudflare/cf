@@ -220,7 +220,7 @@ const completeCommand: CommandModule<object, CompleteArgs> & {
 			// silently no-op in a script.
 			process.stderr.write(
 				"Usage: cf complete <bash|zsh|fish|powershell>\n" +
-					"       cf complete bash >> ~/.bashrc\n"
+					"       cf complete bash --install\n"
 			);
 			process.exitCode = 1;
 			return;

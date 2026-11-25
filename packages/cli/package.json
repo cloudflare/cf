@@ -1,6 +1,6 @@
 {
 	"name": "cf",
-	"version": "1.0.0-rc.5",
+	"version": "1.0.0-rc.6",
 	"description": "The Cloudflare CLI",
 	"keywords": [
 		"ai",

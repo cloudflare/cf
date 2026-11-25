@@ -28,22 +28,25 @@ if (results.length === 0) {
 const fmt = (seconds) => `${(seconds * 1000).toFixed(1)} ms`;
 
 const out = [];
-out.push("### `cf --help` startup");
-out.push("");
+out.push("### `cf --help` startup", "");
 
 if (results.length === 1) {
 	const r = results[0];
-	out.push(`**${r.command}**`);
-	out.push("");
-	out.push("| metric | value |");
-	out.push("| --- | --- |");
-	out.push(`| mean | ${fmt(r.mean)} |`);
-	out.push(`| stddev | ${fmt(r.stddev)} |`);
-	out.push(`| min | ${fmt(r.min)} |`);
-	out.push(`| max | ${fmt(r.max)} |`);
+	out.push(
+		`**${r.command}**`,
+		"",
+		"| metric | value |",
+		"| --- | --- |",
+		`| mean | ${fmt(r.mean)} |`,
+		`| stddev | ${fmt(r.stddev)} |`,
+		`| min | ${fmt(r.min)} |`,
+		`| max | ${fmt(r.max)} |`
+	);
 } else {
-	out.push("|  | mean | stddev | min | max |");
-	out.push("| --- | --- | --- | --- | --- |");
+	out.push(
+		"|  | mean | stddev | min | max |",
+		"| --- | --- | --- | --- | --- |"
+	);
 	for (const r of results) {
 		out.push(
 			`| **${r.command}** | ${fmt(r.mean)} | ${fmt(r.stddev)} | ${fmt(r.min)} | ${fmt(r.max)} |`
@@ -56,14 +59,14 @@ if (results.length === 1) {
 	// Treat sub-millisecond differences as flat — well within CI jitter.
 	const arrow = delta > 0.001 ? "↑" : delta < -0.001 ? "↓" : "—";
 	const sign = delta >= 0 ? "+" : "";
-	out.push("");
 	out.push(
+		"",
 		`**Δ (${a.command} vs ${b.command}):** ${arrow} ${sign}${(delta * 1000).toFixed(1)} ms (${sign}${pct.toFixed(1)}%)`
 	);
 }
 
-out.push("");
 out.push(
+	"",
 	"_Measured with hyperfine on `ubuntu-latest` (3 warmup runs, 20 timed runs). CI numbers carry ±a few ms of runner jitter; treat small deltas as noise._"
 );
 

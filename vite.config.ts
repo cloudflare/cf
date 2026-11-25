@@ -123,7 +123,6 @@ export default defineConfig({
 			"unicorn/consistent-function-scoping": "off",
 			"unicorn/numeric-separators-style": "off",
 			"unicorn/prefer-set-has": "off",
-			"unicorn/prefer-single-call": "off",
 			"unicorn/prefer-string-raw": "off",
 			"unicorn/prefer-string-replace-all": "off",
 			"unicorn/prefer-top-level-await": "off",

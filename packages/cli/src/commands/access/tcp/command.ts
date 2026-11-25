@@ -69,8 +69,7 @@ const command: CommandModule<CommonYargsOptions, AccessTcpArgs> = {
 		if (complianceRegion === "fedramp_high") {
 			args.push("--fedramp");
 		}
-		args.push("tcp");
-		args.push("--hostname", argv.hostname);
+		args.push("tcp", "--hostname", argv.hostname);
 		if (argv.destination) {
 			args.push("--destination", argv.destination);
 		}

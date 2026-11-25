@@ -87,12 +87,13 @@ export function errorBlock(
 
 	const lines: string[] = [];
 
-	// Breathing room above the block — blank line above the `┌`
-	// corner so the block doesn't crowd whatever rendered before.
-	lines.push("");
-
-	// First line: top corner + bold title.
-	lines.push(`${topCorner} ${theme.error(theme.bold(title))}`);
+	lines.push(
+		// Breathing room above the block — blank line above the `┌`
+		// corner so the block doesn't crowd whatever rendered before.
+		"",
+		// First line: top corner + bold title.
+		`${topCorner} ${theme.error(theme.bold(title))}`
+	);
 
 	// Message lines, color-per-line (or raw if requested).
 	if (opts?.rawMessage) {

@@ -115,7 +115,7 @@ describe("wrangler", () => {
 						errors: [],
 						messages: [],
 						result:
-							typeof certs === "undefined"
+							certs === undefined
 								? [
 										{
 											id: "1234",

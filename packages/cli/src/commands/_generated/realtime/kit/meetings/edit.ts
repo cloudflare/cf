@@ -162,7 +162,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("recording-config-storage-config-type", {
 			type: "string",
 			description: "The recording_config.storage_config.type field",
-			choices: ["gcs", "aws", "azure", "digitalocean", "sftp"],
+			choices: ["gcs", "aws", "azure", "digitalocean", "sftp", "cloudflare"],
 		})
 		.coerce("recording-config-storage-config-type", (value) =>
 			resolveFileToken(value, "recording-config-storage-config-type", "text")

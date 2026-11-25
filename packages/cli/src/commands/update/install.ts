@@ -64,7 +64,8 @@ async function findLocalInstall(
 				error.code === "ERR_INVALID_PACKAGE_CONFIG"
 			) {
 				throw new Error(
-					`cf update could not resolve the local installation: ${error.message} Fix the file or update cf manually.`
+					`cf update could not resolve the local installation: ${error.message} Fix the file or update cf manually.`,
+					{ cause: error }
 				);
 			}
 			return undefined;

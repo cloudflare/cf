@@ -101,7 +101,6 @@ export default defineConfig({
 			"@nkzw/no-instanceof": "off",
 			"import/consistent-type-specifier-style": "off",
 			"import/no-namespace": "off",
-			"preserve-caught-error": "off",
 			"quality/no-chained-type-assertions": "off",
 			"quality/no-conditional-empty-object-spread": "off",
 			"quality/no-known-value-widening": "off",
@@ -146,6 +145,7 @@ export default defineConfig({
 					"packages/wrangler-tests/src/__tests__/test-old-node-version.js",
 				],
 				rules: {
+					"preserve-caught-error": "off",
 					"typescript/no-require-imports": "off",
 					"unicorn/prefer-node-protocol": "off",
 				},

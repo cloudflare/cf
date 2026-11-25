@@ -114,7 +114,9 @@ function parseJson<T>(input: string, flagName: string): T {
 			jsonText = readFileSync(abs, "utf-8");
 		} catch (err) {
 			const reason = err instanceof Error ? err.message : "unknown read error";
-			throw new Error(`${flag}: cannot read file at '${path}': ${reason}`);
+			throw new Error(`${flag}: cannot read file at '${path}': ${reason}`, {
+				cause: err,
+			});
 		}
 	}
 	try {
@@ -211,7 +213,9 @@ export function parseScalarValue(
 			text = readFileSync(resolvePath(path), "utf-8");
 		} catch (err) {
 			const reason = err instanceof Error ? err.message : "unknown read error";
-			throw new Error(`${flag}: cannot read file at '${path}': ${reason}`);
+			throw new Error(`${flag}: cannot read file at '${path}': ${reason}`, {
+				cause: err,
+			});
 		}
 	}
 	let value: unknown;

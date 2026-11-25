@@ -236,7 +236,7 @@ export function generateFiles(
 			);
 		} catch (error) {
 			const stderr = (error as { stderr?: Buffer }).stderr?.toString() ?? "";
-			throw new Error(stderr.replace(/^forge: /, "").trim());
+			throw new Error(stderr.replace(/^forge: /, "").trim(), { cause: error });
 		}
 		const files = new Map<string, string>();
 		const out = join(dir, "out");

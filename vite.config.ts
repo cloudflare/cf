@@ -126,7 +126,6 @@ export default defineConfig({
 			"unicorn/numeric-separators-style": "off",
 			"unicorn/prefer-at": "off",
 			"unicorn/prefer-import-meta-properties": "off",
-			"unicorn/prefer-number-properties": "off",
 			"unicorn/prefer-set-has": "off",
 			"unicorn/prefer-single-call": "off",
 			"unicorn/prefer-string-raw": "off",

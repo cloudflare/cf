@@ -362,7 +362,7 @@ const RETRYABLE = [408, 429, 502, 503, 504];
 function retryDelay(response: Response, attempt: number): number {
 	const retryAfter = response.headers.get("Retry-After");
 	if (retryAfter) {
-		const seconds = parseInt(retryAfter, 10);
+		const seconds = Number.parseInt(retryAfter, 10);
 		if (!Number.isNaN(seconds) && seconds > 0) {
 			return Math.min(seconds * 1000, 60_000);
 		}
@@ -376,7 +376,7 @@ function retryDelay(response: Response, attempt: number): number {
 	}
 	const reset = response.headers.get("X-RateLimit-Reset");
 	if (reset) {
-		const time = parseInt(reset, 10);
+		const time = Number.parseInt(reset, 10);
 		if (!Number.isNaN(time)) {
 			const delay = time * 1000 - Date.now();
 			if (delay > 0) {

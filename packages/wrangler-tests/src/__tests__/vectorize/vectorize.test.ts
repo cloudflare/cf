@@ -957,7 +957,7 @@ function mockVectorizeV2Request() {
 				}
 
 				// Default first page response
-				const pageSize = count ? parseInt(count) : 3;
+				const pageSize = count ? Number.parseInt(count) : 3;
 				const mockVectors = [
 					{ id: "vector-1" },
 					{ id: "vector-2" },

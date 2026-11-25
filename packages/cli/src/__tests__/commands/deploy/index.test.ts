@@ -1560,10 +1560,7 @@ describe("cf deploy", () => {
 				| undefined;
 			expect(bindings).toBeDefined();
 
-			const byName = Object.fromEntries(
-				// oxlint-disable-next-line typescript/no-non-null-assertion
-				bindings!.map((b) => [b.name, b.type])
-			);
+			const byName = Object.fromEntries(bindings!.map((b) => [b.name, b.type]));
 			expect(byName.MY_KV).toBe("kv_namespace");
 			expect(byName.MY_DB).toBe("d1");
 			expect(byName.MY_BUCKET).toBe("r2_bucket");

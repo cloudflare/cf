@@ -54,8 +54,6 @@ export default defineConfig({
 			typeAware: true,
 			typeCheck: false,
 			denyWarnings: true,
-			// Temporarily off until the adoption commits settle which rules are on.
-			reportUnusedDisableDirectives: "off",
 		},
 		rules: {
 			"typescript/no-explicit-any": "error",

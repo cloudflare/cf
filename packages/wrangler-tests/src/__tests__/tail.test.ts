@@ -45,9 +45,7 @@ const MockWebSocketServer = class {
 
 // `../tail/createTail` is wrangler-internal and not in this repo. Stub the
 // types so the helpers below still type-check inside the .skip block.
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 type TailEventMessageType = any;
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 type RequestEvent = { request: any; cf?: any };
 type ScheduledEvent = { cron: string; scheduledTime: number };
 type AlarmEvent = { scheduledTime: string };
@@ -405,7 +403,6 @@ function mockWebsocketAPIs(
 			deletion: { count: 0 },
 			creation: [],
 		},
-		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 		ws: null!, // will be set in the `beforeEach()` below.
 
 		/**

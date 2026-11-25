@@ -1,4 +1,3 @@
-/* oxlint-disable turbo/no-undeclared-env-vars -- standalone automation tests */
 import assert from "node:assert/strict";
 import { mkdtempSync, rmSync } from "node:fs";
 import { readFile } from "node:fs/promises";

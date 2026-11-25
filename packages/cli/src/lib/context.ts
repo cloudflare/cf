@@ -262,7 +262,7 @@ export async function getComplianceRegion(
 	);
 }
 
-/** Read `CLOUDFLARE_COMPLIANCE_REGION`, accepting either `fedramp` spelling. */
+/** Read `CLOUDFLARE_COMPLIANCE_REGION`, accepting `fedramp-high` or `fedramp_high`. */
 export function getComplianceRegionFromEnv(): ComplianceRegion | undefined {
 	const file = getCloudflareDotEnvFile("CLOUDFLARE_COMPLIANCE_REGION");
 	return normalizeComplianceRegion(

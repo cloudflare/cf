@@ -283,7 +283,7 @@ describe("cf workers triggers deploy", () => {
 			await expect(
 				runCf([...TRIGGERS_DEPLOY_COMMAND, "--prebuilt"])
 			).rejects.toThrow(
-				'The Build Output targets account "built-account", but `CLOUDFLARE_ACCOUNT_ID` is "staging-account" in .env.staging. To deploy to "built-account", remove it from .env.staging. To deploy to "staging-account", set `accountId` to "staging-account" in your config file or remove it, then rebuild.'
+				'The Build Output targets account "built-account", but `CLOUDFLARE_ACCOUNT_ID` is "staging-account" in .env.staging. To deploy to "built-account", remove it from .env.staging or set it to "built-account". To deploy to "staging-account", set `accountId` to "staging-account" in your config file or remove it, then rebuild.'
 			);
 
 			expect(requests).toEqual([]);

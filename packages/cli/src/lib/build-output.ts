@@ -51,8 +51,13 @@ type BuildOutputSettings = NonNullable<ParsedBuildOutputRootConfig["settings"]>;
 interface SettingEnvVariable {
 	name: string;
 	description: string;
-	/** The variable's value in config spelling, if it is set. */
+	/**
+	 * The variable's value as the config file writes it (`fedramp-high`, not
+	 * `fedramp_high`), if it is set.
+	 */
 	read: () => string | undefined;
+	/** The form to suggest for the variable, when it differs from the config's. */
+	toEnv?: (setting: string) => string;
 }
 
 // Typed by setting, so a new setting can't skip deciding on its variable.
@@ -72,6 +77,9 @@ const SETTING_ENV_VARIABLES: Record<
 			const region = getComplianceRegionFromEnv();
 			return region === "fedramp_high" ? "fedramp-high" : region;
 		},
+		// TODO: Remove once workers-utils accepts `fedramp-high` in
+		// CLOUDFLARE_COMPLIANCE_REGION, which today only takes `fedramp_high`.
+		toEnv: (region) => (region === "fedramp-high" ? "fedramp_high" : region),
 	},
 };
 
@@ -110,7 +118,7 @@ export function resolveBuildOutputSettings(
 		const source = file ?? "your environment";
 		const remedy = file === undefined ? "unset it" : `remove it from ${file}`;
 		throw new BuildOutputConfigError(
-			`The Build Output targets ${variable.description} "${recorded}", but \`${variable.name}\` is "${process.env[variable.name]}" in ${source}. To deploy to "${recorded}", ${remedy}. To deploy to "${envSetting}", set \`${setting}\` to "${envSetting}" in your config file or remove it, then rebuild.`
+			`The Build Output targets ${variable.description} "${recorded}", but \`${variable.name}\` is "${process.env[variable.name]}" in ${source}. To deploy to "${recorded}", ${remedy} or set it to "${variable.toEnv?.(recorded) ?? recorded}". To deploy to "${envSetting}", set \`${setting}\` to "${envSetting}" in your config file or remove it, then rebuild.`
 		);
 	}
 

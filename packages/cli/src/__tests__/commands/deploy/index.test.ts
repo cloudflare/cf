@@ -864,7 +864,7 @@ describe("cf deploy", () => {
 				});
 
 				await expect(runCf(["deploy", "--prebuilt", ...flags])).rejects.toThrow(
-					'The Build Output targets account "built-account", but `CLOUDFLARE_ACCOUNT_ID` is "env-account" in your environment. To deploy to "built-account", unset it. To deploy to "env-account", set `accountId` to "env-account" in your config file or remove it, then rebuild.'
+					'The Build Output targets account "built-account", but `CLOUDFLARE_ACCOUNT_ID` is "env-account" in your environment. To deploy to "built-account", unset it or set it to "built-account". To deploy to "env-account", set `accountId` to "env-account" in your config file or remove it, then rebuild.'
 				);
 
 				expect(requests).toEqual([]);
@@ -886,7 +886,7 @@ describe("cf deploy", () => {
 			});
 
 			await expect(runCf(["deploy", "--prebuilt"])).rejects.toThrow(
-				'The Build Output targets compliance region "fedramp-high", but `CLOUDFLARE_COMPLIANCE_REGION` is "public" in .env. To deploy to "fedramp-high", remove it from .env. To deploy to "public", set `complianceRegion` to "public" in your config file or remove it, then rebuild.'
+				'The Build Output targets compliance region "fedramp-high", but `CLOUDFLARE_COMPLIANCE_REGION` is "public" in .env. To deploy to "fedramp-high", remove it from .env or set it to "fedramp_high". To deploy to "public", set `complianceRegion` to "public" in your config file or remove it, then rebuild.'
 			);
 
 			expect(requests).toEqual([]);

@@ -293,21 +293,21 @@ describe("build output", () => {
 				name: "CLOUDFLARE_ACCOUNT_ID",
 				value: "env-account",
 				message:
-					'The Build Output targets account "account-id", but `CLOUDFLARE_ACCOUNT_ID` is "env-account" in your environment. To deploy to "account-id", unset it. To deploy to "env-account", set `accountId` to "env-account" in your config file or remove it, then rebuild.',
+					'The Build Output targets account "account-id", but `CLOUDFLARE_ACCOUNT_ID` is "env-account" in your environment. To deploy to "account-id", unset it or set it to "account-id". To deploy to "env-account", set `accountId` to "env-account" in your config file or remove it, then rebuild.',
 			},
 			{
 				settings: { complianceRegion: "fedramp-high" as const },
 				name: "CLOUDFLARE_COMPLIANCE_REGION",
 				value: "public",
 				message:
-					'The Build Output targets compliance region "fedramp-high", but `CLOUDFLARE_COMPLIANCE_REGION` is "public" in your environment. To deploy to "fedramp-high", unset it. To deploy to "public", set `complianceRegion` to "public" in your config file or remove it, then rebuild.',
+					'The Build Output targets compliance region "fedramp-high", but `CLOUDFLARE_COMPLIANCE_REGION` is "public" in your environment. To deploy to "fedramp-high", unset it or set it to "fedramp_high". To deploy to "public", set `complianceRegion` to "public" in your config file or remove it, then rebuild.',
 			},
 			{
 				settings: { complianceRegion: "public" as const },
 				name: "CLOUDFLARE_COMPLIANCE_REGION",
 				value: "fedramp_high",
 				message:
-					'The Build Output targets compliance region "public", but `CLOUDFLARE_COMPLIANCE_REGION` is "fedramp_high" in your environment. To deploy to "public", unset it. To deploy to "fedramp-high", set `complianceRegion` to "fedramp-high" in your config file or remove it, then rebuild.',
+					'The Build Output targets compliance region "public", but `CLOUDFLARE_COMPLIANCE_REGION` is "fedramp_high" in your environment. To deploy to "public", unset it or set it to "public". To deploy to "fedramp-high", set `complianceRegion` to "fedramp-high" in your config file or remove it, then rebuild.',
 			},
 		])(
 			"rejects a different $name from the environment",
@@ -333,7 +333,7 @@ describe("build output", () => {
 					)
 				).toThrow(
 					new BuildOutputConfigError(
-						'The Build Output targets compliance region "fedramp-high", but `CLOUDFLARE_COMPLIANCE_REGION` is "public" in .env.staging. To deploy to "fedramp-high", remove it from .env.staging. To deploy to "public", set `complianceRegion` to "public" in your config file or remove it, then rebuild.'
+						'The Build Output targets compliance region "fedramp-high", but `CLOUDFLARE_COMPLIANCE_REGION` is "public" in .env.staging. To deploy to "fedramp-high", remove it from .env.staging or set it to "fedramp_high". To deploy to "public", set `complianceRegion` to "public" in your config file or remove it, then rebuild.'
 					)
 				);
 			} finally {

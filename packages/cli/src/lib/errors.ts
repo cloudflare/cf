@@ -155,7 +155,7 @@ export function handleError(error: unknown): unknown {
 		// and `errorBlock` swaps in ASCII frame glyphs — same content,
 		// just plainer.
 		const tail = theme.muted(tailLine);
-		let content = "";
+		let content: string;
 		if (apiEntries.length > 0) {
 			content = apiEntries
 				.map((err, idx) => {

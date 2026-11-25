@@ -286,6 +286,7 @@ async function renewSession(
 			if (signal.aborted) {
 				return;
 			}
+			// oxlint-disable-next-line no-useless-assignment -- read on the next loop iteration
 			if (++failures === 3) {
 				throw error;
 			}

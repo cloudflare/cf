@@ -173,6 +173,30 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			array: true,
 			description: "Usage depends on specific alert type",
 		})
+		.option("filters-alert-trigger-preferences-long-window", {
+			type: "string",
+			array: true,
+			description:
+				"Usage depends on specific alert type. Takes at most one value, a duration such as `4h`. custom_analytics requires it when alert_trigger_preferences is slo, zscore_spike, zscore_drop or zscore_spike_and_drop. There it must be at most 24h, and for the z-score types at least six times alert_trigger_preferences_short_window.",
+		})
+		.option("filters-alert-trigger-preferences-minimum-threshold", {
+			type: "string",
+			array: true,
+			description:
+				"Usage depends on specific alert type. Takes at most one value, a number as a string.",
+		})
+		.option("filters-alert-trigger-preferences-operator", {
+			type: "string",
+			array: true,
+			description:
+				"Used for configuring custom_analytics, which requires it. Takes exactly one value, the operator that compares the result with alert_trigger_preferences_value. It must be `<` unless alert_trigger_preferences is threshold.",
+		})
+		.option("filters-alert-trigger-preferences-short-window", {
+			type: "string",
+			array: true,
+			description:
+				"Usage depends on specific alert type. Takes at most one value, a duration such as `5m`. custom_analytics requires it, and it must be at least 1m there. queues_lag_alert requires it, at least 5m.",
+		})
 		.option("filters-alert-trigger-preferences-value", {
 			type: "string",
 			array: true,
@@ -208,6 +232,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "string",
 			array: true,
 			description: "Usage depends on specific alert type",
+		})
+		.option("filters-execution-interval", {
+			type: "string",
+			array: true,
+			description:
+				"Used for configuring custom_analytics when source is sql_api. Other sources reject it. Takes at most one value, how often the query runs, as a duration in whole seconds such as `5m`. It can't be shorter than the minimum for the query, which is 1m, or 10m for Log Explorer datasets. If it's omitted, the API sets it to that minimum.",
 		})
 		.option("filters-group-by", {
 			type: "string",
@@ -319,6 +349,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "string",
 			array: true,
 			description: "Usage depends on specific alert type",
+		})
+		.option("filters-source", {
+			type: "string",
+			array: true,
+			description:
+				"Used for configuring custom_analytics, which requires it. Takes exactly one value, the dataset the alert queries.",
 		})
 		.option("filters-status", {
 			type: "string",
@@ -457,6 +493,16 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											airport_code: argv["filters-airport-code"],
 											alert_trigger_preferences:
 												argv["filters-alert-trigger-preferences"],
+											alert_trigger_preferences_long_window:
+												argv["filters-alert-trigger-preferences-long-window"],
+											alert_trigger_preferences_minimum_threshold:
+												argv[
+													"filters-alert-trigger-preferences-minimum-threshold"
+												],
+											alert_trigger_preferences_operator:
+												argv["filters-alert-trigger-preferences-operator"],
+											alert_trigger_preferences_short_window:
+												argv["filters-alert-trigger-preferences-short-window"],
 											alert_trigger_preferences_value:
 												argv["filters-alert-trigger-preferences-value"],
 											check_id: argv["filters-check-id"],
@@ -465,6 +511,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											event: argv["filters-event"],
 											event_source: argv["filters-event-source"],
 											event_type: argv["filters-event-type"],
+											execution_interval: argv["filters-execution-interval"],
 											group_by: argv["filters-group-by"],
 											health_check_id: argv["filters-health-check-id"],
 											incident_impact: argv["filters-incident-impact"],
@@ -487,6 +534,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											selectors: argv["filters-selectors"],
 											services: argv["filters-services"],
 											slo: argv["filters-slo"],
+											source: argv["filters-source"],
 											status: argv["filters-status"],
 											target_hostname: argv["filters-target-hostname"],
 											target_ip: argv["filters-target-ip"],
@@ -564,6 +612,14 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						airport_code: argv["filters-airport-code"],
 						alert_trigger_preferences:
 							argv["filters-alert-trigger-preferences"],
+						alert_trigger_preferences_long_window:
+							argv["filters-alert-trigger-preferences-long-window"],
+						alert_trigger_preferences_minimum_threshold:
+							argv["filters-alert-trigger-preferences-minimum-threshold"],
+						alert_trigger_preferences_operator:
+							argv["filters-alert-trigger-preferences-operator"],
+						alert_trigger_preferences_short_window:
+							argv["filters-alert-trigger-preferences-short-window"],
 						alert_trigger_preferences_value:
 							argv["filters-alert-trigger-preferences-value"],
 						check_id: argv["filters-check-id"],
@@ -572,6 +628,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						event: argv["filters-event"],
 						event_source: argv["filters-event-source"],
 						event_type: argv["filters-event-type"],
+						execution_interval: argv["filters-execution-interval"],
 						group_by: argv["filters-group-by"],
 						health_check_id: argv["filters-health-check-id"],
 						incident_impact: argv["filters-incident-impact"],
@@ -594,6 +651,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						selectors: argv["filters-selectors"],
 						services: argv["filters-services"],
 						slo: argv["filters-slo"],
+						source: argv["filters-source"],
 						status: argv["filters-status"],
 						target_hostname: argv["filters-target-hostname"],
 						target_ip: argv["filters-target-ip"],

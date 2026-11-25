@@ -14565,6 +14565,30 @@
 					"description": "Usage depends on specific alert type"
 				},
 				{
+					"name": "filters-alert-trigger-preferences-long-window",
+					"type": "string",
+					"required": false,
+					"description": "Usage depends on specific alert type. Takes at most one value, a duration such as `4h`. custom_analytics requires it when alert_trigger_preferences is slo, zscore_spike, zscore_drop or zscore_spike_and_drop. There it must be at most 24h, and for the z-score types at least six times alert_trigger_preferences_short_window."
+				},
+				{
+					"name": "filters-alert-trigger-preferences-minimum-threshold",
+					"type": "string",
+					"required": false,
+					"description": "Usage depends on specific alert type. Takes at most one value, a number as a string."
+				},
+				{
+					"name": "filters-alert-trigger-preferences-operator",
+					"type": "string",
+					"required": false,
+					"description": "Used for configuring custom_analytics, which requires it. Takes exactly one value, the operator that compares the result with alert_trigger_preferences_value. It must be `<` unless alert_trigger_preferences is threshold."
+				},
+				{
+					"name": "filters-alert-trigger-preferences-short-window",
+					"type": "string",
+					"required": false,
+					"description": "Usage depends on specific alert type. Takes at most one value, a duration such as `5m`. custom_analytics requires it, and it must be at least 1m there. queues_lag_alert requires it, at least 5m."
+				},
+				{
 					"name": "filters-alert-trigger-preferences-value",
 					"type": "string",
 					"required": false,
@@ -14605,6 +14629,12 @@
 					"type": "string",
 					"required": false,
 					"description": "Usage depends on specific alert type"
+				},
+				{
+					"name": "filters-execution-interval",
+					"type": "string",
+					"required": false,
+					"description": "Used for configuring custom_analytics when source is sql_api. Other sources reject it. Takes at most one value, how often the query runs, as a duration in whole seconds such as `5m`. It can't be shorter than the minimum for the query, which is 1m, or 10m for Log Explorer datasets. If it's omitted, the API sets it to that minimum."
 				},
 				{
 					"name": "filters-group-by",
@@ -14737,6 +14767,12 @@
 					"type": "string",
 					"required": false,
 					"description": "Usage depends on specific alert type"
+				},
+				{
+					"name": "filters-source",
+					"type": "string",
+					"required": false,
+					"description": "Used for configuring custom_analytics, which requires it. Takes exactly one value, the dataset the alert queries."
 				},
 				{
 					"name": "filters-status",
@@ -15272,6 +15308,30 @@
 					"description": "Usage depends on specific alert type"
 				},
 				{
+					"name": "filters-alert-trigger-preferences-long-window",
+					"type": "string",
+					"required": false,
+					"description": "Usage depends on specific alert type. Takes at most one value, a duration such as `4h`. custom_analytics requires it when alert_trigger_preferences is slo, zscore_spike, zscore_drop or zscore_spike_and_drop. There it must be at most 24h, and for the z-score types at least six times alert_trigger_preferences_short_window."
+				},
+				{
+					"name": "filters-alert-trigger-preferences-minimum-threshold",
+					"type": "string",
+					"required": false,
+					"description": "Usage depends on specific alert type. Takes at most one value, a number as a string."
+				},
+				{
+					"name": "filters-alert-trigger-preferences-operator",
+					"type": "string",
+					"required": false,
+					"description": "Used for configuring custom_analytics, which requires it. Takes exactly one value, the operator that compares the result with alert_trigger_preferences_value. It must be `<` unless alert_trigger_preferences is threshold."
+				},
+				{
+					"name": "filters-alert-trigger-preferences-short-window",
+					"type": "string",
+					"required": false,
+					"description": "Usage depends on specific alert type. Takes at most one value, a duration such as `5m`. custom_analytics requires it, and it must be at least 1m there. queues_lag_alert requires it, at least 5m."
+				},
+				{
 					"name": "filters-alert-trigger-preferences-value",
 					"type": "string",
 					"required": false,
@@ -15312,6 +15372,12 @@
 					"type": "string",
 					"required": false,
 					"description": "Usage depends on specific alert type"
+				},
+				{
+					"name": "filters-execution-interval",
+					"type": "string",
+					"required": false,
+					"description": "Used for configuring custom_analytics when source is sql_api. Other sources reject it. Takes at most one value, how often the query runs, as a duration in whole seconds such as `5m`. It can't be shorter than the minimum for the query, which is 1m, or 10m for Log Explorer datasets. If it's omitted, the API sets it to that minimum."
 				},
 				{
 					"name": "filters-group-by",
@@ -15444,6 +15510,12 @@
 					"type": "string",
 					"required": false,
 					"description": "Usage depends on specific alert type"
+				},
+				{
+					"name": "filters-source",
+					"type": "string",
+					"required": false,
+					"description": "Used for configuring custom_analytics, which requires it. Takes exactly one value, the dataset the alert queries."
 				},
 				{
 					"name": "filters-status",
@@ -137143,6 +137215,38 @@
 			"hideCommand": false
 		},
 		{
+			"command": "cf user subscriptions get",
+			"name": "get",
+			"fullPath": ["user", "subscriptions", "get"],
+			"description": "Gets a user's subscription by identifier.",
+			"summary": "Get User Subscription",
+			"usage": "cf user subscriptions get <identifier>",
+			"arguments": [
+				{
+					"name": "identifier",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "Subscription identifier tag."
+				}
+			],
+			"options": [
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "read",
+			"hasRequestBody": false,
+			"httpMethod": "GET",
+			"apiPath": "/user/subscriptions/{identifier}",
+			"operationId": "user.subscriptions.get",
+			"hideCommand": false
+		},
+		{
 			"command": "cf user subscriptions list",
 			"name": "list",
 			"fullPath": ["user", "subscriptions", "list"],
@@ -170123,6 +170227,382 @@
 			"hideCommand": false
 		},
 		{
+			"command": "cf zero-trust risk-scoring behaviours get",
+			"name": "get",
+			"fullPath": ["zero-trust", "risk-scoring", "behaviours", "get"],
+			"description": "Gets all risk behaviors for an account and their configuration. The response omits a disabled behavior when the account does not have the gates or entitlements for that behavior.",
+			"summary": "Get all behaviors and associated configuration",
+			"usage": "cf zero-trust risk-scoring behaviours get",
+			"arguments": [],
+			"options": [
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "read",
+			"hasRequestBody": false,
+			"httpMethod": "GET",
+			"apiPath": "/accounts/{account_id}/zt_risk_scoring/behaviors",
+			"operationId": "zero-trust.risk-scoring.behaviours.get",
+			"hideCommand": false
+		},
+		{
+			"command": "cf zero-trust risk-scoring behaviours high-dlp get",
+			"name": "get",
+			"fullPath": [
+				"zero-trust",
+				"risk-scoring",
+				"behaviours",
+				"high-dlp",
+				"get"
+			],
+			"description": "Gets the high_dlp risk behavior and its DLP configuration. Returns 404 when the behavior is disabled and the account does not have the gates or entitlements for it.",
+			"summary": "Get the high_dlp risk behavior",
+			"usage": "cf zero-trust risk-scoring behaviours high-dlp get",
+			"arguments": [],
+			"options": [
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "read",
+			"hasRequestBody": false,
+			"httpMethod": "GET",
+			"apiPath": "/accounts/{account_id}/zt_risk_scoring/behaviors/high_dlp",
+			"operationId": "zero-trust.risk-scoring.behaviours.high-dlp.get",
+			"hideCommand": false
+		},
+		{
+			"command": "cf zero-trust risk-scoring behaviours high-dlp update",
+			"name": "update",
+			"fullPath": [
+				"zero-trust",
+				"risk-scoring",
+				"behaviours",
+				"high-dlp",
+				"update"
+			],
+			"description": "Updates the high_dlp risk behavior and its DLP configuration. Returns 404 when the account does not have the gates or entitlements for the behavior.",
+			"summary": "Update the high_dlp risk behavior",
+			"usage": "cf zero-trust risk-scoring behaviours high-dlp update [options]",
+			"arguments": [],
+			"options": [
+				{
+					"name": "dlp-config-duration-secs",
+					"type": "number",
+					"required": false,
+					"description": "Rolling window in seconds, from 60 to 172800."
+				},
+				{
+					"name": "dlp-config-hits",
+					"type": "number",
+					"required": false,
+					"description": "Number of DLP policy matches that triggers the behavior."
+				},
+				{
+					"name": "enabled",
+					"type": "boolean",
+					"required": true,
+					"description": "Whether the behavior counts toward the risk score."
+				},
+				{
+					"name": "points",
+					"type": "number",
+					"required": false,
+					"description": "Risk score points of the behavior. A null value is the same as an omitted value."
+				},
+				{
+					"name": "risk-level",
+					"type": "string",
+					"required": false,
+					"description": "Risk level of a behavior or an event.",
+					"enum": ["info", "low", "medium", "high"]
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "body",
+					"type": "string",
+					"required": false,
+					"description": "Raw JSON request body (bypasses individual flags)"
+				}
+			],
+			"category": "update",
+			"hasRequestBody": true,
+			"httpMethod": "PUT",
+			"apiPath": "/accounts/{account_id}/zt_risk_scoring/behaviors/high_dlp",
+			"operationId": "zero-trust.risk-scoring.behaviours.high-dlp.update",
+			"hideCommand": false
+		},
+		{
+			"command": "cf zero-trust risk-scoring behaviours single get",
+			"name": "get",
+			"fullPath": ["zero-trust", "risk-scoring", "behaviours", "single", "get"],
+			"description": "Gets one risk behavior that has no additional configuration. Returns 404 when the behavior is disabled and the account does not have the gates or entitlements for it.",
+			"summary": "Get a risk behavior",
+			"usage": "cf zero-trust risk-scoring behaviours single get <behavior-id>",
+			"arguments": [
+				{
+					"name": "behavior-id",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "ID of a risk behavior that has no additional configuration."
+				}
+			],
+			"options": [
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "read",
+			"hasRequestBody": false,
+			"httpMethod": "GET",
+			"apiPath": "/accounts/{account_id}/zt_risk_scoring/behaviors/{behavior_id}",
+			"operationId": "zero-trust.risk-scoring.behaviours.single.get",
+			"hideCommand": false
+		},
+		{
+			"command": "cf zero-trust risk-scoring behaviours single update",
+			"name": "update",
+			"fullPath": [
+				"zero-trust",
+				"risk-scoring",
+				"behaviours",
+				"single",
+				"update"
+			],
+			"description": "Updates one risk behavior that has no additional configuration. Returns 404 when the account does not have the gates or entitlements for the behavior.",
+			"summary": "Update a risk behavior",
+			"usage": "cf zero-trust risk-scoring behaviours single update <behavior-id> [options]",
+			"arguments": [
+				{
+					"name": "behavior-id",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "ID of a risk behavior that has no additional configuration."
+				}
+			],
+			"options": [
+				{
+					"name": "enabled",
+					"type": "boolean",
+					"required": true,
+					"description": "Whether the behavior counts toward the risk score."
+				},
+				{
+					"name": "points",
+					"type": "number",
+					"required": false,
+					"description": "Risk score points of the behavior. A null value is the same as an omitted value."
+				},
+				{
+					"name": "risk-level",
+					"type": "string",
+					"required": false,
+					"description": "Risk level of a behavior or an event.",
+					"enum": ["info", "low", "medium", "high"]
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "body",
+					"type": "string",
+					"required": false,
+					"description": "Raw JSON request body (bypasses individual flags)"
+				}
+			],
+			"category": "update",
+			"hasRequestBody": true,
+			"httpMethod": "PUT",
+			"apiPath": "/accounts/{account_id}/zt_risk_scoring/behaviors/{behavior_id}",
+			"operationId": "zero-trust.risk-scoring.behaviours.single.update",
+			"hideCommand": false
+		},
+		{
+			"command": "cf zero-trust risk-scoring behaviours update",
+			"name": "update",
+			"fullPath": ["zero-trust", "risk-scoring", "behaviours", "update"],
+			"description": "Updates the configuration of one or more risk behaviors for an account. The server skips an unknown behavior, and a behavior that the account does not have the gates or entitlements for. The response contains all behaviors for the account.",
+			"summary": "Update configuration for risk behaviors",
+			"usage": "cf zero-trust risk-scoring behaviours update [options]",
+			"arguments": [],
+			"options": [
+				{
+					"name": "behaviors",
+					"type": "string",
+					"required": true,
+					"description": "Settings for each behavior to update, keyed by behavior ID. Provide as a JSON object or @path/to/file.json. Shape: {\"<key>\": {...}}."
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "body",
+					"type": "string",
+					"required": false,
+					"description": "Raw JSON request body (bypasses individual flags)"
+				}
+			],
+			"category": "update",
+			"hasRequestBody": true,
+			"httpMethod": "PUT",
+			"apiPath": "/accounts/{account_id}/zt_risk_scoring/behaviors",
+			"operationId": "zero-trust.risk-scoring.behaviours.update",
+			"hideCommand": false
+		},
+		{
+			"command": "cf zero-trust risk-scoring event-clusters list",
+			"name": "list",
+			"fullPath": ["zero-trust", "risk-scoring", "event-clusters", "list"],
+			"description": "Lists the risk events of one user, grouped by calendar day in the requested time zone. Each cluster contains at most 25 events, oldest first. The time range is at most 30 days. The server reads risk events from at most 180 days before the current time. Returns 404 when the request reaches a server outside of the configured region of the account.",
+			"summary": "List risk event clusters for a specific user",
+			"usage": "cf zero-trust risk-scoring event-clusters list [options]",
+			"arguments": [],
+			"options": [
+				{
+					"name": "user-id",
+					"type": "string",
+					"required": true,
+					"description": "User ID (UUID v4)."
+				},
+				{
+					"name": "timestamp-between",
+					"type": "string",
+					"required": false,
+					"description": "Time range as <start_seconds>:<end_seconds> in Unix epoch seconds. The default is the last\n7 days. The server returns 400 when the range is longer than 30 days."
+				},
+				{
+					"name": "time-zone",
+					"type": "string",
+					"required": false,
+					"description": "IANA time zone name that sets the calendar day of each cluster."
+				},
+				{
+					"name": "page",
+					"type": "number",
+					"required": false,
+					"description": "Page number, starting at 1."
+				},
+				{
+					"name": "per-page",
+					"type": "number",
+					"required": false,
+					"description": "Number of clusters per page. The server uses 10 for a larger value."
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "read",
+			"hasRequestBody": false,
+			"httpMethod": "GET",
+			"apiPath": "/accounts/{account_id}/zt_risk_scoring/{user_id}/event_clusters",
+			"operationId": "zero-trust.risk-scoring.event-clusters.list",
+			"hideCommand": false
+		},
+		{
+			"command": "cf zero-trust risk-scoring get",
+			"name": "get",
+			"fullPath": ["zero-trust", "risk-scoring", "get"],
+			"description": "Gets the risk level, the last reset time, and the risk events of one user. The server reads risk events from at most 180 days before the current time, and after the last reset of the user. Returns 404 when the request reaches a server outside of the configured region of the account.",
+			"summary": "Get risk event/score information for a specific user",
+			"usage": "cf zero-trust risk-scoring get <user-id> [options]",
+			"arguments": [
+				{
+					"name": "user-id",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "User ID (UUID v4)."
+				}
+			],
+			"options": [
+				{
+					"name": "timestamp-between",
+					"type": "string",
+					"required": false,
+					"description": "Time range as <start_seconds>:<end_seconds> in Unix epoch seconds. The start must be before\nthe end."
+				},
+				{
+					"name": "time-zone",
+					"type": "string",
+					"required": false,
+					"description": "IANA time zone name. The server validates the value. The value does not change the response."
+				},
+				{
+					"name": "page",
+					"type": "number",
+					"required": false,
+					"description": "Page number, starting at 1."
+				},
+				{
+					"name": "per-page",
+					"type": "number",
+					"required": false,
+					"description": "Number of results per page. The server uses 100 for a larger value."
+				},
+				{
+					"name": "order-by",
+					"type": "string",
+					"required": false,
+					"description": "Field to sort the events by.",
+					"enum": ["timestamp", "risk_level"]
+				},
+				{
+					"name": "direction",
+					"type": "string",
+					"required": false,
+					"description": "Sort direction.",
+					"enum": ["asc", "desc"]
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "read",
+			"hasRequestBody": false,
+			"httpMethod": "GET",
+			"apiPath": "/accounts/{account_id}/zt_risk_scoring/{user_id}",
+			"operationId": "zero-trust.risk-scoring.get",
+			"hideCommand": false
+		},
+		{
 			"command": "cf zero-trust risk-scoring integrations create",
 			"name": "create",
 			"fullPath": ["zero-trust", "risk-scoring", "integrations", "create"],
@@ -170359,6 +170839,96 @@
 			"httpMethod": "PUT",
 			"apiPath": "/accounts/{account_id}/zt_risk_scoring/integrations/{integration_id}",
 			"operationId": "zero-trust.risk-scoring.integrations.update",
+			"hideCommand": false
+		},
+		{
+			"command": "cf zero-trust risk-scoring reset",
+			"name": "reset",
+			"fullPath": ["zero-trust", "risk-scoring", "reset"],
+			"description": "Resets the risk score of one user. Risk events before the reset do not count toward the score of the user.",
+			"summary": "Clear the risk score for a particular user",
+			"usage": "cf zero-trust risk-scoring reset <user-id>",
+			"arguments": [
+				{
+					"name": "user-id",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "User ID (UUID v4)."
+				}
+			],
+			"options": [
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "force",
+					"type": "boolean",
+					"alias": "f",
+					"required": false,
+					"description": "Skip confirmation (useful in scripts and CI)",
+					"default": false
+				}
+			],
+			"category": "action",
+			"hasRequestBody": false,
+			"httpMethod": "POST",
+			"apiPath": "/accounts/{account_id}/zt_risk_scoring/{user_id}/reset",
+			"operationId": "zero-trust.risk-scoring.reset",
+			"hideCommand": false
+		},
+		{
+			"command": "cf zero-trust risk-scoring summary get",
+			"name": "get",
+			"fullPath": ["zero-trust", "risk-scoring", "summary", "get"],
+			"description": "Gets the users in an account that have risk events, with the highest risk level, the event count, and the time of the last event for each user. The server reads risk events from at most 180 days before the current time, and after the last reset of each user. Returns 404 when the request reaches a server outside of the configured region of the account.",
+			"summary": "Get risk score info for all users in the account",
+			"usage": "cf zero-trust risk-scoring summary get [options]",
+			"arguments": [],
+			"options": [
+				{
+					"name": "page",
+					"type": "number",
+					"required": false,
+					"description": "Page number, starting at 1."
+				},
+				{
+					"name": "per-page",
+					"type": "number",
+					"required": false,
+					"description": "Number of results per page. The server uses 100 for a larger value."
+				},
+				{
+					"name": "order-by",
+					"type": "string",
+					"required": false,
+					"description": "Field to sort the users by.",
+					"enum": ["last_event", "event_count", "max_risk_level"]
+				},
+				{
+					"name": "direction",
+					"type": "string",
+					"required": false,
+					"description": "Sort direction.",
+					"enum": ["asc", "desc"]
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "read",
+			"hasRequestBody": false,
+			"httpMethod": "GET",
+			"apiPath": "/accounts/{account_id}/zt_risk_scoring/summary",
+			"operationId": "zero-trust.risk-scoring.summary.get",
 			"hideCommand": false
 		},
 		{
@@ -172085,7 +172655,7 @@
 			"command": "cf zones subscriptions create",
 			"name": "create",
 			"fullPath": ["zones", "subscriptions", "create"],
-			"description": "Create a zone subscription, either plan or add-ons.",
+			"description": "Create a zone subscription, either plan or add-ons. Requesting the `free` rate plan does not create a subscription.",
 			"summary": "Create Zone Subscription",
 			"usage": "cf zones subscriptions create [options]",
 			"arguments": [],
@@ -172208,7 +172778,7 @@
 			"command": "cf zones subscriptions get",
 			"name": "get",
 			"fullPath": ["zones", "subscriptions", "get"],
-			"description": "Lists zone subscription details.",
+			"description": "Lists zone subscription details. Zones on the Free plan normally have no zone subscription, so this returns 404 with error code 1207.",
 			"summary": "Zone Subscription Details",
 			"usage": "cf zones subscriptions get",
 			"arguments": [],
@@ -172232,7 +172802,7 @@
 			"command": "cf zones subscriptions update",
 			"name": "update",
 			"fullPath": ["zones", "subscriptions", "update"],
-			"description": "Updates zone subscriptions, either plan or add-ons.",
+			"description": "Updates zone subscriptions, either plan or add-ons. Updating to the `free` rate plan downgrades the zone to the Free plan, after which the zone has no zone subscription.",
 			"summary": "Update Zone Subscription",
 			"usage": "cf zones subscriptions update [options]",
 			"arguments": [],
@@ -173653,9 +174223,14 @@
 		"zero-trust organization trust-settings": "Operations for organization.trust-settings",
 		"zero-trust region": "Operations for region",
 		"zero-trust regions": "Operations for regions",
-		"zero-trust risk-scoring": "Operations for risk-scoring",
+		"zero-trust risk-scoring": "User Risk Scoring - retrieve and reset user risk scores",
+		"zero-trust risk-scoring behaviours": "User Risk Scoring - manage behaviors used to calculate user risk scores",
+		"zero-trust risk-scoring behaviours high-dlp": "User Risk Scoring - manage the High Number of DLP Policies Triggered behavior",
+		"zero-trust risk-scoring behaviours single": "User Risk Scoring - manage one behavior that has no additional configuration",
+		"zero-trust risk-scoring event-clusters": "User Risk Scoring - list daily clusters of user risk events",
 		"zero-trust risk-scoring integrations": "User Risk Scoring - manage integrations that provide risk score signals",
 		"zero-trust risk-scoring integrations references": "User Risk Scoring - retrieve integrations by external reference",
+		"zero-trust risk-scoring summary": "User Risk Scoring - retrieve account risk score summaries",
 		"zero-trust users": "Operations for users",
 		"zero-trust users mfa": "Operations for users.mfa",
 		"zero-trust users mfa authenticators": "Operations for users.mfa.authenticators",

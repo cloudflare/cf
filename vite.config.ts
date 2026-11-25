@@ -136,7 +136,6 @@ export default defineConfig({
 			"unicorn/prefer-top-level-await": "off",
 			"unicorn/text-encoding-identifier-case": "off",
 			"vitest/no-conditional-expect": "off",
-			"vitest/no-conditional-tests": "off",
 			"vitest/no-standalone-expect": "off",
 			"vitest/require-mock-type-parameters": "off",
 			"vitest/require-to-throw-message": "off",

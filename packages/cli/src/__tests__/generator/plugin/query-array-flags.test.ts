@@ -202,22 +202,22 @@ describe.each(
 			);
 		});
 
-		if (choices !== undefined) {
-			it.each([
+		it
+			.runIf(choices !== undefined)
+			.each([
 				{ flags: ["--indicator-ids", "invalid"] },
 				{ flags: ["--indicator-ids", "001", "invalid"] },
 				{ flags: ["--indicator-ids", "001", "--indicator-ids", "invalid"] },
 				{ flags: ["--indicator-ids", "001,invalid"] },
 			])(
-				"rejects invalid items before a request: $flags",
-				async ({ flags }) => {
-					const urls: URL[] = [];
-					await expect(run(flags, urls)).rejects.toThrow(
-						/Invalid values:[\s\S]*Argument: indicator-ids[\s\S]*invalid/
-					);
-					expect(urls).toHaveLength(0);
-				}
-			);
-		}
+			"rejects invalid items before a request: $flags",
+			async ({ flags }) => {
+				const urls: URL[] = [];
+				await expect(run(flags, urls)).rejects.toThrow(
+					/Invalid values:[\s\S]*Argument: indicator-ids[\s\S]*invalid/
+				);
+				expect(urls).toHaveLength(0);
+			}
+		);
 	}
 );

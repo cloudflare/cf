@@ -110,8 +110,9 @@ describe.each([false, true])("Worker secret input (dry run: %s)", (dryRun) => {
 		expectValue("piped-secret");
 	});
 
-	if (!dryRun) {
-		it("does not consume stdin when authentication fails", async () => {
+	it.runIf(!dryRun)(
+		"does not consume stdin when authentication fails",
+		async () => {
 			const read = stdin(["unread-secret\n"]);
 			await expect(
 				runCf(args, {
@@ -123,8 +124,8 @@ describe.each([false, true])("Worker secret input (dry run: %s)", (dryRun) => {
 			expect(read).not.toHaveBeenCalled();
 			expect(clack.password).not.toHaveBeenCalled();
 			expect(send).not.toHaveBeenCalled();
-		});
-	}
+		}
+	);
 
 	it("uses --text without consuming stdin", async () => {
 		const read = stdin(["ignored-secret"]);

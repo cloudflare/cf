@@ -936,6 +936,28 @@
 				}
 			]
 		},
+		"accounts applications references": {
+			"operationId": "accounts.applications.references",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/resource-library/applications/{id}/references",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "id",
+					"flag": "id",
+					"positional": true,
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
 		"accounts applications update": {
 			"operationId": "accounts.applications.update",
 			"httpMethod": "PATCH",
@@ -10780,6 +10802,30 @@
 					"description": "Usage depends on specific alert type"
 				},
 				{
+					"name": "filters-alert-trigger-preferences-long-window",
+					"type": "string",
+					"required": false,
+					"description": "Usage depends on specific alert type. Takes at most one value, a duration such as `4h`. custom_analytics requires it when alert_trigger_preferences is slo, zscore_spike, zscore_drop or zscore_spike_and_drop. There it must be at most 24h, and for the z-score types at least six times alert_trigger_preferences_short_window."
+				},
+				{
+					"name": "filters-alert-trigger-preferences-minimum-threshold",
+					"type": "string",
+					"required": false,
+					"description": "Usage depends on specific alert type. Takes at most one value, a number as a string."
+				},
+				{
+					"name": "filters-alert-trigger-preferences-operator",
+					"type": "string",
+					"required": false,
+					"description": "Used for configuring custom_analytics, which requires it. Takes exactly one value, the operator that compares the result with alert_trigger_preferences_value. It must be `<` unless alert_trigger_preferences is threshold."
+				},
+				{
+					"name": "filters-alert-trigger-preferences-short-window",
+					"type": "string",
+					"required": false,
+					"description": "Usage depends on specific alert type. Takes at most one value, a duration such as `5m`. custom_analytics requires it, and it must be at least 1m there. queues_lag_alert requires it, at least 5m."
+				},
+				{
 					"name": "filters-alert-trigger-preferences-value",
 					"type": "string",
 					"required": false,
@@ -10820,6 +10866,12 @@
 					"type": "string",
 					"required": false,
 					"description": "Usage depends on specific alert type"
+				},
+				{
+					"name": "filters-execution-interval",
+					"type": "string",
+					"required": false,
+					"description": "Used for configuring custom_analytics when source is sql_api. Other sources reject it. Takes at most one value, how often the query runs, as a duration in whole seconds such as `5m`. It can't be shorter than the minimum for the query, which is 1m, or 10m for Log Explorer datasets. If it's omitted, the API sets it to that minimum."
 				},
 				{
 					"name": "filters-group-by",
@@ -10952,6 +11004,12 @@
 					"type": "string",
 					"required": false,
 					"description": "Usage depends on specific alert type"
+				},
+				{
+					"name": "filters-source",
+					"type": "string",
+					"required": false,
+					"description": "Used for configuring custom_analytics, which requires it. Takes exactly one value, the dataset the alert queries."
 				},
 				{
 					"name": "filters-status",
@@ -11309,6 +11367,30 @@
 					"description": "Usage depends on specific alert type"
 				},
 				{
+					"name": "filters-alert-trigger-preferences-long-window",
+					"type": "string",
+					"required": false,
+					"description": "Usage depends on specific alert type. Takes at most one value, a duration such as `4h`. custom_analytics requires it when alert_trigger_preferences is slo, zscore_spike, zscore_drop or zscore_spike_and_drop. There it must be at most 24h, and for the z-score types at least six times alert_trigger_preferences_short_window."
+				},
+				{
+					"name": "filters-alert-trigger-preferences-minimum-threshold",
+					"type": "string",
+					"required": false,
+					"description": "Usage depends on specific alert type. Takes at most one value, a number as a string."
+				},
+				{
+					"name": "filters-alert-trigger-preferences-operator",
+					"type": "string",
+					"required": false,
+					"description": "Used for configuring custom_analytics, which requires it. Takes exactly one value, the operator that compares the result with alert_trigger_preferences_value. It must be `<` unless alert_trigger_preferences is threshold."
+				},
+				{
+					"name": "filters-alert-trigger-preferences-short-window",
+					"type": "string",
+					"required": false,
+					"description": "Usage depends on specific alert type. Takes at most one value, a duration such as `5m`. custom_analytics requires it, and it must be at least 1m there. queues_lag_alert requires it, at least 5m."
+				},
+				{
 					"name": "filters-alert-trigger-preferences-value",
 					"type": "string",
 					"required": false,
@@ -11349,6 +11431,12 @@
 					"type": "string",
 					"required": false,
 					"description": "Usage depends on specific alert type"
+				},
+				{
+					"name": "filters-execution-interval",
+					"type": "string",
+					"required": false,
+					"description": "Used for configuring custom_analytics when source is sql_api. Other sources reject it. Takes at most one value, how often the query runs, as a duration in whole seconds such as `5m`. It can't be shorter than the minimum for the query, which is 1m, or 10m for Log Explorer datasets. If it's omitted, the API sets it to that minimum."
 				},
 				{
 					"name": "filters-group-by",
@@ -11481,6 +11569,12 @@
 					"type": "string",
 					"required": false,
 					"description": "Usage depends on specific alert type"
+				},
+				{
+					"name": "filters-source",
+					"type": "string",
+					"required": false,
+					"description": "Used for configuring custom_analytics, which requires it. Takes exactly one value, the dataset the alert queries."
 				},
 				{
 					"name": "filters-status",
@@ -27971,7 +28065,7 @@
 					"name": "alert-enabled",
 					"type": "boolean",
 					"required": false,
-					"description": "Deprecated and ignored: saved-query alerting and rules were removed."
+					"description": "Send an hourly notification when new events match this saved view. Receive it by adding the view to a Threat Events saved query notification policy."
 				},
 				{
 					"name": "alert-rollup-enabled",
@@ -28089,7 +28183,7 @@
 					"name": "alert-enabled",
 					"type": "boolean",
 					"required": false,
-					"description": "Deprecated and ignored: saved-query alerting and rules were removed."
+					"description": "Send an hourly notification when new events match this saved view. Receive it by adding the view to a Threat Events saved query notification policy."
 				},
 				{
 					"name": "alert-rollup-enabled",
@@ -30098,7 +30192,7 @@
 				{
 					"name": "feed_id",
 					"flag": "feed-id",
-					"type": "string",
+					"type": "array",
 					"required": false
 				},
 				{
@@ -30177,6 +30271,12 @@
 					"name": "feed_category",
 					"flag": "feed-category",
 					"type": "string",
+					"required": false
+				},
+				{
+					"name": "feed_category_id",
+					"flag": "feed-category-id",
+					"type": "array",
 					"required": false
 				},
 				{
@@ -30837,7 +30937,7 @@
 				{
 					"name": "feed_id",
 					"flag": "feed-id",
-					"type": "string",
+					"type": "array",
 					"required": false
 				}
 			],
@@ -33767,6 +33867,77 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
+		"d1 insights recommendations": {
+			"operationId": "d1.insights.recommendations",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/d1/insights/recommendations",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [
+				{
+					"name": "database_id",
+					"flag": "database-id",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "limit",
+					"flag": "limit",
+					"type": "number",
+					"required": false
+				},
+				{
+					"name": "cursor",
+					"flag": "cursor",
+					"type": "string",
+					"required": false
+				}
+			],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"d1 insights settings get": {
+			"operationId": "d1.insights.settings.get",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/d1/insights/settings",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"d1 insights settings update": {
+			"operationId": "d1.insights.settings.update",
+			"httpMethod": "PUT",
+			"path": "/accounts/{account_id}/d1/insights/settings",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "ai-enabled",
+					"type": "boolean",
+					"required": true,
+					"description": "Whether D1 Insights uses AI on this account's query data."
+				}
+			]
+		},
 		"d1 list": {
 			"operationId": "d1.list",
 			"httpMethod": "GET",
@@ -33795,6 +33966,12 @@
 					"name": "per_page",
 					"flag": "per-page",
 					"type": "number",
+					"required": false
+				},
+				{
+					"name": "fields",
+					"flag": "fields",
+					"type": "array",
 					"required": false
 				}
 			],
@@ -45074,6 +45251,49 @@
 					"description": "Policies attached to the User group. Provide as a JSON array of objects or @path/to/file.json. Shape: [({\"id\": string} & {\"access\": \"allow\" | \"deny\", \"permission_groups\": [{...}], \"resource_groups\": [{...}]})]."
 				}
 			]
+		},
+		"images config edit": {
+			"operationId": "images.config.edit",
+			"httpMethod": "PATCH",
+			"path": "/accounts/{account_id}/images/v1/config",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "flexible-variants",
+					"type": "boolean",
+					"required": false,
+					"description": "Whether flexible variants are enabled. When `true`, hosted images can be transformed with options in the URL (for example `https://imagedelivery.net/<ACCOUNT_HASH>/<IMAGE_ID>/w=400,sharpen=3`) instead of only through named variants. When `false` or absent, only named variants can be requested.\n"
+				},
+				{
+					"name": "preserve-content-credentials",
+					"type": "boolean",
+					"required": false,
+					"description": "Retain C2PA provenance metadata on images delivered from hosted Cloudflare Images. When enabled, Cloudflare keeps any existing Content Credentials in the source image and cryptographically signs the transformations it applies during delivery."
+				}
+			]
+		},
+		"images config get": {
+			"operationId": "images.config.get",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/images/v1/config",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
 		},
 		"images create": {
 			"operationId": "images.create",
@@ -59942,6 +60162,77 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
+		"network-quality settings get": {
+			"operationId": "network-quality.settings.get",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/networkquality/settings",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"network-quality settings update": {
+			"operationId": "network-quality.settings.update",
+			"httpMethod": "PUT",
+			"path": "/accounts/{account_id}/networkquality/settings",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "enabled",
+					"type": "boolean",
+					"required": true,
+					"description": "The enabled field"
+				}
+			]
+		},
+		"network-quality tokens create": {
+			"operationId": "network-quality.tokens.create",
+			"httpMethod": "POST",
+			"path": "/accounts/{account_id}/networkquality/token",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "bytes",
+					"type": "number",
+					"required": true,
+					"description": "Customer-defined byte budget signed into the token for downstream enforcement and billing"
+				},
+				{
+					"name": "eyeball-id",
+					"type": "string",
+					"required": true,
+					"description": "The eyeball_id field"
+				},
+				{
+					"name": "source-ips",
+					"type": "string",
+					"required": false,
+					"description": "The source_ips field"
+				}
+			]
+		},
 		"o11y agents traces events": {
 			"operationId": "o11y.agents.traces.events",
 			"httpMethod": "GET",
@@ -60137,6 +60428,28 @@
 		"o11y destinations delete": {
 			"operationId": "o11y.destinations.delete",
 			"httpMethod": "DELETE",
+			"path": "/accounts/{account_id}/workers/observability/destinations/{slug}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "slug",
+					"flag": "slug",
+					"positional": true,
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"o11y destinations get": {
+			"operationId": "o11y.destinations.get",
+			"httpMethod": "GET",
 			"path": "/accounts/{account_id}/workers/observability/destinations/{slug}",
 			"pathParams": [
 				{
@@ -62489,15 +62802,14 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"organizations members batch create": {
-			"operationId": "organizations.members.batch.create",
+		"organizations members bulk-create": {
+			"operationId": "organizations.members.bulk-create",
 			"httpMethod": "POST",
 			"path": "/organizations/{organization_id}/members:batchCreate",
 			"pathParams": [
 				{
 					"name": "organization_id",
 					"flag": "organization-id",
-					"positional": true,
 					"type": "string",
 					"required": true
 				}
@@ -91053,6 +91365,12 @@
 					"description": "The type of DNS record associated with the application."
 				},
 				{
+					"name": "edge-alpn-protocols",
+					"type": "string",
+					"required": false,
+					"description": "ALPN protocol IDs the edge offers on client TLS connections, in preference order, for example `[\"h2\"]` for gRPC or `[\"postgresql\"]` for PostgreSQL direct TLS. When set, clients that offer none of these protocols, or no ALPN at all, are disconnected. Empty means no ALPN.\nNotes: Requires tls \"flexible\", \"full\" or \"strict\", and is not available with traffic_type \"ftp\". IDs are case-sensitive and unique, each 1 to 255 bytes; the list encodes to at most 65535 bytes, counting each ID plus one length byte."
+				},
+				{
 					"name": "edge-ips-connectivity",
 					"type": "string",
 					"required": false,
@@ -91270,6 +91588,12 @@
 					"type": "string",
 					"required": false,
 					"description": "The type of DNS record associated with the application."
+				},
+				{
+					"name": "edge-alpn-protocols",
+					"type": "string",
+					"required": false,
+					"description": "ALPN protocol IDs the edge offers on client TLS connections, in preference order, for example `[\"h2\"]` for gRPC or `[\"postgresql\"]` for PostgreSQL direct TLS. When set, clients that offer none of these protocols, or no ALPN at all, are disconnected. Empty means no ALPN.\nNotes: Requires tls \"flexible\", \"full\" or \"strict\", and is not available with traffic_type \"ftp\". IDs are case-sensitive and unique, each 1 to 255 bytes; the list encodes to at most 65535 bytes, counting each ID plus one length byte."
 				},
 				{
 					"name": "edge-ips-connectivity",
@@ -95071,7 +95395,14 @@
 			],
 			"queryParams": [],
 			"hasRequestBody": true,
-			"requestBodyFields": []
+			"requestBodyFields": [
+				{
+					"name": "notification-url",
+					"type": "string",
+					"required": false,
+					"description": "The URL where webhooks will be sent."
+				}
+			]
 		},
 		"tags account-resources delete": {
 			"operationId": "tags.account-resources.delete",
@@ -98483,6 +98814,23 @@
 		"user subscriptions delete": {
 			"operationId": "user.subscriptions.delete",
 			"httpMethod": "DELETE",
+			"path": "/user/subscriptions/{identifier}",
+			"pathParams": [
+				{
+					"name": "identifier",
+					"flag": "identifier",
+					"positional": true,
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"user subscriptions get": {
+			"operationId": "user.subscriptions.get",
+			"httpMethod": "GET",
 			"path": "/user/subscriptions/{identifier}",
 			"pathParams": [
 				{
@@ -102034,6 +102382,65 @@
 			],
 			"hasRequestBody": false,
 			"requestBodyFields": []
+		},
+		"workers previews deployments profile": {
+			"operationId": "workers.previews.deployments.profile",
+			"httpMethod": "POST",
+			"path": "/accounts/{account_id}/workers/workers/{worker_id}/previews/{preview_id}/deployments/{deployment_id}/profile",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "worker_id",
+					"flag": "worker",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "preview_id",
+					"flag": "preview-id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "deployment_id",
+					"flag": "deployment-id",
+					"positional": true,
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "actor-id",
+					"type": "string",
+					"required": false,
+					"description": "Identifies the exact Durable Object actor to profile. Must be specified together with namespace_id. The actor must currently be active and running the requested version."
+				},
+				{
+					"name": "duration-ms",
+					"type": "number",
+					"required": true,
+					"description": "Profile duration in milliseconds."
+				},
+				{
+					"name": "namespace-id",
+					"type": "string",
+					"required": false,
+					"description": "Identifies the Durable Object namespace containing the actor to profile. Must be specified together with actor_id."
+				},
+				{
+					"name": "profile-type",
+					"type": "string",
+					"required": false,
+					"description": "The profile_type field"
+				}
+			]
 		},
 		"workers scripts search": {
 			"operationId": "workers.scripts.search",
@@ -111979,8 +112386,8 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"zero-trust cws tenant-structures nodes batch": {
-			"operationId": "zero-trust.cws.tenant-structures.nodes.batch",
+		"zero-trust cws tenant-structures nodes bulk-apply": {
+			"operationId": "zero-trust.cws.tenant-structures.nodes.bulk-apply",
 			"httpMethod": "POST",
 			"path": "/accounts/{account_id}/cws/tenant-structures/{structure_id}/nodes/batch",
 			"pathParams": [
@@ -111992,7 +112399,6 @@
 				{
 					"name": "structure_id",
 					"flag": "structure-id",
-					"positional": true,
 					"type": "string",
 					"required": true
 				}
@@ -122346,6 +122752,130 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
+		"zero-trust risk-scoring behaviours high-dlp get": {
+			"operationId": "zero-trust.risk-scoring.behaviours.high-dlp.get",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/zt_risk_scoring/behaviors/high_dlp",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"zero-trust risk-scoring behaviours high-dlp update": {
+			"operationId": "zero-trust.risk-scoring.behaviours.high-dlp.update",
+			"httpMethod": "PUT",
+			"path": "/accounts/{account_id}/zt_risk_scoring/behaviors/high_dlp",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "dlp-config-duration-secs",
+					"type": "number",
+					"required": false,
+					"description": "Rolling window in seconds, from 60 to 172800."
+				},
+				{
+					"name": "dlp-config-hits",
+					"type": "number",
+					"required": false,
+					"description": "Number of DLP policy matches that triggers the behavior."
+				},
+				{
+					"name": "enabled",
+					"type": "boolean",
+					"required": true,
+					"description": "Whether the behavior counts toward the risk score."
+				},
+				{
+					"name": "points",
+					"type": "number",
+					"required": false,
+					"description": "Risk score points of the behavior. A null value is the same as an omitted value."
+				},
+				{
+					"name": "risk-level",
+					"type": "string",
+					"required": false,
+					"description": "Risk level of a behavior or an event."
+				}
+			]
+		},
+		"zero-trust risk-scoring behaviours single get": {
+			"operationId": "zero-trust.risk-scoring.behaviours.single.get",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/zt_risk_scoring/behaviors/{behavior_id}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "behavior_id",
+					"flag": "behavior-id",
+					"positional": true,
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"zero-trust risk-scoring behaviours single update": {
+			"operationId": "zero-trust.risk-scoring.behaviours.single.update",
+			"httpMethod": "PUT",
+			"path": "/accounts/{account_id}/zt_risk_scoring/behaviors/{behavior_id}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "behavior_id",
+					"flag": "behavior-id",
+					"positional": true,
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "enabled",
+					"type": "boolean",
+					"required": true,
+					"description": "Whether the behavior counts toward the risk score."
+				},
+				{
+					"name": "points",
+					"type": "number",
+					"required": false,
+					"description": "Risk score points of the behavior. A null value is the same as an omitted value."
+				},
+				{
+					"name": "risk-level",
+					"type": "string",
+					"required": false,
+					"description": "Risk level of a behavior or an event."
+				}
+			]
+		},
 		"zero-trust risk-scoring behaviours update": {
 			"operationId": "zero-trust.risk-scoring.behaviours.update",
 			"httpMethod": "PUT",
@@ -122364,9 +122894,55 @@
 					"name": "behaviors",
 					"type": "string",
 					"required": true,
-					"description": "The behaviors field. Provide as a JSON object or @path/to/file.json. Shape: {\"<key>\": {...}}."
+					"description": "Settings for each behavior to update, keyed by behavior ID. Provide as a JSON object or @path/to/file.json. Shape: {\"<key>\": {...}}."
 				}
 			]
+		},
+		"zero-trust risk-scoring event-clusters list": {
+			"operationId": "zero-trust.risk-scoring.event-clusters.list",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/zt_risk_scoring/{user_id}/event_clusters",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "user_id",
+					"flag": "user-id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [
+				{
+					"name": "timestamp.between",
+					"flag": "timestamp-between",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "time_zone",
+					"flag": "time-zone",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "page",
+					"flag": "page",
+					"type": "number",
+					"required": false
+				},
+				{
+					"name": "per_page",
+					"flag": "per-page",
+					"type": "number",
+					"required": false
+				}
+			],
+			"hasRequestBody": false,
+			"requestBodyFields": []
 		},
 		"zero-trust risk-scoring get": {
 			"operationId": "zero-trust.risk-scoring.get",
@@ -122386,7 +122962,44 @@
 					"required": true
 				}
 			],
-			"queryParams": [],
+			"queryParams": [
+				{
+					"name": "timestamp.between",
+					"flag": "timestamp-between",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "time_zone",
+					"flag": "time-zone",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "page",
+					"flag": "page",
+					"type": "number",
+					"required": false
+				},
+				{
+					"name": "per_page",
+					"flag": "per-page",
+					"type": "number",
+					"required": false
+				},
+				{
+					"name": "order_by",
+					"flag": "order-by",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "direction",
+					"flag": "direction",
+					"type": "string",
+					"required": false
+				}
+			],
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
@@ -122579,7 +123192,32 @@
 					"required": true
 				}
 			],
-			"queryParams": [],
+			"queryParams": [
+				{
+					"name": "page",
+					"flag": "page",
+					"type": "number",
+					"required": false
+				},
+				{
+					"name": "per_page",
+					"flag": "per-page",
+					"type": "number",
+					"required": false
+				},
+				{
+					"name": "order_by",
+					"flag": "order-by",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "direction",
+					"flag": "direction",
+					"type": "string",
+					"required": false
+				}
+			],
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},

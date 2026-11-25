@@ -34,8 +34,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		})
 		.option("feed-id", {
 			type: "string",
+			array: true,
 			description:
-				"Feed UUID filter. Omit to include articles from every account feed.",
+				"Repeatable feed UUID filter. An article matches any selected feed. Omit to include articles from every account feed.",
 		})
 		.option("article-id", {
 			type: "string",
@@ -103,8 +104,27 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("feed-category", {
 			type: "string",
 			description:
-				"Exact feed-category filter after trimming. Omit to include every category.",
+				"Exact match on a feed's legacy free-form category after trimming. Omit to include every category; to filter by the categories shown on feeds, use feed_category_id.",
 		})
+		.option("feed-category-id", {
+			type: "string",
+			array: true,
+			description:
+				"Repeatable feed category UUID filter, using the ids from the feed categories list. An article matches when its feed has any selected category; feeds without a category never match.",
+			choices: [
+				"b12a0fd6-f7b9-5393-9ef3-f888d506c550",
+				"d5b70eaa-626f-5761-b55b-6d9590df49fb",
+				"3b572d2b-890d-5286-9433-f18c85079030",
+				"17f90d3b-37d3-5241-8ad4-7d6abbc2006c",
+				"c68f28e9-7e8f-5d4b-853b-f3076893a9ee",
+				"bb0e4a94-38ab-5c14-80a7-28cee9f4b139",
+				"b1ef66d9-a73c-58dc-b269-22d34dfd11f4",
+				"ab02a976-0a20-5c76-a553-7f6325afacfe",
+			],
+		})
+		.coerce("feed-category-id", (values: string[]) =>
+			values.flatMap((value) => value.split(","))
+		)
 		.option("source-type", {
 			type: "string",
 			description:
@@ -190,6 +210,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					fetched_after: argv["fetched-after"],
 					fetched_before: argv["fetched-before"],
 					feed_category: argv["feed-category"],
+					feed_category_id: argv["feed-category-id"],
 					source_type: argv["source-type"],
 					tag_applied_by: argv["tag-applied-by"],
 					pir_id: argv["pir-id"],

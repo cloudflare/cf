@@ -1,4 +1,4 @@
-/** @generated from zero-trust.cws.tenant-structures.nodes.batch */
+/** @generated from zero-trust.cws.tenant-structures.nodes.bulk-apply */
 import { path } from "#api";
 
 export default {

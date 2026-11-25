@@ -1,0 +1,15 @@
+/** @generated from network-quality.tokens.create */
+import { path } from "#api";
+
+export default {
+	method: "POST",
+	path: (request: Record<string, unknown>) =>
+		path`/accounts/${request.account_id}/networkquality/token`,
+	body: "json",
+	errors: {
+		400: "BadRequestError",
+		403: "ForbiddenError",
+		404: "NotFoundError",
+		429: "TooManyRequestsError",
+	},
+} as const;

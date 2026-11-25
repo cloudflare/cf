@@ -92,7 +92,7 @@ describe("Build Output Containers", () => {
 				} as Config,
 				{ accountId: "account-id" }
 			)
-		).toThrowError(
+		).toThrow(
 			new BuildOutputConfigError(
 				'Container "missing" referenced by Durable Object export "MissingDO" must have exactly one Build Output config.'
 			)
@@ -112,7 +112,7 @@ describe("Build Output Containers", () => {
 				config,
 				{ accountId: "account-id" }
 			)
-		).toThrowError(
+		).toThrow(
 			'Container "api" referenced by Durable Object export "ContainerDO" must have exactly one Build Output config.'
 		);
 	});
@@ -131,7 +131,7 @@ describe("Build Output Containers", () => {
 				} as Config,
 				{ accountId: "account-id" }
 			)
-		).toThrowError(
+		).toThrow(
 			'Container "api" is referenced by both Durable Object exports "FirstDO" and "SecondDO".'
 		);
 	});

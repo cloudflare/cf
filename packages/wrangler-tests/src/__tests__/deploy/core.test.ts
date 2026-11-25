@@ -158,7 +158,7 @@ describe("deploy", () => {
 			await expect(
 				runWrangler("deploy --prebuilt --temporary-account")
 			).rejects.toThrow(
-				'Temporary accounts can\'t be used when a specific account ID ("configured-account-id") is set in your config file.'
+				'The Build Output targets account "configured-account-id", but `--temporary-account` was passed.'
 			);
 
 			expect(creationRequests).toHaveLength(0);

@@ -28,7 +28,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("alert-enabled", {
 			type: "boolean",
 			description:
-				"Deprecated and ignored: saved-query alerting and rules were removed.",
+				"Send an hourly notification when new events match this saved view. Receive it by adding the view to a Threat Events saved query notification policy.",
 			default: false,
 		})
 		.option("alert-rollup-enabled", {

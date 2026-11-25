@@ -84,6 +84,8 @@ export function getTelemetryDispatcher(): TelemetryDispatcher {
 	const { enabled } = resolveTelemetry();
 	const agentContext = detectAgentContext();
 	const agent = agentContext.harness?.id ?? null;
+	const agentVersion = agentContext.harness?.version;
+	const agentAnnouncedName = agentContext.announcedName;
 	const sessionMatch = agentContext.matches.find((match) => match.sessionId);
 	const delegated = isDirectlyDelegated();
 	const globalCliVersion = getGlobalCliVersion();
@@ -120,6 +122,8 @@ export function getTelemetryDispatcher(): TelemetryDispatcher {
 			isInteractive: isInteractive(),
 			cliMode: detectCLIMode(),
 			agent,
+			...(agentVersion ? { agentVersion } : {}),
+			...(agentAnnouncedName ? { agentAnnouncedName } : {}),
 			delegated,
 			...(globalCliVersion ? { globalCliVersion } : {}),
 		};

@@ -9,8 +9,6 @@
 		"blake3-wasm",
 		// Keep the supported Node range broad instead of raising its minimum version.
 		"node",
-		// This must match the Vitest version bundled with Vite+.
-		"vitest@*",
 		// tsx 4.23.1+ exhausts file handles during SDK generation on macOS and Windows.
 		"tsx",
 	],
@@ -85,6 +83,29 @@
 			matchPackageNames: ["pnpm"],
 			groupName: "pnpm",
 			groupSlug: "pnpm",
+		},
+		{
+			description: "Do not update the bundled Vite and Vitest pins independently of Vite+",
+			matchManagers: ["npm"],
+			matchPackageNames: ["@voidzero-dev/vite-plus-core", "vitest"],
+			matchFileNames: ["pnpm-workspace.yaml"],
+			enabled: false,
+		},
+		{
+			description: "Sync the workspace Vite and Vitest pins before refreshing the lockfile",
+			matchManagers: ["npm"],
+			matchPackageNames: ["vite-plus"],
+			matchFileNames: ["pnpm-workspace.yaml"],
+			groupName: "Vite+ toolchain",
+			groupSlug: "vite-plus",
+			constraints: { node: "22" },
+			skipArtifactsUpdate: true,
+			postUpgradeTasks: {
+				installTools: { node: {}, pnpm: {} },
+				commands: ["node ./scripts/sync-vite-plus.mjs"],
+				executionMode: "update",
+				fileFilters: ["pnpm-workspace.yaml", "pnpm-lock.yaml"],
+			},
 		},
 		{
 			description: "Update the Forge build, then regenerate the commands from the pinned OpenAPI release (scripts/update-openapi.ts moves that pin)",

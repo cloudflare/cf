@@ -5,7 +5,7 @@ import { CLOUDFLARED_LOG_LEVELS, runCloudflared } from "../../cloudflared.js";
 import type { CommonYargsOptions } from "../../../lib/cli-types.js";
 import type { ArgumentsCamelCase, Argv, CommandModule } from "yargs";
 
-interface AccessTcpArgs extends CommonYargsOptions {
+export interface AccessTcpArgs extends CommonYargsOptions {
 	hostname: string;
 	destination?: string;
 	url?: string;

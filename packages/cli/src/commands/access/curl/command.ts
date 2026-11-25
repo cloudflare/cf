@@ -5,7 +5,7 @@ import { runCloudflared } from "../../cloudflared.js";
 import type { CommonYargsOptions } from "../../../lib/cli-types.js";
 import type { ArgumentsCamelCase, Argv, CommandModule } from "yargs";
 
-interface AccessCurlArgs extends CommonYargsOptions {
+export interface AccessCurlArgs extends CommonYargsOptions {
 	url: string;
 	"allow-request"?: boolean;
 	"--"?: (string | number)[];

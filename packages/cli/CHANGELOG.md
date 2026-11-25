@@ -1,5 +1,147 @@
 # cf
 
+## 1.0.0-rc.6
+
+### Minor Changes
+
+- 7cbe76a: Reject a `CLOUDFLARE_ACCOUNT_ID` that differs from the Build Output's account
+
+  `cf deploy`, `cf workers versions create`, `cf workers triggers deploy`, and `cf previews deploy` now fail before making any API requests, including with `--dry-run`, when `CLOUDFLARE_ACCOUNT_ID` is set to a different account from the `accountId` recorded in the Build Output. Previously the recorded account was used and `CLOUDFLARE_ACCOUNT_ID` was silently ignored, so a deploy could go to a different account from the one the environment named.
+
+  This is a breaking change for projects that set both to different values. The error says where `CLOUDFLARE_ACCOUNT_ID` came from, such as `.env.staging`, and how to resolve it: remove `CLOUDFLARE_ACCOUNT_ID` or set it to the recorded account to deploy there, or change or remove `accountId` and rebuild.
+
+  A `CLOUDFLARE_COMPLIANCE_REGION` that differs from the recorded `complianceRegion` was already rejected. Its error now uses the same `cloudflare.config.ts` names and also says where the value came from. An invalid `CLOUDFLARE_COMPLIANCE_REGION` now gets the same error as other commands, and that error now names the dotenv file the value came from.
+
+- e27d3e6: Add D1 Insights index recommendations and settings commands
+
+  Use `cf d1 insights recommendations` to retrieve index recommendations and
+  `cf d1 insights settings get` or `cf d1 insights settings update` to view or
+  change the account's AI setting. Use `cf d1 list --fields` to select returned
+  database fields, including the opt-in `recommendation_count` field.
+
+- e27d3e6: Add multi-feed filters to Cloudforce One Threat Signals
+
+  Repeat `--feed-id` on `cf cloudforce-one threat-signals articles list` or
+  `cf cloudforce-one threat-signals search` to match multiple feeds. Use
+  `--feed-category-id` on `articles list` to filter by feed category ID.
+
+- 4472d3f: Update the generated command surface for Cloudflare API schemas revision
+  `0b6f5865a28c7bb408f8468a173cec59c411345a`.
+- e27d3e6: Remove `cf zero-trust risk-scoring` commands no longer in the API schema
+
+  Breaking change: under `cf zero-trust risk-scoring`, the `get`, `reset`,
+  `behaviours get`, `behaviours update`, and `summary get` commands are no longer
+  available. Update scripts that call them before upgrading. Commands under
+  `cf zero-trust risk-scoring integrations` remain available.
+
+- 6de4261: Update the generated command surface for Cloudflare API schemas revision
+  `3359e90fa19e8e250ab5a402b0f9dbe65bbe82a3`.
+
+  Breaking: Replace `cf organizations members batch create <organization-id>`
+  with `cf organizations members bulk-create --organization-id <organization-id>`.
+  Update scripts to pass the ID as a required flag instead of a positional
+  argument. The old command has no compatibility alias.
+
+  Use `cf o11y destinations get <slug>` to fetch a Workers Observability
+  Telemetry Destination by its slug.
+
+### Patch Changes
+
+- d4c61ea: Load `.env` files for the Build Output's mode when `--mode` is omitted
+
+  `cf deploy`, `cf workers versions create`, `cf workers triggers deploy`, and `cf previews deploy` now load `.env.<mode>` and `.env.<mode>.local` for the mode recorded in the Build Output when `--mode` is not passed. Previously they read only `.env` and `.env.local`, so deploying a staging build without repeating `--mode staging` could use the account and API token from `.env` instead of `.env.staging`.
+
+  Vite records its default `production` mode when a build runs without `--mode`, so these commands now also load `.env.production` for such builds, matching the files the build itself used. An explicit `--mode` must still match the recorded mode.
+
+## 1.0.0-rc.5
+
+### Minor Changes
+
+- 4b70646: Generate commands from the Cloudflare API schemas repository
+
+  The generated command surface now comes from `openapi.json` in
+  cloudflare/api-schemas, pinned to revision
+  `3caa09607da12e7b79d55b704a20e2cf4ad8af53`. `cf stream webhooks update`
+  accepts `--notification-url`, and `cf url-scanner scans create` reflects the
+  current set of supported scan countries.
+
+- aa0a99c: Detect Google Antigravity as an AI coding agent.
+
+  Recognize commands run by Antigravity agents in both the IDE and the `agy` CLI through the `ANTIGRAVITY_AGENT` and `ANTIGRAVITY_CONVERSATION_ID` environment markers.
+  Capture the agent session ID from `ANTIGRAVITY_CONVERSATION_ID`.
+
+- 5108951: Detect GitHub Copilot CLI, Kiro, Junie, Goose, and Cline as AI coding agents.
+
+  Recognize commands run by these agents through the environment markers each one sets for its shell commands, and capture the agent session ID where the harness provides one.
+
+- b0a8d07: Treat any `AI_AGENT` value as an AI coding agent.
+
+  When `AI_AGENT` names an agent that `cf` has no detector for, `cf` now treats the run as agentic and records the agent as `unknown`, along with the name it gives. Claude Code is also recognised from its `AI_AGENT` value, and its version is recorded in telemetry.
+
+- 5c22d4c: Update the generated command surface for Cloudflare API schemas revision
+  `2b5897fc2d555d6d7da7fa6a2d99290840d9fdef`.
+- 654e83f: Update the generated command surface for Cloudflare API schemas revision
+  `2f687dad103baa5342ddd1532a2463c5f268f37d`.
+- addbeb2: Update the generated beta CWS commands for Cloudflare API schemas revision
+  `5aec9e4e3a074fa419d2fe1b7c0894e513c29a3e`.
+
+  **Breaking:** `cf zero-trust cws tenant-structures nodes batch <structure-id>`
+  is now `cf zero-trust cws tenant-structures nodes bulk-apply --structure-id <structure-id>`.
+  There is no compatibility alias; update scripts to use the new command name and flag.
+
+  **Breaking:** `cf zero-trust cws policies delete <policy-id>` no longer removes
+  policy-set memberships. Detach the policy from every policy set before deleting it.
+  Likewise, detach a policy set from every deployment before running
+  `cf zero-trust cws policy-sets delete <policy-set-id>`.
+
+- 4bb05f0: Update the generated command surface for Cloudflare API schemas revision
+  `997ede33e123e947bb3360019fe15f68ca40575a`.
+- c1bfbba: Update the generated command surface for Cloudflare API schemas revision
+  `e644d40187303e434fdf387df24db64f529db6e3`.
+
+### Patch Changes
+
+- 39dd31e: Show the actual CLI flag names when validating required fields in renamed optional objects.
+- c84ec6d: Update dependencies published from the Workers SDK repository:
+
+  - `@cloudflare/deploy-helpers`: `0.29.1` → `0.30.0`
+  - `@cloudflare/runtime-types`: `0.1.33` → `0.1.34`
+  - `@cloudflare/workers-auth`: `0.18.7` → `0.18.8`
+  - `miniflare`: `5.20261123.0-beta` → `5.20261123.1-beta`
+
+- b184b92: Update dependencies published from the Workers SDK repository:
+
+  - `@cloudflare/autoconfig`: `0.13.3` → `0.13.4`
+  - `@cloudflare/build-output-utils`: `1.0.0-rc.3` → `1.0.0-rc.4`
+  - `@cloudflare/cli-shared-helpers`: `0.3.12` → `0.3.13`
+  - `@cloudflare/codemods`: `0.9.0` → `0.9.1`
+  - `@cloudflare/config`: `1.0.0-rc.3` → `1.0.0-rc.4`
+  - `@cloudflare/containers-shared`: `0.27.1` → `0.27.2`
+  - `@cloudflare/deploy-helpers`: `0.29.0` → `0.29.1`
+  - `@cloudflare/runtime-types`: `0.1.32` → `0.1.33`
+  - `@cloudflare/workers-auth`: `0.18.6` → `0.18.7`
+  - `@cloudflare/workers-utils`: `0.56.0` → `0.57.0`
+  - `miniflare`: `5.20261119.0-beta` → `5.20261123.0-beta`
+
+## 1.0.0-rc.4
+
+### Minor Changes
+
+- 0848e17: Offer to delete a Worker's Container applications with `cf workers delete`
+
+  The command finds applications owned by the Worker before deleting it. It offers to delete them interactively and warns when it leaves them behind. To opt in without a prompt, run `cf workers delete <worker> --delete-containers --force`. `--force` alone still only skips confirmation. Application deletion is asynchronous, so instances may take a while to shut down.
+
+### Patch Changes
+
+- 30bfe56: Name invalid OAuth scopes and re-authenticate when changing scopes
+
+  Name the specific invalid OAuth scopes when scope validation fails during `cf auth login`.
+  When an explicit scope list differs from the existing login's scopes, start a new login flow
+  with the requested scopes without requiring `--force`, including when requesting fewer scopes.
+
+- b4c28e8: Update the generated command surface for `@cloudflare/forge`
+  `0.3.0`.
+
 ## 1.0.0-rc.3
 
 ### Minor Changes

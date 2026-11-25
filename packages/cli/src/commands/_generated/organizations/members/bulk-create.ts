@@ -1,8 +1,8 @@
-import operation from "../../../_operations/organizations/members/batch/create.js";
+import operation from "../../_operations/organizations/members/bulk-create.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
- * create command
+ * bulk-create command
  * @generated from apis/overlays/organizations.ts
  */
 import type { Argv, CommandModule } from "yargs";
@@ -16,9 +16,9 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 organizations members batch create <organization-id>\n\nBatch create multiple memberships that grant access to a specific Organization."
+			"$0 organizations members bulk-create\n\nBatch create multiple memberships that grant access to a specific Organization."
 		)
-		.positional("organization-id", {
+		.option("organization-id", {
 			type: "string",
 			description: "Organization ID",
 			demandOption: true,
@@ -42,13 +42,13 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 type Args = InferArgs<typeof builder>;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "create <organization-id>",
+	command: "bulk-create",
 	describe: "Batch create organization members",
 	builder,
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
-				command: "organizations members batch create",
+				command: "organizations members bulk-create",
 				classification: {
 					safeFlags: ["dry-run"],
 				} satisfies ArgClassification<Args>,
@@ -57,7 +57,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			async () => {
 				if (argv.dryRun) {
 					formatDryRun({
-						command: "cf organizations members batch create",
+						command: "cf organizations members bulk-create",
 						method: "POST",
 						url: `https://api.cloudflare.com/client/v4/organizations/${argv["organization-id"] == null ? "<organization-id>" : encodeURIComponent(String(argv["organization-id"]))}/members:batchCreate`,
 						pathParams: {

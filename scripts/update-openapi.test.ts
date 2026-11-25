@@ -9,7 +9,7 @@ import { setImmediate } from "node:timers/promises";
 import type { TestContext } from "node:test";
 
 // Keep a cf write token present at module initialization to catch accidental
-// authentication defaults in requests for public Forge resources.
+// authentication defaults in requests for public API schema resources.
 const originalToken = process.env.GH_TOKEN;
 process.env.GH_TOKEN = "cf-write-token";
 const {
@@ -17,7 +17,7 @@ const {
 	extractOpenApiVersion,
 	formatError,
 	getForgeEnvironment,
-	getLatestOpenApiRelease,
+	getLatestOpenApiRevision,
 	getManagedUpdateCommit,
 	githubResponse,
 	run,
@@ -42,32 +42,30 @@ const forgeCredentials = {
 	git_config_parameters: "private git configuration",
 };
 
-await test("Forge latest release reads are anonymous while cf requests can authenticate", async (context) => {
-	const requests: { path: string; authorization: string | null }[] = [];
+await test("API schema revision reads are anonymous while cf requests can authenticate", async (context) => {
+	const requests: { url: string; authorization: string | null }[] = [];
 	context.mock.method(
 		globalThis,
 		"fetch",
 		async (url: string, init: RequestInit) => {
+			const target = new URL(url);
 			requests.push({
-				path: new URL(url).pathname,
+				url: `${target.pathname}${target.search}`,
 				authorization: new Headers(init.headers).get("Authorization"),
 			});
-			return Response.json({
-				tag_name: `openapi@${version}`,
-				assets: [{ name: "openapi.forge.json", id: 123 }],
-			});
+			return Response.json([{ sha: version }]);
 		}
 	);
 
-	assert.deepEqual(await getLatestOpenApiRelease(), {
-		tag: `openapi@${version}`,
-		version,
-	});
+	assert.deepEqual(await getLatestOpenApiRevision(), { version });
 	await githubResponse("/repos/cloudflare/cf/pulls", {}, "cf-write-token");
 	assert.deepEqual(requests, [
-		{ path: "/repos/cloudflare/forge/releases/latest", authorization: null },
 		{
-			path: "/repos/cloudflare/cf/pulls",
+			url: "/repos/cloudflare/api-schemas/commits?sha=main&path=openapi.json&per_page=1",
+			authorization: null,
+		},
+		{
+			url: "/repos/cloudflare/cf/pulls",
 			authorization: "Bearer cf-write-token",
 		},
 	]);
@@ -96,11 +94,12 @@ await test("the OpenAPI revision is read from package.json config", async () => 
 	for (const invalid of [
 		"{}",
 		JSON.stringify({ config: {} }),
-		JSON.stringify({ config: { forgeOpenApiVersion: "main" } }),
+		JSON.stringify({ config: { openApiVersion: "main" } }),
+		JSON.stringify({ config: { forgeOpenApiVersion: version } }),
 	]) {
 		assert.throws(
 			() => extractOpenApiVersion(invalid, "invalid"),
-			/Could not read config\.forgeOpenApiVersion from invalid/
+			/Could not read config\.openApiVersion from invalid/
 		);
 	}
 });
@@ -110,7 +109,7 @@ await test("pinning an OpenAPI revision rewrites only the package.json config", 
 		{
 			name: "cf",
 			scripts: { generate: "vp run task:generate" },
-			config: { forgeOpenApiVersion: "a".repeat(40) },
+			config: { openApiVersion: "a".repeat(40) },
 			dependencies: { tinyexec: "^1.3.1" },
 		},
 		null,
@@ -126,32 +125,20 @@ await test("pinning an OpenAPI revision rewrites only the package.json config", 
 	);
 	assert.throws(
 		() => setOpenApiVersion("{}", version, "cli"),
-		/Could not read config\.forgeOpenApiVersion/
+		/Could not read config\.openApiVersion/
 	);
 });
 
-await test("latest releases without the OpenAPI asset are rejected", async (context) => {
-	for (const assets of [undefined, [], [{ name: "other.json" }]]) {
-		context.mock.method(globalThis, "fetch", async () =>
-			Response.json({ tag_name: `openapi@${version}`, assets })
-		);
-		await assert.rejects(
-			getLatestOpenApiRelease(),
-			/has no openapi\.forge\.json asset/
-		);
-	}
-});
-
-await test("OpenAPI lookup rejects invalid latest releases without scanning history", async (context) => {
+await test("OpenAPI lookup rejects responses without a valid latest revision", async (context) => {
 	for (const response of [
 		null,
-		[],
 		{},
-		{ tag_name: 123 },
-		{ tag_name: "v0.2.0" },
-		{ tag_name: "openapi@invalid" },
-		{ tag_name: `openapi@${version}`, draft: true },
-		{ tag_name: `openapi@${version}`, prerelease: true },
+		[],
+		[null],
+		[{}],
+		[{ sha: 123 }],
+		[{ sha: "main" }],
+		[{ sha: version.toUpperCase() }],
 	]) {
 		const requests: string[] = [];
 		context.mock.method(globalThis, "fetch", async (url: string) => {
@@ -159,24 +146,24 @@ await test("OpenAPI lookup rejects invalid latest releases without scanning hist
 			return Response.json(response);
 		});
 		await assert.rejects(
-			getLatestOpenApiRelease(),
-			/not a published OpenAPI release|does not have a valid OpenAPI tag/
+			getLatestOpenApiRevision(),
+			/cloudflare\/api-schemas@main has no valid openapi\.json revision/
 		);
-		assert.deepEqual(requests, ["/repos/cloudflare/forge/releases/latest"]);
+		assert.deepEqual(requests, ["/repos/cloudflare/api-schemas/commits"]);
 	}
 });
 
-await test("a missing latest release is reported without scanning history", async (context) => {
+await test("a missing API schema repository is reported", async (context) => {
 	const requests: string[] = [];
 	context.mock.method(globalThis, "fetch", async (url: string) => {
 		requests.push(new URL(url).pathname);
 		return Response.json({ message: "Not Found" }, { status: 404 });
 	});
 	await assert.rejects(
-		getLatestOpenApiRelease(),
-		/GitHub API GET \/repos\/cloudflare\/forge\/releases\/latest failed \(404/
+		getLatestOpenApiRevision(),
+		/GitHub API GET \/repos\/cloudflare\/api-schemas\/commits\?.* failed \(404/
 	);
-	assert.deepEqual(requests, ["/repos/cloudflare/forge/releases/latest"]);
+	assert.deepEqual(requests, ["/repos/cloudflare/api-schemas/commits"]);
 });
 
 await test("the renamed updater recognizes old and new bot commits while protecting human edits", async (context) => {
@@ -353,7 +340,7 @@ await test("POST requests are never retried by the generic request helper", asyn
 	assert.equal(attempts, 1);
 });
 
-await test("release reads retry failures while consuming the response body", async (context) => {
+await test("revision reads retry failures while consuming the response body", async (context) => {
 	mockRetries(context);
 	let attempts = 0;
 	context.mock.method(globalThis, "fetch", async () => {
@@ -366,12 +353,9 @@ await test("release reads retry failures while consuming the response body", asy
 				})
 			);
 		}
-		return Response.json({
-			tag_name: `openapi@${version}`,
-			assets: [{ name: "openapi.forge.json", id: 123 }],
-		});
+		return Response.json([{ sha: version }]);
 	});
-	const result = getLatestOpenApiRelease();
+	const result = getLatestOpenApiRevision();
 	await advanceRetry(context, 1000);
 	assert.equal((await result).version, version);
 	assert.equal(attempts, 2);
@@ -383,7 +367,7 @@ await test("invalid JSON is reported without retrying", async (context) => {
 		attempts++;
 		return new Response("invalid JSON");
 	});
-	await assert.rejects(getLatestOpenApiRelease(), (error: unknown) => {
+	await assert.rejects(getLatestOpenApiRevision(), (error: unknown) => {
 		assert.ok(error instanceof Error);
 		assert.ok(error.cause instanceof SyntaxError);
 		return true;

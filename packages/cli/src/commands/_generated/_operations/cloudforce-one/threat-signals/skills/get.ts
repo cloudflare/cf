@@ -5,4 +5,7 @@ export default {
 	method: "GET",
 	path: (request: Record<string, unknown>) =>
 		path`/accounts/${request.account_id}/cloudforce-one/v2/threat-signals/skills/${request.skill_id}`,
+	errors: {
+		403: "ForbiddenError",
+	},
 } as const;

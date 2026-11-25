@@ -1,4 +1,3 @@
-import { readBuildOutput } from "@cloudflare/build-output-utils";
 import {
 	ApplicationsService,
 	configureOpenAPIForContainerPull,
@@ -12,22 +11,21 @@ import {
 } from "@cloudflare/deploy-helpers";
 import {
 	getCloudflareApiBaseUrl,
-	getCloudflareComplianceRegion,
 	writeOutput,
 } from "@cloudflare/workers-utils";
 import { resolveBuildOutputAuth } from "../../lib/build-output-auth.js";
+import { withBuildOutputDotEnv } from "../../lib/build-output-dotenv.js";
 import { BuildOutputConfigError } from "../../lib/build-output-error.js";
 import {
 	applyCIWorkerNameOverride,
 	buildOutputWorkerOption,
 	parseWorkerConfig,
+	resolveBuildOutputSettings,
 	selectBuildOutputWorker,
-	validateBuildOutputAccount,
 	validateBuildOutputMode,
 } from "../../lib/build-output.js";
 import { createDeployContext } from "../../lib/deploy-context.js";
 import { assembleBuildResult } from "../../lib/deploy-input.js";
-import { withCloudflareDotEnv } from "../../lib/dotenv.js";
 import { formatOutput } from "../../lib/output.js";
 import { runBuild } from "../build/index.js";
 import {
@@ -41,6 +39,7 @@ import {
 } from "../deploy/static-assets.js";
 import { createPreviewContainerCallbacks } from "./containers.js";
 import type { CommonYargsOptions, InferArgs } from "../../lib/cli-types.js";
+import type { BuildOutput } from "@cloudflare/build-output-utils";
 import type { PreviewResult } from "@cloudflare/deploy-helpers";
 import type { Argv, CommandModule } from "yargs";
 
@@ -105,20 +104,20 @@ export async function runPreviewDeploy(
 		);
 	}
 
-	return withCloudflareDotEnv(argv, () =>
-		deployPreviewBuildOutput(argv, previewName)
+	return withBuildOutputDotEnv((output) =>
+		deployPreviewBuildOutput(argv, previewName, output)
 	);
 }
 
 async function deployPreviewBuildOutput(
 	argv: PreviewDeployArgs,
-	previewName: string
+	previewName: string,
+	output: BuildOutput
 ): Promise<PreviewResult> {
-	const output = await readBuildOutput(process.cwd());
 	assertPreviewBuildOutputRootConfig(output.rootConfig);
 	validateBuildOutputMode(argv.mode, output.rootConfig.buildContext.mode);
-	validateBuildOutputAccount(
-		output.rootConfig.settings?.accountId,
+	const { complianceRegion } = resolveBuildOutputSettings(
+		output.rootConfig.settings,
 		argv["temporary-account"]
 	);
 	const { worker } = applyCIWorkerNameOverride(
@@ -129,7 +128,6 @@ async function deployPreviewBuildOutput(
 		output.rootConfig
 	);
 
-	const complianceRegion = getCloudflareComplianceRegion(wranglerConfig);
 	const { authToken, accountId } = await resolveBuildOutputAuth({
 		accountId: output.rootConfig.settings?.accountId,
 		complianceRegion,

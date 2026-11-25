@@ -9,7 +9,7 @@ describe("containers ssh", () => {
 	mockApiToken();
 
 	it.skip("should help");
-	// The current Forge OpenAPI schema does not include the SSH JWT endpoint.
+	// The current OpenAPI schema does not include the SSH JWT endpoint.
 	// Keep these Wrangler compatibility tests skipped until it is restored.
 	it.skip("should let the API validate invalid container ID format", async ({
 		expect,

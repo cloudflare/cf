@@ -10,7 +10,7 @@ info:
   version: 1.0.0
   description: >-
     Remove each action and its cli-compat-guards.ts precondition when the pinned
-    Forge OpenAPI supplies the annotation upstream.
+    OpenAPI supplies the annotation upstream.
 actions:
   - target: $["paths"]["/zones/{zone_id}/precursor"]["put"]
     description: Keep the body field mode from taking cf's global --mode flag (cloudflare/cf#28).

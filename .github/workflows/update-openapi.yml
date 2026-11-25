@@ -1,14 +1,15 @@
 name: Update OpenAPI
 
-# GitHub Actions cannot subscribe to releases in another repository. Poll
-# hourly by default; the spec publisher can avoid the polling delay by sending a
-# `forge-release-published` repository_dispatch event with a GitHub App or PAT.
+# GitHub Actions cannot subscribe to pushes in another repository. Poll
+# cloudflare/api-schemas hourly by default; the schema publisher can avoid the
+# polling delay by sending an `api-schemas-updated` repository_dispatch event
+# with a GitHub App or PAT.
 on:
   schedule:
     - cron: "23 * * * *"
   workflow_dispatch:
   repository_dispatch:
-    types: [forge-release-published]
+    types: [api-schemas-updated]
 
 permissions:
   contents: write

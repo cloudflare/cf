@@ -91,7 +91,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("storage-config-type", {
 			type: "string",
 			description: "The storage_config.type field",
-			choices: ["gcs", "aws", "azure", "digitalocean", "sftp"],
+			choices: ["gcs", "aws", "azure", "digitalocean", "sftp", "cloudflare"],
 		})
 		.coerce("storage-config-type", (value) =>
 			resolveFileToken(value, "storage-config-type", "text")

@@ -20,7 +20,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 zero-trust risk-scoring behaviours get\n\nRetrieves configured risk score behaviors that define how user actions affect their overall risk score."
+			"$0 zero-trust risk-scoring behaviours get\n\nGets all risk behaviors for an account and their configuration. The response omits a disabled behavior when the account does not have the gates or entitlements for that behavior."
 		)
 		.option("dry-run", {
 			type: "boolean",

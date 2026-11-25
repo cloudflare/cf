@@ -21,10 +21,25 @@ describe("detectAgentContext", () => {
 		["Claude Code", { CLAUDECODE: "1" }, "claude-code"],
 		["Codex", { CODEX_THREAD_ID: "codex-thread" }, "codex"],
 		["Amp", { AMP_CURRENT_THREAD_ID: "amp-thread" }, "amp"],
+		["Antigravity IDE", { ANTIGRAVITY_AGENT: "1" }, "antigravity"],
+		[
+			"Antigravity CLI",
+			{ ANTIGRAVITY_CONVERSATION_ID: "agy-conversation" },
+			"antigravity",
+		],
 		["Gemini CLI", { GEMINI_CLI: "1" }, "gemini-agent"],
 		["Auggie", { AUGMENT_AGENT: "1" }, "auggie"],
 		["Crush", { CRUSH: "1" }, "crush"],
 		["Crush via AI_AGENT", { AI_AGENT: "crush" }, "crush"],
+		["GitHub Copilot CLI", { COPILOT_CLI: "1" }, "copilot-cli"],
+		["Kiro CLI", { AWS_SDK_UA_APP_ID: "kiro-cli" }, "kiro"],
+		["Kiro IDE", { AWS_SDK_UA_APP_ID: "kiro-ide" }, "kiro"],
+		["Kiro session", { KIRO_SESSION_ID: "kiro-session" }, "kiro"],
+		["Junie", { MATTERHORN_TASK: "" }, "junie"],
+		["Junie session", { MATTERHORN_SESSION_ID: "junie-session" }, "junie"],
+		["Goose", { GOOSE_TERMINAL: "1" }, "goose"],
+		["Goose via AGENT", { AGENT: "goose" }, "goose"],
+		["Cline", { CLINE_ACTIVE: "true" }, "cline"],
 		[
 			"VS Code Copilot",
 			{ AI_AGENT: "github_copilot_vscode_agent" },
@@ -93,6 +108,65 @@ describe("detectAgentContext", () => {
 		expect(context.invocationId).toBe("cursor-request");
 	});
 
+	it("captures the Antigravity conversation without its language-server credentials", () => {
+		const context = detectAgentContext({
+			ANTIGRAVITY_AGENT: "1",
+			ANTIGRAVITY_CONVERSATION_ID: "agy-conversation",
+			ANTIGRAVITY_CSRF_TOKEN: "private-token",
+			ANTIGRAVITY_LS_ADDRESS: "127.0.0.1:5387",
+		});
+
+		expect(context.harness).toEqual({
+			id: "antigravity",
+			name: "Google Antigravity",
+		});
+		expect(context.sessionId).toBe("agy-conversation");
+		expect(context.matches[0]?.signals).toEqual([
+			"ANTIGRAVITY_AGENT",
+			"ANTIGRAVITY_CONVERSATION_ID",
+		]);
+	});
+
+	it.each([
+		[
+			"Copilot CLI",
+			{ COPILOT_CLI: "1", COPILOT_AGENT_SESSION_ID: "copilot-session" },
+			"copilot-session",
+		],
+		[
+			"Kiro",
+			{ AWS_SDK_UA_APP_ID: "kiro-cli", KIRO_SESSION_ID: "kiro-session" },
+			"kiro-session",
+		],
+		[
+			"Junie",
+			{ MATTERHORN_TASK: "", MATTERHORN_SESSION_ID: "junie-session" },
+			"junie-session",
+		],
+		[
+			"Goose",
+			{ GOOSE_TERMINAL: "1", AGENT: "goose", AGENT_SESSION_ID: "20260217_5" },
+			"20260217_5",
+		],
+	])("captures the %s session ID", (_name, environment, sessionId) => {
+		const context = detectAgentContext(environment);
+		expect(context.sessionId).toBe(sessionId);
+		expect(context.matches).toHaveLength(1);
+	});
+
+	it("does not detect user settings and incidental harness variables", () => {
+		const context = detectAgentContext({
+			COPILOT_MODEL: "gpt-5",
+			COPILOT_ALLOW_ALL: "true",
+			AWS_SDK_UA_APP_ID: "my-app",
+			JUNIE_DATA: "/home/user/.junie",
+			JUNIE_SHIM_PATH: "/home/user/.local/bin/junie",
+			AGENT_SESSION_ID: "goose-term-session",
+			GOOSE_PROVIDER: "anthropic",
+		});
+		expect(context.isAgentic).toBe(false);
+	});
+
 	it("retains nested matches while preferring a direct agent over Warp", () => {
 		const context = detectAgentContext({
 			CLAUDECODE: "1",
@@ -125,7 +199,7 @@ describe("detectAgentContext", () => {
 		).toMatchObject({ isAgentic: false, harness: null, sessionId: null });
 	});
 
-	it("ignores false-like, inexact, and unknown markers", () => {
+	it("ignores false-like and inexact markers", () => {
 		const context = detectAgentContext({
 			QWEN_CODE_SESSION_ID: "false",
 			PI_CODING_AGENT: "1",
@@ -133,12 +207,20 @@ describe("detectAgentContext", () => {
 			CLAUDECODE: "0",
 			CODEX_THREAD_ID: "off",
 			AMP_CURRENT_THREAD_ID: "no",
+			ANTIGRAVITY_AGENT: "true",
+			ANTIGRAVITY_CONVERSATION_ID: "false",
 			GEMINI_CLI: "true",
 			AUGMENT_AGENT: "false",
 			CRUSH: "true",
 			COPILOT_AGENT: "true",
+			COPILOT_CLI: "true",
+			KIRO_SESSION_ID: "false",
+			MATTERHORN_SESSION_ID: "0",
+			GOOSE_TERMINAL: "true",
+			AGENT: "unknown-agent",
+			CLINE_ACTIVE: "1",
 			OZ_RUN_ID: "0",
-			AI_AGENT: "unknown-agent",
+			AI_AGENT: "false",
 		});
 
 		expect(context).toEqual({
@@ -147,14 +229,95 @@ describe("detectAgentContext", () => {
 			model: null,
 			sessionId: null,
 			invocationId: null,
+			announcedName: null,
 			matches: [],
 		});
+	});
+
+	it("reads the Claude Code version from AI_AGENT", () => {
+		const context = detectAgentContext({
+			CLAUDECODE: "1",
+			AI_AGENT: "claude-code_2-1-330_agent",
+		});
+
+		expect(context.harness).toEqual({
+			id: "claude-code",
+			name: "Claude Code",
+			version: "2.1.330",
+		});
+		expect(context.announcedName).toBeNull();
+		expect(context.matches).toHaveLength(1);
+		expect(context.matches[0]?.signals).toEqual(["CLAUDECODE", "AI_AGENT"]);
+	});
+
+	it.each([
+		["the Claude Code announcement alone", { AI_AGENT: "claude-code" }],
+		[
+			"a versionless announcement",
+			{ CLAUDECODE: "1", AI_AGENT: "claude-code_agent" },
+		],
+	])("detects Claude Code from %s without a version", (_name, environment) => {
+		const context = detectAgentContext(environment);
+		expect(context.harness).toEqual({ id: "claude-code", name: "Claude Code" });
+		expect(context.matches).toHaveLength(1);
+	});
+
+	it("records an unrecognised AI_AGENT as an unknown agent", () => {
+		const context = detectAgentContext({ AI_AGENT: "hermes-agent" });
+
+		expect(context.isAgentic).toBe(true);
+		expect(context.harness).toEqual({ id: "unknown", name: "Unknown agent" });
+		expect(context.announcedName).toBe("hermes-agent");
+		expect(context.matches[0]?.signals).toEqual(["AI_AGENT"]);
+	});
+
+	it.each([
+		["spaces", "my agent"],
+		["a version separator", "custom-agent@2.0"],
+		["more than 64 characters", "a".repeat(65)],
+	])("withholds an announced name containing %s", (_name, announced) => {
+		const context = detectAgentContext({ AI_AGENT: announced });
+
+		expect(context.harness?.id).toBe("unknown");
+		expect(context.announcedName).toBeNull();
+	});
+
+	it.each([
+		["Pi", { AI_AGENT: "pi" }],
+		["Crush", { AI_AGENT: "crush" }],
+		["VS Code Copilot", { AI_AGENT: "github_copilot_vscode_agent" }],
+		["OpenCode", { OPENCODE: "1", AI_AGENT: "opencode" }],
+		["a qualified slug", { OPENCODE: "1", AI_AGENT: "opencode_1-2_agent" }],
+	])(
+		"does not treat an AI_AGENT explained by %s as unknown",
+		(_name, environment) => {
+			const context = detectAgentContext(environment);
+
+			expect(context.matches).toHaveLength(1);
+			expect(context.harness?.id).not.toBe("unknown");
+			expect(context.announcedName).toBeNull();
+		}
+	);
+
+	it("keeps a recognised agent primary when an unknown agent is also announced", () => {
+		const context = detectAgentContext({
+			CODEX_THREAD_ID: "codex-thread",
+			AI_AGENT: "hermes-agent",
+		});
+
+		expect(context.harness?.id).toBe("codex");
+		expect(context.matches.map((match) => match.harness.id)).toEqual([
+			"codex",
+			"unknown",
+		]);
+		expect(context.announcedName).toBe("hermes-agent");
 	});
 
 	it("does not detect editor and credential heuristics", () => {
 		const context = detectAgentContext({
 			AIDER_API_KEY: "private-token",
 			CODEIUM_EDITOR_APP_ROOT: "/private/editor",
+			ANTIGRAVITY_CSRF_TOKEN: "private-token",
 			REPL_ID: "private-repl",
 			TERM_PROGRAM: "WarpTerminal",
 			PAGER: "cat",

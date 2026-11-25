@@ -23,7 +23,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 cloudforce-one threat-signals skills create\n\nCreates a Custom Skill for the account. Free Threat Signals accounts cannot create Custom Skills."
+			"$0 cloudforce-one threat-signals skills create\n\nCreates an active Custom Skill for the account. Free Threat Signals accounts cannot create Custom Skills. When the account is at its active Custom Skill limit (`cfone.threat.threat_signals_skills`), returns 403 with `errors[0].reason` `threat_signals_skill_limit`, and `errors[0].custom_skill_limit` and `errors[0].custom_skill_count` give the limit and current count. Managed Default Skills do not count."
 		)
 		.option("name", {
 			type: "string",

@@ -51,7 +51,7 @@ export function assertCliCompatSource(openapi: ForgeOpenApiDocument): void {
 		return reason === undefined
 			? []
 			: [
-					`Pinned Forge OpenAPI changed for ${entry.method.toUpperCase()} ${entry.path} body field \`${entry.wire}\` (${reason}); remove or revise its action in generator/cli-compat.overlay.yaml and guard in generator/cli-compat-guards.ts`,
+					`Pinned OpenAPI changed for ${entry.method.toUpperCase()} ${entry.path} body field \`${entry.wire}\` (${reason}); remove or revise its action in generator/cli-compat.overlay.yaml and guard in generator/cli-compat-guards.ts`,
 				];
 	});
 	if (stale.length > 0) {
@@ -73,7 +73,7 @@ function assertWorkersSecretUpdateSource(openapi: ForgeOpenApiDocument): void {
 		operation["x-forge-params"] !== undefined
 	) {
 		throw new Error(
-			`Pinned Forge OpenAPI changed for PUT ${path}; remove or revise its action in generator/cli-compat.overlay.yaml and guard in generator/cli-compat-guards.ts`
+			`Pinned OpenAPI changed for PUT ${path}; remove or revise its action in generator/cli-compat.overlay.yaml and guard in generator/cli-compat-guards.ts`
 		);
 	}
 }

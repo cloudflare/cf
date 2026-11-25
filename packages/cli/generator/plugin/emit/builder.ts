@@ -210,6 +210,12 @@ export function builderLines(ctx: Ctx): string[] {
 		}
 		const set = `[${quoted(group.groupSetFlags)}]`;
 		const required = `[${quoted(group.requiredFlags)}]`;
+		const prefix = `${group.parentName}-`;
+		const groupFlags = group.groupSetFlags.every((flag) =>
+			flag.startsWith(prefix)
+		)
+			? `any --${prefix}* flag`
+			: `one of ${group.groupSetFlags.map((flag) => `--${flag}`).join(", ")}`;
 		const pairs = group.requiredFlags
 			.map((f): [string, string[]] => [
 				f,
@@ -236,7 +242,7 @@ export function builderLines(ctx: Ctx): string[] {
 		}
 		lines.push("          if (missing.length > 0) {");
 		lines.push(
-			`            throw new Error(\`\${missing.map((m) => '--' + m).join(', ')} \${missing.length === 1 ? 'is' : 'are'} required when any --${group.parentName}-* flag is set\`);`
+			`            throw new Error(\`\${missing.map((m) => '--' + m).join(', ')} \${missing.length === 1 ? 'is' : 'are'} required when ${groupFlags} is set\`);`
 		);
 		lines.push("          }");
 		lines.push("        }");

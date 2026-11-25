@@ -14,7 +14,9 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
-		.usage("$0 zones subscriptions get\n\nLists zone subscription details.")
+		.usage(
+			"$0 zones subscriptions get\n\nLists zone subscription details. Zones on the Free plan normally have no zone subscription, so this returns 404 with error code 1207."
+		)
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",

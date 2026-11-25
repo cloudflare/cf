@@ -716,6 +716,15 @@ export const generatedCommands: GeneratedCommand[] = [
 	},
 	{
 		command: lazyCommand<CommonYargsOptions>(
+			"network-quality",
+			"network-quality",
+			() => import("./network-quality/index.js"),
+			null
+		),
+		hideCommand: false,
+	},
+	{
+		command: lazyCommand<CommonYargsOptions>(
 			"o11y",
 			"o11y",
 			() => import("./o11y/index.js"),

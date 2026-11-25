@@ -8,7 +8,7 @@ import { getTunnelToken, resolveTunnelId } from "./client.js";
 import type { CommonYargsOptions } from "../../../lib/cli-types.js";
 import type { ArgumentsCamelCase, Argv, CommandModule } from "yargs";
 
-interface TunnelRunArgs extends CommonYargsOptions {
+export interface TunnelRunArgs extends CommonYargsOptions {
 	tunnel?: string;
 	token?: string;
 	"log-level": (typeof CLOUDFLARED_LOG_LEVELS)[number];

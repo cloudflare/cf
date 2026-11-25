@@ -83,7 +83,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				);
 				if (missing.length > 0) {
 					throw new Error(
-						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when any --code-update-strategy-* flag is set`
+						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when one of --durable-objects-code-update-mode, --durable-objects-code-update-max-delay is set`
 					);
 				}
 			}

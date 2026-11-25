@@ -6,4 +6,7 @@ export default {
 	path: (request: Record<string, unknown>) =>
 		path`/accounts/${request.account_id}/cloudforce-one/v2/threat-signals/feeds/${request.feed_id}/skills`,
 	body: "json",
+	errors: {
+		403: "ForbiddenError",
+	},
 } as const;

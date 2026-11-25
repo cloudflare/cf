@@ -83,6 +83,9 @@ export default defineConfig({
 			// The CLI writes to the console directly and has no logger abstraction.
 			// See docs/design-history.md.
 			"no-console": "off",
+			// TypeScript reports duplicate and conflicting exports. This rule misreads
+			// re-exports from chunked ESM packages and CommonJS modules.
+			"import/export": "off",
 			// Tests assert through node:assert and local expect* helpers.
 			"vitest/expect-expect": [
 				"error",
@@ -94,7 +97,6 @@ export default defineConfig({
 			// enabled with its fixes, or documented as staying off, in its own commit.
 			"@nkzw/no-instanceof": "off",
 			"import/consistent-type-specifier-style": "off",
-			"import/export": "off",
 			"import/no-namespace": "off",
 			"no-promise-executor-return": "off",
 			"preserve-caught-error": "off",

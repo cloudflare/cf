@@ -1,5 +1,11 @@
-import { existsSync, readFileSync, writeFileSync } from "node:fs";
-import { join } from "node:path";
+import {
+	existsSync,
+	mkdirSync,
+	readdirSync,
+	readFileSync,
+	writeFileSync,
+} from "node:fs";
+import { dirname, join } from "node:path";
 import t from "@bomb.sh/tab";
 import { getCfConfigPath } from "@cloudflare/workers-auth/cf";
 import { runInTempDir } from "@cloudflare/workers-utils/test-helpers";
@@ -61,6 +67,14 @@ describe("installed completion scripts", () => {
 		for (const shell of ["zsh", "fish", "powershell"] as const) {
 			expect(existsSync(getScriptPath(shell))).toBe(false);
 		}
+	});
+
+	it("removes the temp file when a write fails", () => {
+		const path = getScriptPath("zsh");
+		mkdirSync(path, { recursive: true });
+
+		expect(() => installScript("zsh")).toThrow();
+		expect(readdirSync(dirname(path))).toEqual(["cf.zsh"]);
 	});
 
 	it("quotes the rc line for each shell", () => {

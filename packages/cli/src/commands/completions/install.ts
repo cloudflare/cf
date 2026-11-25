@@ -6,7 +6,13 @@
  * changing its template; TAB callbacks rewrite installed files to match.
  */
 
-import { mkdirSync, readFileSync, renameSync, writeFileSync } from "node:fs";
+import {
+	mkdirSync,
+	readFileSync,
+	renameSync,
+	rmSync,
+	writeFileSync,
+} from "node:fs";
 import { dirname, join } from "node:path";
 import t from "@bomb.sh/tab";
 import { getCfConfigPath } from "@cloudflare/workers-auth/cf";
@@ -66,8 +72,15 @@ export function getSourceLine(shell: Shell, path: string): string {
 function writeScript(path: string, script: string): void {
 	mkdirSync(dirname(path), { recursive: true });
 	const tempPath = `${path}.${process.pid}.tmp`;
-	writeFileSync(tempPath, script, "utf-8");
-	renameSync(tempPath, path);
+	try {
+		writeFileSync(tempPath, script, "utf-8");
+		renameSync(tempPath, path);
+	} catch (error) {
+		// Each TAB callback has a new pid, so a failing target would
+		// otherwise collect a temp file per press.
+		rmSync(tempPath, { force: true });
+		throw error;
+	}
 }
 
 export function installScript(shell: Shell): string {

@@ -251,6 +251,7 @@ const normalize = spawn(
 	{ stdio: ["pipe", "pipe", "inherit"] as const }
 );
 let pipelineError: Error | undefined;
+// oxlint-disable-next-line unicorn/prefer-top-level-await -- the transfer runs concurrently with the close waits below
 const transfer = Promise.all([
 	pipeline(Readable.from([openapi]), normalize.stdin),
 	pipeline(normalize.stdout, forge.stdin),

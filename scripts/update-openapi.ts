@@ -761,8 +761,10 @@ This PR is maintained automatically by [the Update OpenAPI workflow](${GITHUB_SE
 }
 
 if (process.argv[1] && resolve(process.argv[1]) === import.meta.filename) {
-	main().catch((error: unknown) => {
+	try {
+		await main();
+	} catch (error: unknown) {
 		console.error(formatError(error));
 		process.exitCode = 1;
-	});
+	}
 }

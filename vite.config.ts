@@ -124,7 +124,6 @@ export default defineConfig({
 			"unicorn/numeric-separators-style": "off",
 			"unicorn/prefer-string-raw": "off",
 			"unicorn/prefer-string-replace-all": "off",
-			"unicorn/prefer-top-level-await": "off",
 			"unicorn/text-encoding-identifier-case": "off",
 			"vitest/no-conditional-expect": "off",
 			"vitest/require-mock-type-parameters": "off",

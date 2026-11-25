@@ -207,7 +207,15 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("order", {
 			type: "string",
 			description: "Field to order DNS records by.",
-			choices: ["type", "name", "content", "ttl", "proxied"],
+			choices: [
+				"type",
+				"name",
+				"content",
+				"ttl",
+				"proxied",
+				"created_on",
+				"modified_on",
+			],
 		})
 		.option("direction", {
 			type: "string",

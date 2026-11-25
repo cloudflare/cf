@@ -3,6 +3,7 @@ import { runInTempDir } from "@cloudflare/workers-utils/test-helpers";
 import { beforeEach, describe, expect, it, vi } from "vite-plus/test";
 import {
 	applyCloudflareDotEnv,
+	getCloudflareDotEnvFile,
 	shouldApplyCloudflareDotEnv,
 	withCloudflareDotEnv,
 } from "../../lib/dotenv.js";
@@ -109,6 +110,23 @@ describe("applyCloudflareDotEnv", () => {
 		expect(process.env[FILE_VALUE]).toBe("staging");
 		restore();
 		expect(process.env[FILE_VALUE]).toBeUndefined();
+	});
+
+	it("reports the file that supplied each applied value", async () => {
+		vi.stubEnv(PROCESS_VALUE, "from-process");
+		await writeFile(".env", `${FILE_VALUE}=default`);
+		await writeFile(
+			".env.staging",
+			`${FILE_VALUE}=staging\n${PROCESS_VALUE}=from-file`
+		);
+
+		const restore = await applyCloudflareDotEnv({ mode: "staging" });
+
+		expect(getCloudflareDotEnvFile(FILE_VALUE)).toBe(".env.staging");
+		// Process values win over files, so they have no file source.
+		expect(getCloudflareDotEnvFile(PROCESS_VALUE)).toBeUndefined();
+		restore();
+		expect(getCloudflareDotEnvFile(FILE_VALUE)).toBeUndefined();
 	});
 
 	it("restores values when a scoped callback fails", async () => {

@@ -21,12 +21,12 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 zero-trust risk-scoring behaviours update\n\nUpdates risk score behavior configurations, defining weights and thresholds for risk calculation."
+			"$0 zero-trust risk-scoring behaviours update\n\nUpdates the configuration of one or more risk behaviors for an account. The server skips an unknown behavior, and a behavior that the account does not have the gates or entitlements for. The response contains all behaviors for the account."
 		)
 		.option("behaviors", {
 			type: "string",
 			description:
-				'The behaviors field. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": {...}}.',
+				'Settings for each behavior to update, keyed by behavior ID. Provide as a JSON object or @path/to/file.json. Shape: {"<key>": {...}}.',
 		})
 		.option("dry-run", {
 			type: "boolean",
@@ -35,7 +35,8 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		})
 		.option("body", {
 			type: "string",
-			description: "Behaviors.",
+			description:
+				"Settings for one or more risk behaviors, keyed by behavior ID.",
 		});
 }
 

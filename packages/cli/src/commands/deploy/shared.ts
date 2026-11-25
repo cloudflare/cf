@@ -1,4 +1,3 @@
-import { readBuildOutput } from "@cloudflare/build-output-utils";
 import {
 	configureOpenAPIForContainerPull,
 	initContainersSharedContext,
@@ -8,18 +7,16 @@ import {
 	versionsUpload,
 	initDeployHelpersContext,
 } from "@cloudflare/deploy-helpers";
-import {
-	getCloudflareApiBaseUrl,
-	getCloudflareComplianceRegion,
-} from "@cloudflare/workers-utils";
+import { getCloudflareApiBaseUrl } from "@cloudflare/workers-utils";
 import { resolveBuildOutputAuth } from "../../lib/build-output-auth.js";
+import { withBuildOutputDotEnv } from "../../lib/build-output-dotenv.js";
 import {
 	applyCIMatchWorkerTag,
 	applyCIWorkerNameOverride,
 	buildOutputWorkerOption,
 	parseWorkerConfig,
+	resolveBuildOutputSettings,
 	selectBuildOutputWorker,
-	validateBuildOutputAccount,
 	validateBuildOutputMode,
 } from "../../lib/build-output.js";
 import { CliExit } from "../../lib/cli-exit.js";
@@ -30,12 +27,12 @@ import {
 	createDeployProps,
 	createVersionsUploadProps,
 } from "../../lib/deploy-input.js";
-import { withCloudflareDotEnv } from "../../lib/dotenv.js";
 import { log } from "../../lib/ui/log.js";
 import { runBuild } from "../build/index.js";
 import { createContainerDeployConfig } from "./containers.js";
 import { secretsFileDescription } from "./secrets-file-description.js";
 import type { CommonYargsOptions, InferArgs } from "../../lib/cli-types.js";
+import type { BuildOutput } from "@cloudflare/build-output-utils";
 import type { Argv } from "yargs";
 
 /**
@@ -108,14 +105,16 @@ export async function runUpload(argv: UploadArgs, ctx: UploadCommand) {
 		log.message("");
 	}
 
-	return withCloudflareDotEnv(argv, () => uploadBuildOutput(argv, ctx));
+	return withBuildOutputDotEnv((output) =>
+		uploadBuildOutput(argv, ctx, output)
+	);
 }
 
-async function uploadBuildOutput(argv: UploadArgs, ctx: UploadCommand) {
-	// Parse the build output with cf's dotenv values available.
-	const { root, workers, rootConfig, containers } = await readBuildOutput(
-		process.cwd()
-	);
+async function uploadBuildOutput(
+	argv: UploadArgs,
+	ctx: UploadCommand,
+	{ root, workers, rootConfig, containers }: BuildOutput
+) {
 	// --prebuilt can reuse files left behind by a Preview build.
 	// Stop here so a production deploy cannot publish that Preview configuration.
 	if (rootConfig.buildContext.isPreview) {
@@ -131,8 +130,8 @@ async function uploadBuildOutput(argv: UploadArgs, ctx: UploadCommand) {
 		);
 	}
 	validateBuildOutputMode(argv.mode, rootConfig.buildContext.mode);
-	validateBuildOutputAccount(
-		rootConfig.settings?.accountId,
+	const { complianceRegion } = resolveBuildOutputSettings(
+		rootConfig.settings,
 		argv["temporary-account"] === true
 	);
 	const { worker, workerNameOverridden } = applyCIWorkerNameOverride(
@@ -149,7 +148,6 @@ async function uploadBuildOutput(argv: UploadArgs, ctx: UploadCommand) {
 		{ includeSourceMaps: !argv["temporary-account"] }
 	);
 
-	const complianceRegion = getCloudflareComplianceRegion(wranglerConfig);
 	const { authToken, accountId } = await resolveBuildOutputAuth({
 		accountId: rootConfig.settings?.accountId,
 		complianceRegion,

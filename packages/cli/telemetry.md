@@ -51,10 +51,13 @@ Command telemetry uses command-started and command-finished events containing:
   manager.
 - Whether this is the first recorded use on the machine, and whether the
   command runs in CI, interactively, or through local-install delegation.
-- The detected coding-agent harness identifier, if any. When the harness
-  provides a session ID, `cf` sends a device-specific hash of that ID to
-  correlate commands in the same agent session. The raw session ID, model,
-  and invocation ID are not included.
+- The detected coding-agent harness identifier, if any, and the harness version
+  when the harness announces one. An agent `cf` does not recognise is recorded
+  as `unknown`, along with the name it gives in the `AI_AGENT` environment
+  variable when that name is at most 64 letters, digits, underscores, and
+  hyphens. When the harness provides a session ID, `cf` sends a
+  device-specific hash of that ID to correlate commands in the same agent
+  session. The raw session ID, model, and invocation ID are not included.
 - A random device identifier and event/session identifiers used to group
   telemetry from the same machine and run.
 

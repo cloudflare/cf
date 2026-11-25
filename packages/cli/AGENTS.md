@@ -70,8 +70,10 @@ depend on generation, including when invoked from this package directory.
 Build and type-check tasks also build workspace dependencies first. `pnpm dev`
 starts the source entry without generation or bundling. Task caching is disabled.
 
-`pnpm generate` downloads the pinned Forge `openapi.forge.json` release asset
-(or reads a local bundle override), prepares it, and runs the forge
+`pnpm generate` downloads `openapi.json` from the pinned
+[cloudflare/api-schemas](https://github.com/cloudflare/api-schemas) revision in
+`config.openApiVersion` (or reads a local `OPENAPI_BUNDLE` override), prepares
+it, and runs the forge
 binary with the generator plugin (`forge generate --target wasm://generator/cli.wasm`)
 into a cleared `src/commands/_generated/`; a post-step formats the emitted
 TypeScript. See "Generator plugin" below.
@@ -103,6 +105,12 @@ or resolve the compliance region—use `withCloudflareDotEnv()` only around that
 work. Its callback must finish, restoring the file values, before the child is
 started. Do not suppress normal inheritance of values that were already
 exported in the invoking environment.
+
+Commands that consume Build Output load dotenv values with
+`withBuildOutputDotEnv()` from `src/lib/build-output-dotenv.ts`. It reads the
+output first and loads the files for the mode the output recorded, so deploys
+read the same `.env.<mode>` files as the build. Callers must reject the
+`--local` flag and validate `--mode` against the recorded mode.
 
 Tests for these commands must show both sides of the boundary: file values are
 available to the parent where required and sensitive file values are absent
@@ -162,6 +170,13 @@ cf resolves account parameters itself.
 
 - Account: `--temporary-account` → `CLOUDFLARE_ACCOUNT_ID` → project
   `cloudflare.config.ts` → workers-auth selection.
+- Build Output deploy account and compliance region: the recorded
+  `accountId` / `complianceRegion` → `CLOUDFLARE_ACCOUNT_ID` /
+  `CLOUDFLARE_COMPLIANCE_REGION` → workers-auth selection / `public`. A
+  variable that differs from a recorded setting is an error that names the
+  dotenv file that set it, rather than either value silently winning. List
+  new Build Output settings in `SETTING_ENV_VARIABLES`
+  (`src/lib/build-output.ts`).
 - Compliance region: `CLOUDFLARE_COMPLIANCE_REGION` → project
   `cloudflare.config.ts` → `public`.
 - Zone: positional value → `--zone` → `CLOUDFLARE_ZONE_ID`.

@@ -15,6 +15,8 @@ export interface AgentMatch {
 	model?: AgentModel;
 	sessionId?: string;
 	invocationId?: string;
+	/** The `AI_AGENT` value of an agent no detector recognises. */
+	announcedName?: string;
 	signals: readonly string[];
 }
 
@@ -24,6 +26,7 @@ export interface AgentContext {
 	model: AgentModel | null;
 	sessionId: string | null;
 	invocationId: string | null;
+	announcedName: string | null;
 	matches: readonly AgentMatch[];
 }
 
@@ -181,19 +184,37 @@ const detectCursorAgent: AgentDetector = (environment) => {
 	});
 };
 
+// Claude Code announces itself as `claude-code_<major>-<minor>-<patch>_agent`.
+const CLAUDE_CODE_ANNOUNCEMENT =
+	/^claude-code(?:_(\d+-\d+-\d+)_agent|_agent)?$/;
+
 // Evidence: Anthropic Claude Code child-process environment. Verified 2026-09-02.
+// AI_AGENT since 2.1.120: https://github.com/anthropics/claude-code/blob/50cdc7005318f630144c28217d1dada32e6ba762/CHANGELOG.md#L8359
 const detectClaudeCode: AgentDetector = (environment) => {
-	if (!isExact(environment, "CLAUDECODE", "1")) {
+	const signals: string[] = [];
+	const claudeMarker = signalIf(
+		signals,
+		isExact(environment, "CLAUDECODE", "1"),
+		"CLAUDECODE"
+	);
+	const announcement = CLAUDE_CODE_ANNOUNCEMENT.exec(
+		value(environment, "AI_AGENT") ?? ""
+	);
+	signalIf(signals, announcement !== null, "AI_AGENT");
+	if (!claudeMarker && !announcement) {
 		return null;
 	}
-	const signals = ["CLAUDECODE"];
+
 	const sessionId = value(environment, "CLAUDE_CODE_SESSION_ID");
 	if (sessionId) {
 		signals.push("CLAUDE_CODE_SESSION_ID");
 	}
-	return contractMatch({ id: "claude-code", name: "Claude Code" }, signals, {
-		sessionId,
-	});
+	const version = announcement?.[1]?.split("-").join(".");
+	return contractMatch(
+		{ id: "claude-code", name: "Claude Code", ...(version ? { version } : {}) },
+		signals,
+		{ sessionId }
+	);
 };
 
 // Evidence: https://github.com/openai/codex/blob/cb1eea3e98ebc433ab5f9c12ce043e979d1902df/codex-rs/protocol/src/shell_environment.rs#L150
@@ -215,6 +236,31 @@ const detectAmp: AgentDetector = (environment) => {
 		? contractMatch({ id: "amp", name: "Amp" }, ["AMP_CURRENT_THREAD_ID"], {
 				sessionId: threadId,
 			})
+		: null;
+};
+
+// Evidence: the language server shared by the Antigravity IDE and the agy CLI
+// documents ANTIGRAVITY_CONVERSATION_ID for agent shell commands (agy 1.5.15).
+// Only the IDE also sets ANTIGRAVITY_AGENT=1:
+// https://github.com/unjs/std-env/issues/223
+// Never read ANTIGRAVITY_CSRF_TOKEN, which shares the same environment.
+const detectAntigravity: AgentDetector = (environment) => {
+	const signals: string[] = [];
+	const agentMarker = signalIf(
+		signals,
+		isExact(environment, "ANTIGRAVITY_AGENT", "1"),
+		"ANTIGRAVITY_AGENT"
+	);
+	const sessionId = value(environment, "ANTIGRAVITY_CONVERSATION_ID");
+	if (sessionId) {
+		signals.push("ANTIGRAVITY_CONVERSATION_ID");
+	}
+	return agentMarker || sessionId
+		? contractMatch(
+				{ id: "antigravity", name: "Google Antigravity" },
+				signals,
+				{ sessionId }
+			)
 		: null;
 };
 
@@ -247,6 +293,98 @@ const detectCrush: AgentDetector = (environment) => {
 		? contractMatch({ id: "crush", name: "Crush" }, signals)
 		: null;
 };
+
+// Evidence: https://github.com/github/copilot-cli/blob/c41b148a2a85a8502c9e7bf73cb4d04d707f6576/changelog.md#L4518
+// and https://github.com/github/copilot-cli/blob/c41b148a2a85a8502c9e7bf73cb4d04d707f6576/changelog.md#L3972
+// COPILOT_MODEL and COPILOT_ALLOW_ALL are user settings, not markers.
+const detectCopilotCli: AgentDetector = (environment) => {
+	if (!isExact(environment, "COPILOT_CLI", "1")) {
+		return null;
+	}
+	const signals = ["COPILOT_CLI"];
+	const sessionId = value(environment, "COPILOT_AGENT_SESSION_ID");
+	if (sessionId) {
+		signals.push("COPILOT_AGENT_SESSION_ID");
+	}
+	return contractMatch(
+		{ id: "copilot-cli", name: "GitHub Copilot CLI" },
+		signals,
+		{ sessionId }
+	);
+};
+
+// Evidence: @kiro/agent 0.66.119, bundled with Kiro CLI 3.5.0 and Kiro IDE,
+// sets AWS_SDK_UA_APP_ID to `kiro-<client>` and KIRO_SESSION_ID for spawned
+// commands. AWS_SDK_UA_APP_ID is a standard AWS SDK setting, so only Kiro's
+// own values count.
+const detectKiro: AgentDetector = (environment) => {
+	const signals: string[] = [];
+	signalIf(
+		signals,
+		/^kiro-[a-z]+$/.test(value(environment, "AWS_SDK_UA_APP_ID") ?? ""),
+		"AWS_SDK_UA_APP_ID"
+	);
+	const sessionId = value(environment, "KIRO_SESSION_ID");
+	if (sessionId) {
+		signals.push("KIRO_SESSION_ID");
+	}
+	return signals.length > 0
+		? contractMatch({ id: "kiro", name: "Kiro" }, signals, { sessionId })
+		: null;
+};
+
+// Evidence: Junie CLI 4100.11 sets MATTERHORN_TASK (to an empty string) and
+// MATTERHORN_SESSION_ID for agent shell commands. Its launcher's JUNIE_DATA
+// and JUNIE_SHIM_PATH are inherited incidentally and are not markers:
+// https://github.com/JetBrains/junie/blob/0fa19c7350066d5bc3f229803883c04fe1c6f92e/install.sh#L940-L949
+const detectJunie: AgentDetector = (environment) => {
+	const signals: string[] = [];
+	signalIf(
+		signals,
+		typeof environment.MATTERHORN_TASK === "string",
+		"MATTERHORN_TASK"
+	);
+	const sessionId = value(environment, "MATTERHORN_SESSION_ID");
+	if (sessionId) {
+		signals.push("MATTERHORN_SESSION_ID");
+	}
+	return signals.length > 0
+		? contractMatch({ id: "junie", name: "Junie" }, signals, { sessionId })
+		: null;
+};
+
+// Evidence: https://github.com/aaif-goose/goose/blob/059fee25f13fa92be561a7d42cdd04ececef5a98/crates/goose/src/agents/platform_extensions/developer/shell.rs#L616-L625
+// `goose term init` also exports AGENT_SESSION_ID into the user's own shell,
+// so it only supplies the session ID once a marker is present.
+const detectGoose: AgentDetector = (environment) => {
+	const signals: string[] = [];
+	const gooseMarker = signalIf(
+		signals,
+		isExact(environment, "GOOSE_TERMINAL", "1"),
+		"GOOSE_TERMINAL"
+	);
+	const genericMarker = signalIf(
+		signals,
+		isExact(environment, "AGENT", "goose"),
+		"AGENT"
+	);
+	if (!gooseMarker && !genericMarker) {
+		return null;
+	}
+	const sessionId = value(environment, "AGENT_SESSION_ID");
+	if (sessionId) {
+		signals.push("AGENT_SESSION_ID");
+	}
+	return contractMatch({ id: "goose", name: "Goose" }, signals, { sessionId });
+};
+
+// Evidence: https://github.com/cline/cline/blob/34c104e6fc49781cda4adcd73ffdccd8f029fef9/apps/vscode/src/hosts/vscode/terminal/VscodeTerminalRegistry.ts#L31
+// Set only on terminals Cline creates; its background execution mode and the
+// Cline CLI set no marker.
+const detectCline: AgentDetector = (environment) =>
+	isExact(environment, "CLINE_ACTIVE", "true")
+		? contractMatch({ id: "cline", name: "Cline" }, ["CLINE_ACTIVE"])
+		: null;
 
 // Evidence: VS Code Copilot agent child-process environment. Verified 2026-09-02.
 const detectVsCodeCopilot: AgentDetector = (environment) => {
@@ -302,28 +440,71 @@ export const agentDetectors: readonly AgentDetector[] = [
 	detectClaudeCode,
 	detectCodex,
 	detectAmp,
+	detectAntigravity,
 	detectGeminiCli,
 	detectAuggie,
 	detectCrush,
+	detectCopilotCli,
+	detectKiro,
+	detectJunie,
+	detectGoose,
+	detectCline,
 	detectVsCodeCopilot,
 	detectWarp,
 ];
+
+// The format gh accepts, bounded so an announced name is safe to record.
+const ANNOUNCED_NAME = /^[A-Za-z0-9_-]{1,64}$/;
+
+function explainsAnnouncement(match: AgentMatch, announced: string): boolean {
+	const { id } = match.harness;
+	return (
+		match.signals.includes("AI_AGENT") ||
+		announced === id ||
+		announced.startsWith(`${id}_`)
+	);
+}
+
+// AI_AGENT is the cross-agent marker proposed in
+// https://github.com/agentsmd/agents.md/issues/136 and read first by gh:
+// https://github.com/cli/cli/blob/0b6a11bba4dc02c30ef9fbdf2974f8d9c15dfdb9/internal/agents/detect.go#L59-L64
+// Any value no detector explains marks an agent cf does not yet recognise.
+function detectUnknownAgent(
+	environment: AgentEnvironment,
+	matches: readonly AgentMatch[]
+): AgentMatch | null {
+	const announced = value(environment, "AI_AGENT");
+	if (
+		!announced ||
+		matches.some((match) => explainsAnnouncement(match, announced))
+	) {
+		return null;
+	}
+	return contractMatch({ id: "unknown", name: "Unknown agent" }, ["AI_AGENT"], {
+		announcedName: ANNOUNCED_NAME.test(announced) ? announced : undefined,
+	});
+}
 
 export function detectAgentContext(
 	environment: AgentEnvironment = process.env,
 	detectors: readonly AgentDetector[] = agentDetectors
 ): AgentContext {
 	const matches: AgentMatch[] = [];
-	for (const detector of detectors) {
+	const collect = (detect: () => AgentMatch | null) => {
 		try {
-			const match = detector(environment);
+			const match = detect();
 			if (match) {
 				matches.push(match);
 			}
 		} catch {
 			// Detection is advisory and must never prevent a CLI request.
 		}
+	};
+	for (const detector of detectors) {
+		collect(() => detector(environment));
 	}
+	// Runs last so it claims only AI_AGENT values no detector explains.
+	collect(() => detectUnknownAgent(environment, matches));
 
 	return {
 		isAgentic: matches.length > 0,
@@ -332,6 +513,8 @@ export function detectAgentContext(
 		sessionId: matches.find((match) => match.sessionId)?.sessionId ?? null,
 		invocationId:
 			matches.find((match) => match.invocationId)?.invocationId ?? null,
+		announcedName:
+			matches.find((match) => match.announcedName)?.announcedName ?? null,
 		matches,
 	};
 }

@@ -5,4 +5,5 @@ export default {
 	method: "GET",
 	path: (request: Record<string, unknown>) =>
 		path`/accounts/${request.account_id}/zt_risk_scoring/summary`,
+	query: ["page", "per_page", "order_by", "direction"],
 } as const;

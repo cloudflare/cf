@@ -21,11 +21,11 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 zero-trust risk-scoring reset <user-id>\n\nResets risk scores for specified users, clearing their accumulated risk history."
+			"$0 zero-trust risk-scoring reset <user-id>\n\nResets the risk score of one user. Risk events before the reset do not count toward the score of the user."
 		)
 		.positional("user-id", {
 			type: "string",
-			description: "User ID",
+			description: "User ID (UUID v4).",
 			demandOption: true,
 		})
 		.option("dry-run", {

@@ -1371,6 +1371,38 @@
 			"hideCommand": false
 		},
 		{
+			"command": "cf accounts applications references",
+			"name": "references",
+			"fullPath": ["accounts", "applications", "references"],
+			"description": "List the resources in the account that reference a custom application, such as Gateway rules. This is the same list a delete of the application returns when it is rejected. A delete checks the references again, so the list can change before the delete runs.",
+			"summary": "Get application references",
+			"usage": "cf accounts applications references <id>",
+			"arguments": [
+				{
+					"name": "id",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "Application ID of a custom application in the account."
+				}
+			],
+			"options": [
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "action",
+			"hasRequestBody": false,
+			"httpMethod": "GET",
+			"apiPath": "/accounts/{account_id}/resource-library/applications/{id}/references",
+			"operationId": "accounts.applications.references",
+			"hideCommand": false
+		},
+		{
 			"command": "cf accounts applications update",
 			"name": "update",
 			"fullPath": ["accounts", "applications", "update"],
@@ -14533,6 +14565,30 @@
 					"description": "Usage depends on specific alert type"
 				},
 				{
+					"name": "filters-alert-trigger-preferences-long-window",
+					"type": "string",
+					"required": false,
+					"description": "Usage depends on specific alert type. Takes at most one value, a duration such as `4h`. custom_analytics requires it when alert_trigger_preferences is slo, zscore_spike, zscore_drop or zscore_spike_and_drop. There it must be at most 24h, and for the z-score types at least six times alert_trigger_preferences_short_window."
+				},
+				{
+					"name": "filters-alert-trigger-preferences-minimum-threshold",
+					"type": "string",
+					"required": false,
+					"description": "Usage depends on specific alert type. Takes at most one value, a number as a string."
+				},
+				{
+					"name": "filters-alert-trigger-preferences-operator",
+					"type": "string",
+					"required": false,
+					"description": "Used for configuring custom_analytics, which requires it. Takes exactly one value, the operator that compares the result with alert_trigger_preferences_value. It must be `<` unless alert_trigger_preferences is threshold."
+				},
+				{
+					"name": "filters-alert-trigger-preferences-short-window",
+					"type": "string",
+					"required": false,
+					"description": "Usage depends on specific alert type. Takes at most one value, a duration such as `5m`. custom_analytics requires it, and it must be at least 1m there. queues_lag_alert requires it, at least 5m."
+				},
+				{
 					"name": "filters-alert-trigger-preferences-value",
 					"type": "string",
 					"required": false,
@@ -14573,6 +14629,12 @@
 					"type": "string",
 					"required": false,
 					"description": "Usage depends on specific alert type"
+				},
+				{
+					"name": "filters-execution-interval",
+					"type": "string",
+					"required": false,
+					"description": "Used for configuring custom_analytics when source is sql_api. Other sources reject it. Takes at most one value, how often the query runs, as a duration in whole seconds such as `5m`. It can't be shorter than the minimum for the query, which is 1m, or 10m for Log Explorer datasets. If it's omitted, the API sets it to that minimum."
 				},
 				{
 					"name": "filters-group-by",
@@ -14705,6 +14767,12 @@
 					"type": "string",
 					"required": false,
 					"description": "Usage depends on specific alert type"
+				},
+				{
+					"name": "filters-source",
+					"type": "string",
+					"required": false,
+					"description": "Used for configuring custom_analytics, which requires it. Takes exactly one value, the dataset the alert queries."
 				},
 				{
 					"name": "filters-status",
@@ -15240,6 +15308,30 @@
 					"description": "Usage depends on specific alert type"
 				},
 				{
+					"name": "filters-alert-trigger-preferences-long-window",
+					"type": "string",
+					"required": false,
+					"description": "Usage depends on specific alert type. Takes at most one value, a duration such as `4h`. custom_analytics requires it when alert_trigger_preferences is slo, zscore_spike, zscore_drop or zscore_spike_and_drop. There it must be at most 24h, and for the z-score types at least six times alert_trigger_preferences_short_window."
+				},
+				{
+					"name": "filters-alert-trigger-preferences-minimum-threshold",
+					"type": "string",
+					"required": false,
+					"description": "Usage depends on specific alert type. Takes at most one value, a number as a string."
+				},
+				{
+					"name": "filters-alert-trigger-preferences-operator",
+					"type": "string",
+					"required": false,
+					"description": "Used for configuring custom_analytics, which requires it. Takes exactly one value, the operator that compares the result with alert_trigger_preferences_value. It must be `<` unless alert_trigger_preferences is threshold."
+				},
+				{
+					"name": "filters-alert-trigger-preferences-short-window",
+					"type": "string",
+					"required": false,
+					"description": "Usage depends on specific alert type. Takes at most one value, a duration such as `5m`. custom_analytics requires it, and it must be at least 1m there. queues_lag_alert requires it, at least 5m."
+				},
+				{
 					"name": "filters-alert-trigger-preferences-value",
 					"type": "string",
 					"required": false,
@@ -15280,6 +15372,12 @@
 					"type": "string",
 					"required": false,
 					"description": "Usage depends on specific alert type"
+				},
+				{
+					"name": "filters-execution-interval",
+					"type": "string",
+					"required": false,
+					"description": "Used for configuring custom_analytics when source is sql_api. Other sources reject it. Takes at most one value, how often the query runs, as a duration in whole seconds such as `5m`. It can't be shorter than the minimum for the query, which is 1m, or 10m for Log Explorer datasets. If it's omitted, the API sets it to that minimum."
 				},
 				{
 					"name": "filters-group-by",
@@ -15412,6 +15510,12 @@
 					"type": "string",
 					"required": false,
 					"description": "Usage depends on specific alert type"
+				},
+				{
+					"name": "filters-source",
+					"type": "string",
+					"required": false,
+					"description": "Used for configuring custom_analytics, which requires it. Takes exactly one value, the dataset the alert queries."
 				},
 				{
 					"name": "filters-status",
@@ -37923,7 +38027,7 @@
 					"name": "alert-enabled",
 					"type": "boolean",
 					"required": false,
-					"description": "Deprecated and ignored: saved-query alerting and rules were removed.",
+					"description": "Send an hourly notification when new events match this saved view. Receive it by adding the view to a Threat Events saved query notification policy.",
 					"default": false
 				},
 				{
@@ -38120,7 +38224,7 @@
 					"name": "alert-enabled",
 					"type": "boolean",
 					"required": false,
-					"description": "Deprecated and ignored: saved-query alerting and rules were removed."
+					"description": "Send an hourly notification when new events match this saved view. Receive it by adding the view to a Threat Events saved query notification policy."
 				},
 				{
 					"name": "alert-rollup-enabled",
@@ -40859,7 +40963,7 @@
 					"name": "feed-id",
 					"type": "string",
 					"required": false,
-					"description": "Feed UUID filter. Omit to include articles from every account feed."
+					"description": "Repeatable feed UUID filter. An article matches any selected feed. Omit to include articles from every account feed."
 				},
 				{
 					"name": "article-id",
@@ -40937,7 +41041,23 @@
 					"name": "feed-category",
 					"type": "string",
 					"required": false,
-					"description": "Exact feed-category filter after trimming. Omit to include every category."
+					"description": "Exact match on a feed's legacy free-form category after trimming. Omit to include every category; to filter by the categories shown on feeds, use feed_category_id."
+				},
+				{
+					"name": "feed-category-id",
+					"type": "string",
+					"required": false,
+					"description": "Repeatable feed category UUID filter, using the ids from the feed categories list. An article matches when its feed has any selected category; feeds without a category never match.",
+					"enum": [
+						"b12a0fd6-f7b9-5393-9ef3-f888d506c550",
+						"d5b70eaa-626f-5761-b55b-6d9590df49fb",
+						"3b572d2b-890d-5286-9433-f18c85079030",
+						"17f90d3b-37d3-5241-8ad4-7d6abbc2006c",
+						"c68f28e9-7e8f-5d4b-853b-f3076893a9ee",
+						"bb0e4a94-38ab-5c14-80a7-28cee9f4b139",
+						"b1ef66d9-a73c-58dc-b269-22d34dfd11f4",
+						"ab02a976-0a20-5c76-a553-7f6325afacfe"
+					]
 				},
 				{
 					"name": "source-type",
@@ -41691,7 +41811,7 @@
 				"skills",
 				"update"
 			],
-			"description": "Replaces the ordered custom skills assigned to a Threat Signals feed. Requires a paid Threat Signals subscription.",
+			"description": "Replaces the ordered custom skills assigned to a Threat Signals feed. Requires a paid Threat Signals subscription. Adding an active Custom Skill that would put the feed above its per-feed limit (`cfone.threat.threat_signals_active_skills_per_feed`) returns 403 with `errors[0].reason` `threat_signals_feed_skill_limit`, and `errors[0].feed_custom_skill_limit` and `errors[0].feed_custom_skill_count` give the limit and current count. Removing or reordering skills is always allowed.",
 			"summary": "Set Threat Signals feed skills",
 			"usage": "cf cloudforce-one threat-signals feeds skills update <feed-id> [options]",
 			"arguments": [
@@ -41906,7 +42026,7 @@
 					"name": "feed-id",
 					"type": "string",
 					"required": false,
-					"description": "Optional feed UUID that restricts results to articles from that feed."
+					"description": "Optional repeatable feed UUID filter, up to 40 feeds. Results come only from articles in the selected feeds."
 				},
 				{
 					"name": "dry-run",
@@ -41927,7 +42047,7 @@
 			"command": "cf cloudforce-one threat-signals skills create",
 			"name": "create",
 			"fullPath": ["cloudforce-one", "threat-signals", "skills", "create"],
-			"description": "Creates a Custom Skill for the account. Free Threat Signals accounts cannot create Custom Skills.",
+			"description": "Creates an active Custom Skill for the account. Free Threat Signals accounts cannot create Custom Skills. When the account is at its active Custom Skill limit (`cfone.threat.threat_signals_skills`), returns 403 with `errors[0].reason` `threat_signals_skill_limit`, and `errors[0].custom_skill_limit` and `errors[0].custom_skill_count` give the limit and current count. Managed Default Skills do not count.",
 			"summary": "Create Threat Signals skill",
 			"usage": "cf cloudforce-one threat-signals skills create [options]",
 			"arguments": [],
@@ -42179,7 +42299,7 @@
 			"command": "cf cloudforce-one threat-signals skills update",
 			"name": "update",
 			"fullPath": ["cloudforce-one", "threat-signals", "skills", "update"],
-			"description": "Updates a Custom Skill. Managed Default Skills cannot be updated. Free Threat Signals accounts cannot update Custom Skills.",
+			"description": "Updates a Custom Skill. Managed Default Skills cannot be updated. Free Threat Signals accounts cannot update Custom Skills. Activating an inactive skill (`is_active` true) returns 403 with `errors[0].reason` `threat_signals_skill_limit` when the account is at its active Custom Skill limit, or `threat_signals_feed_skill_limit` (with `errors[0].feed_id`, `errors[0].feed_custom_skill_limit`, and `errors[0].feed_custom_skill_count`) when a feed it is assigned to is at its per-feed limit.",
 			"summary": "Update Threat Signals skill",
 			"usage": "cf cloudforce-one threat-signals skills update <skill-id> [options]",
 			"arguments": [
@@ -46095,6 +46215,108 @@
 			"hideCommand": false
 		},
 		{
+			"command": "cf d1 insights recommendations",
+			"name": "recommendations",
+			"fullPath": ["d1", "insights", "recommendations"],
+			"description": "List index recommendations for the databases in your account, or for the databases in `database_id`, from highest to lowest estimated impact. D1 generates recommendations in the background from recent query usage. Each run replaces the recommendations of the databases it analyzed. Recommendations that are not refreshed expire after 7 days. Not every database has recommendations. Recommendations are only generated and returned while `ai_enabled` is true in the account's D1 Insights settings. When it is false, the response is an empty list. To check or change the setting, use `GET` or `PUT /accounts/{account_id}/d1/insights/settings`.",
+			"summary": "List D1 Index Recommendations",
+			"usage": "cf d1 insights recommendations [options]",
+			"arguments": [],
+			"options": [
+				{
+					"name": "database-id",
+					"type": "string",
+					"required": false,
+					"description": "Only return recommendations for these databases, at most 50. Pass a comma-separated list or repeat the parameter. Defaults to all databases in the account. A database that is not in the account returns no recommendations."
+				},
+				{
+					"name": "limit",
+					"type": "number",
+					"required": false,
+					"description": "Maximum number of recommendations to return in a page."
+				},
+				{
+					"name": "cursor",
+					"type": "string",
+					"required": false,
+					"description": "`result_info.next_cursor` from the previous page. Pass the same `database_id` values as that request, or the request will fail."
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "action",
+			"hasRequestBody": false,
+			"httpMethod": "GET",
+			"apiPath": "/accounts/{account_id}/d1/insights/recommendations",
+			"operationId": "d1.insights.recommendations",
+			"hideCommand": false
+		},
+		{
+			"command": "cf d1 insights settings get",
+			"name": "get",
+			"fullPath": ["d1", "insights", "settings", "get"],
+			"description": "Get whether D1 Insights uses AI on this account's query data. While `ai_enabled` is true, D1 sends the account's query statements, query usage and database schemas to Workers AI to generate index recommendations, and `GET /accounts/{account_id}/d1/insights/recommendations` returns them. Until the account changes the setting with `PUT`, the default depends on the account's plan. Requires the Account Settings Read permission.",
+			"summary": "Get D1 Insights Settings",
+			"usage": "cf d1 insights settings get",
+			"arguments": [],
+			"options": [
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "read",
+			"hasRequestBody": false,
+			"httpMethod": "GET",
+			"apiPath": "/accounts/{account_id}/d1/insights/settings",
+			"operationId": "d1.insights.settings.get",
+			"hideCommand": false
+		},
+		{
+			"command": "cf d1 insights settings update",
+			"name": "update",
+			"fullPath": ["d1", "insights", "settings", "update"],
+			"description": "Turn AI use for D1 Insights on or off for every database in this account. When you turn it off, D1 stops generating index recommendations for the account and `GET /accounts/{account_id}/d1/insights/recommendations` returns an empty list. Existing recommendations are not deleted. They expire 7 days after they were generated, so any that have not expired are returned again if you turn it back on. Requires the Account Settings Write permission.",
+			"summary": "Update D1 Insights Settings",
+			"usage": "cf d1 insights settings update [options]",
+			"arguments": [],
+			"options": [
+				{
+					"name": "ai-enabled",
+					"type": "boolean",
+					"required": true,
+					"description": "Whether D1 Insights uses AI on this account's query data."
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "body",
+					"type": "string",
+					"required": false,
+					"description": "Raw JSON request body (bypasses individual flags)"
+				}
+			],
+			"category": "update",
+			"hasRequestBody": true,
+			"httpMethod": "PUT",
+			"apiPath": "/accounts/{account_id}/d1/insights/settings",
+			"operationId": "d1.insights.settings.update",
+			"hideCommand": false
+		},
+		{
 			"command": "cf d1 list",
 			"name": "list",
 			"fullPath": ["d1", "list"],
@@ -46120,6 +46342,22 @@
 					"type": "number",
 					"required": false,
 					"description": "Number of items per page."
+				},
+				{
+					"name": "fields",
+					"type": "string",
+					"required": false,
+					"description": "Comma-separated list of fields to include for each database. When omitted, every field except `recommendation_count` is returned.",
+					"enum": [
+						"uuid",
+						"name",
+						"created_at",
+						"version",
+						"jurisdiction",
+						"num_tables",
+						"file_size",
+						"recommendation_count"
+					]
 				},
 				{
 					"name": "dry-run",
@@ -48070,7 +48308,15 @@
 					"type": "string",
 					"required": false,
 					"description": "Field to order DNS records by.",
-					"enum": ["type", "name", "content", "ttl", "proxied"]
+					"enum": [
+						"type",
+						"name",
+						"content",
+						"ttl",
+						"proxied",
+						"created_on",
+						"modified_on"
+					]
 				},
 				{
 					"name": "direction",
@@ -61657,6 +61903,72 @@
 			"httpMethod": "PUT",
 			"apiPath": "/accounts/{account_id}/iam/user_groups/{user_group_id}",
 			"operationId": "iam.user-groups.update",
+			"hideCommand": false
+		},
+		{
+			"command": "cf images config edit",
+			"name": "edit",
+			"fullPath": ["images", "config", "edit"],
+			"description": "Update account-level Cloudflare Images settings. Only the settings included in the request are changed.",
+			"summary": "Update Images account configuration",
+			"usage": "cf images config edit [options]",
+			"arguments": [],
+			"options": [
+				{
+					"name": "flexible-variants",
+					"type": "boolean",
+					"required": false,
+					"description": "Whether flexible variants are enabled. When `true`, hosted images can be transformed with options in the URL (for example `https://imagedelivery.net/<ACCOUNT_HASH>/<IMAGE_ID>/w=400,sharpen=3`) instead of only through named variants. When `false` or absent, only named variants can be requested.\n"
+				},
+				{
+					"name": "preserve-content-credentials",
+					"type": "boolean",
+					"required": false,
+					"description": "Retain C2PA provenance metadata on images delivered from hosted Cloudflare Images. When enabled, Cloudflare keeps any existing Content Credentials in the source image and cryptographically signs the transformations it applies during delivery."
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "body",
+					"type": "string",
+					"required": false,
+					"description": "Raw JSON request body (bypasses individual flags)"
+				}
+			],
+			"category": "update",
+			"hasRequestBody": true,
+			"httpMethod": "PATCH",
+			"apiPath": "/accounts/{account_id}/images/v1/config",
+			"operationId": "images.config.edit",
+			"hideCommand": false
+		},
+		{
+			"command": "cf images config get",
+			"name": "get",
+			"fullPath": ["images", "config", "get"],
+			"description": "Get account-level Cloudflare Images settings, such as flexible variants and Content Credentials preservation. Settings that are disabled may be omitted from the response.",
+			"summary": "Get Images account configuration",
+			"usage": "cf images config get",
+			"arguments": [],
+			"options": [
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "read",
+			"hasRequestBody": false,
+			"httpMethod": "GET",
+			"apiPath": "/accounts/{account_id}/images/v1/config",
+			"operationId": "images.config.get",
 			"hideCommand": false
 		},
 		{
@@ -82562,6 +82874,114 @@
 			"hideCommand": false
 		},
 		{
+			"command": "cf network-quality settings get",
+			"name": "get",
+			"fullPath": ["network-quality", "settings", "get"],
+			"description": "Returns Network Quality Test settings for an account.",
+			"summary": "Get account Network Quality Test settings",
+			"usage": "cf network-quality settings get",
+			"arguments": [],
+			"options": [
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "read",
+			"hasRequestBody": false,
+			"httpMethod": "GET",
+			"apiPath": "/accounts/{account_id}/networkquality/settings",
+			"operationId": "network-quality.settings.get",
+			"hideCommand": false
+		},
+		{
+			"command": "cf network-quality settings update",
+			"name": "update",
+			"fullPath": ["network-quality", "settings", "update"],
+			"description": "Updates Network Quality Test settings for an account.",
+			"summary": "Update account Network Quality Test settings",
+			"usage": "cf network-quality settings update [options]",
+			"arguments": [],
+			"options": [
+				{
+					"name": "enabled",
+					"type": "boolean",
+					"required": true,
+					"description": "The enabled field"
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "body",
+					"type": "string",
+					"required": false,
+					"description": "Raw JSON request body (bypasses individual flags)"
+				}
+			],
+			"category": "update",
+			"hasRequestBody": true,
+			"httpMethod": "PUT",
+			"apiPath": "/accounts/{account_id}/networkquality/settings",
+			"operationId": "network-quality.settings.update",
+			"hideCommand": false
+		},
+		{
+			"command": "cf network-quality tokens create",
+			"name": "create",
+			"fullPath": ["network-quality", "tokens", "create"],
+			"description": "Issues an authorization token for a Network Quality Test client.",
+			"summary": "Create a Network Quality Test authorization token",
+			"usage": "cf network-quality tokens create [options]",
+			"arguments": [],
+			"options": [
+				{
+					"name": "bytes",
+					"type": "number",
+					"required": true,
+					"description": "Customer-defined byte budget signed into the token for downstream enforcement and billing"
+				},
+				{
+					"name": "eyeball-id",
+					"type": "string",
+					"required": true,
+					"description": "The eyeball_id field"
+				},
+				{
+					"name": "source-ips",
+					"type": "string",
+					"required": false,
+					"description": "The source_ips field"
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "body",
+					"type": "string",
+					"required": false,
+					"description": "Raw JSON request body (bypasses individual flags)"
+				}
+			],
+			"category": "create",
+			"hasRequestBody": true,
+			"httpMethod": "POST",
+			"apiPath": "/accounts/{account_id}/networkquality/token",
+			"operationId": "network-quality.tokens.create",
+			"hideCommand": false
+		},
+		{
 			"command": "cf o11y agents traces events",
 			"name": "events",
 			"fullPath": ["o11y", "agents", "traces", "events"],
@@ -82837,6 +83257,38 @@
 			"httpMethod": "DELETE",
 			"apiPath": "/accounts/{account_id}/workers/observability/destinations/{slug}",
 			"operationId": "o11y.destinations.delete",
+			"hideCommand": false
+		},
+		{
+			"command": "cf o11y destinations get",
+			"name": "get",
+			"fullPath": ["o11y", "destinations", "get"],
+			"description": "Get a Workers Observability Telemetry Destination.",
+			"summary": "Get Destination",
+			"usage": "cf o11y destinations get <slug>",
+			"arguments": [
+				{
+					"name": "slug",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "The destination's slug, which is its name."
+				}
+			],
+			"options": [
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "read",
+			"hasRequestBody": false,
+			"httpMethod": "GET",
+			"apiPath": "/accounts/{account_id}/workers/observability/destinations/{slug}",
+			"operationId": "o11y.destinations.get",
 			"hideCommand": false
 		},
 		{
@@ -85974,22 +86426,20 @@
 			"hideCommand": false
 		},
 		{
-			"command": "cf organizations members batch create",
-			"name": "create",
-			"fullPath": ["organizations", "members", "batch", "create"],
+			"command": "cf organizations members bulk-create",
+			"name": "bulk-create",
+			"fullPath": ["organizations", "members", "bulk-create"],
 			"description": "Batch create multiple memberships that grant access to a specific Organization.",
 			"summary": "Batch create organization members",
-			"usage": "cf organizations members batch create <organization-id> [options]",
-			"arguments": [
+			"usage": "cf organizations members bulk-create [options]",
+			"arguments": [],
+			"options": [
 				{
 					"name": "organization-id",
-					"position": 0,
 					"type": "string",
 					"required": true,
 					"description": "Organization ID"
-				}
-			],
-			"options": [
+				},
 				{
 					"name": "members",
 					"type": "string",
@@ -86010,11 +86460,11 @@
 					"description": "Raw JSON request body (bypasses individual flags)"
 				}
 			],
-			"category": "create",
+			"category": "action",
 			"hasRequestBody": true,
 			"httpMethod": "POST",
 			"apiPath": "/organizations/{organization_id}/members:batchCreate",
-			"operationId": "organizations.members.batch.create",
+			"operationId": "organizations.members.bulk-create",
 			"hideCommand": false
 		},
 		{
@@ -112852,7 +113302,7 @@
 					"type": "string",
 					"required": false,
 					"description": "The recording_config.storage_config.type field",
-					"enum": ["gcs", "aws", "azure", "digitalocean", "sftp"]
+					"enum": ["gcs", "aws", "azure", "digitalocean", "sftp", "cloudflare"]
 				},
 				{
 					"name": "recording-config-video-config-codec",
@@ -113096,7 +113546,7 @@
 					"type": "string",
 					"required": false,
 					"description": "The recording_config.storage_config.type field",
-					"enum": ["gcs", "aws", "azure", "digitalocean", "sftp"]
+					"enum": ["gcs", "aws", "azure", "digitalocean", "sftp", "cloudflare"]
 				},
 				{
 					"name": "recording-config-video-config-codec",
@@ -114050,7 +114500,7 @@
 					"type": "string",
 					"required": false,
 					"description": "The recording_config.storage_config.type field",
-					"enum": ["gcs", "aws", "azure", "digitalocean", "sftp"]
+					"enum": ["gcs", "aws", "azure", "digitalocean", "sftp", "cloudflare"]
 				},
 				{
 					"name": "recording-config-video-config-codec",
@@ -115967,7 +116417,7 @@
 					"type": "string",
 					"required": false,
 					"description": "The storage_config.type field",
-					"enum": ["gcs", "aws", "azure", "digitalocean", "sftp"]
+					"enum": ["gcs", "aws", "azure", "digitalocean", "sftp", "cloudflare"]
 				},
 				{
 					"name": "url",
@@ -125509,6 +125959,12 @@
 					"enum": ["CNAME", "ADDRESS"]
 				},
 				{
+					"name": "edge-alpn-protocols",
+					"type": "string",
+					"required": false,
+					"description": "ALPN protocol IDs the edge offers on client TLS connections, in preference order, for example `[\"h2\"]` for gRPC or `[\"postgresql\"]` for PostgreSQL direct TLS. When set, clients that offer none of these protocols, or no ALPN at all, are disconnected. Empty means no ALPN.\nNotes: Requires tls \"flexible\", \"full\" or \"strict\", and is not available with traffic_type \"ftp\". IDs are case-sensitive and unique, each 1 to 255 bytes; the list encodes to at most 65535 bytes, counting each ID plus one length byte."
+				},
+				{
 					"name": "edge-ips-connectivity",
 					"type": "string",
 					"required": false,
@@ -125786,6 +126242,12 @@
 					"required": false,
 					"description": "The type of DNS record associated with the application.",
 					"enum": ["CNAME", "ADDRESS"]
+				},
+				{
+					"name": "edge-alpn-protocols",
+					"type": "string",
+					"required": false,
+					"description": "ALPN protocol IDs the edge offers on client TLS connections, in preference order, for example `[\"h2\"]` for gRPC or `[\"postgresql\"]` for PostgreSQL direct TLS. When set, clients that offer none of these protocols, or no ALPN at all, are disconnected. Empty means no ALPN.\nNotes: Requires tls \"flexible\", \"full\" or \"strict\", and is not available with traffic_type \"ftp\". IDs are case-sensitive and unique, each 1 to 255 bytes; the list encodes to at most 65535 bytes, counting each ID plus one length byte."
 				},
 				{
 					"name": "edge-ips-connectivity",
@@ -131360,9 +131822,15 @@
 			"fullPath": ["stream", "webhooks", "update"],
 			"description": "Create a webhook for notifications about on-demand video uploads.",
 			"summary": "Create VOD webhooks",
-			"usage": "cf stream webhooks update",
+			"usage": "cf stream webhooks update [options]",
 			"arguments": [],
 			"options": [
+				{
+					"name": "notification-url",
+					"type": "string",
+					"required": false,
+					"description": "The URL where webhooks will be sent."
+				},
 				{
 					"name": "dry-run",
 					"type": "boolean",
@@ -133953,14 +134421,12 @@
 						"BW",
 						"BY",
 						"CA",
-						"CD",
 						"CH",
 						"CI",
 						"CL",
 						"CM",
 						"CO",
 						"CR",
-						"CW",
 						"CY",
 						"CZ",
 						"DE",
@@ -133977,17 +134443,14 @@
 						"FJ",
 						"FR",
 						"GB",
-						"GD",
 						"GE",
 						"GH",
 						"GR",
 						"GT",
-						"GU",
 						"GY",
 						"HK",
 						"HN",
 						"HR",
-						"HT",
 						"HU",
 						"ID",
 						"IE",
@@ -134008,21 +134471,17 @@
 						"LA",
 						"LB",
 						"LK",
-						"LR",
 						"LT",
 						"LU",
 						"LV",
-						"MA",
 						"MD",
 						"MG",
 						"MK",
-						"MM",
 						"MN",
 						"MO",
 						"MT",
 						"MU",
 						"MV",
-						"MW",
 						"MX",
 						"MY",
 						"MZ",
@@ -134058,7 +134517,6 @@
 						"SN",
 						"SR",
 						"TH",
-						"TJ",
 						"TN",
 						"TR",
 						"TT",
@@ -134067,7 +134525,6 @@
 						"UA",
 						"UG",
 						"US",
-						"UZ",
 						"VN",
 						"ZA",
 						"ZM",
@@ -136870,6 +137327,38 @@
 			"httpMethod": "DELETE",
 			"apiPath": "/user/subscriptions/{identifier}",
 			"operationId": "user.subscriptions.delete",
+			"hideCommand": false
+		},
+		{
+			"command": "cf user subscriptions get",
+			"name": "get",
+			"fullPath": ["user", "subscriptions", "get"],
+			"description": "Gets a user's subscription by identifier.",
+			"summary": "Get User Subscription",
+			"usage": "cf user subscriptions get <identifier>",
+			"arguments": [
+				{
+					"name": "identifier",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "Subscription identifier tag."
+				}
+			],
+			"options": [
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "read",
+			"hasRequestBody": false,
+			"httpMethod": "GET",
+			"apiPath": "/user/subscriptions/{identifier}",
+			"operationId": "user.subscriptions.get",
 			"hideCommand": false
 		},
 		{
@@ -142066,6 +142555,90 @@
 			"httpMethod": "GET",
 			"apiPath": "/accounts/{account_id}/workers/workers",
 			"operationId": "workers.list",
+			"hideCommand": false
+		},
+		{
+			"command": "cf workers previews deployments profile",
+			"name": "profile",
+			"fullPath": ["workers", "previews", "deployments", "profile"],
+			"description": "Captures a CPU or heap profile from a recently active isolate running the specified Preview deployment. This endpoint requires the Worker Preview profiling feature to be enabled for the account. If the deployment's bundle is identical to another deployed Worker version in the account, the profile may be captured from an isolate running that version.",
+			"summary": "Profile Preview Deployment",
+			"usage": "cf workers previews deployments profile <deployment-id> [options]",
+			"arguments": [
+				{
+					"name": "deployment-id",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "Identifier for the deployment, which can be a UUID, a UUID prefix (minimum length 8), or the literal \"latest\" to select the most recently created deployment."
+				}
+			],
+			"options": [
+				{
+					"name": "worker",
+					"type": "string",
+					"required": true,
+					"description": "Identifies the Worker by ID or name.",
+					"alias": ["script-name", "worker-id"]
+				},
+				{
+					"name": "preview-id",
+					"type": "string",
+					"required": true,
+					"description": "Identifier for the Preview, which can be ID, slug, or URL-encoded name."
+				},
+				{
+					"name": "actor-id",
+					"type": "string",
+					"required": false,
+					"description": "Identifies the exact Durable Object actor to profile. Must be specified together with namespace_id. The actor must currently be active and running the requested version."
+				},
+				{
+					"name": "duration-ms",
+					"type": "number",
+					"required": true,
+					"description": "Profile duration in milliseconds."
+				},
+				{
+					"name": "namespace-id",
+					"type": "string",
+					"required": false,
+					"description": "Identifies the Durable Object namespace containing the actor to profile. Must be specified together with actor_id."
+				},
+				{
+					"name": "profile-type",
+					"type": "string",
+					"required": false,
+					"description": "The profile_type field",
+					"default": "cpu",
+					"enum": ["cpu", "heap"]
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "body",
+					"type": "string",
+					"required": false,
+					"description": "Raw JSON request body (bypasses individual flags)"
+				},
+				{
+					"name": "text",
+					"type": "boolean",
+					"required": false,
+					"description": "Decode the response body as UTF-8 text instead of writing raw bytes",
+					"default": false
+				}
+			],
+			"category": "action",
+			"hasRequestBody": true,
+			"httpMethod": "POST",
+			"apiPath": "/accounts/{account_id}/workers/workers/{worker_id}/previews/{preview_id}/deployments/{deployment_id}/profile",
+			"operationId": "workers.previews.deployments.profile",
 			"hideCommand": false
 		},
 		{
@@ -154791,7 +155364,7 @@
 			"command": "cf zero-trust cws policies delete",
 			"name": "delete",
 			"fullPath": ["zero-trust", "cws", "policies", "delete"],
-			"description": "Deletes the policy and cascades its policy-set membership rows. The policy sets remain.",
+			"description": "Deletes the policy when no policy set references it. If referenced, the request is rejected with the policy set IDs and names; detach the policy first.",
 			"summary": "Delete a policy",
 			"usage": "cf zero-trust cws policies delete <policy-id>",
 			"arguments": [
@@ -155071,7 +155644,7 @@
 			"command": "cf zero-trust cws policy-sets delete",
 			"name": "delete",
 			"fullPath": ["zero-trust", "cws", "policy-sets", "delete"],
-			"description": "Deletes the policy set and cascades its deployment attachment and policy and workload membership rows. The referenced deployments, policies, and workloads remain.",
+			"description": "Deletes the policy set if it is not attached to a deployment, then removes its policy and workload membership rows. When deployments still reference it, the error identifies each deployment by ID and name so those relationships can be removed first. Referenced policies and workloads remain.",
 			"summary": "Delete a policy set",
 			"usage": "cf zero-trust cws policy-sets delete <policy-set-id>",
 			"arguments": [
@@ -155911,22 +156484,26 @@
 			"hideCommand": false
 		},
 		{
-			"command": "cf zero-trust cws tenant-structures nodes batch",
-			"name": "batch",
-			"fullPath": ["zero-trust", "cws", "tenant-structures", "nodes", "batch"],
+			"command": "cf zero-trust cws tenant-structures nodes bulk-apply",
+			"name": "bulk-apply",
+			"fullPath": [
+				"zero-trust",
+				"cws",
+				"tenant-structures",
+				"nodes",
+				"bulk-apply"
+			],
 			"description": "Atomically validates and applies 1 to 500 unordered node operations. Creates may reference new parents but cannot reuse a native_id deleted in the same batch. Maximum body size: 1 MiB.",
 			"summary": "Apply a batch of tenant node mutations",
-			"usage": "cf zero-trust cws tenant-structures nodes batch <structure-id> [options]",
-			"arguments": [
+			"usage": "cf zero-trust cws tenant-structures nodes bulk-apply [options]",
+			"arguments": [],
+			"options": [
 				{
 					"name": "structure-id",
-					"position": 0,
 					"type": "string",
 					"required": true,
 					"description": "ID of the parent tenant structure"
-				}
-			],
-			"options": [
+				},
 				{
 					"name": "creates",
 					"type": "string",
@@ -155971,7 +156548,7 @@
 			"hasRequestBody": true,
 			"httpMethod": "POST",
 			"apiPath": "/accounts/{account_id}/cws/tenant-structures/{structure_id}/nodes/batch",
-			"operationId": "zero-trust.cws.tenant-structures.nodes.batch",
+			"operationId": "zero-trust.cws.tenant-structures.nodes.bulk-apply",
 			"hideCommand": false
 		},
 		{
@@ -156383,7 +156960,7 @@
 			"command": "cf zero-trust cws workloads delete",
 			"name": "delete",
 			"fullPath": ["zero-trust", "cws", "workloads", "delete"],
-			"description": "Deletes the workload if it is not targeted by a policy set.",
+			"description": "Deletes the workload if it is not targeted by a policy set. When policy sets still reference it, the error identifies each policy set by ID and name so those relationships can be removed first.",
 			"summary": "Delete a workload",
 			"usage": "cf zero-trust cws workloads delete <workload-id>",
 			"arguments": [
@@ -169768,7 +170345,7 @@
 			"command": "cf zero-trust risk-scoring behaviours get",
 			"name": "get",
 			"fullPath": ["zero-trust", "risk-scoring", "behaviours", "get"],
-			"description": "Retrieves configured risk score behaviors that define how user actions affect their overall risk score.",
+			"description": "Gets all risk behaviors for an account and their configuration. The response omits a disabled behavior when the account does not have the gates or entitlements for that behavior.",
 			"summary": "Get all behaviors and associated configuration",
 			"usage": "cf zero-trust risk-scoring behaviours get",
 			"arguments": [],
@@ -169789,10 +170366,202 @@
 			"hideCommand": false
 		},
 		{
+			"command": "cf zero-trust risk-scoring behaviours high-dlp get",
+			"name": "get",
+			"fullPath": [
+				"zero-trust",
+				"risk-scoring",
+				"behaviours",
+				"high-dlp",
+				"get"
+			],
+			"description": "Gets the high_dlp risk behavior and its DLP configuration. Returns 404 when the behavior is disabled and the account does not have the gates or entitlements for it.",
+			"summary": "Get the high_dlp risk behavior",
+			"usage": "cf zero-trust risk-scoring behaviours high-dlp get",
+			"arguments": [],
+			"options": [
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "read",
+			"hasRequestBody": false,
+			"httpMethod": "GET",
+			"apiPath": "/accounts/{account_id}/zt_risk_scoring/behaviors/high_dlp",
+			"operationId": "zero-trust.risk-scoring.behaviours.high-dlp.get",
+			"hideCommand": false
+		},
+		{
+			"command": "cf zero-trust risk-scoring behaviours high-dlp update",
+			"name": "update",
+			"fullPath": [
+				"zero-trust",
+				"risk-scoring",
+				"behaviours",
+				"high-dlp",
+				"update"
+			],
+			"description": "Updates the high_dlp risk behavior and its DLP configuration. Returns 404 when the account does not have the gates or entitlements for the behavior.",
+			"summary": "Update the high_dlp risk behavior",
+			"usage": "cf zero-trust risk-scoring behaviours high-dlp update [options]",
+			"arguments": [],
+			"options": [
+				{
+					"name": "dlp-config-duration-secs",
+					"type": "number",
+					"required": false,
+					"description": "Rolling window in seconds, from 60 to 172800."
+				},
+				{
+					"name": "dlp-config-hits",
+					"type": "number",
+					"required": false,
+					"description": "Number of DLP policy matches that triggers the behavior."
+				},
+				{
+					"name": "enabled",
+					"type": "boolean",
+					"required": true,
+					"description": "Whether the behavior counts toward the risk score."
+				},
+				{
+					"name": "points",
+					"type": "number",
+					"required": false,
+					"description": "Risk score points of the behavior. A null value is the same as an omitted value."
+				},
+				{
+					"name": "risk-level",
+					"type": "string",
+					"required": false,
+					"description": "Risk level of a behavior or an event.",
+					"enum": ["info", "low", "medium", "high"]
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "body",
+					"type": "string",
+					"required": false,
+					"description": "Raw JSON request body (bypasses individual flags)"
+				}
+			],
+			"category": "update",
+			"hasRequestBody": true,
+			"httpMethod": "PUT",
+			"apiPath": "/accounts/{account_id}/zt_risk_scoring/behaviors/high_dlp",
+			"operationId": "zero-trust.risk-scoring.behaviours.high-dlp.update",
+			"hideCommand": false
+		},
+		{
+			"command": "cf zero-trust risk-scoring behaviours single get",
+			"name": "get",
+			"fullPath": ["zero-trust", "risk-scoring", "behaviours", "single", "get"],
+			"description": "Gets one risk behavior that has no additional configuration. Returns 404 when the behavior is disabled and the account does not have the gates or entitlements for it.",
+			"summary": "Get a risk behavior",
+			"usage": "cf zero-trust risk-scoring behaviours single get <behavior-id>",
+			"arguments": [
+				{
+					"name": "behavior-id",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "ID of a risk behavior that has no additional configuration."
+				}
+			],
+			"options": [
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "read",
+			"hasRequestBody": false,
+			"httpMethod": "GET",
+			"apiPath": "/accounts/{account_id}/zt_risk_scoring/behaviors/{behavior_id}",
+			"operationId": "zero-trust.risk-scoring.behaviours.single.get",
+			"hideCommand": false
+		},
+		{
+			"command": "cf zero-trust risk-scoring behaviours single update",
+			"name": "update",
+			"fullPath": [
+				"zero-trust",
+				"risk-scoring",
+				"behaviours",
+				"single",
+				"update"
+			],
+			"description": "Updates one risk behavior that has no additional configuration. Returns 404 when the account does not have the gates or entitlements for the behavior.",
+			"summary": "Update a risk behavior",
+			"usage": "cf zero-trust risk-scoring behaviours single update <behavior-id> [options]",
+			"arguments": [
+				{
+					"name": "behavior-id",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "ID of a risk behavior that has no additional configuration."
+				}
+			],
+			"options": [
+				{
+					"name": "enabled",
+					"type": "boolean",
+					"required": true,
+					"description": "Whether the behavior counts toward the risk score."
+				},
+				{
+					"name": "points",
+					"type": "number",
+					"required": false,
+					"description": "Risk score points of the behavior. A null value is the same as an omitted value."
+				},
+				{
+					"name": "risk-level",
+					"type": "string",
+					"required": false,
+					"description": "Risk level of a behavior or an event.",
+					"enum": ["info", "low", "medium", "high"]
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "body",
+					"type": "string",
+					"required": false,
+					"description": "Raw JSON request body (bypasses individual flags)"
+				}
+			],
+			"category": "update",
+			"hasRequestBody": true,
+			"httpMethod": "PUT",
+			"apiPath": "/accounts/{account_id}/zt_risk_scoring/behaviors/{behavior_id}",
+			"operationId": "zero-trust.risk-scoring.behaviours.single.update",
+			"hideCommand": false
+		},
+		{
 			"command": "cf zero-trust risk-scoring behaviours update",
 			"name": "update",
 			"fullPath": ["zero-trust", "risk-scoring", "behaviours", "update"],
-			"description": "Updates risk score behavior configurations, defining weights and thresholds for risk calculation.",
+			"description": "Updates the configuration of one or more risk behaviors for an account. The server skips an unknown behavior, and a behavior that the account does not have the gates or entitlements for. The response contains all behaviors for the account.",
 			"summary": "Update configuration for risk behaviors",
 			"usage": "cf zero-trust risk-scoring behaviours update [options]",
 			"arguments": [],
@@ -169801,7 +170570,7 @@
 					"name": "behaviors",
 					"type": "string",
 					"required": true,
-					"description": "The behaviors field. Provide as a JSON object or @path/to/file.json. Shape: {\"<key>\": {...}}."
+					"description": "Settings for each behavior to update, keyed by behavior ID. Provide as a JSON object or @path/to/file.json. Shape: {\"<key>\": {...}}."
 				},
 				{
 					"name": "dry-run",
@@ -169825,22 +170594,114 @@
 			"hideCommand": false
 		},
 		{
+			"command": "cf zero-trust risk-scoring event-clusters list",
+			"name": "list",
+			"fullPath": ["zero-trust", "risk-scoring", "event-clusters", "list"],
+			"description": "Lists the risk events of one user, grouped by calendar day in the requested time zone. Each cluster contains at most 25 events, oldest first. The time range is at most 30 days. The server reads risk events from at most 180 days before the current time. Returns 404 when the request reaches a server outside of the configured region of the account.",
+			"summary": "List risk event clusters for a specific user",
+			"usage": "cf zero-trust risk-scoring event-clusters list [options]",
+			"arguments": [],
+			"options": [
+				{
+					"name": "user-id",
+					"type": "string",
+					"required": true,
+					"description": "User ID (UUID v4)."
+				},
+				{
+					"name": "timestamp-between",
+					"type": "string",
+					"required": false,
+					"description": "Time range as <start_seconds>:<end_seconds> in Unix epoch seconds. The default is the last\n7 days. The server returns 400 when the range is longer than 30 days."
+				},
+				{
+					"name": "time-zone",
+					"type": "string",
+					"required": false,
+					"description": "IANA time zone name that sets the calendar day of each cluster."
+				},
+				{
+					"name": "page",
+					"type": "number",
+					"required": false,
+					"description": "Page number, starting at 1."
+				},
+				{
+					"name": "per-page",
+					"type": "number",
+					"required": false,
+					"description": "Number of clusters per page. The server uses 10 for a larger value."
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "read",
+			"hasRequestBody": false,
+			"httpMethod": "GET",
+			"apiPath": "/accounts/{account_id}/zt_risk_scoring/{user_id}/event_clusters",
+			"operationId": "zero-trust.risk-scoring.event-clusters.list",
+			"hideCommand": false
+		},
+		{
 			"command": "cf zero-trust risk-scoring get",
 			"name": "get",
 			"fullPath": ["zero-trust", "risk-scoring", "get"],
-			"description": "Retrieves the detailed risk score breakdown for a specific user, including contributing factors.",
+			"description": "Gets the risk level, the last reset time, and the risk events of one user. The server reads risk events from at most 180 days before the current time, and after the last reset of the user. Returns 404 when the request reaches a server outside of the configured region of the account.",
 			"summary": "Get risk event/score information for a specific user",
-			"usage": "cf zero-trust risk-scoring get <user-id>",
+			"usage": "cf zero-trust risk-scoring get <user-id> [options]",
 			"arguments": [
 				{
 					"name": "user-id",
 					"position": 0,
 					"type": "string",
 					"required": true,
-					"description": "User ID"
+					"description": "User ID (UUID v4)."
 				}
 			],
 			"options": [
+				{
+					"name": "timestamp-between",
+					"type": "string",
+					"required": false,
+					"description": "Time range as <start_seconds>:<end_seconds> in Unix epoch seconds. The start must be before\nthe end."
+				},
+				{
+					"name": "time-zone",
+					"type": "string",
+					"required": false,
+					"description": "IANA time zone name. The server validates the value. The value does not change the response."
+				},
+				{
+					"name": "page",
+					"type": "number",
+					"required": false,
+					"description": "Page number, starting at 1."
+				},
+				{
+					"name": "per-page",
+					"type": "number",
+					"required": false,
+					"description": "Number of results per page. The server uses 100 for a larger value."
+				},
+				{
+					"name": "order-by",
+					"type": "string",
+					"required": false,
+					"description": "Field to sort the events by.",
+					"enum": ["timestamp", "risk_level"]
+				},
+				{
+					"name": "direction",
+					"type": "string",
+					"required": false,
+					"description": "Sort direction.",
+					"enum": ["asc", "desc"]
+				},
 				{
 					"name": "dry-run",
 					"type": "boolean",
@@ -170099,7 +170960,7 @@
 			"command": "cf zero-trust risk-scoring reset",
 			"name": "reset",
 			"fullPath": ["zero-trust", "risk-scoring", "reset"],
-			"description": "Resets risk scores for specified users, clearing their accumulated risk history.",
+			"description": "Resets the risk score of one user. Risk events before the reset do not count toward the score of the user.",
 			"summary": "Clear the risk score for a particular user",
 			"usage": "cf zero-trust risk-scoring reset <user-id>",
 			"arguments": [
@@ -170108,7 +170969,7 @@
 					"position": 0,
 					"type": "string",
 					"required": true,
-					"description": "User ID"
+					"description": "User ID (UUID v4)."
 				}
 			],
 			"options": [
@@ -170139,11 +171000,37 @@
 			"command": "cf zero-trust risk-scoring summary get",
 			"name": "get",
 			"fullPath": ["zero-trust", "risk-scoring", "summary", "get"],
-			"description": "Gets an aggregate summary of risk scores across the account, including distribution and trends.",
+			"description": "Gets the users in an account that have risk events, with the highest risk level, the event count, and the time of the last event for each user. The server reads risk events from at most 180 days before the current time, and after the last reset of each user. Returns 404 when the request reaches a server outside of the configured region of the account.",
 			"summary": "Get risk score info for all users in the account",
-			"usage": "cf zero-trust risk-scoring summary get",
+			"usage": "cf zero-trust risk-scoring summary get [options]",
 			"arguments": [],
 			"options": [
+				{
+					"name": "page",
+					"type": "number",
+					"required": false,
+					"description": "Page number, starting at 1."
+				},
+				{
+					"name": "per-page",
+					"type": "number",
+					"required": false,
+					"description": "Number of results per page. The server uses 100 for a larger value."
+				},
+				{
+					"name": "order-by",
+					"type": "string",
+					"required": false,
+					"description": "Field to sort the users by.",
+					"enum": ["last_event", "event_count", "max_risk_level"]
+				},
+				{
+					"name": "direction",
+					"type": "string",
+					"required": false,
+					"description": "Sort direction.",
+					"enum": ["asc", "desc"]
+				},
 				{
 					"name": "dry-run",
 					"type": "boolean",
@@ -171883,7 +172770,7 @@
 			"command": "cf zones subscriptions create",
 			"name": "create",
 			"fullPath": ["zones", "subscriptions", "create"],
-			"description": "Create a zone subscription, either plan or add-ons.",
+			"description": "Create a zone subscription, either plan or add-ons. Requesting the `free` rate plan does not create a subscription.",
 			"summary": "Create Zone Subscription",
 			"usage": "cf zones subscriptions create [options]",
 			"arguments": [],
@@ -172006,7 +172893,7 @@
 			"command": "cf zones subscriptions get",
 			"name": "get",
 			"fullPath": ["zones", "subscriptions", "get"],
-			"description": "Lists zone subscription details.",
+			"description": "Lists zone subscription details. Zones on the Free plan normally have no zone subscription, so this returns 404 with error code 1207.",
 			"summary": "Zone Subscription Details",
 			"usage": "cf zones subscriptions get",
 			"arguments": [],
@@ -172030,7 +172917,7 @@
 			"command": "cf zones subscriptions update",
 			"name": "update",
 			"fullPath": ["zones", "subscriptions", "update"],
-			"description": "Updates zone subscriptions, either plan or add-ons.",
+			"description": "Updates zone subscriptions, either plan or add-ons. Updating to the `free` rate plan downgrades the zone to the Free plan, after which the zone has no zone subscription.",
 			"summary": "Update Zone Subscription",
 			"usage": "cf zones subscriptions update [options]",
 			"arguments": [],
@@ -172604,6 +173491,7 @@
 		"custom-pages account-custom-pages preview-tokens": "Preview tokens for account-level custom pages",
 		"d1": "D1 is Cloudflare's managed, serverless database with SQLite's SQL semantics, built-in disaster recovery, and Worker and HTTP API access.",
 		"d1 insights": "show usage insights for the D1 databases in your account",
+		"d1 insights settings": "turn AI-generated D1 Insights on or off for your account",
 		"d1 time-travel": "use specific point-in-time backups of your D1 database",
 		"d1 migrations": "Create, list, and apply D1 database migrations",
 		"diagnostics": "Network diagnostic tools — traceroutes from Cloudflare's edge and endpoint health checks",
@@ -172703,6 +173591,7 @@
 		"iam user-groups": "Organize account members into groups for easier permission assignment",
 		"iam user-groups members": "Operations for user-groups.members",
 		"images": "Store, resize, and deliver optimized images globally - variants, signing keys, and direct uploads",
+		"images config": "Account-level Cloudflare Images settings",
 		"images flows": "Zone-level transformation flows that control how images are resized and optimized on delivery",
 		"images import": "Import images from S3",
 		"images import sources": "Operations for import.sources",
@@ -172857,6 +173746,9 @@
 		"network-interconnects interconnects": "Physical cross-connect and partner interconnect sessions with LOA and status tracking",
 		"network-interconnects settings": "Account-level interconnect settings and default configurations",
 		"network-interconnects slots": "Available interconnect facility slots showing port capacity at Cloudflare data centers",
+		"network-quality": "network-quality",
+		"network-quality settings": "Operations for settings",
+		"network-quality tokens": "Operations for tokens",
 		"o11y": "o11y",
 		"o11y agents": "Operations for agents",
 		"o11y agents traces": "Operations for agents.traces",
@@ -172882,7 +173774,6 @@
 		"organizations logs": "Operations for logs",
 		"organizations logs audit": "Operations for logs.audit",
 		"organizations members": "Members of an organization",
-		"organizations members batch": "Add members to an organization in bulk",
 		"organizations profile": "View and update the public profile information for an organization",
 		"organizations shares": "Shares across the organization",
 		"page-rules": "page-rules",
@@ -173267,6 +174158,8 @@
 		"web3 hostnames ipfs-universal-paths content-lists entries": "Operations for hostnames.ipfs-universal-paths.content-lists.entries",
 		"workers": "Deploy and manage serverless JavaScript/WASM applications on Cloudflare's global network",
 		"workers deployments": "Manage Worker deployments and traffic versions",
+		"workers previews": "Operations for previews",
+		"workers previews deployments": "Operations for previews.deployments",
 		"workers scripts": "Worker script operations including usage model, settings, content, tags, schedules, subdomains, and queue consumers",
 		"workers secrets": "Manage secrets bound to Worker scripts",
 		"workers versions": "Create, list, inspect, and manage Worker versions",
@@ -173450,6 +174343,9 @@
 		"zero-trust regions": "Operations for regions",
 		"zero-trust risk-scoring": "User Risk Scoring - retrieve and reset user risk scores",
 		"zero-trust risk-scoring behaviours": "User Risk Scoring - manage behaviors used to calculate user risk scores",
+		"zero-trust risk-scoring behaviours high-dlp": "User Risk Scoring - manage the High Number of DLP Policies Triggered behavior",
+		"zero-trust risk-scoring behaviours single": "User Risk Scoring - manage one behavior that has no additional configuration",
+		"zero-trust risk-scoring event-clusters": "User Risk Scoring - list daily clusters of user risk events",
 		"zero-trust risk-scoring integrations": "User Risk Scoring - manage integrations that provide risk score signals",
 		"zero-trust risk-scoring integrations references": "User Risk Scoring - retrieve integrations by external reference",
 		"zero-trust risk-scoring summary": "User Risk Scoring - retrieve account risk score summaries",

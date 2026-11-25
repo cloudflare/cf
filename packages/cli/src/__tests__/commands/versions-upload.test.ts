@@ -247,6 +247,58 @@ describe("cf workers versions create", () => {
 		expect(upload.metadata?.main_module).toBe("index.js");
 	});
 
+	it("loads dotenv files for the recorded mode when --prebuilt omits --mode", async () => {
+		vi.stubEnv("CLOUDFLARE_API_TOKEN", undefined);
+		vi.stubEnv("CLOUDFLARE_ACCOUNT_ID", undefined);
+		let uploadRequest:
+			| { account: string | undefined; authorization: string | null }
+			| undefined;
+		mockWorkerUpload(
+			{},
+			{
+				onRequest: (request) => {
+					uploadRequest = {
+						account: new URL(request.url).pathname.match(
+							/\/accounts\/([^/]+)\//
+						)?.[1],
+						authorization: request.headers.get("authorization"),
+					};
+				},
+			}
+		);
+		await seed({
+			".env": [
+				"CLOUDFLARE_API_TOKEN=default-token",
+				"CLOUDFLARE_ACCOUNT_ID=default-account",
+			].join("\n"),
+			".env.staging": [
+				"CLOUDFLARE_API_TOKEN=staging-token",
+				"CLOUDFLARE_ACCOUNT_ID=staging-account",
+			].join("\n"),
+			".cloudflare/output/v1/config.json": buildOutputRootConfig({
+				buildContext: { isPreview: false, mode: "staging" },
+			}),
+			".cloudflare/output/v1/workers/default/worker.config.json":
+				workerConfig(),
+			".cloudflare/output/v1/workers/default/bundle/index.js":
+				"export default { fetch() { return new Response('ok'); } }",
+		});
+
+		const { exitCode } = await runCf([
+			"workers",
+			"versions",
+			"create",
+			"--prebuilt",
+		]);
+
+		expect(exitCode).toBe(0);
+		expect(uploadRequest).toEqual({
+			account: "staging-account",
+			authorization: "Bearer staging-token",
+		});
+		expect(process.env.CLOUDFLARE_ACCOUNT_ID).toBeUndefined();
+	});
+
 	it("points Preview Build Output to a mode-aware Preview deploy", async () => {
 		const upload = mockWorkerUpload();
 		await seed({
@@ -295,6 +347,7 @@ describe("cf workers versions create", () => {
 	});
 
 	it("skips build when --prebuilt is passed", async () => {
+		vi.stubEnv("CLOUDFLARE_ACCOUNT_ID", undefined);
 		const requests = recordRequests();
 		mockWorkerUpload();
 		await seed({

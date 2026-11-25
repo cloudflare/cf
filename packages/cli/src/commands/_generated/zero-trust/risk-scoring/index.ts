@@ -1,4 +1,5 @@
 import $behaviours from "./behaviours/index.js";
+import $eventclusters from "./event-clusters/index.js";
 import $get from "./get.js";
 import $integrations from "./integrations/index.js";
 import $reset from "./reset.js";
@@ -19,6 +20,7 @@ const command: CommandModule<CommonYargsOptions> = {
 			.command($get)
 			.command($reset)
 			.command($behaviours)
+			.command($eventclusters)
 			.command($integrations)
 			.command($summary)
 			.demandCommand(1, "Please specify a subcommand");

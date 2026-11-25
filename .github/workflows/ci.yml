@@ -77,7 +77,7 @@ jobs:
         uses: $/.github/actions/install-dependencies
 
       - name: Test automation scripts
-        run: node --test scripts/update-openapi.test.ts scripts/prepare-prerelease.test.ts
+        run: node --test scripts/update-openapi.test.ts scripts/prepare-prerelease.test.ts scripts/sync-vite-plus.test.mjs
 
       - name: Run cli tests
         run: pnpm --filter cf test

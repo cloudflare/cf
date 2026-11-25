@@ -70,7 +70,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				);
 				if (missing.length > 0) {
 					throw new Error(
-						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when any --config-* flag is set`
+						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when one of --network-config-sha256, --network-config-tls-sockaddr is set`
 					);
 				}
 			}

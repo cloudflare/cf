@@ -9,8 +9,9 @@ const SCRIPT_DIR = dirname(fileURLToPath(import.meta.url));
 const REPO_ROOT = resolve(SCRIPT_DIR, "..");
 const CLI_PACKAGE_JSON = "packages/cli/package.json";
 const CLI_PACKAGE_JSON_PATH = join(REPO_ROOT, CLI_PACKAGE_JSON);
-const FORGE_REPOSITORY = "cloudflare/forge";
-const OPENAPI_ASSET = "openapi.forge.json";
+const OPENAPI_REPOSITORY = "cloudflare/api-schemas";
+const OPENAPI_BRANCH = "main";
+const OPENAPI_FILE = "openapi.json";
 const OPENAPI_VERSION_PATTERN = /^[0-9a-f]{40}$/;
 const UPDATE_COMMIT_PATTERN =
 	/^chore: update (?:Forge and )?OpenAPI to [0-9a-f]{12}$/;
@@ -237,7 +238,7 @@ async function githubRequest<T>(
 	const headers = new Headers(init.headers);
 	headers.set("Accept", accept);
 	headers.set("X-GitHub-Api-Version", "2022-11-28");
-	headers.set("User-Agent", "cloudflare-cf-forge-updater");
+	headers.set("User-Agent", "cloudflare-cf-openapi-updater");
 	if (token) {
 		headers.set("Authorization", `Bearer ${token}`);
 	}
@@ -284,7 +285,8 @@ async function githubRequest<T>(
 /**
  * Read the pinned OpenAPI revision from the cf package.json source.
  *
- * The revision is stored in `config.forgeOpenApiVersion`.
+ * The revision is a cloudflare/api-schemas commit stored in
+ * `config.openApiVersion`.
  *
  * @throws {Error} When the source is not JSON or has no valid revision.
  */
@@ -292,10 +294,10 @@ export function extractOpenApiVersion(source: string, label: string): string {
 	const packageJson: unknown = JSON.parse(source);
 	const version =
 		isObject(packageJson) && isObject(packageJson.config)
-			? packageJson.config.forgeOpenApiVersion
+			? packageJson.config.openApiVersion
 			: undefined;
 	if (typeof version !== "string" || !OPENAPI_VERSION_PATTERN.test(version)) {
-		throw new Error(`Could not read config.forgeOpenApiVersion from ${label}`);
+		throw new Error(`Could not read config.openApiVersion from ${label}`);
 	}
 	return version;
 }
@@ -303,7 +305,7 @@ export function extractOpenApiVersion(source: string, label: string): string {
 /**
  * Pin a new OpenAPI revision in the cf package.json source.
  *
- * Only `config.forgeOpenApiVersion` changes; tab indentation and the trailing
+ * Only `config.openApiVersion` changes; tab indentation and the trailing
  * newline are kept.
  *
  * @throws {Error} When the source has no valid revision to replace or the new
@@ -319,48 +321,42 @@ export function setOpenApiVersion(
 		throw new Error(`Invalid OpenAPI revision: ${version}`);
 	}
 	const packageJson = JSON.parse(source) as { config: JsonObject };
-	packageJson.config.forgeOpenApiVersion = version;
+	packageJson.config.openApiVersion = version;
 	return `${JSON.stringify(packageJson, null, "\t")}\n`;
 }
 
-export async function getLatestOpenApiRelease(): Promise<{
-	tag: string;
+/**
+ * Find the latest cloudflare/api-schemas revision of the OpenAPI document that
+ * packages/cli/generate.ts downloads.
+ *
+ * @throws {Error} When GitHub returns no commit with a valid SHA.
+ */
+export async function getLatestOpenApiRevision(): Promise<{
 	version: string;
 }> {
-	// Forge must keep its latest release marker on the current OpenAPI spec.
-	const release = await githubRequest(
-		`/repos/${FORGE_REPOSITORY}/releases/latest`,
+	const query = new URLSearchParams({
+		sha: OPENAPI_BRANCH,
+		path: OPENAPI_FILE,
+		per_page: "1",
+	});
+	const commits = await githubRequest(
+		`/repos/${OPENAPI_REPOSITORY}/commits?${query}`,
 		{},
 		undefined,
 		"application/vnd.github+json",
 		readJson
 	);
+	const latest = Array.isArray(commits) ? commits[0] : undefined;
 	if (
-		!isObject(release) ||
-		release.draft ||
-		release.prerelease ||
-		typeof release.tag_name !== "string"
+		!isObject(latest) ||
+		typeof latest.sha !== "string" ||
+		!OPENAPI_VERSION_PATTERN.test(latest.sha)
 	) {
-		throw new Error("Latest Forge release is not a published OpenAPI release");
-	}
-	const match = release.tag_name.match(/^openapi@([0-9a-f]{40})$/);
-	if (!match?.[1]) {
 		throw new Error(
-			`Latest Forge release ${release.tag_name} does not have a valid OpenAPI tag`
+			`${OPENAPI_REPOSITORY}@${OPENAPI_BRANCH} has no valid ${OPENAPI_FILE} revision`
 		);
 	}
-	// packages/cli/generate.ts downloads this asset, so never pin a release without it.
-	const hasAsset =
-		Array.isArray(release.assets) &&
-		release.assets.some(
-			(item) => isObject(item) && item.name === OPENAPI_ASSET
-		);
-	if (!hasAsset) {
-		throw new Error(
-			`Forge release ${release.tag_name} has no ${OPENAPI_ASSET} asset`
-		);
-	}
-	return { tag: release.tag_name, version: match[1] };
+	return { version: latest.sha };
 }
 
 /**
@@ -524,7 +520,7 @@ function writeChangeset(version: string): void {
 "cf": minor
 ---
 
-Update the generated command surface for Forge OpenAPI release
+Update the generated command surface for Cloudflare API schemas revision
 \`${version}\`.
 `
 	);
@@ -648,13 +644,14 @@ async function main(): Promise<void> {
 
 	const checkOnly = args.has("--check");
 	const repository = await inferRepository();
-	logStep("Checking the latest OpenAPI release");
-	const { tag, version } = await getLatestOpenApiRelease();
+	logStep("Checking the latest OpenAPI revision");
+	const { version } = await getLatestOpenApiRevision();
+	const latest = `${OPENAPI_REPOSITORY}@${version}`;
 	const current = extractOpenApiVersion(
 		readFileSync(CLI_PACKAGE_JSON_PATH, "utf8"),
 		CLI_PACKAGE_JSON_PATH
 	);
-	console.log(`Latest: ${tag}; current: openapi@${current}.`);
+	console.log(`Latest: ${latest}; current: ${OPENAPI_REPOSITORY}@${current}.`);
 
 	logStep("Inspecting the managed update pull request");
 	const updatePr = await getOpenUpdatePullRequest(repository);
@@ -679,7 +676,7 @@ async function main(): Promise<void> {
 				await closePullRequest(repository, updatePr.number);
 			}
 		}
-		console.log(`Already using the latest OpenAPI release (${tag}).`);
+		console.log(`Already using the latest OpenAPI revision (${latest}).`);
 		return;
 	}
 
@@ -696,7 +693,7 @@ async function main(): Promise<void> {
 		const proposedBaseSha = managedUpdateCommit.parentSha;
 		if (proposedBaseSha === baseSha) {
 			console.log(
-				`PR #${updatePr.number} already updates to the latest OpenAPI release (${tag}).`
+				`PR #${updatePr.number} already updates to the latest OpenAPI revision (${latest}).`
 			);
 			return;
 		}
@@ -733,8 +730,8 @@ async function main(): Promise<void> {
 
 	const shortVersion = version.slice(0, 12);
 	const title = `chore: update OpenAPI to ${shortVersion}`;
-	const releaseUrl = `${GITHUB_SERVER_URL}/${FORGE_REPOSITORY}/releases/tag/${encodeURIComponent(tag)}`;
-	const body = `Updates cf to [\`${tag}\`](${releaseUrl}).
+	const revisionUrl = `${GITHUB_SERVER_URL}/${OPENAPI_REPOSITORY}/commit/${version}`;
+	const body = `Updates cf to [\`${latest}\`](${revisionUrl}).
 
 - pins OpenAPI revision \`${version}\`
 - regenerates the committed command surface with the pinned Forge package

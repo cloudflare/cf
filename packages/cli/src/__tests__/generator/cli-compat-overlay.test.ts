@@ -319,8 +319,8 @@ describe("CLI compatibility overlay", () => {
 		delete doc.paths?.[PROFILE];
 		expect(() => assertCliCompatSource(doc)).toThrow(
 			[
-				"Pinned Forge OpenAPI changed for PUT /zones/{zone_id}/precursor body field `mode` (operation missing); remove or revise its action in generator/cli-compat.overlay.yaml and guard in generator/cli-compat-guards.ts",
-				`Pinned Forge OpenAPI changed for PUT ${PROFILE} body field \`profile\` (operation missing); remove or revise its action in generator/cli-compat.overlay.yaml and guard in generator/cli-compat-guards.ts`,
+				"Pinned OpenAPI changed for PUT /zones/{zone_id}/precursor body field `mode` (operation missing); remove or revise its action in generator/cli-compat.overlay.yaml and guard in generator/cli-compat-guards.ts",
+				`Pinned OpenAPI changed for PUT ${PROFILE} body field \`profile\` (operation missing); remove or revise its action in generator/cli-compat.overlay.yaml and guard in generator/cli-compat-guards.ts`,
 			].join("\n")
 		);
 	});

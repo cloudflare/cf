@@ -70,7 +70,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				const missing = ["time-since"].filter((k) => argv[k] === undefined);
 				if (missing.length > 0) {
 					throw new Error(
-						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when any --time-range-* flag is set`
+						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when one of --time-until, --time-since is set`
 					);
 				}
 			}

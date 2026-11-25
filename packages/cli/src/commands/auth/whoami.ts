@@ -20,7 +20,7 @@ import type { CommonYargsOptions } from "../../lib/cli-types.js";
 import type { WhoamiProfile, WhoamiSnapshot } from "./whoami-output.js";
 import type { Argv, CommandModule } from "yargs";
 
-interface WhoamiArgs extends CommonYargsOptions {
+export interface WhoamiArgs extends CommonYargsOptions {
 	json?: boolean;
 }
 

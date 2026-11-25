@@ -1,3 +1,4 @@
+import path from "node:path";
 import { loadEnv } from "@cloudflare/workers-utils/local-env";
 import { DEPENDENCIES_INSTRUMENTATION_ENV_VAR } from "./dependencies-instrumentation.js";
 
@@ -23,6 +24,21 @@ function isSupportedCloudflareDotEnvVariable(name: string): boolean {
 	return CLOUDFLARE_DOTENV_VARIABLES.has(name);
 }
 
+// process.env can't say where a value came from, so remember the file for
+// messages that name it.
+const appliedFiles = new Map<string, { path: string; value: string }>();
+
+/**
+ * The dotenv file that supplied a currently applied value, relative to the
+ * working directory, if any.
+ */
+export function getCloudflareDotEnvFile(name: string): string | undefined {
+	const applied = appliedFiles.get(name);
+	return applied !== undefined && process.env[name] === applied.value
+		? path.relative(process.cwd(), applied.path)
+		: undefined;
+}
+
 /**
  * Temporarily apply supported file-sourced values to process.env.
  *
@@ -40,19 +56,19 @@ export async function applyCloudflareDotEnv(
 	const applied: string[] = [];
 
 	for (const [name, value] of Object.entries(loaded.values)) {
-		if (
-			!isSupportedCloudflareDotEnvVariable(name) ||
-			loaded.sources[name]?.type !== "file"
-		) {
+		const source = loaded.sources[name];
+		if (!isSupportedCloudflareDotEnvVariable(name) || source?.type !== "file") {
 			continue;
 		}
 		process.env[name] = value;
+		appliedFiles.set(name, { path: source.path, value });
 		applied.push(name);
 	}
 
 	return () => {
 		for (const name of applied) {
 			delete process.env[name];
+			appliedFiles.delete(name);
 		}
 	};
 }

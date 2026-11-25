@@ -1,24 +1,23 @@
-import { readBuildOutput } from "@cloudflare/build-output-utils";
 import {
 	initDeployHelpersContext,
 	triggersDeploy,
 } from "@cloudflare/deploy-helpers";
-import { getCloudflareComplianceRegion } from "@cloudflare/workers-utils";
 import { resolveBuildOutputAuth } from "../../../lib/build-output-auth.js";
+import { withBuildOutputDotEnv } from "../../../lib/build-output-dotenv.js";
 import {
 	applyCIWorkerNameOverride,
 	buildOutputWorkerOption,
 	parseWorkerConfig,
+	resolveBuildOutputSettings,
 	selectBuildOutputWorker,
-	validateBuildOutputAccount,
 	validateBuildOutputMode,
 } from "../../../lib/build-output.js";
 import { createDeployContext } from "../../../lib/deploy-context.js";
 import { createTriggerProps } from "../../../lib/deploy-input.js";
-import { withCloudflareDotEnv } from "../../../lib/dotenv.js";
 import { log } from "../../../lib/ui/log.js";
 import { runBuild } from "../../build/index.js";
 import type { CommonYargsOptions, InferArgs } from "../../../lib/cli-types.js";
+import type { BuildOutput } from "@cloudflare/build-output-utils";
 import type { Argv, CommandModule } from "yargs";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
@@ -68,12 +67,14 @@ const triggersDeployCommand: CommandModule<
 			log.message("");
 		}
 
-		await withCloudflareDotEnv(argv, () => deployTriggers(argv));
+		await withBuildOutputDotEnv((output) => deployTriggers(argv, output));
 	},
 };
 
-async function deployTriggers(argv: TriggersDeployArgs): Promise<void> {
-	const { workers, rootConfig } = await readBuildOutput(process.cwd());
+async function deployTriggers(
+	argv: TriggersDeployArgs,
+	{ workers, rootConfig }: BuildOutput
+): Promise<void> {
 	if (rootConfig.buildContext.isPreview) {
 		const previewCommand = [
 			"cf previews deploy",
@@ -87,8 +88,8 @@ async function deployTriggers(argv: TriggersDeployArgs): Promise<void> {
 		);
 	}
 	validateBuildOutputMode(argv.mode, rootConfig.buildContext.mode);
-	validateBuildOutputAccount(
-		rootConfig.settings?.accountId,
+	const { complianceRegion } = resolveBuildOutputSettings(
+		rootConfig.settings,
 		argv["temporary-account"] === true
 	);
 	const { worker } = applyCIWorkerNameOverride(
@@ -96,7 +97,6 @@ async function deployTriggers(argv: TriggersDeployArgs): Promise<void> {
 	);
 	const { wranglerConfig } = parseWorkerConfig(worker, rootConfig);
 
-	const complianceRegion = getCloudflareComplianceRegion(wranglerConfig);
 	const { authToken, accountId } = await resolveBuildOutputAuth({
 		accountId: rootConfig.settings?.accountId,
 		complianceRegion,

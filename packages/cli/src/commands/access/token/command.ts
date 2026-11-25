@@ -5,7 +5,7 @@ import { runCloudflared } from "../../cloudflared.js";
 import type { CommonYargsOptions } from "../../../lib/cli-types.js";
 import type { ArgumentsCamelCase, Argv, CommandModule } from "yargs";
 
-interface AccessTokenArgs extends CommonYargsOptions {
+export interface AccessTokenArgs extends CommonYargsOptions {
 	url: string;
 }
 

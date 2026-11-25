@@ -13,11 +13,9 @@ import { hasAccountOrZoneScope } from "./generator/util.js";
 import packageJson from "./package.json" with { type: "json" };
 import type { ForgeOpenApiDocument } from "./generator/openapi.js";
 
-const bundle = process.env.FORGE_OPENAPI_BUNDLE;
-const FORGE_OPENAPI_VERSION = packageJson.config.forgeOpenApiVersion;
-const FORGE_OPENAPI_RELEASE = `openapi@${FORGE_OPENAPI_VERSION}`;
-const FORGE_OPENAPI_ASSET = "openapi.forge.json";
-const FORGE_OPENAPI_ASSET_URL = `https://github.com/cloudflare/forge/releases/download/${FORGE_OPENAPI_RELEASE}/${FORGE_OPENAPI_ASSET}`;
+const bundle = process.env.OPENAPI_BUNDLE;
+const OPENAPI_VERSION = packageJson.config.openApiVersion;
+const OPENAPI_URL = `https://raw.githubusercontent.com/cloudflare/api-schemas/${OPENAPI_VERSION}/openapi.json`;
 const HTTP_METHODS = [
 	"get",
 	"put",
@@ -62,15 +60,17 @@ function resolveLocalParameter(
 	return isRecord(resolved) ? resolved : undefined;
 }
 
-async function fetchForgeOpenApi(): Promise<unknown> {
-	console.log(`[cf-generator] Using Forge OpenAPI ${FORGE_OPENAPI_RELEASE}`);
-	const assetResponse = await fetch(FORGE_OPENAPI_ASSET_URL);
-	if (!assetResponse.ok) {
+async function fetchOpenApi(): Promise<unknown> {
+	console.log(
+		`[cf-generator] Using OpenAPI cloudflare/api-schemas@${OPENAPI_VERSION}`
+	);
+	const response = await fetch(OPENAPI_URL);
+	if (!response.ok) {
 		throw new Error(
-			`Failed to fetch Forge OpenAPI asset from ${FORGE_OPENAPI_ASSET_URL} (${assetResponse.status} ${assetResponse.statusText})`
+			`Failed to fetch OpenAPI from ${OPENAPI_URL} (${response.status} ${response.statusText})`
 		);
 	}
-	return assetResponse.json();
+	return response.json();
 }
 
 function ignoreInvalidHiddenOperations(openapi: ForgeOpenApiDocument): void {
@@ -210,7 +210,7 @@ if (!existsSync(pluginWasm)) {
 }
 
 let source = (
-	bundle ? JSON.parse(readFileSync(bundle, "utf8")) : await fetchForgeOpenApi()
+	bundle ? JSON.parse(readFileSync(bundle, "utf8")) : await fetchOpenApi()
 ) as ForgeOpenApiDocument;
 ignoreInvalidHiddenOperations(source);
 prepareAccountOrZoneOperations(source);

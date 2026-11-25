@@ -1,4 +1,6 @@
 import $get from "./get.js";
+import $highdlp from "./high-dlp/index.js";
+import $single from "./single/index.js";
 import $update from "./update.js";
 import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
@@ -16,6 +18,8 @@ const command: CommandModule<CommonYargsOptions> = {
 		return yargs
 			.command($get)
 			.command($update)
+			.command($highdlp)
+			.command($single)
 			.demandCommand(1, "Please specify a subcommand");
 	},
 

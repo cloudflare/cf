@@ -357,7 +357,7 @@ async function sendOnce(
 	}
 }
 
-const RETRYABLE = [408, 429, 502, 503, 504];
+const RETRYABLE = new Set([408, 429, 502, 503, 504]);
 
 function retryDelay(response: Response, attempt: number): number {
 	const retryAfter = response.headers.get("Retry-After");
@@ -411,7 +411,7 @@ export async function send(
 		options.signal
 	);
 	for (let i = 0; i < (options.maxRetries ?? 2); i++) {
-		if (!RETRYABLE.includes(response.status)) {
+		if (!RETRYABLE.has(response.status)) {
 			break;
 		}
 		await new Promise((resolve) =>

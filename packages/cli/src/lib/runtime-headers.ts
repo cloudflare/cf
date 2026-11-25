@@ -7,10 +7,10 @@ export const RUNTIME_HEADER_NAMES = [
 
 export type RuntimeHeaderName = (typeof RUNTIME_HEADER_NAMES)[number];
 
-const lowercased: readonly string[] = RUNTIME_HEADER_NAMES.map((name) =>
-	name.toLowerCase()
+const lowercased: ReadonlySet<string> = new Set(
+	RUNTIME_HEADER_NAMES.map((name) => name.toLowerCase())
 );
 
 export function isRuntimeHeader(name: string): boolean {
-	return lowercased.includes(name.toLowerCase());
+	return lowercased.has(name.toLowerCase());
 }

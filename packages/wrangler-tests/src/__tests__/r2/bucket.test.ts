@@ -102,7 +102,9 @@ describe("r2", () => {
 						"*/accounts/:accountId/r2/buckets/:bucketName",
 						async ({ params }) => {
 							const { accountId, bucketName: bucketParam } = params;
+							// oxlint-disable-next-line vitest/no-standalone-expect -- runs in the MSW handler during each test
 							expect(accountId).toEqual("some-account-id");
+							// oxlint-disable-next-line vitest/no-standalone-expect -- runs in the MSW handler during each test
 							expect(bucketParam).toEqual(bucketName);
 							return HttpResponse.json(
 								createFetchResult({

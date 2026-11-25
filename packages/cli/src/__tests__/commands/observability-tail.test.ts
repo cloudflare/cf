@@ -65,7 +65,9 @@ describe("cf observability tail", () => {
 			),
 			http.get(`${TEST_BASE_URL}/zones`, ({ request }) => {
 				const url = new URL(request.url);
+				// oxlint-disable-next-line vitest/no-standalone-expect -- runs in the MSW handler during each test
 				expect(url.searchParams.get("name")).toBe("example.com");
+				// oxlint-disable-next-line vitest/no-standalone-expect -- runs in the MSW handler during each test
 				expect(url.searchParams.get("account.id")).toBe("fixture-account");
 				return HttpResponse.json({
 					success: true,

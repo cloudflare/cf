@@ -503,10 +503,12 @@ describe("Observability live tail stream with local HTTPS and WebSocket servers"
 			});
 			const settled =
 				reason === "timeout"
-					? expect(running).rejects.toThrow(
+					? // oxlint-disable-next-line vitest/valid-expect -- attached before driving the run, awaited below
+						expect(running).rejects.toThrow(
 							"Timed out connecting to live tail."
 						)
-					: expect(running).resolves.toBeUndefined();
+					: // oxlint-disable-next-line vitest/valid-expect -- attached before driving the run, awaited below
+						expect(running).resolves.toBeUndefined();
 			await vi.waitFor(() => expect(proxy.requests).toHaveLength(1));
 			if (reason === "abort") {
 				server.controller.abort();
@@ -778,6 +780,7 @@ describe("Observability live tail stream with local HTTPS and WebSocket servers"
 	it("reports a possible replacement and stops retrying after a normal remote closure", async () => {
 		const server = await fixture();
 		const result = server.run({ reconnectBackoffMs: [1] });
+		// oxlint-disable-next-line vitest/valid-expect -- attached before driving the run, awaited below
 		const rejected = expect(result).rejects.toThrow(
 			/another live tail session/i
 		);

@@ -131,7 +131,6 @@ export default defineConfig({
 			"vitest/no-standalone-expect": "off",
 			"vitest/require-mock-type-parameters": "off",
 			"vitest/require-to-throw-message": "off",
-			"vitest/valid-expect": "off",
 		},
 		overrides: [
 			{

@@ -248,10 +248,9 @@ describe("cf deploy", () => {
 						"CLOUDFLARE_API_TOKEN=default-token",
 						"CLOUDFLARE_ACCOUNT_ID=default-account",
 					].join("\n"),
-					[`.env.${recordedMode}`]: [
-						`CLOUDFLARE_API_TOKEN=${recordedMode}-token`,
-						`CLOUDFLARE_ACCOUNT_ID=${recordedMode}-account`,
-					].join("\n"),
+					// The token is only in .env, so it must be merged with the
+					// mode file rather than replaced by it.
+					[`.env.${recordedMode}`]: `CLOUDFLARE_ACCOUNT_ID=${recordedMode}-account`,
 					".cloudflare/output/v1/config.json": buildOutputRootConfig({
 						buildContext: { isPreview: false, mode: recordedMode },
 					}),
@@ -271,7 +270,7 @@ describe("cf deploy", () => {
 				}
 				expect(uploadRequest).toEqual({
 					account: `${recordedMode}-account`,
-					authorization: `Bearer ${recordedMode}-token`,
+					authorization: "Bearer default-token",
 				});
 				expect(process.env.CLOUDFLARE_ACCOUNT_ID).toBeUndefined();
 			}

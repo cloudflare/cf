@@ -109,8 +109,8 @@ exported in the invoking environment.
 Commands that consume Build Output load dotenv values with
 `withBuildOutputDotEnv()` from `src/lib/build-output-dotenv.ts`. It reads the
 output first and loads the files for the mode the output recorded, so deploys
-read the same `.env.<mode>` files as the build. Callers must reject `--local`
-and validate `--mode` against the recorded mode.
+read the same `.env.<mode>` files as the build. Callers must reject the
+`--local` flag and validate `--mode` against the recorded mode.
 
 Tests for these commands must show both sides of the boundary: file values are
 available to the parent where required and sensitive file values are absent

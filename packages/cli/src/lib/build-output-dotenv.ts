@@ -6,7 +6,7 @@ import type { BuildOutput } from "@cloudflare/build-output-utils";
  * Read the Build Output, then run a callback with cf's dotenv values for the
  * mode it was built in, so deploys use the same `.env.<mode>` files as the
  * build. `--mode` isn't consulted: callers reject one that differs from the
- * recorded mode, and reject `--local`.
+ * recorded mode, and reject the `--local` flag.
  *
  * Reading first is safe because `readBuildOutput` does not use `process.env`.
  */

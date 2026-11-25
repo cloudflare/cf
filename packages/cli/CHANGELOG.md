@@ -1,5 +1,58 @@
 # cf
 
+## 1.0.0-rc.6
+
+### Minor Changes
+
+- 7cbe76a: Reject a `CLOUDFLARE_ACCOUNT_ID` that differs from the Build Output's account
+
+  `cf deploy`, `cf workers versions create`, `cf workers triggers deploy`, and `cf previews deploy` now fail before making any API requests, including with `--dry-run`, when `CLOUDFLARE_ACCOUNT_ID` is set to a different account from the `accountId` recorded in the Build Output. Previously the recorded account was used and `CLOUDFLARE_ACCOUNT_ID` was silently ignored, so a deploy could go to a different account from the one the environment named.
+
+  This is a breaking change for projects that set both to different values. The error says where `CLOUDFLARE_ACCOUNT_ID` came from, such as `.env.staging`, and how to resolve it: remove `CLOUDFLARE_ACCOUNT_ID` or set it to the recorded account to deploy there, or change or remove `accountId` and rebuild.
+
+  A `CLOUDFLARE_COMPLIANCE_REGION` that differs from the recorded `complianceRegion` was already rejected. Its error now uses the same `cloudflare.config.ts` names and also says where the value came from. An invalid `CLOUDFLARE_COMPLIANCE_REGION` now gets the same error as other commands, and that error now names the dotenv file the value came from.
+
+- e27d3e6: Add D1 Insights index recommendations and settings commands
+
+  Use `cf d1 insights recommendations` to retrieve index recommendations and
+  `cf d1 insights settings get` or `cf d1 insights settings update` to view or
+  change the account's AI setting. Use `cf d1 list --fields` to select returned
+  database fields, including the opt-in `recommendation_count` field.
+
+- e27d3e6: Add multi-feed filters to Cloudforce One Threat Signals
+
+  Repeat `--feed-id` on `cf cloudforce-one threat-signals articles list` or
+  `cf cloudforce-one threat-signals search` to match multiple feeds. Use
+  `--feed-category-id` on `articles list` to filter by feed category ID.
+
+- 4472d3f: Update the generated command surface for Cloudflare API schemas revision
+  `0b6f5865a28c7bb408f8468a173cec59c411345a`.
+- e27d3e6: Remove `cf zero-trust risk-scoring` commands no longer in the API schema
+
+  Breaking change: under `cf zero-trust risk-scoring`, the `get`, `reset`,
+  `behaviours get`, `behaviours update`, and `summary get` commands are no longer
+  available. Update scripts that call them before upgrading. Commands under
+  `cf zero-trust risk-scoring integrations` remain available.
+
+- 6de4261: Update the generated command surface for Cloudflare API schemas revision
+  `3359e90fa19e8e250ab5a402b0f9dbe65bbe82a3`.
+
+  Breaking: Replace `cf organizations members batch create <organization-id>`
+  with `cf organizations members bulk-create --organization-id <organization-id>`.
+  Update scripts to pass the ID as a required flag instead of a positional
+  argument. The old command has no compatibility alias.
+
+  Use `cf o11y destinations get <slug>` to fetch a Workers Observability
+  Telemetry Destination by its slug.
+
+### Patch Changes
+
+- d4c61ea: Load `.env` files for the Build Output's mode when `--mode` is omitted
+
+  `cf deploy`, `cf workers versions create`, `cf workers triggers deploy`, and `cf previews deploy` now load `.env.<mode>` and `.env.<mode>.local` for the mode recorded in the Build Output when `--mode` is not passed. Previously they read only `.env` and `.env.local`, so deploying a staging build without repeating `--mode staging` could use the account and API token from `.env` instead of `.env.staging`.
+
+  Vite records its default `production` mode when a build runs without `--mode`, so these commands now also load `.env.production` for such builds, matching the files the build itself used. An explicit `--mode` must still match the recorded mode.
+
 ## 1.0.0-rc.5
 
 ### Minor Changes

@@ -64,7 +64,8 @@ async function findLocalInstall(
 				error.code === "ERR_INVALID_PACKAGE_CONFIG"
 			) {
 				throw new Error(
-					`cf update could not resolve the local installation: ${error.message} Fix the file or update cf manually.`
+					`cf update could not resolve the local installation: ${error.message} Fix the file or update cf manually.`,
+					{ cause: error }
 				);
 			}
 			return undefined;
@@ -72,12 +73,18 @@ async function findLocalInstall(
 		if ((await canonicalPath(resolved)) !== installedManifest) {
 			return undefined;
 		}
-		const text = await readFile(projectManifest, "utf8").catch((error) => {
-			if (error?.code === "ENOENT") {
-				return undefined;
+		const text = await readFile(projectManifest, "utf8").catch(
+			(error: unknown) => {
+				if (
+					error instanceof Error &&
+					"code" in error &&
+					error.code === "ENOENT"
+				) {
+					return undefined;
+				}
+				throw error;
 			}
-			throw error;
-		});
+		);
 		if (text !== undefined) {
 			const manifest = parseManifest(projectManifest, text);
 			for (const dependency of [

@@ -237,6 +237,7 @@ describe("createCommandClient", () => {
 				const request = requestApi(client, "POST", "/capture", {
 					body: { duration_ms: 50_000 },
 				});
+				// oxlint-disable-next-line vitest/valid-expect -- attached before driving the run, awaited below
 				const result = expect(request).resolves.toBeNull();
 				await started;
 				await vi.advanceTimersByTimeAsync(50_000);

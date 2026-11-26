@@ -1,6 +1,5 @@
 import { writeFileSync } from "node:fs";
 import { http, HttpResponse } from "msw/http";
-// eslint-disable-next-line no-restricted-imports
 import { afterEach, beforeEach, describe, expect, it } from "vite-plus/test";
 import { mockAccountId, mockApiToken } from "../helpers/mock-account-id";
 import { mockConsoleMethods } from "../helpers/mock-console";
@@ -102,7 +101,9 @@ describe("r2", () => {
 						"*/accounts/:accountId/r2/buckets/:bucketName",
 						async ({ params }) => {
 							const { accountId, bucketName: bucketParam } = params;
+							// oxlint-disable-next-line vitest/no-standalone-expect -- runs in the MSW handler during each test
 							expect(accountId).toEqual("some-account-id");
+							// oxlint-disable-next-line vitest/no-standalone-expect -- runs in the MSW handler during each test
 							expect(bucketParam).toEqual(bucketName);
 							return HttpResponse.json(
 								createFetchResult({
@@ -504,7 +505,7 @@ describe("r2", () => {
 									bucketName,
 									queues: [
 										{
-											queueId: queueId,
+											queueId,
 											queueName,
 											rules: [
 												{

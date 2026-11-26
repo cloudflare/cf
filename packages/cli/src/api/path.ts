@@ -14,7 +14,6 @@ export function path(
 ): string {
 	let result = strings[0] ?? "";
 	for (const [i, param] of params.entries()) {
-		// oxlint-disable-next-line typescript/no-base-to-string -- path params are stringified as given
 		result += encodeURIComponent(String(param)) + (strings[i + 1] ?? "");
 	}
 	return result;

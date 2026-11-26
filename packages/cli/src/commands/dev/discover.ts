@@ -48,9 +48,11 @@ export interface DiscoveredImpl {
  */
 export function discoverImpls(cwd: string): DiscoveredImpl[] {
 	const results: DiscoveredImpl[] = [];
-	results.push(...discoverNpm(cwd));
-	results.push(...discoverPyPI(cwd));
-	results.push(...discoverCargo(cwd));
+	results.push(
+		...discoverNpm(cwd),
+		...discoverPyPI(cwd),
+		...discoverCargo(cwd)
+	);
 
 	const primary = results.filter((result) => !result.impl.fallback);
 	return primary.length > 0 ? primary : results;

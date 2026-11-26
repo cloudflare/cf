@@ -169,6 +169,7 @@ async function fixture() {
 	let customPrepared: unknown;
 	let prepareEnvelope: unknown;
 	let origin = "";
+	// oxlint-disable-next-line typescript/no-misused-promises -- an unhandled rejection fails the Vitest run
 	const server = createServer(tlsOptions, async (request, response) => {
 		const chunks: Buffer[] = [];
 		for await (const chunk of request) {
@@ -232,7 +233,10 @@ async function fixture() {
 	const { port } = await listen(server);
 	origin = `https://127.0.0.1:${port}`;
 	cleanups.push(
-		() => new Promise<void>((resolve) => websocket.close(() => resolve()))
+		() =>
+			new Promise<void>((resolve) => {
+				websocket.close(() => resolve());
+			})
 	);
 	const controller = new AbortController();
 	let stdout = "";
@@ -503,10 +507,12 @@ describe("Observability live tail stream with local HTTPS and WebSocket servers"
 			});
 			const settled =
 				reason === "timeout"
-					? expect(running).rejects.toThrow(
+					? // oxlint-disable-next-line vitest/valid-expect -- attached before driving the run, awaited below
+						expect(running).rejects.toThrow(
 							"Timed out connecting to live tail."
 						)
-					: expect(running).resolves.toBeUndefined();
+					: // oxlint-disable-next-line vitest/valid-expect -- attached before driving the run, awaited below
+						expect(running).resolves.toBeUndefined();
 			await vi.waitFor(() => expect(proxy.requests).toHaveLength(1));
 			if (reason === "abort") {
 				server.controller.abort();
@@ -531,7 +537,9 @@ describe("Observability live tail stream with local HTTPS and WebSocket servers"
 		);
 		server.close(1011);
 		await vi.waitFor(() => expect(server.preparationCount).toBe(2));
-		await new Promise((resolve) => setTimeout(resolve, 200));
+		await new Promise((resolve) => {
+			setTimeout(resolve, 200);
+		});
 		server.controller.abort();
 		await running;
 		expect(
@@ -548,7 +556,9 @@ describe("Observability live tail stream with local HTTPS and WebSocket servers"
 		await server.connected();
 		server.send({ id: "first-event" });
 		await vi.waitFor(() => expect(server.stdout).toContain("first-event"));
-		await new Promise((resolve) => setTimeout(resolve, 250));
+		await new Promise((resolve) => {
+			setTimeout(resolve, 250);
+		});
 		server.controller.abort();
 		await running;
 		expect(server.notice).not.toHaveBeenCalledWith(
@@ -561,7 +571,9 @@ describe("Observability live tail stream with local HTTPS and WebSocket servers"
 		server.holdHeartbeat = true;
 		const running = server.run();
 		await server.connected();
-		await new Promise((resolve) => setTimeout(resolve, 100));
+		await new Promise((resolve) => {
+			setTimeout(resolve, 100);
+		});
 		expect(server.heartbeatCount).toBe(1);
 		server.controller.abort();
 		await running;
@@ -687,7 +699,9 @@ describe("Observability live tail stream with local HTTPS and WebSocket servers"
 			await server.connected();
 			server.close(1011);
 			await vi.waitFor(() => expect(server.upgraded.size).toBe(0));
-			await new Promise((resolve) => setTimeout(resolve, 250));
+			await new Promise((resolve) => {
+				setTimeout(resolve, 250);
+			});
 			if (reason === "interrupt") {
 				server.controller.abort();
 			} else {
@@ -778,6 +792,7 @@ describe("Observability live tail stream with local HTTPS and WebSocket servers"
 	it("reports a possible replacement and stops retrying after a normal remote closure", async () => {
 		const server = await fixture();
 		const result = server.run({ reconnectBackoffMs: [1] });
+		// oxlint-disable-next-line vitest/valid-expect -- attached before driving the run, awaited below
 		const rejected = expect(result).rejects.toThrow(
 			/another live tail session/i
 		);
@@ -876,7 +891,9 @@ describe("Observability live tail stream with local HTTPS and WebSocket servers"
 			server.send({ id: "one" });
 			const completeWrite = await written();
 			server.controller.abort();
-			await new Promise((resolve) => setImmediate(resolve));
+			await new Promise((resolve) => {
+				setImmediate(resolve);
+			});
 			expect(settled).toBe(false);
 			completeWrite(
 				epipe
@@ -911,7 +928,9 @@ describe("Observability live tail stream with local HTTPS and WebSocket servers"
 		completeWrite(
 			Object.assign(new Error("fixture late closed pipe"), { code: "EPIPE" })
 		);
-		await new Promise((resolve) => setImmediate(resolve));
+		await new Promise((resolve) => {
+			setImmediate(resolve);
+		});
 	});
 
 	it.each(["callback", "throw"] as const)(

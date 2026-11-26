@@ -185,7 +185,7 @@ export async function requestApi<T>(
 		);
 	} catch (error) {
 		if (options.signal?.aborted) {
-			throw new Error("Request aborted");
+			throw new Error("Request aborted", { cause: error });
 		}
 		if (
 			error === "timeout" ||
@@ -194,12 +194,13 @@ export async function requestApi<T>(
 			throw new Error(
 				uploadClient
 					? "Request timed out"
-					: `Request timed out after ${timeout}ms`
+					: `Request timed out after ${timeout}ms`,
+				{ cause: error }
 			);
 		}
 		if (error instanceof Error) {
 			// Network failures have no HTTP status, so keep them as plain errors.
-			throw new Error(`Request failed: ${error.message}`);
+			throw new Error(`Request failed: ${error.message}`, { cause: error });
 		}
 		throw error;
 	}

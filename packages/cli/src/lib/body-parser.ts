@@ -40,7 +40,7 @@ export function setNestedValue(
 		}
 		current = current[key] as Record<string, unknown>;
 	}
-	const lastKey = path[path.length - 1] ?? "";
+	const lastKey = path.at(-1) ?? "";
 	current[lastKey] = value;
 }
 
@@ -114,7 +114,9 @@ function parseJson<T>(input: string, flagName: string): T {
 			jsonText = readFileSync(abs, "utf-8");
 		} catch (err) {
 			const reason = err instanceof Error ? err.message : "unknown read error";
-			throw new Error(`${flag}: cannot read file at '${path}': ${reason}`);
+			throw new Error(`${flag}: cannot read file at '${path}': ${reason}`, {
+				cause: err,
+			});
 		}
 	}
 	try {
@@ -211,7 +213,9 @@ export function parseScalarValue(
 			text = readFileSync(resolvePath(path), "utf-8");
 		} catch (err) {
 			const reason = err instanceof Error ? err.message : "unknown read error";
-			throw new Error(`${flag}: cannot read file at '${path}': ${reason}`);
+			throw new Error(`${flag}: cannot read file at '${path}': ${reason}`, {
+				cause: err,
+			});
 		}
 	}
 	let value: unknown;

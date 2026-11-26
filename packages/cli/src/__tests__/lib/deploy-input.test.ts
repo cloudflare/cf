@@ -485,7 +485,7 @@ describe("transforms Build Output Specification into deploy input", () => {
 				"module.exports = {}",
 			".cloudflare/output/v1/workers/default/bundle/app.py": "pass",
 			".cloudflare/output/v1/workers/default/bundle/dep.txt": "hello",
-			".cloudflare/output/v1/workers/default/bundle/blob.bin": "\x00",
+			".cloudflare/output/v1/workers/default/bundle/blob.bin": "\u0000",
 			".cloudflare/output/v1/workers/default/bundle/config.json": '{"a":1}',
 		});
 

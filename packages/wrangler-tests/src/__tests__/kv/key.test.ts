@@ -547,7 +547,8 @@ function mockKeyListRequest(
 				if (expectedKeys.length <= keysPerRequest) {
 					result = expectedKeys;
 				} else {
-					const start = parseInt(url.searchParams.get("cursor") ?? "0") || 0;
+					const start =
+						Number.parseInt(url.searchParams.get("cursor") ?? "0") || 0;
 					const end = start + keysPerRequest;
 					cursor = end < expectedKeys.length ? end : blankCursorValue;
 					result = expectedKeys.slice(start, end);

@@ -85,7 +85,7 @@ describe("dataset upsert", () => {
 							success: true,
 							errors: [],
 							messages: [],
-							result: { mutationId: mutationId },
+							result: { mutationId },
 						},
 						{ status: 200 }
 					);
@@ -137,7 +137,7 @@ describe("dataset upsert", () => {
 							success: true,
 							errors: [],
 							messages: [],
-							result: { mutationId: mutationId },
+							result: { mutationId },
 						},
 						{ status: 200 }
 					);
@@ -181,7 +181,7 @@ describe("dataset upsert", () => {
 						success: true,
 						errors: [],
 						messages: [],
-						result: { mutationId: mutationId },
+						result: { mutationId },
 					},
 					{ status: 200 }
 				);
@@ -214,7 +214,7 @@ describe("dataset upsert", () => {
 						success: true,
 						errors: [],
 						messages: [],
-						result: { mutationId: mutationId },
+						result: { mutationId },
 					},
 					{ status: 200 }
 				);

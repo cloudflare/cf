@@ -11,6 +11,7 @@ import type { ExpectStatic } from "vite-plus/test";
 
 // Inlined from wrangler's ../versions/rollback (unresolved in cf port).
 // Preserved so the (skipped) test bodies still type-check.
+// oxlint-disable-next-line quality/no-unknown-type-aliases -- placeholder for skipped upstream test bodies
 type ApiDeployment = unknown;
 const CANNOT_ROLLBACK_WITH_MODIFIED_SECERT_CODE = 10220;
 

@@ -13,7 +13,8 @@ async function normalizeFetchBody(
 	body: globalThis.BodyInit | null | undefined
 ): Promise<globalThis.BodyInit | null | undefined> {
 	if (
-		body == null ||
+		body === null ||
+		body === undefined ||
 		body instanceof globalThis.FormData ||
 		Object.prototype.toString.call(body) !== "[object FormData]"
 	) {

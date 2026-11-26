@@ -3,7 +3,7 @@ import deployCommand from "./deploy.js";
 import type { CommonYargsOptions } from "../../../lib/cli-types.js";
 import type { Argv, CommandModule } from "yargs";
 
-const triggersCommand: CommandModule<CommonYargsOptions, {}> & {
+const triggersCommand: CommandModule<CommonYargsOptions> & {
 	describe: string;
 } = {
 	command: "triggers",

@@ -35,7 +35,9 @@ function resolvePersistRoot(persistTo?: string): string {
 			return root;
 		}
 		if (code === "ENOTDIR") {
-			throw new Error(`Local persistence path must be a directory: ${root}`);
+			throw new Error(`Local persistence path must be a directory: ${root}`, {
+				cause: error,
+			});
 		}
 		throw error;
 	}

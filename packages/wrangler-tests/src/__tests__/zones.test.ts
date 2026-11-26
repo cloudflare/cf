@@ -9,7 +9,6 @@
 // The shape is preserved (not deleted) per the porting guide; each
 // test is converted to `it.skip(...)` with an empty body.
 
-// eslint-disable-next-line no-restricted-imports
 import { describe, it, test } from "vite-plus/test";
 
 describe("Zones", () => {

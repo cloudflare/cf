@@ -173,7 +173,9 @@ async function resolveSourceDirectory(
 		sourceDirectory = await fsp.realpath(unresolvedDirectory);
 	} catch (error) {
 		if (isNodeError(error) && error.code === "ENOENT") {
-			throw new Error(`Static assets directory not found: ${directory}`);
+			throw new Error(`Static assets directory not found: ${directory}`, {
+				cause: error,
+			});
 		}
 		throw error;
 	}

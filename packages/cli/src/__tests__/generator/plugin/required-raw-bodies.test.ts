@@ -212,8 +212,9 @@ describe.each(["text/plain", "application/octet-stream"])(
 			expect(formatOutput).not.toHaveBeenCalled();
 		});
 
-		if (contentType === "text/plain") {
-			it("still allows omission when the schema makes the body optional", async () => {
+		it.runIf(contentType === "text/plain")(
+			"still allows omission when the schema makes the body optional",
+			async () => {
 				const { run, send, requestApi } = setup(files, "edit");
 				await run();
 				expect(send).toHaveBeenCalledExactlyOnceWith(
@@ -221,8 +222,8 @@ describe.each(["text/plain", "application/octet-stream"])(
 					{ account_id: "account" }
 				);
 				expect(requestApi).not.toHaveBeenCalled();
-			});
-		}
+			}
+		);
 	}
 );
 

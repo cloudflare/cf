@@ -173,9 +173,8 @@ export function unwrapEnvelope(body: unknown, response?: Response): unknown {
 	if (!("success" in body)) {
 		return body;
 	}
-	const get = (key: string): unknown => Reflect.get(body, key);
-	if (get("success") === false) {
-		const rawErrors = get("errors");
+	if (body.success === false) {
+		const rawErrors = "errors" in body ? body.errors : undefined;
 		const errors = Array.isArray(rawErrors) ? rawErrors : [];
 		const message =
 			errors
@@ -184,8 +183,9 @@ export function unwrapEnvelope(body: unknown, response?: Response): unknown {
 						return entry;
 					}
 					if (entry && typeof entry === "object" && "message" in entry) {
-						const text: unknown = Reflect.get(entry, "message");
-						return typeof text === "string" ? text : undefined;
+						return typeof entry.message === "string"
+							? entry.message
+							: undefined;
 					}
 					return undefined;
 				})
@@ -208,10 +208,11 @@ export function unwrapEnvelope(body: unknown, response?: Response): unknown {
 	if (!("result" in body)) {
 		return body;
 	}
-	const result = get("result");
+	const { result } = body;
+	const resultInfo = "result_info" in body ? body.result_info : undefined;
 	return Array.isArray(result)
-		? { result, result_info: get("result_info") }
-		: withResultInfo(result, get("result_info"));
+		? { result, result_info: resultInfo }
+		: withResultInfo(result, resultInfo);
 }
 
 /**
@@ -357,12 +358,12 @@ async function sendOnce(
 	}
 }
 
-const RETRYABLE = [408, 429, 502, 503, 504];
+const RETRYABLE = new Set([408, 429, 502, 503, 504]);
 
 function retryDelay(response: Response, attempt: number): number {
 	const retryAfter = response.headers.get("Retry-After");
 	if (retryAfter) {
-		const seconds = parseInt(retryAfter, 10);
+		const seconds = Number.parseInt(retryAfter, 10);
 		if (!Number.isNaN(seconds) && seconds > 0) {
 			return Math.min(seconds * 1000, 60_000);
 		}
@@ -376,7 +377,7 @@ function retryDelay(response: Response, attempt: number): number {
 	}
 	const reset = response.headers.get("X-RateLimit-Reset");
 	if (reset) {
-		const time = parseInt(reset, 10);
+		const time = Number.parseInt(reset, 10);
 		if (!Number.isNaN(time)) {
 			const delay = time * 1000 - Date.now();
 			if (delay > 0) {
@@ -411,12 +412,12 @@ export async function send(
 		options.signal
 	);
 	for (let i = 0; i < (options.maxRetries ?? 2); i++) {
-		if (!RETRYABLE.includes(response.status)) {
+		if (!RETRYABLE.has(response.status)) {
 			break;
 		}
-		await new Promise((resolve) =>
-			setTimeout(resolve, retryDelay(response, i))
-		);
+		await new Promise((resolve) => {
+			setTimeout(resolve, retryDelay(response, i));
+		});
 		response = await sendOnce(
 			fetcher,
 			url,

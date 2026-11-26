@@ -151,7 +151,7 @@ export const mswSuccessDeploymentDetails = [
 						script_runtime: {
 							usage_model: "bundled",
 						},
-						bindings: bindings,
+						bindings,
 					},
 				})
 			);
@@ -163,7 +163,7 @@ export const mswSuccessDeploymentDetails = [
 		"*/accounts/:accountId/workers/scripts/:scriptName",
 		({ request }) => {
 			const url = new URL(request.url);
-			let scriptContent = "";
+			let scriptContent: string;
 			if (url.searchParams.get("deployment") === "1701-E") {
 				scriptContent = `
 			export default {

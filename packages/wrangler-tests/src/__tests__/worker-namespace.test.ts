@@ -1,5 +1,4 @@
 import { http, HttpResponse } from "msw/http";
-// eslint-disable-next-line no-restricted-imports
 import { beforeEach, describe, expect, it } from "vite-plus/test";
 import { mockAccountId, mockApiToken } from "./helpers/mock-account-id";
 import { mockConsoleMethods } from "./helpers/mock-console";

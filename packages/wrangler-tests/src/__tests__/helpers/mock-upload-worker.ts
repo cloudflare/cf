@@ -1,6 +1,5 @@
 import { ParseError } from "@cloudflare/workers-utils";
 import { http, HttpResponse } from "msw/http";
-// eslint-disable-next-line no-restricted-imports
 import { expect } from "vite-plus/test";
 import {
 	getSubdomainValues,

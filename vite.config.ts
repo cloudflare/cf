@@ -1,3 +1,4 @@
+import cloudflare from "@cloudflare/oxlint-config/vite-plus";
 import { defineConfig } from "vite-plus";
 
 export default defineConfig({
@@ -44,7 +45,8 @@ export default defineConfig({
 		],
 	},
 	lint: {
-		plugins: ["typescript", "import", "unicorn"],
+		extends: [cloudflare],
+		env: cloudflare.env,
 		categories: {
 			correctness: "error",
 		},
@@ -76,8 +78,79 @@ export default defineConfig({
 			],
 			curly: ["error", "all"],
 			"vite-plus/prefer-vite-plus-imports": "error",
+			// The CLI writes to the console directly and has no logger abstraction.
+			// See docs/design-history.md.
+			"no-console": "off",
+			// TypeScript reports duplicate and conflicting exports. This rule misreads
+			// re-exports from chunked ESM packages and CommonJS modules.
+			"import/export": "off",
+			// Its fix uses iterator helpers, which the ES2023 TypeScript lib for the
+			// Node.js 22 floor does not type.
+			"quality/no-array-filter-map": "off",
+			// Tests assert through node:assert and local expect* helpers.
+			"vitest/expect-expect": [
+				"error",
+				{ assertFunctionNames: ["assert*", "expect*"] },
+			],
+			// Parameterized suites name describe blocks from loop variables.
+			"vitest/valid-title": ["error", { ignoreTypeOfDescribeName: true }],
+			// Temporarily off while adopting @cloudflare/oxlint-config. Each rule is
+			// enabled with its fixes, or documented as staying off, in its own commit.
+			"@nkzw/no-instanceof": "off",
+			"import/consistent-type-specifier-style": "off",
+			"import/no-namespace": "off",
+			"quality/no-chained-type-assertions": "off",
+			"quality/no-conditional-empty-object-spread": "off",
+			"quality/no-known-value-widening": "off",
+			"quality/no-object-parameters": "off",
+			"quality/no-unknown-returns": "off",
+			"quality/no-unsafe-dictionary-type": "off",
+			"typescript/array-type": "off",
+			"typescript/no-unnecessary-type-assertion": "off",
+			"typescript/no-unsafe-argument": "off",
+			"typescript/no-unsafe-assignment": "off",
+			"typescript/no-unsafe-call": "off",
+			"typescript/no-unsafe-return": "off",
+			"typescript/no-unsafe-type-assertion": "off",
+			"unicorn/catch-error-name": "off",
+			"unicorn/consistent-function-scoping": "off",
+			"unicorn/numeric-separators-style": "off",
+			"unicorn/prefer-string-raw": "off",
+			"unicorn/prefer-string-replace-all": "off",
+			"unicorn/text-encoding-identifier-case": "off",
+			"vitest/no-conditional-expect": "off",
+			"vitest/require-mock-type-parameters": "off",
+			"vitest/require-to-throw-message": "off",
 		},
+		overrides: [
+			{
+				// Wrangler compatibility tests keep upstream titles, and their skip and
+				// todo cases are parity classifications with placeholder bodies. See
+				// packages/wrangler-tests/AGENTS.md.
+				files: ["packages/wrangler-tests/**"],
+				rules: {
+					"vitest/expect-expect": "off",
+					"vitest/no-conditional-tests": "off",
+					"vitest/no-disabled-tests": "off",
+					"vitest/valid-describe-callback": "off",
+					"vitest/valid-title": "off",
+					"vitest/warn-todo": "off",
+				},
+			},
+			{
+				// Upstream CommonJS script for Node.js versions older than cf supports.
+				files: [
+					"packages/wrangler-tests/src/__tests__/test-old-node-version.js",
+				],
+				rules: {
+					"preserve-caught-error": "off",
+					"typescript/no-require-imports": "off",
+					"unicorn/prefer-node-protocol": "off",
+				},
+			},
+		],
 		ignorePatterns: [
+			...cloudflare.ignorePatterns,
 			"fixtures/**",
 			"packages/cli/generator/**",
 			"packages/cli/src/commands/_generated/**",

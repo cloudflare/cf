@@ -1329,7 +1329,8 @@ describe("cf deploy", () => {
 					"export default {}",
 				".cloudflare/output/v1/workers/default/bundle/lib.cjs":
 					"module.exports = {}",
-				".cloudflare/output/v1/workers/default/bundle/data.bin": "\x00\x01\x02",
+				".cloudflare/output/v1/workers/default/bundle/data.bin":
+					"\u0000\u0001\u0002",
 				".cloudflare/output/v1/workers/default/bundle/text.txt": "hello",
 				".cloudflare/output/v1/workers/default/bundle/helper.wasm":
 					"wasm-bytes",
@@ -1559,10 +1560,7 @@ describe("cf deploy", () => {
 				| undefined;
 			expect(bindings).toBeDefined();
 
-			const byName = Object.fromEntries(
-				// oxlint-disable-next-line typescript/no-non-null-assertion
-				bindings!.map((b) => [b.name, b.type])
-			);
+			const byName = Object.fromEntries(bindings!.map((b) => [b.name, b.type]));
 			expect(byName.MY_KV).toBe("kv_namespace");
 			expect(byName.MY_DB).toBe("d1");
 			expect(byName.MY_BUCKET).toBe("r2_bucket");

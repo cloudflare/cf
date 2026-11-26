@@ -96,7 +96,10 @@ export function resolveFileToken(
 		bytes = readFileSync(abs);
 	} catch (err) {
 		const reason = err instanceof Error ? err.message : "unknown read error";
-		throw new Error(`--${fieldName}: cannot read file at '${path}': ${reason}`);
+		throw new Error(
+			`--${fieldName}: cannot read file at '${path}': ${reason}`,
+			{ cause: err }
+		);
 	}
 	switch (format) {
 		case "text":
@@ -113,7 +116,8 @@ export function resolveFileToken(
 				const reason =
 					err instanceof Error ? err.message : "unknown JSON parse error";
 				throw new Error(
-					`--${fieldName}: file at '${path}' is not valid JSON: ${reason}`
+					`--${fieldName}: file at '${path}' is not valid JSON: ${reason}`,
+					{ cause: err }
 				);
 			}
 		}

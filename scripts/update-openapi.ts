@@ -1,11 +1,10 @@
 #!/usr/bin/env node
 import { readFileSync, writeFileSync } from "node:fs";
-import { dirname, join, resolve } from "node:path";
+import { join, resolve } from "node:path";
 import timers from "node:timers/promises";
-import { fileURLToPath } from "node:url";
 import { x } from "tinyexec";
 
-const SCRIPT_DIR = dirname(fileURLToPath(import.meta.url));
+const SCRIPT_DIR = import.meta.dirname;
 const REPO_ROOT = resolve(SCRIPT_DIR, "..");
 const CLI_PACKAGE_JSON = "packages/cli/package.json";
 const CLI_PACKAGE_JSON_PATH = join(REPO_ROOT, CLI_PACKAGE_JSON);
@@ -761,12 +760,11 @@ This PR is maintained automatically by [the Update OpenAPI workflow](${GITHUB_SE
 	await createOrUpdatePullRequest(repository, updatePr?.number, title, body);
 }
 
-if (
-	process.argv[1] &&
-	resolve(process.argv[1]) === fileURLToPath(import.meta.url)
-) {
-	main().catch((error: unknown) => {
+if (process.argv[1] && resolve(process.argv[1]) === import.meta.filename) {
+	try {
+		await main();
+	} catch (error: unknown) {
 		console.error(formatError(error));
 		process.exitCode = 1;
-	});
+	}
 }

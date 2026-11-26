@@ -180,6 +180,27 @@ export async function runWranglerMigration(
 		dryRun,
 		force: options.force ?? false,
 		installDependencies: options.installDependencies ?? true,
+	}).catch((error: unknown) => {
+		if (error instanceof Error && "location" in error) {
+			const { location } = error;
+			if (
+				typeof location === "object" &&
+				location !== null &&
+				"file" in location &&
+				typeof location.file === "string" &&
+				"line" in location &&
+				typeof location.line === "number" &&
+				"column" in location &&
+				typeof location.column === "number"
+			) {
+				const file = path.relative(process.cwd(), location.file);
+				throw new Error(
+					`${file}:${location.line}:${location.column + 1}: ${error.message}`,
+					{ cause: error }
+				);
+			}
+		}
+		throw error;
 	});
 
 	printResult(

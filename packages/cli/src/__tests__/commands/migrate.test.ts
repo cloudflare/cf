@@ -1,3 +1,4 @@
+import { readFile, stat } from "node:fs/promises";
 import path from "node:path";
 import { runInTempDir, seed } from "@cloudflare/workers-utils/test-helpers";
 import { beforeEach, describe, expect, it, vi } from "vite-plus/test";
@@ -7,6 +8,7 @@ import {
 } from "../../lib/wrangler-migration.js";
 import { mockOutputStreams } from "../helpers/capture-output.js";
 import { runCf } from "../helpers/run-cf.js";
+import type * as Codemods from "@cloudflare/codemods";
 
 const { migrateWranglerToCf } = vi.hoisted(() => ({
 	migrateWranglerToCf: vi.fn(),
@@ -149,6 +151,39 @@ describe("cf migrate", () => {
 		);
 		expect(std.err).toContain("Migration preview complete.");
 	});
+
+	it.each([
+		[
+			"wrangler.toml",
+			'name = "worker"\ncompatibility_date = @',
+			"2:22: Invalid TOML document: invalid value",
+		],
+		["wrangler.json", '{\n  "name": ', "2:11: ValueExpected"],
+		["wrangler.jsonc", '{\n  "name": ', "2:11: ValueExpected"],
+	])(
+		"reports the location of malformed %s",
+		async (fileName, contents, error) => {
+			const file = path.join("config", fileName);
+			await seed({ [file]: contents });
+			const actual = await vi.importActual<typeof Codemods>(
+				"@cloudflare/codemods"
+			);
+			migrateWranglerToCf.mockImplementationOnce(actual.migrateWranglerToCf);
+
+			const location = `${file}:${error}`;
+			await expect(
+				runCf(["migrate", file, "--dry-run", "--bundler", "vite"])
+			).rejects.toThrow(location);
+
+			expect(std.err).toContain(location);
+			expect(std.out).toBe("");
+			expect(await readFile(file, "utf8")).toBe(contents);
+			await expect(stat("config/cloudflare.config.ts")).rejects.toHaveProperty(
+				"code",
+				"ENOENT"
+			);
+		}
+	);
 
 	it("requires an explicit path when no Wrangler config is found", async () => {
 		await expect(runCf(["migrate"])).rejects.toThrow(

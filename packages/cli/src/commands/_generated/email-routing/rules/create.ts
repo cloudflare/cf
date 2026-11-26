@@ -32,7 +32,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("matchers", {
 			type: "string",
 			description:
-				'Matching patterns to forward to your actions. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"type": "all" | "literal", "field"?: "to", "value"?: string}]. ? marks optional keys.',
+				'Matching patterns to forward to your actions. Creating or updating a rule requires exactly one matcher. Provide as a JSON array of objects or @path/to/file.json. Shape: [{"type": "all" | "literal", "field"?: "to", "value"?: string}]. ? marks optional keys.',
 		})
 		.option("name", { type: "string", description: "Routing rule name." })
 		.option("owner-worker-tag", {

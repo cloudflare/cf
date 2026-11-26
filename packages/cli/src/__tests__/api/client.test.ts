@@ -3,6 +3,7 @@
  * through.
  */
 import assert from "node:assert/strict";
+import { createServer } from "node:http";
 import { describe, test } from "vite-plus/test";
 import {
 	ApiError,
@@ -13,6 +14,7 @@ import {
 	path,
 	getResultInfo,
 } from "../../api/index.js";
+import type { AddressInfo } from "node:net";
 
 interface Sent {
 	url: string;
@@ -420,6 +422,40 @@ describe("send", () => {
 				return true;
 			}
 		);
+	});
+
+	// https://github.com/cloudflare/cf/issues/795: the platform fetch rejects
+	// with the abort reason, not an AbortError, when the timeout aborts it.
+	test("times out with the platform fetch", async () => {
+		const server = createServer(() => {});
+		await new Promise<void>((resolve) => {
+			server.listen(0, "127.0.0.1", resolve);
+		});
+		const { port } = server.address() as AddressInfo;
+		try {
+			const c = new Client({
+				baseUrl: `http://127.0.0.1:${port}/client/v4`,
+				auth: async () => ({ headers: { Authorization: "Bearer t" } }),
+				maxRetries: 0,
+				timeoutInSeconds: 0.2,
+			});
+			await assert.rejects(
+				c.send({ method: "GET", path: idPath }, { id: "1" }),
+				(error: unknown) => {
+					assert.ok(error instanceof ApiTimeoutError);
+					assert.equal(
+						error.message,
+						"Timeout exceeded when calling GET /a/1."
+					);
+					return true;
+				}
+			);
+		} finally {
+			server.closeAllConnections();
+			await new Promise<void>((resolve) => {
+				server.close(() => resolve());
+			});
+		}
 	});
 
 	test("retries", async () => {

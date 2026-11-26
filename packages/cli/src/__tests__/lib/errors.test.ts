@@ -1,3 +1,4 @@
+import { createServer } from "node:http";
 import {
 	UserError,
 	APIError as WorkersUtilsAPIError,
@@ -11,7 +12,8 @@ import {
 	vi,
 } from "vite-plus/test";
 import { handleError, MissingCredentialsError } from "../../lib/errors.js";
-import { ApiError } from "#api";
+import type { AddressInfo } from "node:net";
+import { ApiError, Client } from "#api";
 
 /**
  * Unit tests for `lib/errors.ts` — the central `handleError` funnel that
@@ -215,6 +217,34 @@ describe("handleError", () => {
 				expect(stderr()).not.toContain("[error]");
 			}
 		);
+
+		// https://github.com/cloudflare/cf/issues/795
+		it("names the cause of a request that got no response", async () => {
+			const server = createServer();
+			await new Promise<void>((resolve) => {
+				server.listen(0, "127.0.0.1", resolve);
+			});
+			const { port } = server.address() as AddressInfo;
+			await new Promise<void>((resolve) => {
+				server.close(() => resolve());
+			});
+			const client = new Client({
+				baseUrl: `http://127.0.0.1:${port}/client/v4`,
+				auth: async () => ({ headers: { Authorization: "Bearer t" } }),
+				maxRetries: 0,
+			});
+			const err = await client
+				.send({ method: "GET", path: () => "/accounts/abc/foo" })
+				.then(
+					() => undefined,
+					(error: unknown) => error
+				);
+			expect(err).toBeInstanceOf(ApiError);
+			handleError(err);
+			const out = stderr();
+			expect(out).toContain("fetch failed");
+			expect(out).toContain("ECONNREFUSED");
+		});
 
 		it("hints to log in on 401", () => {
 			handleError(

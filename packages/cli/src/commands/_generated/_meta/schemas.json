@@ -37347,7 +37347,7 @@
 					"name": "matchers",
 					"type": "string",
 					"required": true,
-					"description": "Matching patterns to forward to your actions. Provide as a JSON array of objects or @path/to/file.json. Shape: [{\"type\": \"all\" | \"literal\", \"field\"?: \"to\", \"value\"?: string}]. ? marks optional keys."
+					"description": "Matching patterns to forward to your actions. Creating or updating a rule requires exactly one matcher. Provide as a JSON array of objects or @path/to/file.json. Shape: [{\"type\": \"all\" | \"literal\", \"field\"?: \"to\", \"value\"?: string}]. ? marks optional keys."
 				},
 				{
 					"name": "name",
@@ -37532,7 +37532,7 @@
 					"name": "matchers",
 					"type": "string",
 					"required": true,
-					"description": "Matching patterns to forward to your actions. Provide as a JSON array of objects or @path/to/file.json. Shape: [{\"type\": \"all\" | \"literal\", \"field\"?: \"to\", \"value\"?: string}]. ? marks optional keys."
+					"description": "Matching patterns to forward to your actions. Creating or updating a rule requires exactly one matcher. Provide as a JSON array of objects or @path/to/file.json. Shape: [{\"type\": \"all\" | \"literal\", \"field\"?: \"to\", \"value\"?: string}]. ? marks optional keys."
 				},
 				{
 					"name": "name",

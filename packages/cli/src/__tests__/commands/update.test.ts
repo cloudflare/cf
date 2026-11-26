@@ -1,5 +1,5 @@
 import { spawn } from "node:child_process";
-import { mkdir } from "node:fs/promises";
+import { mkdir, realpath } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { runInTempDir, seed } from "@cloudflare/workers-utils/test-helpers";
@@ -10,11 +10,16 @@ import { createChildProcessController } from "../../lib/process.js";
 import { mockOutputStreams } from "../helpers/capture-output.js";
 import { runCf } from "../helpers/run-cf.js";
 import type { ChildProcess } from "node:child_process";
+import type * as FsPromises from "node:fs/promises";
 
 vi.mock("node:child_process", { spy: true });
+vi.mock("node:fs/promises", { spy: true });
 vi.mock("tinyexec", { spy: true });
 vi.mock("../../lib/delegate.js", { spy: true });
 vi.mock("../../lib/process.js", { spy: true });
+
+const { realpath: realpathActual } =
+	await vi.importActual<typeof FsPromises>("node:fs/promises");
 
 const installedPackage = JSON.stringify({ name: "cf", version: "1.2.3" });
 
@@ -41,6 +46,7 @@ describe("cf update", () => {
 			.mockImplementation(() => probeResult("", 1));
 		vi.mocked(findOwnPackageJson).mockReset();
 		vi.mocked(createChildProcessController).mockReset();
+		vi.mocked(realpath).mockReset();
 	});
 
 	async function mockLocalInstall(files: Record<string, string> = {}) {
@@ -234,6 +240,112 @@ describe("cf update", () => {
 		expect(preview()).toMatchObject({
 			command: ["pnpm", "update", "--global", "--latest", "cf"],
 		});
+	});
+
+	const vpInstallId = "97da9e35-a49d-465e-9aae-2df784be832f";
+
+	async function mockVpInstall(prefix: string, listedInstallId: string) {
+		const install = join(prefix, "cf");
+		await seed({ [join(install, "package.json")]: installedPackage });
+		vi.mocked(findOwnPackageJson).mockReturnValue(
+			join(process.cwd(), install, "package.json")
+		);
+		vi.mocked(x).mockImplementation((name) =>
+			name === "vp"
+				? probeResult(
+						JSON.stringify([
+							{ name: "cf", version: "1.2.3", installId: listedInstallId },
+							{ name: "typescript", version: "5.0.0", installId: "" },
+						]),
+						0
+					)
+				: probeResult("", 1)
+		);
+	}
+
+	it.each([
+		["Unix", join("vp", "packages", "cf", vpInstallId, "lib", "node_modules")],
+		["Windows", join("vp", "packages", "cf", vpInstallId, "node_modules")],
+		[
+			"legacy suffixed",
+			join("vp", "packages", `cf#${vpInstallId}`, "lib", "node_modules"),
+		],
+		["legacy unversioned", join("vp", "packages", "cf", "lib", "node_modules")],
+	])(
+		"verifies a global Vite+ install in the %s layout",
+		async (layout, prefix) => {
+			const listedInstallId = layout.startsWith("legacy")
+				? layout === "legacy suffixed"
+					? `#${vpInstallId}`
+					: ""
+				: vpInstallId;
+			await mockVpInstall(prefix, listedInstallId);
+
+			await runCf(["update", "1.2.4", "--dry-run"]);
+
+			expect(preview()).toEqual({
+				dryRun: true,
+				scope: "global",
+				cwd: tmpdir(),
+				command: ["vp", "add", "--global", "cf@1.2.4"],
+			});
+			expect(x).toHaveBeenCalledWith(
+				"vp",
+				["list", "--global", "--json"],
+				expect.any(Object)
+			);
+			expect(spawn).not.toHaveBeenCalled();
+		}
+	);
+
+	it("verifies a global Vite+ install from a Windows path on any OS", async () => {
+		const manifest = `C:\\Users\\me\\AppData\\Local\\vite-plus\\packages\\cf\\${vpInstallId}\\node_modules\\cf\\package.json`;
+		vi.mocked(findOwnPackageJson).mockReturnValue(manifest);
+		// realpath would reject this made-up path, so return it unchanged.
+		vi.mocked(realpath).mockImplementation(async (path) =>
+			path === manifest ? manifest : realpathActual(path)
+		);
+		vi.mocked(x).mockImplementation((name) =>
+			name === "vp"
+				? probeResult(
+						JSON.stringify([
+							{ name: "cf", version: "1.2.3", installId: vpInstallId },
+						]),
+						0
+					)
+				: probeResult("", 1)
+		);
+
+		await runCf(["update", "1.2.4", "--dry-run"]);
+
+		expect(preview()).toMatchObject({
+			command: ["vp", "add", "--global", "cf@1.2.4"],
+		});
+	});
+
+	it("drops a pinned Vite+ version spec when updating to latest", async () => {
+		await mockVpInstall(
+			join("vp", "packages", "cf", vpInstallId, "lib", "node_modules"),
+			vpInstallId
+		);
+
+		await runCf(["update", "--dry-run"]);
+
+		expect(preview()).toMatchObject({
+			command: ["vp", "update", "--global", "--latest", "cf"],
+		});
+	});
+
+	it("does not update a Vite+ install that vp does not report", async () => {
+		await mockVpInstall(
+			join("vp", "packages", "cf", vpInstallId, "lib", "node_modules"),
+			"0f8fad5b-d9cb-469f-a165-70867728950e"
+		);
+
+		await expect(runCf(["update"])).rejects.toThrow(
+			"Could not identify the package manager"
+		);
+		expect(spawn).not.toHaveBeenCalled();
 	});
 
 	it("refuses to update a shared pnpm global install group", async () => {

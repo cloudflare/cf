@@ -16,6 +16,7 @@ const GLOBAL_PROBES = {
 	pnpm: ["list", "--global", "--parseable", "--depth=0", "cf"],
 	yarn: ["global", "dir"],
 	bun: ["pm", "ls", "--global"],
+	vp: ["list", "--global", "--json"],
 };
 
 type Manager = keyof typeof GLOBAL_PROBES;
@@ -104,6 +105,48 @@ async function findLocalInstall(
 	}
 }
 
+// Vite+ installs each global package into its own npm prefix under a data
+// directory it does not print, so match the running manifest's path against
+// the install IDs `vp list` reports instead of building candidate paths.
+// Prefixes are packages/cf/<id>, or packages/cf#<id> and packages/cf for
+// installs made by older vp versions.
+function ownedByVp(stdout: string, installedManifest: string): boolean {
+	let packages: unknown;
+	try {
+		packages = JSON.parse(stdout);
+	} catch {
+		return false;
+	}
+	if (!Array.isArray(packages)) {
+		return false;
+	}
+	const segments = installedManifest.split(/[\\/]/);
+	const tail = segments.splice(-3);
+	if (tail.join("/") !== "node_modules/cf/package.json") {
+		return false;
+	}
+	if (segments.at(-1) === "lib") {
+		segments.pop();
+	}
+	const prefix = segments.join("/");
+	return packages.some((entry: unknown) => {
+		if (typeof entry !== "object" || entry === null) {
+			return false;
+		}
+		const { name, installId = "" } = entry as Record<string, unknown>;
+		if (name !== "cf" || typeof installId !== "string") {
+			return false;
+		}
+		const expected =
+			installId === ""
+				? "/packages/cf"
+				: installId.startsWith("#")
+					? `/packages/cf${installId}`
+					: `/packages/cf/${installId}`;
+		return prefix.endsWith(expected);
+	});
+}
+
 function globalManifests(manager: Manager, stdout: string): string[] {
 	return stdout.split(/\r?\n/).flatMap((line) => {
 		const text = line.trim();
@@ -146,6 +189,11 @@ async function findGlobalManifest(
 		});
 		if (result.exitCode !== 0) {
 			return undefined;
+		}
+		if (manager === "vp") {
+			return ownedByVp(result.stdout, installedManifest)
+				? installedManifest
+				: undefined;
 		}
 		const manifests = globalManifests(manager, result.stdout);
 		const canonical = await Promise.all(manifests.map(canonicalPath));
@@ -266,6 +314,12 @@ export async function planUpdate(
 		npm: ["npm", "install", "--global", pkg],
 		yarn: ["yarn", "global", "add", pkg],
 		bun: ["bun", "add", "--global", pkg],
+		// `vp update -g cf` stays within the version spec recorded at install
+		// time, so only `--latest` moves a pinned install to the latest release.
+		vp:
+			target === "latest"
+				? ["vp", "update", "--global", "--latest", "cf"]
+				: ["vp", "add", "--global", pkg],
 	};
 	const command =
 		owner.manager === "pnpm"

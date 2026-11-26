@@ -136,6 +136,40 @@ function mergeHeaders(
 }
 
 /**
+ * The message of a request that failed without a response. The platform
+ * fetch says only `fetch failed`, and keeps why, such as a DNS, TLS or
+ * connection error, in its cause.
+ */
+function failureMessage(error: unknown): string {
+	if (!(error instanceof Error)) {
+		return JSON.stringify(error);
+	}
+	const cause = causeMessage(error.cause);
+	return cause === undefined || error.message.includes(cause)
+		? error.message
+		: `${error.message}: ${cause}`;
+}
+
+function causeMessage(cause: unknown): string | undefined {
+	if (!(cause instanceof Error)) {
+		return undefined;
+	}
+	if (cause.message) {
+		return cause.message;
+	}
+	if (cause instanceof AggregateError) {
+		for (const inner of cause.errors) {
+			const message = causeMessage(inner);
+			if (message !== undefined) {
+				return message;
+			}
+		}
+	}
+	const code = (cause as { code?: unknown }).code;
+	return typeof code === "string" ? code : undefined;
+}
+
+/**
  * Sends the requests of the generated commands.
  */
 export class Client {
@@ -276,7 +310,12 @@ export class Client {
 					cause: error,
 				});
 			}
-			if (error instanceof Error && error.name === "AbortError") {
+			// The platform fetch rejects with the abort reason `send` gives a
+			// timeout, rather than an `AbortError`.
+			if (
+				error === "timeout" ||
+				(error instanceof Error && error.name === "AbortError")
+			) {
 				throw new ApiTimeoutError(
 					`Timeout exceeded when calling ${operation.method} ${path}.`,
 					{
@@ -285,7 +324,7 @@ export class Client {
 				);
 			}
 			throw new ApiError({
-				message: error instanceof Error ? error.message : JSON.stringify(error),
+				message: failureMessage(error),
 				rawResponse: unknownResponse,
 				cause: error,
 			});

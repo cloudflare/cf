@@ -161,14 +161,25 @@ export async function fetchRawBytes(
 		}
 	}
 
-	const response = await fetchImpl(url, {
-		method,
-		headers,
-		...(body !== undefined ? { body } : {}),
-		...(isUploadBody(body)
-			? {}
-			: { signal: AbortSignal.timeout(API_TIMEOUT_MS) }),
-	});
+	// The API deadline bounds the wait for the response. Once it arrives,
+	// the body may take far longer to transfer, as for a large download,
+	// so it is bounded only while no data arrives for as long.
+	const controller = isUploadBody(body) ? undefined : new AbortController();
+	const deadline = controller ? AbortSignal.timeout(API_TIMEOUT_MS) : undefined;
+	const onDeadline = (): void => controller?.abort(deadline?.reason);
+	deadline?.addEventListener("abort", onDeadline, { once: true });
+	let response: Response;
+	try {
+		response = await fetchImpl(url, {
+			method,
+			headers,
+			...(body !== undefined ? { body } : {}),
+			...(controller ? { signal: controller.signal } : {}),
+		});
+	} finally {
+		deadline?.removeEventListener("abort", onDeadline);
+	}
+	const bytes = await readBody(response, controller);
 	if (!response.ok) {
 		// Try to extract an API-shaped error envelope for consistent
 		// rendering by handleError. Falls back to a status-only error
@@ -176,9 +187,10 @@ export async function fetchRawBytes(
 		const contentType = response.headers.get("content-type") ?? "";
 		let errorData: unknown;
 		try {
+			const text = bytes.toString("utf-8");
 			errorData = contentType.includes("application/json")
-				? await response.json()
-				: await response.text();
+				? JSON.parse(text)
+				: text;
 		} catch {
 			errorData = null;
 		}
@@ -195,8 +207,51 @@ export async function fetchRawBytes(
 			},
 		});
 	}
-	const arrayBuffer = await response.arrayBuffer();
-	return Buffer.from(arrayBuffer);
+	return bytes;
+}
+
+/**
+ * Read a response body, aborting it through `controller` when no data
+ * arrives for {@link API_TIMEOUT_MS}. Without a controller, as for
+ * uploads, the body is read with no deadline.
+ */
+async function readBody(
+	response: Response,
+	controller: AbortController | undefined
+): Promise<Buffer> {
+	if (!controller || !response.body) {
+		return Buffer.from(await response.arrayBuffer());
+	}
+	const reader = response.body.getReader();
+	const chunks: Uint8Array[] = [];
+	let timer: NodeJS.Timeout | undefined;
+	const arm = (): void => {
+		clearTimeout(timer);
+		timer = setTimeout(() => {
+			const reason = new DOMException(
+				"The operation was aborted due to timeout",
+				"TimeoutError"
+			);
+			controller.abort(reason);
+			reader.cancel(reason).catch(() => {});
+		}, API_TIMEOUT_MS);
+	};
+	try {
+		arm();
+		for (;;) {
+			const { done, value } = await reader.read();
+			if (done) {
+				break;
+			}
+			chunks.push(value);
+			arm();
+		}
+	} catch (error) {
+		throw controller.signal.aborted ? controller.signal.reason : error;
+	} finally {
+		clearTimeout(timer);
+	}
+	return Buffer.concat(chunks);
 }
 
 /**

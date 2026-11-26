@@ -4113,6 +4113,128 @@
 			"hideCommand": false
 		},
 		{
+			"command": "cf accounts transformations workers delete",
+			"name": "delete",
+			"fullPath": ["accounts", "transformations", "workers", "delete"],
+			"description": "Removes the Worker's `/cdn-cgi/image/` URL transformations setting, so the zone-level Image Transformations settings apply again.",
+			"summary": "Delete Image Transformations setting for a Worker",
+			"usage": "cf accounts transformations workers delete <script-name>",
+			"arguments": [
+				{
+					"name": "script-name",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "Name of the Worker script."
+				}
+			],
+			"options": [
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "force",
+					"type": "boolean",
+					"alias": "f",
+					"required": false,
+					"description": "Skip confirmation (useful in scripts and CI)",
+					"default": false
+				}
+			],
+			"category": "delete",
+			"hasRequestBody": false,
+			"httpMethod": "DELETE",
+			"apiPath": "/accounts/{account_id}/settings/transformations/workers/{script_name}",
+			"operationId": "accounts.transformations.workers.delete",
+			"hideCommand": false
+		},
+		{
+			"command": "cf accounts transformations workers get",
+			"name": "get",
+			"fullPath": ["accounts", "transformations", "workers", "get"],
+			"description": "Returns the `/cdn-cgi/image/` URL transformations setting for requests served by a Worker. The result is `null` when the Worker has no setting of its own, in which case the zone-level Image Transformations settings apply.",
+			"summary": "Get Image Transformations setting for a Worker",
+			"usage": "cf accounts transformations workers get <script-name>",
+			"arguments": [
+				{
+					"name": "script-name",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "Name of the Worker script."
+				}
+			],
+			"options": [
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "read",
+			"hasRequestBody": false,
+			"httpMethod": "GET",
+			"apiPath": "/accounts/{account_id}/settings/transformations/workers/{script_name}",
+			"operationId": "accounts.transformations.workers.get",
+			"hideCommand": false
+		},
+		{
+			"command": "cf accounts transformations workers update",
+			"name": "update",
+			"fullPath": ["accounts", "transformations", "workers", "update"],
+			"description": "Sets the `/cdn-cgi/image/` URL transformations setting for requests served by a Worker. This overrides the zone-level Image Transformations and Allowed Origins settings for requests handled by the Worker.",
+			"summary": "Set Image Transformations setting for a Worker",
+			"usage": "cf accounts transformations workers update <script-name> [options]",
+			"arguments": [
+				{
+					"name": "script-name",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "Name of the Worker script."
+				}
+			],
+			"options": [
+				{
+					"name": "allowed-origins",
+					"type": "string",
+					"required": false,
+					"description": "Origins that source images may be fetched from, without a protocol, e.g. `images.example.com`,\n`*.example.com` or `images.example.com/uploads/`. When set, only these origins are allowed, so\ninclude the Worker's own hostname if it serves the images. Omit to allow only images from the\nzone of the request. Use `[\"*\"]` to allow any origin. Ignored when `enabled` is `false`.\n"
+				},
+				{
+					"name": "enabled",
+					"type": "boolean",
+					"required": true,
+					"description": "Whether URL transformations are enabled for the Worker. Set to `false` to disable them,\noverriding the zone-level setting.\n"
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "body",
+					"type": "string",
+					"required": false,
+					"description": "Raw JSON request body (bypasses individual flags)"
+				}
+			],
+			"category": "update",
+			"hasRequestBody": true,
+			"httpMethod": "PUT",
+			"apiPath": "/accounts/{account_id}/settings/transformations/workers/{script_name}",
+			"operationId": "accounts.transformations.workers.update",
+			"hideCommand": false
+		},
+		{
 			"command": "cf accounts update",
 			"name": "update",
 			"fullPath": ["accounts", "update"],
@@ -173215,6 +173337,7 @@
 		"accounts tokens": "Create and manage scoped API tokens for programmatic access to the Cloudflare API",
 		"accounts tokens permission-groups": "Operations for tokens.permission-groups",
 		"accounts transformations": "Operations for transformations",
+		"accounts transformations workers": "Operations for transformations.workers",
 		"accounts ut-billing": "Operations for ut-billing",
 		"acm": "acm",
 		"acm custom-trust-store": "Operations for custom-trust-store",

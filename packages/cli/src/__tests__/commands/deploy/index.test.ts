@@ -165,7 +165,7 @@ describe("cf deploy", () => {
 			expect(upload.metadata?.bindings).toContainEqual({
 				name: "MY_DB",
 				type: "d1",
-				id: "d1-db-id-123",
+				database_id: "d1-db-id-123",
 			});
 			expect(requests.some((request) => request.includes("/d1/database"))).toBe(
 				false

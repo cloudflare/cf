@@ -97,6 +97,19 @@ export async function runUpload(argv: UploadArgs, ctx: UploadCommand) {
 		const build = await runBuild(argv.mode, {
 			worker: argv.worker,
 			dryRun: argv["dry-run"],
+			onDetectionError(error) {
+				if (
+					ctx.command === "Deploy" &&
+					error.telemetryMessage ===
+						"autoconfig details pages functions with root assets"
+				) {
+					throw new Error(
+						"This looks like a legacy Pages project: it has a functions/ directory and static assets at the project root. Deploying the static assets alone would omit the Pages Functions.\n\n" +
+							"Migrate your Pages Functions to a Worker before running cf deploy again:\n" +
+							"https://developers.cloudflare.com/workers/static-assets/migration-guides/migrate-from-pages/"
+					);
+				}
+			},
 		});
 		if (build === "setup-needed") {
 			log.success("--dry-run: exiting now.");

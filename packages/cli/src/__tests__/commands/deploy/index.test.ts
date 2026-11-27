@@ -1727,7 +1727,6 @@ describe("cf deploy", () => {
 				"package.json": packageJson,
 				"package-lock.json": lockfile,
 				"tsconfig.json": tsconfig,
-				"wrangler.jsonc": '{"name":"astro-project"}',
 				"node_modules/astro/package.json": JSON.stringify({
 					name: "astro",
 					version: "7.3.5",

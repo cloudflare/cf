@@ -1,5 +1,6 @@
 import * as fsp from "node:fs/promises";
 import * as path from "node:path";
+import { getScaffoldedAssetsIgnorePatterns } from "@cloudflare/autoconfig";
 import {
 	BUILD_OUTPUT_ROOT,
 	cleanBuildOutputDir,
@@ -13,9 +14,11 @@ import {
 	WorkerConfigSchema,
 } from "@cloudflare/config";
 import {
+	createAssetsCopyFilter,
 	DEFAULT_COMPAT_DATE,
 	getWorkerNameFromProject,
 } from "@cloudflare/workers-utils";
+import { detect } from "package-manager-detector/detect";
 import {
 	CLOUDFLARE_CONFIG_FILENAME,
 	findCloudflareConfig,
@@ -107,9 +110,32 @@ export async function prepareStaticAssetsBuildOutput(
 		producer: { name: "cf", version: VERSION },
 	});
 	await writeWorkerConfig({ root, config: projectConfig.worker });
-	await writeAssets({ root, sourceDirectory });
+	const packageManager = await detect({ cwd: sourceDirectory });
+	const assetFilter = await createAssetsCopyFilter(
+		sourceDirectory,
+		getScaffoldedAssetsIgnorePatterns(packageManager?.name)
+	);
+	let skipped = 0;
+	await writeAssets({
+		root,
+		sourceDirectory,
+		filter: assetFilter,
+		onSkip(relativePath) {
+			skipped++;
+			if (!argv.quiet && process.env.DEBUG) {
+				log.message(
+					`Skipped static asset path: ${JSON.stringify(relativePath)}`
+				);
+			}
+		},
+	});
 
 	if (!argv.quiet) {
+		if (skipped > 0) {
+			log.info(
+				`Skipped ${skipped} static asset ${skipped === 1 ? "path" : "paths"}.`
+			);
+		}
 		log.success(`Build Output written to ${BUILD_OUTPUT_ROOT}`);
 		log.message("");
 	}

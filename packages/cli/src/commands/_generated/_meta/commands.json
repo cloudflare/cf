@@ -11245,6 +11245,13 @@
 					"enum": ["all", "sitemaps", "links"]
 				},
 				{
+					"name": "source-params-web-crawler-parse-options-browser-rendering-wait-until",
+					"type": "string",
+					"required": false,
+					"description": "Page load event Browser Rendering waits for before capturing content. Defaults to `networkidle2` when omitted. Use `load` or `domcontentloaded` for pages that keep network connections open and never reach network idle. Ignored when `use_browser_rendering` is false.",
+					"enum": ["load", "domcontentloaded", "networkidle0", "networkidle2"]
+				},
+				{
 					"name": "source-params-web-crawler-parse-options-content-selector",
 					"type": "string",
 					"required": false,
@@ -13890,6 +13897,13 @@
 					"required": false,
 					"description": "Where the crawler looks for URLs: 'sitemaps' reads sitemap XML only, 'links' follows page links only, 'all' does both.",
 					"enum": ["all", "sitemaps", "links"]
+				},
+				{
+					"name": "source-params-web-crawler-parse-options-browser-rendering-wait-until",
+					"type": "string",
+					"required": false,
+					"description": "Page load event Browser Rendering waits for before capturing content. Defaults to `networkidle2` when omitted. Use `load` or `domcontentloaded` for pages that keep network connections open and never reach network idle. Ignored when `use_browser_rendering` is false.",
+					"enum": ["load", "domcontentloaded", "networkidle0", "networkidle2"]
 				},
 				{
 					"name": "source-params-web-crawler-parse-options-content-selector",

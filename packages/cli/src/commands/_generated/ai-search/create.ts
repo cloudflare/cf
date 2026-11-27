@@ -338,6 +338,24 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"text"
 			)
 		)
+		.option(
+			"source-params-web-crawler-parse-options-browser-rendering-wait-until",
+			{
+				type: "string",
+				description:
+					"Page load event Browser Rendering waits for before capturing content. Defaults to `networkidle2` when omitted. Use `load` or `domcontentloaded` for pages that keep network connections open and never reach network idle. Ignored when `use_browser_rendering` is false.",
+				choices: ["load", "domcontentloaded", "networkidle0", "networkidle2"],
+			}
+		)
+		.coerce(
+			"source-params-web-crawler-parse-options-browser-rendering-wait-until",
+			(value) =>
+				resolveFileToken(
+					value,
+					"source-params-web-crawler-parse-options-browser-rendering-wait-until",
+					"text"
+				)
+		)
 		.option("source-params-web-crawler-parse-options-content-selector", {
 			type: "string",
 			description:
@@ -484,6 +502,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"source-params-web-crawler-discover-options-include-external-links",
 						"source-params-web-crawler-discover-options-include-subdomains",
 						"source-params-web-crawler-discover-options-source",
+						"source-params-web-crawler-parse-options-browser-rendering-wait-until",
 						"source-params-web-crawler-parse-options-include-images",
 						"source-params-web-crawler-parse-options-use-browser-rendering",
 						"source-params-web-crawler-parse-type",
@@ -686,6 +705,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 															],
 													},
 													parse_options: {
+														browser_rendering_wait_until:
+															argv[
+																"source-params-web-crawler-parse-options-browser-rendering-wait-until"
+															],
 														content_selector: parseObjectArray(
 															argv[
 																"source-params-web-crawler-parse-options-content-selector"
@@ -916,6 +939,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 										argv["source-params-web-crawler-discover-options-source"],
 								},
 								parse_options: {
+									browser_rendering_wait_until:
+										argv[
+											"source-params-web-crawler-parse-options-browser-rendering-wait-until"
+										],
 									content_selector: parseObjectArray(
 										argv[
 											"source-params-web-crawler-parse-options-content-selector"

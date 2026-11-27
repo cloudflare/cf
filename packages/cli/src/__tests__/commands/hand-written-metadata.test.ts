@@ -152,7 +152,7 @@ describe("hand-written command metadata", () => {
 			type: "boolean",
 			required: false,
 			description:
-				"Allow upload in CI despite conflicting remote Worker changes",
+				"Replace an active Worker traffic split without prompting and allow upload in CI despite conflicting remote Worker changes",
 			default: false,
 		});
 	});

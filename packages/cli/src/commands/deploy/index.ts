@@ -1,4 +1,5 @@
 import { log } from "../../lib/ui/log.js";
+import { forceDescription } from "./force-description.js";
 import { runUpload, sharedUploadBuilder } from "./shared.js";
 import {
 	prepareStaticAssetsBuildOutput,
@@ -19,8 +20,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("force", {
 			type: "boolean",
 			alias: "f",
-			description:
-				"Allow upload in CI despite conflicting remote Worker changes",
+			description: forceDescription,
 			default: false,
 		})
 		.option("dispatch-namespace", {

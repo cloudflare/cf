@@ -84,7 +84,7 @@
 		"@cloudflare/cli-shared-helpers": "0.3.13",
 		"@cloudflare/codemods": "0.9.1",
 		"@cloudflare/containers-shared": "0.27.2",
-		"@cloudflare/deploy-helpers": "0.30.0",
+		"@cloudflare/deploy-helpers": "https://pkg.pr.new/@cloudflare/deploy-helpers@717364005522a4adba5c0fc652e6d2dbd308a606",
 		"@cloudflare/forge": "0.3.0",
 		"@cloudflare/workers-auth": "0.18.8",
 		"@cloudflare/workers-utils": "0.57.0",

@@ -27,6 +27,8 @@ import {
 	createDeployProps,
 	createVersionsUploadProps,
 } from "../../lib/deploy-input.js";
+import { confirm } from "../../lib/dialog.js";
+import { isNonInteractiveOrCI } from "../../lib/interactive.js";
 import { log } from "../../lib/ui/log.js";
 import { runBuild } from "../build/index.js";
 import { createContainerDeployConfig } from "./containers.js";
@@ -79,6 +81,7 @@ type UploadCommand = { command: "Deploy" } | { command: "Version upload" };
 type UploadArgs = SharedUploadArgs & {
 	provision?: boolean;
 	force?: boolean;
+	"dispatch-namespace"?: string;
 	"preview-alias"?: string;
 	"containers-rollout"?: "immediate" | "gradual" | "none";
 };
@@ -92,6 +95,15 @@ type UploadArgs = SharedUploadArgs & {
  * and which props are constructed.
  */
 export async function runUpload(argv: UploadArgs, ctx: UploadCommand) {
+	if (
+		ctx.command === "Deploy" &&
+		argv["dry-run"] &&
+		!argv["dispatch-namespace"]
+	) {
+		log.info(
+			"Dry run: no traffic changes. A real deploy would replace any active traffic split with a 100% rollout to the new version."
+		);
+	}
 	// Delegate the build before applying cf's dotenv values.
 	if (!argv.prebuilt) {
 		const build = await runBuild(argv.mode, {
@@ -197,8 +209,28 @@ async function uploadBuildOutput(
 			props.workerNameOverridden = workerNameOverridden;
 
 			log.section("Deploy");
-			({ versionId } = await deploy(props, wranglerConfig, buildResult, {
+			const result = await deploy(props, wranglerConfig, buildResult, {
 				deployCommand: "cf deploy",
+				confirmTrafficSplitReplacement: async (versions) => {
+					const split = versions
+						.map(
+							({ version_id, percentage }) => `${version_id} (${percentage}%)`
+						)
+						.join(", ");
+					const message = `Deploying will replace the active traffic split (${split}) and send 100% of traffic to the new version.`;
+					if (argv.force) {
+						log.warn(message);
+						return true;
+					}
+					if (isNonInteractiveOrCI()) {
+						log.warn(
+							`${message} A non-interactive deploy requires explicit approval.`,
+							"cf deploy --force"
+						);
+						return false;
+					}
+					return confirm(`${message} Continue?`, { defaultValue: false });
+				},
 				versionsDeployCommand:
 					"cf workers deployments create --worker <worker-name> --strategy percentage --versions <versions-json>",
 				d1ListCommand: "cf d1 list",
@@ -216,7 +248,12 @@ async function uploadBuildOutput(
 				observabilityTargetCountField: "targetInstanceCount",
 				syncWorkersSite: undefined,
 				analyseBundle: undefined,
-			}));
+			});
+			if (result.trafficSplitReplacementDeclined) {
+				log.warn("Deploy cancelled. The active traffic split is unchanged.");
+				throw new CliExit(1);
+			}
+			versionId = result.versionId;
 		} else {
 			const props = createVersionsUploadProps(
 				worker,

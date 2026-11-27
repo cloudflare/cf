@@ -16,6 +16,7 @@ import {
 	it,
 	vi,
 } from "vite-plus/test";
+import * as interactive from "../../../lib/interactive.js";
 import { makeExecutable, nodeScript } from "../../helpers/executable.js";
 import { createMockDeployContext } from "../../helpers/mock-deploy-context.js";
 import { createFetchResult, msw, setupMsw } from "../../helpers/msw.js";
@@ -37,6 +38,11 @@ import {
 	workerConfig,
 } from "./helpers.js";
 import type * as DeployHelpers from "@cloudflare/deploy-helpers";
+
+vi.mock("@clack/prompts", async (importOriginal) => ({
+	...(await importOriginal<typeof clack>()),
+	confirm: vi.fn(),
+}));
 
 vi.mock("../../../lib/deploy-context.js", () => ({
 	createDeployContext: (authToken: string) =>
@@ -165,7 +171,7 @@ describe("cf deploy", () => {
 			expect(upload.metadata?.bindings).toContainEqual({
 				name: "MY_DB",
 				type: "d1",
-				id: "d1-db-id-123",
+				database_id: "d1-db-id-123",
 			});
 			expect(requests.some((request) => request.includes("/d1/database"))).toBe(
 				false
@@ -1709,6 +1715,177 @@ describe("cf deploy", () => {
 		);
 	});
 
+	describe("active traffic split", () => {
+		it.each([
+			{
+				mode: "terminal decline",
+				terminal: true,
+				force: false,
+				approved: false,
+			},
+			{
+				mode: "terminal approval",
+				terminal: true,
+				force: false,
+				approved: true,
+			},
+			{
+				mode: "unattended refusal",
+				terminal: false,
+				force: false,
+				approved: false,
+			},
+			{
+				mode: "unattended force",
+				terminal: false,
+				force: true,
+				approved: true,
+			},
+			{ mode: "terminal force", terminal: true, force: true, approved: true },
+		])(
+			"handles $mode before writing anything",
+			async ({ terminal, force, approved }) => {
+				vi.spyOn(interactive, "isNonInteractiveOrCI").mockReturnValue(
+					!terminal
+				);
+				const confirm = vi
+					.mocked(clack.confirm)
+					.mockReset()
+					.mockResolvedValue(approved);
+				const warn = vi.spyOn(clack.log, "warn").mockImplementation(() => {});
+				const success = vi
+					.spyOn(clack.log, "success")
+					.mockImplementation(() => {});
+				const stderr = vi.spyOn(process.stderr, "write").mockReturnValue(true);
+				const requests = recordRequests();
+				const upload = mockWorkerUpload();
+				const deployment = captureDeployment();
+				mockExistingWorker();
+				const versions = [
+					{ version_id: "old-version-one", percentage: 75 },
+					{ version_id: "old-version-two", percentage: 25 },
+				];
+				msw.use(
+					http.get(
+						"*/accounts/:accountId/workers/scripts/:scriptName/deployments",
+						() =>
+							HttpResponse.json(
+								createFetchResult({
+									deployments: [{ id: "active-deployment", versions }],
+								})
+							)
+					)
+				);
+				await seed({
+					".cloudflare/output/v1/config.json": buildOutputRootConfig(),
+					".cloudflare/output/v1/workers/default/worker.config.json":
+						workerConfig(),
+					".cloudflare/output/v1/workers/default/bundle/index.js":
+						"export default {};",
+				});
+
+				const { exitCode } = await runCf([
+					"deploy",
+					"--prebuilt",
+					...(force ? ["--force"] : []),
+				]);
+
+				expect(exitCode).toBe(approved ? 0 : 1);
+				const warning =
+					"Deploying will replace the active traffic split (old-version-one (75%), old-version-two (25%)) and send 100% of traffic to the new version.";
+				if (terminal && !force) {
+					expect(confirm).toHaveBeenCalledExactlyOnceWith(
+						expect.objectContaining({
+							message: `${warning} Continue?`,
+							initialValue: false,
+						})
+					);
+				} else {
+					expect(confirm).not.toHaveBeenCalled();
+					expect(warn).toHaveBeenCalledWith(
+						expect.stringContaining(warning),
+						expect.anything()
+					);
+				}
+				if (approved) {
+					expect(upload.metadata).toBeDefined();
+					expect(deployment.body?.versions).toEqual([
+						{ version_id: "test-version-id", percentage: 100 },
+					]);
+				} else {
+					expect(requests).toEqual([
+						expect.stringMatching(/^GET .*\/deployments$/),
+					]);
+					expect(deployment.called).toBe(false);
+					expect(success).not.toHaveBeenCalled();
+					expect(warn).toHaveBeenCalledWith(
+						expect.stringContaining(
+							"Deploy cancelled. The active traffic split is unchanged."
+						),
+						expect.anything()
+					);
+					if (!terminal) {
+						expect(stderr).toHaveBeenCalledWith(
+							expect.stringContaining("cf deploy --force")
+						);
+					}
+				}
+			}
+		);
+
+		it("does not promote the new version if the active split changes during upload", async () => {
+			vi.spyOn(interactive, "isNonInteractiveOrCI").mockReturnValue(false);
+			const confirm = vi
+				.mocked(clack.confirm)
+				.mockReset()
+				.mockResolvedValue(true);
+			let activeDeploymentId = "initial-deployment";
+			const upload = mockWorkerUpload(
+				{},
+				{
+					onRequest: () => {
+						activeDeploymentId = "intervening-deployment";
+					},
+				}
+			);
+			const deployment = captureDeployment();
+			mockExistingWorker();
+			msw.use(
+				http.get(
+					"*/accounts/:accountId/workers/scripts/:scriptName/deployments",
+					() =>
+						HttpResponse.json(
+							createFetchResult({
+								deployments: [
+									{
+										id: activeDeploymentId,
+										versions: [
+											{ version_id: "version-one", percentage: 75 },
+											{ version_id: "version-two", percentage: 25 },
+										],
+									},
+								],
+							})
+						)
+				)
+			);
+			await seed({
+				".cloudflare/output/v1/config.json": buildOutputRootConfig(),
+				".cloudflare/output/v1/workers/default/worker.config.json":
+					workerConfig(),
+				".cloudflare/output/v1/workers/default/bundle/index.js":
+					"export default {};",
+			});
+
+			await expect(runCf(["deploy", "--prebuilt"])).rejects.toThrow(
+				"A different traffic split became active while deploying. No traffic was changed by this deploy. Rerun `cf deploy` to review the current rollout."
+			);
+			expect(confirm).toHaveBeenCalledOnce();
+			expect(upload.metadata).toBeDefined();
+			expect(deployment.called).toBe(false);
+		});
+	});
+
 	describe("--dry-run", () => {
 		it("keeps existing project files unchanged and skips the build when setup is needed", async () => {
 			const packageJson = JSON.stringify({
@@ -1748,6 +1925,7 @@ describe("cf deploy", () => {
 
 		it("does not upload the worker", async () => {
 			const warn = vi.spyOn(clack.log, "warn").mockImplementation(() => {});
+			const info = vi.spyOn(clack.log, "info").mockImplementation(() => {});
 			try {
 				const upload = mockWorkerUpload();
 				await seed({
@@ -1765,8 +1943,15 @@ describe("cf deploy", () => {
 				expect(std.out).toContain("--dry-run: exiting now.");
 				expect(std.out).not.toContain("Deployed");
 				expect(warn).not.toHaveBeenCalled();
+				expect(info).toHaveBeenCalledWith(
+					expect.stringContaining(
+						"A real deploy would replace any active traffic split with a 100% rollout"
+					),
+					expect.anything()
+				);
 			} finally {
 				warn.mockRestore();
+				info.mockRestore();
 			}
 		});
 

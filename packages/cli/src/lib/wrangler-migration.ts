@@ -7,7 +7,6 @@ import {
 	type MigrationFollowUp,
 	type MigrationResult,
 } from "@cloudflare/autoconfig";
-import { experimental_readRawConfig } from "@cloudflare/workers-utils/config";
 import { CliExit } from "./cli-exit.js";
 import { success, theme, warning } from "./ui/index.js";
 
@@ -192,10 +191,7 @@ export async function runWranglerMigration(
 	// Detected before `cloudflare.config.ts` exists, which would mark the project as set up
 	const details = await analyzeProject(projectPath, {
 		output,
-		wranglerConfig: {
-			...experimental_readRawConfig({ config: configPath }).rawConfig,
-			configPath,
-		},
+		wranglerConfigPath: configPath,
 	});
 	const settings = await migrateWranglerConfig(configPath, {
 		dryRun,

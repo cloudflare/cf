@@ -173,7 +173,7 @@ describe("cf migrate", () => {
 	});
 
 	it("detects the project first and uses the bundler its framework setup chooses", async () => {
-		await seed({ "wrangler.json": JSON.stringify({ main: "src/index.ts" }) });
+		await seed({ "wrangler.json": "{}" });
 		const details = {
 			configured: false,
 			framework: { id: "astro", name: "Astro" },
@@ -186,7 +186,7 @@ describe("cf migrate", () => {
 		const configPath = path.join(process.cwd(), "wrangler.json");
 		expect(mocks.analyzeProject).toHaveBeenCalledWith(process.cwd(), {
 			output: "stderr",
-			wranglerConfig: { configPath, main: "src/index.ts" },
+			wranglerConfigPath: configPath,
 		});
 		expect(mocks.analyzeProject.mock.invocationCallOrder[0]).toBeLessThan(
 			mocks.migrateWranglerConfig.mock.invocationCallOrder[0] ?? 0

@@ -41,7 +41,7 @@ overrides:
   "@cloudflare/autoconfig>@cloudflare/config": 1.0.0-rc.5
   "@cloudflare/autoconfig>@cloudflare/workers-utils": 0.58.0
   # One copy, so log levels set by cf also apply to the packages that log through it.
-  "@cloudflare/cli-shared-helpers": https://pkg.pr.new/cloudflare/workers-sdk/@cloudflare/cli-shared-helpers@4aaf81c
+  "@cloudflare/cli-shared-helpers": https://pkg.pr.new/cloudflare/workers-sdk/@cloudflare/cli-shared-helpers@284d481
 peerDependencyRules:
   allowAny:
     - vite

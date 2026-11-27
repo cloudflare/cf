@@ -1,5 +1,46 @@
 # cf
 
+## 1.0.0-rc.7
+
+### Minor Changes
+
+- 56789bc: Update the generated command surface for Cloudflare API schemas revision
+  `35fd5e2c98a046bbff7c94be3e6e2bf1abbcd0ff`.
+- a2cc5dd: Update the generated command surface for Cloudflare API schemas revision
+  `904c543412786c28ed09dc263c6668df8901cf18`.
+- c49b21d: Update the generated command surface for Cloudflare API schemas revision
+  `9a5e4d44bd74d90fa9e4822142b8eb67e4ba3c70`.
+- c4f8a9d: Update the generated command surface for Cloudflare API schemas revision
+  `c020280b640697061f994f8fe305d7523e0f17b6`.
+- 3d77bb8: Update the generated command surface for Cloudflare API schemas revision
+  `df4199d61448de7e296a83e9aee473786980f08e`.
+- b5c770a: Update the generated command surface for Cloudflare API schemas revision
+  `df5b78801a495a6843e4c104737be9b22d6bdc7f`.
+
+### Patch Changes
+
+- 90aaf73: Stop project setup when Wrangler migration does not run
+
+  Commands such as `cf deploy`, `cf build`, and `cf dev` no longer fall back to framework setup when a Wrangler config is present but migration is declined, cannot be prompted for, or needs an explicit config path. This prevents static setup from dropping a Worker's entrypoint and bindings. Run `cf migrate` explicitly before trying again, or use `cf migrate <path>` if multiple Wrangler configs are present. You can also continue using Wrangler.
+
+- 43bedb4: Update dependencies published from the Workers SDK repository:
+
+  - `@cloudflare/autoconfig`: `0.13.4` → `0.13.5`
+  - `@cloudflare/build-output-utils`: `1.0.0-rc.4` → `1.0.0-rc.5`
+  - `@cloudflare/cli-shared-helpers`: `0.3.13` → `0.3.14`
+  - `@cloudflare/codemods`: `0.9.1` → `0.10.0`
+  - `@cloudflare/config`: `1.0.0-rc.4` → `1.0.0-rc.5`
+  - `@cloudflare/containers-shared`: `0.27.2` → `0.28.0`
+  - `@cloudflare/deploy-helpers`: `0.30.0` → `0.31.0`
+  - `@cloudflare/runtime-types`: `0.1.34` → `0.1.35`
+  - `@cloudflare/workers-auth`: `0.18.8` → `0.19.0`
+  - `@cloudflare/workers-utils`: `0.57.0` → `0.58.0`
+  - `miniflare`: `5.20261123.1-beta` → `5.20261127.0-beta`
+
+- 74fcc87: Support global Vite+ installs in `cf update`
+
+  `cf update` now recognises a cf installed with `vp add -g cf` and updates it with Vite+, including installs pinned to a specific version.
+
 ## 1.0.0-rc.6
 
 ### Minor Changes

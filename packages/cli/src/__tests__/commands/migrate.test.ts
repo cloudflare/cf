@@ -164,7 +164,7 @@ describe("cf migrate", () => {
 		});
 
 		await expect(runCf(["migrate"])).rejects.toThrow(
-			`Multiple Wrangler configs found in ${process.cwd()}. Pass the exact path to cf migrate.`
+			`Multiple Wrangler configs found in ${process.cwd()}. Pass the exact path to cf migrate`
 		);
 		expect(migrateWranglerToCf).not.toHaveBeenCalled();
 	});
@@ -242,13 +242,13 @@ describe("cf migrate", () => {
 		);
 	});
 
-	it("continues without migrating when the project workflow offer is declined", async () => {
+	it("stops when the project workflow offer is declined", async () => {
 		await seed({ "wrangler.toml": "name = 'worker'" });
 		const confirmMigration = vi.fn().mockResolvedValue(false);
 
 		await expect(
 			maybeMigrateWranglerProject(process.cwd(), confirmMigration)
-		).resolves.toBe(false);
+		).rejects.toThrow("cf migrate wrangler.toml");
 
 		expect(migrateWranglerToCf).not.toHaveBeenCalled();
 	});
@@ -272,11 +272,11 @@ describe("cf migrate", () => {
 		const confirmMigration = vi.fn();
 
 		await expect(findWranglerConfig(process.cwd())).rejects.toThrow(
-			`Multiple Wrangler configs found in ${process.cwd()}. Pass the exact path to cf migrate.`
+			`Multiple Wrangler configs found in ${process.cwd()}. Pass the exact path to cf migrate`
 		);
 		await expect(
 			maybeMigrateWranglerProject(process.cwd(), confirmMigration)
-		).resolves.toBe(false);
+		).rejects.toThrow("Pass the exact path to cf migrate");
 
 		expect(confirmMigration).not.toHaveBeenCalled();
 		expect(migrateWranglerToCf).not.toHaveBeenCalled();

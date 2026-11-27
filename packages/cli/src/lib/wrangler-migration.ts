@@ -44,8 +44,7 @@ async function fileExists(filePath: string): Promise<boolean> {
 }
 
 export async function findWranglerConfig(
-	cwd: string,
-	{ failOnMultiple = true }: { failOnMultiple?: boolean } = {}
+	cwd: string
 ): Promise<string | undefined> {
 	const candidates = DEFAULT_CONFIG_FILES.map((fileName) =>
 		path.join(cwd, fileName)
@@ -65,12 +64,8 @@ export async function findWranglerConfig(
 	if (existingCandidates.length <= 1) {
 		return existingCandidate;
 	}
-	if (!failOnMultiple) {
-		return;
-	}
-
 	throw new Error(
-		`Multiple Wrangler configs found in ${cwd}. Pass the exact path to cf migrate.`
+		`Multiple Wrangler configs found in ${cwd}. Pass the exact path to cf migrate, or continue using Wrangler with your chosen config.`
 	);
 }
 
@@ -194,9 +189,8 @@ export async function runWranglerMigration(
 }
 
 /**
- * Offer to convert a Wrangler config before framework setup. Returns true
- * only after the user accepts and the conversion command completes, including
- * when it runs in dry-run mode.
+ * Offer to convert a Wrangler config before framework setup. Only projects
+ * without a Wrangler config may fall through to framework setup.
  */
 export async function maybeMigrateWranglerProject(
 	projectPath: string,
@@ -204,9 +198,7 @@ export async function maybeMigrateWranglerProject(
 	output: MigrationOutput = "stderr",
 	dryRun = false
 ): Promise<boolean> {
-	const configPath = await findWranglerConfig(projectPath, {
-		failOnMultiple: false,
-	});
+	const configPath = await findWranglerConfig(projectPath);
 	if (configPath === undefined) {
 		return false;
 	}
@@ -221,7 +213,9 @@ export async function maybeMigrateWranglerProject(
 		}
 	);
 	if (!accepted) {
-		return false;
+		throw new Error(
+			`Wrangler migration did not run. Run ${theme.code(`cf migrate ${displayPath}`)} before trying again, or continue using Wrangler with your existing config.`
+		);
 	}
 
 	const bundler = await detectWranglerMigrationBundler(configPath);

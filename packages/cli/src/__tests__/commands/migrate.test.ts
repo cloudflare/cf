@@ -177,6 +177,7 @@ describe("cf migrate", () => {
 		const details = {
 			configured: false,
 			framework: { id: "astro", name: "Astro" },
+			outputDir: "dist",
 		};
 		mocks.analyzeProject.mockResolvedValue(details);
 		mocks.configureProject.mockResolvedValue({ buildTool: "vite" });
@@ -195,9 +196,10 @@ describe("cf migrate", () => {
 			dryRun: false,
 			output: "stderr",
 		});
+		// Vite deploys the build output, so the migration doesn't ask about an assets directory there
 		expect(mocks.migrateBundler).toHaveBeenCalledWith(
 			configPath,
-			expect.objectContaining({ bundler: "vite" })
+			expect.objectContaining({ bundler: "vite", outputDir: "dist" })
 		);
 		expect(std.err).toContain(
 			"Using the Vite bundler instead of --bundler wrangler, because Astro builds with it."

@@ -227,6 +227,7 @@ export async function runWranglerMigration(
 		bundler,
 		dryRun,
 		installDependencies,
+		outputDir: details?.outputDir,
 	});
 
 	const result: MigrationResult = {

@@ -1,6 +1,4 @@
-import { theme } from "../../lib/ui/index.js";
 import {
-	detectWranglerMigrationBundler,
 	resolveWranglerConfigPath,
 	runWranglerMigration,
 } from "../../lib/wrangler-migration.js";
@@ -15,7 +13,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		})
 		.option("bundler", {
 			choices: ["vite", "wrangler"] as const,
-			description: `Bundler to use in the migrated project (defaults to vite when @cloudflare/vite-plugin is declared, otherwise wrangler)`,
+			description: `Bundler to use in the migrated project, unless its framework setup chooses one (defaults to vite when @cloudflare/vite-plugin is declared, otherwise wrangler)`,
 		})
 		.option("dry-run", {
 			type: "boolean",
@@ -30,22 +28,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("install", {
 			type: "boolean",
 			default: true,
-			description: `Install cf as a project dependency (use --no-install to skip)`,
+			description: `Install the packages the migrated project needs and set up its framework (use --no-install to skip both)`,
 		});
 }
 
 type MigrateArgs = InferArgs<typeof builder>;
-type MigrationBundler = NonNullable<MigrateArgs["bundler"]>;
-
-function printDetectedBundler(bundler: MigrationBundler): void {
-	console.error(
-		theme.muted(
-			bundler === "vite"
-				? "Using the Vite bundler because @cloudflare/vite-plugin is declared. Pass --bundler wrangler to override."
-				: "Using the Wrangler bundler because @cloudflare/vite-plugin is not declared. Pass --bundler vite to override."
-		)
-	);
-}
 
 const migrateCommand: CommandModule<CommonYargsOptions, MigrateArgs> = {
 	command: "migrate [path]",
@@ -53,13 +40,8 @@ const migrateCommand: CommandModule<CommonYargsOptions, MigrateArgs> = {
 	builder,
 	handler: async (args) => {
 		const configPath = await resolveWranglerConfigPath(args.path);
-		const bundler =
-			args.bundler ?? (await detectWranglerMigrationBundler(configPath));
-		if (args.bundler === undefined) {
-			printDetectedBundler(bundler);
-		}
 		await runWranglerMigration(configPath, {
-			bundler,
+			bundler: args.bundler,
 			dryRun: args["dry-run"],
 			force: args.force,
 			installDependencies: args.install,

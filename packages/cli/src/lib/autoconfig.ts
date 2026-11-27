@@ -21,6 +21,7 @@ import type {
 	AutoConfigContext,
 	AutoConfigDetails,
 	AutoConfigSummary,
+	WranglerConfig,
 } from "@cloudflare/autoconfig";
 
 /**
@@ -73,7 +74,7 @@ export function normalizeProjectCommandExit(
 
 export async function analyzeProject(
 	cwd: string,
-	options: CommandOutputOptions = {}
+	options: CommandOutputOptions & { wranglerConfig?: WranglerConfig } = {}
 ): Promise<AutoConfigDetails | undefined> {
 	const context = createAutoConfigContext(options);
 	try {
@@ -81,6 +82,7 @@ export async function analyzeProject(
 			projectPath: cwd,
 			target: "cf",
 			context,
+			wranglerConfig: options.wranglerConfig,
 		});
 		return withBuildOutputV1Compatibility(
 			maybeApplyVinextCommandOverrides(details)

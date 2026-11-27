@@ -30,7 +30,7 @@ specify the version when launching cf instead (for example, `npx cf@latest`).
 cf auth login        # Authenticate with Cloudflare
 cf --help            # Browse all commands
 cf <command> --help  # Per-command help
-cf complete bash >> ~/.bashrc   # Install shell completions
+cf complete bash --install     # Install shell completions
 ```
 
 ## License

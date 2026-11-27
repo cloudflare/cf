@@ -5,7 +5,8 @@
  *
  *   1. Init script: `cf complete <bash|zsh|fish|powershell>` prints the
  *      shell-specific completion bootstrap. Users append it to their rc
- *      file (e.g. `cf complete bash >> ~/.bashrc`).
+ *      file (e.g. `cf complete bash >> ~/.bashrc`), or pass `--install`
+ *      to write it to a file the rc sources (see `./install.ts`).
  *
  *   2. Runtime: when the user presses TAB the shell calls back with
  *      `cf complete -- <words…>`. Tab parses the words against the
@@ -21,7 +22,15 @@
 import t from "@bomb.sh/tab";
 import { isCommandsMetadata, loadMeta } from "../../lib/metadata.js";
 import { runWithTelemetry } from "../../lib/telemetry/run.js";
+import {
+	RC_FILES,
+	SHELLS,
+	getSourceLine,
+	installScript,
+	refreshInstalledScripts,
+} from "./install.js";
 import type { CommandMeta, OptionMeta } from "../../lib/metadata.js";
+import type { Shell } from "./install.js";
 import type { Command, RootCommand } from "@bomb.sh/tab";
 import type { CommandModule } from "yargs";
 
@@ -151,7 +160,8 @@ function setupCompletions(): void {
 }
 
 interface CompleteArgs {
-	shell?: "bash" | "zsh" | "fish" | "powershell";
+	shell?: Shell;
+	install?: boolean;
 	_?: unknown[];
 }
 
@@ -165,16 +175,22 @@ const completeCommand: CommandModule<object, CompleteArgs> & {
 		yargs
 			.positional("shell", {
 				type: "string",
-				choices: ["bash", "zsh", "fish", "powershell"] as const,
+				choices: SHELLS,
 				description: "Shell type to generate completions for",
 			})
+			.option("install", {
+				type: "boolean",
+				default: false,
+				description:
+					"Write the script to cf's config directory for your shell rc to source, instead of printing it",
+			})
+			.example(
+				"cf complete zsh --install",
+				"Install zsh completions, then add the printed line to ~/.zshrc"
+			)
 			.example(
 				"cf complete bash >> ~/.bashrc",
 				"Install bash completions (then restart your shell)"
-			)
-			.example(
-				"cf complete zsh >> ~/.zshrc",
-				"Install zsh completions (then restart your shell)"
 			)
 			.example(
 				"cf complete fish > ~/.config/fish/completions/cf.fish",
@@ -191,6 +207,9 @@ const completeCommand: CommandModule<object, CompleteArgs> & {
 		if (completionArgs.length > 0) {
 			setupCompletions();
 			t.parse(completionArgs);
+			// TAB callbacks are the cf runs a completions user is sure to make
+			// after upgrading, so keep installed scripts current here.
+			refreshInstalledScripts();
 			return;
 		}
 
@@ -201,7 +220,7 @@ const completeCommand: CommandModule<object, CompleteArgs> & {
 			// silently no-op in a script.
 			process.stderr.write(
 				"Usage: cf complete <bash|zsh|fish|powershell>\n" +
-					"       cf complete bash >> ~/.bashrc\n"
+					"       cf complete bash --install\n"
 			);
 			process.exitCode = 1;
 			return;
@@ -210,9 +229,22 @@ const completeCommand: CommandModule<object, CompleteArgs> & {
 		return runWithTelemetry(
 			{ command: "complete", recordArgs: false },
 			argv as Record<string, unknown>,
-			() => {
-				setupCompletions();
-				t.setup("cf", "cf", shell);
+			async () => {
+				if (!argv.install) {
+					t.setup("cf", "cf", shell);
+					return;
+				}
+				const path = installScript(shell);
+				const [{ printSuccess }, { log }] = await Promise.all([
+					import("../../lib/output.js"),
+					import("../../lib/ui/log.js"),
+				]);
+				console.log(path);
+				printSuccess(`Wrote ${shell} completions to ${path}`);
+				log.info(
+					`Add this line to ${RC_FILES[shell]}, then restart your shell:`,
+					getSourceLine(shell, path)
+				);
 			}
 		);
 	},

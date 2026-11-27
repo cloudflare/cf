@@ -22,7 +22,7 @@ vi.mock("../lib/update-check.js", () => ({
 }));
 
 const HINT =
-	"●  Tip: run cf complete <bash|zsh|fish|powershell> to install shell completions.";
+	"●  Tip: run cf complete <bash|zsh|fish|powershell> --install to install shell completions.";
 
 describe("shell completions hint", () => {
 	runInTempDir();

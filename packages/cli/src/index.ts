@@ -168,7 +168,7 @@ async function maybeShowCompletionsHint(quiet = false): Promise<void> {
 	updateState({ completions: { prompted: true } });
 	const { log } = await import("./lib/ui/log.js");
 	log.info(
-		`Tip: run ${theme.code("cf complete <bash|zsh|fish|powershell>")} to install shell completions.`
+		`Tip: run ${theme.code("cf complete <bash|zsh|fish|powershell> --install")} to install shell completions.`
 	);
 }
 
@@ -517,11 +517,11 @@ function maybeShowSplash(update?: UpdateNotice): boolean {
 		"The Cloudflare CLI — manage your account, zones, and developer platform.",
 		"",
 		`${theme.bold("Get started:")}`,
-		`  ${theme.code("cf auth login")}        ${theme.muted("Authenticate with Cloudflare")}`,
-		`  ${theme.code("cf --help")}            ${theme.muted("Browse all commands")}`,
-		`  ${theme.code("cf <command> --help")}  ${theme.muted("Per-command help")}`,
-		`  ${theme.code("cf migrate")}           ${theme.muted("Migrate a Wrangler project to cf")}`,
-		`  ${theme.code("cf complete bash")}     ${theme.muted("Install shell completions")}`,
+		`  ${theme.code("cf auth login")}               ${theme.muted("Authenticate with Cloudflare")}`,
+		`  ${theme.code("cf --help")}                   ${theme.muted("Browse all commands")}`,
+		`  ${theme.code("cf <command> --help")}         ${theme.muted("Per-command help")}`,
+		`  ${theme.code("cf migrate")}                  ${theme.muted("Migrate a Wrangler project to cf")}`,
+		`  ${theme.code("cf complete bash --install")}  ${theme.muted("Install shell completions")}`,
 		"",
 		`${theme.bold("Docs:")}      ${theme.brand("https://developers.cloudflare.com/")}`,
 		"",

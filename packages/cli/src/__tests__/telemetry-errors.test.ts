@@ -589,7 +589,7 @@ describe("telemetry error reporting", () => {
 			"●  Cloudflare collects anonymous cf usage telemetry. Run cf cli telemetry disable to opt out.\n"
 		);
 		expect(output.stderr()).toContain(
-			"●  Tip: run cf complete <bash|zsh|fish|powershell> to install shell completions.\n"
+			"●  Tip: run cf complete <bash|zsh|fish|powershell> --install to install shell completions.\n"
 		);
 	});
 

@@ -1206,7 +1206,7 @@
 					"alias": "f",
 					"type": "boolean",
 					"required": false,
-					"description": "Allow upload in CI despite conflicting remote Worker changes",
+					"description": "Replace an active Worker traffic split without prompting and allow upload in CI despite conflicting remote Worker changes",
 					"default": false
 				},
 				{

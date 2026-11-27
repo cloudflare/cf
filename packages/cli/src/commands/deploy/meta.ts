@@ -1,3 +1,4 @@
+import { forceDescription } from "./force-description.js";
 import { secretsFileDescription } from "./secrets-file-description.js";
 import type { CommandMeta } from "../../lib/command-meta.js";
 
@@ -88,8 +89,7 @@ export default [
 				alias: "f",
 				type: "boolean",
 				required: false,
-				description:
-					"Allow upload in CI despite conflicting remote Worker changes",
+				description: forceDescription,
 				default: false,
 			},
 			{

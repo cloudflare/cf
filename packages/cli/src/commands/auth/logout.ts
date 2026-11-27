@@ -1,13 +1,16 @@
 import { getActiveProfile, logout } from "../../lib/oauth/index.js";
 import { theme } from "../../lib/ui/index.js";
 import { log } from "../../lib/ui/log.js";
-import { assertNoProfileFlag } from "./profiles.js";
+import { assertNoProfileFlag, hideProfileFlag } from "./profiles.js";
 import type { CommonYargsOptions } from "../../lib/cli-types.js";
-import type { CommandModule } from "yargs";
+import type { Argv, CommandModule } from "yargs";
 
 const logoutCommand: CommandModule<object, CommonYargsOptions> = {
 	command: "logout",
 	describe: "Log out and remove stored credentials",
+
+	// The command rejects --profile, so its help must not advertise it.
+	builder: (yargs: Argv): Argv<CommonYargsOptions> => hideProfileFlag(yargs),
 
 	handler: async (argv): Promise<void> => {
 		assertNoProfileFlag(

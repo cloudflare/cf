@@ -26,6 +26,19 @@ interface DeactivateArgs extends CommonYargsOptions {
 	dir?: string;
 }
 
+/**
+ * Hides the global `--profile` flag from a command's help. The command still
+ * reads and rejects the flag in its handler; hiding it only stops the help
+ * from offering an option the command refuses.
+ */
+export function hideProfileFlag(
+	yargs: Argv
+): Argv<CommonYargsOptions> {
+	// `hide()` only affects help output, but its yargs types drop the option
+	// from the argv shape the handler still reads.
+	return yargs.hide("profile") as Argv<CommonYargsOptions>;
+}
+
 export function assertNoProfileFlag(
 	args: Pick<CommonYargsOptions, "profile">,
 	command: string,
@@ -246,6 +259,9 @@ export const deactivateCommand: CommandModule<object, DeactivateArgs> = {
 export const listCommand: CommandModule<object, CommonYargsOptions> = {
 	command: "list",
 	describe: "List all auth profiles",
+
+	// The command rejects --profile, so its help must not advertise it.
+	builder: (yargs: Argv): Argv<CommonYargsOptions> => hideProfileFlag(yargs),
 
 	handler: (argv: ArgumentsCamelCase<CommonYargsOptions>): void => {
 		assertNoProfileFlag(argv, "list");

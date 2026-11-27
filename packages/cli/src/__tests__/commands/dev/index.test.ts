@@ -13,6 +13,7 @@ import {
 	runProjectCommand,
 	shouldRelayProjectCommandSignal,
 } from "../../../lib/autoconfig.js";
+import * as dialog from "../../../lib/dialog.js";
 import { makeExecutable, nodeScript } from "../../helpers/executable.js";
 import { runCf } from "../../helpers/run-cf.js";
 
@@ -56,6 +57,37 @@ describe("cf dev", () => {
 			expect(x).not.toHaveBeenCalled();
 		}
 	);
+
+	it("does not start the Wrangler delegate when migration is declined", async () => {
+		await seed({
+			"package.json": JSON.stringify({
+				devDependencies: { wrangler: "^4.168.0" },
+			}),
+			"wrangler.jsonc": JSON.stringify({
+				name: "legacy-worker",
+				main: "worker.js",
+				compatibility_date: "2026-08-15",
+			}),
+			"worker.js": 'export default { fetch: () => new Response("ok") };',
+			"node_modules/wrangler/package.json": JSON.stringify({
+				name: "wrangler",
+				version: "4.168.0",
+			}),
+			"node_modules/wrangler/bin/cf-wrangler.js": nodeScript(""),
+		});
+		makeExecutable("node_modules/wrangler/bin/cf-wrangler.js");
+		const confirm = vi.spyOn(dialog, "confirm").mockResolvedValue(false);
+		vi.mocked(x).mockClear();
+
+		await expect(runCf(["dev"])).rejects.toThrow(
+			"Wrangler migration did not run"
+		);
+		expect(confirm).toHaveBeenCalledWith(
+			expect.stringContaining("A Wrangler config was found"),
+			expect.objectContaining({ fallbackValue: false })
+		);
+		expect(x).not.toHaveBeenCalled();
+	});
 
 	it.each([
 		undefined,

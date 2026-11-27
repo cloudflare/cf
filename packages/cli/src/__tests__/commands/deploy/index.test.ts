@@ -1770,7 +1770,9 @@ describe("cf deploy", () => {
 						"*/accounts/:accountId/workers/scripts/:scriptName/deployments",
 						() =>
 							HttpResponse.json(
-								createFetchResult({ deployments: [{ versions }] })
+								createFetchResult({
+									deployments: [{ id: "active-deployment", versions }],
+								})
 							)
 					)
 				);
@@ -1830,6 +1832,58 @@ describe("cf deploy", () => {
 				}
 			}
 		);
+
+		it("does not promote the new version if the active split changes during upload", async () => {
+			vi.spyOn(interactive, "isNonInteractiveOrCI").mockReturnValue(false);
+			const confirm = vi
+				.mocked(clack.confirm)
+				.mockReset()
+				.mockResolvedValue(true);
+			let activeDeploymentId = "initial-deployment";
+			const upload = mockWorkerUpload(
+				{},
+				{
+					onRequest: () => {
+						activeDeploymentId = "intervening-deployment";
+					},
+				}
+			);
+			const deployment = captureDeployment();
+			mockExistingWorker();
+			msw.use(
+				http.get(
+					"*/accounts/:accountId/workers/scripts/:scriptName/deployments",
+					() =>
+						HttpResponse.json(
+							createFetchResult({
+								deployments: [
+									{
+										id: activeDeploymentId,
+										versions: [
+											{ version_id: "version-one", percentage: 75 },
+											{ version_id: "version-two", percentage: 25 },
+										],
+									},
+								],
+							})
+						)
+				)
+			);
+			await seed({
+				".cloudflare/output/v1/config.json": buildOutputRootConfig(),
+				".cloudflare/output/v1/workers/default/worker.config.json":
+					workerConfig(),
+				".cloudflare/output/v1/workers/default/bundle/index.js":
+					"export default {};",
+			});
+
+			await expect(runCf(["deploy", "--prebuilt"])).rejects.toThrow(
+				"A different traffic split became active while deploying. No traffic was changed by this deploy. Rerun `cf deploy` to review the current rollout."
+			);
+			expect(confirm).toHaveBeenCalledOnce();
+			expect(upload.metadata).toBeDefined();
+			expect(deployment.called).toBe(false);
+		});
 	});
 
 	describe("--dry-run", () => {

@@ -35,10 +35,10 @@ overrides:
   # The PR preview rewrites unchanged SDK siblings to URLs. Keep them on
   # cf's released versions while blockExoticSubdeps is enabled; remove these
   # overrides when switching deploy-helpers back to a registry release.
-  "@cloudflare/deploy-helpers@0.30.0>@cloudflare/config": "1.0.0-rc.4"
-  "@cloudflare/deploy-helpers@0.30.0>@cloudflare/containers-shared": "0.27.2"
-  "@cloudflare/deploy-helpers@0.30.0>@cloudflare/workers-utils": "0.57.0"
-  "@cloudflare/deploy-helpers@0.30.0>miniflare": "5.20261123.1-beta"
+  "@cloudflare/deploy-helpers@0.31.0>@cloudflare/config": "1.0.0-rc.4"
+  "@cloudflare/deploy-helpers@0.31.0>@cloudflare/containers-shared": "0.27.2"
+  "@cloudflare/deploy-helpers@0.31.0>@cloudflare/workers-utils": "0.57.0"
+  "@cloudflare/deploy-helpers@0.31.0>miniflare": "5.20261123.1-beta"
   vite@*: "catalog:"
   vitest@*: 5.1.0
 peerDependencyRules:

@@ -429,6 +429,8 @@ compatibility date. The helper writes assets-only Build Output without a
 delegated build, recording `--mode` and Preview context, before the command
 continues through the normal Build Output upload path. Without `[directory]`,
 these commands consume Build Output from a delegated build or `--prebuilt`.
+When autoconfig detects legacy Pages Functions alongside root static assets,
+unattended `cf deploy` builds stop before setup and print migration guidance.
 
 Autoconfig owns the dev/build command choice, including Vite versus Vite+.
 Autoconfig reports command-readiness problems as data so inspection can recognize

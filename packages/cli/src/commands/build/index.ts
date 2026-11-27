@@ -12,7 +12,7 @@ import { CliExit } from "../../lib/cli-exit.js";
 import { log } from "../../lib/ui/log.js";
 import { resolveProjectImpl } from "../dev/impl.js";
 import { spawnImpl } from "../dev/spawn.js";
-import type { CommandOutputOptions } from "../../lib/autoconfig.js";
+import type { ProjectPreparationOptions } from "../../lib/autoconfig.js";
 import type { CommonYargsOptions, InferArgs } from "../../lib/cli-types.js";
 import type { DiscoveredImpl } from "../dev/discover.js";
 import type { Argv, CommandModule } from "yargs";
@@ -23,11 +23,10 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type BuildArgs = InferArgs<typeof builder>;
 
-interface RunBuildOptions extends CommandOutputOptions {
+interface RunBuildOptions extends ProjectPreparationOptions {
 	// Validate the Worker the caller will consume, so an invalid default
 	// Worker cannot block a workflow that selected another one.
 	worker?: string;
-	dryRun?: boolean;
 }
 
 export async function runBuild(

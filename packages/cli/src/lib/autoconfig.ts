@@ -33,8 +33,9 @@ export interface CommandOutputOptions {
 	output?: CommandOutput;
 }
 
-interface ProjectPreparationOptions extends CommandOutputOptions {
+export interface ProjectPreparationOptions extends CommandOutputOptions {
 	dryRun?: boolean;
+	onDetectionError?: (error: AutoConfigDetectionError) => void;
 }
 
 export interface RunProjectCommandOptions extends CommandOutputOptions {
@@ -73,7 +74,7 @@ export function normalizeProjectCommandExit(
 
 export async function analyzeProject(
 	cwd: string,
-	options: CommandOutputOptions = {}
+	options: ProjectPreparationOptions = {}
 ): Promise<AutoConfigDetails | undefined> {
 	const context = createAutoConfigContext(options);
 	try {
@@ -87,6 +88,7 @@ export async function analyzeProject(
 		);
 	} catch (error) {
 		if (error instanceof AutoConfigDetectionError) {
+			options.onDetectionError?.(error);
 			context.logger.debug("Autoconfig could not detect this project:", error);
 			return;
 		}

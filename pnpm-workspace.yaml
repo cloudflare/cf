@@ -36,12 +36,12 @@ catalog:
 overrides:
   vite@*: "catalog:"
   vitest@*: 5.1.0
-  # The workers-sdk autoconfig preview (cloudflare/workers-sdk#17238) links its
+  # The workers-sdk autoconfig preview (cloudflare/workers-sdk#17246) links its
   # workspace dependencies to previews; keep the ones cf already pins.
   "@cloudflare/autoconfig>@cloudflare/config": 1.0.0-rc.5
   "@cloudflare/autoconfig>@cloudflare/workers-utils": 0.58.0
   # One copy, so log levels set by cf also apply to the packages that log through it.
-  "@cloudflare/cli-shared-helpers": https://pkg.pr.new/cloudflare/workers-sdk/@cloudflare/cli-shared-helpers@6b9c550
+  "@cloudflare/cli-shared-helpers": https://pkg.pr.new/cloudflare/workers-sdk/@cloudflare/cli-shared-helpers@0049733
 peerDependencyRules:
   allowAny:
     - vite

@@ -7,14 +7,34 @@ import {
 } from "../../lib/wrangler-migration.js";
 import { mockOutputStreams } from "../helpers/capture-output.js";
 import { runCf } from "../helpers/run-cf.js";
+import type * as AutoConfigAdapter from "../../lib/autoconfig.js";
+import type * as AutoConfig from "@cloudflare/autoconfig";
 
-const { migrateWranglerToCf } = vi.hoisted(() => ({
-	migrateWranglerToCf: vi.fn(),
+const mocks = vi.hoisted(() => ({
+	analyzeProject: vi.fn(),
+	configureProject: vi.fn(),
+	migrateBundler: vi.fn(),
+	migrateWranglerConfig: vi.fn(),
 }));
 
-vi.mock("@cloudflare/codemods", () => ({
-	migrateWranglerToCf,
+vi.mock("@cloudflare/autoconfig", async (importOriginal) => ({
+	...(await importOriginal<typeof AutoConfig>()),
+	migrateBundler: mocks.migrateBundler,
+	migrateWranglerConfig: mocks.migrateWranglerConfig,
 }));
+
+vi.mock("../../lib/autoconfig.js", async (importOriginal) => ({
+	...(await importOriginal<typeof AutoConfigAdapter>()),
+	analyzeProject: mocks.analyzeProject,
+	configureProject: mocks.configureProject,
+}));
+
+const migrationResult = {
+	changedFiles: [],
+	followUps: [],
+	requiresInstall: false,
+	status: "complete",
+};
 
 describe("cf migrate", () => {
 	runInTempDir();
@@ -22,12 +42,15 @@ describe("cf migrate", () => {
 	const std = mockOutputStreams();
 
 	beforeEach(() => {
-		migrateWranglerToCf.mockReset();
-		migrateWranglerToCf.mockResolvedValue({
+		for (const mock of Object.values(mocks)) {
+			mock.mockReset();
+		}
+		mocks.analyzeProject.mockResolvedValue(undefined);
+		mocks.migrateWranglerConfig.mockResolvedValue({
+			...migrationResult,
 			changedFiles: ["cloudflare.config.ts"],
-			followUps: [],
-			status: "complete",
 		});
+		mocks.migrateBundler.mockResolvedValue(migrationResult);
 	});
 
 	it.each([
@@ -41,14 +64,13 @@ describe("cf migrate", () => {
 
 		expect(result.exitCode).toBe(0);
 		expect(std.out).toBe("");
-		expect(migrateWranglerToCf).toHaveBeenCalledWith(
+		expect(mocks.migrateWranglerConfig).toHaveBeenCalledWith(
 			path.join(process.cwd(), configFile),
-			{
-				bundler: "wrangler",
-				dryRun: false,
-				force: false,
-				installDependencies: true,
-			}
+			{ dryRun: false, force: false }
+		);
+		expect(mocks.migrateBundler).toHaveBeenCalledWith(
+			path.join(process.cwd(), configFile),
+			{ bundler: "wrangler", dryRun: false, installDependencies: true }
 		);
 		expect(std.err).toContain(
 			"Using the Wrangler bundler because @cloudflare/vite-plugin is not declared."
@@ -75,7 +97,7 @@ describe("cf migrate", () => {
 
 			await runCf(["migrate"]);
 
-			expect(migrateWranglerToCf).toHaveBeenCalledWith(
+			expect(mocks.migrateBundler).toHaveBeenCalledWith(
 				path.join(process.cwd(), "wrangler.jsonc"),
 				expect.objectContaining({ bundler: "vite" })
 			);
@@ -95,7 +117,7 @@ describe("cf migrate", () => {
 
 		await runCf(["migrate", "config/wrangler.toml"]);
 
-		expect(migrateWranglerToCf).toHaveBeenCalledWith(
+		expect(mocks.migrateBundler).toHaveBeenCalledWith(
 			path.join(process.cwd(), "config/wrangler.toml"),
 			expect.objectContaining({ bundler: "vite" })
 		);
@@ -109,7 +131,7 @@ describe("cf migrate", () => {
 
 		await runCf(["migrate", "--bundler", "vite"]);
 
-		expect(migrateWranglerToCf).toHaveBeenCalledWith(
+		expect(mocks.migrateBundler).toHaveBeenCalledWith(
 			path.join(process.cwd(), "wrangler.json"),
 			expect.objectContaining({ bundler: "vite" })
 		);
@@ -118,10 +140,9 @@ describe("cf migrate", () => {
 
 	it("accepts an explicit config path and migration options", async () => {
 		await seed({ "config/wrangler.toml": "name = 'worker'" });
-		migrateWranglerToCf.mockResolvedValue({
-			changedFiles: ["cloudflare.config.ts", "package.json"],
-			followUps: [],
-			status: "complete",
+		mocks.migrateBundler.mockResolvedValue({
+			...migrationResult,
+			changedFiles: ["package.json"],
 		});
 
 		await runCf([
@@ -134,15 +155,16 @@ describe("cf migrate", () => {
 			"--no-install",
 		]);
 
-		expect(migrateWranglerToCf).toHaveBeenCalledWith(
+		expect(mocks.migrateWranglerConfig).toHaveBeenCalledWith(
 			path.join(process.cwd(), "config/wrangler.toml"),
-			{
-				bundler: "wrangler",
-				dryRun: true,
-				force: true,
-				installDependencies: false,
-			}
+			{ dryRun: true, force: true }
 		);
+		expect(mocks.migrateBundler).toHaveBeenCalledWith(
+			path.join(process.cwd(), "config/wrangler.toml"),
+			{ bundler: "wrangler", dryRun: true, installDependencies: false }
+		);
+		// Framework setup installs packages, so --no-install skips it
+		expect(mocks.configureProject).not.toHaveBeenCalled();
 		expect(std.out).toBe("");
 		expect(std.err).toContain(
 			"Would update 2 file(s):\n├─ config/cloudflare.config.ts\n└─ config/package.json"
@@ -150,11 +172,45 @@ describe("cf migrate", () => {
 		expect(std.err).toContain("Migration preview complete.");
 	});
 
+	it("detects the project first and uses the bundler its framework setup chooses", async () => {
+		await seed({ "wrangler.json": "{}" });
+		const details = {
+			configured: false,
+			framework: { id: "astro", name: "Astro" },
+			outputDir: "dist",
+		};
+		mocks.analyzeProject.mockResolvedValue(details);
+		mocks.configureProject.mockResolvedValue({ buildTool: "vite" });
+
+		await runCf(["migrate", "--bundler", "wrangler"]);
+
+		const configPath = path.join(process.cwd(), "wrangler.json");
+		expect(mocks.analyzeProject).toHaveBeenCalledWith(process.cwd(), {
+			output: "stderr",
+			wranglerConfigPath: configPath,
+		});
+		expect(mocks.analyzeProject.mock.invocationCallOrder[0]).toBeLessThan(
+			mocks.migrateWranglerConfig.mock.invocationCallOrder[0] ?? 0
+		);
+		expect(mocks.configureProject).toHaveBeenCalledWith(details, {
+			dryRun: false,
+			output: "stderr",
+		});
+		// Vite deploys the build output, so the migration doesn't ask about an assets directory there
+		expect(mocks.migrateBundler).toHaveBeenCalledWith(
+			configPath,
+			expect.objectContaining({ bundler: "vite", outputDir: "dist" })
+		);
+		expect(std.err).toContain(
+			"Using the Vite bundler instead of --bundler wrangler, because Astro builds with it."
+		);
+	});
+
 	it("requires an explicit path when no Wrangler config is found", async () => {
 		await expect(runCf(["migrate"])).rejects.toThrow(
 			`No Wrangler config found in ${process.cwd()}. Pass its path to cf migrate.`
 		);
-		expect(migrateWranglerToCf).not.toHaveBeenCalled();
+		expect(mocks.migrateWranglerConfig).not.toHaveBeenCalled();
 	});
 
 	it("requires an explicit path when multiple Wrangler configs are found", async () => {
@@ -166,7 +222,7 @@ describe("cf migrate", () => {
 		await expect(runCf(["migrate"])).rejects.toThrow(
 			`Multiple Wrangler configs found in ${process.cwd()}. Pass the exact path to cf migrate`
 		);
-		expect(migrateWranglerToCf).not.toHaveBeenCalled();
+		expect(mocks.migrateWranglerConfig).not.toHaveBeenCalled();
 	});
 
 	it("offers to convert a Wrangler config before project setup", async () => {
@@ -184,14 +240,9 @@ describe("cf migrate", () => {
 				fallbackValue: false,
 			}
 		);
-		expect(migrateWranglerToCf).toHaveBeenCalledWith(
+		expect(mocks.migrateBundler).toHaveBeenCalledWith(
 			path.join(process.cwd(), "wrangler.jsonc"),
-			{
-				bundler: "wrangler",
-				dryRun: false,
-				force: false,
-				installDependencies: true,
-			}
+			{ bundler: "wrangler", dryRun: false, installDependencies: true }
 		);
 	});
 
@@ -208,16 +259,11 @@ describe("cf migrate", () => {
 			)
 		).resolves.toBe(true);
 
-		expect(migrateWranglerToCf).toHaveBeenCalledWith(
+		expect(mocks.migrateBundler).toHaveBeenCalledWith(
 			path.join(process.cwd(), "wrangler.jsonc"),
-			{
-				bundler: "wrangler",
-				dryRun: true,
-				force: false,
-				installDependencies: true,
-			}
+			{ bundler: "wrangler", dryRun: true, installDependencies: true }
 		);
-		expect(migrateWranglerToCf).toHaveBeenCalledOnce();
+		expect(mocks.migrateBundler).toHaveBeenCalledOnce();
 	});
 
 	it("uses Vite for automatic migration when the plugin is declared", async () => {
@@ -236,7 +282,7 @@ describe("cf migrate", () => {
 			)
 		).resolves.toBe(true);
 
-		expect(migrateWranglerToCf).toHaveBeenCalledWith(
+		expect(mocks.migrateBundler).toHaveBeenCalledWith(
 			path.join(process.cwd(), "config", "wrangler.jsonc"),
 			expect.objectContaining({ bundler: "vite" })
 		);
@@ -250,7 +296,7 @@ describe("cf migrate", () => {
 			maybeMigrateWranglerProject(process.cwd(), confirmMigration)
 		).rejects.toThrow("cf migrate wrangler.toml");
 
-		expect(migrateWranglerToCf).not.toHaveBeenCalled();
+		expect(mocks.migrateWranglerConfig).not.toHaveBeenCalled();
 	});
 
 	it("does not offer migration when a project has no Wrangler config", async () => {
@@ -261,7 +307,7 @@ describe("cf migrate", () => {
 		).resolves.toBe(false);
 
 		expect(confirmMigration).not.toHaveBeenCalled();
-		expect(migrateWranglerToCf).not.toHaveBeenCalled();
+		expect(mocks.migrateWranglerConfig).not.toHaveBeenCalled();
 	});
 
 	it("does not offer automatic migration when multiple configs are found", async () => {
@@ -279,14 +325,14 @@ describe("cf migrate", () => {
 		).rejects.toThrow("Pass the exact path to cf migrate");
 
 		expect(confirmMigration).not.toHaveBeenCalled();
-		expect(migrateWranglerToCf).not.toHaveBeenCalled();
+		expect(mocks.migrateWranglerConfig).not.toHaveBeenCalled();
 	});
 
 	it("prints follow-up work and exits unsuccessfully when required", async () => {
 		await seed({ "wrangler.json": "{}" });
 
-		migrateWranglerToCf.mockResolvedValue({
-			changedFiles: ["cloudflare.config.ts"],
+		mocks.migrateBundler.mockResolvedValue({
+			...migrationResult,
 			followUps: [
 				{
 					blocking: true,

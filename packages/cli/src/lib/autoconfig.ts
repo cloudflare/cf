@@ -73,7 +73,7 @@ export function normalizeProjectCommandExit(
 
 export async function analyzeProject(
 	cwd: string,
-	options: CommandOutputOptions = {}
+	options: CommandOutputOptions & { wranglerConfigPath?: string } = {}
 ): Promise<AutoConfigDetails | undefined> {
 	const context = createAutoConfigContext(options);
 	try {
@@ -81,6 +81,7 @@ export async function analyzeProject(
 			projectPath: cwd,
 			target: "cf",
 			context,
+			wranglerConfigPath: options.wranglerConfigPath,
 		});
 		return withBuildOutputV1Compatibility(
 			maybeApplyVinextCommandOverrides(details)

@@ -1,11 +1,12 @@
 import { stat } from "node:fs/promises";
 import path from "node:path";
 import {
-	migrateWranglerToCf,
+	migrateBundler,
+	migrateWranglerConfig,
+	type BundlerMigrationOptions,
 	type MigrationFollowUp,
-	type WranglerToCfMigrationOptions,
-	type WranglerToCfMigrationResult,
-} from "@cloudflare/codemods";
+	type MigrationResult,
+} from "@cloudflare/autoconfig";
 import { CliExit } from "./cli-exit.js";
 import { success, theme, warning } from "./ui/index.js";
 
@@ -16,9 +17,11 @@ const DEFAULT_CONFIG_FILES = [
 ] as const satisfies string[];
 
 type MigrationOutput = "stderr" | "silent";
-type MigrationBundler = NonNullable<WranglerToCfMigrationOptions["bundler"]>;
+type MigrationBundler = NonNullable<BundlerMigrationOptions["bundler"]>;
 
-interface RunWranglerMigrationOptions extends WranglerToCfMigrationOptions {
+interface RunWranglerMigrationOptions extends BundlerMigrationOptions {
+	/** Whether to migrate even if the Git worktree is not clean */
+	force?: boolean;
 	output?: MigrationOutput;
 }
 
@@ -134,7 +137,7 @@ function printFollowUps(
 }
 
 function printResult(
-	result: WranglerToCfMigrationResult,
+	result: MigrationResult,
 	dryRun: boolean,
 	configDirectory: string,
 	log: (message: string) => void
@@ -165,24 +168,77 @@ function printResult(
 	log(`\n${success(`Migration${dryRun ? " preview" : ""} complete.`)}`);
 }
 
+function getBundlerName(bundler: MigrationBundler): string {
+	return bundler === "vite" ? "Vite" : "Wrangler";
+}
+
+/**
+ * Migrate a Wrangler config in four steps: detect the project, migrate its Worker settings to
+ * `cloudflare.config.ts`, set up its framework, then migrate its build settings for the
+ * bundler that setup chose.
+ */
 export async function runWranglerMigration(
 	configPath: string,
 	options: RunWranglerMigrationOptions = {}
 ): Promise<void> {
 	const dryRun = options.dryRun ?? false;
-	const result = await migrateWranglerToCf(configPath, {
-		bundler: options.bundler ?? "vite",
+	const installDependencies = options.installDependencies ?? true;
+	const output = options.output ?? "stderr";
+	const log = createLogger(output);
+	const projectPath = path.dirname(configPath);
+	const { analyzeProject, configureProject } = await import("./autoconfig.js");
+
+	// Detected before `cloudflare.config.ts` exists, which would mark the project as set up
+	const details = await analyzeProject(projectPath, {
+		output,
+		wranglerConfigPath: configPath,
+	});
+	const settings = await migrateWranglerConfig(configPath, {
 		dryRun,
-		force: options.force ?? false,
-		installDependencies: options.installDependencies ?? true,
+		force: options.force,
 	});
 
-	printResult(
-		result,
+	let bundler = options.bundler;
+	// Framework setup installs packages, and a project without a framework has nothing to set up
+	if (installDependencies && details && details.framework?.id !== "static") {
+		const { buildTool } = await configureProject(details, { dryRun, output });
+		if (buildTool !== undefined) {
+			if (bundler !== undefined && bundler !== buildTool) {
+				log(
+					warning(
+						`Using the ${getBundlerName(buildTool)} bundler instead of --bundler ${bundler}, because ${details.framework?.name ?? "the framework"} builds with it.`
+					)
+				);
+			}
+			bundler = buildTool;
+		}
+	}
+	if (bundler === undefined) {
+		bundler = await detectWranglerMigrationBundler(configPath);
+		log(
+			theme.muted(
+				bundler === "vite"
+					? "Using the Vite bundler because @cloudflare/vite-plugin is declared. Run cf migrate with --bundler wrangler to choose another."
+					: "Using the Wrangler bundler because @cloudflare/vite-plugin is not declared. Run cf migrate with --bundler vite to choose another."
+			)
+		);
+	}
+	const build = await migrateBundler(configPath, {
+		bundler,
 		dryRun,
-		path.dirname(configPath),
-		createLogger(options.output ?? "stderr")
-	);
+		installDependencies,
+		outputDir: details?.outputDir,
+	});
+
+	const result: MigrationResult = {
+		...build,
+		changedFiles: [
+			...new Set([...settings.changedFiles, ...build.changedFiles]),
+		],
+		followUps: [...settings.followUps, ...build.followUps],
+		status: settings.status === "complete" ? build.status : settings.status,
+	};
+	printResult(result, dryRun, projectPath, log);
 	if (result.status === "needs-intervention") {
 		throw new CliExit(1);
 	}
@@ -218,7 +274,6 @@ export async function maybeMigrateWranglerProject(
 		);
 	}
 
-	const bundler = await detectWranglerMigrationBundler(configPath);
-	await runWranglerMigration(configPath, { bundler, output, dryRun });
+	await runWranglerMigration(configPath, { output, dryRun });
 	return true;
 }

@@ -8,7 +8,14 @@ import {
 	seed,
 } from "@cloudflare/workers-utils/test-helpers";
 import { http, HttpResponse } from "msw/http";
-import { beforeEach, describe, expect, it, vi } from "vite-plus/test";
+import {
+	beforeEach,
+	describe,
+	expect,
+	it,
+	onTestFinished,
+	vi,
+} from "vite-plus/test";
 import { prepareStaticAssetsBuildOutput } from "../../../commands/deploy/static-assets.js";
 import { VERSION } from "../../../version.js";
 import { createMockDeployContext } from "../../helpers/mock-deploy-context.js";
@@ -29,6 +36,14 @@ vi.mock("../../../lib/deploy-context.js", () => ({
 	createDeployContext: (authToken: string) =>
 		createMockDeployContext(authToken),
 }));
+
+function captureStderr(): () => string {
+	const stderr = vi
+		.spyOn(process.stderr, "write")
+		.mockImplementation(() => true);
+	onTestFinished(() => stderr.mockRestore());
+	return () => stderr.mock.calls.map(([chunk]) => String(chunk)).join("");
+}
 
 describe("cf deploy — assets", () => {
 	setupMsw();
@@ -142,6 +157,96 @@ describe("cf deploy — assets", () => {
 			).toBe(false);
 		});
 
+		it("applies all scaffolded ignore rules to a positional directory", async () => {
+			const stderr = captureStderr();
+			mockWorkerUpload();
+			const assets = mockAssetUpload();
+			vi.stubEnv("DEBUG", "");
+			const ignored = [
+				".wrangler/state.json",
+				".dev.vars.local",
+				".env.production",
+				"_worker.js",
+				"_routes.json",
+				"functions/handler.js",
+				"nested/node_modules/lib/index.js",
+				"nested/.git/config",
+				"nested/.DS_Store",
+				"nested/.npmrc",
+				".cloudflare/project-state.json",
+				".gitignore",
+				"cloudflare.config.ts",
+				"wrangler.config.ts",
+				"package.json",
+				"tsconfig.json",
+				"pnpm-lock.yaml",
+			];
+			await seed({
+				...Object.fromEntries(
+					ignored.map((name) => [`public/${name}`, "fixture"])
+				),
+				"public/index.html": "index",
+				"public/.dev.vars.example": "example vars",
+				"public/.env.example": "example env",
+				"public/nested/functions/index.html": "nested asset",
+			});
+
+			const { exitCode } = await runCf(["deploy", "public"]);
+
+			expect(exitCode).toBe(0);
+			expect(Object.keys(assets.manifest ?? {}).sort()).toEqual([
+				"/.dev.vars.example",
+				"/.env.example",
+				"/index.html",
+				"/nested/functions/index.html",
+			]);
+			expect(existsSync("public/.assetsignore")).toBe(false);
+			expect(stderr()).toContain(
+				`Skipped ${ignored.length} static asset paths.`
+			);
+			expect(stderr()).not.toContain(".env.production");
+		});
+
+		it.each(["", "/drafts/\n/notes.txt\n"])(
+			"uses an explicit .assetsignore instead of default patterns (%j)",
+			async (ignore) => {
+				const stderr = captureStderr();
+				mockWorkerUpload();
+				const assets = mockAssetUpload();
+				vi.stubEnv("DEBUG", "1");
+				await seed({
+					"public/.assetsignore": ignore,
+					"public/.env.example": "example env",
+					"public/package.json": "{}",
+					"public/drafts/item.html": "draft",
+					"public/notes.txt": "notes",
+				});
+
+				const { exitCode } = await runCf(["deploy", "public"]);
+
+				expect(exitCode).toBe(0);
+				expect(Object.keys(assets.manifest ?? {}).sort()).toEqual(
+					ignore
+						? ["/.env.example", "/package.json"]
+						: [
+								"/.env.example",
+								"/drafts/item.html",
+								"/notes.txt",
+								"/package.json",
+							]
+				);
+				expect(readFileSync("public/.assetsignore", "utf8")).toBe(ignore);
+				if (ignore) {
+					expect(stderr()).toContain('Skipped static asset path: "drafts"');
+					expect(stderr()).toContain('Skipped static asset path: "notes.txt"');
+					expect(stderr()).not.toContain("drafts/item.html");
+					expect(stderr()).toContain("Skipped 2 static asset paths.");
+				} else {
+					expect(stderr()).not.toContain("Skipped");
+				}
+			}
+		);
+
 		it("writes Preview Build Output for Preview deployment commands", async () => {
 			await seed({ "public/index.html": "preview" });
 
@@ -161,7 +266,12 @@ describe("cf deploy — assets", () => {
 		});
 
 		it("suppresses static assets preparation output with --quiet", async () => {
-			await seed({ "public/index.html": "quiet" });
+			const stderr = captureStderr();
+			vi.stubEnv("DEBUG", "1");
+			await seed({
+				"public/index.html": "quiet",
+				"public/.env.local": "excluded",
+			});
 
 			await expect(
 				prepareStaticAssetsBuildOutput(
@@ -170,7 +280,7 @@ describe("cf deploy — assets", () => {
 				)
 			).resolves.toBe(true);
 
-			expect(std.err).toBe("");
+			expect(stderr()).toBe("");
 		});
 
 		it("uses an optional assets-only Worker config", async () => {

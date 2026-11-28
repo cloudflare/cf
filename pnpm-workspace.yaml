@@ -32,6 +32,11 @@ catalog:
   vite: npm:@voidzero-dev/vite-plus-core@8.3.8000
   vite-plus: 1.7.0
 overrides:
+  # Use released transitive dependencies until the SDK previews can be removed.
+  # This keeps blockExoticSubdeps enabled for installs and CI.
+  "@cloudflare/autoconfig>@cloudflare/config": "1.0.0-rc.5"
+  "@cloudflare/autoconfig>@cloudflare/workers-utils": "0.58.0"
+  "@cloudflare/build-output-utils>@cloudflare/config": "1.0.0-rc.5"
   vite@*: "catalog:"
   vitest@*: 5.1.0
 peerDependencyRules:
